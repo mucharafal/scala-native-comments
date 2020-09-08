@@ -1,0 +1,124 @@
+[
+  {
+    "id" : "a8fb5430-0fee-41f3-96f2-005e8a5935df",
+    "prId" : 412,
+    "comments" : [
+      {
+        "id" : "fae24b50-0910-4451-af1e-a9f0f62559d3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "There is an NPE somewhere here. As discovered by @MasseGuillaume.",
+        "createdAt" : "2016-12-02T12:27:10Z",
+        "updatedAt" : "2016-12-02T12:27:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0d98de60-10d3-436b-b0c3-0834683b1b06",
+        "parentId" : "fae24b50-0910-4451-af1e-a9f0f62559d3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another data point is an implementation from Scala.js: https://github.com/scala-js/scala-js/blob/master/javalib/src/main/scala/java/util/concurrent/TimeUnit.scala",
+        "createdAt" : "2016-12-02T12:27:24Z",
+        "updatedAt" : "2016-12-02T12:27:24Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fbbab6949946b1c51a2be92737adc6b0a62273f3",
+    "line" : 18,
+    "diffHunk" : "@@ -0,0 +1,99 @@\n+package java.util.concurrent\n+\n+sealed abstract class TimeUnit(private val id: Int)\n+    extends Serializable\n+    with Comparable[TimeUnit] {\n+  import TimeUnit._\n+  override def compareTo(o: TimeUnit): Int =\n+    id.compareTo(o.id)\n+\n+  protected def makeNext: Long => Long\n+  protected def makePrev: Long => Long\n+  protected def next: TimeUnit\n+  protected def prev: TimeUnit\n+\n+  def convert(sourceDuration: Long, sourceUnit: TimeUnit): Long =\n+    if (id > sourceUnit.id) convert(makeNext(sourceDuration), sourceUnit.next)\n+    else if (id == sourceUnit.id) sourceDuration\n+    else convert(makePrev(sourceDuration), sourceUnit.prev)"
+  },
+  {
+    "id" : "70d15252-ea42-45b1-8b43-52549265cf96",
+    "prId" : 431,
+    "comments" : [
+      {
+        "id" : "43008ba3-bff5-4b41-a6c8-4da6712409d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@sjrd What do you think is best way to handle attribution to Scala.js? We've been assuming if it's mentioned in the commit message as sufficient solution so far, what are your thoughts on this issue? ",
+        "createdAt" : "2016-12-12T11:07:47Z",
+        "updatedAt" : "2016-12-12T19:15:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3edb4f23-3ed5-4231-b5b9-27a5ce12289a",
+        "parentId" : "43008ba3-bff5-4b41-a6c8-4da6712409d4",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "IMO for *attribution* nothing is really required. It's all Copyright EPFL anyway (through the CLA), so it doesn't matter.\r\n\r\nI think the comment is relevant to readers of the source code that, if they find something to change there, there's a high probability it would also require a change in Scala.js.",
+        "createdAt" : "2016-12-12T11:34:14Z",
+        "updatedAt" : "2016-12-12T19:15:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3732d272-4f51-4e10-8808-f9fc62f6ce35",
+        "parentId" : "43008ba3-bff5-4b41-a6c8-4da6712409d4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets standardise on `// Ported from XXX.` for this. We should re-add those for all the other things we ported too eventually (in a separate PR) for consistency. ",
+        "createdAt" : "2016-12-12T13:00:50Z",
+        "updatedAt" : "2016-12-12T19:15:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "28b72c8817ec10684eb25865c9caf678387234e8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,129 @@\n+package java.util.concurrent\n+\n+// copy&paste from Scala.js"
+  }
+]

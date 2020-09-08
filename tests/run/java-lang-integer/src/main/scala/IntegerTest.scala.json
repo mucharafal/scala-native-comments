@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "cdc8a70f-c8e1-4b81-9bb3-e66f888af248",
+    "prId" : 272,
+    "comments" : [
+      {
+        "id" : "2b02ac2b-cb8e-4192-98cf-c41c963a010d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I've just realised that those should have been `assert`s not `println`s. @fbertra, can you please submit a fix for this? \n",
+        "createdAt" : "2016-09-02T11:26:58Z",
+        "updatedAt" : "2016-09-02T11:26:58Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ef365440-84b7-46f6-b5af-25315a65eb9f",
+        "parentId" : "2b02ac2b-cb8e-4192-98cf-c41c963a010d",
+        "author" : {
+          "login" : "fbertra",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/18035?v=4"
+        },
+        "body" : "@Duhemm has already solved this in PR #274 and it is merged on master.\n",
+        "createdAt" : "2016-09-05T06:08:11Z",
+        "updatedAt" : "2016-09-05T06:08:11Z",
+        "lastEditedBy" : {
+          "login" : "fbertra",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/18035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c32910a83873773e75a6eb8d769b2b6974a4fa55",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,18 @@\n+import java.lang.Integer\r\n+\r\n+object IntegerTest {\r\n+  def main(args: Array[String]): Unit = {\r\n+    testIntegerToString()\r\n+  }\r\n+\r\n+  def testIntegerToString() = {\r\n+    // issue #270\r\n+    println(Integer.toString(1).equals(\"1\"))\r\n+    println(Integer.toString(-1).equals(\"1\"))\r\n+    println(Integer.toString(123).equals(\"123\"))\r\n+    println(Integer.toString(-123).equals(\"-123\"))\r\n+    println(Integer.toString(1234).equals(\"1234\"))\r\n+    println(Integer.toString(-1234).equals(\"-1234\"))\r"
+  }
+]

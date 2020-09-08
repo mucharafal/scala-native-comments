@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "a571bd7d-b2c1-4428-88cd-de44ac153db2",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "78139bfd-29dd-4ef7-b683-3f5443c7f022",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Marker_markRoots`. ",
+        "createdAt" : "2017-05-22T11:02:05Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,9 @@\n+#ifndef IMMIX_MARKER_H\n+#define IMMIX_MARKER_H\n+\n+#include \"Heap.h\"\n+#include \"datastructures/Stack.h\"\n+\n+void Mark_roots(Heap *heap, Stack *stack);"
+  }
+]

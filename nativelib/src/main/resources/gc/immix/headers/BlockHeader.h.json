@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "e56a5bee-c06f-4e2e-8807-b070c4248086",
+    "prId" : 1366,
+    "comments" : [
+      {
+        "id" : "36535985-2aeb-4341-9d2a-816fa752b62a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Block metadata is not stored in the header (initial part) of the block. So it's best to rename it to be `BlockMetadata` (or `BlockMeta` to shorten it a bit) instead of `BlockHeader`. ",
+        "createdAt" : "2018-10-17T09:39:40Z",
+        "updatedAt" : "2018-10-17T22:33:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5af44ddc-9841-4665-929f-b646d0cf09e9",
+        "parentId" : "36535985-2aeb-4341-9d2a-816fa752b62a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Similarly accessing a bytemap, gives you `ObjectMeta`.",
+        "createdAt" : "2018-10-17T09:39:57Z",
+        "updatedAt" : "2018-10-17T22:33:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d84044142b69a0d2d4a7eb9c58e8ba8e8da5dd28",
+    "line" : null,
+    "diffHunk" : "@@ -20,85 +20,97 @@ typedef struct {\n         int16_t first;\n         int32_t nextBlock;\n     } header;\n-    LineHeader lineHeaders[LINE_COUNT];\n } BlockHeader;\n \n-static inline bool Block_IsRecyclable(BlockHeader *blockHeader) {\n+static inline bool BlockHeader_IsRecyclable(BlockHeader *blockHeader) {"
+  }
+]

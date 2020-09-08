@@ -1,0 +1,161 @@
+[
+  {
+    "id" : "80e98823-7a61-4782-a761-fc5b0a7d341c",
+    "prId" : 1366,
+    "comments" : [
+      {
+        "id" : "dc1ba9c7-87b9-4f25-9e40-f73893a455a9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "In current implementation object arrays are indeed all going to get a contiguous sequence of class ids, but please add an assert to verify this here. ",
+        "createdAt" : "2018-10-17T09:41:29Z",
+        "updatedAt" : "2018-10-17T22:33:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e92615f3-d440-4715-bea6-906781bb7ff9",
+        "parentId" : "dc1ba9c7-87b9-4f25-9e40-f73893a455a9",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "It is already done in lines 282-285\r\n```scala\r\n      if (ids != (min to max)) {\r\n        throw new Exception(\r\n          s\"Ids for all known arrays ($tpes) are not consecutive!\")\r\n      }\r\n```",
+        "createdAt" : "2018-10-17T10:55:08Z",
+        "updatedAt" : "2018-10-17T22:33:38Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "050a29b8-cca7-4523-856f-b483d1f7f764",
+        "parentId" : "dc1ba9c7-87b9-4f25-9e40-f73893a455a9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You're right, missed that one. ",
+        "createdAt" : "2018-10-17T11:38:33Z",
+        "updatedAt" : "2018-10-17T22:33:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d84044142b69a0d2d4a7eb9c58e8ba8e8da5dd28",
+    "line" : 58,
+    "diffHunk" : "@@ -246,19 +247,50 @@ object Generate {\n                  Type.Int,\n                  Val.Int(meta.moduleArray.size))\n \n-    def genObjectArrayId() = {\n-      val objectArray =\n+    private def tpe2arrayId(tpe: String): Int = {\n+      val clazz =\n         linked\n-          .infos(Global.Top(\"scala.scalanative.runtime.ObjectArray\"))\n+          .infos(Global.Top(s\"scala.scalanative.runtime.${tpe}Array\"))\n           .asInstanceOf[Class]\n \n+      meta.ids(clazz)\n+    }\n+\n+    def genObjectArrayId(): Unit = {\n       buf += Defn.Var(Attrs.None,\n                       objectArrayIdName,\n                       Type.Int,\n-                      Val.Int(meta.ids(objectArray)))\n+                      Val.Int(tpe2arrayId(\"Object\")))\n     }\n \n-    def genTraitDispatchTables() = {\n+    def genArrayIds(): Unit = {\n+      val tpes = Seq(\"Unit\",\n+                     \"Boolean\",\n+                     \"Char\",\n+                     \"Byte\",\n+                     \"Short\",\n+                     \"Int\",\n+                     \"Long\",\n+                     \"Float\",\n+                     \"Double\",\n+                     \"Object\")\n+      val ids = tpes.map(tpe2arrayId).sorted\n+\n+      // all the arrays have a common superclass, therefore their ids are consecutive\n+      val min = ids.head\n+      val max = ids.last\n+      if (ids != (min to max)) {\n+        throw new Exception(\n+          s\"Ids for all known arrays ($tpes) are not consecutive!\")\n+      }\n+\n+      buf += Defn.Var(Attrs.None, arrayIdsMinName, Type.Int, Val.Int(min))\n+\n+      buf += Defn.Var(Attrs.None, arrayIdsMaxName, Type.Int, Val.Int(max))\n+\n+    }"
+  },
+  {
+    "id" : "df7482bb-63da-4436-a749-ffe49cc11ba2",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "cc763e5f-82b5-467f-b27b-6f715fd10b7d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "A `lazy val` that calls a thing with by-name argument that has side effects is dangerous. Since `clinitCalls` is always called exactly once anyway, it would be easier to reason about by simply inlining `genClinitCalls(unwin)` at the only place where `clinitCalls` is used.",
+        "createdAt" : "2020-02-20T14:34:09Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -138,6 +138,8 @@ object Generate {\n         Next.Unwind(exc, Next.Label(handler, Seq(exc)))\n       }\n \n+      lazy val clinitCalls = genClinitCalls(unwind)"
+  },
+  {
+    "id" : "d713b0ba-3122-4abe-a996-e8ded7e68e54",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "d1b8c9b0-adb3-4fd4-af57-59d7513cd170",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Wouldn't it be better to insert this between the `Let`s for `rt` and `arr`? That would avoid the latter two's lifetimes to extend over the calls to the static initializers.",
+        "createdAt" : "2020-02-20T14:37:54Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -155,19 +157,33 @@ object Generate {\n           Inst.Let(rt.name, Op.Module(Runtime.name), unwind),\n           Inst.Let(arr.name,\n                    Op.Call(RuntimeInitSig, RuntimeInit, Seq(rt, argc, argv)),\n-                   unwind),\n-          Inst.Let(module.name, Op.Module(entry.top), unwind),\n-          Inst.Let(Op.Call(entryMainTy, entryMain, Seq(module, arr)), unwind),\n-          Inst.Let(Op.Call(RuntimeLoopSig, RuntimeLoop, Seq(module)), unwind),\n-          Inst.Ret(Val.Int(0)),\n-          Inst.Label(handler, Seq(exc)),\n-          Inst.Let(Op.Call(PrintStackTraceSig, PrintStackTrace, Seq(exc)),\n-                   Next.None),\n-          Inst.Ret(Val.Int(1))\n+                   unwind)\n         )\n+          ++ clinitCalls // call the class initializers before calling main"
+  },
+  {
+    "id" : "c5e2a9a1-3104-41b3-a3a4-cd2c7217dd7d",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "8bab77df-0ea1-4bfd-b667-30119d732ab9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider moving this instruction as well to after the class initializers. It's logically part of the call `Op.Call(RuntimeInitSig, RuntimeInit, Seq(rt, argc, argv))`.",
+        "createdAt" : "2020-04-24T14:46:29Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -152,19 +152,30 @@ object Generate {\n                             stackBottom),\n                    unwind),\n           Inst.Let(Op.Call(InitSig, Init, Seq()), unwind),\n-          Inst.Let(rt.name, Op.Module(Runtime.name), unwind),\n-          Inst.Let(arr.name,\n-                   Op.Call(RuntimeInitSig, RuntimeInit, Seq(rt, argc, argv)),\n-                   unwind),\n-          Inst.Let(module.name, Op.Module(entry.top), unwind),\n-          Inst.Let(Op.Call(entryMainTy, entryMain, Seq(module, arr)), unwind),\n-          Inst.Let(Op.Call(RuntimeLoopSig, RuntimeLoop, Seq(module)), unwind),\n-          Inst.Ret(Val.Int(0)),\n-          Inst.Label(handler, Seq(exc)),\n-          Inst.Let(Op.Call(PrintStackTraceSig, PrintStackTrace, Seq(exc)),\n-                   Next.None),\n-          Inst.Ret(Val.Int(1))\n+          Inst.Let(rt.name, Op.Module(Runtime.name), unwind)"
+  }
+]

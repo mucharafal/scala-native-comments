@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "0b1e6c48-8de5-4dde-ad82-6c845800f53a",
+    "prId" : 1714,
+    "comments" : [
+      {
+        "id" : "730726d5-bff0-4e4b-857c-71c843249a76",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Missing `&&` here too.",
+        "createdAt" : "2020-02-21T10:21:50Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ed47fa4d-aff5-45e4-926f-a470b4e6ae47",
+        "parentId" : "730726d5-bff0-4e4b-857c-71c843249a76",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I suppose that could be missing but it wasn't in the original either. @LeeTibbert Perhaps this is some code you are familiar with?",
+        "createdAt" : "2020-02-21T16:15:06Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "04e587b9-d2aa-4bbe-9f29-93f6c824a23a",
+        "parentId" : "730726d5-bff0-4e4b-857c-71c843249a76",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks @LeeTibbert. See https://github.com/scala-native/scala-native/issues/1740",
+        "createdAt" : "2020-03-18T23:09:16Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9f0521daf3eb1228c7a2fc8864f0f4f24ceb5ad0",
+    "line" : null,
+    "diffHunk" : "@@ -403,13 +401,11 @@ object PatternSuite extends tests.Suite {\n   }\n \n   private def syntax(pattern: String, description: String, index: Int): Unit = {\n-    assertThrowsAnd[PatternSyntaxException](Pattern.compile(pattern))(\n-      e => {\n-        e.getDescription == description &&\n-        e.getPattern == pattern\n-        e.getIndex == index\n-      }\n-    )\n+    assertThrowsAnd[PatternSyntaxException](Pattern.compile(pattern))(e => {\n+      e.getDescription == description &&\n+      e.getPattern == pattern"
+  }
+]

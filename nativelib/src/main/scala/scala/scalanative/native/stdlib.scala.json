@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "e289d80e-9938-416f-bf99-f92b6542b364",
+    "prId" : 53,
+    "comments" : [
+      {
+        "id" : "478c5ffe-964a-4710-ab4b-16cf491306e9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is in fact `__stdoutp` on Darwin. We really need to get some form of conditional compilation (https://github.com/scala-native/scala-native/issues/58) working sooner rather than later. \n",
+        "createdAt" : "2016-05-13T02:55:23Z",
+        "updatedAt" : "2016-05-16T13:55:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "828dfa59-61ba-44bc-b684-455d1e4acd44",
+        "parentId" : "478c5ffe-964a-4710-ab4b-16cf491306e9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets keep this PR for the docs only, and continue with discussion of this on the ticket I've mentioned above.\n",
+        "createdAt" : "2016-05-13T02:58:22Z",
+        "updatedAt" : "2016-05-16T13:55:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4229e248f26c1ee4a1ce0aacc5b73aae23f6c288",
+    "line" : null,
+    "diffHunk" : "@@ -2,8 +2,8 @@ package scala.scalanative\n package native\n \n @extern object stdlib {\n-  var __stderrp: Ptr[_] = extern\n-  var __stdoutp: Ptr[_] = extern\n+  var stderr: Ptr[_] = extern\n+  var stdout: Ptr[_] = extern"
+  },
+  {
+    "id" : "8987ab0d-3d71-4202-8a56-c94f695a2e9c",
+    "prId" : 606,
+    "comments" : [
+      {
+        "id" : "f8065f1c-741e-4e04-b179-b549d47a239d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`environ` comes from `unistd.h`, not `stdlib.h`. Bindings for `unistd` should live in `scala.scalanative.posix.unistd` instead.",
+        "createdAt" : "2017-04-05T10:52:22Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0ca3f6f11b41a94de3bda710911218863225b8d3",
+    "line" : null,
+    "diffHunk" : "@@ -57,4 +57,6 @@ object stdlib {\n   def EXIT_FAILURE: CInt = extern\n   @name(\"scalanative_libc_rand_max\")\n   def RAND_MAX: CInt = extern\n+  @name(\"scalanative_libc_environ\")\n+  def environ: Ptr[CString] = extern\n }"
+  }
+]

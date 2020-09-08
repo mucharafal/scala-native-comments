@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "09267ab2-b7fc-410b-875f-83d079a83c27",
+    "prId" : 740,
+    "comments" : [
+      {
+        "id" : "4da9cf47-bbe5-457c-bc10-5e0123f632b0",
+        "parentId" : null,
+        "author" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "body" : "https://github.com/scala-native/scala-native/issues/886",
+        "createdAt" : "2017-06-30T00:48:54Z",
+        "updatedAt" : "2017-06-30T00:48:54Z",
+        "lastEditedBy" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "183160dbc4ab97b53ba199f1d799ef82fa597a45",
+    "line" : 67,
+    "diffHunk" : "@@ -266,6 +264,16 @@ object MatcherSuite extends tests.Suite {\n     assert(m1.lookingAt())\n   }\n \n+  test(\"issue #852, StringIndexOutOfBoundsException\") {\n+    val JsonNumberRegex =\n+      \"\"\"(-)?((?:[1-9][0-9]*|0))(?:\\.([0-9]+))?(?:[eE]([-+]?[0-9]+))?\"\"\".r\n+    val JsonNumberRegex(negative, intStr, decStr, expStr) = \"0.000000\"\n+    assert(negative.isEmpty)"
+  }
+]

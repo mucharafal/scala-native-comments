@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "c3db23d7-0648-4d9b-a481-5f9d0a533fa2",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "caa81aac-8b28-4502-bb25-99695c82229a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The `val buf =` should also be inside the `try`.",
+        "createdAt" : "2020-07-08T15:06:36Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "677a2bc6-2bc1-40fe-8d2d-da2e3fc463c1",
+        "parentId" : "caa81aac-8b28-4502-bb25-99695c82229a",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I see why, thank-you.",
+        "createdAt" : "2020-07-10T01:27:28Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -89,40 +134,79 @@ private[scalanative] object IO {\n     val stream       = Files.newInputStream(path)\n     val digestStream = new DigestInputStream(stream, digest)\n     val buf          = new Array[Byte](bufSize)"
+  },
+  {
+    "id" : "9625e93a-9c6a-4043-a6fd-8faa25c47ebb",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "90db17be-bf93-4314-ba8f-712a70137c48",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The `val buf =` should also be inside the `try`.",
+        "createdAt" : "2020-07-08T15:06:43Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "873fdf8a-bfe7-442c-bd17-068a98587bcc",
+        "parentId" : "90db17be-bf93-4314-ba8f-712a70137c48",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This would create a new buffer for each file rather than just reusing the buffer.",
+        "createdAt" : "2020-07-10T01:56:59Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -89,40 +134,79 @@ private[scalanative] object IO {\n     val stream       = Files.newInputStream(path)\n     val digestStream = new DigestInputStream(stream, digest)\n     val buf          = new Array[Byte](bufSize)\n-    while (digestStream.read(buf, 0, bufSize) == 1024) {}\n+    try {\n+      while (digestStream.read(buf, 0, bufSize) != -1) {}\n+      digest.digest()\n+    } finally {\n+      digestStream.close()\n+    }\n+  }\n+\n+  /** Compute a SHA-1 hash of `files`. */\n+  def sha1files(files: Seq[Path], bufSize: Int = 1024): Array[Byte] = {\n+    val digest = MessageDigest.getInstance(\"SHA-1\")\n+    val buf    = new Array[Byte](bufSize)"
+  }
+]

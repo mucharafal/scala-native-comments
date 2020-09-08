@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "cb984bce-faa6-4aa8-a146-0bb1d7e9fff4",
+    "prId" : 1672,
+    "comments" : [
+      {
+        "id" : "584045f1-1c62-47db-b710-e178b372361e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This needs to be refactored by moving the implementation to `runtime.Platform` as well. ",
+        "createdAt" : "2019-07-31T10:03:46Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "494068d1-490d-410d-a9e3-f6b711c6c6b9",
+        "parentId" : "584045f1-1c62-47db-b710-e178b372361e",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Yes, I am fighting with `javafilelib` at the moment, after that I will fix all these small issues about `Thread.scala`",
+        "createdAt" : "2019-07-31T11:01:00Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6e8d015a-9be8-47e4-ab0f-8079b3ec62e5",
+        "parentId" : "584045f1-1c62-47db-b710-e178b372361e",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I made `platform.cpp` file and there I made `thread_sleep` method.\r\nThe reason why I made .cpp file because Microsoft stopped to support C11 etc headers, it only works in C++ now.",
+        "createdAt" : "2019-08-03T15:40:25Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c9683fd97f81f59476301f655458353b6b7d8249",
+    "line" : null,
+    "diffHunk" : "@@ -72,7 +72,7 @@ object Thread {\n   }\n \n   def sleep(millis: scala.Long, nanos: scala.Int): Unit = {\n-    import scala.scalanative.posix.errno.EINTR\n+    /*import scala.scalanative.posix.errno.EINTR"
+  }
+]

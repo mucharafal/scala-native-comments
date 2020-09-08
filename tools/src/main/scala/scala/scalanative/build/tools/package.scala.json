@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "1808635c-3cf5-41fd-851d-03cbd280e8d2",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "627145c8-46a4-4483-8911-7092c242668b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't really need an extra sub-package `scala.scalanative.build.tools`. The contents of this file can happily live in `scala.scalanative.build` directly. ",
+        "createdAt" : "2018-03-07T12:47:42Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -1,6 +1,7 @@\n-package scala.scalanative\n+package scala.scalanative.build"
+  }
+]

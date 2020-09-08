@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "8497b2a4-20ff-4687-b2c6-e66c1cec41fa",
+    "prId" : 927,
+    "comments" : [
+      {
+        "id" : "e771c266-5be5-4e8e-93ae-62e6faeb934d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg 82 column line with 80 column limit.",
+        "createdAt" : "2017-08-09T11:14:08Z",
+        "updatedAt" : "2017-08-09T12:50:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6b6a4959468b2913685c807b59caa6a043a7421a",
+    "line" : 6,
+    "diffHunk" : "@@ -145,8 +145,7 @@ class PrintWriter(protected[io] var out: Writer, autoFlush: Boolean)\n     }\n   }\n \n-  @inline private[this] def ensureOpenAndTrapIOExceptions(\n-      body: => Unit): Unit = {\n+  @inline private[this] def ensureOpenAndTrapIOExceptions(body: => Unit): Unit = {"
+  }
+]

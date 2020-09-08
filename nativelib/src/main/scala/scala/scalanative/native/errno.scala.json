@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "aa56ed35-0f42-4633-94f8-44f85295c86d",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "2c0a4ba1-84dc-4090-9fb3-8a7b35cf12da",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not part of standard `libc`, so should go to `posix` instead.\n",
+        "createdAt" : "2016-10-21T09:39:42Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a5a2f576-5f8e-4c12-b99d-7bdea8dccfcd",
+        "parentId" : "2c0a4ba1-84dc-4090-9fb3-8a7b35cf12da",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Where/what do you mean by \"posix\"?\n",
+        "createdAt" : "2016-10-27T18:39:09Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -13,4 +13,6 @@ object errno {\n   def EILSEQ: CInt = extern\n   @name(\"scalanative_erange\")\n   def ERANGE: CInt = extern\n+  @name(\"scalanative_eintr\")\n+  def EINTR: CInt = extern"
+  },
+  {
+    "id" : "eb2b4019-b375-4632-b80a-6d4b3abcd10b",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "d918612e-5c67-4be6-ab34-e3f8e9d38db0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is outside of the libc, should go to `scalanative.posix` namespace instead.",
+        "createdAt" : "2017-04-10T17:43:08Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8733d29b-44a3-474d-a53b-77811f4dc495",
+        "parentId" : "d918612e-5c67-4be6-ab34-e3f8e9d38db0",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Shouldn't `errno` be moved to `scalanative.posix` altogether then? http://pubs.opengroup.org/onlinepubs/9699919799/",
+        "createdAt" : "2017-04-11T09:15:31Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0981e510-629a-49f9-bc04-38c82a9e662f",
+        "parentId" : "d918612e-5c67-4be6-ab34-e3f8e9d38db0",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:43:27Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -13,4 +13,6 @@ object errno {\n   def EILSEQ: CInt = extern\n   @name(\"scalanative_erange\")\n   def ERANGE: CInt = extern\n+  @name(\"scalanative_eexist\")\n+  def EEXIST: CInt = extern"
+  }
+]

@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "5170fb21-c91e-4b98-a600-58708514bdda",
+    "prId" : 610,
+    "comments" : [
+      {
+        "id" : "cc889b22-9b40-442e-ac08-45a93a68e4cc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one needs to call selfTest to do the actual check. ",
+        "createdAt" : "2017-04-04T14:16:25Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1c35afc3-4736-46f6-b85f-2f0208587b8d",
+        "parentId" : "cc889b22-9b40-442e-ac08-45a93a68e4cc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It does link now, but fails the check. I've filed #611 for this.",
+        "createdAt" : "2017-04-04T14:28:49Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b1e0dee7-d8e8-47fc-891f-e061f9a525ee",
+        "parentId" : "cc889b22-9b40-442e-ac08-45a93a68e4cc",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Oops...\r\nShould I leave it and ignore the returned result, or disable it ?",
+        "createdAt" : "2017-04-04T15:02:24Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "11ed74a5-ac46-4a96-a165-98c08b61797c",
+        "parentId" : "cc889b22-9b40-442e-ac08-45a93a68e4cc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets keep it disable for now. ",
+        "createdAt" : "2017-04-05T10:26:35Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "90d7bef335b469b7e7b91a14cd1135be26436847",
+    "line" : null,
+    "diffHunk" : "@@ -42,9 +42,6 @@ package sha512\n  */\n class SHA512Benchmark extends benchmarks.Benchmark[Boolean] {\n   override def run(): Boolean = {\n-    disableBenchmark()\n-    // Doesn't link.\n-    // Test.selfTest(verbose = false)"
+  }
+]

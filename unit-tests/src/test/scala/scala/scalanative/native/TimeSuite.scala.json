@@ -1,0 +1,111 @@
+[
+  {
+    "id" : "86d3cb40-f552-4d30-af96-741fde60eec0",
+    "prId" : 929,
+    "comments" : [
+      {
+        "id" : "288c4cb8-9838-42a9-83b2-8e729764371a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We avoid TODOs in the code. They often get stale and it's better to have everything in one central place (the issue tracker).",
+        "createdAt" : "2017-11-27T12:05:40Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "46d772d874c8d5143408ad881e43e67f34c262c1",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,138 @@\n+package scala.scalanative.native\n+\n+import scala.scalanative.native.time.{asctime, difftime, localtime,\n+mktime, strftime, wcsftime, gmtime, time_t, tm}\n+import scala.scalanative.native.timeOps.tmOps\n+\n+object TimeSuite extends tests.Suite {\n+\n+  val now_ptr: Ptr[time_t] = stackalloc[time_t]\n+  val now_time_t: time_t = time.time(now_ptr)\n+\n+  test(\"asctime() with a given known state should match its representation\") {\n+\n+    val anno_zero_ptr: Ptr[tm] = stackalloc[tm]\n+    anno_zero_ptr.tm_sec  = 0\n+    anno_zero_ptr.tm_min = 0\n+    anno_zero_ptr.tm_hour = 0\n+    anno_zero_ptr.tm_mday = 1\n+    anno_zero_ptr.tm_mon = 0\n+    anno_zero_ptr.tm_year = 0\n+    anno_zero_ptr.tm_wday = 0\n+    anno_zero_ptr.tm_yday = 0\n+    anno_zero_ptr.tm_isdst = 0\n+\n+    val cstr: CString = asctime(anno_zero_ptr)\n+    val str: String = fromCString(cstr)\n+    assert(\"Sun Jan  1 00:00:00 1900\\n\".equals(str))\n+  }\n+\n+  test(\"localtime() should transform day zero time to localtime (+0100=CET)\") {\n+\n+    val anno_zero_ptr: Ptr[tm] = stackalloc[tm]\n+    anno_zero_ptr.tm_sec  = 0\n+    anno_zero_ptr.tm_min = 0\n+    anno_zero_ptr.tm_hour = 0\n+    anno_zero_ptr.tm_mday = 1\n+    anno_zero_ptr.tm_mon = 0\n+    anno_zero_ptr.tm_year = 0\n+    anno_zero_ptr.tm_wday = 0\n+    anno_zero_ptr.tm_yday = 0\n+    anno_zero_ptr.tm_isdst = 0\n+\n+    val theTime: time_t = mktime(anno_zero_ptr)\n+    val time_ptr = stackalloc[time_t]\n+    !time_ptr = theTime\n+    val time: Ptr[tm] = localtime(time_ptr)\n+    val cstr: CString = asctime(time)\n+    val str: String = fromCString(cstr)\n+\n+//    assert(\"Thu Jan  1 00:59:59 1970\\n\".equals(str))\n+  }\n+\n+  test(\"difftime() between epoch and now should be bigger than the timestamp when I wrote this code\") {\n+\n+    val anno_zero_ptr: Ptr[tm] = stackalloc[tm]\n+    anno_zero_ptr.tm_sec  = 0\n+    anno_zero_ptr.tm_min = 0\n+    anno_zero_ptr.tm_hour = 0\n+    anno_zero_ptr.tm_mday = 1\n+    anno_zero_ptr.tm_mon = 0\n+    anno_zero_ptr.tm_year = 0\n+    anno_zero_ptr.tm_wday = 0\n+    anno_zero_ptr.tm_yday = 0\n+    anno_zero_ptr.tm_isdst = 0\n+    val anno_zero_time_t: time_t = mktime(anno_zero_ptr)\n+\n+    val diff: time_t = difftime(now_time_t, anno_zero_time_t)\n+    assert(diff > 1502752688)\n+  }\n+\n+  test(\"time() should be bigger than the timestamp when I wrote this code\") {\n+    // arbitrary date set at the time when I was writing this.\n+    assert(now_time_t > 1502752688)\n+  }\n+\n+  test(\"strftime() for 1900-01-00T00:00:00Z\") {\n+    val isoDatePtr: Ptr[CChar] = stackalloc[CChar](70)\n+    val timePtr: Ptr[tm] = stackalloc[tm]\n+    timePtr.tm_sec = 0\n+    timePtr.tm_min = 0\n+    timePtr.tm_hour = 0\n+    timePtr.tm_mday = 0\n+    timePtr.tm_mon = 0\n+    timePtr.tm_year = 0\n+    timePtr.tm_wday = 0\n+    timePtr.tm_yday = 0\n+    timePtr.tm_isdst = 0\n+\n+    strftime(isoDatePtr, 70, c\"%FT%TZ\", timePtr)\n+\n+    val isoDateString: String = fromCString(isoDatePtr)\n+\n+    assert(\"1900-01-00T00:00:00Z\".equals(isoDateString))\n+  }\n+\n+  test(\"wcsftime() not implemented yet. Waiting for fromWideChar\") {\n+    val isoDatePtr: Ptr[CWideChar] = stackalloc[CWideChar](70)\n+    val timePtr: Ptr[tm] = stackalloc[tm]\n+    timePtr.tm_sec = 0\n+    timePtr.tm_min = 0\n+    timePtr.tm_hour = 0\n+    timePtr.tm_mday = 0\n+    timePtr.tm_mon = 0\n+    timePtr.tm_year = 0\n+    timePtr.tm_wday = 0\n+    timePtr.tm_yday = 0\n+    timePtr.tm_isdst = 0\n+\n+    // TODO there's no fromWideChart helper function yet in scala-native"
+  },
+  {
+    "id" : "8d891f91-d24d-485b-808e-0ac2f6179280",
+    "prId" : 929,
+    "comments" : [
+      {
+        "id" : "8d8a0450-ce6d-4d2e-b359-186fdafbab0b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please remove all commented out code. ",
+        "createdAt" : "2017-11-27T12:06:03Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "46d772d874c8d5143408ad881e43e67f34c262c1",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,138 @@\n+package scala.scalanative.native\n+\n+import scala.scalanative.native.time.{asctime, difftime, localtime,\n+mktime, strftime, wcsftime, gmtime, time_t, tm}\n+import scala.scalanative.native.timeOps.tmOps\n+\n+object TimeSuite extends tests.Suite {\n+\n+  val now_ptr: Ptr[time_t] = stackalloc[time_t]\n+  val now_time_t: time_t = time.time(now_ptr)\n+\n+  test(\"asctime() with a given known state should match its representation\") {\n+\n+    val anno_zero_ptr: Ptr[tm] = stackalloc[tm]\n+    anno_zero_ptr.tm_sec  = 0\n+    anno_zero_ptr.tm_min = 0\n+    anno_zero_ptr.tm_hour = 0\n+    anno_zero_ptr.tm_mday = 1\n+    anno_zero_ptr.tm_mon = 0\n+    anno_zero_ptr.tm_year = 0\n+    anno_zero_ptr.tm_wday = 0\n+    anno_zero_ptr.tm_yday = 0\n+    anno_zero_ptr.tm_isdst = 0\n+\n+    val cstr: CString = asctime(anno_zero_ptr)\n+    val str: String = fromCString(cstr)\n+    assert(\"Sun Jan  1 00:00:00 1900\\n\".equals(str))\n+  }\n+\n+  test(\"localtime() should transform day zero time to localtime (+0100=CET)\") {\n+\n+    val anno_zero_ptr: Ptr[tm] = stackalloc[tm]\n+    anno_zero_ptr.tm_sec  = 0\n+    anno_zero_ptr.tm_min = 0\n+    anno_zero_ptr.tm_hour = 0\n+    anno_zero_ptr.tm_mday = 1\n+    anno_zero_ptr.tm_mon = 0\n+    anno_zero_ptr.tm_year = 0\n+    anno_zero_ptr.tm_wday = 0\n+    anno_zero_ptr.tm_yday = 0\n+    anno_zero_ptr.tm_isdst = 0\n+\n+    val theTime: time_t = mktime(anno_zero_ptr)\n+    val time_ptr = stackalloc[time_t]\n+    !time_ptr = theTime\n+    val time: Ptr[tm] = localtime(time_ptr)\n+    val cstr: CString = asctime(time)\n+    val str: String = fromCString(cstr)\n+\n+//    assert(\"Thu Jan  1 00:59:59 1970\\n\".equals(str))"
+  },
+  {
+    "id" : "231d1aa3-c702-43af-be6e-a67be52306b6",
+    "prId" : 1172,
+    "comments" : [
+      {
+        "id" : "30f6dfc5-60e0-45d9-9ad0-9eb705424762",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Rather than relying on the ordering of the tests in this file, I'd personally do something like\r\n```scala\r\n  def addTest[R](name: String)(tz: String)(f: => R) = test(name) {\r\n    val savedTZ = getenv(tzEnvVarName)\r\n    try {\r\n      assert(setenv(tzEnvVarnName, tz, 1) == 0)\r\n      f\r\n    } finally {\r\n      assert(setenv(tzEnvVarName, savedTZ, 1) == 0 \r\n    }\r\n  }\r\n```\r\nIt still isn't thread safe since another suite may modify the environment, but it at least allows one to isolate each specific test in the suite.",
+        "createdAt" : "2018-02-22T17:19:13Z",
+        "updatedAt" : "2018-02-24T22:04:27Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "28d592be-8211-4e98-a1fd-e70cebac3783",
+        "parentId" : "30f6dfc5-60e0-45d9-9ad0-9eb705424762",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@eatkins \r\n\r\nThank you for the helpful suggestion.  I used to be aware of the technique but\r\nbut somehow it was not accessible to my brain when I was writing that code. Your\r\ncomment refresh my all too volatile memory.\r\n",
+        "createdAt" : "2018-02-26T20:54:36Z",
+        "updatedAt" : "2018-02-26T20:54:36Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4736c05e078240be2516e2fe71fab8137342e4ac",
+    "line" : 53,
+    "diffHunk" : "@@ -2,139 +2,299 @@ package scala.scalanative.native\n \n import scala.scalanative.native.time.{\n   asctime,\n+  daylight,\n   difftime,\n+  gmtime,\n   localtime,\n   mktime,\n   strftime,\n-  wcsftime,\n-  gmtime,\n+  strptime,\n   time_t,\n-  tm\n+  timezone,\n+  tm,\n+  tzname,\n+  tzset,\n+  wcsftime\n }\n+\n import scala.scalanative.native.timeOps.tmOps\n \n+import scala.scalanative.native.stdlib.{getenv, setenv, unsetenv}\n+import scala.scalanative.native.string.{memset, strcmp}\n+\n object TimeSuite extends tests.Suite {\n \n-  val now_ptr: Ptr[time_t] = stackalloc[time_t]\n-  val now_time_t: time_t   = time.time(now_ptr)\n+  val now_time_t: time_t = time.time(null)\n+\n+  val tzEnvVarName     = c\"TZ\"\n+  var savedTZ: CString = _\n+\n+  /* TimeSuite must execute in a single threaded environment. The only\n+   * sure way to meet this requirement is for the enclosing testing\n+   * environment to guarantee it.\n+   *\n+   * The four functions in the suite (localtime & friends) are defined\n+   * as returning pointers to static buffers and THREAD_UNSAFE!.  In\n+   * addition, this code possibly/probably changes the environment variable\n+   * TZ for the duration of the suite run. Any other thread running in\n+   * the same process may pick up a bogus, to it, value for TZ.\n+   *\n+   * A runtime test is possible here (stat /proc/self/task. If it\n+   * is successful and nlinks == 3, then process is single threaded, at\n+   * moment of testing). This test however is a weak one, because without\n+   * a guarantee from the testing environment, a new thread can be created\n+   * at any time after the initial test.\n+   */\n+\n+  test(\"save unknown current TZ, set to known Central European Time (CET)\") {"
+  }
+]

@@ -1,0 +1,95 @@
+[
+  {
+    "id" : "f135e350-5033-4d45-ac7b-af5cb74ce8a9",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "7ae3d716-235e-49d0-af65-fad207cbbcbc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider renaming this to `executable` or `executableFile`, to make it clear that this is an executable file, not just any binary file.",
+        "createdAt" : "2020-08-06T17:57:58Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.testinterface\n+\n+// Ported from Scala.JS\n+\n+import java.io.File\n+import java.net.ServerSocket\n+import scala.concurrent.ExecutionContext\n+import scala.scalanative.build.Logger\n+import scala.scalanative.testinterface.common._\n+\n+/** RPC Core for use with native rpc. */\n+private[testinterface] final class NativeRunnerRPC(\n+    binaryFile: File,"
+  },
+  {
+    "id" : "ac39da44-938b-4ae3-a84c-7e28f8327001",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "117a432b-6813-4e2f-af46-96732e4da28a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n  /* Once the com closes, ensure all still pending calls are failing.\r\n```",
+        "createdAt" : "2020-08-07T18:39:46Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.testinterface\n+\n+// Ported from Scala.js\n+\n+import java.io.File\n+import java.net.ServerSocket\n+import scala.concurrent.ExecutionContext\n+import scala.scalanative.build.Logger\n+import scala.scalanative.testinterface.common._\n+\n+/** RPC Core for use with native rpc. */\n+private[testinterface] final class NativeRunnerRPC(\n+    executableFile: File,\n+    envVars: Map[String, String],\n+    args: Seq[String],\n+    logger: Logger\n+)(implicit ec: ExecutionContext)\n+    extends RPCCore() {\n+\n+  private[this] val serverSocket: ServerSocket = new ServerSocket(\n+    /* port = */ 0,\n+    /* backlog = */ 1\n+  )\n+  val processRunner = new ProcessRunner(executableFile,\n+                                        envVars,\n+                                        args,\n+                                        logger,\n+                                        serverSocket.getLocalPort)\n+  val runner = new ComRunner(processRunner, serverSocket, logger, handleMessage)\n+\n+  /** Once the com closes, ensure all still pending calls are failing."
+  },
+  {
+    "id" : "414147b8-5b08-459e-a18f-9dadc3bf72a6",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "662ad328-8360-4fa2-a65e-4a2231665962",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    /* Close the RPC layer and fail all pending calls.\r\n```",
+        "createdAt" : "2020-08-07T18:40:15Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.testinterface\n+\n+// Ported from Scala.js\n+\n+import java.io.File\n+import java.net.ServerSocket\n+import scala.concurrent.ExecutionContext\n+import scala.scalanative.build.Logger\n+import scala.scalanative.testinterface.common._\n+\n+/** RPC Core for use with native rpc. */\n+private[testinterface] final class NativeRunnerRPC(\n+    executableFile: File,\n+    envVars: Map[String, String],\n+    args: Seq[String],\n+    logger: Logger\n+)(implicit ec: ExecutionContext)\n+    extends RPCCore() {\n+\n+  private[this] val serverSocket: ServerSocket = new ServerSocket(\n+    /* port = */ 0,\n+    /* backlog = */ 1\n+  )\n+  val processRunner = new ProcessRunner(executableFile,\n+                                        envVars,\n+                                        args,\n+                                        logger,\n+                                        serverSocket.getLocalPort)\n+  val runner = new ComRunner(processRunner, serverSocket, logger, handleMessage)\n+\n+  /** Once the com closes, ensure all still pending calls are failing.\n+   * Note: We do not need to give a grace time here, since the reply\n+   * dispatch happens synchronously in `handleMessage`.\n+   * In other words, at this point we'll only see pending calls that\n+   * would require another call to `handleMessage` in order to complete\n+   * successfully. But this is not going to happen since the com run is\n+   * completed (and it is an explicit guarantee that `handleMessage` is not\n+   * called anymore after that).\n+   */\n+  runner.future.onComplete { t =>\n+    close(NativeRunnerRPC.RunTerminatedException(t.failed.toOption))\n+  }\n+\n+  override protected def send(msg: String): Unit = runner.send(msg)\n+\n+  override def close(cause: Throwable): Unit = {\n+\n+    /** Close the RPC layer and fail all pending calls."
+  }
+]

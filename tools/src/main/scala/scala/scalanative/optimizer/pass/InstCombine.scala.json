@@ -1,0 +1,223 @@
+[
+  {
+    "id" : "69edc8d3-5b62-4a8a-93b5-c10abf713b78",
+    "prId" : 469,
+    "comments" : [
+      {
+        "id" : "bca12a00-74bd-4d8d-b558-7db1510703d9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is not correct. You need to use `a & 31` instead of `a`. For a 64-bit shift it should be `a & 63`. That's the because the right-hand-side of shift operations is interpreted as `& 31` for 32-bit left operands and `& 63` for 64-bit left operands.",
+        "createdAt" : "2016-12-27T16:51:51Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1fb876ad9982900e47bf62e42bdd3a253e6b3323",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,228 @@\n+package scala.scalanative\n+package optimizer\n+package pass\n+\n+import analysis.ClassHierarchy.Top\n+import analysis.ControlFlow\n+\n+import nir._\n+import Inst._\n+import Bin._\n+import Comp._\n+\n+import scala.None\n+import scala.collection.mutable\n+\n+class InstCombine()(implicit fresh: Fresh) extends Pass {\n+  import InstCombine._\n+  import ConstantFolding._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      // This stores the encountered definitions for non-params locals\n+      val defop    = mutable.HashMap.empty[Local, Op]\n+      val resolver = new DefOp(defop)\n+      val cfg      = ControlFlow.Graph(defn.insts)\n+\n+      /* Because of the pre-order traversal of the CFG, the definitions will be\n+       * seen before their use\n+       */\n+      val newInsts = cfg.map { b =>\n+        b.label +: b.insts.flatMap { inst =>\n+          val simplifiedSeq = simplify(inst, resolver)\n+          simplifiedSeq.foreach {\n+            case Let(n, op) => defop += (n -> op)\n+            case _          =>\n+          }\n+          simplifiedSeq\n+        }\n+      }.flatten\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def simplify(inst: Inst, defop: DefOp): Seq[Inst] = {\n+    val singleSimp = inst match {\n+\n+      case Let(z, Op.Bin(Iadd, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x + b) + a = x + (a + b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a + b, ty)))\n+\n+          // (x - b) + a = x + (a - b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Isub, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x - b) - a = x - (a + b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a + b, ty)))\n+\n+          // (x + b) - a = x - (a - b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Imul, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x * b) * a = x * (a * b)\n+          case Some(Op.Bin(Imul, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * b, ty)))\n+\n+          // (x << b) * a = x * (a * 2^b)\n+          case Some(Op.Bin(Shl, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ieq, tyIeq, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) == 0) = (lhs == rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIeq == tyXor) =>\n+            Let(n, Op.Comp(Ieq, tyIeq, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ine, tyIne, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) != 0) = (lhs != rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIne == tyXor) =>\n+            Let(n, Op.Comp(Ine, tyIne, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Select(cond, thenv, elsev)) =>\n+        defop(cond) match {\n+          // select (c xor true) then a else b  =  select c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            Let(n, Op.Select(negCond, elsev, thenv))\n+\n+          case _ => inst\n+        }\n+\n+      case If(cond, thenp, elsep) =>\n+        defop(cond) match {\n+          // if (c xor true) then a else b  =  if c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            If(negCond, elsep, thenp)\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, op @ Op.Bin(_, _, lhs, rhs)) =>\n+        Let(n, simplifyBin(defop(lhs), defop(rhs), op))\n+\n+      // Nothing\n+      case _ => inst\n+    }\n+\n+    simplifyExt(singleSimp, defop)\n+  }\n+\n+  def simplifyBin(lhsDef: Option[Op], rhsDef: Option[Op], op: Op.Bin): Op = {\n+    (lhsDef, rhsDef, op) match {\n+\n+      // (a * b) % a = 0\n+      // (a * b) % b = 0\n+      case (Some(Op.Bin(Imul, _, a, b)),\n+            _,\n+            Op.Bin(Srem, ty, _, c))\n+          if ((a == c) || (b == c)) =>\n+        Op.Copy(IVal(0, ty))\n+\n+      // (x << a) * b = x * (2^a * b)\n+      case (Some(Op.Bin(Shl, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Imul, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(math.pow(2, a).toLong * b, ty))"
+  },
+  {
+    "id" : "878e6a31-6016-493e-b98c-f7180264adb6",
+    "prId" : 469,
+    "comments" : [
+      {
+        "id" : "6f2aef4f-b76d-4f4d-8c2c-3e4e38cd6121",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is this well-known? I am not convinced this will always work when `a * b` overflows.",
+        "createdAt" : "2016-12-27T16:52:33Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1fb876ad9982900e47bf62e42bdd3a253e6b3323",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,228 @@\n+package scala.scalanative\n+package optimizer\n+package pass\n+\n+import analysis.ClassHierarchy.Top\n+import analysis.ControlFlow\n+\n+import nir._\n+import Inst._\n+import Bin._\n+import Comp._\n+\n+import scala.None\n+import scala.collection.mutable\n+\n+class InstCombine()(implicit fresh: Fresh) extends Pass {\n+  import InstCombine._\n+  import ConstantFolding._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      // This stores the encountered definitions for non-params locals\n+      val defop    = mutable.HashMap.empty[Local, Op]\n+      val resolver = new DefOp(defop)\n+      val cfg      = ControlFlow.Graph(defn.insts)\n+\n+      /* Because of the pre-order traversal of the CFG, the definitions will be\n+       * seen before their use\n+       */\n+      val newInsts = cfg.map { b =>\n+        b.label +: b.insts.flatMap { inst =>\n+          val simplifiedSeq = simplify(inst, resolver)\n+          simplifiedSeq.foreach {\n+            case Let(n, op) => defop += (n -> op)\n+            case _          =>\n+          }\n+          simplifiedSeq\n+        }\n+      }.flatten\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def simplify(inst: Inst, defop: DefOp): Seq[Inst] = {\n+    val singleSimp = inst match {\n+\n+      case Let(z, Op.Bin(Iadd, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x + b) + a = x + (a + b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a + b, ty)))\n+\n+          // (x - b) + a = x + (a - b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Isub, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x - b) - a = x - (a + b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a + b, ty)))\n+\n+          // (x + b) - a = x - (a - b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Imul, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x * b) * a = x * (a * b)\n+          case Some(Op.Bin(Imul, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * b, ty)))\n+\n+          // (x << b) * a = x * (a * 2^b)\n+          case Some(Op.Bin(Shl, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ieq, tyIeq, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) == 0) = (lhs == rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIeq == tyXor) =>\n+            Let(n, Op.Comp(Ieq, tyIeq, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ine, tyIne, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) != 0) = (lhs != rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIne == tyXor) =>\n+            Let(n, Op.Comp(Ine, tyIne, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Select(cond, thenv, elsev)) =>\n+        defop(cond) match {\n+          // select (c xor true) then a else b  =  select c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            Let(n, Op.Select(negCond, elsev, thenv))\n+\n+          case _ => inst\n+        }\n+\n+      case If(cond, thenp, elsep) =>\n+        defop(cond) match {\n+          // if (c xor true) then a else b  =  if c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            If(negCond, elsep, thenp)\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, op @ Op.Bin(_, _, lhs, rhs)) =>\n+        Let(n, simplifyBin(defop(lhs), defop(rhs), op))\n+\n+      // Nothing\n+      case _ => inst\n+    }\n+\n+    simplifyExt(singleSimp, defop)\n+  }\n+\n+  def simplifyBin(lhsDef: Option[Op], rhsDef: Option[Op], op: Op.Bin): Op = {\n+    (lhsDef, rhsDef, op) match {\n+\n+      // (a * b) % a = 0\n+      // (a * b) % b = 0"
+  },
+  {
+    "id" : "8eb981b1-3485-4439-aaa3-11a172d808c8",
+    "prId" : 469,
+    "comments" : [
+      {
+        "id" : "892224ae-eadc-4699-8510-2771718bb2f0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`b & 31`",
+        "createdAt" : "2016-12-27T16:53:06Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1fb876ad9982900e47bf62e42bdd3a253e6b3323",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,228 @@\n+package scala.scalanative\n+package optimizer\n+package pass\n+\n+import analysis.ClassHierarchy.Top\n+import analysis.ControlFlow\n+\n+import nir._\n+import Inst._\n+import Bin._\n+import Comp._\n+\n+import scala.None\n+import scala.collection.mutable\n+\n+class InstCombine()(implicit fresh: Fresh) extends Pass {\n+  import InstCombine._\n+  import ConstantFolding._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      // This stores the encountered definitions for non-params locals\n+      val defop    = mutable.HashMap.empty[Local, Op]\n+      val resolver = new DefOp(defop)\n+      val cfg      = ControlFlow.Graph(defn.insts)\n+\n+      /* Because of the pre-order traversal of the CFG, the definitions will be\n+       * seen before their use\n+       */\n+      val newInsts = cfg.map { b =>\n+        b.label +: b.insts.flatMap { inst =>\n+          val simplifiedSeq = simplify(inst, resolver)\n+          simplifiedSeq.foreach {\n+            case Let(n, op) => defop += (n -> op)\n+            case _          =>\n+          }\n+          simplifiedSeq\n+        }\n+      }.flatten\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def simplify(inst: Inst, defop: DefOp): Seq[Inst] = {\n+    val singleSimp = inst match {\n+\n+      case Let(z, Op.Bin(Iadd, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x + b) + a = x + (a + b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a + b, ty)))\n+\n+          // (x - b) + a = x + (a - b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Isub, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x - b) - a = x - (a + b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a + b, ty)))\n+\n+          // (x + b) - a = x - (a - b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Imul, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x * b) * a = x * (a * b)\n+          case Some(Op.Bin(Imul, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * b, ty)))\n+\n+          // (x << b) * a = x * (a * 2^b)\n+          case Some(Op.Bin(Shl, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ieq, tyIeq, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) == 0) = (lhs == rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIeq == tyXor) =>\n+            Let(n, Op.Comp(Ieq, tyIeq, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ine, tyIne, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) != 0) = (lhs != rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIne == tyXor) =>\n+            Let(n, Op.Comp(Ine, tyIne, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Select(cond, thenv, elsev)) =>\n+        defop(cond) match {\n+          // select (c xor true) then a else b  =  select c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            Let(n, Op.Select(negCond, elsev, thenv))\n+\n+          case _ => inst\n+        }\n+\n+      case If(cond, thenp, elsep) =>\n+        defop(cond) match {\n+          // if (c xor true) then a else b  =  if c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            If(negCond, elsep, thenp)\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, op @ Op.Bin(_, _, lhs, rhs)) =>\n+        Let(n, simplifyBin(defop(lhs), defop(rhs), op))\n+\n+      // Nothing\n+      case _ => inst\n+    }\n+\n+    simplifyExt(singleSimp, defop)\n+  }\n+\n+  def simplifyBin(lhsDef: Option[Op], rhsDef: Option[Op], op: Op.Bin): Op = {\n+    (lhsDef, rhsDef, op) match {\n+\n+      // (a * b) % a = 0\n+      // (a * b) % b = 0\n+      case (Some(Op.Bin(Imul, _, a, b)),\n+            _,\n+            Op.Bin(Srem, ty, _, c))\n+          if ((a == c) || (b == c)) =>\n+        Op.Copy(IVal(0, ty))\n+\n+      // (x << a) * b = x * (2^a * b)\n+      case (Some(Op.Bin(Shl, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Imul, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(math.pow(2, a).toLong * b, ty))\n+\n+      // (x * a) << b = x * (a * 2^b)\n+      case (Some(Op.Bin(Imul, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Shl, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty))"
+  },
+  {
+    "id" : "f06a5a50-c06c-4ed9-9b3d-39cdaea9fc1f",
+    "prId" : 469,
+    "comments" : [
+      {
+        "id" : "8a3c63bf-28ef-48b2-a61f-16d426093b10",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You should consistently use `x`, `y`, `z` for variables (of unknown values) and `a`, `b`, `c` for constants.",
+        "createdAt" : "2016-12-27T16:54:08Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1fb876ad9982900e47bf62e42bdd3a253e6b3323",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,228 @@\n+package scala.scalanative\n+package optimizer\n+package pass\n+\n+import analysis.ClassHierarchy.Top\n+import analysis.ControlFlow\n+\n+import nir._\n+import Inst._\n+import Bin._\n+import Comp._\n+\n+import scala.None\n+import scala.collection.mutable\n+\n+class InstCombine()(implicit fresh: Fresh) extends Pass {\n+  import InstCombine._\n+  import ConstantFolding._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      // This stores the encountered definitions for non-params locals\n+      val defop    = mutable.HashMap.empty[Local, Op]\n+      val resolver = new DefOp(defop)\n+      val cfg      = ControlFlow.Graph(defn.insts)\n+\n+      /* Because of the pre-order traversal of the CFG, the definitions will be\n+       * seen before their use\n+       */\n+      val newInsts = cfg.map { b =>\n+        b.label +: b.insts.flatMap { inst =>\n+          val simplifiedSeq = simplify(inst, resolver)\n+          simplifiedSeq.foreach {\n+            case Let(n, op) => defop += (n -> op)\n+            case _          =>\n+          }\n+          simplifiedSeq\n+        }\n+      }.flatten\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def simplify(inst: Inst, defop: DefOp): Seq[Inst] = {\n+    val singleSimp = inst match {\n+\n+      case Let(z, Op.Bin(Iadd, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x + b) + a = x + (a + b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a + b, ty)))\n+\n+          // (x - b) + a = x + (a - b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Isub, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x - b) - a = x - (a + b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a + b, ty)))\n+\n+          // (x + b) - a = x - (a - b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Imul, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x * b) * a = x * (a * b)\n+          case Some(Op.Bin(Imul, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * b, ty)))\n+\n+          // (x << b) * a = x * (a * 2^b)\n+          case Some(Op.Bin(Shl, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ieq, tyIeq, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) == 0) = (lhs == rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIeq == tyXor) =>\n+            Let(n, Op.Comp(Ieq, tyIeq, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ine, tyIne, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) != 0) = (lhs != rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIne == tyXor) =>\n+            Let(n, Op.Comp(Ine, tyIne, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Select(cond, thenv, elsev)) =>\n+        defop(cond) match {\n+          // select (c xor true) then a else b  =  select c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            Let(n, Op.Select(negCond, elsev, thenv))\n+\n+          case _ => inst\n+        }\n+\n+      case If(cond, thenp, elsep) =>\n+        defop(cond) match {\n+          // if (c xor true) then a else b  =  if c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            If(negCond, elsep, thenp)\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, op @ Op.Bin(_, _, lhs, rhs)) =>\n+        Let(n, simplifyBin(defop(lhs), defop(rhs), op))\n+\n+      // Nothing\n+      case _ => inst\n+    }\n+\n+    simplifyExt(singleSimp, defop)\n+  }\n+\n+  def simplifyBin(lhsDef: Option[Op], rhsDef: Option[Op], op: Op.Bin): Op = {\n+    (lhsDef, rhsDef, op) match {\n+\n+      // (a * b) % a = 0\n+      // (a * b) % b = 0\n+      case (Some(Op.Bin(Imul, _, a, b)),\n+            _,\n+            Op.Bin(Srem, ty, _, c))\n+          if ((a == c) || (b == c)) =>\n+        Op.Copy(IVal(0, ty))\n+\n+      // (x << a) * b = x * (2^a * b)\n+      case (Some(Op.Bin(Shl, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Imul, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(math.pow(2, a).toLong * b, ty))\n+\n+      // (x * a) << b = x * (a * 2^b)\n+      case (Some(Op.Bin(Imul, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Shl, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty))\n+\n+      // a + (0 - b) = a - b"
+  },
+  {
+    "id" : "480e28cb-f128-4b66-8a55-900d1e00fb92",
+    "prId" : 469,
+    "comments" : [
+      {
+        "id" : "4fdf6e74-7f00-487e-9b08-62417dde4169",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This one is not true. It could throw if `b` is not of the right type. And if `b eq null`, this should create a non-null box. In general, this pair of operation is not optimizable.",
+        "createdAt" : "2016-12-27T16:56:00Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c185fae2-f25b-4bc2-9eb3-cd5622175662",
+        "parentId" : "4fdf6e74-7f00-487e-9b08-62417dde4169",
+        "author" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "body" : "I'm not sure I undertand this.\r\n1. If `b` is not the right type, then we should throw when doing `unbox b`, right ? Thus, if we reach the `box` operation on the result of the `unbox`, we are safe, I think\r\n2. If `b eq null`, shouldn't we throw on the `unbox` operation as well ?",
+        "createdAt" : "2017-01-05T18:41:52Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f5ca423-9eb1-404f-b426-5d8436a981b3",
+        "parentId" : "4fdf6e74-7f00-487e-9b08-62417dde4169",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "1. Yes, `box` should throw, but your optimization removes the `box`, and therefore it does not throw anymore. The behavior is changed.\r\n2. No, `unbox`ing `null` returns the zero of the target type. For example`(null: Any).asInstanceOf[Int]` successfully returns `0`",
+        "createdAt" : "2017-01-05T20:51:55Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5089aff8-31ab-4d1f-95fc-4bcb5dbb6fd4",
+        "parentId" : "4fdf6e74-7f00-487e-9b08-62417dde4169",
+        "author" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "body" : "Nice, thanks ! Sorry for the confusion, I'm not very knowledgeable when it comes to boxing / unboxing semantics.",
+        "createdAt" : "2017-01-06T09:21:20Z",
+        "updatedAt" : "2017-02-07T11:08:52Z",
+        "lastEditedBy" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1fb876ad9982900e47bf62e42bdd3a253e6b3323",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,228 @@\n+package scala.scalanative\n+package optimizer\n+package pass\n+\n+import analysis.ClassHierarchy.Top\n+import analysis.ControlFlow\n+\n+import nir._\n+import Inst._\n+import Bin._\n+import Comp._\n+\n+import scala.None\n+import scala.collection.mutable\n+\n+class InstCombine()(implicit fresh: Fresh) extends Pass {\n+  import InstCombine._\n+  import ConstantFolding._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      // This stores the encountered definitions for non-params locals\n+      val defop    = mutable.HashMap.empty[Local, Op]\n+      val resolver = new DefOp(defop)\n+      val cfg      = ControlFlow.Graph(defn.insts)\n+\n+      /* Because of the pre-order traversal of the CFG, the definitions will be\n+       * seen before their use\n+       */\n+      val newInsts = cfg.map { b =>\n+        b.label +: b.insts.flatMap { inst =>\n+          val simplifiedSeq = simplify(inst, resolver)\n+          simplifiedSeq.foreach {\n+            case Let(n, op) => defop += (n -> op)\n+            case _          =>\n+          }\n+          simplifiedSeq\n+        }\n+      }.flatten\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def simplify(inst: Inst, defop: DefOp): Seq[Inst] = {\n+    val singleSimp = inst match {\n+\n+      case Let(z, Op.Bin(Iadd, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x + b) + a = x + (a + b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a + b, ty)))\n+\n+          // (x - b) + a = x + (a - b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Iadd, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Isub, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x - b) - a = x - (a + b)\n+          case Some(Op.Bin(Isub, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a + b, ty)))\n+\n+          // (x + b) - a = x - (a - b)\n+          case Some(Op.Bin(Iadd, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Isub, ty, x, IVal(a - b, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(z, Op.Bin(Imul, ty, y, IVal(a))) =>\n+        defop(y) match {\n+          // (x * b) * a = x * (a * b)\n+          case Some(Op.Bin(Imul, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * b, ty)))\n+\n+          // (x << b) * a = x * (a * 2^b)\n+          case Some(Op.Bin(Shl, _, x, IVal(b))) =>\n+            Let(z, Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty)))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ieq, tyIeq, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) == 0) = (lhs == rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIeq == tyXor) =>\n+            Let(n, Op.Comp(Ieq, tyIeq, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Comp(Ine, tyIne, compared, IVal(0))) =>\n+        defop(compared) match {\n+          // ((lhs xor rhs) != 0) = (lhs != rhs)\n+          case Some(Op.Bin(Xor, tyXor, lhs, rhs)) if (tyIne == tyXor) =>\n+            Let(n, Op.Comp(Ine, tyIne, lhs, rhs))\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, Op.Select(cond, thenv, elsev)) =>\n+        defop(cond) match {\n+          // select (c xor true) then a else b  =  select c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            Let(n, Op.Select(negCond, elsev, thenv))\n+\n+          case _ => inst\n+        }\n+\n+      case If(cond, thenp, elsep) =>\n+        defop(cond) match {\n+          // if (c xor true) then a else b  =  if c then b else a\n+          case Some(Op.Bin(Xor, _, negCond, Val.True)) =>\n+            If(negCond, elsep, thenp)\n+\n+          case _ => inst\n+        }\n+\n+      case Let(n, op @ Op.Bin(_, _, lhs, rhs)) =>\n+        Let(n, simplifyBin(defop(lhs), defop(rhs), op))\n+\n+      // Nothing\n+      case _ => inst\n+    }\n+\n+    simplifyExt(singleSimp, defop)\n+  }\n+\n+  def simplifyBin(lhsDef: Option[Op], rhsDef: Option[Op], op: Op.Bin): Op = {\n+    (lhsDef, rhsDef, op) match {\n+\n+      // (a * b) % a = 0\n+      // (a * b) % b = 0\n+      case (Some(Op.Bin(Imul, _, a, b)),\n+            _,\n+            Op.Bin(Srem, ty, _, c))\n+          if ((a == c) || (b == c)) =>\n+        Op.Copy(IVal(0, ty))\n+\n+      // (x << a) * b = x * (2^a * b)\n+      case (Some(Op.Bin(Shl, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Imul, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(math.pow(2, a).toLong * b, ty))\n+\n+      // (x * a) << b = x * (a * 2^b)\n+      case (Some(Op.Bin(Imul, _, x, IVal(a))),\n+            _,\n+            Op.Bin(Shl, ty, _, IVal(b))) =>\n+        Op.Bin(Imul, ty, x, IVal(a * math.pow(2, b).toLong, ty))\n+\n+      // a + (0 - b) = a - b\n+      case (_, Some(Op.Bin(Isub, _, IVal(0), b)), Op.Bin(Iadd, ty, a, _)) =>\n+        Op.Bin(Isub, ty, a, b)\n+\n+      // a - (0 - b) = a + b\n+      case (_, Some(Op.Bin(Isub, _, IVal(0), b)), Op.Bin(Isub, ty, a, _)) =>\n+        Op.Bin(Iadd, ty, a, b)\n+\n+      // (0 - a) + b = b - a\n+      case (Some(Op.Bin(Isub, _, IVal(0), a)), _, Op.Bin(Iadd, ty, _, b)) =>\n+        Op.Bin(Isub, ty, b, a)\n+\n+      // (a - b) + b = a\n+      case (Some(Op.Bin(Isub, _, a, b)), _, Op.Bin(Iadd, _, _, c))\n+          if (b == c) =>\n+        Op.Copy(a)\n+\n+      // (a + b) - b = a\n+      case (Some(Op.Bin(Iadd, _, a, b)), _, Op.Bin(Isub, _, _, c))\n+          if (b == c) =>\n+        Op.Copy(a)\n+\n+      case _ => op\n+    }\n+  }\n+\n+  def simplifyExt(inst: Inst, defop: DefOp)(implicit fresh: Fresh): Seq[Inst] = {\n+    inst match {\n+      // (a * c) + (b * c) = (a + b) * c\n+      case Let(n,\n+               Op.Bin(Iadd,\n+                      ty,\n+                      defop(Op.Bin(Imul, _, a, c)),\n+                      defop(Op.Bin(Imul, _, b, d)))) if (c == d) =>\n+        val tmp = fresh()\n+        Seq(Let(tmp, Op.Bin(Iadd, ty, a, b)),\n+            Let(n, Op.Bin(Imul, ty, Val.Local(tmp, ty), c)))\n+\n+      // unbox (box a) = a\n+      case Let(n, Op.Unbox(_, defop(Op.Box(_, a)))) =>\n+        Seq(Let(n, Op.Copy(a)))\n+\n+      // box (unbox b) = b"
+  }
+]

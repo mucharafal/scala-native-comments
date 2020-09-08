@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "32b03ff1-0f81-4e64-acb6-ec994f4ec712",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "189e9c8d-ba2b-4661-b98b-c91b9fa2511b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs more ops, similarly to `Word`.",
+        "createdAt" : "2019-05-28T09:07:33Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+import scalanative.unsigned._\n+\n+final class UWord(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toInt: Int   = castRawWordToInt(rawWord).toInt\n+  @alwaysinline def toUInt: UInt = castRawWordToInt(rawWord).toUInt\n+\n+  @alwaysinline def +(other: UWord): UWord =\n+    new UWord(addRawWords(rawWord, other.rawWord))\n+  @alwaysinline def -(other: UWord): UWord =\n+    new UWord(subRawWords(rawWord, other.rawWord))\n+  @alwaysinline def *(other: UWord): UWord =\n+    new UWord(multRawWords(rawWord, other.rawWord))\n+  @alwaysinline def /(other: UWord): UWord =\n+    new UWord(divRawWordsUnsigned(rawWord, other.rawWord))"
+  }
+]

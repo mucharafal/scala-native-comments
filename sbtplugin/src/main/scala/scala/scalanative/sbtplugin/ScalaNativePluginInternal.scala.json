@@ -1,0 +1,640 @@
+[
+  {
+    "id" : "65dddf39-3403-44de-b664-e2c9e97ef30d",
+    "prId" : 118,
+    "comments" : [
+      {
+        "id" : "30629ed8-3360-44e7-b874-706d5933c458",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's `s\"clang++-$major.$minor\"` on linux. You should also include those here.\n",
+        "createdAt" : "2016-05-20T10:25:30Z",
+        "updatedAt" : "2016-05-21T12:22:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "63bf2a2a-7136-4ab5-83d5-95992e101a40",
+        "parentId" : "30629ed8-3360-44e7-b874-706d5933c458",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This will make https://github.com/scala-native/scala-native/blob/master/docker/Dockerfile#L48 line in dockerfile completely unnecessary. \n",
+        "createdAt" : "2016-05-20T10:38:37Z",
+        "updatedAt" : "2016-05-21T12:22:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f37f5eafd99d84b27699d48e164fc172f8fc7b68",
+    "line" : null,
+    "diffHunk" : "@@ -59,18 +59,18 @@ object ScalaNativePluginInternal {\n     nativeVerbose := false,\n \n     nativeClang := {\n-      val binaryName = \"clang++\"\n+      val binaryNames = Seq(\"38\", \"37\", \"\").map(ver => s\"clang++$ver\")"
+  },
+  {
+    "id" : "1bea47a8-c342-4460-82ea-fa391526688f",
+    "prId" : 120,
+    "comments" : [
+      {
+        "id" : "2be86d46-c12b-4e28-bdb2-03c63ac6a754",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Splitting this message into a few strings that are concatenated would help with reading the code. Generally try to stay within 80 chars limit. Scalafmt doesn't format sbt plugins at the moment unfortunately. \n",
+        "createdAt" : "2016-05-23T16:47:59Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a07666baf115d1a2ac24c70a2313c0b1fb345caa",
+    "line" : null,
+    "diffHunk" : "@@ -93,11 +93,49 @@ object ScalaNativePluginInternal {\n                                      entry,\n                                      verbose)\n \n+      checkThatClangIsRecentEnough(clang)\n+\n       IO.createDirectory(target)\n       unpackRtlib(classpath)\n       compileNir(opts)\n       compileLl(clang, target, appll, binary, clangOpts)\n       Process(abs(binary)).!\n     }\n   )\n-}\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p>\n+   * This is determined through looking up a built-in #define which is more reliable than testing\n+   * for a specific version.\n+   * <p>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  private def checkThatClangIsRecentEnough(pathToClangBinary: File): Unit = {\n+    val clang = maybeFile(pathToClangBinary)\n+    val defines: Seq[String] = definesBuiltIn(clang).to[Seq].flatten\n+    val clangIsRecentEnough = defines.contains(\"__DECIMAL_DIG__ __LDBL_DECIMAL_DIG__\")\n+\n+    if (! clangIsRecentEnough) {\n+      throw new MessageOnlyException(s\"No recent installation of clang found at $pathToClangBinary.\\nSee https://github.com/scala-native/scala-native/blob/master/docs/building.md for details.\")"
+  },
+  {
+    "id" : "6e6e2c68-6459-47fa-80ea-0e44e191de57",
+    "prId" : 120,
+    "comments" : [
+      {
+        "id" : "3d17b95a-ec40-41db-b252-021bff392a1f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Space after `!` is not necessary.\n",
+        "createdAt" : "2016-05-23T16:48:13Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a07666baf115d1a2ac24c70a2313c0b1fb345caa",
+    "line" : null,
+    "diffHunk" : "@@ -93,11 +93,49 @@ object ScalaNativePluginInternal {\n                                      entry,\n                                      verbose)\n \n+      checkThatClangIsRecentEnough(clang)\n+\n       IO.createDirectory(target)\n       unpackRtlib(classpath)\n       compileNir(opts)\n       compileLl(clang, target, appll, binary, clangOpts)\n       Process(abs(binary)).!\n     }\n   )\n-}\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p>\n+   * This is determined through looking up a built-in #define which is more reliable than testing\n+   * for a specific version.\n+   * <p>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  private def checkThatClangIsRecentEnough(pathToClangBinary: File): Unit = {\n+    val clang = maybeFile(pathToClangBinary)\n+    val defines: Seq[String] = definesBuiltIn(clang).to[Seq].flatten\n+    val clangIsRecentEnough = defines.contains(\"__DECIMAL_DIG__ __LDBL_DECIMAL_DIG__\")\n+\n+    if (! clangIsRecentEnough) {"
+  },
+  {
+    "id" : "d00da66d-9a5b-403c-b255-7014b3328ae0",
+    "prId" : 120,
+    "comments" : [
+      {
+        "id" : "c47c53f2-d3e5-400d-aead-890188f94092",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`maybeFile` is used only here,  scope it within the `checkThatClangIsRecentEnough`.\n",
+        "createdAt" : "2016-05-23T16:49:14Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a07666baf115d1a2ac24c70a2313c0b1fb345caa",
+    "line" : null,
+    "diffHunk" : "@@ -93,11 +93,49 @@ object ScalaNativePluginInternal {\n                                      entry,\n                                      verbose)\n \n+      checkThatClangIsRecentEnough(clang)\n+\n       IO.createDirectory(target)\n       unpackRtlib(classpath)\n       compileNir(opts)\n       compileLl(clang, target, appll, binary, clangOpts)\n       Process(abs(binary)).!\n     }\n   )\n-}\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p>\n+   * This is determined through looking up a built-in #define which is more reliable than testing\n+   * for a specific version.\n+   * <p>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  private def checkThatClangIsRecentEnough(pathToClangBinary: File): Unit = {\n+    val clang = maybeFile(pathToClangBinary)"
+  },
+  {
+    "id" : "08b8a546-c1d6-4838-86af-69a9a0e49601",
+    "prId" : 120,
+    "comments" : [
+      {
+        "id" : "b4c0e9e4-1b11-4918-b90e-c347cbcabe82",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Should be a local method within `checkThatClangIsRecentEnough`.\n",
+        "createdAt" : "2016-05-23T16:49:50Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c855f090-d77b-4c6f-903e-f0dec41c35ac",
+        "parentId" : "b4c0e9e4-1b11-4918-b90e-c347cbcabe82",
+        "author" : {
+          "login" : "phdoerfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/163428?u=4a93b6f21241252089c37da3d14eb6dd3c7198bb&v=4"
+        },
+        "body" : "Ok, moved it into `checkThatClangIsRecentEnough`.\n\nI originally left it as a separate method so it can be used by other parts of the build. I assumed that querying clang's built-in defines was interesting for the build in general. Having it sit inside of another method makes it very hard to find (e.g. when using code completion in an IDE).\n",
+        "createdAt" : "2016-06-06T14:33:37Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "phdoerfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/163428?u=4a93b6f21241252089c37da3d14eb6dd3c7198bb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a07666baf115d1a2ac24c70a2313c0b1fb345caa",
+    "line" : null,
+    "diffHunk" : "@@ -93,11 +93,49 @@ object ScalaNativePluginInternal {\n                                      entry,\n                                      verbose)\n \n+      checkThatClangIsRecentEnough(clang)\n+\n       IO.createDirectory(target)\n       unpackRtlib(classpath)\n       compileNir(opts)\n       compileLl(clang, target, appll, binary, clangOpts)\n       Process(abs(binary)).!\n     }\n   )\n-}\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p>\n+   * This is determined through looking up a built-in #define which is more reliable than testing\n+   * for a specific version.\n+   * <p>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  private def checkThatClangIsRecentEnough(pathToClangBinary: File): Unit = {\n+    val clang = maybeFile(pathToClangBinary)\n+    val defines: Seq[String] = definesBuiltIn(clang).to[Seq].flatten\n+    val clangIsRecentEnough = defines.contains(\"__DECIMAL_DIG__ __LDBL_DECIMAL_DIG__\")\n+\n+    if (! clangIsRecentEnough) {\n+      throw new MessageOnlyException(s\"No recent installation of clang found at $pathToClangBinary.\\nSee https://github.com/scala-native/scala-native/blob/master/docs/building.md for details.\")\n+    }\n+  }\n+\n+  def maybeFile(f: File) = f match {\n+    case clang if clang.exists => Some(abs(clang))\n+    case none => None\n+  }\n+\n+  private def definesBuiltIn(pathToClangBinary: Option[String]): Option[Seq[String]] = {"
+  },
+  {
+    "id" : "7e0e1222-f506-4296-a255-472091c77b6e",
+    "prId" : 125,
+    "comments" : [
+      {
+        "id" : "b8b6eff1-a6f4-4c00-895d-e50cee02e4d8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It makes me sense to write `%` instead of `%%` when using `cross`. The latter overrides the meaning of `%%`.\n",
+        "createdAt" : "2016-05-23T05:20:00Z",
+        "updatedAt" : "2016-05-24T05:32:32Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5a2d385a6d6fbc725fb84424386dea3de4e4058b",
+    "line" : null,
+    "diffHunk" : "@@ -52,7 +52,7 @@ object ScalaNativePluginInternal {\n   }\n \n   lazy val projectSettings = Seq(\n-    addCompilerPlugin(\"org.scala-native\" %% \"nscplugin\" % \"0.1-SNAPSHOT\"),\n+    addCompilerPlugin(\"org.scala-native\" %% \"nscplugin\" % \"0.1-SNAPSHOT\" cross CrossVersion.full),"
+  },
+  {
+    "id" : "1913476d-eb07-42a3-8da5-d874804da37d",
+    "prId" : 129,
+    "comments" : [
+      {
+        "id" : "a90b13ef-57be-48e9-b852-a0dae1f235eb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This change is useless.\n",
+        "createdAt" : "2016-05-24T09:29:22Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d91e32f0778c018d217fbfef1bc56209717d2ebc",
+    "line" : null,
+    "diffHunk" : "@@ -19,9 +19,11 @@ object ScalaNativePluginInternal {\n     file.getAbsolutePath\n \n   /** Compiles application nir to llvm ir. */\n-  private def compileNir(opts: NativeOpts): Unit = {\n+  private def compileNir(opts: NativeOpts): Seq[nir.Link] = {\n     val compiler = new NativeCompiler(opts)\n-    compiler.apply()\n+    val links = compiler.apply()\n+\n+    links"
+  },
+  {
+    "id" : "9c0ccdc3-c09f-4eb4-8f0c-2443475e530d",
+    "prId" : 181,
+    "comments" : [
+      {
+        "id" : "9037f041-6461-4342-bb20-f87874fb0770",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Hey @sjrd, is there any easy way to tell sbt to re-run `nativeLink` if the source code changed between `run`-s?  \n",
+        "createdAt" : "2016-06-14T15:29:37Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "365fb5ea-48b1-4ea7-b3f3-83e50768c10e",
+        "parentId" : "9037f041-6461-4342-bb20-f87874fb0770",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It will do that by default if `nativeLink` is a `taskKey`, which it should be anyway.\n",
+        "createdAt" : "2016-06-14T16:23:58Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "609b67e7-de93-4d88-85b6-326bfd9c2297",
+        "parentId" : "9037f041-6461-4342-bb20-f87874fb0770",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That solved it, thanks!\n",
+        "createdAt" : "2016-06-14T16:28:34Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "401b17f52d4035252a771649ce175df82578fd0b",
+    "line" : null,
+    "diffHunk" : "@@ -108,8 +112,12 @@ object ScalaNativePluginInternal {\n       IO.createDirectory(target)\n       unpackRtlib(classpath)\n       val links = compileNir(opts).map(_.name)\n-      compileLl(clang, target, appll, binary, links, linkAs, clangOpts)\n-      Process(abs(binary)).!\n+      compileLl(clang, target, appll, binary, links, linkage, clangOpts)\n+    },\n+\n+    run := {\n+      nativeLink.value\n+      Process(abs(nativeBinary.value)).!"
+  },
+  {
+    "id" : "7e936ce5-8164-4457-9704-e5f00b036671",
+    "prId" : 232,
+    "comments" : [
+      {
+        "id" : "5ee03a37-f230-480f-9a01-1e373fa47594",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This block of changes seems to have too big of a diff for no good reason. Please avoid changing the parts of the codebase that are not related to the main topic of the pr. For example removing blank lines between settings was not necessary. \n",
+        "createdAt" : "2016-07-08T09:22:26Z",
+        "updatedAt" : "2016-07-13T19:32:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "747a3cbbdee5ddc543160d98baac2054cb0efb42",
+    "line" : null,
+    "diffHunk" : "@@ -52,120 +53,124 @@ object ScalaNativePluginInternal {\n       case (name, Some(kind)) =>\n         throw new MessageOnlyException(s\"uknown linkage kind $kind for $name\")\n     }\n-    val flags    = Seq(\"-o\", outpath) ++ linkopts ++ opts\n-    val compile  = abs(clang) +: (flags ++ paths)\n+    val flags   = Seq(\"-o\", outpath) ++ linkopts ++ opts\n+    val compile = abs(clang) +: (flags ++ paths)\n \n     Process(compile, target).!\n   }\n \n   lazy val projectSettings = Seq(\n-    libraryDependencies ++= Seq(\n-      \"org.scala-native\" %% \"nativelib\" % nativeVersion,\n-      \"org.scala-native\" %% \"javalib\"   % nativeVersion,\n-      \"org.scala-native\" %% \"scalalib\"  % nativeVersion\n-    ),\n-\n-    addCompilerPlugin(\"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full),\n-\n-    resolvers += Resolver.sonatypeRepo(\"snapshots\"),\n-\n-    nativeVerbose := false,\n-\n-    nativeClang := {\n-      val binaryName = \"clang++\"\n-      val binaryNames = Seq((\"3\", \"8\"), (\"3\", \"7\")).flatMap {\n-        case (major, minor) => Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n-      } :+ binaryName\n-\n-      Process(\"which\" +: binaryNames)\n-        .lines_!\n-        .map(file(_))\n-        .headOption\n-        .getOrElse{\n-          throw new MessageOnlyException(s\"no ${binaryNames.mkString(\", \")} found in $$PATH. Install clang\")\n-        }\n-    },\n-\n-    nativeClangOptions := Seq(\"-I/usr/local/include\", \"-L/usr/local/lib\"),\n-\n-    nativeEmitDependencyGraphPath := None,\n-\n-    nativeLibraryLinkage := Map(),\n-\n-    artifactPath in nativeLink := {\n-      (crossTarget in Compile).value / (moduleName.value + \"-out\")\n-    },\n-\n-    nativeLink := {\n-      val entry     = (mainClass in Compile).value.get.toString + \"$\"\n-      val classpath = cpToStrings((fullClasspath in Compile).value.map(_.data))\n-      val target    = (crossTarget in Compile).value\n-      val appll     = target / (moduleName.value + \"-out.ll\")\n-      val binary    = (artifactPath in nativeLink).value\n-      val verbose   = nativeVerbose.value\n-      val clang     = nativeClang.value\n-      val clangOpts = nativeClangOptions.value\n-      val dotpath   = nativeEmitDependencyGraphPath.value\n-      val linkage   = nativeLibraryLinkage.value\n-      val opts      = new NativeOpts(classpath,\n-                                     abs(appll),\n-                                     dotpath.map(abs),\n-                                     entry,\n-                                     verbose)\n-\n-      checkThatClangIsRecentEnough(clang)\n-\n-      IO.createDirectory(target)\n-      unpackRtlib(classpath)\n-      val links = compileNir(opts).map(_.name)\n-      compileLl(clang, target, appll, binary, links, linkage, clangOpts)\n-\n-      binary\n-    },\n-\n-    run := {\n-      val binary = nativeLink.value\n-\n-      Process(abs(binary)).!\n-    }\n+      libraryDependencies ++= Seq(\n+          \"org.scala-native\" %% \"nativelib\" % nativeVersion,\n+          \"org.scala-native\" %% \"javalib\"   % nativeVersion,\n+          \"org.scala-native\" %% \"scalalib\"  % nativeVersion\n+      ),\n+      addCompilerPlugin(\n+          \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full),\n+      resolvers += Resolver.sonatypeRepo(\"snapshots\"),\n+      nativeVerbose := false,\n+      nativeClang := {\n+        val binaryName = \"clang++\"\n+        val binaryNames = Seq((\"3\", \"8\"), (\"3\", \"7\")).flatMap {\n+          case (major, minor) =>\n+            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n+        } :+ binaryName\n+\n+        Process(\"which\" +: binaryNames).lines_!\n+          .map(file(_))\n+          .headOption\n+          .getOrElse {\n+            throw new MessageOnlyException(\n+                s\"no ${binaryNames.mkString(\", \")} found in $$PATH. Install clang\")\n+          }\n+      },\n+      nativeClangOptions := {\n+        val includes = (\"/usr/local/include\" #:: Try(\n+                Process(\"llvm-config --includedir\").lines_!)\n+              .getOrElse(Stream.empty)).map(s => s\"-I$s\")\n+        val libs = (\"/usr/local/lib\" #:: Try(\n+                Process(\"llvm-config --includedir\").lines_!)\n+              .getOrElse(Stream.empty)).map(s => s\"-L$s\")\n+        includes #::: libs\n+      },\n+      nativeEmitDependencyGraphPath := None,\n+      nativeLibraryLinkage := Map(),\n+      artifactPath in nativeLink := {\n+        (crossTarget in Compile).value / (moduleName.value + \"-out\")\n+      },\n+      nativeLink := {\n+        val entry = (mainClass in Compile).value.get.toString + \"$\"\n+        val classpath =\n+          cpToStrings((fullClasspath in Compile).value.map(_.data))\n+        val target    = (crossTarget in Compile).value\n+        val appll     = target / (moduleName.value + \"-out.ll\")\n+        val binary    = (artifactPath in nativeLink).value\n+        val verbose   = nativeVerbose.value\n+        val clang     = nativeClang.value\n+        val clangOpts = nativeClangOptions.value\n+        val dotpath   = nativeEmitDependencyGraphPath.value\n+        val linkage   = nativeLibraryLinkage.value\n+        val opts = new NativeOpts(classpath,\n+                                  abs(appll),\n+                                  dotpath.map(abs),\n+                                  entry,\n+                                  verbose)\n+\n+        checkThatClangIsRecentEnough(clang)\n+\n+        IO.createDirectory(target)\n+        unpackRtlib(classpath)\n+        val links = compileNir(opts).map(_.name)\n+        compileLl(clang, target, appll, binary, links, linkage, clangOpts)\n+\n+        binary\n+      },\n+      run := {\n+        val binary = nativeLink.value\n+\n+        Process(abs(binary)).!\n+      }"
+  },
+  {
+    "id" : "e631e7e8-752f-4a0e-9345-f6c63aa86a19",
+    "prId" : 232,
+    "comments" : [
+      {
+        "id" : "fbd02c66-fb83-4a3f-815c-c10e256e24bc",
+        "parentId" : null,
+        "author" : {
+          "login" : "wookietreiber",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/827088?u=31eb29de498f908221db20f4ed713a2481e7f115&v=4"
+        },
+        "body" : "This should be `llvm-config --libdir`. Probably a copy-paster.\n",
+        "createdAt" : "2016-07-08T12:02:38Z",
+        "updatedAt" : "2016-07-13T19:32:32Z",
+        "lastEditedBy" : {
+          "login" : "wookietreiber",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/827088?u=31eb29de498f908221db20f4ed713a2481e7f115&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "747a3cbbdee5ddc543160d98baac2054cb0efb42",
+    "line" : null,
+    "diffHunk" : "@@ -85,16 +85,15 @@ object ScalaNativePluginInternal {\n           }\n       },\n       nativeClangOptions := {\n-        (\"/usr/local/include\" #:: Try(\n-                Process(\"llvm-config --includedir\").lines_!).getOrElse(\n-                Stream.empty)).map(s => s\"-I$s\")\n-        ++(\n-            \"/usr/local/lib\" #:: Try(\n-                Process(\"llvm-config --includedir\").lines_!).getOrElse(\n-                Stream.empty)).map(s => s\"-L$s\")\n-      }\n-\n-        nativeEmitDependencyGraphPath := None,\n+        val includes = (\"/usr/local/include\" #:: Try(\n+                Process(\"llvm-config --includedir\").lines_!)\n+              .getOrElse(Stream.empty)).map(s => s\"-I$s\")\n+        val libs = (\"/usr/local/lib\" #:: Try(\n+                Process(\"llvm-config --includedir\").lines_!)"
+  },
+  {
+    "id" : "827e6f9e-e277-46e6-8d5e-25453aaa57b9",
+    "prId" : 303,
+    "comments" : [
+      {
+        "id" : "96d0b880-9c34-4c47-9700-398f0a0ca4a8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please use `throw new MessageOnlyException` as seen above instead of `sys.error`.\n",
+        "createdAt" : "2016-10-05T13:32:20Z",
+        "updatedAt" : "2016-10-05T16:52:24Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f7afd5bd-b58a-484b-814a-05a4f19853f2",
+        "parentId" : "96d0b880-9c34-4c47-9700-398f0a0ca4a8",
+        "author" : {
+          "login" : "joprice",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2175555?u=8311c92b12c6dfdf4aca6f8131e0f4c2d3b6fac5&v=4"
+        },
+        "body" : "Oh that's a good one to know for sbt plugins!\n",
+        "createdAt" : "2016-10-05T13:51:39Z",
+        "updatedAt" : "2016-10-05T16:52:24Z",
+        "lastEditedBy" : {
+          "login" : "joprice",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2175555?u=8311c92b12c6dfdf4aca6f8131e0f4c2d3b6fac5&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "88fdd446e54a297d48752c2ea99097bcff0fe886",
+    "line" : null,
+    "diffHunk" : "@@ -109,7 +109,8 @@ object ScalaNativePluginInternal {\n     nativeSharedLibrary := false,\n \n     nativeLink := {\n-      val entry         = (selectMainClass in Compile).value.get.toString + \"$\"\n+      val mainClass     = (selectMainClass in Compile).value.getOrElse(sys.error(\"No main class detected.\"))"
+  },
+  {
+    "id" : "3acbbb1d-32cd-41ce-bcec-145d8869c784",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "89bd05bf-e6b1-442d-b59d-18bf81e46d2f",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Cool, this was fixed a while ago.\n",
+        "createdAt" : "2016-09-29T22:01:36Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : 84,
+    "diffHunk" : "@@ -120,12 +112,12 @@ object ScalaNativePluginInternal {\n       val dotpath       = nativeEmitDependencyGraphPath.value\n       val linkage       = nativeLibraryLinkage.value\n       val sharedLibrary = nativeSharedLibrary.value\n-      val opts          = new NativeOpts(classpath,\n-                                         abs(appll),\n-                                         dotpath.map(abs),\n-                                         entry,\n-                                         verbose,\n-                                         sharedLibrary)\n+      val opts = new NativeOpts(classpath,"
+  },
+  {
+    "id" : "e6b3ae67-4fc7-4bf9-bf28-4944d42e8d89",
+    "prId" : 390,
+    "comments" : [
+      {
+        "id" : "de8071f7-fa3f-4cca-b18e-0f1b13477153",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`writeConfigHash` ",
+        "createdAt" : "2016-11-21T10:41:58Z",
+        "updatedAt" : "2016-11-22T11:16:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ac71dfaa-e853-4b3b-a170-8f5de3c88c60",
+        "parentId" : "de8071f7-fa3f-4cca-b18e-0f1b13477153",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2016-11-22T10:46:49Z",
+        "updatedAt" : "2016-11-22T11:16:51Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e509d2bb33813e4dd23f47e785311f5bffc74e6f",
+    "line" : null,
+    "diffHunk" : "@@ -178,6 +200,9 @@ object ScalaNativePluginInternal {\n     }\n   )\n \n+  private def writeConfig(file: File, config: Any*): Unit ="
+  },
+  {
+    "id" : "5fca6d57-fe6a-47f1-af21-df42ce13c499",
+    "prId" : 390,
+    "comments" : [
+      {
+        "id" : "413ac124-b981-4669-8879-fb3be9cc0701",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Something like sbt's `sbt.Hash(configString)` would be more robust. Scala's hash is only 32 bits, compared to 160 bits of SHA-1 of `sbt.Hash`. ",
+        "createdAt" : "2016-11-21T10:44:32Z",
+        "updatedAt" : "2016-11-22T11:16:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e1f86126-d1bc-4040-a867-b1b18942b526",
+        "parentId" : "413ac124-b981-4669-8879-fb3be9cc0701",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2016-11-22T10:47:03Z",
+        "updatedAt" : "2016-11-22T11:16:51Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e509d2bb33813e4dd23f47e785311f5bffc74e6f",
+    "line" : null,
+    "diffHunk" : "@@ -178,6 +200,9 @@ object ScalaNativePluginInternal {\n     }\n   )\n \n+  private def writeConfig(file: File, config: Any*): Unit =\n+    IO.write(file, config.##.toString)"
+  },
+  {
+    "id" : "71a4ed28-c9af-4764-8439-3168a4cca4d0",
+    "prId" : 401,
+    "comments" : [
+      {
+        "id" : "36841169-b85c-4360-b753-74a59929a4dc",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "`unpackRuntimelib` ?",
+        "createdAt" : "2016-11-23T17:00:10Z",
+        "updatedAt" : "2016-11-24T09:28:33Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b1773e75-2415-4299-910e-18636b30350c",
+        "parentId" : "36841169-b85c-4360-b753-74a59929a4dc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's actually `unpackNativelib`, good catch, we've not had a separate `rtlib` since forever. ",
+        "createdAt" : "2016-11-24T09:26:48Z",
+        "updatedAt" : "2016-11-24T09:28:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "45bf30ff68dc247bdb7422428a0ed548a8e2a7fb",
+    "line" : null,
+    "diffHunk" : "@@ -67,11 +67,14 @@ object ScalaNativePluginInternal {\n   /** Compiles rt to llvm ir using clang. */\n   private def unpackRtlib(clang: File,"
+  }
+]

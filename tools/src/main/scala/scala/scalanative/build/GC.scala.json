@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "98556389-5810-4310-9945-ce038677a598",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "e10418f1-1d77-4c53-a918-5dcc73e34cef",
+        "parentId" : null,
+        "author" : {
+          "login" : "AlexandreDubray",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/9006098?u=edc933fc50455ab7cb53a2d833b2f1425d59cdad&v=4"
+        },
+        "body" : "Should it be `Commix` instead of `Immix` here ?",
+        "createdAt" : "2019-03-04T22:14:52Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "AlexandreDubray",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/9006098?u=edc933fc50455ab7cb53a2d833b2f1425d59cdad&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a1cc6627-8658-4679-8d78-61e44dac0560",
+        "parentId" : "e10418f1-1d77-4c53-a918-5dcc73e34cef",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "You are right. Nice catch!",
+        "createdAt" : "2019-03-05T08:50:48Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : 19,
+    "diffHunk" : "@@ -32,6 +33,9 @@ object GC {\n   /** Mostly-precise mark-region garbage collector. */\n   def immix: GC = Immix\n \n+  /** Mostly-precise mark-region garbage collector running concurrently. */\n+  def commix: GC = Immix"
+  }
+]

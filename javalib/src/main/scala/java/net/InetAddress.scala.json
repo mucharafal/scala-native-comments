@@ -1,0 +1,183 @@
+[
+  {
+    "id" : "0aa79148-8a37-4018-b0fe-2973de36828e",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "14f548d6-f4ec-4e86-a9aa-70e84a39bf68",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Could you refactor that to do\r\n\r\n```scala\r\nobj match {\r\n  case that: InetAddress =>\r\n    // ...\r\n  case other =>\r\n    false\r\n}\r\n```\r\n\r\nI think it's clearer that way",
+        "createdAt" : "2017-06-15T07:34:58Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5036da87-f05d-4f96-864e-ad8e0b96615a",
+        "parentId" : "14f548d6-f4ec-4e86-a9aa-70e84a39bf68",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Actually this.getClass returns either Inet4Address or Inet6Address, so we can't avoid checking `this.getClass` here. We can if we override `equals` in both Inet4Address and Inet6Addres instead of just InetAddress as it is now. Do you think it's worth duplicating?",
+        "createdAt" : "2017-06-15T14:37:08Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,648 @@\n+package java.net\n+\n+import scala.scalanative.native._\n+import scala.scalanative.runtime.SocketHelpers\n+\n+import scala.collection.mutable.ArrayBuffer\n+\n+import java.util.StringTokenizer\n+\n+// Ported from Apache Harmony\n+abstract class InetAddress private[net] (ipAddress: Array[Byte], host: String)\n+    extends Serializable {\n+  import InetAddress._\n+\n+  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null)\n+\n+  def getHostAddress(): String = createIPStringFromByteArray(ipAddress)\n+\n+  def getHostName(): String = {\n+    if (host == null) {\n+      Zone { implicit z =>\n+        val host_c = SocketHelpers.ipToHost(\n+          toCString(createIPStringFromByteArray(ipAddress)),\n+          true)\n+        return fromCString(host_c)\n+      }\n+    }\n+    return host\n+  }\n+\n+  def getAddress() = ipAddress.clone\n+\n+  override def equals(obj: Any): Boolean = {\n+    if (obj == null || obj.getClass != this.getClass)\n+      return false\n+\n+    val objIPAddress = obj.asInstanceOf[InetAddress].getAddress;"
+  },
+  {
+    "id" : "ec1203bc-4ee6-44fc-a8db-c221ee0d55f2",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "957e578b-9209-414a-bf07-11865f960877",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The syntax is strange here and a few lines around. Is this code that has been generated? Would you mind rewriting it as `prevToken == \":\"`?",
+        "createdAt" : "2017-06-15T07:37:36Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "344417c6-98cd-4667-a8ff-9a4c4217f487",
+        "parentId" : "957e578b-9209-414a-bf07-11865f960877",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Yes, I have auto-converted some functions. I have been refactoring after that, but I must've not seen that one.",
+        "createdAt" : "2017-06-15T13:02:33Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,648 @@\n+package java.net\n+\n+import scala.scalanative.native._\n+import scala.scalanative.runtime.SocketHelpers\n+\n+import scala.collection.mutable.ArrayBuffer\n+\n+import java.util.StringTokenizer\n+\n+// Ported from Apache Harmony\n+abstract class InetAddress private[net] (ipAddress: Array[Byte], host: String)\n+    extends Serializable {\n+  import InetAddress._\n+\n+  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null)\n+\n+  def getHostAddress(): String = createIPStringFromByteArray(ipAddress)\n+\n+  def getHostName(): String = {\n+    if (host == null) {\n+      Zone { implicit z =>\n+        val host_c = SocketHelpers.ipToHost(\n+          toCString(createIPStringFromByteArray(ipAddress)),\n+          true)\n+        return fromCString(host_c)\n+      }\n+    }\n+    return host\n+  }\n+\n+  def getAddress() = ipAddress.clone\n+\n+  override def equals(obj: Any): Boolean = {\n+    if (obj == null || obj.getClass != this.getClass)\n+      return false\n+\n+    val objIPAddress = obj.asInstanceOf[InetAddress].getAddress;\n+    for (i <- objIPAddress.indices) {\n+      if (objIPAddress(i) != this.ipAddress(i))\n+        return false\n+    }\n+\n+    return true\n+  }\n+\n+  override def hashCode(): Int = InetAddress.bytesToInt(ipAddress, 0)\n+\n+  override def toString(): String = {\n+    if (host == null)\n+      return \"/\" + getHostAddress()\n+    else\n+      return host + \"/\" + getHostAddress()\n+  }\n+\n+  def isReachable(timeout: Int): Boolean = {\n+    if (timeout < 0) {\n+      throw new IllegalArgumentException(\n+        \"Argument 'timeout' in method 'isReachable' is negative\")\n+    }\n+    Zone { implicit z =>\n+      val ipString = createIPStringFromByteArray(ipAddress)\n+      if (SocketHelpers.isReachableByICMP(toCString(ipString),\n+                                          timeout,\n+                                          isValidIPv6Address(ipString))) {\n+        return true\n+      } else {\n+        return SocketHelpers.isReachableByEcho(toCString(ipString),\n+                                               timeout,\n+                                               isValidIPv6Address(ipString))\n+      }\n+    }\n+    return false\n+  }\n+\n+  def isLinkLocalAddress(): Boolean\n+\n+  def isAnyLocalAddress(): Boolean\n+\n+  def isLoopbackAddress(): Boolean\n+\n+  def isMCGlobal(): Boolean\n+\n+  def isMCLinkLocal(): Boolean\n+\n+  def isMCNodeLocal(): Boolean\n+\n+  def isMCOrgLocal(): Boolean\n+\n+  def isMCSiteLocal(): Boolean\n+\n+  def isMulticastAddress(): Boolean\n+\n+  def isSiteLocalAddress(): Boolean\n+\n+}\n+\n+object InetAddress {\n+\n+  def getByName(host: String): InetAddress = {\n+\n+    if (host == null || host.length == 0)\n+      return getLoopbackAddress()\n+\n+    var address: InetAddress = null\n+    if (isValidIPv4Address(host)) {\n+      val byteAddress: Array[Byte] = Array.ofDim[Byte](4)\n+      val parts: Array[String]     = host.split(\"\\\\.\")\n+      val length: Int              = parts.length\n+      if (length == 1) {\n+        val value: Long = java.lang.Long.parseLong(parts(0))\n+        for (i <- 0.until(4)) {\n+          byteAddress(i) = (value >> ((3 - i) * 8)).toByte\n+        }\n+      } else {\n+        for (i <- 0 until length) {\n+          byteAddress(i) = java.lang.Integer.parseInt(parts(i)).toByte\n+        }\n+      }\n+      if (length == 2) {\n+        byteAddress(3) = byteAddress(1)\n+        byteAddress(1) = 0\n+      }\n+      if (length == 3) {\n+        byteAddress(3) = byteAddress(2)\n+        byteAddress(2) = 0\n+      }\n+      address = new Inet4Address(byteAddress)\n+    } else if (isValidIPv6Address(host)) {\n+      var ipAddressString = host\n+      if (ipAddressString.charAt(0) == '[') {\n+        ipAddressString =\n+          ipAddressString.substring(1, ipAddressString.length - 1)\n+      }\n+      val tokenizer: StringTokenizer =\n+        new StringTokenizer(ipAddressString, \":.%\", true)\n+      val hexStrings            = new ArrayBuffer[String]()\n+      val decStrings            = new ArrayBuffer[String]()\n+      var scopeString: String   = null\n+      var token: String         = \"\"\n+      var prevToken: String     = \"\"\n+      var prevPrevToken: String = \"\"\n+      var doubleColonIndex: Int = -1\n+      while (tokenizer.hasMoreTokens()) {\n+        prevPrevToken = prevToken\n+        prevToken = token\n+        token = tokenizer.nextToken()\n+        if (token.==(\":\")) {\n+          if (prevToken.==(\":\")) {\n+            doubleColonIndex = hexStrings.size\n+          } else if (prevToken.!=(\"\")) {\n+            hexStrings.append(prevToken)\n+          }\n+        } else if (token.==(\".\")) {\n+          decStrings.append(prevToken)\n+        } else if (token.==(\"%\")) {\n+          if (prevToken.!=(\":\") && prevToken.!=(\".\")) {\n+            if (prevPrevToken.==(\":\")) {\n+              hexStrings.append(prevToken)\n+            } else if (prevPrevToken.==(\".\")) {\n+              decStrings.append(prevToken)\n+            }\n+          }\n+          val buf: StringBuilder = new StringBuilder()\n+          while (tokenizer.hasMoreTokens()) buf.append(tokenizer.nextToken())\n+          scopeString = buf.toString\n+        }\n+      }\n+      if (prevToken.==(\":\")) {"
+  },
+  {
+    "id" : "c791adf1-408a-4022-96dc-ef845c75bab5",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "a9fd59a4-aa12-45b9-b1ab-1ff6d8a08312",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Can you rewrite that function to be more Scala-like? You don't need returns.",
+        "createdAt" : "2017-06-28T08:47:49Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c2f088e7-0589-4737-9c99-e00be5e9f3ef",
+        "parentId" : "a9fd59a4-aa12-45b9-b1ab-1ff6d8a08312",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-06-28T13:07:51Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2d7c22c4-5e5e-42ee-b2c7-de581709d9ac",
+        "parentId" : "a9fd59a4-aa12-45b9-b1ab-1ff6d8a08312",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Companion object inheritance also done.",
+        "createdAt" : "2017-07-01T14:23:50Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,624 @@\n+package java.net\n+\n+import scala.scalanative.native._\n+import scala.scalanative.runtime.SocketHelpers\n+\n+import scala.collection.mutable.ArrayBuffer\n+\n+import java.util.StringTokenizer\n+\n+// Ported from Apache Harmony\n+abstract class InetAddress private[net] (ipAddress: Array[Byte], host: String)\n+    extends Serializable {\n+  import InetAddress._\n+\n+  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null)\n+\n+  def getHostAddress(): String = createIPStringFromByteArray(ipAddress)\n+\n+  def getHostName(): String = {\n+    if (host == null) {\n+      val ipString = createIPStringFromByteArray(ipAddress)\n+      val host = SocketHelpers\n+        .ipToHost(ipString, isValidIPv6Address(ipString))\n+        .getOrElse {\n+          return ipString\n+        }\n+      return host\n+    }\n+    return host\n+  }"
+  }
+]

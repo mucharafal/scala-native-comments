@@ -1,0 +1,315 @@
+[
+  {
+    "id" : "6bc51b60-708a-4b23-b5ad-b8072c366ee7",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "3414e45c-b12d-4a79-9016-9d9b0867cbb6",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "shouldn't `nanos` be converted to micros?\n",
+        "createdAt" : "2016-10-12T22:37:25Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b157c51c-0dcf-4865-8cb6-f432ba3f7a10",
+        "parentId" : "3414e45c-b12d-4a79-9016-9d9b0867cbb6",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Hmm, isn't the parameter to usleep already nanos?\n",
+        "createdAt" : "2016-10-13T12:42:52Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "83dd936f-5cc9-4031-92a8-e7b0f5d3b106",
+        "parentId" : "3414e45c-b12d-4a79-9016-9d9b0867cbb6",
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "its micros, and you are even converting `(millis % 1000) * 1000` to micros there\n\nhttps://linux.die.net/man/3/usleep\n`usleep - suspend execution for microsecond intervals`\n",
+        "createdAt" : "2016-10-13T12:45:24Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "07e9b6a3-e955-4e3b-b166-bfeeba662076",
+        "parentId" : "3414e45c-b12d-4a79-9016-9d9b0867cbb6",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Ah ok. Better now?\n",
+        "createdAt" : "2016-10-13T17:09:27Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "04c38e3f-81dc-4ab3-b964-c57b6eda1a7b",
+        "parentId" : "3414e45c-b12d-4a79-9016-9d9b0867cbb6",
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Fine by me. :)\n",
+        "createdAt" : "2016-10-13T20:01:08Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -47,4 +47,23 @@ object Thread {\n     currentThread.interruptedState = false\n     ret\n   }\n+\n+  def sleep(millis: scala.Long, nanos: scala.Int): Unit = {\n+    import scala.scalanative.native._\n+\n+    def checkErrno() =\n+      if (errno.errno == errno.EINTR)\n+        throw new InterruptedException(\"Sleep was interrupted\")\n+\n+    if (millis < 0) throw new IllegalArgumentException(\"millis must be >= 0\")\n+    else if (nanos < 0 || nanos > 999999)\n+      throw new IllegalArgumentException(\"nanos value out of range\")\n+\n+    val secs  = millis / 1000\n+    val usecs = (millis % 1000) * 1000 + nanos"
+  },
+  {
+    "id" : "e1f61dcf-99d0-407d-8103-38b772a0dbc0",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Convert `usecs` to `UInt` as well?\n\nhttps://linux.die.net/man/3/usleep\n\n```\nint usleep(useconds_t usec);\n```\n\n```\nThe type useconds_t is an unsigned integer type capable of holding integers in the range [0,1000000]. \n```\n",
+        "createdAt" : "2016-10-13T20:04:15Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2fb1ad4c-dc00-4c8c-9019-0380c54f2886",
+        "parentId" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Yes, I had doubts about that type. Maybe SN should declare it somewhere so that it could be adapted to the native type, @densh?\n",
+        "createdAt" : "2016-10-14T05:51:22Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "753b7a4a-e411-4446-a7f0-54403f974b7b",
+        "parentId" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Hmm, unsigned int is not normally capable of holding an integer up ta 100 000, but max 65 535. See UINT_MAX: http://tigcc.ticalc.org/doc/limits.html#UINT_MAX Because of that I set it to Long.\n",
+        "createdAt" : "2016-10-14T05:58:21Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "acce553e-9cfa-42ce-8151-77d857331c4f",
+        "parentId" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Maybe it should be CUnsignedLong instead?\n",
+        "createdAt" : "2016-10-14T05:58:55Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f1159805-f520-4808-afaf-d887d5ce3788",
+        "parentId" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think that `UInt` is the right type here. That's what `useconds_t` aliases to. \n\n**EDIT:** Correction, it's `CUnsignedInt`, not just `UInt`.\n",
+        "createdAt" : "2016-10-21T09:36:50Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cced28df-4c1c-434c-9085-6285fd62bb73",
+        "parentId" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Correction, it's `CUnsignedInt`, not just `UInt`.\n",
+        "createdAt" : "2016-10-21T09:44:28Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "13f29c50-9d42-494a-a75c-3b4db236d9e0",
+        "parentId" : "7d06beb9-a1cf-444a-b906-5c8b2f562d56",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Hmm, it seems like useconds_t type depends on the platform, e.g. x86 and x86_64.\n",
+        "createdAt" : "2016-10-27T18:18:32Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -47,4 +47,23 @@ object Thread {\n     currentThread.interruptedState = false\n     ret\n   }\n+\n+  def sleep(millis: scala.Long, nanos: scala.Int): Unit = {\n+    import scala.scalanative.native._\n+\n+    def checkErrno() =\n+      if (errno.errno == errno.EINTR)\n+        throw new InterruptedException(\"Sleep was interrupted\")\n+\n+    if (millis < 0) throw new IllegalArgumentException(\"millis must be >= 0\")\n+    else if (nanos < 0 || nanos > 999999)\n+      throw new IllegalArgumentException(\"nanos value out of range\")\n+\n+    val secs  = millis / 1000\n+    val usecs = (millis % 1000) * 1000 + nanos / 1000\n+    if (secs > 0 && unistd.sleep(secs.toUInt) != 0) checkErrno()\n+    if (usecs > 0 && unistd.usleep(usecs) != 0) checkErrno()"
+  },
+  {
+    "id" : "fc91c2b5-73cb-411b-b96a-c2a04551eb58",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "6ded9ca2-e43e-48e8-af3e-cf8149f8d4e1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This would probably look a bit more readable if `if` bodies are in curly braces. Additionally, there is no need for else before the second `if`.\n",
+        "createdAt" : "2016-10-21T09:35:10Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -47,4 +47,23 @@ object Thread {\n     currentThread.interruptedState = false\n     ret\n   }\n+\n+  def sleep(millis: scala.Long, nanos: scala.Int): Unit = {\n+    import scala.scalanative.native._\n+\n+    def checkErrno() =\n+      if (errno.errno == errno.EINTR)\n+        throw new InterruptedException(\"Sleep was interrupted\")\n+\n+    if (millis < 0) throw new IllegalArgumentException(\"millis must be >= 0\")\n+    else if (nanos < 0 || nanos > 999999)\n+      throw new IllegalArgumentException(\"nanos value out of range\")"
+  }
+]

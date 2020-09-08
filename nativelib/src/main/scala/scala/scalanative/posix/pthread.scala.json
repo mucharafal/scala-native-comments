@@ -1,0 +1,428 @@
+[
+  {
+    "id" : "c2b0929e-a9f0-43eb-8a9a-faef5934393b",
+    "prId" : 756,
+    "comments" : [
+      {
+        "id" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "parentId" : null,
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "where are `scalanative_pthread_barrier_serial_thread` and friends below defined?",
+        "createdAt" : "2017-06-01T12:32:51Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1056b247-b7d1-4963-93d1-7353b9a5eef4",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "http://pubs.opengroup.org/onlinepubs/9699919799/ they are \"symbolic constants\"",
+        "createdAt" : "2017-06-01T13:48:08Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d6e71f43-337f-4e4d-b808-0c759e25ea9f",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "in headers -> pthreads.h",
+        "createdAt" : "2017-06-01T13:49:23Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "26d7c76f-7e5d-42b5-bb5e-77b7b8d31435",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "Are you sure that's kosher? I mean, take a look at [scalanative_path_max](https://github.com/scala-native/scala-native/search?q=scalanative_path_max) and many other ported macros. `@name(\"scalanative_...\")` doesn't seem to do the kind of neat magic you are implying... you'd still need to add C code to evaluate those macros.",
+        "createdAt" : "2017-06-01T14:02:16Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1765b507-5ed7-400f-81a4-145d0ebe63c7",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "i.e., if I'm not missing anything, you'd need to add a `/nativelib/src/main/resources/pthread.c` file where the `@name`d functions are defined and return evaluated macro values.",
+        "createdAt" : "2017-06-01T14:05:10Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "780a11ed-a142-4291-83ca-f0a19ae70169",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@Korf74 You can also look at `grp.scala` to see how to create `type`s to make the API more readable as well. All the code in that package are good to look at to get ideas. Good progress. https://github.com/scala-native/scala-native/search?utf8=%E2%9C%93&q=grp&type=",
+        "createdAt" : "2017-06-01T15:04:16Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6d9ed4fa-532e-4d97-9a74-108030f12981",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "@nadavwr thanks for the clarification I'll add the c file asap. \r\n@ekrich thanks, what types are you thinking of ? I've added a type for routines, what kind of type aliases would you add ?\r\n",
+        "createdAt" : "2017-06-06T10:20:26Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "557a5b90-4af8-4237-b53e-efe2920709d5",
+        "parentId" : "e6b92e87-8107-407c-8f39-5bea86f2133d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@Korf74 You got it - just like the `routine` type so it matches the C API.",
+        "createdAt" : "2017-06-06T11:57:34Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "632a8fdc8d258a96f4603aa4fc0e285762eb27f6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,365 @@\n+package scala.scalanative\n+package posix\n+\n+import scala.scalanative.native.{\n+  CFunctionPtr0,\n+  CFunctionPtr1,\n+  CInt,\n+  CSize,\n+  CUnsignedInt,\n+  Ptr,\n+  extern,\n+  name\n+}\n+import scala.scalanative.posix.sched.sched_param\n+import scala.scalanative.posix.sys.types._\n+import scala.scalanative.posix.time.timespec\n+\n+@extern\n+object pthread {\n+\n+  def pthread_atfork(prepare: CFunctionPtr0[Unit],\n+                     parent: CFunctionPtr0[Unit],\n+                     child: CFunctionPtr0[Unit]): CInt = extern\n+\n+  def pthread_attr_destroy(attr: Ptr[pthread_attr_t]): CInt = extern\n+\n+  def pthread_attr_getdetachstate(attr: Ptr[pthread_attr_t],\n+                                  detachstate: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getguardsize(attr: Ptr[pthread_attr_t],\n+                                guardsize: Ptr[CSize]): CInt = extern\n+\n+  def pthread_attr_getinheritsched(attr: Ptr[pthread_attr_t],\n+                                   inheritsched: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getschedparam(attr: Ptr[pthread_attr_t],\n+                                 param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_attr_getschedpolicy(attr: Ptr[pthread_attr_t],\n+                                  policy: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getscope(attr: Ptr[pthread_attr_t],\n+                            scope: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getstack(attr: Ptr[pthread_attr_t],\n+                            stackaddr: Ptr[Ptr[Byte]],\n+                            stacksize: CSize): CInt = extern\n+\n+  def pthread_attr_getstacksize(attr: Ptr[pthread_attr_t],\n+                                stacksize: Ptr[CSize]): CInt = extern\n+\n+  def pthread_attr_init(attr: Ptr[pthread_attr_t]): CInt = extern\n+\n+  def pthread_attr_setdetachstate(attr: Ptr[pthread_attr_t],\n+                                  detachstate: CInt): CInt = extern\n+\n+  def pthread_attr_setguardsize(attr: Ptr[pthread_attr_t],\n+                                guardsize: CSize): CInt = extern\n+\n+  def pthread_attr_setinheritsched(attr: Ptr[pthread_attr_t],\n+                                   inheritsched: CInt): CInt = extern\n+\n+  def pthread_attr_setschedparam(attr: Ptr[pthread_attr_t],\n+                                 param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_attr_setschedpolicy(attr: Ptr[pthread_attr_t],\n+                                  policy: CInt): CInt = extern\n+\n+  def pthread_attr_setscope(attr: Ptr[pthread_attr_t], scope: CInt): CInt =\n+    extern\n+\n+  def pthread_attr_setstack(attr: Ptr[pthread_attr_t],\n+                            stackaddr: Ptr[Byte],\n+                            stacksize: CSize): CInt = extern\n+\n+  def pthread_attr_setstacksize(attr: Ptr[pthread_attr_t],\n+                                stacksize: CSize): CInt = extern\n+\n+  def pthread_barrier_destroy(barrier: Ptr[pthread_barrier_t]): CInt = extern\n+\n+  def pthread_barrier_init(barrier: Ptr[pthread_barrier_t],\n+                           attr: Ptr[pthread_barrierattr_t],\n+                           count: CUnsignedInt): CInt = extern\n+\n+  def pthread_barrier_wait(barrier: Ptr[pthread_barrier_t]): CInt = extern\n+\n+  def pthread_barrierattr_destroy(attr: Ptr[pthread_barrierattr_t]): CInt =\n+    extern\n+\n+  def pthread_barrierattr_getpshared(attr: Ptr[pthread_barrierattr_t],\n+                                     pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_barrierattr_init(attr: Ptr[pthread_barrierattr_t]): CInt = extern\n+\n+  def pthread_barrierattr_setpshared(attr: Ptr[pthread_barrierattr_t],\n+                                     pshared: CInt): CInt = extern\n+\n+  def pthread_cancel(thread: pthread_t): CInt = extern\n+\n+  def pthread_cond_broadcast(cond: Ptr[pthread_cond_t]): CInt = extern\n+\n+  def pthread_cond_destroy(cond: Ptr[pthread_cond_t]): CInt = extern\n+\n+  def pthread_cond_init(cond: Ptr[pthread_cond_t],\n+                        attr: Ptr[pthread_condattr_t]): CInt = extern\n+\n+  def pthread_cond_signal(cond: Ptr[pthread_cond_t]): CInt = extern\n+\n+  def pthread_cond_timedwait(cond: Ptr[pthread_cond_t],\n+                             mutex: Ptr[pthread_mutex_t],\n+                             timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_cond_wait(cond: Ptr[pthread_cond_t],\n+                        mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_condattr_destroy(attr: Ptr[pthread_condattr_t]): CInt = extern\n+\n+  def pthread_condattr_getclock(attr: Ptr[pthread_condattr_t],\n+                                clock: Ptr[clockid_t]): CInt = extern\n+\n+  def pthread_condattr_getpshared(attr: Ptr[pthread_condattr_t],\n+                                  pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_condattr_init(attr: Ptr[pthread_condattr_t]): CInt = extern\n+\n+  def pthread_condattr_setclock(attr: Ptr[pthread_condattr_t],\n+                                clock: clockid_t): CInt = extern\n+\n+  def pthread_condattr_setpshared(attr: Ptr[pthread_condattr_t],\n+                                  pshared: CInt): CInt = extern\n+\n+  def pthread_create(thread: Ptr[pthread_t],\n+                     attr: Ptr[pthread_attr_t],\n+                     startroutine: CFunctionPtr1[Ptr[Byte], Ptr[Byte]],\n+                     args: Ptr[Byte]): CInt = extern\n+\n+  def pthread_detach(thread: pthread_t): CInt = extern\n+\n+  def pthread_equal(thread1: pthread_t, thread2: pthread_t): CInt = extern\n+\n+  def pthread_exit(retval: Ptr[Byte]): Unit = extern\n+\n+  def pthread_getconcurrency(): CInt = extern\n+\n+  def pthread_getcpuclockid(thread: pthread_t, clock: Ptr[clockid_t]): CInt =\n+    extern\n+\n+  def pthread_getschedparam(thread: pthread_t,\n+                            policy: Ptr[CInt],\n+                            param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_getspecific(key: pthread_key_t): Ptr[Byte] = extern\n+\n+  def pthread_join(thread: pthread_t, value_ptr: Ptr[Ptr[Byte]]): CInt = extern\n+\n+  def pthread_key_create(key: Ptr[pthread_key_t],\n+                         destructor: CFunctionPtr1[Ptr[Byte], Unit]): CInt =\n+    extern\n+\n+  def pthread_key_delete(key: pthread_key_t): CInt = extern\n+\n+  def pthread_mutex_consistent(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_destroy(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_getprioceiling(mutex: Ptr[pthread_mutex_t],\n+                                   prioceiling: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutex_init(mutex: Ptr[pthread_mutex_t],\n+                         attr: Ptr[pthread_mutexattr_t]): CInt = extern\n+\n+  def pthread_mutex_lock(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_setprioceiling(mutex: Ptr[pthread_mutex_t],\n+                                   prioceiling: CInt,\n+                                   old_prioceiling: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutex_timedlock(mutex: Ptr[pthread_mutex_t],\n+                              timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_mutex_trylock(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_unlock(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutexattr_destroy(attr: Ptr[pthread_mutexattr_t]): CInt = extern\n+\n+  def pthread_mutexattr_getprioceiling(attr: Ptr[pthread_mutexattr_t],\n+                                       prioceiling: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_getprotocol(attr: Ptr[pthread_mutexattr_t],\n+                                    protocol: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_getpshared(attr: Ptr[pthread_mutexattr_t],\n+                                   pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_getrobust(attr: Ptr[pthread_mutexattr_t],\n+                                  robust: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_gettype(attr: Ptr[pthread_mutexattr_t],\n+                                tp: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_init(attr: Ptr[pthread_mutexattr_t]): CInt = extern\n+\n+  def pthread_mutexattr_setprioceiling(attr: Ptr[pthread_mutexattr_t],\n+                                       prioceiling: CInt): CInt = extern\n+\n+  def pthread_mutexattr_setprotocol(attr: Ptr[pthread_mutexattr_t],\n+                                    protocol: CInt): CInt = extern\n+\n+  def pthread_mutexattr_setpshared(attr: Ptr[pthread_mutexattr_t],\n+                                   pshared: CInt): CInt = extern\n+\n+  def pthread_mutexattr_setrobust(attr: Ptr[pthread_mutexattr_t],\n+                                  robust: CInt): CInt = extern\n+\n+  def pthread_mutexattr_settype(attr: Ptr[pthread_mutexattr_t],\n+                                tp: CInt): CInt = extern\n+\n+  def pthread_once(once_control: Ptr[pthread_once_t],\n+                   init_routine: CFunctionPtr0[Unit]): CInt = extern\n+\n+  def pthread_rwlock_destroy(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_init(rwlock: Ptr[pthread_rwlock_t],\n+                          attr: Ptr[pthread_rwlockattr_t]): CInt = extern\n+\n+  def pthread_rwlock_rdlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_timedrdlock(rwlock: Ptr[pthread_rwlock_t],\n+                                 timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_rwlock_timedwrlock(rwlock: Ptr[pthread_rwlock_t],\n+                                 timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_rwlock_tryrdlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_trywrlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_unlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_wrlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlockattr_destroy(attr: Ptr[pthread_rwlockattr_t]): CInt =\n+    extern\n+\n+  def pthread_rwlockattr_getpshared(attr: Ptr[pthread_rwlockattr_t],\n+                                    pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_rwlockattr_init(attr: Ptr[pthread_rwlockattr_t]): CInt = extern\n+\n+  def pthread_rwlockattr_setpshared(attr: Ptr[pthread_rwlockattr_t],\n+                                    pshared: CInt): CInt = extern\n+\n+  def pthread_self(): pthread_t = extern\n+\n+  def pthread_setcancelstate(state: CInt, oldstate: Ptr[CInt]): CInt = extern\n+\n+  def pthread_setcanceltype(tp: CInt, oldtype: Ptr[CInt]): CInt = extern\n+\n+  def pthread_setconcurrency(concurrency: CInt): CInt = extern\n+\n+  def pthread_setschedparam(thread: pthread_t,\n+                            policy: CInt,\n+                            param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_setschedprio(thread: pthread_t, schedprio: CInt): CInt = extern\n+\n+  def pthread_setspecific(key: pthread_key_t, value: Ptr[Byte]): CInt = extern\n+\n+  def pthread_spin_destroy(spinlock: Ptr[pthread_spinlock_t]): CInt = extern\n+\n+  def pthread_spin_init(spinlock: Ptr[pthread_spinlock_t],\n+                        pshared: CInt): CInt = extern\n+\n+  def pthread_spin_lock(spinlock: Ptr[pthread_spinlock_t]): CInt = extern\n+\n+  def pthread_spin_trylock(spinlock: Ptr[pthread_spinlock_t]): CInt = extern\n+\n+  def pthread_spin_unlock(spinlock: Ptr[pthread_spinlock_t]): CInt = extern\n+\n+  def pthread_testcancel(): Unit = extern\n+\n+  // Macros"
+  },
+  {
+    "id" : "60ff533e-c620-4952-897b-db4683e6771b",
+    "prId" : 756,
+    "comments" : [
+      {
+        "id" : "cba918e3-3507-42d3-95c1-9048b4787011",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If `pthread_t` is a struct, we can not define any APIs that either take or return it by-value. ",
+        "createdAt" : "2017-06-06T11:34:56Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "faec135a-7859-437e-a763-3116730a11d3",
+        "parentId" : "cba918e3-3507-42d3-95c1-9048b4787011",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems like `pthread_t` can be safely treated as `ULong`, so it means that we can pass it by value without a problem.",
+        "createdAt" : "2017-06-06T12:59:20Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "632a8fdc8d258a96f4603aa4fc0e285762eb27f6",
+    "line" : 205,
+    "diffHunk" : "@@ -0,0 +1,367 @@\n+package scala.scalanative\n+package posix\n+\n+import scala.scalanative.native.{\n+  CFunctionPtr0,\n+  CFunctionPtr1,\n+  CInt,\n+  CSize,\n+  CUnsignedInt,\n+  Ptr,\n+  extern,\n+  name\n+}\n+import scala.scalanative.posix.sched.sched_param\n+import scala.scalanative.posix.sys.types._\n+import scala.scalanative.posix.time.timespec\n+\n+@extern\n+object pthread {\n+\n+  def pthread_atfork(prepare: routine, parent: routine, child: routine): CInt =\n+    extern\n+\n+  def pthread_attr_destroy(attr: Ptr[pthread_attr_t]): CInt = extern\n+\n+  def pthread_attr_getdetachstate(attr: Ptr[pthread_attr_t],\n+                                  detachstate: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getguardsize(attr: Ptr[pthread_attr_t],\n+                                guardsize: Ptr[CSize]): CInt = extern\n+\n+  def pthread_attr_getinheritsched(attr: Ptr[pthread_attr_t],\n+                                   inheritsched: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getschedparam(attr: Ptr[pthread_attr_t],\n+                                 param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_attr_getschedpolicy(attr: Ptr[pthread_attr_t],\n+                                  policy: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getscope(attr: Ptr[pthread_attr_t],\n+                            scope: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getstack(attr: Ptr[pthread_attr_t],\n+                            stackaddr: Ptr[Ptr[Byte]],\n+                            stacksize: CSize): CInt = extern\n+\n+  def pthread_attr_getstacksize(attr: Ptr[pthread_attr_t],\n+                                stacksize: Ptr[CSize]): CInt = extern\n+\n+  def pthread_attr_init(attr: Ptr[pthread_attr_t]): CInt = extern\n+\n+  def pthread_attr_setdetachstate(attr: Ptr[pthread_attr_t],\n+                                  detachstate: CInt): CInt = extern\n+\n+  def pthread_attr_setguardsize(attr: Ptr[pthread_attr_t],\n+                                guardsize: CSize): CInt = extern\n+\n+  def pthread_attr_setinheritsched(attr: Ptr[pthread_attr_t],\n+                                   inheritsched: CInt): CInt = extern\n+\n+  def pthread_attr_setschedparam(attr: Ptr[pthread_attr_t],\n+                                 param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_attr_setschedpolicy(attr: Ptr[pthread_attr_t],\n+                                  policy: CInt): CInt = extern\n+\n+  def pthread_attr_setscope(attr: Ptr[pthread_attr_t], scope: CInt): CInt =\n+    extern\n+\n+  def pthread_attr_setstack(attr: Ptr[pthread_attr_t],\n+                            stackaddr: Ptr[Byte],\n+                            stacksize: CSize): CInt = extern\n+\n+  def pthread_attr_setstacksize(attr: Ptr[pthread_attr_t],\n+                                stacksize: CSize): CInt = extern\n+\n+  def pthread_barrier_destroy(barrier: Ptr[pthread_barrier_t]): CInt = extern\n+\n+  def pthread_barrier_init(barrier: Ptr[pthread_barrier_t],\n+                           attr: Ptr[pthread_barrierattr_t],\n+                           count: CUnsignedInt): CInt = extern\n+\n+  def pthread_barrier_wait(barrier: Ptr[pthread_barrier_t]): CInt = extern\n+\n+  def pthread_barrierattr_destroy(attr: Ptr[pthread_barrierattr_t]): CInt =\n+    extern\n+\n+  def pthread_barrierattr_getpshared(attr: Ptr[pthread_barrierattr_t],\n+                                     pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_barrierattr_init(attr: Ptr[pthread_barrierattr_t]): CInt = extern\n+\n+  def pthread_barrierattr_setpshared(attr: Ptr[pthread_barrierattr_t],\n+                                     pshared: CInt): CInt = extern\n+\n+  def pthread_cancel(thread: pthread_t): CInt = extern\n+\n+  def pthread_cond_broadcast(cond: Ptr[pthread_cond_t]): CInt = extern\n+\n+  def pthread_cond_destroy(cond: Ptr[pthread_cond_t]): CInt = extern\n+\n+  def pthread_cond_init(cond: Ptr[pthread_cond_t],\n+                        attr: Ptr[pthread_condattr_t]): CInt = extern\n+\n+  def pthread_cond_signal(cond: Ptr[pthread_cond_t]): CInt = extern\n+\n+  def pthread_cond_timedwait(cond: Ptr[pthread_cond_t],\n+                             mutex: Ptr[pthread_mutex_t],\n+                             timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_cond_wait(cond: Ptr[pthread_cond_t],\n+                        mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_condattr_destroy(attr: Ptr[pthread_condattr_t]): CInt = extern\n+\n+  def pthread_condattr_getclock(attr: Ptr[pthread_condattr_t],\n+                                clock: Ptr[clockid_t]): CInt = extern\n+\n+  def pthread_condattr_getpshared(attr: Ptr[pthread_condattr_t],\n+                                  pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_condattr_init(attr: Ptr[pthread_condattr_t]): CInt = extern\n+\n+  def pthread_condattr_setclock(attr: Ptr[pthread_condattr_t],\n+                                clock: clockid_t): CInt = extern\n+\n+  def pthread_condattr_setpshared(attr: Ptr[pthread_condattr_t],\n+                                  pshared: CInt): CInt = extern\n+\n+  def pthread_create(thread: Ptr[pthread_t],\n+                     attr: Ptr[pthread_attr_t],\n+                     startroutine: CFunctionPtr1[Ptr[Byte], Ptr[Byte]],\n+                     args: Ptr[Byte]): CInt = extern\n+\n+  def pthread_detach(thread: pthread_t): CInt = extern\n+\n+  def pthread_equal(thread1: pthread_t, thread2: pthread_t): CInt = extern\n+\n+  def pthread_exit(retval: Ptr[Byte]): Unit = extern\n+\n+  def pthread_getconcurrency(): CInt = extern\n+\n+  def pthread_getcpuclockid(thread: pthread_t, clock: Ptr[clockid_t]): CInt =\n+    extern\n+\n+  def pthread_getschedparam(thread: pthread_t,\n+                            policy: Ptr[CInt],\n+                            param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_getspecific(key: pthread_key_t): Ptr[Byte] = extern\n+\n+  def pthread_join(thread: pthread_t, value_ptr: Ptr[Ptr[Byte]]): CInt = extern\n+\n+  def pthread_key_create(key: Ptr[pthread_key_t],\n+                         destructor: CFunctionPtr1[Ptr[Byte], Unit]): CInt =\n+    extern\n+\n+  def pthread_key_delete(key: pthread_key_t): CInt = extern\n+\n+  def pthread_mutex_consistent(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_destroy(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_getprioceiling(mutex: Ptr[pthread_mutex_t],\n+                                   prioceiling: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutex_init(mutex: Ptr[pthread_mutex_t],\n+                         attr: Ptr[pthread_mutexattr_t]): CInt = extern\n+\n+  def pthread_mutex_lock(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_setprioceiling(mutex: Ptr[pthread_mutex_t],\n+                                   prioceiling: CInt,\n+                                   old_prioceiling: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutex_timedlock(mutex: Ptr[pthread_mutex_t],\n+                              timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_mutex_trylock(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutex_unlock(mutex: Ptr[pthread_mutex_t]): CInt = extern\n+\n+  def pthread_mutexattr_destroy(attr: Ptr[pthread_mutexattr_t]): CInt = extern\n+\n+  def pthread_mutexattr_getprioceiling(attr: Ptr[pthread_mutexattr_t],\n+                                       prioceiling: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_getprotocol(attr: Ptr[pthread_mutexattr_t],\n+                                    protocol: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_getpshared(attr: Ptr[pthread_mutexattr_t],\n+                                   pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_getrobust(attr: Ptr[pthread_mutexattr_t],\n+                                  robust: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_gettype(attr: Ptr[pthread_mutexattr_t],\n+                                tp: Ptr[CInt]): CInt = extern\n+\n+  def pthread_mutexattr_init(attr: Ptr[pthread_mutexattr_t]): CInt = extern\n+\n+  def pthread_mutexattr_setprioceiling(attr: Ptr[pthread_mutexattr_t],\n+                                       prioceiling: CInt): CInt = extern\n+\n+  def pthread_mutexattr_setprotocol(attr: Ptr[pthread_mutexattr_t],\n+                                    protocol: CInt): CInt = extern\n+\n+  def pthread_mutexattr_setpshared(attr: Ptr[pthread_mutexattr_t],\n+                                   pshared: CInt): CInt = extern\n+\n+  def pthread_mutexattr_setrobust(attr: Ptr[pthread_mutexattr_t],\n+                                  robust: CInt): CInt = extern\n+\n+  def pthread_mutexattr_settype(attr: Ptr[pthread_mutexattr_t],\n+                                tp: CInt): CInt = extern\n+\n+  def pthread_once(once_control: Ptr[pthread_once_t],\n+                   init_routine: routine): CInt = extern\n+\n+  def pthread_rwlock_destroy(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_init(rwlock: Ptr[pthread_rwlock_t],\n+                          attr: Ptr[pthread_rwlockattr_t]): CInt = extern\n+\n+  def pthread_rwlock_rdlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_timedrdlock(rwlock: Ptr[pthread_rwlock_t],\n+                                 timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_rwlock_timedwrlock(rwlock: Ptr[pthread_rwlock_t],\n+                                 timespec: Ptr[timespec]): CInt = extern\n+\n+  def pthread_rwlock_tryrdlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_trywrlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_unlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlock_wrlock(rwlock: Ptr[pthread_rwlock_t]): CInt = extern\n+\n+  def pthread_rwlockattr_destroy(attr: Ptr[pthread_rwlockattr_t]): CInt =\n+    extern\n+\n+  def pthread_rwlockattr_getpshared(attr: Ptr[pthread_rwlockattr_t],\n+                                    pshared: Ptr[CInt]): CInt = extern\n+\n+  def pthread_rwlockattr_init(attr: Ptr[pthread_rwlockattr_t]): CInt = extern\n+\n+  def pthread_rwlockattr_setpshared(attr: Ptr[pthread_rwlockattr_t],\n+                                    pshared: CInt): CInt = extern\n+\n+  def pthread_self(): pthread_t = extern"
+  },
+  {
+    "id" : "fb782ce4-1472-46b9-8ff2-8d7ba10c186f",
+    "prId" : 756,
+    "comments" : [
+      {
+        "id" : "4a87fc8b-98ad-43c2-9f5b-4b63eacbb6f5",
+        "parentId" : null,
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "Looks like all the `pthread_barrier_*` stuff below here are also missing. The standard labels it as \"ADVANCED REALTIME THREADS\", so not required for \"simple\" multithreading.",
+        "createdAt" : "2017-06-10T13:21:11Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "293c3a39-7e71-43d2-b393-433af1e743ae",
+        "parentId" : "4a87fc8b-98ad-43c2-9f5b-4b63eacbb6f5",
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "[here](http://pubs.opengroup.org/onlinepubs/007908799/xsh/threads.html)(SUSv2) is the minimum you'd need for getting threads going. Anything above that which is also missing from a target platform is probably excess baggage at this point. ",
+        "createdAt" : "2017-06-10T13:35:12Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "717b6178-1f18-49e0-8173-133bf4e41fbe",
+        "parentId" : "4a87fc8b-98ad-43c2-9f5b-4b63eacbb6f5",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "so we stick with the minimal possible (i.e. SUSv2) ? ",
+        "createdAt" : "2017-06-10T13:40:16Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5570692b-ad73-4478-a31b-f087fa4d9505",
+        "parentId" : "4a87fc8b-98ad-43c2-9f5b-4b63eacbb6f5",
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "I don't see why not. `java.util.Thread` was implemented in the 90's based on functionality equivalent to that available in SUSv2. Should be just fine.",
+        "createdAt" : "2017-06-10T13:43:34Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "366afc14-d2d0-4906-ad8d-72351ceafffc",
+        "parentId" : "4a87fc8b-98ad-43c2-9f5b-4b63eacbb6f5",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "what about the functions listed as X/Open interface and realtime threads in your link ? ",
+        "createdAt" : "2017-06-10T13:47:10Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0841b2aa-95d2-4a21-a4a0-d9301283bc18",
+        "parentId" : "4a87fc8b-98ad-43c2-9f5b-4b63eacbb6f5",
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "Under X/Open I mostly see `pthread_rwlock_*`, which should be useful for implementing read/write locks, so those are desirable.\r\n\r\nRegarding realtime threads—personally, as a possible future user, I would like to see them stay. Since no common Java or Scala concurrency abstractions currently rely on realtime threads, I guess they can be considered low priority. My opinion: keep them if you have them, drop them if they give you trouble.",
+        "createdAt" : "2017-06-10T14:03:59Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "632a8fdc8d258a96f4603aa4fc0e285762eb27f6",
+    "line" : null,
+    "diffHunk" : "@@ -72,6 +75,9 @@ object pthread {\n                             stackaddr: Ptr[Byte],\n                             stacksize: CSize): CInt = extern\n \n+  def pthread_attr_setstackaddr(attr: Ptr[pthread_attr_t],\n+                                stackaddr: Ptr[Byte]): CInt = extern\n+\n   def pthread_attr_setstacksize(attr: Ptr[pthread_attr_t],\n                                 stacksize: CSize): CInt = extern\n "
+  },
+  {
+    "id" : "f36bf67c-93ce-4f94-86b2-1e9b3c9aa650",
+    "prId" : 756,
+    "comments" : [
+      {
+        "id" : "d9f88424-7471-4ad6-96e1-1da8a8818d3a",
+        "parentId" : null,
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "`pthread_cleanup_push` and `pthread_cleanup_pop` are implemented as macros, so you can't use them—not directly at least.\r\n\r\nThis pair of calls is basically a try-finally control structure for ensuring proper resource cleanup when one thread kills another. Cancelling threads is not a very common practice these days—instead, the common practice is at most to let one thread \"interrupt\" another, with the interrupted thread then having a chance to decide whether it wants to exit in an orderly fashion or resume its previous business.\r\n\r\nConceivably a workaround should be possible, but I doubt it would justify the effort.",
+        "createdAt" : "2017-06-11T16:04:24Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c0df1234-d476-4f2a-884b-aa1847207db3",
+        "parentId" : "d9f88424-7471-4ad6-96e1-1da8a8818d3a",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "ok I'll remove them",
+        "createdAt" : "2017-06-12T15:20:20Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "632a8fdc8d258a96f4603aa4fc0e285762eb27f6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,303 @@\n+package scala.scalanative\n+package posix\n+\n+import scala.scalanative.native.{\n+  CFunctionPtr0,\n+  CFunctionPtr1,\n+  CInt,\n+  CSize,\n+  CUnsignedInt,\n+  Ptr,\n+  extern,\n+  name\n+}\n+import scala.scalanative.posix.sched.sched_param\n+import scala.scalanative.posix.sys.types._\n+import scala.scalanative.posix.time.timespec\n+\n+// SUSv2 version is used for compatibility\n+// see http://pubs.opengroup.org/onlinepubs/007908799/xsh/threads.html\n+\n+@extern\n+object pthread {\n+\n+  def pthread_atfork(prepare: routine, parent: routine, child: routine): CInt =\n+    extern\n+\n+  def pthread_attr_destroy(attr: Ptr[pthread_attr_t]): CInt = extern\n+\n+  def pthread_attr_getdetachstate(attr: Ptr[pthread_attr_t],\n+                                  detachstate: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getguardsize(attr: Ptr[pthread_attr_t],\n+                                guardsize: Ptr[CSize]): CInt = extern\n+\n+  def pthread_attr_getinheritsched(attr: Ptr[pthread_attr_t],\n+                                   inheritsched: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getschedparam(attr: Ptr[pthread_attr_t],\n+                                 param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_attr_getschedpolicy(attr: Ptr[pthread_attr_t],\n+                                  policy: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getscope(attr: Ptr[pthread_attr_t],\n+                            scope: Ptr[CInt]): CInt = extern\n+\n+  def pthread_attr_getstacksize(attr: Ptr[pthread_attr_t],\n+                                stacksize: Ptr[CSize]): CInt = extern\n+\n+  def pthread_attr_init(attr: Ptr[pthread_attr_t]): CInt = extern\n+\n+  def pthread_attr_setdetachstate(attr: Ptr[pthread_attr_t],\n+                                  detachstate: CInt): CInt = extern\n+\n+  def pthread_attr_setguardsize(attr: Ptr[pthread_attr_t],\n+                                guardsize: CSize): CInt = extern\n+\n+  def pthread_attr_setinheritsched(attr: Ptr[pthread_attr_t],\n+                                   inheritsched: CInt): CInt = extern\n+\n+  def pthread_attr_setschedparam(attr: Ptr[pthread_attr_t],\n+                                 param: Ptr[sched_param]): CInt = extern\n+\n+  def pthread_attr_setschedpolicy(attr: Ptr[pthread_attr_t],\n+                                  policy: CInt): CInt = extern\n+\n+  def pthread_attr_setscope(attr: Ptr[pthread_attr_t], scope: CInt): CInt =\n+    extern\n+\n+  def pthread_attr_setstackaddr(attr: Ptr[pthread_attr_t],\n+                                stackaddr: Ptr[Byte]): CInt = extern\n+\n+  def pthread_attr_setstacksize(attr: Ptr[pthread_attr_t],\n+                                stacksize: CSize): CInt = extern\n+\n+  def pthread_cancel(thread: pthread_t): CInt = extern\n+\n+  def pthread_cleanup_push(routine: CFunctionPtr1[Ptr[Byte], Unit],\n+                           arg: Ptr[Byte]): Unit = extern\n+\n+  def pthread_cleanup_pop(execute: CInt): Unit = extern\n+"
+  }
+]

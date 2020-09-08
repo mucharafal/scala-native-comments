@@ -1,0 +1,95 @@
+[
+  {
+    "id" : "da082971-3fac-4165-9a63-7f729d671d82",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "8cacc9df-8acd-4465-bb1e-5cd5ec08cc9a",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The two Dockerfiles are almost the same except for ` software-properties-common`. Did you consider using build args to choose the `FROM` image?\r\n\r\n```Dockerfile\r\nARG UBUNTU_IMAGE=ubuntu:18.04\r\nFROM $UBUNTU_IMAGE\r\n```\r\nand then `docker build --build-arg UBUNTU_IMAGE=multiarch/ubuntu-core:arm64-bionic .`",
+        "createdAt" : "2018-08-09T19:19:13Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+FROM multiarch/ubuntu-core:arm64-bionic"
+  },
+  {
+    "id" : "1aa94cb8-972a-435d-b979-4b7af434a003",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "3fceb214-9415-42cc-98e2-4281775f062f",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I suggest to use the standard Ubuntu clang-5.0 package. We do that for [scala-native-bindgen](https://github.com/kornilova-l/scala-native-bindgen/blob/master/Dockerfile). The LLVM package provides additional stuff like CMake recipes but otherwise looks identical.",
+        "createdAt" : "2018-08-09T19:24:16Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+FROM multiarch/ubuntu-core:arm64-bionic\n+\n+ENV SBT_LAUNCHER_VERSION 1.2.0\n+\n+RUN apt-get update && apt-get install -y wget\n+\n+RUN apt-get install -y openjdk-8-jdk-headless\n+\n+RUN apt-get install -y curl\n+\n+# Install sbt\n+RUN \\\n+  curl -L -o sbt-$SBT_LAUNCHER_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  dpkg -i sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  rm sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  apt-get update && \\\n+  apt-get install -y sbt\n+\n+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -\n+\n+RUN apt-add-repository \"deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-5.0 main\" && apt-get update"
+  },
+  {
+    "id" : "a7b6b245-e49a-4798-9fc0-83259c1f87a7",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "4f0ba71e-310d-4ec2-9e77-9e44b7effa55",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "For scala-native-bindgen we install `llvm-5.0-dev`. From what I remember package will install `llvm-config` which I know is used by Scala Native. The LLVM tools are located in `/usr/lib/llvm-5.0/bin` so would have to be added to `PATH`.",
+        "createdAt" : "2018-08-09T19:28:37Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+FROM multiarch/ubuntu-core:arm64-bionic\n+\n+ENV SBT_LAUNCHER_VERSION 1.2.0\n+\n+RUN apt-get update && apt-get install -y wget\n+\n+RUN apt-get install -y openjdk-8-jdk-headless\n+\n+RUN apt-get install -y curl\n+\n+# Install sbt\n+RUN \\\n+  curl -L -o sbt-$SBT_LAUNCHER_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  dpkg -i sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  rm sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  apt-get update && \\\n+  apt-get install -y sbt\n+\n+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add -\n+\n+RUN apt-add-repository \"deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-5.0 main\" && apt-get update\n+\n+RUN apt-get install -y clang-5.0"
+  }
+]

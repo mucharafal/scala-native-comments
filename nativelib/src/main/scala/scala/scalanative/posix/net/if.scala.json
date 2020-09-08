@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "99da9c0d-d3f1-4a06-991c-b4c7e35c12a8",
+    "prId" : 1097,
+    "comments" : [
+      {
+        "id" : "de53ffc0-b734-4d40-887c-f964d3dd4eb8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Underscore in the beginning is often associated with \"private\", lets put it at the end instead, i.e. `if_`",
+        "createdAt" : "2018-02-13T16:56:53Z",
+        "updatedAt" : "2018-02-13T17:09:49Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b1b3e0437b385a87690e3a2704aef68d42409d1d",
+    "line" : 9,
+    "diffHunk" : "@@ -0,0 +1,66 @@\n+package scala.scalanative\n+package posix\n+package net\n+\n+import scalanative.native._\n+import scalanative.posix.sys.socket\n+\n+@extern\n+object _if {"
+  }
+]

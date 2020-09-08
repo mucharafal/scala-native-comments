@@ -1,0 +1,125 @@
+[
+  {
+    "id" : "7fb3bbc7-d552-4017-8e96-58c969cf345f",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "d24ffbcb-ed4c-4518-b4ca-9789462c89f0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why is it OK to use `j.l.Object`, here?",
+        "createdAt" : "2020-08-20T15:40:53Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "89a3ab19-4f71-4c82-a2f7-a0f8d07ab523",
+        "parentId" : "d24ffbcb-ed4c-4518-b4ca-9789462c89f0",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Provided `j.l.Object` here as the superclass of all classes, i.e. the generic safe choice, since this call path did not cause any problems.",
+        "createdAt" : "2020-08-21T11:06:45Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1bba39c9-cf5a-4e36-9781-f78579def605",
+        "parentId" : "d24ffbcb-ed4c-4518-b4ca-9789462c89f0",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It's only a safe choice if the result is never used in a place that could have an expected type more specific than `Object`. Is there a reason that this never happens here? If yes, it deserves comment to explain that reason. If not, it deserves even more a comment with `!!!` telling that we're going YOLO here.",
+        "createdAt" : "2020-08-21T11:28:42Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "38916b0c-a327-4fc1-a90a-06dd909dfb49",
+        "parentId" : "d24ffbcb-ed4c-4518-b4ca-9789462c89f0",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Hmm, the way the algorithm works, it will always choose the LUB type of the candidate types. The candidates are computed [here](https://github.com/errikos/scala-native/blob/topic/2.12.x-support/tools/src/main/scala/scala/scalanative/linker/Sub.scala#L115-L116), and they will always include only super-types of both types and sub-types of the bound type (in this case `j.l.Object`). However, the bound type is never included in the candidates, so I think that `j.l.Object` cannot be the resulting type, except if expected.\r\n\r\n(the above is based on a very quick analysis)",
+        "createdAt" : "2020-08-21T11:45:36Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "fc587c5c-9ed8-44c5-8436-62a7c7f60848",
+        "parentId" : "d24ffbcb-ed4c-4518-b4ca-9789462c89f0",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "No, `j.l.Object` can't be the resulting type. But you could get `HasForeachEntry` even though you wanted `Map`, because `HasForeachEntry` is a supertype of all the alternatives.\r\n\r\nThis is exactly the same scenario as the one you had to fix for one of the cases. It can happen elsewhere in other circumstances.",
+        "createdAt" : "2020-08-21T12:31:42Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "24f5430b-f921-4522-854d-307aa42a5b5f",
+        "parentId" : "d24ffbcb-ed4c-4518-b4ca-9789462c89f0",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "You're right. I added a caution message at the calls, for the moment.",
+        "createdAt" : "2020-08-21T14:23:50Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 86,
+    "diffHunk" : "@@ -398,14 +402,15 @@ final class MergeProcessor(insts: Array[Inst],\n     // If the discovered blocks contain more than one,\n     // we must merge them together using a synthetic block.\n     if (inline && retMergeBlocks.size > 1) {\n-      val retTy = Sub.lub(retMergeBlocks.map { block =>\n+      val tys = retMergeBlocks.map { block =>\n         val Inst.Ret(v)    = block.cf\n         implicit val state = block.end\n         v match {\n           case InstanceRef(ty) => ty\n           case _               => v.ty\n         }\n-      })\n+      }\n+      val retTy = Sub.lub(tys, Type.Ref(Global.Top(\"java.lang.Object\")))"
+  }
+]

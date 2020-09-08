@@ -1,0 +1,187 @@
+[
+  {
+    "id" : "e36e8e9c-e7cf-41a0-a31e-8b7711e6f667",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please avoid using `breakable` in this PR. It's still not zero-cost at the moment (#1513). Instead you can do:\r\n```\r\nvar break = false\r\nwhile (!break) {\r\n    ...\r\n    break = true // to break\r\n    ...\r\n}\r\n```",
+        "createdAt" : "2019-04-02T09:55:06Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d9de0315-9eee-4f8f-bba7-dd2531f3abdc",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I will look into this.  I had been treating the re2s code as a black box and focusing on\r\nensuring the output passes tests.  Looks like I have to level up and look inside ;-)\r\n\r\nI took one run at this and will do another when my mind is clear.  The code is _ugly_\r\nin the max. It does breaks inside of if statement blocks, with no else clause. So the \r\nnow-known-to-be-brainless edits did on my first pass blew up and cost me half a day.\r\nThe excuse \"It made sense at the time\" never worked in my (extended) childhood\r\nand it does not seem to be working now.\r\n\r\nI need to trace the code carefully but this looks like some kind of state machine distorted\r\nby successive language translations. It worked for the translators and I am using\r\ntheir work, so I am not complaining, just trying to figure things out.\r\n\r\nI may look at the original Go code to see the ancestor. Perhaps there is some\r\nclarity there.   \r\n\r\nI personally am of the school that Exceptions should be used for exceptional cases, not\r\nnormal flow control.",
+        "createdAt" : "2019-04-03T23:02:29Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6df3d888-22a4-44c1-923f-b12a2285d061",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Prompted by your comment, I grep`d all other re2s source and unit-test files.  The .scala\r\nfiles had the one `breakable` you caught.  \r\n\r\n\r\nThere is one unit-test with a `breakable`.  It is not performance critical but it is on my\r\nlist to fix also.\r\n",
+        "createdAt" : "2019-04-03T23:07:04Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0f099951-5340-453c-90ed-b3b5831f7d0b",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "As recommended, I removed the `breakable` idiom from Machine.match_().  That is a\r\nkey piece of re2s, so I think all of re2s will benefit from the now faster code.\r\n\r\nTravis CI is all green.",
+        "createdAt" : "2019-04-06T21:36:09Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1a95b245-0037-4a4e-a07f-34c9352fb0e6",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Looks much better now! 👍",
+        "createdAt" : "2019-04-07T11:01:20Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "43d0cf08-ea58-4f9b-96a8-743eeb00f73f",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you.  Can I ask for some guidance, if you please?  \r\n\r\nExecTest.scala is the only other place now in the SN re2s codebase which uses\r\n`breakable`.  There are two instances, in two logically distinct places.  At runtime this\r\nresults in, I think, six executions. The same transform of the `breakable` to a \r\nsubroutine/method can be done but may not be economical. \r\n\r\nExecTest.scala is a test suite (yes, naming convention inconsistency, jury still out on that one)\r\nintended to be \"on-demand\" and not done every CI run. It is an exhaustive test which takes\r\ntens of minutes (20? 30?  I walk away and go to lunch.)  It should be available in the repository\r\nso that developers of SN itself can find and use it in their private directories.  It gives \r\ncomfort when one knows that it runs successfully.\r\n\r\nExpunge `breakable` from the code base has benefit but is saving six executions over\r\nthe span of 20 or more minutes on a test run once every human lunar landing worth\r\nthe devo time?\r\n\r\nIf yes, I will proceed when I come up for air from Unicode.   A long read for a one word answer ;-)",
+        "createdAt" : "2019-04-07T19:43:41Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f2e77455-a778-4f3a-aca5-4eaae738f2d3",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's perfectly fine to keep `breakable` in tests. My comment above only concerns non-test code.",
+        "createdAt" : "2019-04-07T19:54:47Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "79d787a8-61c0-41ef-96b7-b333310708a4",
+        "parentId" : "cab4e15c-e7fb-41e0-9267-7c25914e8894",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood.  Thank you for the guidance.",
+        "createdAt" : "2019-04-07T20:01:18Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,400 @@\n+// Copyright 2010 The Go Authors. All rights reserved.\n+// Use of this source code is governed by a BSD-style\n+// license that can be found in the LICENSE file.\n+\n+// Original Go source here:\n+// http://code.google.com/p/go/source/browse/src/pkg/regexp/exec.go\n+\n+package scala.re2s\n+\n+import java.util.ArrayList\n+import java.util.Arrays\n+import java.util.List\n+import scala.util.control.Breaks._\n+\n+import Inst.{Op => IOP}\n+\n+// A Machine matches an input string of Unicode characters against an\n+// RE2 instance using a simple NFA.\n+//\n+// Called by RE2.doExecute.\n+class Machine(re2: RE2) {\n+  import Machine._\n+\n+  // Compiled program.\n+  private val prog = re2.prog\n+\n+  // Two queues for runq, nextq.\n+  private val q0 = new Queue(prog.numInst())\n+  private val q1 = new Queue(prog.numInst())\n+\n+  // pool of available threads\n+  // Really a stack:\n+  private val pool = new ArrayList[Thread]()\n+\n+  // Whether a match was found.\n+  private var matched: Boolean = _\n+\n+  // Capture information for the match.\n+  private var matchcap =\n+    new Array[Int](if (prog.numCap < 2) 2 else prog.numCap)\n+\n+  // init() reinitializes an existing Machine for re-use on a new input.\n+  def init(ncap: Int): Unit = {\n+    val iter = pool.iterator()\n+    while (iter.hasNext()) {\n+      val t = iter.next()\n+      t.cap = new Array[Int](ncap)\n+    }\n+    this.matchcap = new Array[Int](ncap)\n+  }\n+\n+  def submatches(): Array[Int] = {\n+    if (matchcap.length == 0) {\n+      return Utils.EMPTY_INTS\n+    }\n+    val cap = new Array[Int](matchcap.length)\n+    System.arraycopy(matchcap, 0, cap, 0, matchcap.length)\n+    cap\n+  }\n+\n+  // alloc() allocates a new thread with the given instruction.\n+  // It uses the free pool if possible.\n+  private def alloc(inst: Inst): Thread = {\n+    val n = pool.size()\n+    val t = if (n > 0) pool.remove(n - 1) else new Thread(matchcap.length)\n+    t.inst = inst\n+    t\n+  }\n+\n+  // free() returns t to the free pool.\n+  private def free(t: Thread): Unit =\n+    pool.add(t)\n+\n+  // match() runs the machine over the input |in| starting at |pos| with the\n+  // RE2 Anchor |anchor|.\n+  // It reports whether a match was found.\n+  // If so, matchcap holds the submatch information.\n+  def match_(in: MachineInput, _pos: Int, anchor: Int): Boolean = {\n+    var pos       = _pos\n+    val startCond = re2.cond\n+    if (startCond == Utils.EMPTY_ALL) { // impossible\n+      return false\n+    }\n+    if ((anchor == RE2.ANCHOR_START || anchor == RE2.ANCHOR_BOTH) &&\n+        pos != 0) {\n+      return false\n+    }\n+    matched = false\n+    Arrays.fill(matchcap, -1)\n+    var runq   = q0\n+    var nextq  = q1\n+    var r      = in.step(pos)\n+    var rune   = r >> 3\n+    var width  = r & 7\n+    var rune1  = -1\n+    var width1 = 0\n+    if (r != MachineInput.EOF) {\n+      r = in.step(pos + width)\n+      rune1 = r >> 3\n+      width1 = r & 7\n+    }\n+    var flag = 0 // bitmask of EMPTY_* flags\n+    if (pos == 0) {\n+      flag = Utils.emptyOpContext(-1, rune)\n+    } else {\n+      flag = in.context(pos)\n+    }\n+\n+    breakable {"
+  }
+]

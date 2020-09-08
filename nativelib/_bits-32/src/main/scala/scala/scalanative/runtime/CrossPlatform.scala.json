@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "8ebe0dab-427f-4755-a443-e477f424d792",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "b6718388-8875-4739-ba74-d5b3615e3691",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should either return an integer or boolean and, and the if-then-else on the caller side. The reason is: it's much easier to optimize a branch with a constant condition. ",
+        "createdAt" : "2018-07-19T08:37:24Z",
+        "updatedAt" : "2018-07-19T09:20:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3167100d-0b2a-4cd6-b8a8-6bdc8d8605e4",
+        "parentId" : "b6718388-8875-4739-ba74-d5b3615e3691",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "The reason I went with this method was to handle different types across 32/64 bit platforms, which is needed in places like `nativelib`.",
+        "createdAt" : "2018-07-20T01:57:59Z",
+        "updatedAt" : "2018-07-20T01:57:59Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 5,
+    "diffHunk" : "@@ -0,0 +1,11 @@\n+package scala.scalanative\n+package runtime\n+\n+object CrossPlatform {\n+  @inline final def cross3264[A, B](thirtyTwo: => A,"
+  },
+  {
+    "id" : "b265b272-97b2-40d5-8408-0ff338938462",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "5104b101-c17e-4e4c-a6f4-147b03d8c60f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should merge it with `runtime.Platform`, they serve the same purpuose. Currently, it's an extern object, but we can make it a normal one that forwards all calls to an extern object along side it. ",
+        "createdAt" : "2018-07-19T08:38:35Z",
+        "updatedAt" : "2018-07-19T09:20:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 4,
+    "diffHunk" : "@@ -0,0 +1,11 @@\n+package scala.scalanative\n+package runtime\n+\n+object CrossPlatform {"
+  }
+]

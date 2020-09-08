@@ -1,0 +1,157 @@
+[
+  {
+    "id" : "59229242-05a9-4be9-a976-9b078f527b3c",
+    "prId" : 682,
+    "comments" : [
+      {
+        "id" : "5d889856-0b62-4618-92e9-c62eca8dc455",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We strongly discourage authorship comments in the code as they quickly get out of date. ",
+        "createdAt" : "2017-04-28T12:35:53Z",
+        "updatedAt" : "2017-04-29T14:25:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a75e3c3f8ea2adfbbaf7125da7ddedc3b771ef22",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+package scala.scalanative.optimizer.inject\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Inject, InjectCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Created by lukaskellenberger on 08.03.17.\n+ */"
+  },
+  {
+    "id" : "32f96527-d9c9-4291-818a-89e864075f7e",
+    "prId" : 682,
+    "comments" : [
+      {
+        "id" : "a2b4f1c6-5b61-46ba-a085-30fc53dbfc4a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those two above should go the `GCExternals` companion.",
+        "createdAt" : "2017-04-28T12:36:45Z",
+        "updatedAt" : "2017-04-29T14:25:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a75e3c3f8ea2adfbbaf7125da7ddedc3b771ef22",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+package scala.scalanative.optimizer.inject\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Inject, InjectCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Created by lukaskellenberger on 08.03.17.\n+ */\n+class GCexternals(top: Top) extends Inject {\n+  override def apply(buffer: mutable.Buffer[Defn]) = {\n+    buffer ++= genModuleArray(buffer)\n+    buffer += genObjectArrayId()\n+  }\n+\n+  def genModuleArray(defns: mutable.Buffer[Defn]): Seq[Defn] = {\n+    val modules = defns.filter {\n+      case _: Defn.Module => true\n+      case _              => false\n+    }\n+\n+    val moduleArrayName     = Global.Top(\"__modules\")\n+    val moduleArraySizeName = Global.Top(\"__modules_size\")"
+  },
+  {
+    "id" : "1a61641b-ace4-414d-848b-030af559779b",
+    "prId" : 682,
+    "comments" : [
+      {
+        "id" : "698a884a-87fe-4e85-ad9c-272f39f5bf51",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`GCExternals`.",
+        "createdAt" : "2017-04-28T12:37:03Z",
+        "updatedAt" : "2017-04-29T14:25:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a75e3c3f8ea2adfbbaf7125da7ddedc3b771ef22",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+package scala.scalanative.optimizer.inject\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Inject, InjectCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Created by lukaskellenberger on 08.03.17.\n+ */\n+class GCexternals(top: Top) extends Inject {"
+  },
+  {
+    "id" : "a2482652-4be6-4777-83dc-1c1930e4cb44",
+    "prId" : 682,
+    "comments" : [
+      {
+        "id" : "1c9e1e7c-a0c7-42a0-96f5-1a87b7a6d7be",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`defns.filter(_.isIntanceOf[Defn.Module])`",
+        "createdAt" : "2017-04-28T12:37:58Z",
+        "updatedAt" : "2017-04-29T14:25:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a75e3c3f8ea2adfbbaf7125da7ddedc3b771ef22",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+package scala.scalanative.optimizer.inject\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Inject, InjectCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Created by lukaskellenberger on 08.03.17.\n+ */\n+class GCexternals(top: Top) extends Inject {\n+  override def apply(buffer: mutable.Buffer[Defn]) = {\n+    buffer ++= genModuleArray(buffer)\n+    buffer += genObjectArrayId()\n+  }\n+\n+  def genModuleArray(defns: mutable.Buffer[Defn]): Seq[Defn] = {\n+    val modules = defns.filter {\n+      case _: Defn.Module => true\n+      case _              => false\n+    }"
+  },
+  {
+    "id" : "f6a54f15-cde2-4d7a-819b-8c09785b66bf",
+    "prId" : 682,
+    "comments" : [
+      {
+        "id" : "9ace2d2e-1f09-4fc7-9e8b-dae577a481c6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The line above should go the companion of `GCExternals`.",
+        "createdAt" : "2017-04-28T12:38:23Z",
+        "updatedAt" : "2017-04-29T14:25:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a75e3c3f8ea2adfbbaf7125da7ddedc3b771ef22",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+package scala.scalanative.optimizer.inject\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Inject, InjectCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Created by lukaskellenberger on 08.03.17.\n+ */\n+class GCexternals(top: Top) extends Inject {\n+  override def apply(buffer: mutable.Buffer[Defn]) = {\n+    buffer ++= genModuleArray(buffer)\n+    buffer += genObjectArrayId()\n+  }\n+\n+  def genModuleArray(defns: mutable.Buffer[Defn]): Seq[Defn] = {\n+    val modules = defns.filter {\n+      case _: Defn.Module => true\n+      case _              => false\n+    }\n+\n+    val moduleArrayName     = Global.Top(\"__modules\")\n+    val moduleArraySizeName = Global.Top(\"__modules_size\")\n+    val moduleArray = Val.Array(Type.Ptr, modules.map {\n+      case Defn.Module(_, clsName, _, _) =>\n+        Val.Global(clsName member \"value\", Type.Ptr)\n+    })\n+    val moduleArrayVar =\n+      Defn.Var(Attrs.None,\n+               moduleArrayName,\n+               Type.Array(Type.Ptr, modules.size),\n+               moduleArray)\n+\n+    val moduleArraySizeVar =\n+      Defn.Var(Attrs.None,\n+               moduleArraySizeName,\n+               Type.Int,\n+               Val.Int(modules.size))\n+\n+    Seq(moduleArrayVar, moduleArraySizeVar)\n+  }\n+\n+  def genObjectArrayId(): Defn.Var = {\n+    val objectArray =\n+      top.nodes(Global.Top(\"scala.scalanative.runtime.ObjectArray\"))\n+    val objectArrayIdName = Global.Top(\"__object_array_id\")"
+  }
+]

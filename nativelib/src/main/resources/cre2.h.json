@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "67ed11d7-3592-4a81-a9e0-4addfac9c742",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "35052df3-f435-4e92-abb2-68fe698804bf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same as in https://github.com/scala-native/scala-native/pull/588/files#r109922766",
+        "createdAt" : "2017-04-05T13:59:29Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,188 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Header  file  for  CRE2, a  C  language  wrapper  for RE2:  a  regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012, 2015 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  For the license notice see the COPYING file.\n+*/\n+\n+// Scala-Native version remove unused functions"
+  }
+]

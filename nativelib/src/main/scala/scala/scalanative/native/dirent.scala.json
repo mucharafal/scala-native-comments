@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "37145648-53da-44bf-aad0-9d5cf8811538",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "5229b316-66a0-41df-b86b-88de7d4128ae",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is a POSIX api, should go to `scala.scalanative.posix`.",
+        "createdAt" : "2017-04-10T17:44:02Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ba013037-e86a-478f-aa02-03cad6913acb",
+        "parentId" : "5229b316-66a0-41df-b86b-88de7d4128ae",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:43:34Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,21 @@\n+package scala.scalanative\n+package native\n+\n+import Nat._\n+\n+@extern\n+object dirent {"
+  }
+]

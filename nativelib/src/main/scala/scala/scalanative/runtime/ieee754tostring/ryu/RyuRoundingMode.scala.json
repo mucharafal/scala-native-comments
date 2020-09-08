@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "b9e97603-8f57-40ac-b828-973494ed56dc",
+    "prId" : 1451,
+    "comments" : [
+      {
+        "id" : "1920a25e-4449-47aa-a90d-77e4ae3f4e4d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Friends don't let friends use `scala.Enumeration`. This used to add a few hundred KB in transitive dependencies. ",
+        "createdAt" : "2019-03-08T13:17:45Z",
+        "updatedAt" : "2019-03-08T14:38:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a369c0debde819030368448492aa12fe67caa6c0",
+    "line" : 4,
+    "diffHunk" : "@@ -35,34 +35,19 @@ package scala.scalanative\n package runtime\n package ieee754tostring.ryu\n \n-object RyuRoundingMode extends Enumeration {"
+  },
+  {
+    "id" : "5e470c0a-38ca-4192-9da3-1389c0ca15a3",
+    "prId" : 1451,
+    "comments" : [
+      {
+        "id" : "a3baf92a-4a2e-41b0-80c8-98fa21091dc6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "By making the instances of `RoundingMode` be `object`-s, Interflow now specializes the floatToString/doubleToString to the rounding mode. This means (up to) two copies of the method where rounding mode is statically known and both of the `acceptUpperBound` and `acceptLowerBound` are constant and folded away. In practice we only use conservative mode now, so it's exactly one copy. ",
+        "createdAt" : "2019-03-08T13:24:59Z",
+        "updatedAt" : "2019-03-08T14:38:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a369c0debde819030368448492aa12fe67caa6c0",
+    "line" : 25,
+    "diffHunk" : "@@ -35,34 +35,19 @@ package scala.scalanative\n package runtime\n package ieee754tostring.ryu\n \n-object RyuRoundingMode extends Enumeration {\n-\n-  val CONSERVATIVE: RyuRoundingMode = new conservativeRM()\n-\n-  val ROUND_EVEN: RyuRoundingMode = new roundEvenRM()\n-\n-  abstract class RyuRoundingMode {\n-\n-    def acceptUpperBound(even: Boolean): Boolean\n-\n-    def acceptLowerBound(even: Boolean): Boolean\n-\n-  }\n-\n-  private[this] class conservativeRM extends RyuRoundingMode {\n+abstract class RyuRoundingMode {\n+  def acceptUpperBound(even: Boolean): Boolean\n+  def acceptLowerBound(even: Boolean): Boolean\n+}\n \n+object RyuRoundingMode {\n+  object Conservative extends RyuRoundingMode {"
+  }
+]

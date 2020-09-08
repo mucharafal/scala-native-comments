@@ -1,0 +1,172 @@
+[
+  {
+    "id" : "d0bd1109-0b7f-4dd8-9429-c8b744351328",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "91ba3ba9-90a5-4e75-8ed1-92701ee095ac",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@rwhaling  Thank you for the doc edit and your continuing energy.\r\nNothing is _ever_ simple\r\n\r\nBy visual execution only, I think the new link gives information but\r\nwill fail if anybody clicks on it.     \r\n\r\nI think you will find that you got one of two places that need change.\r\nI made the same mistake two or so weeks ago.  If you check my in\r\nprocess PR, you will see the _two_ places I needed to change.\r\nNot to puff up my own work, but a concrete example that I \r\nbuilt.\r\n\r\n",
+        "createdAt" : "2019-07-21T21:10:51Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cc92ba39-cf93-4080-8641-d61099e6f02a",
+        "parentId" : "91ba3ba9-90a5-4e75-8ed1-92701ee095ac",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "Got it!  Thank you for your patient explanation, will do",
+        "createdAt" : "2019-07-21T21:13:32Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "dffb9c1e-cefa-482b-90dd-5d8db4a89d71",
+        "parentId" : "91ba3ba9-90a5-4e75-8ed1-92701ee095ac",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@rwhaling It looks like you have addressed everything except the documentation change that is missing the link to the source code. @LeeTibbert Anything else?",
+        "createdAt" : "2019-08-07T20:30:56Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8f37e825-eeaf-4a17-98bd-d3260f6ec41d",
+        "parentId" : "91ba3ba9-90a5-4e75-8ed1-92701ee095ac",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I think the missing/broken link is the only thing needed.  The rest of the PR\r\nlooks fine to my eyes.",
+        "createdAt" : "2019-08-08T14:36:18Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7a81de6f-aea5-4bdc-a09c-70c72f0debc1",
+        "parentId" : "91ba3ba9-90a5-4e75-8ed1-92701ee095ac",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I think the missing/broken link is the only thing needed.  The rest of the PR\r\nlooks fine to my eyes.",
+        "createdAt" : "2019-08-08T15:00:01Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1e6b3ff8-377b-413c-9cec-91cea385a254",
+        "parentId" : "91ba3ba9-90a5-4e75-8ed1-92701ee095ac",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "Thanks for taking a look at this again y'all, it totally slipped off my docket - I'll get it finished this weekend.",
+        "createdAt" : "2019-08-09T13:03:52Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : 5,
+    "diffHunk" : "@@ -78,7 +78,7 @@ C Header          Scala Native Module\n `sys/uio.h`_      scala.scalanative.posix.sys.uio_\n `sys/un.h`_       N/A\n `sys/utsname.h`_  N/A\n-`sys/wait.h`_     N/A\n+`sys/wait.h`_     scala.scalanative.posix.sys.wait_"
+  },
+  {
+    "id" : "7960ab4e-71c7-418b-ad02-af634795fa38",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "890c24be-c59d-4c57-b218-c64d5f4c19eb",
+        "parentId" : null,
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "@LeeTibbert this is the extra line I need right?",
+        "createdAt" : "2019-08-10T01:39:41Z",
+        "updatedAt" : "2019-08-10T01:39:41Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "201d0493-85ef-44bd-a339-cd02eb418a13",
+        "parentId" : "890c24be-c59d-4c57-b218-c64d5f4c19eb",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I think all is good here.  I pulled javalib.rst. sphinx-build runs without an error related to\r\nthat file. When I use a browser (firefox) to view the generated html page, the link\r\nis active. Clicking on it causes it to be followed.   Because it is a link to new\r\ncode, the target of the link does not yet exist, but that is an \"expected\" error until\r\nthis PR is merged.",
+        "createdAt" : "2019-08-18T22:58:24Z",
+        "updatedAt" : "2019-08-18T22:58:24Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : 13,
+    "diffHunk" : "@@ -202,6 +202,7 @@ C Header          Scala Native Module\n .. _scala.scalanative.posix.sys.time: https://github.com/scala-native/scala-native/blob/master/posixlib/src/main/scala/scala/scalanative/posix/sys/time.scala\n .. _scala.scalanative.posix.sys.types: https://github.com/scala-native/scala-native/blob/master/posixlib/src/main/scala/scala/scalanative/posix/sys/types.scala\n .. _scala.scalanative.posix.sys.uio: https://github.com/scala-native/scala-native/blob/master/posixlib/src/main/scala/scala/scalanative/posix/sys/uio.scala\n+.. _scala.scalanative.posix.sys.wait: https://github.com/scala-native/scala-native/blob/master/posixlib/src/main/scala/scala/scalanative/posix/sys/wait.scala"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "0ec89d59-e1be-43e4-aeec-068d09939270",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "d41e8af2-5d96-49af-be13-3fe6290c056f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should go within `scalanative.build` namespace. ",
+        "createdAt" : "2018-01-18T13:10:34Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,216 @@\n+package scala.scalanative\n+\n+import java.nio.file.{Files, Path, Paths}\n+\n+import scala.collection.JavaConverters._\n+import scala.util.Try\n+import scala.sys.process._\n+\n+import tools.{Config, GarbageCollector, IO, LinkerResult, Logger, Mode}\n+import IO.RichPath\n+\n+package object llvm {"
+  }
+]

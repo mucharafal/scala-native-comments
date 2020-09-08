@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "b6a17d6a-9f5c-45b6-9fd6-1cbe0f2645be",
+    "prId" : 942,
+    "comments" : [
+      {
+        "id" : "afb6dc0e-61d8-448d-9bdd-300e3e915398",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Mentioned in #932 ",
+        "createdAt" : "2017-08-17T12:15:54Z",
+        "updatedAt" : "2017-08-21T10:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "90060945-2e36-4a72-91d9-acf79c636cfe",
+        "parentId" : "afb6dc0e-61d8-448d-9bdd-300e3e915398",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We have `testFails(\"...\", issue = 12345) { ... }` to predicate tests that are expected to fail with link to an issue. Lets use that instead for all of the TODO tests.",
+        "createdAt" : "2017-08-18T09:09:39Z",
+        "updatedAt" : "2017-08-21T10:57:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b866654b8210cd95d2a141b17dcd3491686c7677",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,104 @@\n+package java.util.jar\n+\n+// Ported from Apache Harmony\n+\n+import java.nio.file.{Files, Paths}\n+import JarBytes._\n+\n+object JarEntrySuite extends tests.Suite {\n+\n+  test(\"Constructor(JarEntry)\") {\n+    val jarFile     = getJarFile()\n+    val newJarEntry = new JarEntry(jarFile.getJarEntry(entryName))\n+    assert(newJarEntry != null)\n+    jarFile.close()\n+  }\n+\n+  test(\"Constructor(ZipEntry)\") {\n+    val jarFile = getJarFile()\n+    assert(jarFile != null)\n+    val zipEntry = jarFile.getEntry(entryName)\n+    assert(zipEntry != null)\n+    val jarEntry = new JarEntry(zipEntry)\n+    assert(jarEntry != null)\n+    assert(jarEntry.getName() == entryName)\n+    assert(jarEntry.getSize() == 311)\n+    jarFile.close()\n+  }\n+\n+  test(\"getAttributes()\") {\n+    val attrJar       = getAttJarFile()\n+    val attrsJarEntry = attrJar.getJarEntry(attEntryName)\n+    assert(attrsJarEntry.getAttributes() != null)\n+\n+    val noAttrsJarEntry = attrJar.getJarEntry(attEntryName2)\n+    assert(noAttrsJarEntry.getAttributes() == null)\n+    attrJar.close()\n+  }\n+\n+  // TODO: Uncomment once we support signed jars"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "79a7275a-cb0a-4a66-a5dc-a72630b6c517",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "de8baedd-c6c7-4c3f-b1ea-8ce14a67f24f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You need to resolve this conflict, this is not going to compile.",
+        "createdAt" : "2017-04-19T13:02:33Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : null,
+    "diffHunk" : "@@ -5,6 +5,12 @@ import scala.scalanative.native.{CLongLong, extern}\n \n @extern\n object time {\n+<<<<<<< 4459f51eb5b8a0039e00609e5446fea26a349159\n   def scalanative_nano_time: CLongLong           = extern\n+\n   def scalanative_current_time_millis: CLongLong = extern\n }\n+=======\n+  def scalanative_nano_time: CLongLong = extern\n+}\n+>>>>>>> second field of timespec is now CLong"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "d5a3996d-eaed-40f8-96ec-c261484ae9ff",
+    "prId" : 1577,
+    "comments" : [
+      {
+        "id" : "665ff286-bbb9-4a3a-9231-ecee5960c9f5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Might add `def isOpen: Boolean = !isClosed` as well.",
+        "createdAt" : "2019-05-06T12:57:53Z",
+        "updatedAt" : "2019-05-07T00:42:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d297f251b5ca61e853f0b2acfe69c834eaad7715",
+    "line" : 22,
+    "diffHunk" : "@@ -4,45 +4,57 @@ package native\n import scala.annotation.implicitNotFound\n import scalanative.runtime.{libc, RawPtr, fromRawPtr}\n \n-/** Zone allocator that automatically frees allocations whenever\n- *  syntactic boundary of the zone is over.\n- */\n+/** Zone allocator which manages memory allocations. */\n @implicitNotFound(\"Given method requires an implicit zone.\")\n trait Zone {\n \n   /** Allocates memory of given size. */\n   def alloc(size: CSize): Ptr[Byte]\n+\n+  /** Frees allocations. This zone allocator is not reusable once closed. */\n+  def close(): Unit\n+\n+  /** Return this zone allocator is closed or not. */\n+  def isClosed: Boolean\n+"
+  },
+  {
+    "id" : "d8a2d97d-c765-4284-8186-038108949e08",
+    "prId" : 1577,
+    "comments" : [
+      {
+        "id" : "e1b66696-0343-4f19-ae5d-008e3cec4def",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You should throw an exception if trying to alloc in a closed zone. ",
+        "createdAt" : "2019-05-06T12:58:27Z",
+        "updatedAt" : "2019-05-07T00:42:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d297f251b5ca61e853f0b2acfe69c834eaad7715",
+    "line" : 58,
+    "diffHunk" : "@@ -4,45 +4,57 @@ package native\n import scala.annotation.implicitNotFound\n import scalanative.runtime.{libc, RawPtr, fromRawPtr}\n \n-/** Zone allocator that automatically frees allocations whenever\n- *  syntactic boundary of the zone is over.\n- */\n+/** Zone allocator which manages memory allocations. */\n @implicitNotFound(\"Given method requires an implicit zone.\")\n trait Zone {\n \n   /** Allocates memory of given size. */\n   def alloc(size: CSize): Ptr[Byte]\n+\n+  /** Frees allocations. This zone allocator is not reusable once closed. */\n+  def close(): Unit\n+\n+  /** Return this zone allocator is closed or not. */\n+  def isClosed: Boolean\n+\n }\n \n object Zone {\n \n   /** Run given function with a fresh zone and destroy it afterwards. */\n   final def apply[T](f: Zone => T): T = {\n-    val zone = new ZoneImpl\n+    val zone = Zone.open()\n     try f(zone)\n     finally zone.close()\n   }\n \n+  /** Create a new zone allocator. Use Zone#close to free allocations. */\n+  final def open(): Zone = new ZoneImpl\n+\n   /** Minimalistic zone allocator that uses underlying\n    *  system allocator for allocations, and frees all of\n    *  the allocations once the zone is closed.\n    */\n   private class ZoneImpl extends Zone {\n     final class Node(val head: RawPtr, val tail: Node)\n \n-    private var node: Node = null\n+    private var node: Node      = null\n+    private var closed: Boolean = false\n+\n+    final override def isClosed: Boolean = closed\n \n     final def alloc(size: CSize): Ptr[Byte] = {\n       val rawptr = libc.malloc(size)\n       node = new Node(rawptr, node)\n       fromRawPtr[Byte](rawptr)\n     }"
+  }
+]

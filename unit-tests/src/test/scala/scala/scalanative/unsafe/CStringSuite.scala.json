@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "d4b9f4aa-cd1f-4906-be56-8088b864bcb4",
+    "prId" : 1744,
+    "comments" : [
+      {
+        "id" : "4d2c4b81-ea42-48bb-8ab4-fa70ad9570a4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It seems to me that we should move *all* tests from this `test(...)` to the one below, with proper `assertEquals` for all of them. There's no point not to check the actual values for some of the strings.",
+        "createdAt" : "2020-05-15T13:17:42Z",
+        "updatedAt" : "2020-05-15T13:18:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3198f231d144d4ea69d04b7fb995675bf421da19",
+    "line" : 6,
+    "diffHunk" : "@@ -16,9 +16,6 @@ object CStringSuite extends tests.Suite {\n     fromCString(c\"\\a\"); fromCString(c\"\\\\a\")\n     fromCString(c\"\\b\"); fromCString(c\"\\\\b\")\n     fromCString(c\"\\f\"); fromCString(c\"\\\\f\")\n-    fromCString(c\"\\n\"); fromCString(c\"\\\\n\")\n-    fromCString(c\"\\r\"); fromCString(c\"\\\\r\")\n-    fromCString(c\"\\t\"); fromCString(c\"\\\\t\")"
+  },
+  {
+    "id" : "a05aa9c3-f9ce-4513-a154-401282ddbc1c",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "c7e856e3-6c05-4c54-b241-23d60d743dba",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Some people are never happy.  The added cases for \\n and \\r are helpful.\r\nIn super-picky mode, I did notice that the first few sets test the single backslash\r\ncase first and the double backslash case second.  Here \\n & \\r are done the\r\nother way around. If this is the biggest concern I can muster, life is good,\r\nfar better than before you put this effort in.\r\n",
+        "createdAt" : "2020-07-17T12:36:11Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d18ec821-67d8-4cd4-877c-e6463f713a5e",
+        "parentId" : "c7e856e3-6c05-4c54-b241-23d60d743dba",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Looks like I introduced the \\n, \\\\n case order inconsistency  here, or at least lead you down \r\nthe garden path.\r\n\r\nMea culpa! & sorry.  ",
+        "createdAt" : "2020-07-17T13:42:16Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -11,29 +10,52 @@ object CStringSuite extends tests.Suite {\n     fromCString(c\"\")\n     fromCString(c\"no escapes\")\n     fromCString(c\"\\'\"); fromCString(c\"\\\\'\")\n-    fromCString(c\"\\?\"); fromCString(c\"\\\\?\")\n+    fromCString(c\"\\\\?\")\n     fromCString(c\"\\\\\")\n-    fromCString(c\"\\a\"); fromCString(c\"\\\\a\")\n-    fromCString(c\"\\b\"); fromCString(c\"\\\\b\")\n-    fromCString(c\"\\f\"); fromCString(c\"\\\\f\")\n-    fromCString(c\"\\n\"); fromCString(c\"\\\\n\")\n-    fromCString(c\"\\r\"); fromCString(c\"\\\\r\")\n-    fromCString(c\"\\t\"); fromCString(c\"\\\\t\")\n-    fromCString(c\"\\v\"); fromCString(c\"\\\\v\")\n-    fromCString(c\"\\012\\x6a\")\n-    fromCString(c\"%s \\\\t %.2f %s/s\\00\")\n+    fromCString(c\"\\\\a\")\n+    fromCString(c\"\\\\v\")\n+    fromCString(c\"%s \\\\t %.2f %s/s\\x00\")\n \n     // uncomment the following to trigger compilation errors for testing\n     // fromCString(c\"\\\")     // error at NIR\n     // fromCString(c\"\\x2ae\") // error at NIR\n     // fromCString(c\"\\\"\")    // error at Scala compiler\n+    // fromCString(c\"\\?\")\n+    // fromCString(c\"\\v\")\n+    // fromCString(c\"\\a\")\n+    // fromCString(c\"\\012\")\n   }\n \n   test(\"\"\"the value of c\"...\" literals\"\"\") {\n+\n+    assertEquals(\"\\b\", fromCString(c\"\\b\"))\n+    assertEquals(\"\\\\b\", fromCString(c\"\\\\b\"))\n+\n+    assertEquals(\"\\f\", fromCString(c\"\\f\"))\n+    assertEquals(\"\\\\f\", fromCString(c\"\\\\f\"))\n+\n     assertEquals(\"\\t\", fromCString(c\"\\t\"))\n     assertEquals(\"\\\\t\", fromCString(c\"\\\\t\"))\n-    assertEquals(\"\\u0020\\u0020\\u0061\\u0062\", fromCString(c\"\\040\\40\\141\\x62\"))\n-    assertEquals(\"\\\\\\\\v\\t\\\\abc\", fromCString(c\"\\\\\\v\\t\\\\abc\"))\n+\n+    assertEquals(\"\\\\n\", fromCString(c\"\\\\n\"))"
+  },
+  {
+    "id" : "020936dc-886c-4c11-b31e-459ba14af837",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "084027a7-2615-4d8d-8174-f9d70841dae0",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@lolgab will be happy that you fixed this. Me too!  \r\n\r\nWhat do you do with your pile of dead bugs?",
+        "createdAt" : "2020-07-17T12:37:09Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2e0c59fd-65dd-49c1-8218-3257507858f9",
+        "parentId" : "084027a7-2615-4d8d-8174-f9d70841dae0",
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Thanks for the mention! 😃\r\nYes, I'm happy, especially now that I don't have to fix my PR because this one supersedes mine 😄 ( didn't have too much time and willpower lately to finish it :( ).",
+        "createdAt" : "2020-07-19T17:55:24Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : 60,
+    "diffHunk" : "@@ -11,29 +10,52 @@ object CStringSuite extends tests.Suite {\n     fromCString(c\"\")\n     fromCString(c\"no escapes\")\n     fromCString(c\"\\'\"); fromCString(c\"\\\\'\")\n-    fromCString(c\"\\?\"); fromCString(c\"\\\\?\")\n+    fromCString(c\"\\\\?\")\n     fromCString(c\"\\\\\")\n-    fromCString(c\"\\a\"); fromCString(c\"\\\\a\")\n-    fromCString(c\"\\b\"); fromCString(c\"\\\\b\")\n-    fromCString(c\"\\f\"); fromCString(c\"\\\\f\")\n-    fromCString(c\"\\n\"); fromCString(c\"\\\\n\")\n-    fromCString(c\"\\r\"); fromCString(c\"\\\\r\")\n-    fromCString(c\"\\t\"); fromCString(c\"\\\\t\")\n-    fromCString(c\"\\v\"); fromCString(c\"\\\\v\")\n-    fromCString(c\"\\012\\x6a\")\n-    fromCString(c\"%s \\\\t %.2f %s/s\\00\")\n+    fromCString(c\"\\\\a\")\n+    fromCString(c\"\\\\v\")\n+    fromCString(c\"%s \\\\t %.2f %s/s\\x00\")\n \n     // uncomment the following to trigger compilation errors for testing\n     // fromCString(c\"\\\")     // error at NIR\n     // fromCString(c\"\\x2ae\") // error at NIR\n     // fromCString(c\"\\\"\")    // error at Scala compiler\n+    // fromCString(c\"\\?\")\n+    // fromCString(c\"\\v\")\n+    // fromCString(c\"\\a\")\n+    // fromCString(c\"\\012\")\n   }\n \n   test(\"\"\"the value of c\"...\" literals\"\"\") {\n+\n+    assertEquals(\"\\b\", fromCString(c\"\\b\"))\n+    assertEquals(\"\\\\b\", fromCString(c\"\\\\b\"))\n+\n+    assertEquals(\"\\f\", fromCString(c\"\\f\"))\n+    assertEquals(\"\\\\f\", fromCString(c\"\\\\f\"))\n+\n     assertEquals(\"\\t\", fromCString(c\"\\t\"))\n     assertEquals(\"\\\\t\", fromCString(c\"\\\\t\"))\n-    assertEquals(\"\\u0020\\u0020\\u0061\\u0062\", fromCString(c\"\\040\\40\\141\\x62\"))\n-    assertEquals(\"\\\\\\\\v\\t\\\\abc\", fromCString(c\"\\\\\\v\\t\\\\abc\"))\n+\n+    assertEquals(\"\\\\n\", fromCString(c\"\\\\n\"))\n+    assertEquals(\"\\n\", fromCString(c\"\\n\"))\n+\n+    assertEquals(\"\\\\r\", fromCString(c\"\\\\r\"))\n+    assertEquals(\"\\r\", fromCString(c\"\\r\"))\n+\n+    assertEquals(\"\"\""
+  }
+]

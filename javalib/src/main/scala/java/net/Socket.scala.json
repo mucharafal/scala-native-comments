@@ -1,0 +1,288 @@
+[
+  {
+    "id" : "c67f0bf9-d55e-4f64-931d-dd3727291a42",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "28d521e2-e2cf-45c2-a267-1acfd6db3779",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This is side-effectful, should be `close()`",
+        "createdAt" : "2017-08-14T08:38:21Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,310 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close"
+  },
+  {
+    "id" : "30530b28-6996-4950-968c-af2b1f64e10b",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "12925121-b2e1-4570-970d-a7b7ed4dd75b",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This one is `protected`",
+        "createdAt" : "2017-08-14T08:39:22Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,310 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close\n+        throw e\n+      }\n+    }\n+  }\n+\n+  def this() =\n+    this(new PlainSocketImpl(), null, -1, null, 0, true, false)\n+\n+  def this(impl: SocketImpl) ="
+  },
+  {
+    "id" : "b0a9fde8-ffcb-42b5-8c53-6877213cb6ec",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "ff5daa0f-f9e2-466c-b973-90eb0dd47616",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`checkClosedAndCreate()`",
+        "createdAt" : "2017-08-14T08:45:30Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,310 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close\n+        throw e\n+      }\n+    }\n+  }\n+\n+  def this() =\n+    this(new PlainSocketImpl(), null, -1, null, 0, true, false)\n+\n+  def this(impl: SocketImpl) =\n+    this(impl, null, -1, null, 0, true, false)\n+\n+  def this(address: InetAddress, port: Int) =\n+    this(new PlainSocketImpl(), address, port, null, 0, true, true)\n+\n+  def this(address: InetAddress,\n+           port: Int,\n+           localAddr: InetAddress,\n+           localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         address,\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int, localAddr: InetAddress, localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: InetAddress, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(), host, port, null, 0, stream, true)\n+\n+  def this(host: String, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  // def this(proxy: Proxy)\n+\n+  private def checkClosedAndCreate: Unit = {"
+  },
+  {
+    "id" : "e915d1f0-7db2-4eed-9d47-3c4845f86bff",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "eeb4dd05-85e9-4ab2-851a-8a63b2051c1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`checkClosedAndCreate()`",
+        "createdAt" : "2017-08-14T08:46:06Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,310 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close\n+        throw e\n+      }\n+    }\n+  }\n+\n+  def this() =\n+    this(new PlainSocketImpl(), null, -1, null, 0, true, false)\n+\n+  def this(impl: SocketImpl) =\n+    this(impl, null, -1, null, 0, true, false)\n+\n+  def this(address: InetAddress, port: Int) =\n+    this(new PlainSocketImpl(), address, port, null, 0, true, true)\n+\n+  def this(address: InetAddress,\n+           port: Int,\n+           localAddr: InetAddress,\n+           localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         address,\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int, localAddr: InetAddress, localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: InetAddress, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(), host, port, null, 0, stream, true)\n+\n+  def this(host: String, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  // def this(proxy: Proxy)\n+\n+  private def checkClosedAndCreate: Unit = {\n+    if (closed) {\n+      throw new SocketException(\"Socket is closed\")\n+    }\n+\n+    if (!created) {\n+      impl.create(true)\n+      created = true\n+    }\n+  }\n+\n+  def bind(bindpoint: SocketAddress): Unit = {\n+    if (bindpoint != null && !bindpoint.isInstanceOf[InetSocketAddress]) {\n+      throw new IllegalArgumentException(\n+        \"Endpoint is of unsupported \" +\n+          \"SocketAddress subclass\")\n+    }\n+\n+    val addr =\n+      if (bindpoint == null ||\n+          bindpoint.asInstanceOf[InetSocketAddress].getAddress == null)\n+        new InetSocketAddress(InetAddress.getLoopbackAddress, 0)\n+      else {\n+        bindpoint.asInstanceOf[InetSocketAddress]\n+      }\n+\n+    checkClosedAndCreate"
+  },
+  {
+    "id" : "726bc289-d312-4450-b0d1-75ffe6ae91de",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "c9cf3ce4-67ec-4986-acf9-b2dcf942c633",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I guess you're trying to set `var created` here? How comes everything works?",
+        "createdAt" : "2017-08-21T15:30:12Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "097929ee-2c5a-43fd-a636-588563011f82",
+        "parentId" : "c9cf3ce4-67ec-4986-acf9-b2dcf942c633",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "I guess the socket descriptor was just created twice if the function `checkClosedAndCreate` was called :D Fixed",
+        "createdAt" : "2017-08-22T11:20:20Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,304 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true"
+  },
+  {
+    "id" : "a76f8928-8036-464d-b886-f459b4af9370",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "cd7a8e3f-0940-4b40-b84a-1fbc4b6b94c4",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Could you open an issue with a list of things that are left out of this PR (something similar to what I did for zip/jar: see #932/#956)",
+        "createdAt" : "2017-08-21T15:33:09Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "dc44bde6-9de0-42f1-af08-a73c8df2219a",
+        "parentId" : "cd7a8e3f-0940-4b40-b84a-1fbc4b6b94c4",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "#967 ",
+        "createdAt" : "2017-08-22T10:29:41Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : 96,
+    "diffHunk" : "@@ -0,0 +1,304 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close()\n+        throw e\n+      }\n+    }\n+  }\n+\n+  def this() =\n+    this(new PlainSocketImpl(), null, -1, null, 0, true, false)\n+\n+  protected[net] def this(impl: SocketImpl) =\n+    this(impl, null, -1, null, 0, true, false)\n+\n+  def this(address: InetAddress, port: Int) =\n+    this(new PlainSocketImpl(), address, port, null, 0, true, true)\n+\n+  def this(address: InetAddress,\n+           port: Int,\n+           localAddr: InetAddress,\n+           localPort: Int) =\n+    this(new PlainSocketImpl(), address, port, localAddr, localPort, true, true)\n+\n+  def this(host: String, port: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int, localAddr: InetAddress, localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: InetAddress, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(), host, port, null, 0, stream, true)\n+\n+  def this(host: String, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  // def this(proxy: Proxy)"
+  },
+  {
+    "id" : "88dd5705-8635-439a-88de-04c29fd84178",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "79bd8c1a-0fe0-461c-aa11-68bb96f90b9e",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`def shutdownInput()`",
+        "createdAt" : "2017-08-22T06:08:33Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,304 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close()\n+        throw e\n+      }\n+    }\n+  }\n+\n+  def this() =\n+    this(new PlainSocketImpl(), null, -1, null, 0, true, false)\n+\n+  protected[net] def this(impl: SocketImpl) =\n+    this(impl, null, -1, null, 0, true, false)\n+\n+  def this(address: InetAddress, port: Int) =\n+    this(new PlainSocketImpl(), address, port, null, 0, true, true)\n+\n+  def this(address: InetAddress,\n+           port: Int,\n+           localAddr: InetAddress,\n+           localPort: Int) =\n+    this(new PlainSocketImpl(), address, port, localAddr, localPort, true, true)\n+\n+  def this(host: String, port: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int, localAddr: InetAddress, localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: InetAddress, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(), host, port, null, 0, stream, true)\n+\n+  def this(host: String, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  // def this(proxy: Proxy)\n+\n+  private def checkClosedAndCreate(): Unit = {\n+    if (closed) {\n+      throw new SocketException(\"Socket is closed\")\n+    }\n+\n+    if (!created) {\n+      impl.create(true)\n+      created = true\n+    }\n+  }\n+\n+  def bind(bindpoint: SocketAddress): Unit = {\n+    if (bindpoint != null && !bindpoint.isInstanceOf[InetSocketAddress]) {\n+      throw new IllegalArgumentException(\n+        \"Endpoint is of unsupported \" +\n+          \"SocketAddress subclass\")\n+    }\n+\n+    val addr =\n+      if (bindpoint == null ||\n+          bindpoint.asInstanceOf[InetSocketAddress].getAddress == null)\n+        new InetSocketAddress(InetAddress.getLoopbackAddress, 0)\n+      else {\n+        bindpoint.asInstanceOf[InetSocketAddress]\n+      }\n+\n+    checkClosedAndCreate()\n+\n+    this.localAddr = addr.getAddress\n+    impl.bind(this.localAddr, addr.getPort)\n+    this.localPort = impl.localport\n+    bound = true\n+  }\n+\n+  def connect(endpoint: SocketAddress): Unit = connect(endpoint, 0)\n+\n+  def connect(endpoint: SocketAddress, timeout: Int): Unit = {\n+    if (!endpoint.isInstanceOf[InetSocketAddress] || endpoint == null) {\n+      throw new IllegalArgumentException(\n+        \"Invalid address argument to connect - \" +\n+          \"either of unsupported SocketAddress subclass or null\")\n+    }\n+    val inetAddr = endpoint.asInstanceOf[InetSocketAddress]\n+    this.addr = inetAddr.getAddress\n+    this.port = inetAddr.getPort\n+    startup(addr, port, timeout)\n+  }\n+\n+  // def getChannel: SocketChannel\n+\n+  def getInetAddress: InetAddress  = addr\n+  def getLocalAddress: InetAddress = localAddr\n+  def getLocalPort: Int            = localPort\n+  def getPort: Int                 = port\n+\n+  def getRemoteSocketAddress: SocketAddress = {\n+    if (!connected) null\n+    else new InetSocketAddress(addr, port)\n+  }\n+\n+  def getLocalSocketAddress: SocketAddress = {\n+    if (!bound) null\n+    else new InetSocketAddress(localAddr, localPort)\n+  }\n+\n+  def getKeepAlive: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_KEEPALIVE).asInstanceOf[Boolean]\n+  }\n+\n+  def getOOBInline: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_OOBINLINE).asInstanceOf[Boolean]\n+  }\n+\n+  def getReceiveBufferSize: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_RCVBUF).asInstanceOf[Int]\n+  }\n+\n+  def getReuseAddress: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_REUSEADDR).asInstanceOf[Boolean]\n+  }\n+\n+  def getSendBufferSize: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_SNDBUF).asInstanceOf[Int]\n+  }\n+\n+  def getSoLinger: Int = {\n+    checkClosedAndCreate()\n+    val value = impl.getOption(SocketOptions.SO_LINGER).asInstanceOf[Int]\n+    if (value == 0) -1 else value\n+  }\n+\n+  def getSoTimeout: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_TIMEOUT).asInstanceOf[Int]\n+  }\n+\n+  def getTcpNoDelay: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.TCP_NODELAY).asInstanceOf[Boolean]\n+  }\n+\n+  def getTrafficClass: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.IP_TOS).asInstanceOf[Int]\n+  }\n+\n+  def isBound: Boolean          = bound\n+  def isClosed: Boolean         = closed\n+  def isConnected: Boolean      = connected\n+  def isInputShutdown: Boolean  = inputShutdown\n+  def isOutputShutdown: Boolean = outputShutdown\n+\n+  // def sendUrgentData(data: Int): Unit\n+\n+  def setKeepAlive(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_KEEPALIVE, Boolean.box(on))\n+  }\n+\n+  def setOOBInline(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_OOBINLINE, Boolean.box(on))\n+  }\n+\n+  def setReceiveBufferSize(size: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_RCVBUF, Integer.valueOf(size))\n+  }\n+\n+  def setReuseAddress(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_REUSEADDR, Boolean.box(on))\n+  }\n+\n+  def setSendBufferSize(size: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_SNDBUF, Integer.valueOf(size))\n+  }\n+\n+  def setSoLinger(on: Boolean, linger: Int): Unit = {\n+    checkClosedAndCreate()\n+    if (on && linger < 0) {\n+      throw new IllegalArgumentException(\"Linger is negative\")\n+    }\n+\n+    val value = if (on) {\n+      if (linger > 65535) 65535 else linger\n+    } else {\n+      -1\n+    }\n+\n+    impl.setOption(SocketOptions.SO_LINGER, Integer.valueOf(value))\n+  }\n+\n+  def setSoTimeout(timeout: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_TIMEOUT, Integer.valueOf(timeout))\n+  }\n+\n+  def setTcpNoDelay(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.TCP_NODELAY, Boolean.box(on))\n+  }\n+\n+  def setTrafficClass(tc: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.IP_TOS, Integer.valueOf(tc))\n+  }\n+\n+  def shutdownInput: Unit = {"
+  },
+  {
+    "id" : "e133d90f-3d52-4c1c-a063-f5d3a643342c",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "e3ffd022-be0e-4b22-bacb-6438ba0d83e1",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`def shutdownOutput()`",
+        "createdAt" : "2017-08-22T06:08:44Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,304 @@\n+package java.net\n+\n+import java.io.{InputStream, OutputStream, IOException, Closeable}\n+\n+class Socket protected (private[net] val impl: SocketImpl,\n+                        private[net] var addr: InetAddress,\n+                        private[net] var port: Int,\n+                        private[net] var localAddr: InetAddress,\n+                        private[net] var localPort: Int,\n+                        streaming: Boolean,\n+                        shouldStartup: Boolean)\n+    extends Closeable {\n+\n+  private[net] var created        = false\n+  private[net] var bound          = false\n+  private[net] var connected      = false\n+  private[net] var closed         = false\n+  private[net] var inputShutdown  = false\n+  private[net] var outputShutdown = false\n+\n+  if (!streaming) {\n+    throw new UnsupportedOperationException(\n+      \"Only streaming sockets are supported \" +\n+        \"in this class for the moment.\")\n+  }\n+\n+  if (shouldStartup) {\n+    startup(addr, port)\n+  }\n+\n+  private def startup(dstAddr: InetAddress, dstPort: Int, timeout: Int = 0) = {\n+    if (dstPort < 0 || dstPort > 65535)\n+      throw new IllegalArgumentException(\n+        \"Socket port must be between 0 and 65535\")\n+\n+    impl.create(streaming)\n+    val created = true\n+    try {\n+      bound = true\n+      impl.connect(new InetSocketAddress(dstAddr, dstPort), timeout)\n+      localPort = impl.localport\n+      connected = true\n+    } catch {\n+      case e: IOException => {\n+        close()\n+        throw e\n+      }\n+    }\n+  }\n+\n+  def this() =\n+    this(new PlainSocketImpl(), null, -1, null, 0, true, false)\n+\n+  protected[net] def this(impl: SocketImpl) =\n+    this(impl, null, -1, null, 0, true, false)\n+\n+  def this(address: InetAddress, port: Int) =\n+    this(new PlainSocketImpl(), address, port, null, 0, true, true)\n+\n+  def this(address: InetAddress,\n+           port: Int,\n+           localAddr: InetAddress,\n+           localPort: Int) =\n+    this(new PlainSocketImpl(), address, port, localAddr, localPort, true, true)\n+\n+  def this(host: String, port: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  def this(host: String, port: Int, localAddr: InetAddress, localPort: Int) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         localAddr,\n+         localPort,\n+         true,\n+         true)\n+\n+  def this(host: InetAddress, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(), host, port, null, 0, stream, true)\n+\n+  def this(host: String, port: Int, stream: Boolean) =\n+    this(new PlainSocketImpl(),\n+         InetAddress.getByName(host),\n+         port,\n+         null,\n+         0,\n+         true,\n+         true)\n+\n+  // def this(proxy: Proxy)\n+\n+  private def checkClosedAndCreate(): Unit = {\n+    if (closed) {\n+      throw new SocketException(\"Socket is closed\")\n+    }\n+\n+    if (!created) {\n+      impl.create(true)\n+      created = true\n+    }\n+  }\n+\n+  def bind(bindpoint: SocketAddress): Unit = {\n+    if (bindpoint != null && !bindpoint.isInstanceOf[InetSocketAddress]) {\n+      throw new IllegalArgumentException(\n+        \"Endpoint is of unsupported \" +\n+          \"SocketAddress subclass\")\n+    }\n+\n+    val addr =\n+      if (bindpoint == null ||\n+          bindpoint.asInstanceOf[InetSocketAddress].getAddress == null)\n+        new InetSocketAddress(InetAddress.getLoopbackAddress, 0)\n+      else {\n+        bindpoint.asInstanceOf[InetSocketAddress]\n+      }\n+\n+    checkClosedAndCreate()\n+\n+    this.localAddr = addr.getAddress\n+    impl.bind(this.localAddr, addr.getPort)\n+    this.localPort = impl.localport\n+    bound = true\n+  }\n+\n+  def connect(endpoint: SocketAddress): Unit = connect(endpoint, 0)\n+\n+  def connect(endpoint: SocketAddress, timeout: Int): Unit = {\n+    if (!endpoint.isInstanceOf[InetSocketAddress] || endpoint == null) {\n+      throw new IllegalArgumentException(\n+        \"Invalid address argument to connect - \" +\n+          \"either of unsupported SocketAddress subclass or null\")\n+    }\n+    val inetAddr = endpoint.asInstanceOf[InetSocketAddress]\n+    this.addr = inetAddr.getAddress\n+    this.port = inetAddr.getPort\n+    startup(addr, port, timeout)\n+  }\n+\n+  // def getChannel: SocketChannel\n+\n+  def getInetAddress: InetAddress  = addr\n+  def getLocalAddress: InetAddress = localAddr\n+  def getLocalPort: Int            = localPort\n+  def getPort: Int                 = port\n+\n+  def getRemoteSocketAddress: SocketAddress = {\n+    if (!connected) null\n+    else new InetSocketAddress(addr, port)\n+  }\n+\n+  def getLocalSocketAddress: SocketAddress = {\n+    if (!bound) null\n+    else new InetSocketAddress(localAddr, localPort)\n+  }\n+\n+  def getKeepAlive: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_KEEPALIVE).asInstanceOf[Boolean]\n+  }\n+\n+  def getOOBInline: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_OOBINLINE).asInstanceOf[Boolean]\n+  }\n+\n+  def getReceiveBufferSize: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_RCVBUF).asInstanceOf[Int]\n+  }\n+\n+  def getReuseAddress: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_REUSEADDR).asInstanceOf[Boolean]\n+  }\n+\n+  def getSendBufferSize: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_SNDBUF).asInstanceOf[Int]\n+  }\n+\n+  def getSoLinger: Int = {\n+    checkClosedAndCreate()\n+    val value = impl.getOption(SocketOptions.SO_LINGER).asInstanceOf[Int]\n+    if (value == 0) -1 else value\n+  }\n+\n+  def getSoTimeout: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.SO_TIMEOUT).asInstanceOf[Int]\n+  }\n+\n+  def getTcpNoDelay: Boolean = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.TCP_NODELAY).asInstanceOf[Boolean]\n+  }\n+\n+  def getTrafficClass: Int = {\n+    checkClosedAndCreate()\n+    impl.getOption(SocketOptions.IP_TOS).asInstanceOf[Int]\n+  }\n+\n+  def isBound: Boolean          = bound\n+  def isClosed: Boolean         = closed\n+  def isConnected: Boolean      = connected\n+  def isInputShutdown: Boolean  = inputShutdown\n+  def isOutputShutdown: Boolean = outputShutdown\n+\n+  // def sendUrgentData(data: Int): Unit\n+\n+  def setKeepAlive(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_KEEPALIVE, Boolean.box(on))\n+  }\n+\n+  def setOOBInline(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_OOBINLINE, Boolean.box(on))\n+  }\n+\n+  def setReceiveBufferSize(size: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_RCVBUF, Integer.valueOf(size))\n+  }\n+\n+  def setReuseAddress(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_REUSEADDR, Boolean.box(on))\n+  }\n+\n+  def setSendBufferSize(size: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_SNDBUF, Integer.valueOf(size))\n+  }\n+\n+  def setSoLinger(on: Boolean, linger: Int): Unit = {\n+    checkClosedAndCreate()\n+    if (on && linger < 0) {\n+      throw new IllegalArgumentException(\"Linger is negative\")\n+    }\n+\n+    val value = if (on) {\n+      if (linger > 65535) 65535 else linger\n+    } else {\n+      -1\n+    }\n+\n+    impl.setOption(SocketOptions.SO_LINGER, Integer.valueOf(value))\n+  }\n+\n+  def setSoTimeout(timeout: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.SO_TIMEOUT, Integer.valueOf(timeout))\n+  }\n+\n+  def setTcpNoDelay(on: Boolean): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.TCP_NODELAY, Boolean.box(on))\n+  }\n+\n+  def setTrafficClass(tc: Int): Unit = {\n+    checkClosedAndCreate()\n+    impl.setOption(SocketOptions.IP_TOS, Integer.valueOf(tc))\n+  }\n+\n+  def shutdownInput: Unit = {\n+    impl.shutdownInput\n+    inputShutdown = true\n+  }\n+\n+  def shutdownOutput: Unit = {"
+  }
+]

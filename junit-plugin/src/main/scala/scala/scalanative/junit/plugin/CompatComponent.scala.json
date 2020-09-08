@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "50646096-8b7b-474f-ba9f-f49230632228",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "02aa066b-6080-46e5-9f2c-91b19545bc06",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This entire trait is dead code. I've submitted a PR to Scala.js to remove there as well. (https://github.com/scala-js/scala-js/pull/4118)",
+        "createdAt" : "2020-07-09T10:48:59Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package scala.scalanative\n+package junit.plugin\n+\n+// Ported from Scala.js\n+\n+import scala.tools.nsc._\n+\n+/** Hacks to have our source code compatible with all the versions of scalac\n+ *  that we support.\n+ *\n+ *  @author Nicolas Stucki\n+ */\n+trait CompatComponent {"
+  }
+]

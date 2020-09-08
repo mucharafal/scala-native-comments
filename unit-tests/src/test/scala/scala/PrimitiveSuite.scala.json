@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "fed93b8b-f839-4564-8467-04a2fc287ee4",
+    "prId" : 1106,
+    "comments" : [
+      {
+        "id" : "70fa53a4-5bee-4cc8-b6ab-c18492f17c41",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Actually we want to test both the case when partial evaluation happens and the case when it doesn't. To do this you can define two duplicate definitions with the same body, one marked as `@inline` and another one as `@noinline`.",
+        "createdAt" : "2017-12-11T16:48:46Z",
+        "updatedAt" : "2017-12-16T20:42:16Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2dcab3f2-7ce9-4a15-94f0-fc0fd6e71860",
+        "parentId" : "70fa53a4-5bee-4cc8-b6ab-c18492f17c41",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those small methods should probably be defined within `test(\"...\") { ... }` as well.",
+        "createdAt" : "2017-12-11T16:49:10Z",
+        "updatedAt" : "2017-12-16T20:42:16Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4454f672-98f2-450a-8257-1d40b57b8752",
+        "parentId" : "70fa53a4-5bee-4cc8-b6ab-c18492f17c41",
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-12-17T05:16:01Z",
+        "updatedAt" : "2017-12-17T05:16:02Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f51ed93047ed12c99c4dad35c6a69f1db299616c",
+    "line" : null,
+    "diffHunk" : "@@ -50,4 +50,22 @@ object PrimitiveSuite extends tests.Suite {\n     val y: Long = 33\n     assert((x << y) == 6)\n   }\n+\n+  test(\" x % y\") {\n+    assert(intRemByNegOne(4) == 0)\n+    assert(intRemByNegOne(Int.MinValue) == 0)\n+    assert(longRemByNegOne(4) == 0L)\n+    assert(longRemByNegOne(Long.MinValue) == 0L)\n+  }\n+\n+  // use method to prevent partial evaluation\n+  def intRemByNegOne(i: Int): Int = {\n+    i % -1\n+  }\n+\n+  // use method to prevent partial evaluation\n+  def longRemByNegOne(l: Long): Long = {\n+    l % -1L\n+  }"
+  }
+]

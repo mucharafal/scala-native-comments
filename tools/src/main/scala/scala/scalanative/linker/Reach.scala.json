@@ -1,0 +1,242 @@
+[
+  {
+    "id" : "b2ff6b66-068c-48e3-8084-7f4f72e12280",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "c29a1b00-3b78-4904-9427-d8281102aa79",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We usually use `ty` as a shortcut for `type` and `retty` name as a shortcut for `return type`.",
+        "createdAt" : "2018-10-29T09:34:45Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -544,8 +544,9 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {\n       reachVal(v)\n     case Op.Copy(v) =>\n       reachVal(v)\n-    case Op.Sizeof(ty) =>\n+    case Op.Sizeof(ty, retType) =>"
+  },
+  {
+    "id" : "4bf7b604-19ce-49be-a1a5-da722af12f53",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "db9d7114-7564-4768-8137-05ae1312a4aa",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There's something fishy here. If you unroll the code above this snippet to see all of `def reachEntry`, you can see that when `reachEntry` is called, as soon as the class is not abstract, `reachAllocation(cls)` will be called, which will make instances of the class reachable. Calling `reachEntry` for classes with a static initializer will therefore cause too much methods to be reachable, because a non-abstract class with a static initializer will have its instances reachable, although the presence of a static initializer would not necessarily cause the class to be instantiated.\r\n\r\nI believe you cannot reuse `reachEntry`. You need a different `def reachClinit` that focuses on reaching the static initializers, and not reach the allocation.",
+        "createdAt" : "2020-02-20T14:22:56Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -138,6 +139,10 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {\n             }\n           }\n         }\n+        val clinit = cls.name.member(Sig.Clinit())\n+        if (loaded(cls.name).contains(clinit)) {\n+          reachGlobal(clinit)\n+        }"
+  },
+  {
+    "id" : "2257e6f6-5c63-47a6-8169-e480275160f2",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "b622ae3e-2f13-4ab3-9062-c86dc1ce0a9d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It looks like this could be merged with the previous `case`, just adding `|| sig.isClinit`.",
+        "createdAt" : "2020-02-20T14:24:17Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : 32,
+    "diffHunk" : "@@ -219,6 +224,8 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {\n                 update(Rt.JavaHashCodeSig)\n               case sig if sig.isMethod || sig.isCtor || sig.isGenerated =>\n                 update(sig)\n+              case sig if sig.isClinit =>\n+                update(sig)"
+  },
+  {
+    "id" : "6ab41502-d45d-4e96-a000-67884034799c",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "8d3d6415-55fd-4cbc-b52b-eed2c8658565",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    infos.get(name).foreach { cls =>\r\n```",
+        "createdAt" : "2020-04-24T14:50:14Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -143,6 +144,16 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {\n     }\n   }\n \n+  def reachClinit(name: Global): Unit = {\n+    reachGlobalNow(name)\n+    infos.get(name).map { cls =>"
+  },
+  {
+    "id" : "c7dc14bd-5e92-4b42-8928-d4bd6a9db5b4",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "120960bb-5aa8-43ee-95d4-08fda7d72244",
+        "parentId" : null,
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Have you considered to use a `mutable.ListBuffer` instead of a `var` of a `List`?\r\nAppending to a `List` like this has a linear cost and creates garbage.",
+        "createdAt" : "2020-08-17T16:41:31Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9733bc80-bfed-4ff2-a549-020baba47d89",
+        "parentId" : "120960bb-5aa8-43ee-95d4-08fda7d72244",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "I did not like that either, but the deprecation note says:\r\n\r\n> Stack is an inelegant and potentially poorly-performing wrapper around List. **Use a List assigned to a var instead.**",
+        "createdAt" : "2020-08-18T08:30:01Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ec4a68a3-c617-42cb-b29c-a20ef6b5cacd",
+        "parentId" : "120960bb-5aa8-43ee-95d4-08fda7d72244",
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "In that case you need to push on the left (using `stack ::= m`) instead of pushing on the right, so you don't recreate an entire new List from scratch on every push.\r\nAnd you should replace the `.last` and `.init` calls with `.head` and `.tail` calls.",
+        "createdAt" : "2020-08-18T09:16:13Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "33c5344f-8dc9-41e2-86be-03eb813ecb02",
+        "parentId" : "120960bb-5aa8-43ee-95d4-08fda7d72244",
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Oh, by _that_ you meant using a `var` of a `List`? Now I understand your answer..\r\nWell, I think that If you push on the head (as I said in the last comment) you get a pretty performant stack, but I wouldn't bet anything on it being better/worse than `mutable.ListBuffer` 😄 ",
+        "createdAt" : "2020-08-18T09:31:22Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ead199ab-da26-40c8-ad6e-5812b27e966b",
+        "parentId" : "120960bb-5aa8-43ee-95d4-08fda7d72244",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I agree with @lolgab. When using a `List` as a stack, the three operations to use are `::=`, `head` and `tail`.",
+        "createdAt" : "2020-08-20T15:49:56Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -76,14 +83,15 @@ class Reach(config: build.Config, entries: Seq[Global], loader: ClassLoader) {\n \n   def process(): Unit =\n     while (todo.nonEmpty) {\n-      val name = todo.pop()\n+      val name = todo.last\n+      todo = todo.init\n       if (!done.contains(name)) {\n         reachDefn(name)\n       }\n     }\n \n   def reachDefn(name: Global): Unit = {\n-    stack.push(name)\n+    stack :+= name"
+  }
+]

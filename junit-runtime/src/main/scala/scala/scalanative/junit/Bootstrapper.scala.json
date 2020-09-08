@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "7dca7a40-deee-4ff0-8ae7-038d39b7f0db",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "c5e57f61-239d-4230-89b5-bc6e415d09c2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Even if you dropped support for async tests to make things work for now, we must prepare the interface of `Bootstrapper` for that support later on. Therefore, `invokeTest` should still return `Future[Try[Unit]]` and the JUnit plugin should still wrap results in `Future.successful`.",
+        "createdAt" : "2020-07-09T12:06:26Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+package scala.scalanative\n+package junit\n+\n+// Ported from Scala.js\n+\n+import scala.scalanative.reflect.annotation._\n+import scala.util.Try\n+\n+/** Scala Native internal JUnit bootstrapper.\n+ *\n+ *  This class is public due to implementation details. Only the junit compiler\n+ *  plugin may generate classes inheriting from it.\n+ *\n+ *  Relying on this trait directly is unspecified behavior.\n+ */\n+@EnableReflectiveInstantiation\n+trait Bootstrapper {\n+  def beforeClass(): Unit\n+  def afterClass(): Unit\n+  def before(instance: AnyRef): Unit\n+  def after(instance: AnyRef): Unit\n+\n+  def tests(): Array[TestMetadata]\n+  def invokeTest(instance: AnyRef, name: String): Try[Unit]"
+  }
+]

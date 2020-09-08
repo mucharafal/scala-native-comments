@@ -1,0 +1,402 @@
+[
+  {
+    "id" : "c5d8a371-025c-4ac2-9af2-abd72ddcb2ca",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "bee6038c-5d1e-4ccb-a814-c0edf692376d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "sockaddr and friends badly need to have implicit classes that alias their field names to their human-readable counter-parts. ",
+        "createdAt" : "2017-06-12T10:04:12Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,236 @@\n+package scala.scalanative\n+package testinterface\n+\n+import java.io.{\n+  ByteArrayInputStream,\n+  ByteArrayOutputStream,\n+  DataInputStream,\n+  DataOutputStream\n+}\n+\n+import scala.compat.Platform.EOL\n+import scala.scalanative.posix._\n+import scala.scalanative.native._\n+import scala.scalanative.runtime.ByteArray\n+import arpa.inet._\n+import sys.socket\n+import netinet.in._\n+import sbt.testing.{Event => SbtEvent, _}\n+\n+import scala.scalanative.testinterface.serialization._\n+import Serializer._\n+import scala.annotation.tailrec\n+import scala.scalanative.posix.inttypes.uint16_t\n+import scala.scalanative.posix.sys.socket.{accept, sockaddr, socklen_t}\n+\n+abstract class TestMainBase {\n+\n+  /** All the frameworks reported in `loadedTestFrameworks` in sbt. */\n+  def frameworks: Seq[Framework]\n+\n+  /** A mapping from class name to instantiated test object. */\n+  def tests: Map[String, AnyRef]\n+\n+  /** Actual main method of the test runner. */\n+  def testMain(args: Array[String]): Unit = Zone { implicit z =>\n+    val server_port = args.headOption.map(_.toInt).getOrElse(9000).toUShort\n+    val listen_sock = setupServer(server_port)\n+\n+    onClient(listen_sock) { client_socket =>\n+      // We don't need to listen for incoming connections anymore\n+      unistd.close(listen_sock)\n+      testRunner(Array.empty, null, client_socket)\n+    }\n+  }\n+\n+  /** Executes body, calls `perror` with `str` if the result is non-zero. */\n+  private def exitOnFailure(str: String)(body: => CInt)(\n+      implicit zone: Zone): Unit = {\n+    val err = body\n+    if (err != 0) {\n+      stdio.perror(toCString(str))\n+      scala.sys.exit(err)\n+    }\n+  }\n+\n+  /** Sets up the server socket, returns the file descriptor. */\n+  private def setupServer(port: uint16_t)(implicit zone: Zone): CInt = {\n+    val server_address = native.alloc[sockaddr_in]\n+    !server_address._1 = socket.AF_INET.toUShort\n+    !server_address._2 = htons(port)\n+    !server_address._3._1 = htonl(INADDR_ANY)"
+  },
+  {
+    "id" : "9d6b8e59-ed2c-42ec-9a9d-eb6a428cb24c",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "bdcccae2-cdd3-4c1b-a259-48446bd3cfda",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Yay! 👍 ",
+        "createdAt" : "2017-08-14T09:39:39Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : 4,
+    "diffHunk" : "@@ -7,19 +7,14 @@ import java.io.{\n   DataInputStream,\n   DataOutputStream\n }\n+import java.net.Socket"
+  },
+  {
+    "id" : "8bdccfb0-c37f-4bca-9ccb-7d0333079bae",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "34ee87db-7806-4eeb-829e-3488f8a064d0",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I'm afraid you may read 2 messages at once here, but only the first will get parsed, and the second will be lost. It's better to keep using `msglen` to know where to stop.",
+        "createdAt" : "2017-08-14T09:42:00Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7325437d-c813-491d-8d24-c3f5041a883f",
+        "parentId" : "34ee87db-7806-4eeb-829e-3488f8a064d0",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "The number of bytes read by `dis.readFully` is the length of the buffer, which in this case is `msglen`: \r\n``` scala\r\nval msgbuf = new Array[Byte](msglen)\r\n```",
+        "createdAt" : "2017-08-14T10:52:15Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5d99cb39-9994-400c-9e50-6ec15d5a885b",
+        "parentId" : "34ee87db-7806-4eeb-829e-3488f8a064d0",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "https://docs.oracle.com/javase/8/docs/api/java/io/DataInputStream.html#readFully-byte:A-\r\n",
+        "createdAt" : "2017-08-14T10:52:42Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c7c3b7d8-293c-49fe-8725-9750f29c6483",
+        "parentId" : "34ee87db-7806-4eeb-829e-3488f8a064d0",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Oh yeah sure you're right!",
+        "createdAt" : "2017-08-14T11:24:27Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : 159,
+    "diffHunk" : "@@ -117,55 +80,46 @@ abstract class TestMainBase {\n         val taskInfos = newTasks.zipWithIndex.map {\n           case (t, id) => task2TaskInfo(id + origSize, t, runner)\n         }\n-        send(client_socket)(TaskInfos(taskInfos))\n-        testRunner(tasks ++ newTasks, runner, client_socket)\n+        send(clientSocket)(TaskInfos(taskInfos))\n+        testRunner(tasks ++ newTasks, runner, clientSocket)\n \n       case Command.RunnerDone(_) =>\n         val r       = runner.done()\n         val message = Command.RunnerDone(r)\n-        send(client_socket)(message)\n+        send(clientSocket)(message)\n \n       case other =>\n         println(s\"Unexpected message: $other\")\n     }\n+  }\n \n   private def task2TaskInfo(id: Int, task: Task, runner: Runner) =\n     TaskInfo(id, task.taskDef, task.tags)\n \n-  /** Reads `len` bytes from `client` socket. */\n-  private def read(client: CInt)(len: Int): DataInputStream = {\n-    val buf = new Array[Byte](len)\n-    val _   = socket.recv(client, buf.asInstanceOf[ByteArray].at(0), len, 0)\n-    new DataInputStream(new ByteArrayInputStream(buf))\n-  }\n-\n   /** Receives a message from `client`. */\n-  private def receive[T](client: CInt): Message = {\n-    val msglen = read(client)(4).readInt()\n-    val in     = read(client)(msglen)\n+  private def receive[T](dis: DataInputStream): Message = {\n+    val msglen = dis.readInt()\n     val msgbuf = new Array[Byte](msglen)\n-    var total  = 0\n-    while (total < msglen) {\n-      total += in.read(msgbuf, total, msglen - total)\n+    if (msglen > 0) {\n+      dis.readFully(msgbuf)"
+  },
+  {
+    "id" : "3dcf3ec4-ea98-407a-955c-fb5a2b18d9aa",
+    "prId" : 1056,
+    "comments" : [
+      {
+        "id" : "276af760-7c52-4736-974a-f72cc228aa12",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The goal is to run a single test directly using the binary that sbt generates with `test:nativeLink`? Unfortunately, this will only work with our own tests, even though the option will be available to everyone.\r\n\r\nI was thinking about the following approach:\r\n - Add a `lazy val nativeDebug = settingKey[Boolean](\"Enable debugging of tests with LLDB\")` to the sbt plugin\r\n - When running the tests:\r\n    - if `nativeDebug in Test` is `false`, the tests are run exactly as they are today.\r\n    - if `nativeDebug in Test` is `true`, then sbt **does not** start the test process itself. Instead, it prints out a command line that users should copy-paste in their terminal and waits for the user to press `return`:\r\n> Copy-paste the following command to open the tests in LLDB, start the program, and then press `return` in this window to continue:\r\n> $ lldb target/scala-2.11/classes/test-out 63559",
+        "createdAt" : "2017-10-15T14:17:07Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b5c6484e-edd9-4695-9b88-89f6384ea65a",
+        "parentId" : "276af760-7c52-4736-974a-f72cc228aa12",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It should probably say that another debugger can be used, but the first argument to the test program should be the given port number.",
+        "createdAt" : "2017-10-15T14:36:44Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "39580494-5956-4a05-afa4-9a042f708245",
+        "parentId" : "276af760-7c52-4736-974a-f72cc228aa12",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, that was what I was experimenting with too. A port between `1024` and `65535`, otherwise you get an error.\r\n",
+        "createdAt" : "2017-10-15T18:18:38Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "92957314-6763-4fd7-b7fe-166908719158",
+        "parentId" : "276af760-7c52-4736-974a-f72cc228aa12",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "1. Sockets will likely cause problems when using breakpoints in the debugger. The debugger stops at a break point for a while. The JVM part is waiting to receive a message, then timeouts. All further tests fail with `SocketClosed`. It should be better to provide a command for running a single test directly. Currently I have some parameters hardcoded, but those could also be passed via command line.\r\n2. A direct command would be more user friendly than a flag. For example, `testCommands` could take the same arguments as `testOnly` and produce a list of commands to run - 1 for each test suite. \r\n```bash\r\nsbt \"; set nativeDebug := true; tests/testOnly java.lang.ThreadSuite\"\r\n```\r\nvs\r\n```bash\r\nsbt \"tests/testCommands java.lang.ThreadSuite\"\r\n```",
+        "createdAt" : "2017-10-25T08:56:39Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f39b968500d808ba4831a35e1992044a9696603a",
+    "line" : null,
+    "diffHunk" : "@@ -26,9 +26,55 @@ abstract class TestMainBase {\n \n   /** Actual main method of the test runner. */\n   def testMain(args: Array[String]): Unit = {\n-    val serverPort   = args.head.toInt\n-    val clientSocket = new Socket(\"127.0.0.1\", serverPort)\n-    testRunner(Array.empty, null, clientSocket)\n+    val (options, values) = args.toList.partition(_.startsWith(\"--\"))\n+    // catching Segmentation Faults and Erroneous Arithmetic Operation by default\n+    // it can be disabled for debug tool compatibility\n+    val catchSegfaults = !options.contains(\"--no-catch-fault\")\n+    if (catchSegfaults) {\n+      signal.signal(signal.SIGSEGV, TestMainBase.faultHandler)\n+      signal.signal(signal.SIGFPE, TestMainBase.faultHandler)\n+    }\n+    values match {\n+      case \"run-test\" :: className :: Nil =>\n+        runSingleTest(className)\n+      case serverPort :: _ =>\n+        val clientSocket = new Socket(\"127.0.0.1\", serverPort.toInt)\n+        testRunner(Array.empty, null, clientSocket)\n+    }\n+  }\n+\n+  private def runSingleTest(value: String): Unit = {\n+    val runner = frameworks(0).runner(Array.empty,\n+                                      Array.empty,\n+                                      new PreloadedClassLoader(tests))\n+    val taskDef = new TaskDef(\n+      value,\n+      DeserializedSubclassFingerprint(isModule = true,\n+                                      \"tests.Suite\",\n+                                      requireNoArgConstructor = false),\n+      false,\n+      Array(new SuiteSelector))\n+    val Array(task: Task) = runner.tasks(Array(taskDef))\n+    val logger = new Logger {\n+      def debug(msg: String): Unit = Console.err.println(\"DEBUG: \" + msg)\n+\n+      def error(msg: String): Unit = Console.err.println(\"ERROR: \" + msg)\n+\n+      val ansiCodesSupported = true\n+\n+      def warn(msg: String): Unit = Console.err.println(\"WARN: \" + msg)\n+\n+      def trace(t: Throwable): Unit = {\n+        Console.err.println(\"TRACE:\")\n+        t.printStackTrace()\n+      }\n+\n+      def info(msg: String): Unit = Console.err.println(\"INFO: \" + msg)\n+    }\n+    val eventHandler = new EventHandler {\n+      def handle(event: SbtEvent): Unit = {}\n+    }\n+    task.execute(eventHandler, Array(logger))"
+  },
+  {
+    "id" : "4ab89439-96f7-4cdf-8646-edff2ebbce39",
+    "prId" : 1056,
+    "comments" : [
+      {
+        "id" : "517d4a27-000d-47b5-83cd-d6496c3811ce",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Would it be feasible to fail the current test but continue the execution after a `SIGSEGV` or `SIGFPE` (and maybe other non-fatal signals)?",
+        "createdAt" : "2017-10-15T14:28:30Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e0905513-f650-4ff5-b5ed-abfb4aab1da7",
+        "parentId" : "517d4a27-000d-47b5-83cd-d6496c3811ce",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Hmm. Maybe this would work:\r\n```scala\r\nthrow new Error(...)\r\n//instead of\r\nSystem.exit(...)\r\n```\r\nI need to test that.",
+        "createdAt" : "2017-10-15T19:59:20Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f39b968500d808ba4831a35e1992044a9696603a",
+    "line" : null,
+    "diffHunk" : "@@ -148,3 +194,29 @@ abstract class TestMainBase {\n     override def trace(t: Throwable): Unit = log(Log.Level.Trace, \"\", Some(t))\n   }\n }\n+\n+object TestMainBase {\n+  private val faultHandler = CFunctionPtr.fromFunction1(handleSegFault _)\n+  private def handleSegFault(id: Int): Unit = {\n+    //making ids stable i.e. vals instead fo defs\n+    //for use in the match\n+    val SIGSEGV = signal.SIGSEGV\n+    val SIGFPE  = signal.SIGFPE\n+\n+    val retCode = id match {\n+      case `SIGSEGV` =>\n+        Console.err.println(\"Segmentation fault\")\n+        139\n+      case `SIGFPE` =>\n+        Console.err.println(\"Erroneous Arithmetic Operation\")\n+        136\n+      case _ =>\n+        Console.err.println(\"Unknown fault\")\n+        -1\n+    }\n+    // the handler will run on the same thread that caused the segmentation fault\n+    new Throwable().printStackTrace()\n+    // segfault return code\n+    System.exit(retCode)"
+  },
+  {
+    "id" : "d78843fd-aa9f-40a6-9186-67d3e8ac06d3",
+    "prId" : 1056,
+    "comments" : [
+      {
+        "id" : "1321d104-9a81-4b7a-9799-e81014dca50d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Shouldn't it return `128 + id`? Otherwise, sbt will just say it exited with `-1`, which is wrong.",
+        "createdAt" : "2017-10-15T14:29:26Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c409ca48-116a-4a6c-8dcb-03d9aa844fec",
+        "parentId" : "1321d104-9a81-4b7a-9799-e81014dca50d",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Same here.",
+        "createdAt" : "2017-10-15T17:24:22Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f39b968500d808ba4831a35e1992044a9696603a",
+    "line" : null,
+    "diffHunk" : "@@ -148,3 +194,29 @@ abstract class TestMainBase {\n     override def trace(t: Throwable): Unit = log(Log.Level.Trace, \"\", Some(t))\n   }\n }\n+\n+object TestMainBase {\n+  private val faultHandler = CFunctionPtr.fromFunction1(handleSegFault _)\n+  private def handleSegFault(id: Int): Unit = {\n+    //making ids stable i.e. vals instead fo defs\n+    //for use in the match\n+    val SIGSEGV = signal.SIGSEGV\n+    val SIGFPE  = signal.SIGFPE\n+\n+    val retCode = id match {\n+      case `SIGSEGV` =>\n+        Console.err.println(\"Segmentation fault\")\n+        139\n+      case `SIGFPE` =>\n+        Console.err.println(\"Erroneous Arithmetic Operation\")\n+        136\n+      case _ =>\n+        Console.err.println(\"Unknown fault\")\n+        -1"
+  },
+  {
+    "id" : "7e68cddc-e542-4401-95bb-c49edf3cd558",
+    "prId" : 1056,
+    "comments" : [
+      {
+        "id" : "c2c56c6b-9021-4fb0-99d6-d32116be526b",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I don't think these values are enforced: http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/signal.h.html\r\n\r\nMy understanding is that the exit code should be `1 << 7 + id`. The first bit is set to indicate an abnormal exit, the following 7 bits are represent the exit code.",
+        "createdAt" : "2017-10-15T14:32:59Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2bdfaf9e-537a-431c-82f5-7cfb907ba3e2",
+        "parentId" : "c2c56c6b-9021-4fb0-99d6-d32116be526b",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "I did not know that. Will change it to the formula.",
+        "createdAt" : "2017-10-15T17:24:14Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f39b968500d808ba4831a35e1992044a9696603a",
+    "line" : null,
+    "diffHunk" : "@@ -148,3 +194,29 @@ abstract class TestMainBase {\n     override def trace(t: Throwable): Unit = log(Log.Level.Trace, \"\", Some(t))\n   }\n }\n+\n+object TestMainBase {\n+  private val faultHandler = CFunctionPtr.fromFunction1(handleSegFault _)\n+  private def handleSegFault(id: Int): Unit = {\n+    //making ids stable i.e. vals instead fo defs\n+    //for use in the match\n+    val SIGSEGV = signal.SIGSEGV\n+    val SIGFPE  = signal.SIGFPE\n+\n+    val retCode = id match {\n+      case `SIGSEGV` =>\n+        Console.err.println(\"Segmentation fault\")\n+        139\n+      case `SIGFPE` =>\n+        Console.err.println(\"Erroneous Arithmetic Operation\")\n+        136"
+  }
+]

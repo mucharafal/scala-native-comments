@@ -1,0 +1,258 @@
+[
+  {
+    "id" : "947de8e1-8da1-4425-9155-bc47940df6d5",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "a9e1232b-febd-4a87-8d2f-c7ab929abd05",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is type parameter `T` used anywhere? ",
+        "createdAt" : "2017-06-14T10:36:49Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -46,41 +44,31 @@ class ComRunner(bin: File, args: Seq[String], logger: Logger) {\n   private[this] val out = new DataOutputStream(\n     new BufferedOutputStream(socket.getOutputStream))\n \n-  /** Send message `v` to the distant program. */\n-  def send[T: Serializable](v: T): Unit = synchronized {\n-    val msg = Serializer.serialize(v).mkString(EOL).getBytes(\"UTF-8\")\n-    out.writeInt(msg.length)\n-    out.write(msg)\n-    out.flush()\n+  /** Send message `msg` to the distant program. */\n+  def send(msg: Message): Unit = synchronized {\n+    SerializedOutputStream(out)(_.writeMessage(msg))\n   }\n \n   /** Wait for a message to arrive from the distant program. */\n-  def receive[T: Serializable](timeout: Duration = Duration.Inf): T =\n+  def receive[T](timeout: Duration = Duration.Inf): Message ="
+  },
+  {
+    "id" : "9cbda03d-f6bc-439e-bb1f-34a0decf409f",
+    "prId" : 874,
+    "comments" : [
+      {
+        "id" : "a8127a00-4c1b-47cb-9710-01ad421d2897",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You must always `close` in finally clause. Otherwise if exception happens, you leak the resource.",
+        "createdAt" : "2017-06-27T11:31:09Z",
+        "updatedAt" : "2017-06-28T08:39:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ddeda44d73a5b1f2f054a05b9dd944cbc14ef0c",
+    "line" : null,
+    "diffHunk" : "@@ -34,14 +34,18 @@ class ComRunner(bin: File,\n       logger.info(s\"Starting process '$bin' on port '$port'.\")\n       Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! logger\n       running = false\n+      socket.close()\n+      serverSocket.close()"
+  },
+  {
+    "id" : "8664ed9c-4c05-4add-b871-aa079ed3f704",
+    "prId" : 874,
+    "comments" : [
+      {
+        "id" : "d5432a72-4cc6-4674-921a-6b6ba8256918",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's better to make this socket a var, and open it right next to `close` to make it clear when resource is acquired/released.",
+        "createdAt" : "2017-06-27T11:31:53Z",
+        "updatedAt" : "2017-06-28T08:39:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ddeda44d73a5b1f2f054a05b9dd944cbc14ef0c",
+    "line" : null,
+    "diffHunk" : "@@ -24,8 +24,8 @@ class ComRunner(bin: File,\n                 args: Seq[String],\n                 logger: Logger) {\n \n-  /** Port over which we communicate with the distant program */\n-  val port: Int = scala.util.Random.nextInt(1000) + 9000\n+  private[this] val serverSocket = new ServerSocket(0)\n+  private[this] val port         = serverSocket.getLocalPort"
+  },
+  {
+    "id" : "31b71f7d-c959-4b31-85a2-f6abbd412c90",
+    "prId" : 874,
+    "comments" : [
+      {
+        "id" : "60ec87e1-cb56-4c71-9bf4-affa83918cc6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Finally clause is run every time, even if the exception is not thrown. Are you closing the server socket immediately after the connection has been established on purpose? ",
+        "createdAt" : "2017-06-27T14:12:14Z",
+        "updatedAt" : "2017-06-28T08:39:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c21b7bcd-379c-4e95-9995-88f24407074b",
+        "parentId" : "60ec87e1-cb56-4c71-9bf4-affa83918cc6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Server socket should probably be closed in `def close()` together with all the other resources.",
+        "createdAt" : "2017-06-27T14:40:42Z",
+        "updatedAt" : "2017-06-28T08:39:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e6881d4a-2240-4340-a3e2-dbf684c70882",
+        "parentId" : "60ec87e1-cb56-4c71-9bf4-affa83918cc6",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Yes I'm closing it immediately on purpose. After someone connected, we don't need to keep the server socket open because nobody will ever connect again to this very socket, so we can close it.\r\n\r\nI'm happy to change it if you prefer, but we don't need to keep this socket open any longer.",
+        "createdAt" : "2017-06-27T17:18:44Z",
+        "updatedAt" : "2017-06-28T08:39:11Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3a65829a-b609-4f04-be83-2b9ebc27b3de",
+        "parentId" : "60ec87e1-cb56-4c71-9bf4-affa83918cc6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds reasonable. Lets document it with a comment that explains why we close it so soon.",
+        "createdAt" : "2017-06-27T21:15:52Z",
+        "updatedAt" : "2017-06-28T08:39:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ddeda44d73a5b1f2f054a05b9dd944cbc14ef0c",
+    "line" : null,
+    "diffHunk" : "@@ -24,27 +24,29 @@ class ComRunner(bin: File,\n                 args: Seq[String],\n                 logger: Logger) {\n \n-  private[this] val serverSocket = new ServerSocket(0)\n-  private[this] val port         = serverSocket.getLocalPort\n-\n   private[this] val runner = new Thread {\n     override def run(): Unit = {\n       import sbt.Process._\n-      running = true\n+      val port = serverSocket.getLocalPort\n       logger.info(s\"Starting process '$bin' on port '$port'.\")\n       Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! logger\n-      running = false\n-      socket.close()\n-      serverSocket.close()\n     }\n   }\n \n-  private[this] var running: Boolean = false\n+  private[this] var serverSocket: ServerSocket = _\n+  private[this] val socket =\n+    try {\n+      serverSocket = new ServerSocket(0)\n \n-  runner.start()\n+      runner.start()\n \n-  serverSocket.setSoTimeout(30 * 1000)\n-  private[this] val socket = serverSocket.accept()\n+      serverSocket.setSoTimeout(30 * 1000)\n+      serverSocket.accept()\n+    } catch {\n+      case _: SocketTimeoutException =>\n+        throw new MessageOnlyException(\n+          \"The test program never connected to sbt.\")\n+    } finally serverSocket.close()"
+  },
+  {
+    "id" : "749d8b00-b123-4f49-8e04-e542fe7205f0",
+    "prId" : 1056,
+    "comments" : [
+      {
+        "id" : "a5125100-4060-4b5a-b65e-1d2d819a14eb",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Maybe log that into `debug`, or print it only if the exist code is non-zero?",
+        "createdAt" : "2017-10-15T13:57:04Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "31a8ac93-d1e4-4ac6-a9af-fe7321fa91ec",
+        "parentId" : "a5125100-4060-4b5a-b65e-1d2d819a14eb",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Makes sense, will add logging to `error` for non zero exit codes. Why  `error`? Something obviously broke, so that would be an error.",
+        "createdAt" : "2017-10-15T17:21:58Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a9ea2a2a-0439-4ca1-bd59-4267b217644d",
+        "parentId" : "a5125100-4060-4b5a-b65e-1d2d819a14eb",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I really think we need to have more stuff at `info` level but also have `debug` level for more detailed info. If you look and standard make and C/C++ compiler, quite a lot is logged, like the commands.\r\n",
+        "createdAt" : "2017-10-15T18:18:55Z",
+        "updatedAt" : "2017-11-07T11:51:35Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f39b968500d808ba4831a35e1992044a9696603a",
+    "line" : 8,
+    "diffHunk" : "@@ -29,7 +29,10 @@ class ComRunner(bin: File,\n       import sbt.Process._\n       val port = serverSocket.getLocalPort\n       logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! logger\n+      val retCode = Process(bin.toString +: port.toString +: args,\n+                            None,\n+                            envVars.toSeq: _*) ! logger\n+      logger.info(s\"Process '$bin' on port '$port' exited with code $retCode.\")"
+  }
+]

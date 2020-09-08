@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "c60ec953-bf80-4261-82b3-2fba015f38da",
+    "prId" : 352,
+    "comments" : [
+      {
+        "id" : "453fcd7b-e012-4c65-a0af-7fdeae8da37a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Scala's parser combinators are not being actively maintained. Using [fastparse](https://github.com/lihaoyi/fastparse) for this kind of things is probably a better idea. \n",
+        "createdAt" : "2016-10-24T15:17:57Z",
+        "updatedAt" : "2016-12-01T12:55:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a3d86276-4dbd-4963-82ae-629203d798ec",
+        "parentId" : "453fcd7b-e012-4c65-a0af-7fdeae8da37a",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I migrated to fastparse\n",
+        "createdAt" : "2016-10-28T09:01:01Z",
+        "updatedAt" : "2016-12-01T12:55:29Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3ebc7fc6d749cd6cdd7b54957d3b16d77ff1c2bc",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,42 @@\n+package scala.scalanative\n+package compiler\n+package tools\n+\n+import scala.util.parsing.combinator._\n+import scala.util.matching.Regex\n+\n+object DispatchInfoParser extends JavaTokenParsers {"
+  }
+]

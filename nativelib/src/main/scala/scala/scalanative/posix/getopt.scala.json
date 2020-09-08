@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "b37feb76-c9bc-4c64-9650-5631440c385a",
+    "prId" : 1348,
+    "comments" : [
+      {
+        "id" : "bf26fe2b-c991-4e70-9c15-bd9906c5a3f8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "this file needs to go to posixlib/ subproject now (#1350).",
+        "createdAt" : "2018-09-21T13:21:23Z",
+        "updatedAt" : "2018-09-21T15:34:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5be01752a875f00d6b1c6f52577f2ee2c3f23160",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,14 @@\n+package scala.scalanative\n+package posix"
+  }
+]

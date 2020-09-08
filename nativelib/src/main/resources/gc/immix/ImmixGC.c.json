@@ -1,0 +1,417 @@
+[
+  {
+    "id" : "84892396-a529-4ec1-bf6e-1ca3d166c47c",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "236e7040-b539-49fb-88fc-4ccf9863188a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that this is not used for now in any way, lets move the definition of the safepoint implementation in the `safepoint.c`, not to duplicate it in every GC implementation. ",
+        "createdAt" : "2017-05-22T10:04:59Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+#include <stdio.h>\n+#include <stdlib.h>\n+#include <memory.h>\n+#include \"GCTypes.h\"\n+#include \"Heap.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"Marker.h\"\n+#include \"Log.h\"\n+#include \"Object.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define INITIAL_HEAP_SIZE (128 * 1024 * 1024)\n+\n+void scalanative_collect();\n+\n+void scalanative_init() {\n+    heap = Heap_create(INITIAL_HEAP_SIZE);\n+    stack = Stack_alloc(INITIAL_STACK_SIZE);\n+}\n+\n+void *scalanative_alloc_raw(size_t size) {\n+    assert(size <= MAX_BLOCK_SIZE);\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+    if (heap == NULL) {\n+        scalanative_init();\n+    }\n+\n+    word_t *object = Heap_alloc(heap, (uint32_t)size);\n+    if (object == NULL) {\n+        scalanative_collect();\n+\n+        object = Heap_alloc(heap, (uint32_t)size);\n+        if (object == NULL) {\n+            LargeAllocator_print(heap->largeAllocator);\n+            printf(\"Failed to alloc: %zu\\n\", size + 8);\n+            printf(\"No more memory available\\n\");\n+            fflush(stdout);\n+            exit(1);\n+        }\n+    }\n+\n+    return object;\n+}\n+\n+void *scalanative_alloc_raw_atomic(size_t size) {\n+    return scalanative_alloc_raw(size);\n+}\n+\n+void *scalanative_alloc(void *info, size_t size) {\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+\n+    void **alloc = (void **)Heap_allocSmall(heap, size);\n+    *alloc = info;\n+    return (void *)alloc;\n+}\n+\n+void *scalanative_alloc_large(void *info, size_t size) {\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+\n+    void **alloc = (void **)Heap_allocLarge(heap, size);\n+    *alloc = info;\n+    return (void *)alloc;\n+}\n+\n+void *alloc(size_t size) { return scalanative_alloc_raw(size); }\n+\n+void scalanative_collect() { Heap_collect(heap, stack); }\n+\n+void scalanative_safepoint() {}"
+  },
+  {
+    "id" : "56f6b69c-9939-4038-9c93-2d7f84525ccc",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "90c591d8-6ce1-4a7b-aa9b-4d9f0b0b4d6d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems like our allocation entry points are slowly getting out of hand here. We really need a doc page in the contributors guide section that explains a bit more about compiler/gc interface. This should list all of the supported allocation entry points, their signatures, and expected behavior.",
+        "createdAt" : "2017-05-22T10:08:27Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a511b734-e0a6-4a7b-b71c-2d71dbcb89b9",
+        "parentId" : "90c591d8-6ce1-4a7b-aa9b-4d9f0b0b4d6d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "More specifically I'd only leave three allocation entry points:\r\n\r\n1. `scalanative_alloc_small`\r\n2. `scalanative_alloc_large`\r\n3. `scalanative_alloc_atomic`\r\n\r\nLeaving out the raw version altogether (it's an artifact of Boehm GC.)",
+        "createdAt" : "2017-05-22T10:17:56Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "25a48e30-e515-4dac-9cdb-09a2862123a3",
+        "parentId" : "90c591d8-6ce1-4a7b-aa9b-4d9f0b0b4d6d",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "The `scalanative_alloc_raw` is used for arrays. This would mean that we need to change the allocation of array to choose the correct function depending on the size.",
+        "createdAt" : "2017-05-22T11:20:29Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+#include <stdio.h>\n+#include <stdlib.h>\n+#include <memory.h>\n+#include \"GCTypes.h\"\n+#include \"Heap.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"Marker.h\"\n+#include \"Log.h\"\n+#include \"Object.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define INITIAL_HEAP_SIZE (128 * 1024 * 1024)\n+\n+void scalanative_collect();\n+\n+void scalanative_init() {\n+    heap = Heap_create(INITIAL_HEAP_SIZE);\n+    stack = Stack_alloc(INITIAL_STACK_SIZE);\n+}\n+\n+void *scalanative_alloc_raw(size_t size) {\n+    assert(size <= MAX_BLOCK_SIZE);\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+    if (heap == NULL) {\n+        scalanative_init();\n+    }\n+\n+    word_t *object = Heap_alloc(heap, (uint32_t)size);\n+    if (object == NULL) {\n+        scalanative_collect();\n+\n+        object = Heap_alloc(heap, (uint32_t)size);\n+        if (object == NULL) {\n+            LargeAllocator_print(heap->largeAllocator);\n+            printf(\"Failed to alloc: %zu\\n\", size + 8);\n+            printf(\"No more memory available\\n\");\n+            fflush(stdout);\n+            exit(1);\n+        }\n+    }\n+\n+    return object;\n+}\n+\n+void *scalanative_alloc_raw_atomic(size_t size) {\n+    return scalanative_alloc_raw(size);\n+}\n+\n+void *scalanative_alloc(void *info, size_t size) {\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+\n+    void **alloc = (void **)Heap_allocSmall(heap, size);\n+    *alloc = info;\n+    return (void *)alloc;\n+}\n+\n+void *scalanative_alloc_large(void *info, size_t size) {\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+\n+    void **alloc = (void **)Heap_allocLarge(heap, size);\n+    *alloc = info;\n+    return (void *)alloc;\n+}"
+  },
+  {
+    "id" : "7902c760-de61-4ea1-ba2d-6e70614cfa8d",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "aeccfc2d-5271-4eb8-baed-a888575ff464",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is used in the java library quite a bit without any RTTI in the start of the object. I'm pretty sure that this is unsound at the moment. \r\n\r\nAn obvious solution would be to use an RTTI of an Object class and return a pointer 1 word past the RTTI. But this would fall apart if the pointer gets stored somewhere as we only support inner pointers for stack to heap references, but not for heap to heap references, don't we? ",
+        "createdAt" : "2017-05-22T10:09:16Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0e3049a4-6694-44c0-8d2b-1c98c5ef0865",
+        "parentId" : "aeccfc2d-5271-4eb8-baed-a888575ff464",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Yes that's correct, everywhere apart from the stack, pointers are assumed to point on rtti.",
+        "createdAt" : "2017-05-22T11:18:51Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+#include <stdio.h>\n+#include <stdlib.h>\n+#include <memory.h>\n+#include \"GCTypes.h\"\n+#include \"Heap.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"Marker.h\"\n+#include \"Log.h\"\n+#include \"Object.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define INITIAL_HEAP_SIZE (128 * 1024 * 1024)\n+\n+void scalanative_collect();\n+\n+void scalanative_init() {\n+    heap = Heap_create(INITIAL_HEAP_SIZE);\n+    stack = Stack_alloc(INITIAL_STACK_SIZE);\n+}\n+\n+void *scalanative_alloc_raw(size_t size) {\n+    assert(size <= MAX_BLOCK_SIZE);\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+    if (heap == NULL) {\n+        scalanative_init();\n+    }\n+\n+    word_t *object = Heap_alloc(heap, (uint32_t)size);\n+    if (object == NULL) {\n+        scalanative_collect();\n+\n+        object = Heap_alloc(heap, (uint32_t)size);\n+        if (object == NULL) {\n+            LargeAllocator_print(heap->largeAllocator);\n+            printf(\"Failed to alloc: %zu\\n\", size + 8);\n+            printf(\"No more memory available\\n\");\n+            fflush(stdout);\n+            exit(1);\n+        }\n+    }\n+\n+    return object;\n+}\n+\n+void *scalanative_alloc_raw_atomic(size_t size) {\n+    return scalanative_alloc_raw(size);\n+}"
+  },
+  {
+    "id" : "4bcd0dd2-42f0-4eb4-90d6-35e36eae9635",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "b1e9a2b9-5d61-4f93-b5ca-01f8ff9099be",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. We need to have a precise definition of large in the docs.\r\n2. We need an assert that object is large here.",
+        "createdAt" : "2017-05-22T10:10:30Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a44a2d4f-ef03-4a74-a5f0-9638ba488356",
+        "parentId" : "b1e9a2b9-5d61-4f93-b5ca-01f8ff9099be",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Where should we document this ? Is there documentation about the GC interface ?",
+        "createdAt" : "2017-05-24T14:51:09Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0f5b8cda-1615-4fe4-9a03-c7ae62f22032",
+        "parentId" : "b1e9a2b9-5d61-4f93-b5ca-01f8ff9099be",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We need to create a new page for this. E.g. `docs/contrib/gc.rst`.",
+        "createdAt" : "2017-05-24T15:13:49Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : 38,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+#include <stdio.h>\n+#include <stdlib.h>\n+#include <memory.h>\n+#include \"GCTypes.h\"\n+#include \"Heap.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"Marker.h\"\n+#include \"Log.h\"\n+#include \"Object.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define INITIAL_HEAP_SIZE (128 * 1024 * 1024)\n+\n+void scalanative_collect();\n+\n+void scalanative_init() {\n+    heap = Heap_create(INITIAL_HEAP_SIZE);\n+    stack = Stack_alloc(INITIAL_STACK_SIZE);\n+}\n+\n+void *scalanative_alloc_raw(size_t size) {\n+    assert(size <= MAX_BLOCK_SIZE);\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+    if (heap == NULL) {\n+        scalanative_init();\n+    }\n+\n+    word_t *object = Heap_alloc(heap, (uint32_t)size);\n+    if (object == NULL) {\n+        scalanative_collect();\n+\n+        object = Heap_alloc(heap, (uint32_t)size);\n+        if (object == NULL) {\n+            LargeAllocator_print(heap->largeAllocator);\n+            printf(\"Failed to alloc: %zu\\n\", size + 8);\n+            printf(\"No more memory available\\n\");\n+            fflush(stdout);\n+            exit(1);\n+        }\n+    }\n+\n+    return object;\n+}\n+\n+void *scalanative_alloc_raw_atomic(size_t size) {\n+    return scalanative_alloc_raw(size);\n+}\n+\n+void *scalanative_alloc(void *info, size_t size) {\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+\n+    void **alloc = (void **)Heap_allocSmall(heap, size);\n+    *alloc = info;\n+    return (void *)alloc;\n+}\n+\n+void *scalanative_alloc_large(void *info, size_t size) {"
+  },
+  {
+    "id" : "a86e8539-8d44-4d1e-a99f-d0dacae249df",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "39f710c1-5778-49d7-82e8-0690c5c61dcd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given it calls to `allocSmall` in the implementation, the more appropriate name for this one is `scalanative_alloc_small`. Also needs an assert that size is indeed small. ",
+        "createdAt" : "2017-05-22T10:11:54Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+#include <stdio.h>\n+#include <stdlib.h>\n+#include <memory.h>\n+#include \"GCTypes.h\"\n+#include \"Heap.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"Marker.h\"\n+#include \"Log.h\"\n+#include \"Object.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define INITIAL_HEAP_SIZE (128 * 1024 * 1024)\n+\n+void scalanative_collect();\n+\n+void scalanative_init() {\n+    heap = Heap_create(INITIAL_HEAP_SIZE);\n+    stack = Stack_alloc(INITIAL_STACK_SIZE);\n+}\n+\n+void *scalanative_alloc_raw(size_t size) {\n+    assert(size <= MAX_BLOCK_SIZE);\n+    size = roundToNextMultiple(size, WORD_SIZE);\n+    if (heap == NULL) {\n+        scalanative_init();\n+    }\n+\n+    word_t *object = Heap_alloc(heap, (uint32_t)size);\n+    if (object == NULL) {\n+        scalanative_collect();\n+\n+        object = Heap_alloc(heap, (uint32_t)size);\n+        if (object == NULL) {\n+            LargeAllocator_print(heap->largeAllocator);\n+            printf(\"Failed to alloc: %zu\\n\", size + 8);\n+            printf(\"No more memory available\\n\");\n+            fflush(stdout);\n+            exit(1);\n+        }\n+    }\n+\n+    return object;\n+}\n+\n+void *scalanative_alloc_raw_atomic(size_t size) {\n+    return scalanative_alloc_raw(size);\n+}\n+\n+void *scalanative_alloc(void *info, size_t size) {"
+  },
+  {
+    "id" : "79a9da80-6b14-4ee2-bd7a-67dc2006ac86",
+    "prId" : 1085,
+    "comments" : [
+      {
+        "id" : "321f2741-5872-43a2-be6b-2922270d45f3",
+        "parentId" : null,
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "By doing this, the small heap and the large heap will start at 4MB. Maybe we should have two different constants for small and large initial heap size. Or even start with a large heap of size 0.",
+        "createdAt" : "2017-11-21T19:09:17Z",
+        "updatedAt" : "2017-11-22T10:03:39Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "de824345-bc66-49a2-8179-d824d636f7ab",
+        "parentId" : "321f2741-5872-43a2-be6b-2922270d45f3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Excellent point, lets keep 1MB for large heap for now.",
+        "createdAt" : "2017-11-22T09:57:59Z",
+        "updatedAt" : "2017-11-22T10:03:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e93d4621-5a0b-4c6c-b8c1-219dd5d0fe9c",
+        "parentId" : "321f2741-5872-43a2-be6b-2922270d45f3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "2aae100 addresses this by introducing a separate constant for initial large heap size.",
+        "createdAt" : "2017-11-22T10:04:11Z",
+        "updatedAt" : "2017-11-22T10:04:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2aae1006f01c13676e5fdff08be90e2ff02b27ae",
+    "line" : null,
+    "diffHunk" : "@@ -10,7 +10,7 @@\n #include \"State.h\"\n #include \"utils/MathUtils.h\"\n \n-#define INITIAL_HEAP_SIZE (1024 * 1024UL)\n+#define INITIAL_HEAP_SIZE (4 * 1024 * 1024UL)"
+  },
+  {
+    "id" : "82947563-cc27-4274-b162-dcce482bcba2",
+    "prId" : 1357,
+    "comments" : [
+      {
+        "id" : "782fbb09-71ad-4e0f-8540-fa58c2b43725",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think it's best to move it to a new 'module' called `Settings`. It would have `Settings_MinHeapSize()` and `Settings_MaxHeapSize()` methods that are called by `ImmixGC`.",
+        "createdAt" : "2018-09-21T11:54:45Z",
+        "updatedAt" : "2018-09-21T12:20:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c3bdaf638cf19e000789418f5de2df2f1c2c6d9f",
+    "line" : 35,
+    "diffHunk" : "@@ -13,8 +14,56 @@\n \n void scalanative_collect();\n \n+/*\n+ Accepts number of bytes or number with a suffix letter for indicating the units.\n+ k or K for kilobytes(1024 bytes), m or M for megabytes and g or G for gigabytes.\n+*/\n+size_t parseSizeStr(char * str) {\n+    int length = strlen(str);\n+    size_t size;\n+    sscanf(str, \"%zu\", &size);\n+    char possibleSuffix = str[length - 1];\n+    switch (possibleSuffix) {\n+        case 'k':\n+        case 'K':\n+            size *= 1024;\n+            break;\n+        case 'm':\n+        case 'M':\n+            size *= 1024 * 1024;\n+            break;\n+        case 'g':\n+        case 'G':\n+            size *= 1024 * 1024 * 1024;\n+    }\n+    return size;\n+}"
+  },
+  {
+    "id" : "072a0067-1026-4db8-9b0b-5a2d65e0de30",
+    "prId" : 1357,
+    "comments" : [
+      {
+        "id" : "1260d7d5-8649-4df4-8a3f-a7770b37be52",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why 2 blocks? This seems to be *really* low, even it works now. Scala Native is not aimed at super lower memory devices with <1M of memory. Lets set a lower limit at 1M. ",
+        "createdAt" : "2018-09-21T12:05:23Z",
+        "updatedAt" : "2018-09-21T12:20:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c3bdaf638cf19e000789418f5de2df2f1c2c6d9f",
+    "line" : 47,
+    "diffHunk" : "@@ -13,8 +14,56 @@\n \n void scalanative_collect();\n \n+/*\n+ Accepts number of bytes or number with a suffix letter for indicating the units.\n+ k or K for kilobytes(1024 bytes), m or M for megabytes and g or G for gigabytes.\n+*/\n+size_t parseSizeStr(char * str) {\n+    int length = strlen(str);\n+    size_t size;\n+    sscanf(str, \"%zu\", &size);\n+    char possibleSuffix = str[length - 1];\n+    switch (possibleSuffix) {\n+        case 'k':\n+        case 'K':\n+            size *= 1024;\n+            break;\n+        case 'm':\n+        case 'M':\n+            size *= 1024 * 1024;\n+            break;\n+        case 'g':\n+        case 'G':\n+            size *= 1024 * 1024 * 1024;\n+    }\n+    return size;\n+}\n+\n NOINLINE void scalanative_init() {\n-    Heap_Init(&heap, INITIAL_SMALL_HEAP_SIZE, INITIAL_LARGE_HEAP_SIZE);\n+    char *minHeapSizeStr = getenv(\"SCALANATIVE_MIN_HEAP_SIZE\");\n+    size_t minHeapSize;\n+    if (minHeapSizeStr != NULL) {\n+        minHeapSize = parseSizeStr(minHeapSizeStr);\n+    } else {\n+        minHeapSize = DEFAULT_MIN_SMALL_HEAP_SIZE;\n+    }\n+\n+    if (minHeapSize < 2 * BLOCK_TOTAL_SIZE) {"
+  },
+  {
+    "id" : "2fb98a92-f739-40db-bcf4-a06a8dc8fcbb",
+    "prId" : 1357,
+    "comments" : [
+      {
+        "id" : "76127d07-ba59-40e3-a942-4a8c625fd26a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This can overflow if size_it is 32-bit. This needs to be checked and reported as an error in case it does.",
+        "createdAt" : "2018-09-21T12:16:51Z",
+        "updatedAt" : "2018-09-21T12:20:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c3bdaf638cf19e000789418f5de2df2f1c2c6d9f",
+    "line" : 32,
+    "diffHunk" : "@@ -13,8 +14,56 @@\n \n void scalanative_collect();\n \n+/*\n+ Accepts number of bytes or number with a suffix letter for indicating the units.\n+ k or K for kilobytes(1024 bytes), m or M for megabytes and g or G for gigabytes.\n+*/\n+size_t parseSizeStr(char * str) {\n+    int length = strlen(str);\n+    size_t size;\n+    sscanf(str, \"%zu\", &size);\n+    char possibleSuffix = str[length - 1];\n+    switch (possibleSuffix) {\n+        case 'k':\n+        case 'K':\n+            size *= 1024;\n+            break;\n+        case 'm':\n+        case 'M':\n+            size *= 1024 * 1024;\n+            break;\n+        case 'g':\n+        case 'G':\n+            size *= 1024 * 1024 * 1024;"
+  }
+]

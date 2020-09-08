@@ -1,0 +1,1306 @@
+[
+  {
+    "id" : "c41c5e74-7156-462f-8cad-b5858636be7f",
+    "prId" : 298,
+    "comments" : [
+      {
+        "id" : "f352c4b2-26a2-4e27-9544-61aa9380080a",
+        "parentId" : null,
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "sbt run need to be quoted `sbt run`\n",
+        "createdAt" : "2016-09-26T06:45:59Z",
+        "updatedAt" : "2016-10-03T13:53:09Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "aa4a15c5-2029-40a6-9eb5-3607ed0693ee",
+        "parentId" : "f352c4b2-26a2-4e27-9544-61aa9380080a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed!\n",
+        "createdAt" : "2016-10-03T13:53:49Z",
+        "updatedAt" : "2016-10-03T13:53:49Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "63bc9f851858843b6e59da5aaa7de712c4aa114d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,31 @@\n+.. _sbt:\n+\n+Building projects with SBT\n+==========================\n+\n+If you have reached this section you probably have a system that is now able to compile and run Scala Native programs.\n+\n+Start within a new folder, and create a file ``project/plugins.sbt`` as follows::\n+\n+    resolvers += Resolver.sonatypeRepo(\"snapshots\")\n+\n+    addSbtPlugin(\"org.scala-native\" % \"sbtplugin\"  % \"0.1-SNAPSHOT\")\n+\n+define a new ``build.sbt``::\n+\n+    enablePlugins(ScalaNativePlugin)\n+\n+    scalaVersion := \"2.11.8\"\n+\n+and now you can write your first application in ``./src/main/scala/HelloWorld.scala``::\n+\n+    package example\n+\n+    object Main {\n+      def main(args: Array[String]): Unit =\n+      println(\"Hello, world!\")\n+    }\n+\n+now simply run sbt run to get everything compiled and have the expected output!"
+  },
+  {
+    "id" : "489e1c87-bb20-4244-bc17-0e8e239541dd",
+    "prId" : 371,
+    "comments" : [
+      {
+        "id" : "27570bdc-7569-4f41-8395-f1f870ce9db6",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "http://semver.org/#summary\n",
+        "createdAt" : "2016-11-02T07:38:58Z",
+        "updatedAt" : "2016-11-02T18:16:14Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "482a7795-651c-4c6c-a214-fb06dd1e5e41",
+        "parentId" : "27570bdc-7569-4f41-8395-f1f870ce9db6",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "hum there is something strange in the sbt build. it does not compile if I set the version to 0.1.0-SNAPSHOT. _If it's not broken dont fix it_\n",
+        "createdAt" : "2016-11-02T07:50:48Z",
+        "updatedAt" : "2016-11-02T18:16:14Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d6aae451508a0e736ad17cb9debcadc54bea37b0",
+    "line" : null,
+    "diffHunk" : "@@ -9,7 +9,7 @@ Start within a new folder, and create a file ``project/plugins.sbt`` as follows:\n \n     resolvers += Resolver.sonatypeRepo(\"snapshots\")\n \n-    addSbtPlugin(\"org.scala-native\" % \"sbtplugin\"  % \"0.1-SNAPSHOT\")\n+    addSbtPlugin(\"org.scala-native\" % \"sbtplugin\"  % \"0.1.0-SNAPSHOT\")"
+  },
+  {
+    "id" : "f1080499-9153-48bb-98db-025b5917267f",
+    "prId" : 411,
+    "comments" : [
+      {
+        "id" : "57338a65-7d5a-4f39-b83c-63a4424b1295",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should eventually move sbt-cross docs to native docs instead. ",
+        "createdAt" : "2016-11-29T12:40:26Z",
+        "updatedAt" : "2016-11-29T12:40:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "63fcb690e499cdba310fdd97bee5fae4f06318e7",
+    "line" : 16,
+    "diffHunk" : "@@ -32,4 +34,9 @@ and now you can write your first application in ``./src/main/scala/HelloWorld.sc\n \n now simply run ``sbt run`` to get everything compiled and have the expected output!\n \n+Cross compilation to JS, JVM and Native\n+---------------------------------------\n+\n+We created `sbt-cross <https://github.com/scala-native/sbt-cross>`_ to be a drop-in replacement of Scala.js' crossProject. Please refer to the documentation in the README."
+  },
+  {
+    "id" : "77300fd9-587a-4b3e-870b-6305dfaaf2ff",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "ee5f2157-f540-40b5-a191-2dbe801f0997",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets just have `\"none\"` and `\"boehm\"`, no need to duplicate \"gc\" suffix. ",
+        "createdAt" : "2017-03-20T10:19:19Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -43,6 +43,7 @@ Name                     Type            Description\n ``nativeClangPP``        ``File``        Path to ``clang++`` command\n ``nativeCompileOptions`` ``Seq[String]`` Extra options passed to clang verbatim\n ``nativeMode``           ``String``      Either ``\"debug\"`` or ``\"release\"`` (1)\n+``nativeGC``             ``String``      Either ``\"nogc\"`` or ``\"boehmgc\"``"
+  },
+  {
+    "id" : "94877e28-8c7f-4061-8b5e-b35853fc899e",
+    "prId" : 568,
+    "comments" : [
+      {
+        "id" : "13b55022-57fa-4693-9c8e-fd8e7427f2b3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. We forgot to put ``nativeLinkingOptions`` in there. Can you please modify it to:\r\n\r\n```\r\n ``nativeCompileOptions`` ``Seq[String]`` Extra options passed to clang verbatim during compilation\r\n ``nativeLinkingOptions`` ``Seq[String]`` Extra options passed to clang verbatim during linking\r\n```\r\n\r\n2. Both keys mentioned above should also become tasks as they also discover things from the environment. \r\n\r\n3. Given that ``nativeMode`` is the last setting in there now, lets make everything a task for simplicity. ",
+        "createdAt" : "2017-03-20T10:13:54Z",
+        "updatedAt" : "2017-04-03T16:13:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "506daf51-5948-4145-8391-8034fe530ed4",
+        "parentId" : "13b55022-57fa-4693-9c8e-fd8e7427f2b3",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "The problem with the task is that you cannot set it.\r\n`set nativeMode := \"release\"`",
+        "createdAt" : "2017-03-20T15:02:00Z",
+        "updatedAt" : "2017-04-03T16:13:15Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "36e6f79d-5b04-4a25-baee-9594b1142f98",
+        "parentId" : "13b55022-57fa-4693-9c8e-fd8e7427f2b3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That's unfortunate, but having it as a setting locks us out of doing anything non-trivial to generate the default value. ",
+        "createdAt" : "2017-03-21T12:23:00Z",
+        "updatedAt" : "2017-04-03T16:13:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "45c2af5e28391d4906326ccd0631b17a3aabb005",
+    "line" : null,
+    "diffHunk" : "@@ -39,8 +39,6 @@ Sbt settings\n ======================== =============== =======================================\n Name                     Type            Description\n ======================== =============== =======================================\n-``nativeClang``          ``File``        Path to ``clang`` command\n-``nativeClangPP``        ``File``        Path to ``clang++`` command\n ``nativeCompileOptions`` ``Seq[String]`` Extra options passed to clang verbatim"
+  },
+  {
+    "id" : "82569b90-a3f4-40e5-b6d8-bd06cb9a01c8",
+    "prId" : 568,
+    "comments" : [
+      {
+        "id" : "38d1340b-d698-4fc4-a7b6-c86855dcaa4f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Having both `nativeFindClang` and `nativeClang` at the same time is a **massive** overcomplication of the problem. Just making `nativeClang` a task is way simpler solution to the problem.",
+        "createdAt" : "2017-04-03T12:58:28Z",
+        "updatedAt" : "2017-04-03T16:13:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ffab5e0d-29b0-4fc0-9216-ae3ca6a23605",
+        "parentId" : "38d1340b-d698-4fc4-a7b6-c86855dcaa4f",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "we need to have a setting to do `set nativeClang := ...`",
+        "createdAt" : "2017-04-03T14:36:54Z",
+        "updatedAt" : "2017-04-03T16:13:15Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "64c0328e-566d-49eb-a84e-e0a2e3d9faf0",
+        "parentId" : "38d1340b-d698-4fc4-a7b6-c86855dcaa4f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think we need to have any settings at all. We can just make everything a task, this will make sure we don't have any problems with environment discovery in the future. Duplicating every single setting as setting+task is too complicated. ",
+        "createdAt" : "2017-04-03T14:50:47Z",
+        "updatedAt" : "2017-04-03T16:13:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "45c2af5e28391d4906326ccd0631b17a3aabb005",
+    "line" : null,
+    "diffHunk" : "@@ -33,24 +33,35 @@ and now you can write your first application in ``./src/main/scala/HelloWorld.sc\n \n now simply run ``sbt run`` to get everything compiled and have the expected output!\n \n-Sbt settings and tasks\n+Sbt settings\n ----------------------\n \n-===== ======================== =============== =========================================================\n-Since Name                     Type            Description\n-===== ======================== =============== =========================================================\n-0.1   ``compile``              ``Analysis``    Compile Scala code to NIR\n-0.1   ``run``                  ``Unit``        Compile, link and run the generated binary\n-0.1   ``package``              ``File``        Similar to standard package with addition of NIR\n-0.1   ``publish``              ``Unit``        Similar to standard publish with addition of NIR (1)\n-0.1   ``nativeLink``           ``File``        Link NIR and generate native binary\n-0.1   ``nativeClang``          ``File``        Path to ``clang`` command\n-0.1   ``nativeClangPP``        ``File``        Path to ``clang++`` command\n-0.1   ``nativeCompileOptions`` ``Seq[String]`` Extra options passed to clang verbatim during compilation\n-0.1   ``nativeLinkingOptions`` ``Seq[String]`` Extra options passed to clang verbatim during linking\n-0.1   ``nativeMode``           ``String``      Either ``\"debug\"`` or ``\"release\"`` (2)\n-0.2   ``nativeGC``             ``String``      Either ``\"none\"`` or ``\"boehm\"`` (3)\n-===== ======================== =============== =========================================================\n+===== ======================== ================ =================================================== =========================================================\n+Since Name                     Type             Default Value                                       Description\n+===== ======================== ================ =================================================== =========================================================\n+0.1   ``nativeClang``          ``Option[File]`` ``None``                                            Path to ``clang`` command\n+0.1   ``nativeClangPP``        ``Option[File]`` ``None``                                            Path to ``clang++`` command\n+0.1   ``nativeCompileOptions`` ``Seq[String]``  ``Seq(\"-O0\")``                                      Extra options passed to clang verbatim during compilation\n+0.1   ``nativeLinkingOptions`` ``Seq[String]``  ``Seq(\"-I/usr/local/include\", \"-L/usr/local/lib\")`` Extra options passed to clang verbatim during linking\n+0.1   ``nativeMode``           ``String``       ``\"debug\"``                                         Either ``\"debug\"`` or ``\"release\"`` (2)\n+0.2   ``nativeGC``             ``String``       ``\"boehm\"``                                         Either ``\"none\"`` or ``\"boehm\"`` (3)\n+===== ======================== ================ =================================================== =========================================================\n+\n+Sbt tasks\n+----------------------\n+\n+===== ======================== ============ ====================================================\n+Since Name                     Type         Description\n+===== ======================== ============ ====================================================\n+0.1   ``compile``              ``Analysis`` Compile Scala code to NIR\n+0.1   ``run``                  ``Unit``     Compile, link and run the generated binary\n+0.1   ``package``              ``File``     Similar to standard package with addition of NIR\n+0.1   ``publish``              ``Unit``     Similar to standard publish with addition of NIR (1)\n+0.1   ``nativeLink``           ``File``     Link NIR and generate native binary\n+0.2   ``nativeFindClang``      ``File``     Path to ``clang`` command\n+0.2   ``nativeFindClangPP``    ``File``     Path to ``clang++`` command"
+  },
+  {
+    "id" : "17c678dd-2f90-4707-a92f-9032d71fc592",
+    "prId" : 583,
+    "comments" : [
+      {
+        "id" : "128a9f4d-5dcb-4318-ac9a-ea379d5b6b4c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1TB might seem like a lot now, but I'm pretty sure there are people who already have machines with more memory than that. What's the performance win for not doing the bounds check? ",
+        "createdAt" : "2017-04-03T12:53:34Z",
+        "updatedAt" : "2017-04-05T12:15:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e0ba817997e18702df4b2b71e306a06b7648808d",
+    "line" : null,
+    "diffHunk" : "@@ -85,7 +85,8 @@ Garbage collectors\n \n    Garbage collector that allocates things without ever freeing them. Useful\n    for short-running command-line applications or applications where garbage\n-   collections pauses are not acceptable.\n+   collections pauses are not acceptable. The gc maps 1TB of memory using\n+   mmap. It performs no bound checks and fails once it runs out of memory."
+  },
+  {
+    "id" : "cd6e0f47-fbba-4514-81ab-9d351f8f9a01",
+    "prId" : 583,
+    "comments" : [
+      {
+        "id" : "f8274b57-d822-466b-9e34-102b4823dc6a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think this detail is not necessary in high-level end user docs. ",
+        "createdAt" : "2017-04-04T11:35:57Z",
+        "updatedAt" : "2017-04-05T12:15:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e0ba817997e18702df4b2b71e306a06b7648808d",
+    "line" : null,
+    "diffHunk" : "@@ -85,7 +85,8 @@ Garbage collectors\n \n    Garbage collector that allocates things without ever freeing them. Useful\n    for short-running command-line applications or applications where garbage\n-   collections pauses are not acceptable.\n+   collections pauses are not acceptable. The gc maps chunks of 4GB using\n+   mmap."
+  },
+  {
+    "id" : "60b3fcf5-580d-40d7-b296-ba455e3a46d1",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "7e3c3bcf-4fad-41f3-b43e-ab9a649969a9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We can't really expect our end-users to read papers to understand what we did. Contributors maybe, but not  the end-users. ",
+        "createdAt" : "2017-05-26T12:45:29Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : 21,
+    "diffHunk" : "@@ -98,7 +98,14 @@ Garbage collectors\n \n    Garbage collector that allocates things without ever freeing them. Useful\n    for short-running command-line applications or applications where garbage\n-   collections pauses are not acceptable.\n+   collections pauses are not acceptable.`\n+\n+2. **immix.**\n+\n+    Immix is a mostly precise mark-region collector based on the paper:\n+    `Immix: A Mark-Region Garbage Collector with Space Efficiency,\n+     Fast Collection, and Mutator Performance\n+    <http://www.cs.utexas.edu/users/speedway/DaCapo/papers/immix-pldi-2008.pdf>`_."
+  },
+  {
+    "id" : "43c755e0-cc4e-41cb-b18f-deabd20a2b31",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "30f26d0e-5beb-4178-a38e-2121142d50a4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`(experimental, introduced in 0.3)`.",
+        "createdAt" : "2017-05-26T15:39:14Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : 16,
+    "diffHunk" : "@@ -98,7 +98,14 @@ Garbage collectors\n \n    Garbage collector that allocates things without ever freeing them. Useful\n    for short-running command-line applications or applications where garbage\n-   collections pauses are not acceptable.\n+   collections pauses are not acceptable.`\n+\n+2. **immix.**"
+  },
+  {
+    "id" : "0bceb250-9e21-49c5-8b14-ac3ee2fd3322",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "76307907-a884-4cc1-991f-c0db442f335c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`(experimental, introduced  0.2)`.",
+        "createdAt" : "2017-05-26T15:39:37Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : 7,
+    "diffHunk" : "@@ -98,7 +98,14 @@ Garbage collectors\n "
+  },
+  {
+    "id" : "e4408540-bc47-4ea6-8ea0-e946f0921fce",
+    "prId" : 793,
+    "comments" : [
+      {
+        "id" : "acd802dd-e74e-4bae-bb9b-e8943a0c314c",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Capital S",
+        "createdAt" : "2017-06-07T16:00:37Z",
+        "updatedAt" : "2017-06-07T16:00:37Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a7f1567e-e417-4acb-93e6-314734997359",
+        "parentId" : "acd802dd-e74e-4bae-bb9b-e8943a0c314c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good catch!",
+        "createdAt" : "2017-06-07T19:11:00Z",
+        "updatedAt" : "2017-06-07T19:11:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "713969ad7dc358f5be75393ea32f8764777da860",
+    "line" : 21,
+    "diffHunk" : "@@ -8,23 +8,27 @@ If you have reached this section you probably have a system that is now able to\n Minimal sbt project\n -------------------\n \n-Start within a new folder, and create a file ``project/plugins.sbt`` as follows::\n+The easiest way to make a fresh project is to use our official gitter8 template::\n+\n+    sbt new sbt new scala-native/scala-native.g8\n+\n+This includes:\n+\n+* ``project/plugins.sbt`` to add a plugin dependency::\n \n     addSbtPlugin(\"org.scala-native\" % \"sbt-scala-native\" % \"0.2.1\")\n \n-Create a file ``project/build.properties`` to define the sbt version as follows::\n+* ``project/build.properties`` to specify the sbt version::\n \n     sbt.version = 0.13.15\n \n-define a new ``build.sbt``::\n+* ``build.sbt`` to enable the plugin and specify scala version::"
+  },
+  {
+    "id" : "322782dc-6b1d-4181-a19e-871980c1787e",
+    "prId" : 1075,
+    "comments" : [
+      {
+        "id" : "4e814255-13c9-4993-8dc3-572e6aaa72d8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This needs to be clarified, not all 0.3.x releases are going to support 2.11.12.\r\n\r\nI'd add split in two lines:\r\n\r\n```\r\n0.3.0-0.3.3               2.11.8, 2.11.11\r\n0.3.4+                    2.11.8, 2.11.11, 2.11.12\r\n```",
+        "createdAt" : "2017-11-27T12:17:45Z",
+        "updatedAt" : "2017-11-27T19:03:49Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d6661ae870181fa0cd05b27512dd9279807c06a3",
+    "line" : null,
+    "diffHunk" : "@@ -43,13 +43,13 @@ Scala versions\n \n Scala Native supports following Scala versions for corresponding releases:\n \n-==================== ================\n+==================== ========================\n Scala Native Version Scala Versions\n-==================== ================\n+==================== ========================\n 0.1.x                2.11.8\n 0.2.x                2.11.8, 2.11.11\n-0.3.x                2.11.8, 2.11.11\n-==================== ================\n+0.3.x                2.11.8, 2.11.11, 2.11.12\n+==================== ========================"
+  },
+  {
+    "id" : "9ba30b18-f295-40a4-acb6-9f17ab2a156f",
+    "prId" : 1238,
+    "comments" : [
+      {
+        "id" : "9bd9140e-a94d-4b12-ab75-7839d67abb1a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets reorder this list to make immix come first, boehm second and none last. None is still experimental.",
+        "createdAt" : "2018-07-07T12:15:52Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7910bc78-161b-43f1-be3c-a5ce19987542",
+        "parentId" : "9bd9140e-a94d-4b12-ab75-7839d67abb1a",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Sounds good.",
+        "createdAt" : "2018-07-07T20:37:10Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3e845dc65ae5601769d7659d9bf265d994d322f5",
+    "line" : null,
+    "diffHunk" : "@@ -107,7 +107,7 @@ Garbage collectors\n    for short-running command-line applications or applications where garbage\n    collections pauses are not acceptable.\n \n-3. **immix.** (experimental, since 0.3)\n+3. **immix.** (default, since 0.3)"
+  },
+  {
+    "id" : "82b98989-b4cd-4fbc-9bb6-9596699a8e94",
+    "prId" : 1238,
+    "comments" : [
+      {
+        "id" : "86dc9923-7396-4649-a9a3-fe2b85977061",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is seems wrong. Sbt version can not the same as Scala Native version.",
+        "createdAt" : "2018-07-07T12:16:43Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2a1c5051-f9da-4fd8-b18e-8341fb38c56a",
+        "parentId" : "86dc9923-7396-4649-a9a3-fe2b85977061",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, agreed. See if the change makes more sense. I wanted to remove the versions that could easily get out of date.",
+        "createdAt" : "2018-07-07T20:36:34Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3e845dc65ae5601769d7659d9bf265d994d322f5",
+    "line" : null,
+    "diffHunk" : "@@ -12,21 +12,21 @@ The easiest way to make a fresh project is to use our official gitter8 template:\n \n     sbt new scala-native/scala-native.g8\n \n-This includes:\n+This includes the following files with the <version> filled in:\n \n * ``project/plugins.sbt`` to add a plugin dependency::\n \n-    addSbtPlugin(\"org.scala-native\" % \"sbt-scala-native\" % \"0.3.7\")\n+    addSbtPlugin(\"org.scala-native\" % \"sbt-scala-native\" % \"<version>\")\n \n * ``project/build.properties`` to specify the sbt version::\n \n-    sbt.version = 0.13.17\n+    sbt.version = <version>"
+  },
+  {
+    "id" : "de89838b-9b77-4e2f-8917-bd39f0774635",
+    "prId" : 1238,
+    "comments" : [
+      {
+        "id" : "0b5bffde-02c1-4d23-b045-d60a33fb4943",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "After having another look at this, I'm convinced this is guaranteed to confuse people. Previous thing was just copy-paste and run no questions asked and no thinking required. Suggested change leaves no info on what combination of versions is known to work/recommended for use with Scala Native. Concrete versions are much more clear, even if we have to update them manually at every release. ",
+        "createdAt" : "2018-07-10T10:13:13Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ac5477e1-be3a-4236-98f3-fbb5efcaee36",
+        "parentId" : "0b5bffde-02c1-4d23-b045-d60a33fb4943",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, this makes sense. When the `g8` is updated then the versions in this document need to be updated. You can't really change the `g8` until after the release or right when you make the release.",
+        "createdAt" : "2018-07-10T13:32:45Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bfcd2219-81b6-4e8d-bc36-d5f2c4fcdc59",
+        "parentId" : "0b5bffde-02c1-4d23-b045-d60a33fb4943",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We typically change g8 as soon as release syncs to sonatype, but before announcing publicly, so people don't really perceive the gap between the two. I don't think it's an issue we should worry about. ",
+        "createdAt" : "2018-07-10T13:35:23Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bd0655fe-078c-48e0-abad-0ea149cb6b64",
+        "parentId" : "0b5bffde-02c1-4d23-b045-d60a33fb4943",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I totally see the logic, I was trying to be fancy to avoid making changes but it could certainly be too confusing especially for new users.",
+        "createdAt" : "2018-07-10T13:39:30Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3e845dc65ae5601769d7659d9bf265d994d322f5",
+    "line" : null,
+    "diffHunk" : "@@ -12,21 +12,21 @@ The easiest way to make a fresh project is to use our official gitter8 template:\n \n     sbt new scala-native/scala-native.g8\n \n-This includes:\n+This includes the following files with the proper version entered (denoted by <version>):\n \n * ``project/plugins.sbt`` to add a plugin dependency::\n \n-    addSbtPlugin(\"org.scala-native\" % \"sbt-scala-native\" % \"0.3.7\")\n+    addSbtPlugin(\"org.scala-native\" % \"sbt-scala-native\" % \"<scala-native-version>\")\n \n * ``project/build.properties`` to specify the sbt version::\n \n-    sbt.version = 0.13.17\n+    sbt.version = <sbt-version>\n \n * ``build.sbt`` to enable the plugin and specify Scala version::\n \n     enablePlugins(ScalaNativePlugin)\n \n-    scalaVersion := \"2.11.12\"\n+    scalaVersion := \"<scala-version>\""
+  },
+  {
+    "id" : "f5f686f9-666e-4cc4-8f71-0e285894910a",
+    "prId" : 1238,
+    "comments" : [
+      {
+        "id" : "04922bdb-205c-42a6-b797-c89ed48f5559",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`1. **immix.** (default since 0.3.7, introduced in 0.3)`",
+        "createdAt" : "2018-07-10T10:14:09Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6d7a6475-a330-4617-b0b9-987311f5283f",
+        "parentId" : "04922bdb-205c-42a6-b797-c89ed48f5559",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@densh I think this needs to say `0.3.8` (the next release) so the next below should be `through 0.3.7`",
+        "createdAt" : "2018-07-10T13:34:53Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "576b5ef0-9bec-478d-b7ab-db365f52df6f",
+        "parentId" : "04922bdb-205c-42a6-b797-c89ed48f5559",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "My bad, you're absolutely correct, it should have been `default since 0.3.8` here and `default up until 0.3.7` for boehm.",
+        "createdAt" : "2018-07-10T13:36:29Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "28f84364-14c8-4768-b8f1-c7eb2076725d",
+        "parentId" : "04922bdb-205c-42a6-b797-c89ed48f5559",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I used `through 0.3.7` as I think it is a bit more precise. We used boehm as the default version through `0.3.7` and then switched the default to immix for `0.3.8`. Hopefully you agree.",
+        "createdAt" : "2018-07-10T13:44:03Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "896dc14a-e80e-4465-8463-533725fc854e",
+        "parentId" : "04922bdb-205c-42a6-b797-c89ed48f5559",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds good to me.",
+        "createdAt" : "2018-07-10T13:44:40Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "48c704ea-f2c0-4796-8498-80ea363c8dae",
+        "parentId" : "04922bdb-205c-42a6-b797-c89ed48f5559",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I appreciate your attention to detail in these matters. Not only is documentation important but this also is a record of what happened.",
+        "createdAt" : "2018-07-10T13:47:22Z",
+        "updatedAt" : "2018-07-10T13:47:23Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3e845dc65ae5601769d7659d9bf265d994d322f5",
+    "line" : null,
+    "diffHunk" : "@@ -96,23 +96,23 @@ Scala Native supports two distinct linking modes:\n Garbage collectors\n ------------------\n \n-1. **boehm.** (default)\n+1. **immix.** (default, since 0.3)"
+  },
+  {
+    "id" : "fd33cb40-df84-4122-82e9-af92267847b6",
+    "prId" : 1238,
+    "comments" : [
+      {
+        "id" : "03d9f88f-fd3a-4127-8508-c968d4d7e1f4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`2. **boehm.** (default up until 0.3.6)`",
+        "createdAt" : "2018-07-10T10:14:52Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3e845dc65ae5601769d7659d9bf265d994d322f5",
+    "line" : null,
+    "diffHunk" : "@@ -96,23 +96,23 @@ Scala Native supports two distinct linking modes:\n Garbage collectors\n ------------------\n \n-1. **boehm.** (default)\n+1. **immix.** (default, since 0.3)\n+\n+   Immix is a mostly-precise mark-region tracing garbage collector.\n+   More information about the collector is available as part of the original\n+   `0.3.0 announcement <https://github.com/scala-native/scala-native/releases/tag/v0.3.0>`_.\n+\n+2. **boehm.**"
+  },
+  {
+    "id" : "90eefea8-4a54-4187-acea-2659a822d98a",
+    "prId" : 1238,
+    "comments" : [
+      {
+        "id" : "10686b1c-1542-46f8-9b7d-2c8ac9494c1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`3. **none.** (experimental, introduced in 0.2)`",
+        "createdAt" : "2018-07-10T10:15:02Z",
+        "updatedAt" : "2018-07-10T13:45:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3e845dc65ae5601769d7659d9bf265d994d322f5",
+    "line" : null,
+    "diffHunk" : "@@ -96,23 +96,23 @@ Scala Native supports two distinct linking modes:\n Garbage collectors\n ------------------\n \n-1. **boehm.** (default)\n+1. **immix.** (default, since 0.3)\n+\n+   Immix is a mostly-precise mark-region tracing garbage collector.\n+   More information about the collector is available as part of the original\n+   `0.3.0 announcement <https://github.com/scala-native/scala-native/releases/tag/v0.3.0>`_.\n+\n+2. **boehm.**\n \n    Conservative generational garbage collector. More information is available\n    at the `project's page <https://www.hboehm.info/gc/>`_.\n \n-2. **none.** (experimental, since 0.2)\n+3. **none.** (experimental, since 0.2)"
+  },
+  {
+    "id" : "4addbd2c-d8fd-4919-bc5f-ccd874160ca8",
+    "prId" : 1281,
+    "comments" : [
+      {
+        "id" : "0636851b-de77-411e-a8ac-8db4f811c008",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Maybe link to https://clang.llvm.org/docs/ThinLTO.html? For example\r\n\r\n```markdown\r\nInlines across Scala/C boundary by using Clang's\r\n[ThinLTO support](https://clang.llvm.org/docs/ThinLTO.html#clang-llvm)\r\nwhich uses whole-program analysis and\r\ncross-module optimization. Unlike **none** and **full**\r\nit's able to optimize the application in parallel.\r\nIt also offers the best runtime performance according\r\nto our benchmarks.\r\n```",
+        "createdAt" : "2018-07-20T12:46:40Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d8896df9-eb67-4fa5-99ff-8dee62aeb496",
+        "parentId" : "0636851b-de77-411e-a8ac-8db4f811c008",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good idea.",
+        "createdAt" : "2018-07-23T11:17:58Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b52c74fafdca052eb9aab25182a22c3a892b3af7",
+    "line" : null,
+    "diffHunk" : "@@ -113,6 +115,32 @@ Garbage collectors\n    for short-running command-line applications or applications where garbage\n    collections pauses are not acceptable.\n \n+Link-Time Optimization (LTO)\n+----------------------------\n+\n+Scala Native relies on link-time optimization to maximize runtime performance\n+of release builds. There are three possible modes that are currently supported:\n+\n+1. **none.** (default)\n+\n+   Does not inline across Scala/C boundary. Scala to Scala calls\n+   are still optimized by emitting one fat LLVM IR module for\n+   the whole application.\n+\n+2. **full.** (Clang 3.8 or older)\n+\n+   Inlines across Scala/C boundary by merging all of the LLVM IR\n+   modules into a single module for the whole application. Unlike\n+   **none** this module also includes the runtime code thus allows\n+   for additional optimization opportunities.\n+\n+3. **thin.** (recommended on Clang 3.9 or newer)\n+\n+   Inlines across Scala/C boundary. Unlike **none** and **full**"
+  },
+  {
+    "id" : "b19427bf-e11e-4748-84e7-c231dbde4d4f",
+    "prId" : 1281,
+    "comments" : [
+      {
+        "id" : "ebdd1780-6150-4dc1-8ba8-7f05dd5e7e1a",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Also document `SCALANATIVE_LTO`?\r\n\r\n```markdown\r\nThe mode may be set using the `SCALANATIVE_LTO` environment variable.\r\n```",
+        "createdAt" : "2018-07-20T12:49:12Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5ced97ae-4c30-49e4-8a48-a015f7ecb944",
+        "parentId" : "ebdd1780-6150-4dc1-8ba8-7f05dd5e7e1a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We use env variables mostly for the sake of simplifying CI matrix. We don't officially support them, it's for internal use only. That's the reason why they are not in the docs.",
+        "createdAt" : "2018-07-23T11:19:28Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b52c74fafdca052eb9aab25182a22c3a892b3af7",
+    "line" : null,
+    "diffHunk" : "@@ -113,6 +115,32 @@ Garbage collectors\n    for short-running command-line applications or applications where garbage\n    collections pauses are not acceptable.\n \n+Link-Time Optimization (LTO)\n+----------------------------\n+\n+Scala Native relies on link-time optimization to maximize runtime performance\n+of release builds. There are three possible modes that are currently supported:\n+\n+1. **none.** (default)\n+\n+   Does not inline across Scala/C boundary. Scala to Scala calls\n+   are still optimized by emitting one fat LLVM IR module for\n+   the whole application.\n+\n+2. **full.** (Clang 3.8 or older)\n+\n+   Inlines across Scala/C boundary by merging all of the LLVM IR\n+   modules into a single module for the whole application. Unlike\n+   **none** this module also includes the runtime code thus allows\n+   for additional optimization opportunities.\n+\n+3. **thin.** (recommended on Clang 3.9 or newer)\n+\n+   Inlines across Scala/C boundary. Unlike **none** and **full**\n+   it's able to optimize the application in parallel.\n+   It also offers the best runtime performance according\n+   to our benchmarks.\n+"
+  },
+  {
+    "id" : "eb201d07-8bd0-4527-9582-00b5af77092c",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "dfabe43b-5042-4c7a-b19b-bf2e3a21b61f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Spurious changes?",
+        "createdAt" : "2020-06-11T09:39:00Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d46fed1c-f284-498d-986c-e291338f8fa4",
+        "parentId" : "dfabe43b-5042-4c7a-b19b-bf2e3a21b61f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "When `nativeLibraryDependencies` was in the list it was longer so everything got shifted. Now that it is gone, it looks like a change with no purpose. I can go ahead and revert that change.",
+        "createdAt" : "2020-06-11T14:55:08Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dc5a72bf-4aa7-48f1-97fa-4de70ec47fcf",
+        "parentId" : "dfabe43b-5042-4c7a-b19b-bf2e3a21b61f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Reverted.",
+        "createdAt" : "2020-06-11T17:44:11Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -55,25 +55,25 @@ Scala Native Version       Scala Versions\n Sbt settings and tasks\n ----------------------\n \n-===== ======================== =============== =========================================================\n-Since Name                     Type            Description\n-===== ======================== =============== =========================================================\n-0.1   ``compile``              ``Analysis``    Compile Scala code to NIR\n-0.1   ``run``                  ``Unit``        Compile, link and run the generated binary\n-0.1   ``package``              ``File``        Similar to standard package with addition of NIR\n-0.1   ``publish``              ``Unit``        Similar to standard publish with addition of NIR (1)\n-0.1   ``nativeLink``           ``File``        Link NIR and generate native binary\n-0.1   ``nativeClang``          ``File``        Path to ``clang`` command\n-0.1   ``nativeClangPP``        ``File``        Path to ``clang++`` command\n-0.1   ``nativeCompileOptions`` ``Seq[String]`` Extra options passed to clang verbatim during compilation\n-0.1   ``nativeLinkingOptions`` ``Seq[String]`` Extra options passed to clang verbatim during linking\n-0.1   ``nativeMode``           ``String``      One of ``\"debug\"``, ``\"release-fast\"`` or ``\"release-full\"`` (2)\n-0.2   ``nativeGC``             ``String``      One of ``\"none\"``, ``\"boehm\"`` or ``\"immix\"`` (3)\n-0.3.3 ``nativeLinkStubs``      ``Boolean``     Whether to link ``@stub`` definitions, or to ignore them\n-0.4.0 ``nativeLTO``            ``String``      One of ``\"none\"``, ``\"full\"`` or ``\"thin\"`` (4)\n-0.4.0 ``nativeCheck``          ``Boolean``     Shall the linker check intermediate results for correctness?\n-0.4.0 ``nativeDump``           ``Boolean``     Shall the linker dump intermediate results to disk? \n-===== ======================== =============== =========================================================\n+===== ============================= ================== =================================================================\n+Since Name                          Type               Description\n+===== ============================= ================== =================================================================\n+0.1   ``compile``                   ``Analysis``       Compile Scala code to NIR\n+0.1   ``run``                       ``Unit``           Compile, link and run the generated binary\n+0.1   ``package``                   ``File``           Similar to standard package with addition of NIR\n+0.1   ``publish``                   ``Unit``           Similar to standard publish with addition of NIR (1)\n+0.1   ``nativeLink``                ``File``           Link NIR and generate native binary\n+0.1   ``nativeClang``               ``File``           Path to ``clang`` command\n+0.1   ``nativeClangPP``             ``File``           Path to ``clang++`` command\n+0.1   ``nativeCompileOptions``      ``Seq[String]``    Extra options passed to clang verbatim during compilation\n+0.1   ``nativeLinkingOptions``      ``Seq[String]``    Extra options passed to clang verbatim during linking\n+0.1   ``nativeMode``                ``String``         One of ``\"debug\"``, ``\"release-fast\"`` or ``\"release-full\"`` (2)\n+0.2   ``nativeGC``                  ``String``         One of ``\"none\"``, ``\"boehm\"`` or ``\"immix\"`` (3)\n+0.3.3 ``nativeLinkStubs``           ``Boolean``        Whether to link ``@stub`` definitions, or to ignore them\n+0.4.0 ``nativeLTO``                 ``String``         One of ``\"none\"``, ``\"full\"`` or ``\"thin\"`` (4)\n+0.4.0 ``nativeCheck``               ``Boolean``        Shall the linker check intermediate results for correctness?\n+0.4.0 ``nativeDump``                ``Boolean``        Shall the linker dump intermediate results to disk?\n+===== ============================= ================== ================================================================="
+  },
+  {
+    "id" : "33b4941b-9045-4093-ab75-1d3ccedf7de9",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "3532c950-f714-4de4-b2cb-f8fec788bbc3",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Why is the `code-block` language `scala`.  I would have expected `c`.  I think \r\nSphinx supports that out-of-the-box.   \r\n\r\nGood that you provided the name \"myapi.c\" just above to help me orient on\r\nlanguage.  Sorry, I get confused easily.",
+        "createdAt" : "2020-07-23T19:25:18Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1672484c-8ffa-4eb7-8a7d-3f5123d931bb",
+        "parentId" : "3532c950-f714-4de4-b2cb-f8fec788bbc3",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, I changed that to C and the `long long` changed to be highlighted in red, like the Scala types. Nice catch.",
+        "createdAt" : "2020-07-23T19:49:48Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -168,28 +168,80 @@ package resolution system.\n .. _sonatype: https://github.com/xerial/sbt-sonatype\n .. _bintray: https://github.com/sbt/sbt-bintray\n \n-Using 3rd Party libraries with Native Code\n-------------------------------------------\n+Including Native Code in your Application or Library\n+----------------------------------------------------\n \n-Third party libraries that are targeted only for the Scala Native platform\n-can have C and/or C++ components included in the dependency. The code is\n-added to `src/main/resources` and is published like a normal Scala library.\n+Scala Native uses native C and C++ code to interact with the underlying\n+platform and operating system. Since the tool chain compiles and links\n+the Scala Native system, it can also compile and link C and C++ code\n+included in an application project or a library that supports Scala\n+Native that includes C and/or C++ source code.\n \n-If the dependency contains native code, Scala Native will unpack the library,\n-compile, link, and optimize any native code along with the Scala Native\n-runtime and your application code.\n+Supported file extensions for native code are `.c`, `.cpp`, and `.S`.\n \n-Including Native Code in your Project\n-------------------------------------------\n+Note that `.S` files or assembly code is not portable across different CPU\n+architectures so conditional compilation would be needed to support\n+more than one architecture. You can also include header files with\n+the extensions `.h` and `.hpp`.\n+\n+Applications with Native Code\n+-----------------------------\n \n In order to create standalone native projects with native code use the\n-following procedure.\n+following procedure. You can start with the basic Scala Native template.\n+\n+Add C/C++ code into `src/main/resources/scala-native`. The code can be put in\n+subdirectories as desired inside the `scala-native` directory. As an example,\n+create a file named `myapi.c` and put it into your `scala-native` directory\n+as described above.\n+\n+.. code-block:: scala"
+  },
+  {
+    "id" : "043f84c4-e1b7-4695-af04-71de3770980e",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "b7d9c99e-a409-4c06-af98-3bbfa1723587",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "The revised section seems much clearer, thank you.\r\n\r\nThe short & to the point working example will make it easier for people\r\nwith a 'see one, do one' learning style to follow along at home.\r\n\r\nSlight glitch at the phrase \"with the feature to\". Thank you for leaving that\r\nfor me to find ;-)",
+        "createdAt" : "2020-07-23T19:30:29Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "952dfb0b-d316-4b40-bc4c-bc0813ca9e23",
+        "parentId" : "b7d9c99e-a409-4c06-af98-3bbfa1723587",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, that is not great, do you have a suggested rewording?",
+        "createdAt" : "2020-07-23T19:48:25Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "47c31d75-bb55-429f-8b79-c569fe2345ae",
+        "parentId" : "b7d9c99e-a409-4c06-af98-3bbfa1723587",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "How about this? *This feature can be used in combination with the feature above that\r\nallows native code in your application.*",
+        "createdAt" : "2020-07-23T19:52:10Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f4b931a-7eec-42d7-886a-bd202723a524",
+        "parentId" : "b7d9c99e-a409-4c06-af98-3bbfa1723587",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, I pushed that as a change.",
+        "createdAt" : "2020-07-23T20:00:51Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -168,28 +168,80 @@ package resolution system.\n .. _sonatype: https://github.com/xerial/sbt-sonatype\n .. _bintray: https://github.com/sbt/sbt-bintray\n \n-Using 3rd Party libraries with Native Code\n-------------------------------------------\n+Including Native Code in your Application or Library\n+----------------------------------------------------\n \n-Third party libraries that are targeted only for the Scala Native platform\n-can have C and/or C++ components included in the dependency. The code is\n-added to `src/main/resources` and is published like a normal Scala library.\n+Scala Native uses native C and C++ code to interact with the underlying\n+platform and operating system. Since the tool chain compiles and links\n+the Scala Native system, it can also compile and link C and C++ code\n+included in an application project or a library that supports Scala\n+Native that includes C and/or C++ source code.\n \n-If the dependency contains native code, Scala Native will unpack the library,\n-compile, link, and optimize any native code along with the Scala Native\n-runtime and your application code.\n+Supported file extensions for native code are `.c`, `.cpp`, and `.S`.\n \n-Including Native Code in your Project\n-------------------------------------------\n+Note that `.S` files or assembly code is not portable across different CPU\n+architectures so conditional compilation would be needed to support\n+more than one architecture. You can also include header files with\n+the extensions `.h` and `.hpp`.\n+\n+Applications with Native Code\n+-----------------------------\n \n In order to create standalone native projects with native code use the\n-following procedure.\n+following procedure. You can start with the basic Scala Native template.\n+\n+Add C/C++ code into `src/main/resources/scala-native`. The code can be put in\n+subdirectories as desired inside the `scala-native` directory. As an example,\n+create a file named `myapi.c` and put it into your `scala-native` directory\n+as described above.\n+\n+.. code-block:: scala\n+\n+    long long add3(long long in) { return in + 3; }\n+\n+Next, create a main file as follows:\n+\n+.. code-block:: scala\n+\n+    import scalanative.unsafe._\n \n-Add C code into `src/main/resources`. The code can be put in directories as\n-desired inside the `resources` directory.\n+    @extern\n+    object myapi {\n+      def add3(in: CLongLong): CLongLong = extern\n+    }\n+\n+    object Main {\n+      import myapi._\n+      def main(args: Array[String]): Unit = {\n+        val res = add3(-3L)\n+        assert(res == 0L)\n+        println(s\"Add3 to -3 = $res\")\n+      }\n+    }\n+\n+Finally, run this like normal Scala Native application.\n+\n+\n+Using libraries with Native Code\n+------------------------------------------\n \n-This feature can be used in combination with the feature above to include\n-3rd party libraries with native code.\n+Libraries developed to target the Scala Native platform\n+can have C, C++, or assembly files included in the dependency. The code is\n+added to `src/main/resources/scala-native` and is published like a normal\n+Scala library. The code can be put in subdirectories as desired inside the\n+`scala-native` directory. These libraries can also be cross built to\n+support Scala/JVM or Scala.js if the Native portions have replacement\n+code on the respective platforms.\n+\n+If the dependency contains native code, Scala Native will identify the\n+library as a dependency that has native code and will unpack the library.\n+Next, it will compile, link, and optimize any native code along with the\n+Scala Native runtime and your application code. No additional information\n+is needed in the build file other than the normal dependency so it is\n+transparent to the library user.\n+\n+This feature can be used in combination with the feature to put native"
+  },
+  {
+    "id" : "2d6ae724-051f-46a1-beb5-c914e634cc5c",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "eeebfd2c-96b2-443c-acf7-a99fcb067835",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Reads much better to my eyes, thank you.",
+        "createdAt" : "2020-07-23T22:19:12Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : 77,
+    "diffHunk" : "@@ -240,8 +240,8 @@ Scala Native runtime and your application code. No additional information\n is needed in the build file other than the normal dependency so it is\n transparent to the library user.\n \n-This feature can be used in combination with the feature to put native\n-code in you application as described above.\n+This feature can be used in combination with the feature above that\n+allows native code in your application."
+  }
+]

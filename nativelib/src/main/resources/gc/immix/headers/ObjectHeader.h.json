@@ -1,0 +1,158 @@
+[
+  {
+    "id" : "289afcb4-ba78-4689-b2ad-00a8aedad90d",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "9d676dbd-7e51-4993-816c-324e0a7f4607",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`ObjectHeader` seems to be a slightly better name for this.",
+        "createdAt" : "2017-05-22T10:59:39Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d88fae1f-bb1e-4366-801e-d60e8c52e953",
+        "parentId" : "9d676dbd-7e51-4993-816c-324e0a7f4607",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Yes, and `ObjectHeader` should be renamed to `Object`.",
+        "createdAt" : "2017-05-22T11:25:26Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6ff3c077-a8a6-4500-89dd-eacad9bfbf90",
+        "parentId" : "9d676dbd-7e51-4993-816c-324e0a7f4607",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍 ",
+        "createdAt" : "2017-05-22T12:07:00Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,113 @@\n+#ifndef IMMIX_OBJECTHEADER_H\n+#define IMMIX_OBJECTHEADER_H\n+\n+#include <stdint.h>\n+#include <stdbool.h>\n+#include <stddef.h>\n+#include \"../GCTypes.h\"\n+#include \"../Constants.h\"\n+#include \"../Log.h\"\n+\n+typedef enum {\n+    object_forward = 0x0,\n+    object_standard = 0x1,\n+    object_large = 0x2,\n+} ObjectType;\n+\n+typedef enum {\n+    object_free = 0x0,\n+    object_allocated = 0x1,\n+    object_marked = 0x2,\n+} ObjectFlag;\n+\n+typedef struct {\n+    uint32_t size;\n+    uint8_t type;\n+    uint8_t flag;\n+} ObjectHeaderLine;"
+  },
+  {
+    "id" : "5c38c1cf-64fa-4baa-add8-ff35c88d1346",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "7a65326e-810f-45a4-b109-e8188002bde7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This doesn't seem to be used at the moment, I assume that's the state you set for objects that are being evacuated to a different location? ",
+        "createdAt" : "2017-05-22T11:00:52Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b65c1fd9-e9b6-49ff-9d7e-7720e1528050",
+        "parentId" : "7a65326e-810f-45a4-b109-e8188002bde7",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Yes, this flag will be used for evacuation during the marking phase.",
+        "createdAt" : "2017-05-22T11:24:42Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,113 @@\n+#ifndef IMMIX_OBJECTHEADER_H\n+#define IMMIX_OBJECTHEADER_H\n+\n+#include <stdint.h>\n+#include <stdbool.h>\n+#include <stddef.h>\n+#include \"../GCTypes.h\"\n+#include \"../Constants.h\"\n+#include \"../Log.h\"\n+\n+typedef enum {\n+    object_forward = 0x0,"
+  },
+  {
+    "id" : "b9fb5622-a3ee-48d7-93fc-6eb739b2715d",
+    "prId" : 1438,
+    "comments" : [
+      {
+        "id" : "411d0053-0512-4b2a-adc1-3c4b52f5185e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "/cc @valdisxp1 You'd need to apply the same change in commix PR.",
+        "createdAt" : "2019-02-26T16:31:40Z",
+        "updatedAt" : "2019-02-26T16:31:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3395ec5b8c1098d2bb740d3f8530d2eab4b6f172",
+    "line" : 18,
+    "diffHunk" : "@@ -19,19 +19,9 @@ typedef struct {\n         int32_t id;\n         int32_t tid;\n         word_t *name;\n-        int8_t kind;\n     } rt;\n-    int64_t size;\n-    struct {\n-        int32_t from;\n-        int32_t to;\n-    } range;\n-    struct {\n-        int32_t dyn_method_count;\n-        word_t *dyn_method_salt;\n-        word_t *dyn_method_keys;\n-        word_t *dyn_methods;\n-    } dynDispatchTable;\n+    int32_t size;\n+    int32_t idRangeUntil;"
+  }
+]

@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "127917c0-7fcd-4010-9e79-829747a37fc9",
+    "prId" : 1676,
+    "comments" : [
+      {
+        "id" : "f371fe41-a503-4a2a-b37c-bc13405d40a0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why is `platform.c` in posix-only directory? It's supposed to be available on every platform. ",
+        "createdAt" : "2019-08-02T08:45:29Z",
+        "updatedAt" : "2019-08-02T08:46:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f99e0356-7482-4822-a6ae-dc9ccddef4b1",
+        "parentId" : "f371fe41-a503-4a2a-b37c-bc13405d40a0",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I think this is a Github bug, see my branch here:\r\nhttps://github.com/muxanick/scala-native/tree/topic/windows_basics/nativelib/src/main/resources",
+        "createdAt" : "2019-08-02T11:05:31Z",
+        "updatedAt" : "2019-08-02T11:05:32Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7439d806-e619-44ad-91a4-9b63bd316250",
+        "parentId" : "f371fe41-a503-4a2a-b37c-bc13405d40a0",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Actually, it is in both location, I would remove from posix.",
+        "createdAt" : "2019-08-02T11:14:42Z",
+        "updatedAt" : "2019-08-02T11:14:42Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "85c60b798e4e9c52ff082fad991619883731cf08",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+#ifdef _WIN32"
+  }
+]

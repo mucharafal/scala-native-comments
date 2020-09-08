@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "f33d1eab-44ea-4be4-b555-f6c5eee197c3",
+    "prId" : 1844,
+    "comments" : [
+      {
+        "id" : "43a46888-ffbf-47e7-886b-f81e42d3c75a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There should be tests for strings *ending* in one or multiple newline characters.\r\n\r\nAlso, consider defining a helper to assert that a `Stream` returns all the elements of a `Seq` (to avoid the repetitive `.iterator.asScala.toSeq`)",
+        "createdAt" : "2020-07-10T15:09:34Z",
+        "updatedAt" : "2020-07-10T16:14:53Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d4143d33db0c36f92bbb3d2dde9471a33cc1bef0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,42 @@\n+package junit.java.lang\n+\n+import org.junit.Assert._\n+import org.junit.Test\n+\n+class StringSuiteJDK11 {\n+  @Test def stripTest(): Unit = {\n+    assertEquals(\"\", \"\".strip())\n+    assertEquals(\"hallo\", \"   hallo\".stripLeading())\n+    assertEquals(\"hallo\", \"hallo   \".stripTrailing())\n+    assertEquals(\"hallo\", \"   hallo   \".strip())\n+    assertEquals(\"hallo\\nwelt\", \"\\t\\t\\t  hallo\\nwelt\\r\\n  \\t\".strip())\n+  }\n+\n+  @Test def isBlankTest(): Unit = {\n+    assertTrue(\"\".isBlank)\n+    assertTrue(\" \\t\\n\\u000B\\f\\r\\u001C\\u001D\\u001E\\u001F\".isBlank)\n+    assertFalse(\" \\t\\n\\u000B\\f\\r\\u001C a \\u001D\\u001E\\u001F\".isBlank)\n+  }\n+\n+  @Test def linesTest(): Unit = {\n+    import scala.collection.JavaConverters._\n+    assertEquals(Seq(\"\"), \"\".lines.iterator.asScala.toSeq)\n+    assertEquals(Seq(\"hallo\", \"welt\"),\n+                 \"hallo\\r\\nwelt\".lines.iterator.asScala.toSeq)\n+    assertEquals(Seq(\"hallo\", \"welt\"),\n+                 \"hallo\\rwelt\".lines.iterator.asScala.toSeq)\n+    assertEquals(Seq(\"hallo\", \"welt\"),\n+                 \"hallo\\nwelt\".lines.iterator.asScala.toSeq)\n+    assertEquals(Seq(\"hallo\", \"schöne\", \"welt\"),\n+                 \"hallo\\rschöne\\nwelt\".lines.iterator.asScala.toSeq)\n+    assertEquals(Seq(\"hallo\", \"schöne\", \"große\", \"welt\"),\n+                 \"hallo\\rschöne\\r\\ngroße\\nwelt\".lines.iterator.asScala.toSeq)"
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "id" : "4a7e7215-16f8-4a75-8712-0d8039f187cb",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "67db7eb1-676b-4f7c-8a32-b59fbab1e736",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It will be hard to test other than manually (you need super user privileges to listen on port 7). Maybe that we should make the port configurable + write a scripted test for that?\r\n\r\nAlso, I'm not sure that we want to make this public API.",
+        "createdAt" : "2017-07-10T08:54:01Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "57568a68-05b5-4ff2-a35b-99ca170dbe5f",
+        "parentId" : "67db7eb1-676b-4f7c-8a32-b59fbab1e736",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Given that this is the only function that is actually used, I think that you should put this function directly in `InetAddress`, make it `private[net]`, add a parameter to define the port and write a scripted test for it.",
+        "createdAt" : "2017-07-10T08:57:57Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f0f7a12c-a5de-4754-a99c-d226618b9f45",
+        "parentId" : "67db7eb1-676b-4f7c-8a32-b59fbab1e736",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "All of the functions are used in `InetAddress`.  Oh I didn't think `scala.scalanative.runtime` is public. Is there a private package like this then?",
+        "createdAt" : "2017-07-10T09:31:54Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8aee5609-e9c5-4799-9265-b8297b81bdf2",
+        "parentId" : "67db7eb1-676b-4f7c-8a32-b59fbab1e736",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Yes `scala.scalanative.runtime` is public.\r\n\r\nMaybe move this object to the `java.net` namespace in the `nativelib`, make it `private[net]`, add the parameter and a test for it. I don't know what @densh will think of that, but I think it's important to test this functionality as I can easily be broken by a refactoring.",
+        "createdAt" : "2017-07-10T09:50:11Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "553c08e7-55ba-419a-8a92-12e04983cf1a",
+        "parentId" : "67db7eb1-676b-4f7c-8a32-b59fbab1e736",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "That's a good point, I'll do that.",
+        "createdAt" : "2017-07-10T09:53:27Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a971ae78-3c54-4bfa-92d2-9daea99897ba",
+        "parentId" : "67db7eb1-676b-4f7c-8a32-b59fbab1e736",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-13T12:48:26Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,173 @@\n+package scala.scalanative.runtime\n+\n+import scalanative.native._\n+import scalanative.posix.{netdb, netdbOps}, netdb._, netdbOps._\n+import scalanative.posix.arpa.inet._\n+import scalanative.posix.sys.socketOps._\n+import scalanative.posix.sys.socket._\n+import scalanative.posix.sys.select._\n+import scalanative.posix.unistd.close\n+import scalanative.posix.sys.selectOps._\n+import scalanative.posix.netinet.{in, inOps}, in._, inOps._\n+\n+object SocketHelpers {\n+\n+  def isReachableByEcho(ip: String, timeout: Int): Boolean = {"
+  },
+  {
+    "id" : "eaa89eb0-74d2-4306-ac0e-240f0d3bb0ef",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "da766be1-9862-48f9-8c92-031cf5661ada",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It looks like this is unused?",
+        "createdAt" : "2017-07-10T08:55:46Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7a48a6af-bea8-4c40-a164-2f3902a0e3c9",
+        "parentId" : "da766be1-9862-48f9-8c92-031cf5661ada",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "https://github.com/scala-native/scala-native/pull/807/files#diff-061006eeb7ec3f5ca57446cd60d02b7eR134",
+        "createdAt" : "2017-07-10T09:19:04Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,173 @@\n+package scala.scalanative.runtime\n+\n+import scalanative.native._\n+import scalanative.posix.{netdb, netdbOps}, netdb._, netdbOps._\n+import scalanative.posix.arpa.inet._\n+import scalanative.posix.sys.socketOps._\n+import scalanative.posix.sys.socket._\n+import scalanative.posix.sys.select._\n+import scalanative.posix.unistd.close\n+import scalanative.posix.sys.selectOps._\n+import scalanative.posix.netinet.{in, inOps}, in._, inOps._\n+\n+object SocketHelpers {\n+\n+  def isReachableByEcho(ip: String, timeout: Int): Boolean = {\n+    Zone { implicit z =>\n+      val cIP   = toCString(ip)\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_protocol = 0\n+      hints.ai_addr = null\n+      hints.ai_flags = 4 // AI_NUMERICHOST\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_next = null\n+\n+      if (getaddrinfo(cIP, toCString(\"7\"), hints, ret) != 0) {\n+        return false\n+      }\n+\n+      val sock = socket((!ret).ai_family, SOCK_STREAM, (!ret).ai_protocol);\n+      if (sock < 0) {\n+        freeaddrinfo(!ret)\n+        return false\n+      }\n+      val connectRes = connect(sock, (!ret).ai_addr, (!ret).ai_addrlen)\n+      if (connectRes < 0) {\n+        freeaddrinfo(!ret)\n+        close(sock)\n+        return false\n+      }\n+\n+      freeaddrinfo(!ret)\n+\n+      val sentBytes = send(sock, toCString(\"echo\"), 4, 0)\n+      if (sentBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      val rfds = stackalloc[fd_set](FD_SETSIZE / sizeof[CInt])\n+      FD_ZERO(rfds)\n+      FD_SET(sock, rfds)\n+\n+      val time = stackalloc[timeval]\n+      time.tv_sec = timeout / 1000\n+      time.tv_usec = (timeout % 1000) * 1000\n+\n+      // name conflict\n+      var res =\n+        scalanative.posix.sys.select.select(sock + 1, rfds, null, null, time)\n+\n+      val buf      = stackalloc[CChar](5)\n+      val recBytes = recv(sock, buf, 5, 0)\n+      if (recBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      close(sock)\n+    }\n+    true\n+  }\n+\n+  def hostToIp(host: String): Option[String] = {"
+  },
+  {
+    "id" : "3bc69fec-bcf3-41ee-878c-92fd69a4a597",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "ae593c82-3679-43c1-be5e-300c7528d1ef",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This one is unused too.",
+        "createdAt" : "2017-07-10T08:55:56Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ec815ffd-e29b-42b1-8d51-a1a81876a321",
+        "parentId" : "ae593c82-3679-43c1-be5e-300c7528d1ef",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "https://github.com/scala-native/scala-native/pull/807/files#diff-061006eeb7ec3f5ca57446cd60d02b7eR158",
+        "createdAt" : "2017-07-10T09:19:22Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,173 @@\n+package scala.scalanative.runtime\n+\n+import scalanative.native._\n+import scalanative.posix.{netdb, netdbOps}, netdb._, netdbOps._\n+import scalanative.posix.arpa.inet._\n+import scalanative.posix.sys.socketOps._\n+import scalanative.posix.sys.socket._\n+import scalanative.posix.sys.select._\n+import scalanative.posix.unistd.close\n+import scalanative.posix.sys.selectOps._\n+import scalanative.posix.netinet.{in, inOps}, in._, inOps._\n+\n+object SocketHelpers {\n+\n+  def isReachableByEcho(ip: String, timeout: Int): Boolean = {\n+    Zone { implicit z =>\n+      val cIP   = toCString(ip)\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_protocol = 0\n+      hints.ai_addr = null\n+      hints.ai_flags = 4 // AI_NUMERICHOST\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_next = null\n+\n+      if (getaddrinfo(cIP, toCString(\"7\"), hints, ret) != 0) {\n+        return false\n+      }\n+\n+      val sock = socket((!ret).ai_family, SOCK_STREAM, (!ret).ai_protocol);\n+      if (sock < 0) {\n+        freeaddrinfo(!ret)\n+        return false\n+      }\n+      val connectRes = connect(sock, (!ret).ai_addr, (!ret).ai_addrlen)\n+      if (connectRes < 0) {\n+        freeaddrinfo(!ret)\n+        close(sock)\n+        return false\n+      }\n+\n+      freeaddrinfo(!ret)\n+\n+      val sentBytes = send(sock, toCString(\"echo\"), 4, 0)\n+      if (sentBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      val rfds = stackalloc[fd_set](FD_SETSIZE / sizeof[CInt])\n+      FD_ZERO(rfds)\n+      FD_SET(sock, rfds)\n+\n+      val time = stackalloc[timeval]\n+      time.tv_sec = timeout / 1000\n+      time.tv_usec = (timeout % 1000) * 1000\n+\n+      // name conflict\n+      var res =\n+        scalanative.posix.sys.select.select(sock + 1, rfds, null, null, time)\n+\n+      val buf      = stackalloc[CChar](5)\n+      val recBytes = recv(sock, buf, 5, 0)\n+      if (recBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      close(sock)\n+    }\n+    true\n+  }\n+\n+  def hostToIp(host: String): Option[String] = {\n+    Zone { implicit z =>\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      var ipstr = stackalloc[CChar](INET6_ADDRSTRLEN + 1)\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_socktype = 0\n+      hints.ai_next = null\n+\n+      val status = getaddrinfo(toCString(host), null, hints, ret)\n+      if (status != 0)\n+        return None\n+\n+      var addr = stackalloc[Byte]\n+      if ((!ret).ai_family == AF_INET) {\n+        addr = (!ret).ai_addr.cast[Ptr[sockaddr_in]].sin_addr.cast[Ptr[Byte]]\n+      } else {\n+        addr = (!ret).ai_addr.cast[Ptr[sockaddr_in6]].sin6_addr.cast[Ptr[Byte]]\n+      }\n+      inet_ntop((!ret).ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)\n+      freeaddrinfo(!ret)\n+      Some(fromCString(ipstr))\n+    }\n+  }\n+\n+  def hostToIpArray(host: String): scala.Array[String] = {"
+  },
+  {
+    "id" : "d4481bd4-1572-4731-b8f6-0ed59b1e01ff",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "642df68a-6027-4173-a914-73a54297e781",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This one too.",
+        "createdAt" : "2017-07-10T08:56:09Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "871d47a0-eb22-4900-b0cc-447d7b4549cd",
+        "parentId" : "642df68a-6027-4173-a914-73a54297e781",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Same as above",
+        "createdAt" : "2017-07-10T09:32:05Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,173 @@\n+package scala.scalanative.runtime\n+\n+import scalanative.native._\n+import scalanative.posix.{netdb, netdbOps}, netdb._, netdbOps._\n+import scalanative.posix.arpa.inet._\n+import scalanative.posix.sys.socketOps._\n+import scalanative.posix.sys.socket._\n+import scalanative.posix.sys.select._\n+import scalanative.posix.unistd.close\n+import scalanative.posix.sys.selectOps._\n+import scalanative.posix.netinet.{in, inOps}, in._, inOps._\n+\n+object SocketHelpers {\n+\n+  def isReachableByEcho(ip: String, timeout: Int): Boolean = {\n+    Zone { implicit z =>\n+      val cIP   = toCString(ip)\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_protocol = 0\n+      hints.ai_addr = null\n+      hints.ai_flags = 4 // AI_NUMERICHOST\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_next = null\n+\n+      if (getaddrinfo(cIP, toCString(\"7\"), hints, ret) != 0) {\n+        return false\n+      }\n+\n+      val sock = socket((!ret).ai_family, SOCK_STREAM, (!ret).ai_protocol);\n+      if (sock < 0) {\n+        freeaddrinfo(!ret)\n+        return false\n+      }\n+      val connectRes = connect(sock, (!ret).ai_addr, (!ret).ai_addrlen)\n+      if (connectRes < 0) {\n+        freeaddrinfo(!ret)\n+        close(sock)\n+        return false\n+      }\n+\n+      freeaddrinfo(!ret)\n+\n+      val sentBytes = send(sock, toCString(\"echo\"), 4, 0)\n+      if (sentBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      val rfds = stackalloc[fd_set](FD_SETSIZE / sizeof[CInt])\n+      FD_ZERO(rfds)\n+      FD_SET(sock, rfds)\n+\n+      val time = stackalloc[timeval]\n+      time.tv_sec = timeout / 1000\n+      time.tv_usec = (timeout % 1000) * 1000\n+\n+      // name conflict\n+      var res =\n+        scalanative.posix.sys.select.select(sock + 1, rfds, null, null, time)\n+\n+      val buf      = stackalloc[CChar](5)\n+      val recBytes = recv(sock, buf, 5, 0)\n+      if (recBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      close(sock)\n+    }\n+    true\n+  }\n+\n+  def hostToIp(host: String): Option[String] = {\n+    Zone { implicit z =>\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      var ipstr = stackalloc[CChar](INET6_ADDRSTRLEN + 1)\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_socktype = 0\n+      hints.ai_next = null\n+\n+      val status = getaddrinfo(toCString(host), null, hints, ret)\n+      if (status != 0)\n+        return None\n+\n+      var addr = stackalloc[Byte]\n+      if ((!ret).ai_family == AF_INET) {\n+        addr = (!ret).ai_addr.cast[Ptr[sockaddr_in]].sin_addr.cast[Ptr[Byte]]\n+      } else {\n+        addr = (!ret).ai_addr.cast[Ptr[sockaddr_in6]].sin6_addr.cast[Ptr[Byte]]\n+      }\n+      inet_ntop((!ret).ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)\n+      freeaddrinfo(!ret)\n+      Some(fromCString(ipstr))\n+    }\n+  }\n+\n+  def hostToIpArray(host: String): scala.Array[String] = {\n+    Zone { implicit z =>\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_protocol = 0\n+      hints.ai_canonname = null\n+      hints.ai_addr = null\n+      hints.ai_next = null\n+\n+      val retArray = scala.collection.mutable.ArrayBuffer[String]()\n+      val status   = getaddrinfo(toCString(host), null, hints, ret)\n+      if (status != 0)\n+        return scala.Array.empty[String]\n+\n+      var p = !ret\n+      while (p != null) {\n+        var ipstr = stackalloc[CChar](INET6_ADDRSTRLEN + 1)\n+        var addr  = stackalloc[Byte]\n+        if (p.ai_family == AF_INET) {\n+          addr = p.ai_addr.cast[Ptr[sockaddr_in]].sin_addr.cast[Ptr[Byte]]\n+        } else {\n+          addr = p.ai_addr.cast[Ptr[sockaddr_in6]].sin6_addr.cast[Ptr[Byte]]\n+        }\n+        inet_ntop(p.ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)\n+        retArray += fromCString(ipstr)\n+        p = p.ai_next.cast[Ptr[addrinfo]]\n+      }\n+      freeaddrinfo(!ret)\n+      retArray.toArray\n+    }\n+  }\n+\n+  def ipToHost(ip: String, isV6: Boolean): Option[String] = {"
+  }
+]

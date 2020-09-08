@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "9afd334d-195b-4cb5-a2f6-7a6b436d202f",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "15bff228-baa6-41fa-b6e5-cd3f830fb455",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This header file needs [#include guards](https://en.wikipedia.org/wiki/Include_guard).",
+        "createdAt" : "2017-06-28T09:15:11Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2fc9235a-3b6e-4086-84c6-a201a88433ec",
+        "parentId" : "15bff228-baa6-41fa-b6e5-cd3f830fb455",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-06-28T13:21:14Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,27 @@\n+#include <netdb.h>\n+#include \"sys/socket.h\"\n+#include \"sys/socket_conversions.h\"\n+\n+struct scalanative_addrinfo\n+{\n+  int ai_flags;\t\t\t/* Input flags.  */\n+  int ai_family;\t\t/* Protocol family for socket.  */\n+  int ai_socktype;\t\t/* Socket type.  */\n+  int ai_protocol;\t\t/* Protocol for socket.  */\n+  socklen_t ai_addrlen;\t\t/* Length of socket address.  */\n+  struct scalanative_sockaddr *ai_addr;\t/* Socket address for socket.  */\n+  char *ai_canonname;\t\t/* Canonical name for service location.  */\n+  void *ai_next;\t\t/* Pointer to next in list.  */\n+};\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+\t\t\t\t\t      struct addrinfo *out);\n+\n+void scalanative_convert_scalanative_addrinfo_list(struct scalanative_addrinfo **in,\n+\t\t\t\t\t\t   struct addrinfo **out);\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in,\n+\t\t\t\t  struct scalanative_addrinfo *out);\n+\n+void scalanative_convert_addrinfo_list(struct addrinfo **in,\n+\t\t\t\t       struct scalanative_addrinfo **out);"
+  }
+]

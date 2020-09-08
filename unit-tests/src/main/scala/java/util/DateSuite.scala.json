@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a0b1b7d1-9a7a-4b4a-9b74-2893995c0ded",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "5904cb89-ecbe-4178-925c-1d8ff05147f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should not be commented out any longer.",
+        "createdAt" : "2017-04-11T09:12:04Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c34e93c4-03bb-4e98-a60e-ecc7353271ab",
+        "parentId" : "5904cb89-ecbe-4178-925c-1d8ff05147f6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Good catch.",
+        "createdAt" : "2017-04-11T11:30:58Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,53 @@\n+package java.util\n+\n+object DateSuite extends tests.Suite {\n+  // now : java.util.Date = Fri Mar 31 14:47:44 EDT 2017\n+  val nowUt    = 1490986064740L\n+  val beforeUt = 1490986059300L\n+  val afterUt  = 1490986090620L\n+  val now      = new Date(nowUt)\n+  val before   = new Date(beforeUt)\n+  val after    = new Date(afterUt)\n+  val now2     = new Date(nowUt)\n+  test(\"after\") {\n+    assert(after.after(now))\n+  }\n+\n+  test(\"before\") {\n+    assert(before.before(now))\n+  }\n+\n+  test(\"clone\") {\n+    val clone = now.clone().asInstanceOf[Date]\n+    assert(clone.getTime equals now.getTime)\n+  }\n+\n+  test(\"compareTo\") {\n+    assert(now.compareTo(now2) == 0)\n+    assert(before.compareTo(now) == -1)\n+    assert(after.compareTo(now) == 1)\n+  }\n+\n+  test(\"equals\") {\n+    assert(now.equals(now2))\n+  }\n+\n+  test(\"getTime\") {\n+    assert(now.getTime == nowUt)\n+  }\n+\n+  test(\"hashCode\") {\n+    assert(now.hashCode == nowUt.hashCode())\n+  }\n+\n+  // if mutable Date is needed\n+//  test(\"setTime\") {\n+//    val nowBefore = new Date(nowUt)\n+//    nowBefore.setTime(afterUt)\n+//    assert(nowBefore equals after)\n+//  }"
+  }
+]

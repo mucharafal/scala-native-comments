@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "a1b2d71e-46ad-48a0-8e4a-10b6b6abb219",
+    "prId" : 642,
+    "comments" : [
+      {
+        "id" : "1a228060-8884-44d7-aa86-aa43cb2a40c5",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "maybe `@inline final val` ?",
+        "createdAt" : "2017-04-18T13:10:13Z",
+        "updatedAt" : "2017-06-01T20:47:30Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df75fa01abb765be7ec3f642c3e9381c7937ef16",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,25 @@\n+package scala.scalanative.runtime.bindgen\n+\n+object BindgenSuite extends tests.Suite {\n+  test(\"test.h\") {\n+    val src = Bindgen.generate(\"src/main/resources/bindgen/test.h\",\n+                               \"Test\",\n+                               \"scala.scalanative.test\")\n+    val expected =\n+      \"\"\"package scala.scalanative.test\n+        |\n+        |import scala.scalanative.native._\n+        |\n+        |@extern\n+        |object Test {\n+        |  object color {\n+        |    val RED = 1"
+  }
+]

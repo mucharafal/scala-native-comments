@@ -1,0 +1,261 @@
+[
+  {
+    "id" : "0d058ad3-a2eb-4d73-8cbe-de9707ceac3a",
+    "prId" : 1216,
+    "comments" : [
+      {
+        "id" : "19f4f5f6-e980-4b9b-a797-ded028bf4e8a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Curlies around the first then clause, and then `else if` afterwards would read better.",
+        "createdAt" : "2018-07-10T14:53:18Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4dd0a8ce-3aa2-43f8-b191-a4f3a15b6ade",
+        "parentId" : "19f4f5f6-e980-4b9b-a797-ded028bf4e8a",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2018-07-11T00:34:01Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d48d6c1ac16cc6f8fcae6346a3df87725038b6e9",
+    "line" : null,
+    "diffHunk" : "@@ -315,19 +347,25 @@ object Files {\n   def lines(path: Path, cs: Charset): Stream[String] =\n     newBufferedReader(path, cs).lines(true)\n \n-  private def _list(dir: Path): SStream[Path] =\n-    dir.toFile().list().toStream.map(dir.resolve)\n-\n   def list(dir: Path): Stream[Path] =\n-    if (!isDirectory(dir, Array.empty)) {\n-      throw new NotDirectoryException(dir.toString)\n-    } else {\n-      new WrappedScalaStream(_list(dir), None)\n-    }\n+    new WrappedScalaStream(\n+      FileHelpers.list(dir.toString, (n, _) => dir.resolve(n)).toStream,\n+      None)\n \n   def move(source: Path, target: Path, options: Array[CopyOption]): Path = {\n-    copy(source, target, options)\n-    delete(source)\n+    if (!exists(source.toAbsolutePath, Array.empty))\n+      throw new NoSuchFileException(source.toString)\n+    if (!exists(target.toAbsolutePath, Array.empty) || options.contains("
+  },
+  {
+    "id" : "a27e5a0c-9669-41c9-995a-6a57ff16e249",
+    "prId" : 1216,
+    "comments" : [
+      {
+        "id" : "e50c7dd7-1184-4c8e-8d8a-25d7eedbfeda",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please add curlies around finally clause.",
+        "createdAt" : "2018-07-10T14:53:42Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1c73011e-311f-4935-aa31-96cff95a4c00",
+        "parentId" : "e50c7dd7-1184-4c8e-8d8a-25d7eedbfeda",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2018-07-11T00:34:09Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d48d6c1ac16cc6f8fcae6346a3df87725038b6e9",
+    "line" : null,
+    "diffHunk" : "@@ -391,17 +429,22 @@ object Files {\n   def notExists(path: Path, options: Array[LinkOption]): Boolean =\n     !exists(path, options)\n \n-  def readAllBytes(path: Path): Array[Byte] = {\n-    val bytes  = new Array[Byte](size(path).toInt)\n-    val buffer = new Array[Byte](4096)\n-    val input  = newInputStream(path, Array.empty)\n-    var offset = 0\n-    var read   = 0\n-    while ({ read = input.read(buffer); read != -1 }) {\n-      System.arraycopy(buffer, 0, bytes, offset, read)\n-      offset += read\n-    }\n-    bytes\n+  def readAllBytes(path: Path): Array[Byte] = Zone { implicit z =>\n+    val len   = size(path).toInt\n+    val bytes = scala.scalanative.runtime.ByteArray.alloc(len)\n+    val fd    = fcntl.open(toCString(path.toString), fcntl.O_RDONLY)\n+    try {\n+      var offset = 0\n+      var read   = 0\n+      while ({\n+        read = unistd.read(fd, bytes.at(offset), len - offset);\n+        read != -1 && (offset + read) < len\n+      }) {\n+        offset += read\n+      }\n+      if (read == -1) throw UnixException(path.toString, errno.errno)\n+      bytes.asInstanceOf[Array[Byte]]\n+    } finally fcntl.close(fd)"
+  },
+  {
+    "id" : "fb40997b-8fc8-4d0e-b31a-142927879c86",
+    "prId" : 1531,
+    "comments" : [
+      {
+        "id" : "1b7d8f52-14ee-454d-9c70-428298d871fd",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "This is a good explanation. I would really like to know what they were thinking when they introduced `LinkOption.NOFOLLOW_LINKS` and `FileVisitOption.FOLLOW_LINKS` instead of having just one or the other option in each class.",
+        "createdAt" : "2019-04-08T17:33:21Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7a182816-d4a3-4df3-946a-5fcce2846543",
+        "parentId" : "1b7d8f52-14ee-454d-9c70-428298d871fd",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you.",
+        "createdAt" : "2019-04-08T20:18:11Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5c1ef185a6289d3b33df1bba345d787d4a447124",
+    "line" : 20,
+    "diffHunk" : "@@ -627,36 +628,56 @@ object Files {\n \n       if (dirsToSkip.contains(parent)) ()\n       else {\n-        val attributes = getFileAttributeView(p,\n-                                              classOf[BasicFileAttributeView],\n-                                              Array.empty).readAttributes()\n-        while (openDirs.nonEmpty && !parent.startsWith(openDirs.head)) {\n-          visitor.postVisitDirectory(openDirs.pop(), null)\n-        }\n+        try {\n+\n+          // The sense of how LinkOption follows links or not is somewhat"
+  },
+  {
+    "id" : "46cd190e-b709-4e46-b30c-b65c3e591621",
+    "prId" : 1838,
+    "comments" : [
+      {
+        "id" : "80bb6224-6bbc-4cbe-ae1a-a3563d6c7152",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider adding braces around that `else`, since it isn't a one-liner:\r\n```suggestion\r\n      else {\r\n```",
+        "createdAt" : "2020-07-08T11:37:24Z",
+        "updatedAt" : "2020-07-08T13:05:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e87f57089cd74bcf65d9680803c48403bb87ff0c",
+    "line" : null,
+    "diffHunk" : "@@ -585,28 +578,34 @@ object Files {\n                    currentDepth: Int,\n                    options: Array[FileVisitOption],\n                    visited: SSet[Path]): SStream[Path] = {\n-    start #:: FileHelpers\n-      .list(start.toString, (n, t) => (n, t))\n-      .toStream\n-      .flatMap {\n-        case (name, tpe)\n-            if tpe == DT_LNK && options.contains(\n-              FileVisitOption.FOLLOW_LINKS) =>\n-          val path       = start.resolve(name)\n-          val newVisited = visited + path\n-          val target     = readSymbolicLink(path)\n-          if (newVisited.contains(target))\n-            throw new FileSystemLoopException(path.toString)\n-          else walk(path, maxDepth, currentDepth + 1, options, newVisited)\n-        case (name, tpe) if tpe == DT_DIR && currentDepth < maxDepth =>\n-          val path = start.resolve(name)\n-          val newVisited =\n-            if (options.contains(FileVisitOption.FOLLOW_LINKS)) visited + path\n-            else visited\n-          walk(path, maxDepth, currentDepth + 1, options, newVisited)\n-        case (name, _) =>\n-          start.resolve(name) #:: SStream.Empty\n-      }\n+    start #:: {\n+      if (!isDirectory(start, linkOptsFromFileVisitOpts(options))) SStream.empty\n+      else"
+  },
+  {
+    "id" : "1e225ac4-758e-489f-91bf-45f2fb923265",
+    "prId" : 1838,
+    "comments" : [
+      {
+        "id" : "4178d987-c011-4f7d-b5e5-025ffbe8b92e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "While you're here: is the `asInstanceOf` actually necessary?",
+        "createdAt" : "2020-07-08T11:41:25Z",
+        "updatedAt" : "2020-07-08T13:05:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bf9fd17a-4b69-4055-8fd6-b85e76c37d7a",
+        "parentId" : "4178d987-c011-4f7d-b5e5-025ffbe8b92e",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Unfortunately it is necessary. `toArray` on Java collections results in `Array[Object]` (or `Array[AnyRef` in scala compiler). \r\nAltough another syntax may be used which is ```options.toArray(new Array[FileVisitOption](options.size))``` \r\nI can change it, but I think it looks cleaner as it is right now. ",
+        "createdAt" : "2020-07-08T11:50:47Z",
+        "updatedAt" : "2020-07-08T13:05:45Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fe9b78d9-17a7-4c8c-91bc-076c1db2369a",
+        "parentId" : "4178d987-c011-4f7d-b5e5-025ffbe8b92e",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah, it's the Java collections! Then it's worse than I thought. This cast is actually *invalid*, since `toArray` returns an `Array[Object]`, which is *not* an `Array[FileVisitOption]`. It seems that Scala Native lets that go through, but that's clearly undefined behavior and we should not rely on it.\r\n\r\nPlease switch to the other alternative that you mentioned (with the `new Array`).",
+        "createdAt" : "2020-07-08T12:42:22Z",
+        "updatedAt" : "2020-07-08T13:05:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e87f57089cd74bcf65d9680803c48403bb87ff0c",
+    "line" : null,
+    "diffHunk" : "@@ -624,15 +623,22 @@ object Files {\n     try _walkFileTree(start, options, maxDepth, visitor)\n     catch { case TerminateTraversalException => start }\n \n+  // The sense of how LinkOption follows links or not is somewhat\n+  // inverted because of a double negative.  The absense of\n+  // LinkOption.NOFOLLOW_LINKS means follow links, the default.\n+  // There is no explicit LinkOption.FOLLOW_LINKS.\n+  private def linkOptsFromFileVisitOpts(\n+      options: Array[FileVisitOption]): Array[LinkOption] = {\n+    if (options.contains(FileVisitOption.FOLLOW_LINKS)) Array.empty[LinkOption]\n+    else Array(LinkOption.NOFOLLOW_LINKS)\n+  }\n+\n   private def _walkFileTree(start: Path,\n                             options: Set[FileVisitOption],\n                             maxDepth: Int,\n                             visitor: FileVisitor[_ >: Path]): Path = {\n-    val stream = walk(start,\n-                      maxDepth,\n-                      0,\n-                      options.toArray.asInstanceOf[Array[FileVisitOption]],\n-                      SSet.empty)\n+    val optsArray  = options.toArray.asInstanceOf[Array[FileVisitOption]]"
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "4403ee1b-600b-4a89-b428-67de0e1cc397",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "a3fd5ddc-a842-4ccd-8b9d-7495d80d276b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Second underscore in the name is not matching our naming convention. Please remove it. ",
+        "createdAt" : "2019-02-12T13:53:36Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3c65f46d-282c-40ac-873d-aa1bcb9914b9",
+        "parentId" : "a3fd5ddc-a842-4ccd-8b9d-7495d80d276b",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Removed",
+        "createdAt" : "2019-02-27T11:34:37Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,375 @@\n+#include <stdlib.h>\n+#include <stdio.h>\n+#include <string.h>\n+#include \"LargeAllocator.h\"\n+#include \"utils/MathUtils.h\"\n+#include \"Object.h\"\n+#include \"State.h\"\n+#include \"Sweeper.h\"\n+#include \"Log.h\"\n+#include \"headers/ObjectHeader.h\"\n+\n+inline static int LargeAllocator_sizeToLinkedListIndex(size_t size) {\n+    assert(size >= MIN_BLOCK_SIZE);\n+    assert(size % MIN_BLOCK_SIZE == 0);\n+    int index = size / MIN_BLOCK_SIZE - 1;\n+    assert(index < FREE_LIST_COUNT);\n+    return index;\n+}\n+\n+Chunk *LargeAllocator_chunkAddOffset(Chunk *chunk, size_t words) {\n+    return (Chunk *)((ubyte_t *)chunk + words);\n+}\n+\n+void LargeAllocator_freeListPush(FreeList *freeList, Chunk *chunk) {\n+    Chunk *head = (Chunk *)freeList->head;\n+    do {\n+        // head will be replaced with actual value if\n+        // atomic_compare_exchange_strong fails\n+        chunk->next = head;\n+    } while (!atomic_compare_exchange_strong(&freeList->head, (word_t *)&head,\n+                                             (word_t)chunk));\n+}\n+\n+// This could suffer from the ABA problem. However, during a single phase each\n+// BlockMeta is removed no more than once. It would need to be swept before\n+// re-use.\n+Chunk *LargeAllocator_freeListPop(FreeList *freeList) {\n+    Chunk *head = (Chunk *)freeList->head;\n+    word_t newValue;\n+    do {\n+        // head will be replaced with actual value if\n+        // atomic_compare_exchange_strong fails\n+        if (head == NULL) {\n+            return NULL;\n+        }\n+        newValue = (word_t)head->next;\n+    } while (!atomic_compare_exchange_strong(&freeList->head, (word_t *)&head,\n+                                             newValue));\n+    return head;\n+}\n+\n+Chunk *LargeAllocator_freeListPop_OnlyThread(FreeList *freeList) {"
+  }
+]

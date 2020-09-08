@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "a00dc7b9-63c9-4a26-86f3-8a9d32ce65af",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "ab863448-497a-4a2b-b006-694066ffc8d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Unless this change fixes something necessary for this PR, it should also be a separate PR that cleans up `testinterface`.\r\n\r\nMore of those below.",
+        "createdAt" : "2020-05-19T10:38:50Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,6 @@\n package scala.scalanative\n package testinterface\n+package serialization"
+  }
+]

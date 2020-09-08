@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "5c6d3118-ab2f-4df5-af60-c08b27bc7738",
+    "prId" : 137,
+    "comments" : [
+      {
+        "id" : "e1842e76-9b6c-4ad3-93e1-0a5883424e62",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `libc` and `libc.scala`.\n",
+        "createdAt" : "2016-06-02T13:35:45Z",
+        "updatedAt" : "2016-06-08T00:34:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a728b98d-4dfd-45b1-9b73-9c21d6e27224",
+        "parentId" : "e1842e76-9b6c-4ad3-93e1-0a5883424e62",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "In fact there is a better solution: we should use [LLVM's memset](http://llvm.org/docs/LangRef.html#llvm-memset-intrinsics) here instead. You can put the binding to https://github.com/scala-native/scala-native/blob/master/nativelib/src/main/scala/scala/scalanative/runtime/Math.scala and rename the file and the module to Intrinsics instead. Use 64-bit overload for now. \n",
+        "createdAt" : "2016-06-02T14:01:08Z",
+        "updatedAt" : "2016-06-08T00:34:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "56ec2e1a1d55e28898f0ac7a2bde0b9303cef2c9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,15 @@\n+package scala.scalanative\n+\n+import native._\n+\n+/**\n+ * C stdlib functions needed by nativelib\n+ *\n+ * Note: clib depends on nativelib.\n+ */\n+\n+@extern\n+private [scalanative] object clib_string {"
+  }
+]

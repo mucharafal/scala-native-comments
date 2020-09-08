@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "570a8c9d-bf8a-4a1f-a4e2-284d2a48e118",
+    "prId" : 610,
+    "comments" : [
+      {
+        "id" : "1e617ef8-aefe-4623-9a4e-2180036293f1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Was this code taken from somewhere? Why is there no copyright/license notice?",
+        "createdAt" : "2017-04-04T14:15:59Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "55a789e8-6b6b-4c07-8470-ff82702b965b",
+        "parentId" : "1e617ef8-aefe-4623-9a4e-2180036293f1",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "I wrote this myself.",
+        "createdAt" : "2017-04-04T15:02:54Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "95aeed18-7d98-4b39-b303-0b2e007aec0e",
+        "parentId" : "1e617ef8-aefe-4623-9a4e-2180036293f1",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Okey, cool.",
+        "createdAt" : "2017-04-05T10:26:41Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "90d7bef335b469b7e7b91a14cd1135be26436847",
+    "line" : 29,
+    "diffHunk" : "@@ -0,0 +1,29 @@\n+package listperm\n+\n+class ListPermutationsBenchmark extends benchmarks.Benchmark[Int] {\n+  val size = 8\n+  override def run(): Int = {\n+    val permIter = (0 until size).toList.permutations\n+\n+    var count = 0\n+    while (permIter.hasNext) {\n+      permIter.next()\n+      count += 1\n+    }\n+    count\n+  }\n+\n+  override def check(value: Int): Boolean = {\n+    value == factorial(size)\n+  }\n+\n+  private def factorial(i: Int): Int = {\n+    var n    = i\n+    var fact = 1\n+    while (n > 0) {\n+      fact *= n\n+      n -= 1\n+    }\n+    fact\n+  }\n+}"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "64e6a61c-9b04-4bb8-acae-fb8fcb246de8",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "d56a2763-7d2d-4b6a-bf9e-95f15e1cc391",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "All these changes should be in a separate PR to clean up `sbt.testing`. They are not related to this PR.",
+        "createdAt" : "2020-05-19T10:37:46Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -138,7 +138,7 @@ final class TestWildcardSelector(_testWildcard: String)\n     with Serializable {\n \n   if (_testWildcard == null)\n-    throw new NullPointerException(\"testWildcard was null\");\n+    throw new NullPointerException(\"testWildcard was null\")"
+  }
+]

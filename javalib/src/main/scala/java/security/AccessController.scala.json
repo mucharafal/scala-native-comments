@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "d0a44206-ba2f-4bfb-bc89-9210c255861e",
+    "prId" : 804,
+    "comments" : [
+      {
+        "id" : "95c9cbba-0ded-42c4-9aa1-d4260a18207b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We're not going to support access control APIs from JDK. Please remove `AccessController` and `PrivilegedAction` and replace all of its uses as if the privilege is always granted. ",
+        "createdAt" : "2017-08-07T11:07:54Z",
+        "updatedAt" : "2017-08-07T12:22:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f8dba2ebf2d57ef8f753a811fb72cffc6e2ce047",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,8 @@\n+package java.security\n+\n+// Ported from Harmony\n+\n+object AccessController {\n+  def doPrivileged[T](action: PrivilegedAction[T]): T =\n+    action.run()\n+}"
+  }
+]

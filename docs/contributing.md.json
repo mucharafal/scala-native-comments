@@ -1,0 +1,124 @@
+[
+  {
+    "id" : "5e95cebb-b9b0-439b-af1a-7803db884b32",
+    "prId" : 57,
+    "comments" : [
+      {
+        "id" : "b7254c3b-a550-4c92-9dca-dd3e0d40619b",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah ah :-p\n",
+        "createdAt" : "2016-05-13T02:18:35Z",
+        "updatedAt" : "2016-05-13T02:18:35Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5af77971-118a-4f61-9e82-e4e3c7af346b",
+        "parentId" : "b7254c3b-a550-4c92-9dca-dd3e0d40619b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Damn, nice catch! \n",
+        "createdAt" : "2016-05-13T03:04:11Z",
+        "updatedAt" : "2016-05-13T03:04:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "cf5892cd0ea70bad3f07468f3bd3e81610605d65",
+    "line" : 24,
+    "diffHunk" : "@@ -0,0 +1,102 @@\n+# Contributing guidelines\n+\n+## Very important notice about the Javalib\n+\n+Scala Native contains a reimplementation of part of the JDK in Scala.\n+\n+***To contribute to this code, it is strictly forbidden to even look at the\n+source code of the Oracle JDK or OpenJDK!***\n+\n+This is for license considerations: these JDKs are under a GPL-based license,\n+which is not compatible with our BSD 3-clause license.\n+\n+The only existing JDK source code that we can look at is the dead Apache\n+Harmony project.\n+\n+## Coding style\n+\n+Scala Native is formatted via [scalafmt](https://github.com/olafurpg/scalafmt).\n+Make sure that all of your contributions are properly formatted before suggesting\n+any changes.\n+\n+## General workflow\n+\n+This the general workflow for contributing to Scala.js."
+  },
+  {
+    "id" : "abd0444f-6c9e-4940-b94a-a86951dc3fc6",
+    "prId" : 279,
+    "comments" : [
+      {
+        "id" : "54160dc5-3c06-4b54-ad74-de9dd541f9a4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It's supposed to be written `Scala.js` ;-)\n",
+        "createdAt" : "2016-09-03T06:14:40Z",
+        "updatedAt" : "2016-09-03T13:10:30Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fbb2fe17-0bbd-4f0b-90ee-6fd844e84d4a",
+        "parentId" : "54160dc5-3c06-4b54-ad74-de9dd541f9a4",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Would it be possible to create a GitHub repository to share javalib source code?\n",
+        "createdAt" : "2016-09-03T13:43:50Z",
+        "updatedAt" : "2016-09-03T13:43:50Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cd3c3bcd-3b78-4831-90cc-50f38a3bc77a",
+        "parentId" : "54160dc5-3c06-4b54-ad74-de9dd541f9a4",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Concrete suggestions on how to achieve that are welcome.\n",
+        "createdAt" : "2016-09-03T18:47:05Z",
+        "updatedAt" : "2016-09-03T18:47:05Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "672b6d9d395adba2e605acc33ce49786805f2bf2",
+    "line" : null,
+    "diffHunk" : "@@ -10,8 +10,15 @@ source code of the Oracle JDK or OpenJDK!***\n This is for license considerations: these JDKs are under a GPL-based license,\n which is not compatible with our BSD 3-clause license.\n \n-The only existing JDK source code that we can look at is the dead Apache\n-Harmony project.\n+Non Compatible license:\n+\n+* Android libcore (GPL)\n+* OpenJDK (GPL)\n+\n+Compatible license source code:\n+\n+* [scala-js](https://github.com/scala-js/scala-js/tree/master/javalib/src/main/scala/java) (Scala License <=> BSD 3-clause)"
+  }
+]

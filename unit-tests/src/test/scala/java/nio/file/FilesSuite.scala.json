@@ -1,0 +1,524 @@
+[
+  {
+    "id" : "87547c41-a45f-47ff-9339-45e6eec3421f",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "20c09df3-27ab-47f3-8717-db51a484768b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please put comment above the if, otherwise formatting gets really weird.",
+        "createdAt" : "2017-08-07T11:36:43Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e28c5fb6-434c-45b4-b782-885f5f18ca48",
+        "parentId" : "20c09df3-27ab-47f3-8717-db51a484768b",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "will do, thanks",
+        "createdAt" : "2017-08-08T10:47:56Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -143,8 +147,12 @@ object FilesSuite extends tests.Suite {\n       val dir    = dirFile.toPath()\n       val link   = dir.resolve(\"link\")\n       val target = dir.resolve(\"target\")\n-      Files.createSymbolicLink(link, target)\n-      assert(Files.isSymbolicLink(link))\n+\n+      if (!Platform.isWindows) // only works if process is elevated (\"Run as Administrator\")"
+  },
+  {
+    "id" : "7354392f-3e1f-4b65-ad56-940561aa24ee",
+    "prId" : 1531,
+    "comments" : [
+      {
+        "id" : "f1d5e429-9e04-4496-8830-ded54a716c39",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Is it necessary to create the missingTarget to create the symbolicLink? I was under the impression that the api allows one to create broken symbolic links.",
+        "createdAt" : "2019-04-08T17:36:51Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4b8b2b30-65d3-413d-966c-ea3dc383253b",
+        "parentId" : "f1d5e429-9e04-4496-8830-ded54a716c39",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "This is probably superstition and/or lack of knowledge on my part. I was trying to \r\ntake the same steps as would probably be taken in Real Life and as reported\r\nin the original issue.\r\n\r\nI can change it if you like or think it is misdirection that would mislead others or\r\nmyself six months down the line.\r\n\r\nPlease advise.",
+        "createdAt" : "2019-04-08T20:20:24Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4766cc14-d144-4cc1-9d65-22f9786b30eb",
+        "parentId" : "f1d5e429-9e04-4496-8830-ded54a716c39",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "I don't really care.",
+        "createdAt" : "2019-04-08T20:22:00Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7f83cb78-3dfb-4e77-9fe8-9a16bab07b2f",
+        "parentId" : "f1d5e429-9e04-4496-8830-ded54a716c39",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I left it the way it was.  Superstition on my part. File systems have a way of merging\r\noperations or converting them to no-ops underneath.  \r\nThank you.",
+        "createdAt" : "2019-04-19T19:41:09Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5c1ef185a6289d3b33df1bba345d787d4a447124",
+    "line" : null,
+    "diffHunk" : "@@ -891,6 +894,64 @@ object FilesSuite extends tests.Suite {\n     }\n   }\n \n+  // This test was inspired by Issue #1354\n+  // \"NIO File Walker fails on broken links.\"\n+  test(\"Files.walkFileTree respects FileVisitOption.FOLLOW_LINKS\") {\n+    withTemporaryDirectory { dirFile =>\n+      val dir = dirFile.toPath()\n+      val f0  = dir.resolve(\"f0\")\n+      val f1  = dir.resolve(\"f1\")\n+\n+      val brokenLink    = dir.resolve(\"brokenlink\")\n+      val missingTarget = dir.resolve(\"missingtarget\")\n+\n+      Files.createFile(f0)\n+      Files.createFile(f1)\n+\n+      assert(Files.exists(f0) && Files.isRegularFile(f0))\n+      assert(Files.exists(f1) && Files.isRegularFile(f1))\n+\n+      Files.createFile(missingTarget)\n+\n+      assert(\n+        Files.exists(missingTarget) &&\n+          Files.isRegularFile(missingTarget))\n+\n+      // Create valid symbolic link from brokenLink to missingTarget,\n+      // then remove missingTarget to break link.\n+\n+      Files.createSymbolicLink(brokenLink, missingTarget)"
+  },
+  {
+    "id" : "3cb0557c-48f5-4e99-8e86-b143d2639ced",
+    "prId" : 1531,
+    "comments" : [
+      {
+        "id" : "4921adb9-b18a-47db-b382-4a57fd16fc43",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Outside of the scope of this PR, but it feels like there should be a nio TestHelpers that provides a `withTemporaryDirectory` method that provides a `Path` rather than a `File` so that we don't have a mismatch of io and nio apis in the test suites.",
+        "createdAt" : "2019-04-08T17:38:21Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0153397e-7a1f-4251-b236-cfbaabe4e449",
+        "parentId" : "4921adb9-b18a-47db-b382-4a57fd16fc43",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I can take a run at creating the helper you describe.  It would make things easier for folks,\r\nincluding myself, to follow in the future.",
+        "createdAt" : "2019-04-08T20:28:15Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f7c7bf3e-bc0f-4ecd-9630-3d4ecf4cb298",
+        "parentId" : "4921adb9-b18a-47db-b382-4a57fd16fc43",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I took the first step towards following the suggestion for a TestHelpers.scala by\r\ncreating and using a method withTemporaryDirectoryPath().   I hope that \r\nmethod captures the concept. At the least, I provides an implementation for \r\nreview and continuous improvement.\r\n\r\nI used the new method in the code I was adding only and did not do sweeping \r\nchanges to many other places which used withTemporaryDirectory().\r\n\r\nIf/when useTemporaryDirectoryPath() passes review, I can create an Issue to\r\nfactor withTemporaryDirectory(), withTemporaryDirectory(), and the core routine\r\nthey both use, into a separate file.  That probably means changing the imports\r\nfor several other nio Suites which currently use withTemporaryDirectory().\r\n\r\n?? Should the new file be called withTemporary.scala so that future devos can\r\neasily find the file containing the methods?  I guess that a grep of TestHelpers.scala\r\nwould work also.\r\n\r\nThoughts? ",
+        "createdAt" : "2019-04-20T16:40:30Z",
+        "updatedAt" : "2019-04-20T16:40:31Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5c1ef185a6289d3b33df1bba345d787d4a447124",
+    "line" : null,
+    "diffHunk" : "@@ -891,6 +894,64 @@ object FilesSuite extends tests.Suite {\n     }\n   }\n \n+  // This test was inspired by Issue #1354\n+  // \"NIO File Walker fails on broken links.\"\n+  test(\"Files.walkFileTree respects FileVisitOption.FOLLOW_LINKS\") {\n+    withTemporaryDirectory { dirFile =>"
+  },
+  {
+    "id" : "e3bc51d9-e035-4516-9c5c-4a68542a2597",
+    "prId" : 1531,
+    "comments" : [
+      {
+        "id" : "959ce1f6-84b8-4635-928d-8b2f58bf69c5",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "It would be better if you actually tested that the expected files were returned rather than just the length.",
+        "createdAt" : "2019-04-08T17:39:11Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "75693701-2ea7-4e9a-b840-f391ecbc3099",
+        "parentId" : "959ce1f6-84b8-4635-928d-8b2f58bf69c5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Agreed. Good catch.  I must have written that at the end of a sprint...",
+        "createdAt" : "2019-04-08T20:30:16Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bbe334a9-802b-49f4-9e33-e550d11758ac",
+        "parentId" : "959ce1f6-84b8-4635-928d-8b2f58bf69c5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I changed the code as you suggested.  I now check that the set of files actually visited\r\nmatches the set of files expected.  I skip the pre and post-visit directory as that is not\r\nuseful.\r\n\r\nFrom what I could find out, the order of visiting sub-directories is unspecified.  I could\r\nfind nothing, in limited time, that specified the order of files visited. I take it to be unspecified.\r\nIn practice, the order on SN appears to be reverse alphabetical.  I  created and compared\r\nSets to avoid relying upon any particular order of visitation. ",
+        "createdAt" : "2019-04-20T16:46:52Z",
+        "updatedAt" : "2019-04-20T16:46:52Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5c1ef185a6289d3b33df1bba345d787d4a447124",
+    "line" : null,
+    "diffHunk" : "@@ -891,6 +894,64 @@ object FilesSuite extends tests.Suite {\n     }\n   }\n \n+  // This test was inspired by Issue #1354\n+  // \"NIO File Walker fails on broken links.\"\n+  test(\"Files.walkFileTree respects FileVisitOption.FOLLOW_LINKS\") {\n+    withTemporaryDirectory { dirFile =>\n+      val dir = dirFile.toPath()\n+      val f0  = dir.resolve(\"f0\")\n+      val f1  = dir.resolve(\"f1\")\n+\n+      val brokenLink    = dir.resolve(\"brokenlink\")\n+      val missingTarget = dir.resolve(\"missingtarget\")\n+\n+      Files.createFile(f0)\n+      Files.createFile(f1)\n+\n+      assert(Files.exists(f0) && Files.isRegularFile(f0))\n+      assert(Files.exists(f1) && Files.isRegularFile(f1))\n+\n+      Files.createFile(missingTarget)\n+\n+      assert(\n+        Files.exists(missingTarget) &&\n+          Files.isRegularFile(missingTarget))\n+\n+      // Create valid symbolic link from brokenLink to missingTarget,\n+      // then remove missingTarget to break link.\n+\n+      Files.createSymbolicLink(brokenLink, missingTarget)\n+\n+      assert(Files.exists(brokenLink) && Files.isSymbolicLink(brokenLink),\n+             \"File brokenLink does not exist or is not a symbolic link.\")\n+\n+      Files.delete(missingTarget)\n+\n+      assert(!Files.exists(missingTarget),\n+             \"File missingTarget should not exist.\")\n+\n+      val visitor = new QueueingVisitor()\n+\n+      // will not follow links, so broken link does not throw exception.\n+      Files.walkFileTree(dir, visitor)\n+\n+      val result   = visitor.length\n+      val expected = 4\n+\n+      assert(result == expected, s\"result: $result != expected: $expected\")"
+  },
+  {
+    "id" : "f96ae109-6c45-4d1b-840b-566a6a985609",
+    "prId" : 1531,
+    "comments" : [
+      {
+        "id" : "450b9e57-a2d3-4f51-9534-03fd9dac7897",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Not a fan of `_` in variable names in scala.",
+        "createdAt" : "2019-04-08T17:39:30Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "afb3423c-cc1c-4734-9823-3963e12a45d1",
+        "parentId" : "450b9e57-a2d3-4f51-9534-03fd9dac7897",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "The use of the `_2` also implies that perhaps this should be a separate test. It would make debugging easier if there is a future regression.",
+        "createdAt" : "2019-04-08T17:40:45Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "44f4e55b-7acc-4329-8e78-d8e9e5fc1871",
+        "parentId" : "450b9e57-a2d3-4f51-9534-03fd9dac7897",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "re: underscore.  \r\n    I can change that to conform to Scala practice, or, better yet the entire variable name.\r\nI find that my poor eyes miss the terminal digit in `visitor2`.  \r\n\r\nre: separate test. \r\n\r\n    I will do that. I'll probably create a method to do the setup for the two tests in common, then get down\r\nto the intent of the test:  Isolate the setup.",
+        "createdAt" : "2019-04-08T20:44:50Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cd51d926-ec19-49c9-8795-0dbd5b7838ae",
+        "parentId" : "450b9e57-a2d3-4f51-9534-03fd9dac7897",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I agree that we should split it into 2 or more tests. Underscores in variable names are also generally frowned upon. ",
+        "createdAt" : "2019-04-19T20:05:01Z",
+        "updatedAt" : "2019-04-20T15:51:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1b810149-21e7-466f-88f5-a54ec4532a35",
+        "parentId" : "450b9e57-a2d3-4f51-9534-03fd9dac7897",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I followed the sense of the meeting and split the test into two.  I have each of the\r\ntests calling a common setup method to keep them in synch. \r\n\r\nI do have to admit that the new code looks better, at least to me.\r\n\r\nAlso, here are now no  underscores in variable names.  I will avoid them in Scala in \r\nthe future. ",
+        "createdAt" : "2019-04-20T16:51:08Z",
+        "updatedAt" : "2019-04-20T16:51:08Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5c1ef185a6289d3b33df1bba345d787d4a447124",
+    "line" : null,
+    "diffHunk" : "@@ -891,6 +894,64 @@ object FilesSuite extends tests.Suite {\n     }\n   }\n \n+  // This test was inspired by Issue #1354\n+  // \"NIO File Walker fails on broken links.\"\n+  test(\"Files.walkFileTree respects FileVisitOption.FOLLOW_LINKS\") {\n+    withTemporaryDirectory { dirFile =>\n+      val dir = dirFile.toPath()\n+      val f0  = dir.resolve(\"f0\")\n+      val f1  = dir.resolve(\"f1\")\n+\n+      val brokenLink    = dir.resolve(\"brokenlink\")\n+      val missingTarget = dir.resolve(\"missingtarget\")\n+\n+      Files.createFile(f0)\n+      Files.createFile(f1)\n+\n+      assert(Files.exists(f0) && Files.isRegularFile(f0))\n+      assert(Files.exists(f1) && Files.isRegularFile(f1))\n+\n+      Files.createFile(missingTarget)\n+\n+      assert(\n+        Files.exists(missingTarget) &&\n+          Files.isRegularFile(missingTarget))\n+\n+      // Create valid symbolic link from brokenLink to missingTarget,\n+      // then remove missingTarget to break link.\n+\n+      Files.createSymbolicLink(brokenLink, missingTarget)\n+\n+      assert(Files.exists(brokenLink) && Files.isSymbolicLink(brokenLink),\n+             \"File brokenLink does not exist or is not a symbolic link.\")\n+\n+      Files.delete(missingTarget)\n+\n+      assert(!Files.exists(missingTarget),\n+             \"File missingTarget should not exist.\")\n+\n+      val visitor = new QueueingVisitor()\n+\n+      // will not follow links, so broken link does not throw exception.\n+      Files.walkFileTree(dir, visitor)\n+\n+      val result   = visitor.length\n+      val expected = 4\n+\n+      assert(result == expected, s\"result: $result != expected: $expected\")\n+\n+      // Now follow the broken link and throw exception.\n+      val visitor_2 = new QueueingVisitor()"
+  },
+  {
+    "id" : "274a1c23-6ae5-49cc-9a52-522726bbd76f",
+    "prId" : 1533,
+    "comments" : [
+      {
+        "id" : "51d39a7a-bbc8-4ea5-8011-23c563c544b5",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "I think this could be `foundPath.getFileName.toString`",
+        "createdAt" : "2019-04-08T17:28:14Z",
+        "updatedAt" : "2019-04-19T23:04:22Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5cf2b4ac-57b4-4d8d-91ae-e4a6fd31bc45",
+        "parentId" : "51d39a7a-bbc8-4ea5-8011-23c563c544b5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Good suggestion.  Thank you. At that point there is at least one element to the Path, so I do not have to worry about\r\ngetFileName() returning NULL.  I'll implement as soon as I can steal the cycles.  ",
+        "createdAt" : "2019-04-08T20:14:49Z",
+        "updatedAt" : "2019-04-19T23:04:22Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "11777386-0522-4ecc-a1d3-de585fef5a72",
+        "parentId" : "51d39a7a-bbc8-4ea5-8011-23c563c544b5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Edited as you suggested. Thank you for the detailed review.\r\n\r\nThe change allowed me to simplify by dropping a now unnecessary comment\r\nand the foundNameCount.",
+        "createdAt" : "2019-04-19T19:39:09Z",
+        "updatedAt" : "2019-04-19T23:04:22Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "53c088901bc38f8352547e5417ea521ee23e401a",
+    "line" : null,
+    "diffHunk" : "@@ -921,6 +921,114 @@ object FilesSuite extends tests.Suite {\n     }\n   }\n \n+  private def setupFindSymlinkContext(\n+      top: File,\n+      soughtName: String): Tuple4[Path, Path, Path, Path] = {\n+\n+    // Create environment used to test both valid and invalid symlinks.\n+\n+    val dir = top.toPath()\n+    val d1  = dir.resolve(\"d1\")\n+    Files.createDirectory(d1)\n+    assert(Files.exists(d1) && Files.isDirectory(d1))\n+\n+    // f0 & f1 are just to give find() a bit more complicated case.\n+    val f0 = d1.resolve(\"f0\")\n+    val f1 = d1.resolve(\"f1\")\n+    Files.createFile(f0)\n+    Files.createFile(f1)\n+\n+    val d2 = dir.resolve(\"d2\")\n+    Files.createDirectory(d2)\n+    assert(Files.exists(d2) && Files.isDirectory(d2))\n+\n+    val symlinkTarget = d2\n+\n+    val sought = d2.resolve(soughtName)\n+    Files.createFile(sought)\n+    assert(Files.exists(sought) && Files.isRegularFile(sought))\n+\n+    // Tricky bit here, symlink target is a directory, not a file.\n+    val symlink = d1.resolve(\"dirSymlink\")\n+    Files.createSymbolicLink(symlink, symlinkTarget)\n+\n+    assert(Files.exists(symlink) && Files.isSymbolicLink(symlink))\n+\n+    (dir, d1, d2, symlink)\n+  }\n+\n+  test(\"Files.find respects FileVisitOption.FOLLOW_LINKS, valid symlinks\") {\n+    withTemporaryDirectory { dirFile =>\n+      val soughtName             = \"quaesitum\" // That which is sought.\n+      val (dir, d1, d2, symlink) = setupFindSymlinkContext(dirFile, soughtName)\n+\n+      val predicate = new BiPredicate[Path, BasicFileAttributes] {\n+        override def test(path: Path, attrs: BasicFileAttributes): Boolean =\n+          path.getFileName.toString == soughtName\n+      }\n+\n+      // Test good symlink when following links.\n+\n+      val itFollowGood =\n+        Files.find(d1, 10, predicate, FileVisitOption.FOLLOW_LINKS).iterator\n+\n+      assert(itFollowGood.hasNext,\n+             s\"Should have found a Path when following symlinks\")\n+\n+      // We want soughtName _exactly_ so do not use endsWith(),\n+      // which would report true for, say, Foo${soughtName}.\n+      val foundPath      = itFollowGood.next\n+      val foundNameCount = foundPath.getNameCount\n+      val foundName      = foundPath.getName(foundNameCount - 1).toString"
+  },
+  {
+    "id" : "af05c693-2ec4-404f-941c-ebf87f324765",
+    "prId" : 1533,
+    "comments" : [
+      {
+        "id" : "37b78a23-ed51-408f-a4e5-5d3f5ab5ac48",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "This is a good test to have.",
+        "createdAt" : "2019-04-08T17:30:17Z",
+        "updatedAt" : "2019-04-19T23:04:22Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "53c088901bc38f8352547e5417ea521ee23e401a",
+    "line" : 75,
+    "diffHunk" : "@@ -921,6 +921,114 @@ object FilesSuite extends tests.Suite {\n     }\n   }\n \n+  private def setupFindSymlinkContext(\n+      top: File,\n+      soughtName: String): Tuple4[Path, Path, Path, Path] = {\n+\n+    // Create environment used to test both valid and invalid symlinks.\n+\n+    val dir = top.toPath()\n+    val d1  = dir.resolve(\"d1\")\n+    Files.createDirectory(d1)\n+    assert(Files.exists(d1) && Files.isDirectory(d1))\n+\n+    // f0 & f1 are just to give find() a bit more complicated case.\n+    val f0 = d1.resolve(\"f0\")\n+    val f1 = d1.resolve(\"f1\")\n+    Files.createFile(f0)\n+    Files.createFile(f1)\n+\n+    val d2 = dir.resolve(\"d2\")\n+    Files.createDirectory(d2)\n+    assert(Files.exists(d2) && Files.isDirectory(d2))\n+\n+    val symlinkTarget = d2\n+\n+    val sought = d2.resolve(soughtName)\n+    Files.createFile(sought)\n+    assert(Files.exists(sought) && Files.isRegularFile(sought))\n+\n+    // Tricky bit here, symlink target is a directory, not a file.\n+    val symlink = d1.resolve(\"dirSymlink\")\n+    Files.createSymbolicLink(symlink, symlinkTarget)\n+\n+    assert(Files.exists(symlink) && Files.isSymbolicLink(symlink))\n+\n+    (dir, d1, d2, symlink)\n+  }\n+\n+  test(\"Files.find respects FileVisitOption.FOLLOW_LINKS, valid symlinks\") {\n+    withTemporaryDirectory { dirFile =>\n+      val soughtName             = \"quaesitum\" // That which is sought.\n+      val (dir, d1, d2, symlink) = setupFindSymlinkContext(dirFile, soughtName)\n+\n+      val predicate = new BiPredicate[Path, BasicFileAttributes] {\n+        override def test(path: Path, attrs: BasicFileAttributes): Boolean =\n+          path.getFileName.toString == soughtName\n+      }\n+\n+      // Test good symlink when following links.\n+\n+      val itFollowGood =\n+        Files.find(d1, 10, predicate, FileVisitOption.FOLLOW_LINKS).iterator\n+\n+      assert(itFollowGood.hasNext,\n+             s\"Should have found a Path when following symlinks\")\n+\n+      // We want soughtName _exactly_ so do not use endsWith(),\n+      // which would report true for, say, Foo${soughtName}.\n+      val foundPath      = itFollowGood.next\n+      val foundNameCount = foundPath.getNameCount\n+      val foundName      = foundPath.getName(foundNameCount - 1).toString\n+\n+      assert(foundName == soughtName,\n+             s\"found: |$foundName| != expected: |$soughtName|\")\n+\n+      // Test good symlink when not following links.\n+\n+      val itNoFollowGood = Files.find(d1, 10, predicate).iterator\n+\n+      assert(itNoFollowGood.hasNext == false,\n+             s\"Should not have found anything when not following symlinks\")\n+    }\n+  }\n+\n+  // Issue #1530\n+\n+  test(\"Files.find respects FileVisitOption.FOLLOW_LINKS, broken symlinks\") {"
+  }
+]

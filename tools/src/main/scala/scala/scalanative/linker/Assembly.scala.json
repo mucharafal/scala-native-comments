@@ -1,0 +1,183 @@
+[
+  {
+    "id" : "a267e2eb-8cda-4714-80d1-2374d50c4373",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "dbff78f4-598b-4ec8-bcda-fe490036dad6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "And this one. \n",
+        "createdAt" : "2016-05-21T18:20:41Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -2,40 +2,20 @@ package scala.scalanative\n package linker\n \n import java.io.File\n-import java.nio.file.{Files, Paths, Path, FileVisitOption}\n-import java.nio.file.attribute.BasicFileAttributes\n-import java.util.function.BiPredicate\n-import scala.collection.JavaConverters._\n-import nir._\n-import nir.serialization._\n+import java.nio.file.Paths\n \n-sealed abstract class Assembly {\n-  def contains(entry: Global): Boolean\n-  def load(entry: Global): Option[(Seq[Dep], Defn)]\n-}\n-\n-object Assembly {\n-  final case class Dir private[Assembly](val base: File) extends Assembly {\n-    //println(s\"discovered dir assembly $base\")\n+import scala.scalanative.nir._\n+import scala.scalanative.nir.serialization._\n \n-    class NirMatcher extends BiPredicate[Path, BasicFileAttributes] {\n-      def test(path: Path, b: BasicFileAttributes) =\n-        path.toString.endsWith(\".nir\")\n-    }\n+final case class Assembly(base: File) {\n "
+  },
+  {
+    "id" : "92ee4bab-20a4-4700-a6d5-a5ff3b0c3eb1",
+    "prId" : 94,
+    "comments" : [
+      {
+        "id" : "b13fdf4f-e494-4f84-b28b-94f0fc07f1d3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not sure if using arrays is a good idea for recursive construction of a sequence. Lists would probably be a better fit here. \n",
+        "createdAt" : "2016-05-18T05:45:44Z",
+        "updatedAt" : "2016-05-18T15:14:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fd58d0e2-3993-4024-a771-007be636187d",
+        "parentId" : "b13fdf4f-e494-4f84-b28b-94f0fc07f1d3",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "A naive use of lists would also be quadratic. But the following is linear:\n\n``` scala\n    def matchFiles(f: File, tail: List[File] = Nil): List[File] = {\n      if (f.isDirectory) f.listFiles.foldRight(tail)(matchFiles)\n      else if (f.getName.endsWith(\".nir\")) f :: tail\n      else tail\n    }\n```\n\n\"Typical\" difference list. :p\n",
+        "createdAt" : "2016-05-18T06:56:29Z",
+        "updatedAt" : "2016-05-18T15:14:32Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "58b3f6c5-8f20-4a4d-aaee-f45a0f00fd28",
+        "parentId" : "b13fdf4f-e494-4f84-b28b-94f0fc07f1d3",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "To be honest I didn't think too much at \"optimization\" at this stage, you guys are crazy :-)\n\nIf you really care probably best option is to use java8 File interface with something like:\nhttps://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#walk-java.nio.file.Path-java.nio.file.FileVisitOption...-\n\nToo me removing apache commons serves to speed up docker image creation :-) so pick your choice!\n",
+        "createdAt" : "2016-05-18T08:15:12Z",
+        "updatedAt" : "2016-05-18T15:14:32Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0f9a5939-7585-4dd9-9610-bb862be99d8d",
+        "parentId" : "b13fdf4f-e494-4f84-b28b-94f0fc07f1d3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Linker is actually a _very_ performance sensitive piece code. I used to have dumb non-lazy linker before and it would take minutes to link. I/O is expensive, even with SSDs. If you make a mistake there, it's amplified many times over proportionally to size of classpath / number of files / dependencies / etc. And those things often get pretty damn huge in practice.\n",
+        "createdAt" : "2016-05-18T11:38:55Z",
+        "updatedAt" : "2016-05-18T15:14:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b9113410-9a28-4d77-ab73-0e1670f74b6f",
+        "parentId" : "b13fdf4f-e494-4f84-b28b-94f0fc07f1d3",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "fair enough :-)\n",
+        "createdAt" : "2016-05-18T11:59:19Z",
+        "updatedAt" : "2016-05-18T15:14:32Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ad1ebbed52160e8b7ea18a059e04a6fb57d82cb2",
+    "line" : null,
+    "diffHunk" : "@@ -16,14 +14,16 @@ object Assembly {\n   final case class Dir private[Assembly](val base: File) extends Assembly {\n     //println(s\"discovered dir assembly $base\")\n \n+    def matchFiles(f: File): Array[File] = {\n+      if (f.isDirectory) f.listFiles.map(matchFiles).flatten.toArray\n+      else if (f.getName.endsWith(\".nir\")) Array(f)\n+      else Array()\n+    }"
+  },
+  {
+    "id" : "2297d9bb-c029-4f54-86f7-915f2a9a728d",
+    "prId" : 94,
+    "comments" : [
+      {
+        "id" : "aec763b3-25eb-44bc-aa45-c800545e4dcb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You forgot to run `scalafmt`. \n",
+        "createdAt" : "2016-05-18T13:09:47Z",
+        "updatedAt" : "2016-05-18T15:14:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ad1ebbed52160e8b7ea18a059e04a6fb57d82cb2",
+    "line" : null,
+    "diffHunk" : "@@ -16,29 +18,36 @@ object Assembly {\n   final case class Dir private[Assembly](val base: File) extends Assembly {\n     //println(s\"discovered dir assembly $base\")\n \n+    class NirMatcher extends BiPredicate[Path, BasicFileAttributes] {\n+      def test(path: Path, b: BasicFileAttributes) =\n+        path.toString.endsWith(\".nir\")\n+    }\n+\n+    def matchFiles(f: String): Iterator[Path] =\n+      Files.\n+        find(Paths.get(f),\n+            Integer.MAX_VALUE,\n+            new NirMatcher(),\n+            FileVisitOption.FOLLOW_LINKS).\n+        iterator.asScala\n+\n     private val entries: Map[Global, BinaryDeserializer] = {\n       val baseabs = base.getAbsolutePath()\n-      val files = FileUtils\n-        .listFiles(base,\n-                   new RegexFileFilter(\"(.*)\\\\.nir\"),\n-                   DirectoryFileFilter.DIRECTORY)\n-        .toArray\n-        .toIterator\n-      files.map {\n-        case file: File =>\n-          val fileabs = file.getAbsolutePath()\n-          val relpath = fileabs.replace(baseabs + \"/\", \"\")\n-          val (ctor, rel) =\n-            if (relpath.endsWith(\".type.nir\"))\n-              (Global.Type, relpath.replace(\".type.nir\", \"\"))\n-            else if (relpath.endsWith(\".value.nir\"))\n-              (Global.Val, relpath.replace(\".value.nir\", \"\"))\n-            else\n-              throw new LinkingError(\n-                  s\"can't recognized assembly file: $relpath\")\n-          val parts = rel.split(\"/\").toSeq\n-          val name  = ctor(parts.mkString(\".\"))\n-          (name -> deserializeBinaryFile(fileabs))\n+      \n+      matchFiles(baseabs).map {path: Path =>"
+  }
+]

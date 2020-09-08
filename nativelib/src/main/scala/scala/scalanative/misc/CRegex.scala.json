@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "803e4ed0-9d96-470f-91f9-aed66bdfee3c",
+    "prId" : 828,
+    "comments" : [
+      {
+        "id" : "de7ec84d-a6df-4591-96e0-845c2a8011d0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We've been struggling really hard not to introduce new APIs outside in core with the exception of those necessary for interop. The reason being is that as soon as you use any of the non-standard APIs your code becomes completely unportable wrt JVM and JS targets.",
+        "createdAt" : "2017-06-27T09:13:07Z",
+        "updatedAt" : "2017-06-27T09:14:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "53e1111cf89de5754aad30995fe8c950fc5754bb",
+    "line" : 2,
+    "diffHunk" : "@@ -0,0 +1,106 @@\n+package scala.scalanative.misc\n+package regex"
+  }
+]

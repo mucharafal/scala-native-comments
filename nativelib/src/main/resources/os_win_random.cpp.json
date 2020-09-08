@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "bf313cb7-b836-40b1-82a8-041fdadfcd2c",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "e7f14159-3882-465f-a8e4-00141177c60b",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "This function was probably taken from https://gist.github.com/mortennobel/8665258. You should add some attribution. Did you make sure that the license complies with the CLA?",
+        "createdAt" : "2017-05-07T17:29:25Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dcb3dbc1-b75b-4883-a67c-d2c104c80ba4",
+        "parentId" : "e7f14159-3882-465f-a8e4-00141177c60b",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I found same code on PostgreSQL sources page, I'm not sure about CLA",
+        "createdAt" : "2017-05-08T18:51:53Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "86137a90-dc0b-462c-98c7-46d4a9767ccd",
+        "parentId" : "e7f14159-3882-465f-a8e4-00141177c60b",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I added a head comment block with description",
+        "createdAt" : "2017-05-09T09:15:33Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,145 @@\n+#include <stdio.h>\n+\n+extern \"C\" {\n+    // we need to create fake uses of functions (snprintf etc) otherwise it will be stripped from the file\n+    int scalanative_snprintf( char * s, size_t n, const char * format, va_list args)\n+    {\n+        return snprintf(s, n, format, args);\n+    }\n+\n+    int scalanative_sprintf( char * s, const char * format, va_list args)\n+    {\n+        return sprintf(s, format, args);\n+    }\n+\n+#ifdef _WIN32\n+    /*\n+    #include <random>\n+    std::default_random_engine generator;\n+    std::uniform_real_distribution<double> distr(0.0,1.0);\n+    double erand48(int X)\n+    {\n+        return distr(generator);\n+    }\n+    */\n+    \n+    #include <stdlib.h>\n+    #include <math.h>\n+\n+    #define RAND48_SEED_0   (0x330e)\n+    #define RAND48_SEED_1   (0xabcd)\n+    #define RAND48_SEED_2   (0x1234)\n+    #define RAND48_MULT_0   (0xe66d)\n+    #define RAND48_MULT_1   (0xdeec)\n+    #define RAND48_MULT_2   (0x0005)\n+    #define RAND48_ADD      (0x000b)\n+\n+    unsigned short _rand48_seed[3] = {\n+        RAND48_SEED_0,\n+        RAND48_SEED_1,\n+        RAND48_SEED_2\n+    };\n+    unsigned short _rand48_mult[3] = {\n+        RAND48_MULT_0,\n+        RAND48_MULT_1,\n+        RAND48_MULT_2\n+    };\n+    unsigned short _rand48_add = RAND48_ADD;\n+\n+    void _dorand48(unsigned short xseed[3]) "
+  }
+]

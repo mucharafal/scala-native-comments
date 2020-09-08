@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a027bf14-cd62-41e6-b51a-98db664c63d9",
+    "prId" : 354,
+    "comments" : [
+      {
+        "id" : "4ff41761-03fc-4e6f-9d7c-087324a1fba4",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "This is a bit of a shame, `assumeStandardLibraryStripMargin = true` would fix it.\n",
+        "createdAt" : "2016-10-25T12:40:55Z",
+        "updatedAt" : "2016-10-25T13:45:47Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "450a0c0e-2ad2-4cfb-b1cb-84eb6af2559d",
+        "parentId" : "4ff41761-03fc-4e6f-9d7c-087324a1fba4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Added to the config. \n",
+        "createdAt" : "2016-10-25T13:07:00Z",
+        "updatedAt" : "2016-10-25T13:45:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "eef32102c4eda6c036136b30967ff19919202fea",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,8 @@\n {\n   val pluginVersion = System.getProperty(\"plugin.version\")\n-  if(pluginVersion == null)\n-    throw new RuntimeException(\"\"\"|The system property 'plugin.version' is not defined.\n+  if (pluginVersion == null)\n+    throw new RuntimeException(\n+      \"\"\"|The system property 'plugin.version' is not defined."
+  }
+]

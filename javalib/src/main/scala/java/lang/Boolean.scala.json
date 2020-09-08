@@ -1,0 +1,106 @@
+[
+  {
+    "id" : "1b78489b-f32e-4861-88ef-2985380ff7b0",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "8a5b8a40-9278-4b0d-a919-8c9249956580",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why was this change required?",
+        "createdAt" : "2020-08-20T14:35:22Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e907ca14-e6d7-473f-8011-c5cdf1513864",
+        "parentId" : "8a5b8a40-9278-4b0d-a919-8c9249956580",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "This was actually changed in the prototype branch by @densh.\r\n\r\nKeeping `scala.Boolean` results in:\r\n```\r\n[error] Error while emitting Boolean.scala\r\n[error] assertion failed:\r\n[error]   expected class type in classOf[T], found primitive type Z\r\n[error]      while compiling: /Users/ergys/dev/scala/native/javalib/src/main/scala/java/lang/Boolean.scala\r\n[error]         during phase: jvm\r\n[error]      library version: version 2.12.12\r\n[error]     compiler version: version 2.12.12\r\n[error]   reconstructed args: ...\r\n[error]\r\n[error]   last tree to typer: TypeTree(class Array)\r\n[error]        tree position: line 78 of /Users/ergys/dev/scala/native/javalib/src/main/scala/java/io/DataOutputStream.scala\r\n[error]             tree tpe: Array[Byte]\r\n[error]               symbol: final class Array in package scala\r\n[error]    symbol definition: final class Array[T] extends Object (a ClassSymbol)\r\n[error]       symbol package: scala\r\n[error]        symbol owners: class Array\r\n[error]            call site: constructor UnixPath$$anon$1 in package fs\r\n\r\n```",
+        "createdAt" : "2020-08-20T21:19:57Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "27777172-8f97-4341-962a-b9b78567bd47",
+        "parentId" : "8a5b8a40-9278-4b0d-a919-8c9249956580",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is that only broken in the javalib, or would user code be affected by this problem as well? I.e., would a test in unit-tests that uses `classOf[scala.Byte]` be broken or not? If user code is broken, we should fix it somehow.",
+        "createdAt" : "2020-08-21T09:38:37Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "9fb11798-2244-4ac6-bea2-984d9734a46a",
+        "parentId" : "8a5b8a40-9278-4b0d-a919-8c9249956580",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "In `sandbox`, `classOf[scala.Boolean]` prints `class scala.scalanative.runtime.PrimitiveBoolean`, so I guess it's OK.",
+        "createdAt" : "2020-08-21T09:43:31Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "df47d94b-0159-4afd-8e8d-4c70d37546f0",
+        "parentId" : "8a5b8a40-9278-4b0d-a919-8c9249956580",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "OK then.",
+        "createdAt" : "2020-08-21T09:49:27Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 6,
+    "diffHunk" : "@@ -43,7 +43,8 @@ final class Boolean(val _value: scala.Boolean) extends Comparable[Boolean] {\n }\n \n object Boolean {\n-  final val TYPE           = classOf[scala.Boolean]\n+  final val TYPE =\n+    scala.Predef.classOf[scala.scalanative.runtime.PrimitiveBoolean]"
+  }
+]

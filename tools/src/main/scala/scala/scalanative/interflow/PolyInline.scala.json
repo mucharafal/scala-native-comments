@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "73566e19-536c-40a7-b68b-2abf93806887",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "ea94faf8-c51d-464c-b561-49731690cc03",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why is it OK to use `j.l.Object` here?",
+        "createdAt" : "2020-08-20T15:45:05Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "94b69fef-58fc-4b01-8aa6-c47cfbb84f55",
+        "parentId" : "ea94faf8-c51d-464c-b561-49731690cc03",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Provided `j.l.Object` here as the superclass of all classes, i.e. the generic safe choice, since this call path did not cause any problems.",
+        "createdAt" : "2020-08-21T11:06:54Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e1ecfaa1-eeb0-4745-92a3-8ed318f14ad3",
+        "parentId" : "ea94faf8-c51d-464c-b561-49731690cc03",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same comment as for the other one, obviously.",
+        "createdAt" : "2020-08-21T11:28:53Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 11,
+    "diffHunk" : "@@ -115,7 +115,9 @@ trait PolyInline { self: Interflow =>\n         emit.jump(Next.Label(mergeLabel, Seq(res)))\n     }\n \n-    val result = Val.Local(fresh(), Sub.lub(rettys))\n+    val result = Val.Local(\n+      fresh(),\n+      Sub.lub(rettys, Type.Ref(Global.Top(\"java.lang.Object\"))))"
+  }
+]

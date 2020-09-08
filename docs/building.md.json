@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "98533b9c-adff-477a-9abb-eb7f0b7fc66f",
+    "prId" : 120,
+    "comments" : [
+      {
+        "id" : "4b475168-d702-4046-83a0-e2eb719b1aec",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is this the latest version of llvm available on homebrew atm?\n",
+        "createdAt" : "2016-05-22T17:44:38Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "27909f93-1b01-448d-a154-368291e16c63",
+        "parentId" : "4b475168-d702-4046-83a0-e2eb719b1aec",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It looks like they have 3.8 too, we should recommend that one instead. \n",
+        "createdAt" : "2016-05-22T17:46:18Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "57b09dea-b080-4f73-9959-ca900c6738cf",
+        "parentId" : "4b475168-d702-4046-83a0-e2eb719b1aec",
+        "author" : {
+          "login" : "phdoerfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/163428?u=4a93b6f21241252089c37da3d14eb6dd3c7198bb&v=4"
+        },
+        "body" : "I wasn't sure whether I should go with \"latest available\" or \"earliest necessary\" and went for the latter. I assumed that people would expect the check (which checks for 3.7) and the documentation to align.\nBut I do like the idea of recommending the newer version.\n",
+        "createdAt" : "2016-05-22T17:53:14Z",
+        "updatedAt" : "2016-06-06T16:00:40Z",
+        "lastEditedBy" : {
+          "login" : "phdoerfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/163428?u=4a93b6f21241252089c37da3d14eb6dd3c7198bb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a07666baf115d1a2ac24c70a2313c0b1fb345caa",
+    "line" : null,
+    "diffHunk" : "@@ -33,6 +33,16 @@ You can use brew as shown below\n brew install bdw-gc\n ```\n \n+### OS X Yosemite\n+\n+OS X Yosemite uses outdated version of `clang` so you might have to install a newer version via brew:\n+\n+```\n+brew install homebrew/versions/llvm37"
+  }
+]

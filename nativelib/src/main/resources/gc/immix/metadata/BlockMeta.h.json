@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "30221e6b-07f1-423c-a889-23b25b034cd1",
+    "prId" : 1374,
+    "comments" : [
+      {
+        "id" : "9d979fa3-baaa-48c4-8c48-11ed6515ce1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "BlockMeta struct stays 64-bit sized in the end, which is great. https://godbolt.org/z/9GXIan\r\n",
+        "createdAt" : "2018-10-29T10:15:48Z",
+        "updatedAt" : "2018-10-29T14:18:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0b3fe77ed8bd8513c3a1224e6b0d8894a4c8f215",
+    "line" : 34,
+    "diffHunk" : "@@ -9,45 +11,90 @@\n \n typedef enum {\n     block_free = 0x0,\n-    block_recyclable = 0x1,\n-    block_unavailable = 0x2\n+    block_simple = 0x1,\n+    block_superblock_start = 0x2,\n+    block_superblock_middle = 0x3,\n+    block_marked = 0x5\n } BlockFlag;\n \n typedef struct {\n-    uint8_t mark;\n-    uint8_t flags;\n-    int16_t first;\n+    union {\n+        struct {\n+            uint8_t flags;\n+            int8_t first;\n+        } simple;\n+        struct {\n+            uint8_t flags;\n+            int32_t size : BLOCK_COUNT_BITS;\n+        } superblock;\n+    } block;"
+  }
+]

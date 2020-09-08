@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "b0f1786d-24b5-4806-94f0-8c5c07e9e3ea",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "369db9e8-64d8-4622-ab13-5313f2d5050e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Even in memory, I believe we should cache this result, because it is expensive to compute, and used on every linking request.",
+        "createdAt" : "2020-02-20T14:10:10Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : 33,
+    "diffHunk" : "@@ -41,6 +47,18 @@ object ClassLoader {\n       out\n     }\n \n+    def classesWithEntryPoints(): Iterable[Global] = {\n+      scopes.filter {\n+        case (top, defns) =>\n+          defns.exists {\n+            case defn: Defn.Define =>\n+              val Global.Member(_, sig) = defn.name\n+              sig.isClinit\n+            case _ => false\n+          }\n+      }.keySet"
+  },
+  {
+    "id" : "c5da7e0a-37b5-44e6-8174-b449e1547ba5",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "775fb301-827e-42b9-91d9-0557b1a2e722",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is this still warranted?",
+        "createdAt" : "2020-08-20T15:45:27Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -21,8 +21,11 @@ object ClassLoader {\n     new FromDisk(classpath)\n   }\n \n-  def fromMemory(defns: Seq[Defn]): ClassLoader =\n+  def fromMemory(defns: Seq[Defn]): ClassLoader = {\n+    assert(defns != null)\n+    assert(defns.forall(_ != null))"
+  }
+]

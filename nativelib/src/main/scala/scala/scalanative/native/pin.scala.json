@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "0af40bf3-de00-4d76-b387-7586b1ab924e",
+    "prId" : 152,
+    "comments" : [
+      {
+        "id" : "cd78b9ed-5466-4148-9cbc-5bb370c286a0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@sjrd What are your thoughts on this as an API? We need this here not to eliminate fields of `java.lang.String` if its instances were constructed without calling a constructor (e.g. literal strings.) But it should be also useful as a sane contract between reflection and link-time dead-code elimination: annotate all inner members with `@pin` and pin all classes that should be reachable in the build (to be added in later PRs.)\n",
+        "createdAt" : "2016-06-06T12:04:11Z",
+        "updatedAt" : "2016-06-07T11:16:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f68847e8e5cb9b2adef959186c26035fbc9979e2",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,15 @@\n+package scala.scalanative\n+package native\n+\n+import scala.annotation.StaticAnnotation\n+import scala.annotation.meta.{field, getter, setter}\n+\n+/** An annotation that is used to indicate that given field\n+ *  or method should never be eliminated during link-time\n+ *  whole-program dead code elimination as long as enclosing\n+ *  class or object is reachable.\n+ */\n+@field\n+@getter\n+@setter\n+final class pin extends StaticAnnotation"
+  }
+]

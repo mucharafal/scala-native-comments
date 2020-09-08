@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "bb20c8e0-ff60-417c-92d4-03d95e64a1b4",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "6e07deb0-6d63-48d9-9383-7a2110d03b78",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why do we need this? ",
+        "createdAt" : "2017-08-07T11:40:29Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "52d919a8-b1de-4427-8455-18786359f669",
+        "parentId" : "6e07deb0-6d63-48d9-9383-7a2110d03b78",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "folder `os_win` is compiled external dependencies, it has re2 and boehm pre-compiled. There is no easy way to compile them on user machine, I put it here temporary until I manage to write some installation script. I'm looking forward for your changes which are removing these dependencies for scala-native. So, then I don't need to write this installation script.",
+        "createdAt" : "2017-08-08T11:06:34Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "71480db0-511a-4a6a-b90f-943554b2c2ac",
+        "parentId" : "6e07deb0-6d63-48d9-9383-7a2110d03b78",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "RE2 is on its way out, it's going to be superseded by our own reimplementation in Scala. Boehm is slightly more complicated as Immix is still experimental, and we can't remove the only stable GC we have just yet.",
+        "createdAt" : "2017-08-08T12:01:36Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,352 @@\n+/*\n+ * Copyright (c) 1993-1994 by Xerox Corporation.  All rights reserved.\n+ *\n+ * THIS MATERIAL IS PROVIDED AS IS, WITH ABSOLUTELY NO WARRANTY EXPRESSED\n+ * OR IMPLIED.  ANY USE IS AT YOUR OWN RISK.\n+ *\n+ * Permission is hereby granted to use or copy this program\n+ * for any purpose,  provided the above notices are retained on all copies.\n+ * Permission to modify the code and to distribute modified code is granted,\n+ * provided the above notices are retained, and a notice that the code was\n+ * modified is included with the above copyright notice.\n+ */\n+\n+/*\n+ * Cords are immutable character strings.  A number of operations"
+  }
+]

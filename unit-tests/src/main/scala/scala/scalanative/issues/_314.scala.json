@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "1cdde581-340c-4842-b783-c6f1bdf63eba",
+    "prId" : 341,
+    "comments" : [
+      {
+        "id" : "065038de-0e86-4b23-8739-24fee5566206",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Btw, on JVM this code would throw and catch an exception. \nWhy are we not doing it? Is it because it's the semantics of scala native or is it that mimicking the JVM behavior hasn't been implemented yet?\n",
+        "createdAt" : "2016-10-19T13:29:35Z",
+        "updatedAt" : "2016-10-19T13:29:35Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "79457542-58a6-4232-a3bb-88ddc162f889",
+        "parentId" : "065038de-0e86-4b23-8739-24fee5566206",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The plan is to have two modes: one that does all the checks (development) and one that doesn't (production). You as user will be able to choose which one works better for you. https://github.com/scala-native/scala-native/issues/14\n",
+        "createdAt" : "2016-10-19T13:53:48Z",
+        "updatedAt" : "2016-10-19T13:53:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d037195ba3f7ac9bf6169d6bac2e83c63a9e1db5",
+    "line" : 6,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+package scala.scalanative.issues\n+\n+object _314 extends tests.Suite {\n+  test(\"github.com/scala-native/scala-native/issues/314\") {\n+    // Division by zero is undefined behavior in production mode.\n+    // Optimizer can assume it never happens and remove unused result."
+  }
+]

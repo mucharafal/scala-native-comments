@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "0ae79454-af09-4267-9b92-36f8e9f483cf",
+    "prId" : 754,
+    "comments" : [
+      {
+        "id" : "84b194df-5c56-481b-a4f1-dbee6087d1df",
+        "parentId" : null,
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "All init functions don't use atomic<...>* atm as parameter, why?",
+        "createdAt" : "2017-06-02T12:55:01Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fe8c1f6b-12b0-4e60-9445-de133bb0c8c1",
+        "parentId" : "84b194df-5c56-481b-a4f1-dbee6087d1df",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "Since the functions are there to \"create\" the atomic object I thought it'd be maybe clearer to keep the parameter as is to mark the fact that it is a creation of an atomic.",
+        "createdAt" : "2017-06-07T10:05:32Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9038ecb4-b528-40c3-b4a5-6ba8769908e1",
+        "parentId" : "84b194df-5c56-481b-a4f1-dbee6087d1df",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "I remember now, ATOMIC_VAR_INIT needs a value as argument not an atomic",
+        "createdAt" : "2017-06-07T11:48:52Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5b6b0c092be2475ad4aa23e540f57a88bec3768c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,537 @@\n+#include <atomic>\n+#include <stdint.h>\n+#include <stdlib.h>\n+\n+using namespace std;\n+\n+extern \"C\" {\n+\n+\t/**\n+     * Init\n+     * */\n+\n+     // byte\n+     void init_byte(int8_t* atm, int8_t init_value) {"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "e5d30b01-6bec-4cfb-8819-afadefe50b01",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "4ce4c82c-908c-44eb-b494-0afc220c2c8c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "A `List` used as a stack must have its top at the head of the list, otherwise every push/pop operation is O(n). This should `todo ::= block`, and later `todo.last`/`todo.init` should be replaced by `todo.head`/`todo.tail`. Those three operations (`::=`, `head` and `tail`) are O(1).",
+        "createdAt" : "2020-08-20T14:37:22Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -64,33 +64,35 @@ object ControlFlow {\n       }\n \n       val blocks = mutable.Map.empty[Local, Block]\n-      val todo   = mutable.Stack.empty[Block]\n+      var todo   = List.empty[Block]\n \n       def edge(from: Block, to: Block, next: Next) = {\n-        val e = new Edge(from, to, next)\n+        val e = Edge(from, to, next)\n         from.outEdges += e\n         to.inEdges += e\n       }\n \n       def block(local: Local): Block =\n-        blocks.get(local).getOrElse {\n-          val k                     = locations(local)\n-          val Inst.Label(n, params) = insts(k)\n-\n-          // copy all instruction up until and including\n-          // first control-flow instruction after the label\n-          val body = mutable.UnrolledBuffer.empty[Inst]\n-          var i    = k\n-          do {\n-            i += 1\n-            body += insts(i)\n-          } while (!insts(i).isInstanceOf[Inst.Cf])\n-\n-          val block = new Block(n, params, body, isEntry = k == 0)\n-          blocks(local) = block\n-          todo.push(block)\n-          block\n-        }\n+        blocks.getOrElse(\n+          local, {\n+            val k                     = locations(local)\n+            val Inst.Label(n, params) = insts(k)\n+\n+            // copy all instruction up until and including\n+            // first control-flow instruction after the label\n+            val body = mutable.UnrolledBuffer.empty[Inst]\n+            var i    = k\n+            do {\n+              i += 1\n+              body += insts(i)\n+            } while (!insts(i).isInstanceOf[Inst.Cf])\n+\n+            val block = new Block(n, params, body, isEntry = k == 0)\n+            blocks(local) = block\n+            todo :+= block"
+  }
+]

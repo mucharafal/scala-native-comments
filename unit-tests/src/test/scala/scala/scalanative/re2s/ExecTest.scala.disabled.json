@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "6088364a-a9c2-49ed-9fae-e6af0835bcba",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "9d4204a3-4f3d-49bf-9fc0-14685fc51fe3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is this test still failing? Can we enable it?",
+        "createdAt" : "2019-04-15T14:24:59Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c7387de5-1e80-46e9-83f9-367a8b51bd98",
+        "parentId" : "9d4204a3-4f3d-49bf-9fc0-14685fc51fe3",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "ExecTest.scala itself almost certainly wants to stay disabled. At least until we get some\r\nsort of tiered once-a-week not every CI scheme worked out.  Agreed, a back burner\r\nproject.  Those tests are, by design, exhaustive and take tens of minutes (20? 30?)\r\nto run. They are useful enough to be visible to future devos in the Repository, rather\r\nthan squirreled away in my boneyard.  Your thoughts?\r\n\r\nI believe there are other passing tests which I disabled because Travis was failing when\r\nI enabled the full set.   After I fsync my current batch of changes I an go back and\r\nsee if I figure out why Travis is complaining.   Any given N - 2 of the tests pass on\r\nTravis, but running the full N fails.",
+        "createdAt" : "2019-04-17T01:05:51Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "412fcb86-f577-4296-b821-146ce3978f6b",
+        "parentId" : "9d4204a3-4f3d-49bf-9fc0-14685fc51fe3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@LeeTibbert Ok, lets keep it disabled for now. ",
+        "createdAt" : "2019-04-22T13:48:16Z",
+        "updatedAt" : "2019-04-22T13:48:16Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,633 @@\n+package scala.scalanative"
+  }
+]

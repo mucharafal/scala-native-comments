@@ -1,0 +1,253 @@
+[
+  {
+    "id" : "de177ae9-2e22-455f-b553-797d81c046e2",
+    "prId" : 254,
+    "comments" : [
+      {
+        "id" : "6968c1f7-e92f-45f9-b06d-9332c72bde59",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg any idea why this space was not rejected by `scalafmtTest`? \n",
+        "createdAt" : "2016-08-02T11:53:38Z",
+        "updatedAt" : "2016-08-02T11:53:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a9bcd7f8-81ea-49ea-a1b1-e929ba9ae71f",
+        "parentId" : "6968c1f7-e92f-45f9-b06d-9332c72bde59",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "The file doesn't parse with scalafmt's version of scala.meta, so scalafmt leaves the file unformatted.\n",
+        "createdAt" : "2016-08-02T12:06:03Z",
+        "updatedAt" : "2016-08-02T12:06:03Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c602bfa0-6fce-4650-8768-e3dada8f8714",
+        "parentId" : "6968c1f7-e92f-45f9-b06d-9332c72bde59",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can I have at least a warning in such cases? Currently it looks like everything is fine without any indication of a failure whatsoever even if the file doesn't parse and might be ill-formated. \n",
+        "createdAt" : "2016-08-02T12:10:35Z",
+        "updatedAt" : "2016-08-02T12:10:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b5bb91df-54eb-4236-90de-ab63c59f6c1c",
+        "parentId" : "6968c1f7-e92f-45f9-b06d-9332c72bde59",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Yes, I just mentioned to Eugene like 1hr ago that scalafmt should issue clearer warnings when it fails to format a file. For example, the `sbt scalafmt` task could print\n\n```\n[warning] unable to format file path/to/file.scala \n```\n\nI've opened a ticket https://github.com/olafurpg/scalafmt/issues/377\n",
+        "createdAt" : "2016-08-02T12:13:59Z",
+        "updatedAt" : "2016-08-02T12:13:59Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "79168822-2545-4e60-8bd5-5654a998c405",
+        "parentId" : "6968c1f7-e92f-45f9-b06d-9332c72bde59",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It would also be nice to include the reason for failure so that user can take action to make the warning go away. E.g. either state space explosion or parse error.\n",
+        "createdAt" : "2016-08-02T12:19:37Z",
+        "updatedAt" : "2016-08-02T12:19:37Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b5d99c83-0ee7-40af-a708-f168c557758b",
+        "parentId" : "6968c1f7-e92f-45f9-b06d-9332c72bde59",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "I agree, that's a good point.\n",
+        "createdAt" : "2016-08-02T12:23:18Z",
+        "updatedAt" : "2016-08-02T12:23:18Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a0ac60a853ffabfb90390a258972627b0d69e63b",
+    "line" : 15,
+    "diffHunk" : "@@ -118,4 +119,34 @@ package object native {\n     @inline def toUInt: UInt     = toULong.toUInt\n     @inline def toULong: ULong   = new ULong(value)\n   }\n+\n+  /** Convert a CString to a java.lang.String */\n+  def fromCString(cstr: CString)(implicit charset: java.nio.charset.Charset): String = {\n+    val len = string.strlen (cstr).toInt"
+  },
+  {
+    "id" : "624ff29e-cdf2-49a0-beee-15deb03b5a90",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "e66dd281-8d1c-4369-9b0f-1276a8929540",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should be `ULong`. ",
+        "createdAt" : "2017-04-10T09:04:49Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "242e28f2-9900-439c-918e-c982be3cc051",
+        "parentId" : "e66dd281-8d1c-4369-9b0f-1276a8929540",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "No `ptrdiff_t` should be signed. On Darwin you will find this:\r\n\r\n```\r\n/usr/include//i386/_types.h:typedef __PTRDIFF_TYPE__    __darwin_ptrdiff_t;     /* ptr1 - ptr2 */\r\n/usr/include//i386/_types.h:typedef long                        __darwin_ptrdiff_t;     /* ptr1 - ptr2 */\r\n/usr/include//i386/_types.h:typedef int                 __darwin_ptrdiff_t;     /* ptr1 - ptr2 */\r\n/usr/include//sys/_types/_ptrdiff_t.h:typedef __darwin_ptrdiff_t ptrdiff_t;\r\n```",
+        "createdAt" : "2017-04-10T13:20:27Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5a8ced2c-3dd0-4c8d-a839-f00da8a8bc3b",
+        "parentId" : "e66dd281-8d1c-4369-9b0f-1276a8929540",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You're right, it was correct.",
+        "createdAt" : "2017-04-10T13:27:33Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -65,6 +65,9 @@ package object native {\n   /** The C/C++ 'size_t' type. */\n   type CSize = Word\n \n+  /** The C/C++ 'ptrdiff_t' type. */\n+  type CPtrdiff = Long"
+  },
+  {
+    "id" : "09c7b0f7-c2fb-405e-a000-f1d3a8a5540a",
+    "prId" : 733,
+    "comments" : [
+      {
+        "id" : "4f198434-2ebf-4e08-b243-e8f851641209",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@Duhemm This is a major change that we have to do to support precise garbage collection. I've seen that you use `GC.malloc` a lot in the File I/O, those have to be updated asap to do manual malloc/free. This also includes freeing results of all `toCString` invocations.",
+        "createdAt" : "2017-05-24T15:36:08Z",
+        "updatedAt" : "2017-05-25T07:17:05Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "74c0bdfc-9e3d-4abd-a4a0-8ca1bbc0a9c9",
+        "parentId" : "4f198434-2ebf-4e08-b243-e8f851641209",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Actually, doing `free` is horrendously error prone, lets use memory zones instead https://github.com/scala-native/scala-native/pull/734\r\n\r\nI'll rebase regex PR on top once the zones are merged.",
+        "createdAt" : "2017-05-24T18:03:32Z",
+        "updatedAt" : "2017-05-25T07:17:05Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9fefd28ad484aac63a3e7739f3f816aad0de8820",
+    "line" : null,
+    "diffHunk" : "@@ -147,11 +148,14 @@ package object native {\n     new String(bytes, charset)\n   }\n \n-  /** Convert a java.lang.String to a CString using given charset. */\n+  /** Convert a java.lang.String to a CString using given charset.\n+   *  The resulting c-style string is allocated using malloc, and\n+   *  must be freed manually.\n+   */\n   def toCString(str: String,\n                 charset: Charset = Charset.defaultCharset()): CString = {\n     val bytes = str.getBytes(charset)\n-    val cstr  = GC.malloc_atomic(bytes.length + 1).cast[Ptr[Byte]]\n+    val cstr  = malloc(bytes.length + 1).cast[Ptr[Byte]]"
+  }
+]

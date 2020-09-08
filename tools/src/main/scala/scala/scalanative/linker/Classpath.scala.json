@@ -1,0 +1,254 @@
+[
+  {
+    "id" : "e8e5628d-8fc4-4d70-b4ff-751baf6bf64c",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "656f42e2-344c-4194-89aa-083031dfa1dc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No need for this line.\n",
+        "createdAt" : "2016-05-21T18:20:09Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,49 @@\n+package scala.scalanative.linker\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classpath.\n+  */\n+sealed abstract class Classpath {\n+  def contents(): Seq[VirtualFile]\n+  def close(): Unit\n+}\n+\n+final class LocalClasspath(path: Path) extends Classpath {\n+  override def close(): Unit = ()\n+\n+  override def contents(): Seq[VirtualFile] = Files.walk(path,Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)\n+    .iterator()\n+    .asScala.toSeq\n+    .map(filePath => new VirtualFile(filePath))\n+}\n+\n+final class JarClasspath(path: Path) extends Classpath {\n+  private val fsUri: URI = URI.create(s\"jar:${path.toUri}\")\n+  private val options: Map[String, String] = Map(\"create\" -> \"false\")\n+  private val fs: FileSystem = FileSystems.newFileSystem(fsUri, options.asJava)\n+  private val roots: Seq[Path] = fs.getRootDirectories.asScala.toSeq\n+\n+  override def contents(): Seq[VirtualFile] = {\n+    roots\n+      .flatMap(path => Files.walk(path, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS).iterator().asScala)\n+      .map(path => new VirtualFile(path))\n+  }\n+\n+  override def close(): Unit = fs.close()\n+}\n+\n+/**\n+  * A memory cached file-like object contained in some member of a classpath.\n+  */\n+\n+final class VirtualFile(val relativePath: Path) {\n+  def uri: URI = relativePath.toUri\n+  lazy val bytes: ByteBuffer = ByteBuffer.wrap(Files.readAllBytes(relativePath))\n+}\n+"
+  },
+  {
+    "id" : "cb9251cf-2f81-44c1-b6b2-fe6855dc767e",
+    "prId" : 715,
+    "comments" : [
+      {
+        "id" : "f0e18925-7616-4673-a9e7-47bbc0136980",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "How about writing `ClassPath` instead? Then it would conform to the spelling of `scala.tools.nsc.util.ClassPath`.",
+        "createdAt" : "2017-05-11T08:55:35Z",
+        "updatedAt" : "2017-05-14T20:05:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f1c66b30-5224-49f0-ad6e-3c47c0f11bfd",
+        "parentId" : "f0e18925-7616-4673-a9e7-47bbc0136980",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Done in ce52ad0",
+        "createdAt" : "2017-05-11T12:17:08Z",
+        "updatedAt" : "2017-05-14T20:05:12Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d66a09f319d127c04c3746a7940794ea9f4b104a",
+    "line" : null,
+    "diffHunk" : "@@ -19,22 +19,20 @@ sealed trait Path {\n   def globals: Set[Global]\n }\n \n-object Path {\n+object Classpath {"
+  },
+  {
+    "id" : "090a625c-d86b-4201-807f-3513cb2b8e30",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "1b8d7efb-d57e-458a-b1e6-0e0e88e302e6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It looks like config is not used any more. It was probably added previously to support previous version of sizeof that desugared in binary serializer. ",
+        "createdAt" : "2018-10-29T09:33:55Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -20,14 +20,16 @@ sealed trait ClassPath {\n object ClassPath {\n \n   /** Create classpath based on the directory. */\n-  def apply(directory: Path): ClassPath =\n-    new Impl(VirtualDirectory.local(directory))\n+  def apply(directory: Path, config: build.Config): ClassPath =\n+    new Impl(VirtualDirectory.local(directory), config)"
+  },
+  {
+    "id" : "53ea7bee-b228-4d7e-b8d0-bdb20835eb19",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "6d1579c3-c321-4964-8d01-c0ed588f1206",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These imports do not seem to be used (at least in this commit).",
+        "createdAt" : "2020-02-20T14:04:16Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -7,6 +7,8 @@ import nir.serialization.deserializeBinary\n import java.nio.file.{FileSystems, Path}\n import scalanative.io.VirtualDirectory\n import scalanative.util.Scope\n+import java.io.FileInputStream\n+import java.nio.ByteBuffer"
+  },
+  {
+    "id" : "22cb4346-c599-43d1-9ada-524f38cd001e",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "1011ae6a-ea34-4a1e-a4d4-ed822e0c10fc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n          buffer.get() != 0\r\n```\r\n`get()` is side-effecting (calling it twice will not return the same thing), so it should always be called with explicit `()`. This is a commonly used convention in Scala.",
+        "createdAt" : "2020-02-20T14:06:54Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c2504c71-ff19-4bd9-b19c-90d3b58bd948",
+        "parentId" : "1011ae6a-ea34-4a1e-a4d4-ed822e0c10fc",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This information should really be cached. Otherwise all files will have to reread on every linking request.",
+        "createdAt" : "2020-02-20T14:09:15Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6f75eb32-7ec7-4b40-8d9e-b6449c0c4deb",
+        "parentId" : "1011ae6a-ea34-4a1e-a4d4-ed822e0c10fc",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Reopening this for the missing `()` in `buffer.get()`.",
+        "createdAt" : "2020-04-24T14:49:28Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -50,5 +54,13 @@ object ClassPath {\n           deserializeBinary(directory.read(file))\n         }\n       })\n+\n+    def classesWithEntryPoints(): Iterable[Global.Top] = {\n+      files.filter {\n+        case (top, file) =>\n+          val buffer = directory.read(file, len = 1)\n+          buffer.get != 0"
+  },
+  {
+    "id" : "290d1c34-efd3-4587-ab1f-928ea63294eb",
+    "prId" : 1764,
+    "comments" : [
+      {
+        "id" : "577aec49-5c61-497d-9759-f3eb1f9edb0d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This 16 is magic, as seen from here. It should be a `val` in `NirPrelude` (and it probably be should 13, not 16).",
+        "createdAt" : "2020-04-28T08:50:34Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e10c524f2af5ddf1af3e3ad56070a717fc426a6e",
+    "line" : null,
+    "diffHunk" : "@@ -55,9 +56,9 @@ object ClassPath {\n \n     lazy val classesWithEntryPoints: Iterable[Global.Top] = {\n       files.filter {\n-        case (top, file) =>\n-          val buffer = directory.read(file, len = 1)\n-          buffer.get() != 0\n+        case (_, file) =>\n+          val buffer = directory.read(file, len = 16)"
+  }
+]

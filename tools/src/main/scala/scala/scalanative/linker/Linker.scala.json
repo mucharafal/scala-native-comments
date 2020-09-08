@@ -1,0 +1,185 @@
+[
+  {
+    "id" : "fbf11d0f-26ec-413d-8d10-9814d3d1f264",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "41a8048c-a335-48c3-b435-9404ef707844",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This and all the other `println`-s in Linker need to be removed. We need to think of proper logging implementation instead (https://github.com/scala-native/scala-native/issues/119) but that's out of scope for this pr.\n",
+        "createdAt" : "2016-05-21T10:14:14Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -42,6 +42,8 @@ final class Linker(dotpath: Option[String], paths: Seq[String]) {\n     }\n \n   def link(entry: Global): (Seq[Global], Seq[Defn]) = {\n+    println(s\"Linking $entry\")"
+  },
+  {
+    "id" : "30ca7deb-e166-41b1-9e53-b8734b926cb5",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "3f5f2c56-c423-4153-985c-49a6fcdcc204",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No need for this line.\n",
+        "createdAt" : "2016-05-21T18:19:54Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -42,6 +42,7 @@ final class Linker(dotpath: Option[String], paths: Seq[String]) {\n     }\n \n   def link(entry: Global): (Seq[Global], Seq[Defn]) = {\n+"
+  },
+  {
+    "id" : "bb6d0509-9dc7-4fc3-b51a-530ce1b2e022",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "79677fb1-7ebc-4799-ae8c-887e5b147fe1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Move it to `deps.foreach { ... case Dep.Weak(signature) => ... }`\n",
+        "createdAt" : "2016-11-11T14:21:48Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -57,11 +71,21 @@ final class Linker(dotpath: Option[String], paths: Seq[String]) {\n           load(workitem).fold[Unit] {\n             unresolved += workitem\n           } {\n-            case (deps, newlinks, defn) =>\n+            case (deps, newlinks, newWeaks, newDyns, defn) =>\n               resolved += workitem\n               defns += defn\n               links ++= newlinks\n \n+              (dynMethods(weak.toSeq ++ newWeaks, newDyns) ++ dynMethods(newWeaks, dyn.toSeq)).foreach {\n+                dep =>\n+                  writeEdge(dep._1, dep._2)\n+                  direct.push(dep._2)\n+                  structuralMethods += dep._2\n+              }\n+\n+              weak ++= newWeaks\n+              dyn ++= newDyns\n+"
+  },
+  {
+    "id" : "c5f66b17-b51f-4f55-b760-d02b00d973d8",
+    "prId" : 406,
+    "comments" : [
+      {
+        "id" : "6238f4d2-dda1-4cd2-8a15-141ca7f1ab47",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those should go to `def close` on the linker itself. Then `def impl` can just be renamed to `def link`. ",
+        "createdAt" : "2016-11-26T12:07:48Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f3b96fdf83ada2341c08f79cbd400e3421bfcfeb",
+    "line" : null,
+    "diffHunk" : "@@ -89,18 +89,12 @@ object Linker {\n       (unresolved.toSeq, links.toSeq, defns.sortBy(_.name.toString).toSeq)\n     }\n \n-    def link(entries: Seq[Global]): (Seq[Attr.Link], Seq[Defn]) = {\n+    def link(entries: Seq[Global]): (Seq[Global], Seq[Attr.Link], Seq[Defn]) = {\n       val (unresolved, links, defns) = impl(entries)\n \n       config.paths.foreach(_.close)"
+  },
+  {
+    "id" : "de39cc0a-b00d-4972-86d4-ccc1e7d610ec",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "d1c2a563-bc52-4bdd-890b-9eee878de4f3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please attach 5 runs of `tests/nativetest:nativeLinkNIR` (from a non-laptop machine if possible) starting from cold sbt start before (i.e. current master) and and after this change. We should be careful not to regress the linking performance. ",
+        "createdAt" : "2017-08-30T13:41:47Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : 95,
+    "diffHunk" : "@@ -49,50 +49,52 @@ object Linker {\n           if (!workitem.isIntrinsic && !resolved.contains(workitem) &&\n               !unresolved.contains(workitem)) {\n \n-            load(workitem).fold[Unit] {\n-              unresolved += workitem\n-              onUnresolved(workitem)\n-            } {\n-              case (deps, newlinks, newsignatures, defn) =>\n-                resolved += workitem\n-                defns += defn\n-                links ++= newlinks\n-                signatures ++= newsignatures\n-\n-                // Comparing new signatures with already collected weak dependencies\n-                newsignatures\n-                  .flatMap(signature =>\n-                    weaks.collect {\n-                      case weak if Global.genSignature(weak) == signature =>\n-                        weak\n-                  })\n-                  .foreach { global =>\n-                    direct.push(global)\n-                    dyndefns += global\n-                  }\n-\n-                onResolved(workitem)\n-\n-                deps.foreach {\n-                  case Dep.Direct(dep) =>\n-                    direct.push(dep)\n-                    onDirectDependency(workitem, dep)\n-\n-                  case cond @ Dep.Conditional(dep, condition) =>\n-                    conditional += cond\n-                    onConditionalDependency(workitem, dep, condition)\n-\n-                  case Dep.Weak(global) =>\n-                    // comparing new dependencies with all signatures\n-                    if (signatures(Global.genSignature(global))) {\n+            load(workitem)\n+              .filter(config.linkStubs || !_._4.attrs.isStub)\n+              .fold[Unit] {\n+                unresolved += workitem\n+                onUnresolved(workitem)\n+              } {\n+                case (deps, newlinks, newsignatures, defn) =>\n+                  resolved += workitem\n+                  defns += defn\n+                  links ++= newlinks\n+                  signatures ++= newsignatures\n+\n+                  // Comparing new signatures with already collected weak dependencies\n+                  newsignatures\n+                    .flatMap(signature =>\n+                      weaks.collect {\n+                        case weak if Global.genSignature(weak) == signature =>\n+                          weak\n+                    })\n+                    .foreach { global =>\n                       direct.push(global)\n-                      onDirectDependency(workitem, global)\n                       dyndefns += global\n                     }\n-                    weaks += global\n-                }\n \n-            }\n+                  onResolved(workitem)\n+\n+                  deps.foreach {\n+                    case Dep.Direct(dep) =>\n+                      direct.push(dep)\n+                      onDirectDependency(workitem, dep)\n+\n+                    case cond @ Dep.Conditional(dep, condition) =>\n+                      conditional += cond\n+                      onConditionalDependency(workitem, dep, condition)\n+\n+                    case Dep.Weak(global) =>\n+                      // comparing new dependencies with all signatures\n+                      if (signatures(Global.genSignature(global))) {\n+                        direct.push(global)\n+                        onDirectDependency(workitem, global)\n+                        dyndefns += global\n+                      }\n+                      weaks += global\n+                  }\n+\n+              }"
+  },
+  {
+    "id" : "31854039-9268-47ab-9e58-56d68fd12fcf",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "ffe8bcc6-e69e-4fe5-a090-f52a41c9ea18",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets move this to the success case inside fold with a comment for clarity. ",
+        "createdAt" : "2017-08-30T13:43:34Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : null,
+    "diffHunk" : "@@ -49,50 +49,52 @@ object Linker {\n           if (!workitem.isIntrinsic && !resolved.contains(workitem) &&\n               !unresolved.contains(workitem)) {\n \n-            load(workitem).fold[Unit] {\n-              unresolved += workitem\n-              onUnresolved(workitem)\n-            } {\n-              case (deps, newlinks, newsignatures, defn) =>\n-                resolved += workitem\n-                defns += defn\n-                links ++= newlinks\n-                signatures ++= newsignatures\n-\n-                // Comparing new signatures with already collected weak dependencies\n-                newsignatures\n-                  .flatMap(signature =>\n-                    weaks.collect {\n-                      case weak if Global.genSignature(weak) == signature =>\n-                        weak\n-                  })\n-                  .foreach { global =>\n-                    direct.push(global)\n-                    dyndefns += global\n-                  }\n-\n-                onResolved(workitem)\n-\n-                deps.foreach {\n-                  case Dep.Direct(dep) =>\n-                    direct.push(dep)\n-                    onDirectDependency(workitem, dep)\n-\n-                  case cond @ Dep.Conditional(dep, condition) =>\n-                    conditional += cond\n-                    onConditionalDependency(workitem, dep, condition)\n-\n-                  case Dep.Weak(global) =>\n-                    // comparing new dependencies with all signatures\n-                    if (signatures(Global.genSignature(global))) {\n+            load(workitem)\n+              .filter(config.linkStubs || !_._4.attrs.isStub)"
+  }
+]

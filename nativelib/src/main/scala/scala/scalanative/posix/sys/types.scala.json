@@ -1,0 +1,121 @@
+[
+  {
+    "id" : "5820fae4-dfab-41a5-a060-364bef8a58a0",
+    "prId" : 756,
+    "comments" : [
+      {
+        "id" : "c1aadec5-3bf6-4a38-b928-0c6820ad895e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "None of these type aliases above look good to me. All of them are non-pointer values. Please look at how they are defined in sys/types.h C header, and redefine them here accordingly.",
+        "createdAt" : "2017-06-06T11:30:28Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "46cc9e8b-5bf6-4143-b57a-1dc750060923",
+        "parentId" : "c1aadec5-3bf6-4a38-b928-0c6820ad895e",
+        "author" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "body" : "On Linux we'd end up with a nice `type pthread_t = ULong`.\r\nMacOS complicates things:\r\n```c\r\n// /usr/include/sys/_pthread/_pthread_t.h\r\ntypedef __darwin_pthread_t pthread_t;\r\n// /usr/include/sys/_pthread/_pthread_types.h\r\nstruct _opaque_pthread_t {\r\n\tlong __sig;\r\n\tstruct __darwin_pthread_handler_rec  *__cleanup_stack;\r\n\tchar __opaque[__PTHREAD_SIZE__];\r\n};\r\ntypedef struct _opaque_pthread_t *__darwin_pthread_t;\r\n```\r\nThat `_opaque_pthread_t` isn't so opaque after all ;-)\r\n\r\nI wonder if it's okay to coerce the struct pointer to a `ULong` on Mac.",
+        "createdAt" : "2017-06-06T12:03:18Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "nadavwr",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/52190?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0a3214ec-1774-4dfa-b5db-8e2fa1cf4ce8",
+        "parentId" : "c1aadec5-3bf6-4a38-b928-0c6820ad895e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Luckily on 64-bit platforms 64-bit integers and pointers have the same value representation so it means that it's actually safe to say `type pthread_t = ULong` and also we *can* pass it by value as it's just a numeric value, not a proper struct.",
+        "createdAt" : "2017-06-06T12:58:47Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4389065d-2a95-497d-aa3d-565a6f60a747",
+        "parentId" : "c1aadec5-3bf6-4a38-b928-0c6820ad895e",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "@densh all this types are opaque in the posix documentation, that's why I'd have used CStruct0 but most pthread functions take this direct types as arguments. What would be the best thing to do ?\r\n\r\nEDIT : all ULong then ?\r\n",
+        "createdAt" : "2017-06-06T13:04:21Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e622d834-e2bf-47ac-8fd4-6b60b5c2773d",
+        "parentId" : "c1aadec5-3bf6-4a38-b928-0c6820ad895e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`ULong` sounds good. ",
+        "createdAt" : "2017-06-06T13:32:33Z",
+        "updatedAt" : "2017-06-14T11:17:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "632a8fdc8d258a96f4603aa4fc0e285762eb27f6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,36 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import scala.scalanative.native.{CInt, CStruct0, Ptr, extern}\n+\n+@extern\n+object types {\n+\n+  type pthread_attr_t = Ptr[CStruct0]\n+\n+  type pthread_barrier_t = Ptr[CStruct0]\n+\n+  type pthread_barrierattr_t = Ptr[CStruct0]\n+\n+  type pthread_cond_t = Ptr[CStruct0]\n+\n+  type pthread_condattr_t = Ptr[CStruct0]\n+\n+  type pthread_key_t = Ptr[CStruct0]\n+\n+  type pthread_mutex_t = Ptr[CStruct0]\n+\n+  type pthread_mutexattr_t = Ptr[CStruct0]\n+\n+  type pthread_once_t = Ptr[CStruct0]\n+\n+  type pthread_rwlock_t = Ptr[CStruct0]\n+\n+  type pthread_rwlockattr_t = Ptr[CStruct0]\n+\n+  type pthread_spinlock_t = Ptr[CStruct0]\n+\n+  type pthread_t = Ptr[CStruct0]"
+  }
+]

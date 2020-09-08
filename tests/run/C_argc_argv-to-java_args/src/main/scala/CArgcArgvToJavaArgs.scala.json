@@ -1,0 +1,180 @@
+[
+  {
+    "id" : "58f840b0-e13f-4fa2-bc84-c3cafbb5b970",
+    "prId" : 259,
+    "comments" : [
+      {
+        "id" : "80bd6436-424e-457a-b924-df8e7b9a190d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't normally put space after function in function calls, i.e. `args(0).equals(\"hello\")`\n",
+        "createdAt" : "2016-08-03T20:18:31Z",
+        "updatedAt" : "2016-08-04T14:29:27Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ea9c87de71ea11c14fdb543876875bb5a0f25835",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+object CArgcArgvToJavaArgs {\r\n+  def main (args: Array[String]) {\r\n+    val len=args.length\r\n+\r\n+    assert(len == 3)\r\n+    assert(args(0).equals (\"hello\"))\r"
+  },
+  {
+    "id" : "18a586c9-ca7d-45bd-aeac-716338f68e3f",
+    "prId" : 259,
+    "comments" : [
+      {
+        "id" : "7c04aacc-fbba-49ac-a67f-5f9741cff53d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`val len = args.length`\n",
+        "createdAt" : "2016-08-03T20:18:53Z",
+        "updatedAt" : "2016-08-04T14:29:27Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ea9c87de71ea11c14fdb543876875bb5a0f25835",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+object CArgcArgvToJavaArgs {\r\n+  def main (args: Array[String]) {\r\n+    val len=args.length\r"
+  },
+  {
+    "id" : "fdfcbf6b-d536-497e-ac7c-ff7e376ca4ac",
+    "prId" : 259,
+    "comments" : [
+      {
+        "id" : "cfbbf3be-4263-4374-986b-4b9942a6aaba",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also no space here, i.e. `def main(args: Array[String]) {`\n",
+        "createdAt" : "2016-08-03T20:33:26Z",
+        "updatedAt" : "2016-08-04T14:29:27Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ea9c87de71ea11c14fdb543876875bb5a0f25835",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+object CArgcArgvToJavaArgs {\r\n+  def main (args: Array[String]) {\r"
+  },
+  {
+    "id" : "33065d47-2939-4dd0-ab97-04d6cd704d53",
+    "prId" : 259,
+    "comments" : [
+      {
+        "id" : "98a8cc7f-111a-49e1-ac59-1d7ca8d28a9d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Milyardo",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/99996?v=4"
+        },
+        "body" : "isn't procedural syntax deprecated?\n",
+        "createdAt" : "2016-08-05T00:52:01Z",
+        "updatedAt" : "2016-08-05T00:52:01Z",
+        "lastEditedBy" : {
+          "login" : "Milyardo",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/99996?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d1de7e79-e1c3-4378-9d35-e2bcbc19fbaa",
+        "parentId" : "98a8cc7f-111a-49e1-ac59-1d7ca8d28a9d",
+        "author" : {
+          "login" : "fbertra",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/18035?v=4"
+        },
+        "body" : "Procedural or imperative style is always hard to beat if you have concerns about code size, memory consumption and eficiency.\n\nFor example, code like `for (i <- 0 until\u007f len)` create objects under the scene.\n\nFInally, the following is a educated guess, I would have to try it to be sure.   The LLVM backends are optimized for imperative language like C/C++.  Functional style will generate IR code that will be difficult to optimize by these backend compilers.  As more functional language target LLVM, more functional specific optimization pass will be added.\n\nUntil then, I believe it's better to stick to imperative style in a heavily used library.\n",
+        "createdAt" : "2016-08-05T01:40:40Z",
+        "updatedAt" : "2016-08-05T01:40:40Z",
+        "lastEditedBy" : {
+          "login" : "fbertra",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/18035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "53583d71-fee9-4757-8cc0-9bccf113d8e9",
+        "parentId" : "98a8cc7f-111a-49e1-ac59-1d7ca8d28a9d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@Milyardo It's planned to be deprecated. It's not deprecated yet. We should probably avoid it in the future. \n",
+        "createdAt" : "2016-08-05T07:56:16Z",
+        "updatedAt" : "2016-08-05T07:56:16Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b81a191e-20b0-47f5-9e7d-caf4786a75ef",
+        "parentId" : "98a8cc7f-111a-49e1-ac59-1d7ca8d28a9d",
+        "author" : {
+          "login" : "KadekM",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/4306279?u=3339a98dc154653ee8fe95765f3f51db07c8293c&v=4"
+        },
+        "body" : "I think he meant\ndef main(args: Array[String]) {\n\nshould be\ndef main(args: Array[String]) = {\n\nOn Fri, Aug 5, 2016, 13:40 Francois Bertrand notifications@github.com\nwrote:\n\n> In\n> tests/run/C_argc_argv-to-java_args/src/main/scala/CArgcArgvToJavaArgs.scala\n> https://github.com/scala-native/scala-native/pull/259#discussion_r73631053\n> :\n> \n> > @@ -0,0 +1,10 @@\n> > +object CArgcArgvToJavaArgs {\n> > -  def main(args: Array[String]) {\n> \n> Procedural or imperative style is always hard to beat if you have concerns\n> about code size, memory consumption and eficiency.\n> \n> For example, code like for (i <- 0 until� len) create objects under the\n> scene.\n> \n> FInally, the following is a educated guess, I would have to try it to be\n> sure. The LLVM backends are optimized for imperative language like C/C++.\n> Functional style will generate IR code that will be difficult to optimize\n> by these backend compilers. As more functional language target LLVM, more\n> functional specific optimization pass will be added.\n> \n> Until then, I believe it's better to stick to imperative style in a\n> heavily used library.\n> \n> —\n> You are receiving this because you are subscribed to this thread.\n> Reply to this email directly, view it on GitHub\n> https://github.com/scala-native/scala-native/pull/259/files/ea9c87de71ea11c14fdb543876875bb5a0f25835#r73631053,\n> or mute the thread\n> https://github.com/notifications/unsubscribe-auth/AEG1Z4_8Gn2JOude1W5xP9tnghb6O0Oyks5qcpScgaJpZM4Jb-SL\n> .\n",
+        "createdAt" : "2016-08-05T08:03:30Z",
+        "updatedAt" : "2016-08-05T08:03:30Z",
+        "lastEditedBy" : {
+          "login" : "KadekM",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/4306279?u=3339a98dc154653ee8fe95765f3f51db07c8293c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ea9c87de71ea11c14fdb543876875bb5a0f25835",
+    "line" : 2,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+object CArgcArgvToJavaArgs {\r\n+  def main(args: Array[String]) {\r"
+  }
+]

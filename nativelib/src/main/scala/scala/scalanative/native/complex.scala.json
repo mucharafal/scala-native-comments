@@ -1,0 +1,324 @@
+[
+  {
+    "id" : "3e88d58b-9717-426e-93e2-da24bb16549f",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "01548da9-aceb-43d4-9808-c480a2ce596f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems to be more common to Write `float complex` over `complex float` in C. So lets name those `CFloatComplex` and `CDoubleComplex`. ",
+        "createdAt" : "2017-06-06T15:59:26Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "260bdcd6-7ca1-4166-ae72-f07b8b5c54a5",
+        "parentId" : "01548da9-aceb-43d4-9808-c480a2ce596f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, I did it in reverse for tooling but this is fine.",
+        "createdAt" : "2017-06-06T16:30:07Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "781a2075-8fe3-49f5-9fc9-1c45128ef6d0",
+        "parentId" : "01548da9-aceb-43d4-9808-c480a2ce596f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-06-30T19:54:26Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,209 @@\n+package scala.scalanative\n+package native\n+\n+/** All methods take complex but Scala Native does not\n+ * support pass by value so we pass a pointer to a\n+ * Array of length 2 and have a small wrapper in C\n+ * to do the conversion. Currently Scala Native\n+ * and JVM have no direct support for long double\n+ * so these methods are not implemented.\n+ *\n+ * Warning: Ptr[CComplexFloat] and Ptr[CComplex] values\n+ * passed in to the functions are mutated for\n+ * memory safety. Make copies on the stack or heap\n+ * for values you need after the functions are called.\n+ * Implicit classes are provided for convenience.\n+ *\n+ *\n+ * References:\n+ * https://en.wikipedia.org/wiki/C_data_types\n+ * C99 also added complex types: float _Complex, double _Complex, long double _Complex\n+ * https://en.wikipedia.org/wiki/Long_double\n+ * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/complex.h.html\n+ *\n+ */\n+@extern\n+object complex {\n+  import Nat._2\n+  type CComplexFloat = CArray[CFloat, _2]\n+  type CComplex      = CArray[CDouble, _2]"
+  },
+  {
+    "id" : "1863da04-c528-4d13-9117-b5b4490644f4",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "7a573862-8727-4c7c-b81e-7f6df3a30364",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems like you use the same memory as the argument and overwrite it with the result. Given this semantics I'd return `Unit` instead, otherwise `Ptr[...]` as a return type is extremely deceiving: it's a not a pure mathematical function!",
+        "createdAt" : "2017-06-06T16:18:31Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "526c7308-9665-4d87-a389-9781c5f1823f",
+        "parentId" : "7a573862-8727-4c7c-b81e-7f6df3a30364",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another good option is to take pointer to return memory as an extra parameter. This might a bit less confusing for chaining multiple operations. ",
+        "createdAt" : "2017-06-06T16:21:55Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2bca884c-5dff-4c06-a81b-6d7e974c0d06",
+        "parentId" : "7a573862-8727-4c7c-b81e-7f6df3a30364",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I think I like the idea of passing the buffer as it leaves the signature similar and as you point out you can chain the functions. First position or last - `pow` functions take 2 args?",
+        "createdAt" : "2017-06-06T16:33:03Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "756ed301-081d-4575-a035-e0da74b76e3c",
+        "parentId" : "7a573862-8727-4c7c-b81e-7f6df3a30364",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd put result as the last argument. ",
+        "createdAt" : "2017-06-06T16:57:49Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "30193bd5-8d14-4600-9925-70c3fad19841",
+        "parentId" : "7a573862-8727-4c7c-b81e-7f6df3a30364",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-06-30T19:54:38Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,209 @@\n+package scala.scalanative\n+package native\n+\n+/** All methods take complex but Scala Native does not\n+ * support pass by value so we pass a pointer to a\n+ * Array of length 2 and have a small wrapper in C\n+ * to do the conversion. Currently Scala Native\n+ * and JVM have no direct support for long double\n+ * so these methods are not implemented.\n+ *\n+ * Warning: Ptr[CComplexFloat] and Ptr[CComplex] values\n+ * passed in to the functions are mutated for\n+ * memory safety. Make copies on the stack or heap\n+ * for values you need after the functions are called.\n+ * Implicit classes are provided for convenience.\n+ *\n+ *\n+ * References:\n+ * https://en.wikipedia.org/wiki/C_data_types\n+ * C99 also added complex types: float _Complex, double _Complex, long double _Complex\n+ * https://en.wikipedia.org/wiki/Long_double\n+ * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/complex.h.html\n+ *\n+ */\n+@extern\n+object complex {\n+  import Nat._2\n+  type CComplexFloat = CArray[CFloat, _2]\n+  type CComplex      = CArray[CDouble, _2]\n+\n+  @name(\"scalanative_cacosf\")\n+  def cacosf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern"
+  },
+  {
+    "id" : "14bebed4-ff19-47a7-9a74-e3830136d59f",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "cd56ac50-7259-4776-9d67-20d87014afeb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This badly needs tests that call each functions out of here at least once. ",
+        "createdAt" : "2017-06-06T16:19:02Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a3a552d2-72ff-472d-8cfd-b1e668885362",
+        "parentId" : "cd56ac50-7259-4776-9d67-20d87014afeb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that it's just math, it's should be quite easy to test. ",
+        "createdAt" : "2017-06-06T16:22:13Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "de4cd810-9ad1-4f68-8bc6-ffacc79283e4",
+        "parentId" : "cd56ac50-7259-4776-9d67-20d87014afeb",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Sure, I will provide tests.",
+        "createdAt" : "2017-06-06T16:33:56Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,209 @@\n+package scala.scalanative\n+package native\n+\n+/** All methods take complex but Scala Native does not\n+ * support pass by value so we pass a pointer to a\n+ * Array of length 2 and have a small wrapper in C\n+ * to do the conversion. Currently Scala Native\n+ * and JVM have no direct support for long double\n+ * so these methods are not implemented.\n+ *\n+ * Warning: Ptr[CComplexFloat] and Ptr[CComplex] values\n+ * passed in to the functions are mutated for\n+ * memory safety. Make copies on the stack or heap\n+ * for values you need after the functions are called.\n+ * Implicit classes are provided for convenience.\n+ *\n+ *\n+ * References:\n+ * https://en.wikipedia.org/wiki/C_data_types\n+ * C99 also added complex types: float _Complex, double _Complex, long double _Complex\n+ * https://en.wikipedia.org/wiki/Long_double\n+ * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/complex.h.html\n+ *\n+ */\n+@extern\n+object complex {\n+  import Nat._2\n+  type CComplexFloat = CArray[CFloat, _2]\n+  type CComplex      = CArray[CDouble, _2]\n+\n+  @name(\"scalanative_cacosf\")\n+  def cacosf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_cacos\")\n+  def cacos(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex cacosl(long double complex);\n+\n+  @name(\"scalanative_casinf\")\n+  def casinf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_casin\")\n+  def casin(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex casinl(long double complex);\n+\n+  @name(\"scalanative_catanf\")\n+  def catanf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_catan\")\n+  def catan(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex catanl(long double complex);\n+\n+  @name(\"scalanative_ccosf\")\n+  def ccosf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_ccos\")\n+  def ccos(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex ccosl(long double complex);\n+\n+  @name(\"scalanative_csinf\")\n+  def csinf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_csin\")\n+  def csin(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex csinl(long double complex);\n+\n+  @name(\"scalanative_ctanf\")\n+  def ctanf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_ctan\")\n+  def ctan(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex ctanl(long double complex);\n+\n+  @name(\"scalanative_cacoshf\")\n+  def cacoshf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_cacosh\")\n+  def cacosh(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex cacoshl(long double complex);\n+\n+  @name(\"scalanative_casinhf\")\n+  def casinhf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_casinh\")\n+  def casinh(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex casinhl(long double complex);\n+\n+  @name(\"scalanative_catanhf\")\n+  def catanhf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_catanh\")\n+  def catanh(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex catanhl(long double complex);\n+\n+  @name(\"scalanative_ccoshf\")\n+  def ccoshf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_ccosh\")\n+  def ccosh(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex ccoshl(long double complex);\n+\n+  @name(\"scalanative_csinhf\")\n+  def csinhf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_csinh\")\n+  def csinh(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex csinhl(long double complex);\n+\n+  @name(\"scalanative_ctanhf\")\n+  def ctanhf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_ctanh\")\n+  def ctanh(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex ctanhl(long double complex);\n+\n+  @name(\"scalanative_cexpf\")\n+  def cexpf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_cexp\")\n+  def cexp(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex cexpl(long double complex);\n+\n+  @name(\"scalanative_clogf\")\n+  def clogf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_clog\")\n+  def clog(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex clogl(long double complex);\n+\n+  @name(\"scalanative_cabsf\")\n+  def cabsf(complex: Ptr[CComplexFloat]): CFloat = extern\n+  @name(\"scalanative_cabs\")\n+  def cabs(complex: Ptr[CComplex]): CDouble = extern\n+  //  extern long double cabsl(long double complex);\n+\n+  @name(\"scalanative_cpowf\")\n+  def cpowf(x: Ptr[CComplexFloat], y: Ptr[CComplexFloat]): Ptr[CComplexFloat] =\n+    extern\n+  @name(\"scalanative_cpow\")\n+  def cpow(x: Ptr[CComplex], y: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex cpowl(long double complex, long double complex);\n+\n+  @name(\"scalanative_csqrtf\")\n+  def csqrtf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_csqrt\")\n+  def csqrt(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex csqrtl(long double complex);\n+\n+  @name(\"scalanative_cargf\")\n+  def cargf(complex: Ptr[CComplexFloat]): CFloat = extern\n+  @name(\"scalanative_carg\")\n+  def carg(complex: Ptr[CComplex]): CDouble = extern\n+  //  extern long double cargl(long double complex);\n+\n+  @name(\"scalanative_cimagf\")\n+  def cimagf(complex: Ptr[CComplexFloat]): CFloat = extern\n+  @name(\"scalanative_cimag\")\n+  def cimag(complex: Ptr[CComplex]): CDouble = extern\n+  //  extern long double cimagl(long double complex);\n+\n+  @name(\"scalanative_conjf\")\n+  def conjf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_conj\")\n+  def conj(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex conjl(long double complex);\n+\n+  @name(\"scalanative_cprojf\")\n+  def cprojf(complex: Ptr[CComplexFloat]): Ptr[CComplexFloat] = extern\n+  @name(\"scalanative_cproj\")\n+  def cproj(complex: Ptr[CComplex]): Ptr[CComplex] = extern\n+  //  extern long double complex cprojl(long double complex);\n+\n+  @name(\"scalanative_crealf\")\n+  def crealf(complex: Ptr[CComplexFloat]): CFloat = extern\n+  @name(\"scalanative_creal\")\n+  def creal(complex: Ptr[CComplex]): CDouble = extern\n+  //  extern long double creall(long double complex);\n+}"
+  },
+  {
+    "id" : "b5a219c4-2b99-455a-865c-049d358ebda7",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "64c6b25e-db4d-42c9-bdeb-791f95d8d1f0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets group all the unimplemented function together in a single group, with TODO that refers to `long double` support ticket.",
+        "createdAt" : "2017-06-12T12:38:42Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9da6a885-c190-4f32-be90-000a445909f2",
+        "parentId" : "64c6b25e-db4d-42c9-bdeb-791f95d8d1f0",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, this looks much better and points to #27. Note to self - remember to look at current issues first.",
+        "createdAt" : "2017-06-12T16:17:11Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,249 @@\n+package scala.scalanative\n+package native\n+\n+/** All functions take complex but Scala Native does not\n+ * support pass by value so we pass a pointer to an\n+ * Array of length 2 and have a small wrapper in C\n+ * doing the conversion to call the native function.\n+ * Currently Scala Native and JVM have no direct support\n+ * for long double so these methods are not implemented.\n+ *\n+ * Since the user must manage the memory, we pass\n+ * a buffer passed to each function for storing the result\n+ * and is also is returned from the function so functions\n+ * can be chained together. This adds one additional\n+ * parameter to the function compared to the C API.\n+ *\n+ * Implicit classes are provided for convenience.\n+ *\n+ *\n+ * References:\n+ * https://en.wikipedia.org/wiki/C_data_types\n+ * C99 also added complex types: float _Complex, double _Complex, long double _Complex\n+ * https://en.wikipedia.org/wiki/Long_double\n+ * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/complex.h.html\n+ *\n+ */\n+@extern\n+object complex {\n+  import Nat._2\n+  type CFloatComplex  = CArray[CFloat, _2]\n+  type CDoubleComplex = CArray[CDouble, _2]\n+\n+  @name(\"scalanative_cacosf\")\n+  def cacosf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_cacos\")\n+  def cacos(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex cacosl(long double complex);\n+\n+  @name(\"scalanative_casinf\")\n+  def casinf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_casin\")\n+  def casin(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex casinl(long double complex);\n+\n+  @name(\"scalanative_catanf\")\n+  def catanf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_catan\")\n+  def catan(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex catanl(long double complex);\n+\n+  @name(\"scalanative_ccosf\")\n+  def ccosf(complex: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_ccos\")\n+  def ccos(complex: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex ccosl(long double complex);\n+\n+  @name(\"scalanative_csinf\")\n+  def csinf(complex: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_csin\")\n+  def csin(complex: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex csinl(long double complex);\n+\n+  @name(\"scalanative_ctanf\")\n+  def ctanf(complex: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_ctan\")\n+  def ctan(complex: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex ctanl(long double complex);\n+\n+  @name(\"scalanative_cacoshf\")\n+  def cacoshf(complex: Ptr[CFloatComplex],\n+              result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_cacosh\")\n+  def cacosh(complex: Ptr[CDoubleComplex],\n+             result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex cacoshl(long double complex);\n+\n+  @name(\"scalanative_casinhf\")\n+  def casinhf(complex: Ptr[CFloatComplex],\n+              result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_casinh\")\n+  def casinh(complex: Ptr[CDoubleComplex],\n+             result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex casinhl(long double complex);\n+\n+  @name(\"scalanative_catanhf\")\n+  def catanhf(complex: Ptr[CFloatComplex],\n+              result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_catanh\")\n+  def catanh(complex: Ptr[CDoubleComplex],\n+             result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex catanhl(long double complex);\n+\n+  @name(\"scalanative_ccoshf\")\n+  def ccoshf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_ccosh\")\n+  def ccosh(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex ccoshl(long double complex);\n+\n+  @name(\"scalanative_csinhf\")\n+  def csinhf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_csinh\")\n+  def csinh(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex csinhl(long double complex);\n+\n+  @name(\"scalanative_ctanhf\")\n+  def ctanhf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_ctanh\")\n+  def ctanh(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex ctanhl(long double complex);\n+\n+  @name(\"scalanative_cexpf\")\n+  def cexpf(complex: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_cexp\")\n+  def cexp(complex: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex cexpl(long double complex);\n+\n+  @name(\"scalanative_clogf\")\n+  def clogf(complex: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_clog\")\n+  def clog(complex: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex clogl(long double complex);\n+\n+  @name(\"scalanative_cabsf\")\n+  def cabsf(complex: Ptr[CFloatComplex]): CFloat = extern\n+  @name(\"scalanative_cabs\")\n+  def cabs(complex: Ptr[CDoubleComplex]): CDouble = extern\n+  //  extern long double cabsl(long double complex);\n+\n+  @name(\"scalanative_cpowf\")\n+  def cpowf(x: Ptr[CFloatComplex],\n+            y: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_cpow\")\n+  def cpow(x: Ptr[CDoubleComplex],\n+           y: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex cpowl(long double complex, long double complex);\n+\n+  @name(\"scalanative_csqrtf\")\n+  def csqrtf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_csqrt\")\n+  def csqrt(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex csqrtl(long double complex);\n+\n+  @name(\"scalanative_cargf\")\n+  def cargf(complex: Ptr[CFloatComplex]): CFloat = extern\n+  @name(\"scalanative_carg\")\n+  def carg(complex: Ptr[CDoubleComplex]): CDouble = extern\n+  //  extern long double cargl(long double complex);\n+\n+  @name(\"scalanative_cimagf\")\n+  def cimagf(complex: Ptr[CFloatComplex]): CFloat = extern\n+  @name(\"scalanative_cimag\")\n+  def cimag(complex: Ptr[CDoubleComplex]): CDouble = extern\n+  //  extern long double cimagl(long double complex);\n+\n+  @name(\"scalanative_conjf\")\n+  def conjf(complex: Ptr[CFloatComplex],\n+            result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_conj\")\n+  def conj(complex: Ptr[CDoubleComplex],\n+           result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex conjl(long double complex);\n+\n+  @name(\"scalanative_cprojf\")\n+  def cprojf(complex: Ptr[CFloatComplex],\n+             result: Ptr[CFloatComplex]): Ptr[CFloatComplex] = extern\n+  @name(\"scalanative_cproj\")\n+  def cproj(complex: Ptr[CDoubleComplex],\n+            result: Ptr[CDoubleComplex]): Ptr[CDoubleComplex] = extern\n+  //  extern long double complex cprojl(long double complex);\n+\n+  @name(\"scalanative_crealf\")\n+  def crealf(complex: Ptr[CFloatComplex]): CFloat = extern\n+  @name(\"scalanative_creal\")\n+  def creal(complex: Ptr[CDoubleComplex]): CDouble = extern\n+  //  extern long double creall(long double complex);"
+  }
+]

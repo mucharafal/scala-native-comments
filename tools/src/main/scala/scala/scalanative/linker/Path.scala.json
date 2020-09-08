@@ -1,0 +1,95 @@
+[
+  {
+    "id" : "247a7717-19c7-489f-a5f2-36a8de3623bd",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "12a475f6-c260-487e-a00e-431b1089f5c2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`globals`",
+        "createdAt" : "2016-11-29T16:36:05Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -16,6 +16,9 @@ sealed trait Path {\n \n   /** Dispose of given nir path. */\n   def close(): Unit\n+\n+  /** Load all globals */\n+  def all: Set[Global]"
+  },
+  {
+    "id" : "317ab8bb-e66b-48f5-9ff2-31f65f1bcf17",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "d6dd76cc-2144-4907-a51b-752f90efb7cb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`globals`",
+        "createdAt" : "2016-11-29T16:36:13Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -47,5 +50,7 @@ object Path {\n       }\n \n     def close = directory.close()\n+\n+    def all: Set[Global] = entries.values.flatMap(_.all).toSet"
+  },
+  {
+    "id" : "56f14af5-196e-4cd6-89c8-3e8768f51bfc",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "5ce2bc9d-e4cd-48a3-8a01-89b2497756eb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "See https://github.com/scala-native/scala-native/pull/416\r\n\r\nOnly virtual directories are resource-like, and those are managed directly by requiring implicit scope. Path should not have a close method any more.",
+        "createdAt" : "2016-11-30T15:23:15Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -14,6 +14,12 @@ sealed trait Path {\n \n   /** Load given global and info about its dependencies. */\n   def load(name: Global): Option[(Seq[Dep], Seq[Attr.Link], Defn)]\n+\n+  /** Dispose of given nir path. */\n+  def close(): Unit"
+  }
+]

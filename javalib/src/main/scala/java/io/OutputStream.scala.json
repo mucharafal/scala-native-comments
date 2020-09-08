@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "e480aadb-c37b-456f-9f8d-bca9f137f76a",
+    "prId" : 702,
+    "comments" : [
+      {
+        "id" : "f9b6bd31-7fd5-469d-a869-18e9cca49a36",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`flush()` is not `abstract` in `OutputStream`",
+        "createdAt" : "2017-05-09T09:10:37Z",
+        "updatedAt" : "2017-05-11T15:32:16Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5782f2a7-9028-45ed-ab30-25dc66d5fa97",
+        "parentId" : "f9b6bd31-7fd5-469d-a869-18e9cca49a36",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks, I should read the javadoc.",
+        "createdAt" : "2017-05-09T17:03:22Z",
+        "updatedAt" : "2017-05-11T15:32:16Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35be25dc3918e70f44d1b68f55e1732b256439fa",
+    "line" : null,
+    "diffHunk" : "@@ -19,7 +19,7 @@ abstract class OutputStream extends Object with Closeable with Flushable {\n     }\n   }\n \n-  def flush(): Unit = ()\n+  def flush(): Unit"
+  },
+  {
+    "id" : "28224256-d779-4ce2-974d-15c7f520e827",
+    "prId" : 702,
+    "comments" : [
+      {
+        "id" : "f9e561d0-9a01-4448-ba39-5146b6e14b6a",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`close()` is not `abstract` in `OutputStream`",
+        "createdAt" : "2017-05-09T09:11:32Z",
+        "updatedAt" : "2017-05-11T15:32:16Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "54a7be3c-a8f4-49c8-a514-fc575451958f",
+        "parentId" : "f9e561d0-9a01-4448-ba39-5146b6e14b6a",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ditto.",
+        "createdAt" : "2017-05-09T17:03:33Z",
+        "updatedAt" : "2017-05-11T15:32:16Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35be25dc3918e70f44d1b68f55e1732b256439fa",
+    "line" : null,
+    "diffHunk" : "@@ -19,7 +19,7 @@ abstract class OutputStream extends Object with Closeable with Flushable {\n     }\n   }\n \n-  def flush(): Unit = ()\n+  def flush(): Unit\n \n-  def close(): Unit = ()\n+  def close(): Unit"
+  }
+]

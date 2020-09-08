@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "8f7cf585-18fc-4393-a065-55f35cb3dad1",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "7b856b68-eda1-4267-95dc-39dddf32c03c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A few changes to formatting:\r\n1. Align doc comments on 80 character line limit\r\n2. Use `//` for non-doc comment style comments.\r\n3. Indent examples by 4 spaces and blank line before and after them.\r\n4. Make sure that comment is up-to-date with latest implementation.",
+        "createdAt" : "2019-02-01T10:21:55Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,482 @@\n+#include \"Sweeper.h\"\n+#include \"Stats.h\"\n+#include \"State.h\"\n+#include \"GCThread.h\"\n+#include \"GCTypes.h\"\n+#include <sched.h>\n+\n+/*\n+\n+Sweeper implements concurrent sweeping by coordinating\n+lazy sweeper on the mutator thread with zero or more concurrent sweepers on GC threads.\n+SCALANATIVE_GC_THREADS=0 turns it into a lazy sweeper.\n+\n+After the mark is done the concurrent sweepers are started.\n+Each takes batch of SWEEP_BATCH_SIZE blocks using the `heap->sweep.cursor`.\n+If the mutator thread fails to allocate if will sweep a batch of LAZY_SWEEP_MIN_BATCH blocks.\n+This will speed up sweeping when allocation outpaces sweeping.\n+\n+Sweeper calls Allocator_Sweep and LargeAllocator_Sweep they update their internal structures that\n+relate to partially free blocks(recycledBlocks in Allocator and freeLists in LargeAllocator).\n+If there is a superblock that crosses the batch boundary, it is handled in the batch where it starts.\n+Sweeper finds free superblocks (i.e. range of free blocks) within its batch.\n+\n+If the Sweeper would immediately return the free superblocks to BlockAllocator then we couldn't allocate anything\n+bigger than a batch. Therefore the free blocks at the beginning and the end of the batch are marked as `block_coalesce_me`.\n+There will be coalesced into bigger blocks by `Sweeper_LazyCoalesce`. Other free superblocks CAN be immediately\n+returned to BlockAllocator because their size is already fixed by other non-free blocks around them.\n+\n+Coalescing could be done in single pass over the heap once all the batches are swept. However, then large areas\n+of free blocks wouldn't be available for allocation.\n+Instead coalescing is done incrementally - until we reach a batch that has not been swept.\n+Coalescing progress is tracked by `heap->sweep.coalesceDone` - coalescing was done up to this point.\n+Each sweeper has cursorDone (even the lazy sweeper) to track how far have we swept.\n+\n+Coalescing is done incrementally - `Sweeper_LazyCoalesce` is called after each batch is swept.\n+There can be no more than 1 thread coalescing at a time. If a thread notices a coalescing is in progress it\n+does not interfere and does not retry until it tries to sweep another batch.\n+Coalescing might take a long time and lead to longer GC pauses and inconsistent performance.\n+If at all possible (i.e. SCALANATIVE_GC_THREADS > 0), we avoid running it on the mutator thread.\n+\n+When the coalescing reaches the end of heap sweeping is done. After sweeping `Sweeper_sweepDone` is called\n+on the mutator thread. This is done to avoid synchronization in the `Heap_Grow`. It is only called from the mutator\n+thread, therefore no synchronization is needed.\n+\n+EXAMPLE:\n+SWEEP_BATCH_SIZE=3, there are 9 blocks in total and 2 threads\n+? - unswept block F-free U-unavailable, C-coalesce_me, [] - superblock\n+\n+???|???|???\n+thread 1 starts sweeping the first batch and thread 2 the second one\n+U??|F??|???\n+UFF|F??|???\n+U[CC]|F??|???\n+Thread 1 is done with its block and attempts to coalesce.\n+The second batch is not done, so it can only coalesce up to item 4.\n+U[FF]|FF?|???\n+It starts creating a superblock, then starts sweeping batch 3.\n+U[FF]|FF?|UF?\n+U[FF]|FFU|UF?\n+U[FF]|FFU|U[F]U\n+In Batch 3 the free block in the middle gets immediately returned to BlockAllocator.\n+Thread 1 is done, tries to coalesce, but there is nothing to do because batch 2 is not done yet.\n+U[FF]|[CC]U|U[F]U\n+Batch 2 is done, thread 2 tries to coalesce. It can coalesce the remaining 2 batches.\n+U[FFFF]U|U[F]U\n+The free superblock of size 4 gets returned to BlockAllocator.\n+U[FFFF]U|U[F]U\n+U[FFFF]UU[F]U\n+All is coalesced! Sweeping is done.\n+\n+Note that besides coalescing `Sweeper_LazyCoalesce` also finishes the sweeping of superblocks in some cases.\n+See also `block_superblock_start_me` and `LargeAllocator_Sweep`.\n+*/"
+  },
+  {
+    "id" : "12858bd4-9a2e-4b4a-b093-b9a6ac27f91c",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "be91924d-d043-43c0-94df-8fef4337ff4c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is there any way to reduce boilerplate of stat recording via a few method-like macros? \r\n```\r\nval start_ns = Stats_Start(stats);\r\n...\r\nStats_Record(stats, event_sweep, start_ns);\r\n```\r\nWhere definitions of `Stats_Start` and `Stats_Record` do nothing (i.e. just return 0) if stat recording is off? ",
+        "createdAt" : "2019-02-01T10:37:23Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e55afdc5-ece5-4e37-9d96-997b9724b81c",
+        "parentId" : "be91924d-d043-43c0-94df-8fef4337ff4c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Currently all the ifdefs really hurt the readability of the code. ",
+        "createdAt" : "2019-02-01T10:38:05Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "39c800e7-f7fa-4bcd-9a63-9781e4d6d199",
+        "parentId" : "be91924d-d043-43c0-94df-8fef4337ff4c",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "I drastically reduced the number of ifdefs. However, there were many points with more complex logic than record start time then record event. For example, events in Sweep sharing timestamps. Therefore, I had to write finer grain macros instead.",
+        "createdAt" : "2019-02-05T21:24:28Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : 309,
+    "diffHunk" : "@@ -0,0 +1,482 @@\n+#include \"Sweeper.h\"\n+#include \"Stats.h\"\n+#include \"State.h\"\n+#include \"GCThread.h\"\n+#include \"GCTypes.h\"\n+#include <sched.h>\n+\n+/*\n+\n+Sweeper implements concurrent sweeping by coordinating\n+lazy sweeper on the mutator thread with zero or more concurrent sweepers on GC threads.\n+SCALANATIVE_GC_THREADS=0 turns it into a lazy sweeper.\n+\n+After the mark is done the concurrent sweepers are started.\n+Each takes batch of SWEEP_BATCH_SIZE blocks using the `heap->sweep.cursor`.\n+If the mutator thread fails to allocate if will sweep a batch of LAZY_SWEEP_MIN_BATCH blocks.\n+This will speed up sweeping when allocation outpaces sweeping.\n+\n+Sweeper calls Allocator_Sweep and LargeAllocator_Sweep they update their internal structures that\n+relate to partially free blocks(recycledBlocks in Allocator and freeLists in LargeAllocator).\n+If there is a superblock that crosses the batch boundary, it is handled in the batch where it starts.\n+Sweeper finds free superblocks (i.e. range of free blocks) within its batch.\n+\n+If the Sweeper would immediately return the free superblocks to BlockAllocator then we couldn't allocate anything\n+bigger than a batch. Therefore the free blocks at the beginning and the end of the batch are marked as `block_coalesce_me`.\n+There will be coalesced into bigger blocks by `Sweeper_LazyCoalesce`. Other free superblocks CAN be immediately\n+returned to BlockAllocator because their size is already fixed by other non-free blocks around them.\n+\n+Coalescing could be done in single pass over the heap once all the batches are swept. However, then large areas\n+of free blocks wouldn't be available for allocation.\n+Instead coalescing is done incrementally - until we reach a batch that has not been swept.\n+Coalescing progress is tracked by `heap->sweep.coalesceDone` - coalescing was done up to this point.\n+Each sweeper has cursorDone (even the lazy sweeper) to track how far have we swept.\n+\n+Coalescing is done incrementally - `Sweeper_LazyCoalesce` is called after each batch is swept.\n+There can be no more than 1 thread coalescing at a time. If a thread notices a coalescing is in progress it\n+does not interfere and does not retry until it tries to sweep another batch.\n+Coalescing might take a long time and lead to longer GC pauses and inconsistent performance.\n+If at all possible (i.e. SCALANATIVE_GC_THREADS > 0), we avoid running it on the mutator thread.\n+\n+When the coalescing reaches the end of heap sweeping is done. After sweeping `Sweeper_sweepDone` is called\n+on the mutator thread. This is done to avoid synchronization in the `Heap_Grow`. It is only called from the mutator\n+thread, therefore no synchronization is needed.\n+\n+EXAMPLE:\n+SWEEP_BATCH_SIZE=3, there are 9 blocks in total and 2 threads\n+? - unswept block F-free U-unavailable, C-coalesce_me, [] - superblock\n+\n+???|???|???\n+thread 1 starts sweeping the first batch and thread 2 the second one\n+U??|F??|???\n+UFF|F??|???\n+U[CC]|F??|???\n+Thread 1 is done with its block and attempts to coalesce.\n+The second batch is not done, so it can only coalesce up to item 4.\n+U[FF]|FF?|???\n+It starts creating a superblock, then starts sweeping batch 3.\n+U[FF]|FF?|UF?\n+U[FF]|FFU|UF?\n+U[FF]|FFU|U[F]U\n+In Batch 3 the free block in the middle gets immediately returned to BlockAllocator.\n+Thread 1 is done, tries to coalesce, but there is nothing to do because batch 2 is not done yet.\n+U[FF]|[CC]U|U[F]U\n+Batch 2 is done, thread 2 tries to coalesce. It can coalesce the remaining 2 batches.\n+U[FFFF]U|U[F]U\n+The free superblock of size 4 gets returned to BlockAllocator.\n+U[FFFF]U|U[F]U\n+U[FFFF]UU[F]U\n+All is coalesced! Sweeping is done.\n+\n+Note that besides coalescing `Sweeper_LazyCoalesce` also finishes the sweeping of superblocks in some cases.\n+See also `block_superblock_start_me` and `LargeAllocator_Sweep`.\n+*/\n+\n+INLINE\n+Object *Sweeper_LazySweep(Heap *heap, uint32_t size) {\n+    Object *object = NULL;\n+#ifdef ENABLE_GC_STATS\n+    uint64_t start_ns, end_ns;\n+    Stats *stats = heap->stats;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    // mark as active\n+    heap->lazySweep.lastActivity = BlockRange_Pack(1, heap->sweep.cursor);\n+    while (object == NULL && heap->sweep.cursor < heap->sweep.limit) {\n+        Sweeper_Sweep(heap, heap->stats, &heap->lazySweep.cursorDone,\n+                      LAZY_SWEEP_MIN_BATCH);\n+        object = (Object *)Allocator_Alloc(&allocator, size);\n+    }\n+    // mark as inactive\n+    heap->lazySweep.lastActivity = BlockRange_Pack(0, heap->sweep.cursor);\n+    while (object == NULL && !Sweeper_IsSweepDone(heap)) {\n+        object = (Object *)Allocator_Alloc(&allocator, size);\n+        if (object == NULL) {\n+            sched_yield();\n+        }\n+    }\n+#ifdef ENABLE_GC_STATS\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sweep, start_ns, end_ns);\n+    }\n+#endif\n+    return object;\n+}\n+\n+INLINE\n+Object *Sweeper_LazySweepLarge(Heap *heap, uint32_t size) {\n+    Object *object = NULL;\n+#ifdef DEBUG_PRINT\n+    uint32_t increment =\n+        (uint32_t)MathUtils_DivAndRoundUp(size, BLOCK_TOTAL_SIZE);\n+    printf(\"Sweeper_LazySweepLarge (%\" PRIu32 \") => %\" PRIu32 \"\\n\", size,\n+           increment);\n+    fflush(stdout);\n+#endif\n+    // lazy sweep will happen\n+#ifdef ENABLE_GC_STATS\n+    uint64_t start_ns, end_ns;\n+    Stats *stats = heap->stats;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    // mark as active\n+    heap->lazySweep.lastActivity = BlockRange_Pack(1, heap->sweep.cursor);\n+    while (object == NULL && heap->sweep.cursor < heap->sweep.limit) {\n+        Sweeper_Sweep(heap, heap->stats, &heap->lazySweep.cursorDone,\n+                      LAZY_SWEEP_MIN_BATCH);\n+        object = LargeAllocator_GetBlock(&largeAllocator, size);\n+    }\n+    // mark as inactive\n+    heap->lazySweep.lastActivity = BlockRange_Pack(0, heap->sweep.cursor);\n+    while (object == NULL && !Sweeper_IsSweepDone(heap)) {\n+        object = LargeAllocator_GetBlock(&largeAllocator, size);\n+        if (object == NULL) {\n+            sched_yield();\n+        }\n+    }\n+#ifdef ENABLE_GC_STATS\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sweep, start_ns, end_ns);\n+    }\n+#endif"
+  }
+]

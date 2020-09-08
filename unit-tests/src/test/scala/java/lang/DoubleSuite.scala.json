@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "fd8448c3-3887-4bf4-a930-732f84ce6585",
+    "prId" : 1047,
+    "comments" : [
+      {
+        "id" : "e0f3bc39-7110-4d3d-b43a-a6b0857b68d7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs another test case to check that `Double.parseDouble(\"0.0potato\")` throws as well.",
+        "createdAt" : "2017-10-03T12:04:15Z",
+        "updatedAt" : "2017-10-03T17:00:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b26eb62c702c800e880e9574ec2c7a0ea7341d92",
+    "line" : null,
+    "diffHunk" : "@@ -194,6 +194,7 @@ object DoubleSuite extends tests.Suite {\n     assert(Double.parseDouble(\"Infinity\") == Double.POSITIVE_INFINITY)\n     assert(Double.parseDouble(\"-Infinity\") == Double.NEGATIVE_INFINITY)\n     assert(Double.isNaN(Double.parseDouble(\"NaN\")))\n+    assertThrows[NumberFormatException](Double.parseDouble(\"potato\"))"
+  },
+  {
+    "id" : "866650f6-0476-4a8a-9fde-90fda281f898",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "1fee16c0-95ba-4b33-a07e-cb4128696db7",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`parseDouble` has a very precise definition of its result. We should test it with a strong `==`, not with an `epsilon` difference.",
+        "createdAt" : "2020-06-02T13:47:28Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "02a1ef98-23aa-4267-a63d-1913fd9d4051",
+        "parentId" : "1fee16c0-95ba-4b33-a07e-cb4128696db7",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Please add tests with a `\\u0000` character, such as `\"7.77\\u0000 \"` (should succeed) and `\"7.77\\u0000a\"` (should fail).",
+        "createdAt" : "2020-06-02T13:49:00Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2c1c45dd-e808-4070-aac2-c48ca0b16556",
+        "parentId" : "1fee16c0-95ba-4b33-a07e-cb4128696db7",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : " In both DoubleSuite.scala & FloatSuite.scala:\r\n* `epsilon` comparisons changed to strong `==` test as recommended.\r\n* Requested tests added to each file.\r\n\r\nI also fixed a copy & paste error in FloatSuite.scala where Double.parseDouble() was being called instead of \r\nthe correct Float.parseFloat().",
+        "createdAt" : "2020-06-13T21:37:23Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -195,10 +195,58 @@ object DoubleSuite extends tests.Suite {\n     assert(Double.parseDouble(\"Infinity\") == Double.POSITIVE_INFINITY)\n     assert(Double.parseDouble(\"-Infinity\") == Double.NEGATIVE_INFINITY)\n     assert(Double.isNaN(Double.parseDouble(\"NaN\")))\n+\n+    val epsilon = 0.0001\n+    assert(Math.abs(Double.parseDouble(\"6.66D\") - 6.66) < epsilon, \"a8\")\n+\n+    // Java allows trailing whitespace, including tabs.\n+    assert(Math.abs(Double.parseDouble(\"6.66D\\t \") - 6.66) < epsilon, \"a9\")\n+\n+    assert(Math.abs(Double.parseDouble(\"6.66d\") - 6.66) < epsilon, \"a10\")\n+\n+    assert(Math.abs(Double.parseDouble(\"7.77F\") - 7.77) < epsilon, \"a11\")\n+    assert(Math.abs(Double.parseDouble(\"7.77f\") - 7.77) < epsilon, \"a12\")"
+  }
+]

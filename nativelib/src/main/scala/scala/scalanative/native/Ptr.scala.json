@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a004f01a-ec2b-49a7-b716-a0496b12cc5c",
+    "prId" : 1426,
+    "comments" : [
+      {
+        "id" : "8f169ea2-98f5-4789-a4f4-250f413d94a5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@shadaj Here is a concrete example of what I meant in the discussion of #1420. `Ptr` type is a wrapper over `RawPtr`. User-facing API is safe from the boxing point of view and encapsulates raw unmanaged `RawPtr`. \r\n\r\nSimilarly for `Word` boxing to work, `Word` itself could be a wrapper over `RawWord` which maps to a numeric type under the hood:\r\n```\r\n// .../scalanative/native/Word.scala\r\nfinal class Word(private[scalanative] val rawword: RawWord) {\r\n  ...\r\n  @inline def +(other: Word): Word =\r\n     new Word(Intrinsics.addWord(this.rawword, other.rawword))\r\n  ...\r\n}\r\n\r\n// .../scalanative/runtime/RawWord.scala\r\nfinal abstract class RawWord\r\n\r\n// .../scalanative/runtime/Intrinsics.scala\r\nobject Intrinsics {\r\n  ...\r\n  def addWord(l: RawWord, r: RawWord): RawWord = intrinsic\r\n  ...\r\n}\r\n```",
+        "createdAt" : "2019-01-24T12:38:49Z",
+        "updatedAt" : "2019-05-22T17:42:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "39a1913b-e35d-4d2b-8d98-1579d92f75b3",
+        "parentId" : "8f169ea2-98f5-4789-a4f4-250f413d94a5",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "Awesome, thanks for the example! The semester just started so still adjusting to the workload in my new schedule, but I'll try to update my PR to use this style sometime this week.",
+        "createdAt" : "2019-01-27T00:57:58Z",
+        "updatedAt" : "2019-05-22T17:42:23Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4cd430b21f9fbfe7d479810cd38e29534a9a17f5",
+    "line" : null,
+    "diffHunk" : "@@ -1,142 +1,187 @@\n-// ###sourceLocation(file: \"/Users/Denys/.src/native/nativelib/src/main/scala/scala/scalanative/native/Ptr.scala.gyb\", line: 1)\n+// ###sourceLocation(file: \"/home/denys/.src/native/nativelib/src/main/scala/scala/scalanative/native/Ptr.scala.gyb\", line: 1)\n package scala.scalanative\n package native\n \n-import runtime._\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n \n-/** The C `const T *` pointer. */\n-final abstract class Ptr[T] {\n+final class Ptr[T](private[scalanative] val rawptr: RawPtr) {"
+  }
+]

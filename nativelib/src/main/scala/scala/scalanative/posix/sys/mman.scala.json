@@ -1,0 +1,180 @@
+[
+  {
+    "id" : "9510a86b-57ba-4ff6-afa0-550f299c2960",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "c266e1c8-a836-4392-b06a-eddad558e0f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't include doc comments for bindings as the exact behavior might differ per platform.",
+        "createdAt" : "2017-05-03T09:35:57Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,132 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import types.{mode_t, off_t}\n+\n+@extern\n+object mman {\n+  def mmap(addr: Ptr[Byte],\n+           len: CSize,\n+           prot: CInt,\n+           flags: CInt,\n+           fd: CInt,\n+           offset: off_t): Ptr[Byte] = extern\n+\n+  /* Deallocate any mapping for the region starting at ADDR and extending LEN\n+   bytes.  Returns 0 if successful, -1 for errors (and sets errno).  */"
+  },
+  {
+    "id" : "f1bb0bbc-f9ef-4a7d-8a34-c02e32b8c2a0",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "090bf552-bca6-4d88-a37b-dfc90e98ab02",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please double check that none of those are linux-specific. \r\n\r\nFor example MAP_HUGE_* are not in http://pubs.opengroup.org/onlinepubs/9699919799/",
+        "createdAt" : "2017-05-03T09:50:57Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 130,
+    "diffHunk" : "@@ -0,0 +1,132 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import types.{mode_t, off_t}\n+\n+@extern\n+object mman {\n+  def mmap(addr: Ptr[Byte],\n+           len: CSize,\n+           prot: CInt,\n+           flags: CInt,\n+           fd: CInt,\n+           offset: off_t): Ptr[Byte] = extern\n+\n+  /* Deallocate any mapping for the region starting at ADDR and extending LEN\n+   bytes.  Returns 0 if successful, -1 for errors (and sets errno).  */\n+  def munmap(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  /* Change the memory protection of the region starting at ADDR and\n+     extending LEN bytes to PROT.  Returns 0 if successful, -1 for errors\n+     (and sets errno).  */\n+  def mprotect(addr: Ptr[Byte], len: CSize, prot: CInt): CInt = extern\n+\n+  /* Synchronize the region starting at ADDR and extending LEN bytes with the\n+     file it maps.*/\n+  def msync(addr: Ptr[Byte], len: CSize, flags: CInt): CInt = extern\n+\n+  /* Advise the system about particular usage patterns the program follows\n+       for the region starting at ADDR and extending LEN bytes.  */\n+  def madvise(addr: Ptr[Byte], len: CSize, advice: CInt): CInt = extern\n+\n+  /* Guarantee all whole pages mapped by the range [ADDR,ADDR+LEN) to\n+     be memory resident.  */\n+  def mlock(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  /* Unlock whole pages previously mapped by the range [ADDR,ADDR+LEN).  */\n+  def munlock(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  /* Cause all currently mapped pages of the process to be memory resident\n+     until unlocked by a call to the `munlockall', until the process exits,\n+     or until the process calls `execve'.  */\n+  def mlockall(flags: CInt): CInt = extern\n+\n+  /* All currently mapped pages of the process' address space become\n+     unlocked.  */\n+  def munlockall(): CInt = extern\n+\n+  /* mincore returns the memory residency status of the pages in the\n+       current process's address space specified by [start, start + len).\n+       The status is returned in a vector of bytes.  The least significant\n+       bit of each byte is 1 if the referenced page is in memory, otherwise\n+       it is zero.  */\n+  def mincore(start: Ptr[Byte], len: CSize, vec: Ptr[Byte]): CInt = extern\n+\n+  /* Remap pages mapped by the range [ADDR,ADDR+OLD_LEN) to new length\n+       NEW_LEN.  If MREMAP_MAYMOVE is set in FLAGS the returned address\n+       may differ from ADDR.  If MREMAP_FIXED is set in FLAGS the function\n+       takes another parameter which is a fixed address at which the block\n+       resides after a successful call.  */\n+  def mremap(addr: Ptr[Byte],\n+             old_len: CSize,\n+             new_len: CSize,\n+             flags: CInt): Ptr[Byte] = extern\n+\n+  /* Remap arbitrary pages of a shared backing store within an existing\n+     VMA.  */\n+  def remap_file_pages(start: Ptr[Byte],\n+                       ize: CSize,\n+                       prot: CInt,\n+                       pgoff: CSize,\n+                       flags: CInt): CInt = extern\n+\n+  /* Open shared memory segment.  */\n+  def shm_open(name: CString, oflag: CInt, mode: mode_t): CInt = extern\n+\n+  /* Remove shared memory segment.  */\n+  def shm_unlink(name: CString): CInt = extern\n+\n+  // Macros\n+  @name(\"scalanative_prot_exec\")\n+  def PROT_EXEC: CInt = extern\n+  @name(\"scalanative_prot_read\")\n+  def PROT_READ: CInt = extern\n+  @name(\"scalanative_prot_write\")\n+  def PROT_WRITE: CInt = extern\n+  @name(\"scalanative_prot_none\")\n+  def PROT_NONE: CInt = extern\n+  @name(\"scalanative_map_shared\")\n+  def MAP_SHARED: CInt = extern\n+  @name(\"scalanative_map_private\")\n+  def MAP_PRIVATE: CInt = extern\n+  @name(\"scalanative_map_32bit\")\n+  def MAP_32BIT: CInt = extern\n+  @name(\"scalanative_map_anon\")\n+  def MAP_ANON: CInt = extern\n+  @name(\"scalanative_map_anonymous\")\n+  def MAP_ANONYMOUS: CInt = extern\n+  @name(\"scalanative_map_denywrite\")\n+  def MAP_DENYWRITE: CInt = extern\n+  @name(\"scalanative_map_executable\")\n+  def MAP_EXECUTABLE: CInt = extern\n+  @name(\"scalanative_map_file\")\n+  def MAP_FILE: CInt = extern\n+  @name(\"scalanative_map_fixed\")\n+  def MAP_FIXED: CInt = extern\n+  @name(\"scalanative_map_growsdown\")\n+  def MAP_GROWSDOWN: CInt = extern\n+  @name(\"scalanative_map_hugetlb\")\n+  def MAP_HUGETLB: CInt = extern\n+  @name(\"scalanative_map_huge_2mb\")\n+  def MAP_HUGE_2M: CInt = extern\n+  @name(\"scalanative_map_huge_1gb\")\n+  def MAP_HUGE_1GB: CInt = extern\n+  @name(\"scalanative_map_huge_shift\")\n+  def MAP_HUGE_SHIFT: CInt = extern\n+  @name(\"scalanative_map_locked\")\n+  def MAP_LOCKED: CInt = extern\n+  @name(\"scalanative_map_nonblock\")\n+  def MAP_NONBLOCK: CInt = extern\n+  @name(\"scalanative_map_noreserve\")\n+  def MAP_NORESERVE: CInt = extern\n+  @name(\"scalanative_map_populate\")\n+  def MAP_POPULATE: CInt = extern\n+  @name(\"scalanative_map_stack\")\n+  def MAP_STACK: CInt = extern\n+  @name(\"scalanative_map_uninitialized\")\n+  def MAP_UNINITIALIZED: CInt = extern\n+  @name(\"scalanative_config_mmap_allow_uninitialized\")\n+  def CONFIG_MMAP_ALLOW_UNINITIALIZED: CInt = extern"
+  },
+  {
+    "id" : "78b1923b-a553-4889-8def-e477ac333180",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "a2d9193a-5549-4f76-8979-903185c536ca",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another linux-specific API.",
+        "createdAt" : "2017-05-03T09:52:07Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 31,
+    "diffHunk" : "@@ -0,0 +1,132 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import types.{mode_t, off_t}\n+\n+@extern\n+object mman {\n+  def mmap(addr: Ptr[Byte],\n+           len: CSize,\n+           prot: CInt,\n+           flags: CInt,\n+           fd: CInt,\n+           offset: off_t): Ptr[Byte] = extern\n+\n+  /* Deallocate any mapping for the region starting at ADDR and extending LEN\n+   bytes.  Returns 0 if successful, -1 for errors (and sets errno).  */\n+  def munmap(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  /* Change the memory protection of the region starting at ADDR and\n+     extending LEN bytes to PROT.  Returns 0 if successful, -1 for errors\n+     (and sets errno).  */\n+  def mprotect(addr: Ptr[Byte], len: CSize, prot: CInt): CInt = extern\n+\n+  /* Synchronize the region starting at ADDR and extending LEN bytes with the\n+     file it maps.*/\n+  def msync(addr: Ptr[Byte], len: CSize, flags: CInt): CInt = extern\n+\n+  /* Advise the system about particular usage patterns the program follows\n+       for the region starting at ADDR and extending LEN bytes.  */\n+  def madvise(addr: Ptr[Byte], len: CSize, advice: CInt): CInt = extern"
+  },
+  {
+    "id" : "80d9953f-5585-4e21-a269-282dbc74c8e5",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "ad41eb98-ca78-4d58-b06b-c418d56e68af",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This bindings are missing some APIs with posix_ prefix as defined in http://pubs.opengroup.org/onlinepubs/9699919799/",
+        "createdAt" : "2017-05-03T09:53:02Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 8,
+    "diffHunk" : "@@ -0,0 +1,132 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import types.{mode_t, off_t}\n+\n+@extern\n+object mman {"
+  },
+  {
+    "id" : "d4f048e8-03aa-4ba8-a4d4-378c69822809",
+    "prId" : 698,
+    "comments" : [
+      {
+        "id" : "3fb75bae-2c1a-4d64-8929-920d4bf32488",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Spec says \"at least\" here and in number of other structs we bind to. This means that it platform may have more platform-specific members, meaning that size of this struct is not fixed. \r\n\r\nPlease have a look at https://github.com/scala-native/scala-native/blob/master/nativelib/src/main/resources/stat.c for the solution to this problem.",
+        "createdAt" : "2017-05-18T10:45:42Z",
+        "updatedAt" : "2017-05-18T10:46:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d03f642c-69d7-4b53-85d2-80bbd6091de6",
+        "parentId" : "3fb75bae-2c1a-4d64-8929-920d4bf32488",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "I get it that field values should be the biggest possible for each platform but I don't understand how is handled the unfixed struct size.",
+        "createdAt" : "2017-05-30T15:44:49Z",
+        "updatedAt" : "2017-05-30T15:44:50Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "575d2e40-5c51-4443-a2fb-63fec10eb6bc",
+        "parentId" : "3fb75bae-2c1a-4d64-8929-920d4bf32488",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The solution that I've been using is to re-define the struct in C with exactly the fields that are defined in the spec, and convert to and from this struct. Scala code should only touch your re-defined struct. Here's an example: https://github.com/scala-native/scala-native/pull/758/files#diff-70573442a164bba12ff8ca607960485f",
+        "createdAt" : "2017-05-30T15:49:32Z",
+        "updatedAt" : "2017-05-30T15:49:43Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d130f2c92a51c5ae61c2edea2b0876254b5552cc",
+    "line" : 53,
+    "diffHunk" : "@@ -0,0 +1,116 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import types.{mode_t, off_t}\n+\n+// http://pubs.opengroup.org/onlinepubs/9699919799/\n+\n+@extern\n+object mman {\n+\n+  def mlock(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  def mlockall(flags: CInt): CInt = extern\n+\n+  def mmap(addr: Ptr[Byte],\n+           len: CSize,\n+           prot: CInt,\n+           flags: CInt,\n+           fd: CInt,\n+           offset: off_t): Ptr[Byte] = extern\n+\n+  def mprotect(addr: Ptr[Byte], len: CSize, prot: CInt): CInt = extern\n+\n+  def msync(addr: Ptr[Byte], len: CSize, flags: CInt): CInt = extern\n+\n+  def munlock(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  def munlockall(): CInt = extern\n+\n+  def munmap(addr: Ptr[Byte], len: CSize): CInt = extern\n+\n+  def posix_madvise(addr: Ptr[Byte], len: CSize, advice: CInt): CInt = extern\n+\n+  def posix_mem_offset(addr: Ptr[Byte],\n+                       len: CSize,\n+                       off: Ptr[off_t],\n+                       contig_len: Ptr[CSize],\n+                       fildes: Ptr[CInt]): CInt = extern\n+\n+  def posix_typed_mem_get_info(fildes: CInt,\n+                               info: Ptr[posix_typed_mem_info]): CInt = extern\n+\n+  def posix_typed_mem_open(name: CString, oflag: CInt, tflag: CInt): CInt =\n+    extern\n+\n+  def shm_open(name: CString, oflag: CInt, mode: mode_t): CInt = extern\n+\n+  def shm_unlink(name: CString): CInt = extern\n+\n+  // Types\n+\n+  type posix_typed_mem_info = CStruct1[CSize]"
+  }
+]

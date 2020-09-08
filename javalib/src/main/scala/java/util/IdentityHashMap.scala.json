@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "358c6a67-0767-43f7-8ff4-a0fb7758138c",
+    "prId" : 1474,
+    "comments" : [
+      {
+        "id" : "f6d7ac69-5d6d-40c6-89e9-7e48bdef785a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You shouldn't need this forwarders on master. ",
+        "createdAt" : "2019-03-20T09:49:56Z",
+        "updatedAt" : "2019-03-20T14:21:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e0dc950a-b631-488f-bf0e-7a557d395232",
+        "parentId" : "f6d7ac69-5d6d-40c6-89e9-7e48bdef785a",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Good, catch. Will fix.",
+        "createdAt" : "2019-03-20T14:04:02Z",
+        "updatedAt" : "2019-03-20T14:21:09Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9f54f61368ed9b7d28019762e627b811349124f5",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,21 @@\n+package java.util\n+\n+class IdentityHashMap[K, V] extends HashMap[K, V] {\n+\n+  override def boxKey(key: K): AnyRef =\n+    IdentityBox(key)\n+  override def unboxKey(box: AnyRef): K =\n+    box match {\n+      case IdentityBox(value) => value.asInstanceOf[K]\n+      case _                  => null.asInstanceOf[K]\n+    }\n+\n+  // forwarders - https://github.com/scala-native/scala-native/issues/375\n+  override def containsKey(key: Any): Boolean     = super.containsKey(key)\n+  override def containsValue(value: Any): Boolean = super.containsValue(value)\n+  override def get(key: Any): V                   = super.get(key)\n+  override def put(key: K, value: V): V           = super.put(key, value)\n+  override def remove(key: Any): V                = super.remove(key)\n+  override def clear(): Unit                      = super.clear()\n+  override def size(): Int                        = super.size()"
+  }
+]

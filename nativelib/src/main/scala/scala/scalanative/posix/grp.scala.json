@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "7f38d768-eee8-49c6-b8ed-32fc5492eb13",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "19b974a7-3dc3-41c5-85fd-cdfa8345b46c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This file is not useful and should be dropped.",
+        "createdAt" : "2017-05-03T09:36:49Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 10,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package scala.scalanative\n+package posix\n+\n+import native.extern\n+\n+/**\n+ * Created by remi on 28/02/17.\n+ */\n+@extern\n+object grp {}"
+  },
+  {
+    "id" : "6d9dd646-05c6-415a-b2f5-060b1a0401a1",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "083aa7a7-3b2e-4f60-bcc3-590dbbd00983",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please remove all authorship comments from the code. We don't use them as they easily get out of date.",
+        "createdAt" : "2017-05-03T09:37:24Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 8,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package scala.scalanative\n+package posix\n+\n+import native.extern\n+\n+/**\n+ * Created by remi on 28/02/17.\n+ */"
+  }
+]

@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "5327be19-4244-4158-97c8-f86f5a2dac91",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "72e6df25-502f-467e-a401-77f4b50e32c4",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "We can convert this automatically. Maybe on a follow up PR ?",
+        "createdAt" : "2017-04-10T18:44:06Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c7bbe965-4acb-4f02-bc08-c82563fff5e9",
+        "parentId" : "72e6df25-502f-467e-a401-77f4b50e32c4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Converting via find-and-replace is really dangerous. RegExes are its own language and we'll probably need to parse it to do something like this in a sound manner. ",
+        "createdAt" : "2017-04-10T18:49:14Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+.. _regex:\n+\n+Scala Native Regexes\n+=====================\n+\n+Scala Native implements java.util.regex with `Google's RE2 library <https://github.com/google/re2>`_. There is some differences with the original API:\n+\n+Some expressions are not supported:\n+ * Character Classes\n+   * unions: [a-d[m-p]]\n+   * intersections: [a-z&&[^aeiou]]\n+ * predefined character classes: \\h, \\H, \\v, \\V\n+ * java character function classes\n+   * \\p{javaLowerCase}\n+   * \\p{javaUpperCase}\n+   * \\p{javaWhitespace}\n+   * \\p{javaMirrored}\n+ * boundary matchers: \\G, \\Z, \\R\n+ * possessive quantifiers\n+   * X?+\n+   * X*+\n+   * X++\n+   * X{n}+\n+   * X{n,}+\n+   * X{n,m}+\n+ * lookaheads\n+   * (?=X)\n+   * (?!X)\n+   * (?<=X)\n+   * (?<!X)\n+   * (?>X)\n+\n+Some expressions have an alternative syntax:\n+\n+========== =============\n+Java       RE2\n+========== =============\n+Java       RE2"
+  },
+  {
+    "id" : "8a1a5f11-038e-4bd3-a3a3-1cb6f372b409",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "1ad1a908-6d6a-496a-af7d-dd33711332c1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd put on the same page as `javalib`, given that it's just a detail about or `javalib` implementation, not a separate API. ",
+        "createdAt" : "2017-04-10T18:48:04Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0d46e5d4-a938-4a45-be86-d82bd935364f",
+        "parentId" : "1ad1a908-6d6a-496a-af7d-dd33711332c1",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "done",
+        "createdAt" : "2017-04-10T18:52:00Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,57 @@\n+.. _regex:\n+\n+Scala Native Regexes"
+  }
+]

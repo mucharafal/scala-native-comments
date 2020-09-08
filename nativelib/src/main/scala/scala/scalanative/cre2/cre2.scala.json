@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "b7613a63-ac94-4e01-93ae-6314f3bd7190",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "113db430-e85b-4943-acb2-0de65486f228",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't do `TODO` (or `FIXME`) in the code with the exception of missing method signatures. File an issue or leave a TODO item on existing issue instead.",
+        "createdAt" : "2017-04-05T14:00:13Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "63c952f9-948d-4315-8424-72b971eddd71",
+        "parentId" : "113db430-e85b-4943-acb2-0de65486f228",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This applies to all other TODO and FIXME in this PR.",
+        "createdAt" : "2017-04-05T14:05:20Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a5db7fa9-93ba-4634-8725-bd350672ddc8",
+        "parentId" : "113db430-e85b-4943-acb2-0de65486f228",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "The issue is #598. This is an indication that when #598 is implemented this code can be removed.",
+        "createdAt" : "2017-04-05T14:25:52Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,138 @@\n+package java.util.regex\n+\n+import scala.scalanative._\n+import native._\n+import native.stdlib._\n+import runtime.GC\n+\n+import java.nio.charset.Charset\n+\n+// Syntax guide: https://github.com/google/re2/wiki/Syntax\n+// re2 c wrapper: https://github.com/marcomaggi/cre2\n+@link(\"re2\")\n+@extern\n+private[regex] object cre2 {\n+  import cre2h._\n+\n+  def cre2_new(\n+      pattern: CString,\n+      pattern_len: CInt,\n+      options: Ptr[cre2_options_t]\n+  ): Ptr[cre2_regexp_t] = extern\n+\n+  def cre2_delete(\n+      regex: Ptr[cre2_regexp_t]\n+  ): Unit = extern\n+\n+  def cre2_quote_meta(\n+      quoted: cre2_string_t,\n+      original: cre2_string_t\n+  ): CInt = extern\n+\n+  def cre2_num_capturing_groups(\n+      regex: Ptr[cre2_regexp_t]\n+  ): CInt = extern\n+\n+  def cre2_find_named_capturing_groups(\n+      regex: Ptr[cre2_regexp_t],\n+      name: CString\n+  ): CInt = extern\n+\n+  def cre2_match(\n+      regex: Ptr[cre2_regexp_t],\n+      text: CString,\n+      textlen: CInt,\n+      startpos: CInt,\n+      endpos: CInt,\n+      anchor: cre2_anchor_t,\n+      matches: cre2_string_t,\n+      nMatches: CInt\n+  ): CInt = extern\n+\n+  def cre2_replace_re(\n+      regex: Ptr[cre2_regexp_t],\n+      text_and_target: cre2_string_t,\n+      rewrite: cre2_string_t\n+  ): CInt = extern\n+\n+  def cre2_global_replace_re(\n+      regex: Ptr[cre2_regexp_t],\n+      text_and_target: cre2_string_t,\n+      rewrite: cre2_string_t\n+  ): CInt = extern\n+\n+  // TODO: #598 (remove this)\n+  def cre2_distance(a: CString, b: CString): CInt = extern"
+  },
+  {
+    "id" : "689adc68-65e5-421c-b5d7-7a2c5c6b7289",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "d4d1ade4-244f-4a57-88ea-7d3d2cafaf67",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should go to `scala.scalanative.runtime`. ",
+        "createdAt" : "2017-04-05T14:03:46Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,138 @@\n+package java.util.regex\n+\n+import scala.scalanative._\n+import native._\n+import native.stdlib._\n+import runtime.GC\n+\n+import java.nio.charset.Charset\n+\n+// Syntax guide: https://github.com/google/re2/wiki/Syntax\n+// re2 c wrapper: https://github.com/marcomaggi/cre2\n+@link(\"re2\")\n+@extern\n+private[regex] object cre2 {"
+  }
+]

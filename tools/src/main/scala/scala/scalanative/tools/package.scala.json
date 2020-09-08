@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "6a3077d5-e1c2-421b-8fde-e1f836fe28d1",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "c8fc9c2c-47c8-4dd7-bb7a-d56caf4c453a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets move `tools` API into `scalanative.build` namespace. ",
+        "createdAt" : "2018-01-18T13:11:19Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -38,38 +38,33 @@ package object tools {\n   /** Given the classpath and main entry point, link under closed-world\n    *  assumption.\n    */\n-  def link(config: Config,\n-           driver: OptimizerDriver,\n-           reporter: LinkerReporter = LinkerReporter.empty): LinkerResult = {\n-    val chaDeps  = optimizer.analysis.ClassHierarchy.depends\n-    val passDeps = driver.passes.flatMap(_.depends).distinct\n-    val deps     = (chaDeps ++ passDeps).distinct\n-    val injects  = driver.passes.flatMap(_.injects)\n+  def link(config: Config): LinkerResult = {"
+  }
+]

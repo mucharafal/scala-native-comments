@@ -1,0 +1,232 @@
+[
+  {
+    "id" : "eb21e6eb-21a3-420b-94dc-9622c5bd95b9",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "dfd0189a-69d3-4fcc-872c-863d434fc052",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`sys.error` is deprecated in more recent versions of Scala. Prefer an explicit `throw new IllegalStateException`, which is also more specific.",
+        "createdAt" : "2020-08-06T17:36:17Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.{DataInputStream, DataOutputStream}\n+import java.net.Socket\n+import scala.annotation.tailrec\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.testinterface.common.RPCCore\n+import scala.util.{Failure, Success, Try}\n+\n+/** Native RPC Core. */\n+private[testinterface] object NativeRPC extends RPCCore {\n+  Com.init(handleMessage)\n+\n+  def loop(clientSocket: Socket): Int = {\n+    Com.socket = clientSocket\n+    Com.loop()\n+  }\n+\n+  override protected def send(msg: String): Unit = Com.send(msg)\n+\n+  private object Com {\n+    private[this] val messageQueue =\n+      scala.collection.mutable.Queue.empty[String]\n+    private var messageHandler: String => Unit = _\n+    private[NativeRPC] var socket: Socket      = _\n+\n+    private lazy val inStream  = new DataInputStream(socket.getInputStream)\n+    private lazy val outStream = new DataOutputStream(socket.getOutputStream)\n+\n+    def init(onReceive: String => Unit): Unit = {\n+      if (messageHandler != null) sys.error(\"Com already initialized\")"
+  },
+  {
+    "id" : "360c8686-e414-4213-8e7f-06811d91abe0",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "48fe0376-fb2b-4bdd-a7cb-1ff729343f5d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You can clear the `messageQueue` after this, to let go of the memory.",
+        "createdAt" : "2020-08-06T17:39:18Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "73b6fbd4-42b9-4021-888f-9ce85b22d76a",
+        "parentId" : "48fe0376-fb2b-4bdd-a7cb-1ff729343f5d",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "In fact since `NativeRPC` is now class taking `Socket` as constructor argument whole `init` method is redundant. MessageQueue would never take any item, also there's no reason to pass `onReceive` param since `NativeRPC` extends `RPCCore` containing message handler that would be used anyway",
+        "createdAt" : "2020-08-07T11:43:25Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.{DataInputStream, DataOutputStream}\n+import java.net.Socket\n+import scala.annotation.tailrec\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.testinterface.common.RPCCore\n+import scala.util.{Failure, Success, Try}\n+\n+/** Native RPC Core. */\n+private[testinterface] object NativeRPC extends RPCCore {\n+  Com.init(handleMessage)\n+\n+  def loop(clientSocket: Socket): Int = {\n+    Com.socket = clientSocket\n+    Com.loop()\n+  }\n+\n+  override protected def send(msg: String): Unit = Com.send(msg)\n+\n+  private object Com {\n+    private[this] val messageQueue =\n+      scala.collection.mutable.Queue.empty[String]\n+    private var messageHandler: String => Unit = _\n+    private[NativeRPC] var socket: Socket      = _\n+\n+    private lazy val inStream  = new DataInputStream(socket.getInputStream)\n+    private lazy val outStream = new DataOutputStream(socket.getOutputStream)\n+\n+    def init(onReceive: String => Unit): Unit = {\n+      if (messageHandler != null) sys.error(\"Com already initialized\")\n+      messageHandler = onReceive\n+      messageQueue.foreach(onReceive)"
+  },
+  {
+    "id" : "e428d8c7-981b-44d4-8038-feaf899fab45",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "470beb83-7854-4e94-8f7e-4c1795f45569",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why not simply `else messageHandler(msg)`? Which would also mean that you don't need `def await` at all.\r\n\r\nOr perhaps:\r\n```scala\r\nelse {\r\n  messageHandler(msg)\r\n  scala.scalanative.runtime.loop()\r\n}\r\n```\r\nif you need the Scala Native event loop to be processed at this point.",
+        "createdAt" : "2020-08-06T17:40:59Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7169dab1-60b8-4ede-a71c-afbf03455ce7",
+        "parentId" : "470beb83-7854-4e94-8f7e-4c1795f45569",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Well, looks like I've leaved it like this by mistake. `runtime.loop()` was needed since execution stopped waiting for some fulfilled condition. I've simplified it as you suggested. ",
+        "createdAt" : "2020-08-07T12:02:01Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.{DataInputStream, DataOutputStream}\n+import java.net.Socket\n+import scala.annotation.tailrec\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.testinterface.common.RPCCore\n+import scala.util.{Failure, Success, Try}\n+\n+/** Native RPC Core. */\n+private[testinterface] object NativeRPC extends RPCCore {\n+  Com.init(handleMessage)\n+\n+  def loop(clientSocket: Socket): Int = {\n+    Com.socket = clientSocket\n+    Com.loop()\n+  }\n+\n+  override protected def send(msg: String): Unit = Com.send(msg)\n+\n+  private object Com {\n+    private[this] val messageQueue =\n+      scala.collection.mutable.Queue.empty[String]\n+    private var messageHandler: String => Unit = _\n+    private[NativeRPC] var socket: Socket      = _\n+\n+    private lazy val inStream  = new DataInputStream(socket.getInputStream)\n+    private lazy val outStream = new DataOutputStream(socket.getOutputStream)\n+\n+    def init(onReceive: String => Unit): Unit = {\n+      if (messageHandler != null) sys.error(\"Com already initialized\")\n+      messageHandler = onReceive\n+      messageQueue.foreach(onReceive)\n+    }\n+\n+    def send(msg: String): Unit = {\n+      outStream.writeInt(msg.length)\n+      outStream.write(msg.getBytes(\"UTF-16\"))\n+    }\n+\n+    private def await(future: Future[_]): Unit = {\n+      scala.scalanative.runtime.loop()\n+      future.value.get.get\n+    }\n+\n+    @tailrec\n+    def loop(): Int = {\n+      def tryRead: Try[Boolean] = Try {\n+        val msgLength = inStream.readInt()\n+\n+        /**\n+         * Current implementation of DataInputStream does not check for EOF,\n+         * in this case we need to follow up base `read` behaviour which is returning -1 value to signal EOF\n+         * TODO Fix this after merging changes due to #1868\n+         */\n+        if (msgLength < 0) true\n+        else {\n+          val msg = Array.fill(msgLength)(inStream.readChar).mkString\n+          if (messageHandler == null) messageQueue.enqueue(msg)\n+          else\n+            await {\n+              Future.fromTry {\n+                Try(messageHandler(msg))\n+              }\n+            }"
+  },
+  {
+    "id" : "d0888e1f-cafe-4be2-bc0e-b6d646139dfd",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "0af9bf1b-700a-4e45-a4e2-1a657adcfe4a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n      outStream.write(msg.getBytes(java.nio.charset.StandardCharsets.UTF_16))\r\n```",
+        "createdAt" : "2020-08-06T17:43:28Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.{DataInputStream, DataOutputStream}\n+import java.net.Socket\n+import scala.annotation.tailrec\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.testinterface.common.RPCCore\n+import scala.util.{Failure, Success, Try}\n+\n+/** Native RPC Core. */\n+private[testinterface] object NativeRPC extends RPCCore {\n+  Com.init(handleMessage)\n+\n+  def loop(clientSocket: Socket): Int = {\n+    Com.socket = clientSocket\n+    Com.loop()\n+  }\n+\n+  override protected def send(msg: String): Unit = Com.send(msg)\n+\n+  private object Com {\n+    private[this] val messageQueue =\n+      scala.collection.mutable.Queue.empty[String]\n+    private var messageHandler: String => Unit = _\n+    private[NativeRPC] var socket: Socket      = _\n+\n+    private lazy val inStream  = new DataInputStream(socket.getInputStream)\n+    private lazy val outStream = new DataOutputStream(socket.getOutputStream)\n+\n+    def init(onReceive: String => Unit): Unit = {\n+      if (messageHandler != null) sys.error(\"Com already initialized\")\n+      messageHandler = onReceive\n+      messageQueue.foreach(onReceive)\n+    }\n+\n+    def send(msg: String): Unit = {\n+      outStream.writeInt(msg.length)\n+      outStream.write(msg.getBytes(\"UTF-16\"))"
+  },
+  {
+    "id" : "218587e1-ee3d-44cf-bcde-9963686d6307",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "1183ee0d-7b06-42b5-99a9-a998422127de",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If `send` is called before `NativeRPC.loop()`, the `socket` won't be initialized and this will throw.\r\n\r\nIt looks like `NativeRPC` should be a `class` taking its `socket` as a constructor parameter.",
+        "createdAt" : "2020-08-06T17:51:18Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.{DataInputStream, DataOutputStream}\n+import java.net.Socket\n+import scala.annotation.tailrec\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.testinterface.common.RPCCore\n+import scala.util.{Failure, Success, Try}\n+\n+/** Native RPC Core. */\n+private[testinterface] object NativeRPC extends RPCCore {\n+  Com.init(handleMessage)\n+\n+  def loop(clientSocket: Socket): Int = {\n+    Com.socket = clientSocket\n+    Com.loop()\n+  }\n+\n+  override protected def send(msg: String): Unit = Com.send(msg)\n+\n+  private object Com {\n+    private[this] val messageQueue =\n+      scala.collection.mutable.Queue.empty[String]\n+    private var messageHandler: String => Unit = _\n+    private[NativeRPC] var socket: Socket      = _\n+\n+    private lazy val inStream  = new DataInputStream(socket.getInputStream)\n+    private lazy val outStream = new DataOutputStream(socket.getOutputStream)\n+\n+    def init(onReceive: String => Unit): Unit = {\n+      if (messageHandler != null) sys.error(\"Com already initialized\")\n+      messageHandler = onReceive\n+      messageQueue.foreach(onReceive)\n+    }\n+\n+    def send(msg: String): Unit = {\n+      outStream.writeInt(msg.length)"
+  },
+  {
+    "id" : "d8e1010e-38f4-474c-8928-a90701cbbd05",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "c6822e78-a726-454e-9078-203d1088dae0",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "FYI: My pending PR #1625 may be a useful starting point.  I do not remember why I marked it a partial fix and not full.  My memory is that DataInputStream has a whole nest of bugs.  \r\n\r\nSee also pending PR #1624.",
+        "createdAt" : "2020-08-06T22:55:09Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.{DataInputStream, DataOutputStream}\n+import java.net.Socket\n+import scala.annotation.tailrec\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.testinterface.common.RPCCore\n+import scala.util.{Failure, Success, Try}\n+\n+/** Native RPC Core. */\n+private[testinterface] object NativeRPC extends RPCCore {\n+  Com.init(handleMessage)\n+\n+  def loop(clientSocket: Socket): Int = {\n+    Com.socket = clientSocket\n+    Com.loop()\n+  }\n+\n+  override protected def send(msg: String): Unit = Com.send(msg)\n+\n+  private object Com {\n+    private[this] val messageQueue =\n+      scala.collection.mutable.Queue.empty[String]\n+    private var messageHandler: String => Unit = _\n+    private[NativeRPC] var socket: Socket      = _\n+\n+    private lazy val inStream  = new DataInputStream(socket.getInputStream)\n+    private lazy val outStream = new DataOutputStream(socket.getOutputStream)\n+\n+    def init(onReceive: String => Unit): Unit = {\n+      if (messageHandler != null) sys.error(\"Com already initialized\")\n+      messageHandler = onReceive\n+      messageQueue.foreach(onReceive)\n+    }\n+\n+    def send(msg: String): Unit = {\n+      outStream.writeInt(msg.length)\n+      outStream.write(msg.getBytes(\"UTF-16\"))\n+    }\n+\n+    private def await(future: Future[_]): Unit = {\n+      scala.scalanative.runtime.loop()\n+      future.value.get.get\n+    }\n+\n+    @tailrec\n+    def loop(): Int = {\n+      def tryRead: Try[Boolean] = Try {\n+        val msgLength = inStream.readInt()\n+\n+        /**\n+         * Current implementation of DataInputStream does not check for EOF,"
+  }
+]

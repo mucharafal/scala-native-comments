@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "57d37158-cfaf-48ef-b6f0-bf0326607ced",
+    "prId" : 1156,
+    "comments" : [
+      {
+        "id" : "86361d23-3460-49fc-82c4-2b0eeaea9c9b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@sjrd So a potential workaround: if a symbol name ends with `$class$`, automatically strip the last dollar. The file name still contains a dollar but the tree that's deserialized from it is not going to have it. I tried it with library from 0.3.6 and a 0.3.7-compiled application and it seems to work.",
+        "createdAt" : "2018-02-02T15:47:38Z",
+        "updatedAt" : "2018-02-02T15:57:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d67985f0-addc-469e-a037-373b312e691f",
+        "parentId" : "86361d23-3460-49fc-82c4-2b0eeaea9c9b",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Seems plausible.",
+        "createdAt" : "2018-02-02T16:15:00Z",
+        "updatedAt" : "2018-02-02T16:15:00Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9b5bc133381685a675512419aaf8c02eaa33d641",
+    "line" : 15,
+    "diffHunk" : "@@ -67,4 +67,16 @@ object Global {\n \n   def toProxySignature(signature: String) = signature + \"_proxy\"\n \n+  def stripImplClassTrailingDollar(name: Global): Global = name match {\n+    case Global.None =>\n+      name\n+    case Global.Top(id) =>\n+      if (id.endsWith(\"$class$\")) {\n+        Global.Top(id.substring(0, id.length - 1))\n+      } else {\n+        name\n+      }\n+    case Global.Member(subname, id) =>\n+      Global.Member(stripImplClassTrailingDollar(subname), id)\n+  }"
+  }
+]

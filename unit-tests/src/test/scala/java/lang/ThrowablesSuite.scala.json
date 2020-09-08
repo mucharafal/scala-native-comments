@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "7e781600-d5fe-42f4-8340-6c632b7f1bd8",
+    "prId" : 1688,
+    "comments" : [
+      {
+        "id" : "bb254e9c-b0d2-4df6-b098-7d4aca149270",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These blank lines at the end of tests are unnecessary.\r\n\r\nIn general, avoid blank lines just after `{` and just before `}`, except in some cases of long `class`es and `object`s.",
+        "createdAt" : "2020-05-07T18:35:27Z",
+        "updatedAt" : "2020-05-10T01:57:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6b384034-ddcd-4ac0-ae89-93d89860add0",
+        "parentId" : "bb254e9c-b0d2-4df6-b098-7d4aca149270",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you for the simple & clear decision rule.  I have made a local copy\r\nand will use that practice going forward.\r\n\r\nI swept through the file and deleted blank lines following that rule.  I think I got them\r\nall.",
+        "createdAt" : "2020-05-08T20:18:07Z",
+        "updatedAt" : "2020-05-10T01:57:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20d5b073e304a4a23d9d690ae8ecea584dea987d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,356 @@\n+package java.lang\n+\n+// Portions of this Suite were ported, with thanks & gratitude,\n+// from Scala.js testsuite/javalib/lang/ThrowablesTestOnJDK7.scala\n+//\n+// The rest is an original contribution to Scala Native.\n+\n+object ThrowablesSuite extends tests.Suite {\n+\n+  // Consolidate boilerplate; aids consistency.\n+\n+  private def getThrowableMessage(throwable: Throwable): String = {\n+    if (throwable == null) \"<null>\" else throwable.getMessage\n+  }\n+\n+  private def checkCause(throwable: Throwable,\n+                         expectedCause: Throwable): Unit = {\n+    val resultCause = throwable.getCause\n+\n+    val causeMessage = getThrowableMessage(throwable)\n+\n+    val expectedMessage = getThrowableMessage(expectedCause)\n+\n+    assert(resultCause == expectedCause,\n+           s\"cause: '${causeMessage}' != expected: '${expectedMessage}'\")\n+  }\n+\n+  private def checkMessage(throwable: Throwable,\n+                           expectedMessage: String): Unit = {\n+    val resultMessage = throwable.getMessage\n+\n+    assert(resultMessage == expectedMessage,\n+           s\"message: '${resultMessage}' != expected: '${expectedMessage}'\")\n+  }\n+\n+  private def checkStackTraceString(trace: String): Unit = {\n+    val startText = \"java.lang.Throwable\"\n+    assert(trace.startsWith(startText),\n+           s\"Expected trace to start with '${startText}' and it did not.\")\n+\n+    val containsText = \"\\tat <none>.main(Unknown Source)\"\n+    assert(trace.contains(containsText),\n+           s\"Expected trace to contain '${containsText}' and it did not.\")\n+  }\n+\n+  private def checkStackTrace(throwable: Throwable): Unit = {\n+    val sw = new java.io.StringWriter\n+    val pw = new java.io.PrintWriter(sw)\n+\n+    throwable.printStackTrace(pw)\n+\n+    checkStackTraceString(sw.toString)\n+  }\n+\n+  private def checkSuppressed(throwable: Throwable, expectedLength: Int) {\n+    val getSuppressedLength = throwable.getSuppressed.length\n+    assert(getSuppressedLength == expectedLength,\n+           s\"getSuppressed.length: ${getSuppressedLength} != \" +\n+             s\"expected: ${expectedLength}\")\n+  }\n+\n+  private def checkConstructed(throwable: Throwable,\n+                               expectedMessage: String,\n+                               expectedCause: Throwable,\n+                               expectedSuppressedLength: Int): Unit = {\n+\n+    checkMessage(throwable, expectedMessage)\n+    checkCause(throwable, expectedCause)\n+    checkSuppressed(throwable, 0)\n+    checkStackTrace(throwable)\n+  }\n+\n+  // Zero & two argument constructor tests will exercise cases where\n+  // the rightmost two arguments are true.\n+\n+  test(\"Throwable(message, cause, false, false)\") {\n+    val expectedMessage = \"Athchomar chomakea\"\n+    val expectedCause   = new Throwable(\"Khal Drogo\")\n+\n+    val throwable = new Throwable(expectedMessage, expectedCause, false, false)\n+\n+    checkConstructed(throwable, expectedMessage, expectedCause, 0)\n+"
+  },
+  {
+    "id" : "eed44ce4-a69c-42c4-b9ba-aeeff0cf4a2e",
+    "prId" : 1688,
+    "comments" : [
+      {
+        "id" : "ec37c482-957f-4ed6-bd39-807939bed50d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The \"Thetis problem\" does not ring any bell to me as a computer science thing. Perhaps this sentence can be removed?",
+        "createdAt" : "2020-05-07T18:37:22Z",
+        "updatedAt" : "2020-05-10T01:57:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "456d14bf-cfdc-43dc-85df-a6fa0187ccfb",
+        "parentId" : "ec37c482-957f-4ed6-bd39-807939bed50d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Removed. Thank you.",
+        "createdAt" : "2020-05-08T20:21:03Z",
+        "updatedAt" : "2020-05-10T01:57:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20d5b073e304a4a23d9d690ae8ecea584dea987d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,356 @@\n+package java.lang\n+\n+// Portions of this Suite were ported, with thanks & gratitude,\n+// from Scala.js testsuite/javalib/lang/ThrowablesTestOnJDK7.scala\n+//\n+// The rest is an original contribution to Scala Native.\n+\n+object ThrowablesSuite extends tests.Suite {\n+\n+  // Consolidate boilerplate; aids consistency.\n+\n+  private def getThrowableMessage(throwable: Throwable): String = {\n+    if (throwable == null) \"<null>\" else throwable.getMessage\n+  }\n+\n+  private def checkCause(throwable: Throwable,\n+                         expectedCause: Throwable): Unit = {\n+    val resultCause = throwable.getCause\n+\n+    val causeMessage = getThrowableMessage(throwable)\n+\n+    val expectedMessage = getThrowableMessage(expectedCause)\n+\n+    assert(resultCause == expectedCause,\n+           s\"cause: '${causeMessage}' != expected: '${expectedMessage}'\")\n+  }\n+\n+  private def checkMessage(throwable: Throwable,\n+                           expectedMessage: String): Unit = {\n+    val resultMessage = throwable.getMessage\n+\n+    assert(resultMessage == expectedMessage,\n+           s\"message: '${resultMessage}' != expected: '${expectedMessage}'\")\n+  }\n+\n+  private def checkStackTraceString(trace: String): Unit = {\n+    val startText = \"java.lang.Throwable\"\n+    assert(trace.startsWith(startText),\n+           s\"Expected trace to start with '${startText}' and it did not.\")\n+\n+    val containsText = \"\\tat <none>.main(Unknown Source)\"\n+    assert(trace.contains(containsText),\n+           s\"Expected trace to contain '${containsText}' and it did not.\")\n+  }\n+\n+  private def checkStackTrace(throwable: Throwable): Unit = {\n+    val sw = new java.io.StringWriter\n+    val pw = new java.io.PrintWriter(sw)\n+\n+    throwable.printStackTrace(pw)\n+\n+    checkStackTraceString(sw.toString)\n+  }\n+\n+  private def checkSuppressed(throwable: Throwable, expectedLength: Int) {\n+    val getSuppressedLength = throwable.getSuppressed.length\n+    assert(getSuppressedLength == expectedLength,\n+           s\"getSuppressed.length: ${getSuppressedLength} != \" +\n+             s\"expected: ${expectedLength}\")\n+  }\n+\n+  private def checkConstructed(throwable: Throwable,\n+                               expectedMessage: String,\n+                               expectedCause: Throwable,\n+                               expectedSuppressedLength: Int): Unit = {\n+\n+    checkMessage(throwable, expectedMessage)\n+    checkCause(throwable, expectedCause)\n+    checkSuppressed(throwable, 0)\n+    checkStackTrace(throwable)\n+  }\n+\n+  // Zero & two argument constructor tests will exercise cases where\n+  // the rightmost two arguments are true.\n+\n+  test(\"Throwable(message, cause, false, false)\") {\n+    val expectedMessage = \"Athchomar chomakea\"\n+    val expectedCause   = new Throwable(\"Khal Drogo\")\n+\n+    val throwable = new Throwable(expectedMessage, expectedCause, false, false)\n+\n+    checkConstructed(throwable, expectedMessage, expectedCause, 0)\n+\n+  }\n+\n+  test(\"Throwable(message)\") {\n+    val expectedMessage = \"Hello World\"\n+    val expectedCause   = null\n+\n+    val throwable = new Throwable(expectedMessage)\n+\n+    checkConstructed(throwable, expectedMessage, expectedCause, 0)\n+\n+  }\n+\n+  test(\"Throwable(cause)\") {\n+    val expectedMessageStem = \"Primum Mobile\"\n+    val expectedMessage     = s\"java.lang.Throwable: ${expectedMessageStem}\"\n+\n+    val expectedCause = new Throwable(expectedMessageStem)\n+\n+    val throwable = new Throwable(expectedCause)\n+\n+    checkConstructed(throwable, expectedMessage, expectedCause, 0)\n+\n+  }\n+\n+  test(\"Throwable()\") {\n+    val expectedMessage = null\n+    val expectedCause   = null\n+\n+    val throwable = new Throwable()\n+\n+    checkConstructed(throwable, expectedMessage, expectedCause, 0)\n+\n+  }\n+\n+  // Thirteen public methods are documented for class Throwable.\n+  //\n+  // Five (5) methods: fillinStackTrace(), getCause(), getMessage(),\n+  // getSuppressed(), printStackTrace(PrintWriter), have been exercised by\n+  // constructor tests above and do not need separate tests. This is the\n+  // Thetis problem."
+  }
+]

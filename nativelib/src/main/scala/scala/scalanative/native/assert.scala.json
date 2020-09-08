@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "2e578778-8d26-426b-9bac-e3a16fb2f7ad",
+    "prId" : 296,
+    "comments" : [
+      {
+        "id" : "d6a004e1-546e-4be4-b140-816774427029",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that those do not quite work without the C macros, I don't think that we should expose bindings to `assert.h`. And we also have Scala's assert which serves the same function. \n",
+        "createdAt" : "2016-10-05T12:10:29Z",
+        "updatedAt" : "2016-10-05T12:10:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c723035e7bc9087e50439d649825100f1b82e2d6",
+    "line" : 16,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+class assert {\n+\n+  def __assert_fail(assertion: CString,\n+                    file: CString,\n+                    line: CUnsignedInt,\n+                    function: CString): Unit = extern\n+  def __assert_perror_fail(errnum: CInt,\n+                           file: CString,\n+                           line: CUnsignedInt,\n+                           function: CString): Unit                 = extern\n+  def __assert(assertion: CString, file: CString, line: CInt): Unit = extern\n+"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "id" : "563b4e23-2696-4ab1-b4f0-3d5566c6bb72",
+    "prId" : 759,
+    "comments" : [
+      {
+        "id" : "d5f0a738-323a-429c-957e-acafe376d2ef",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "We've been using:\r\n\r\n```scala\r\n// Ported from Scala.js\r\n```\r\n\r\nI think it's better to stick to it.",
+        "createdAt" : "2017-05-30T23:50:54Z",
+        "updatedAt" : "2017-06-01T18:50:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e5c33328fce67383bf601a0b10c7f4e6576fecbb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,169 @@\n+package java.net\n+\n+// Tests ported from Scala.js project"
+  },
+  {
+    "id" : "b26f88a1-ab2b-4f63-830b-6ac1e79db241",
+    "prId" : 759,
+    "comments" : [
+      {
+        "id" : "a949182b-c630-46ce-9c6e-914f659b4477",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Are there tests in Apache Harmony too? Why not port them? Why are you porting `java.net.URI` from Apache Harmony and the tests from Scala.js? Why not port `java.net.URI` from Scala.js?",
+        "createdAt" : "2017-05-30T23:51:58Z",
+        "updatedAt" : "2017-06-01T18:50:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0d654851-b692-4634-80c7-36441f77cab6",
+        "parentId" : "a949182b-c630-46ce-9c6e-914f659b4477",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Porting URI from Scala.js was the first try, which failed because it's based on regular expressions and their regexps are not compatible with re2 (they use lookaheds which are not supported in re2). So I ported Apache Harmony's version instead. \r\nYes, there are a lot of tests in Apache Harmony. I used some of them in the test \"should fail on bad uris\" but I can add more.  I decided to leave Scala.js tests because why not ;)",
+        "createdAt" : "2017-05-31T11:52:55Z",
+        "updatedAt" : "2017-06-01T18:50:57Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e5c33328fce67383bf601a0b10c7f4e6576fecbb",
+    "line" : 168,
+    "diffHunk" : "@@ -0,0 +1,169 @@\n+package java.net\n+\n+// Tests ported from Scala.js project\n+\n+object URISuite extends tests.Suite {\n+\n+  def expectURI(uri: URI, isAbsolute: Boolean, isOpaque: Boolean)(\n+      authority: String = null,\n+      fragment: String = null,\n+      host: String = null,\n+      path: String = null,\n+      port: Int = -1,\n+      query: String = null,\n+      scheme: String = null,\n+      userInfo: String = null,\n+      schemeSpecificPart: String = null)(rawAuthority: String = authority,\n+                                         rawFragment: String = fragment,\n+                                         rawPath: String = path,\n+                                         rawQuery: String = query,\n+                                         rawUserInfo: String = userInfo,\n+                                         rawSchemeSpecificPart: String =\n+                                           schemeSpecificPart): Unit = {\n+\n+    assertEquals(authority, uri.getAuthority())\n+    assertEquals(fragment, uri.getFragment())\n+    assertEquals(host, uri.getHost())\n+    assertEquals(path, uri.getPath())\n+    assertEquals(port, uri.getPort())\n+    assertEquals(query, uri.getQuery())\n+    assertEquals(rawAuthority, uri.getRawAuthority())\n+    assertEquals(rawFragment, uri.getRawFragment())\n+    assertEquals(rawPath, uri.getRawPath())\n+    assertEquals(rawQuery, uri.getRawQuery())\n+    assertEquals(rawSchemeSpecificPart, uri.getRawSchemeSpecificPart())\n+    assertEquals(rawUserInfo, uri.getRawUserInfo())\n+    assertEquals(scheme, uri.getScheme())\n+    assertEquals(schemeSpecificPart, uri.getSchemeSpecificPart())\n+    assertEquals(userInfo, uri.getUserInfo())\n+    assertEquals(isAbsolute, uri.isAbsolute())\n+    assertEquals(isOpaque, uri.isOpaque())\n+  }\n+\n+  test(\"should parse vanilla absolute URIs\") {\n+    expectURI(new URI(\"http://java.sun.com/j2se/1.3/\"), true, false)(\n+      scheme = \"http\",\n+      host = \"java.sun.com\",\n+      path = \"/j2se/1.3/\",\n+      authority = \"java.sun.com\",\n+      schemeSpecificPart = \"//java.sun.com/j2se/1.3/\")()\n+  }\n+\n+  test(\"should parse absolute URIs with empty path\") {\n+    expectURI(new URI(\"http://foo:bar\"), true, false)(authority = \"foo:bar\",\n+                                                      path = \"\",\n+                                                      scheme = \"http\",\n+                                                      schemeSpecificPart =\n+                                                        \"//foo:bar\")()\n+  }\n+\n+  test(\"should parse absolute URIs with IPv6\") {\n+    val uri = new URI(\"http://hans@[ffff::0:128.4.5.3]:345/~hans/\")\n+    expectURI(uri, true, false)(\n+      scheme = \"http\",\n+      host = \"[ffff::0:128.4.5.3]\",\n+      userInfo = \"hans\",\n+      port = 345,\n+      path = \"/~hans/\",\n+      authority = \"hans@[ffff::0:128.4.5.3]:345\",\n+      schemeSpecificPart = \"//hans@[ffff::0:128.4.5.3]:345/~hans/\"\n+    )()\n+  }\n+\n+  test(\"should parse absolute URIs without authority\") {\n+    expectURI(new URI(\"file:/~/calendar\"), true, false)(scheme = \"file\",\n+                                                        path = \"/~/calendar\",\n+                                                        schemeSpecificPart =\n+                                                          \"/~/calendar\")()\n+  }\n+\n+  test(\"should parse absolute URIs with empty authority\") {\n+    expectURI(new URI(\"file:///~/calendar\"), true, false)(scheme = \"file\",\n+                                                          path = \"/~/calendar\",\n+                                                          schemeSpecificPart =\n+                                                            \"///~/calendar\")()\n+  }\n+\n+  test(\"should parse opaque URIs\") {\n+    expectURI(new URI(\"mailto:java-net@java.sun.com\"), true, true)(\n+      scheme = \"mailto\",\n+      schemeSpecificPart = \"java-net@java.sun.com\")()\n+\n+    expectURI(new URI(\"news:comp.lang.java\"), true, true)(scheme = \"news\",\n+                                                          schemeSpecificPart =\n+                                                            \"comp.lang.java\")()\n+\n+    expectURI(new URI(\"urn:isbn:096139210x\"), true, true)(\n+      scheme = \"urn\",\n+      schemeSpecificPart = \"isbn:096139210x\")()\n+  }\n+\n+  test(\"should parse relative URIs\") {\n+    expectURI(new URI(\"docs/guide/collections/designfaq.html#28\"),\n+              false,\n+              false)(path = \"docs/guide/collections/designfaq.html\",\n+                     fragment = \"28\",\n+                     schemeSpecificPart =\n+                       \"docs/guide/collections/designfaq.html\")()\n+    expectURI(new URI(\"../../../demo/jfc/SwingSet2/src/SwingSet2.java\"),\n+              false,\n+              false)(path = \"../../../demo/jfc/SwingSet2/src/SwingSet2.java\",\n+                     schemeSpecificPart =\n+                       \"../../../demo/jfc/SwingSet2/src/SwingSet2.java\")()\n+  }\n+\n+  test(\"should fail on bad URIs\") {\n+    val badURIs = Array(\n+      \"http:///a path#frag\", // space char in path, not in escaped\n+      // octet form, with no host\n+      \"http://host/a[path#frag\", // an illegal char, not in escaped\n+      // octet form, should throw an\n+      // exception\n+      \"http://host/a%path#frag\", // invalid escape sequence in path\n+      \"http://host/a%#frag\", // incomplete escape sequence in path\n+      \"http://host#a frag\",  // space char in fragment, not in\n+      // escaped octet form, no path\n+      \"http://host/a#fr#ag\", // illegal char in fragment\n+      \"http:///path#fr%ag\",  // invalid escape sequence in fragment,\n+      // with no host\n+      \"http://host/path#frag%\", // incomplete escape sequence in\n+      // fragment\n+      \"http://host/path?a query#frag\", // space char in query, not\n+      // in escaped octet form\n+      \"http://host?query%ag\", // invalid escape sequence in query, no\n+      // path\n+      \"http:///path?query%\", // incomplete escape sequence in query,\n+      // with no host\n+      \"mailto:user^name@fklkf.com\", // invalid char in scheme specific part\n+      // authority validation\n+      \"http://user@[3ffe:2x00:100:7031::1]:80/test\", // malformed\n+      // IPv6 authority\n+      \"http://[ipv6address]/apath#frag\", // malformed ipv6 address\n+      \"http://[ipv6address/apath#frag\", // malformed ipv6 address\n+      \"http://ipv6address]/apath#frag\", // illegal char in host name\n+      \"http://ipv6[address/apath#frag\",\n+      \"http://ipv6addr]ess/apath#frag\",\n+      \"http://ipv6address[]/apath#frag\",\n+      // illegal char in username...\n+      \"http://us[]er@host/path?query#frag\",\n+      \"http://host name/path\", // illegal\n+      // char in authority\n+      \"http://host^name#fragment\", // illegal char in authority\n+      \"telnet://us er@hostname/\",  // illegal char in authority\n+      // missing components\n+      \"//\", // Authority expected\n+      \"ascheme://\", // Authority expected\n+      \"ascheme:\",   // Scheme-specific part expected\n+      // scheme validation\n+      \"a scheme://reg/\", // illegal char\n+      \"1scheme://reg/\", // non alpha char as 1st char\n+      \"asche\\u00dfme:ssp\", // unicode char , not USASCII\n+      \"asc%20heme:ssp\"\n+    )\n+\n+    for (uri <- badURIs) {\n+      assertThrows[URISyntaxException] { new URI(uri) }\n+    }\n+  }\n+"
+  }
+]

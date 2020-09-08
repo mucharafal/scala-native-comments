@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "782c875e-37d1-4b4d-8577-74ff8a0fe1bc",
+    "prId" : 353,
+    "comments" : [
+      {
+        "id" : "a1e23767-6679-4308-93bc-613e6c64a1e3",
+        "parentId" : null,
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "mojibake!\n",
+        "createdAt" : "2016-10-24T22:35:18Z",
+        "updatedAt" : "2016-10-26T15:20:46Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ee05c4d76391e107b579321ee2de4f080bf6022e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,73 @@\n+/*                     __                                               *\\\n+**     ________ ___   / /  ___     Scala API                            **\n+**    / __/ __// _ | / /  / _ |    (c) 2010-2013, LAMP/EPFL             **\n+**  __\\ \\/ /__/ __ |/ /__/ __ |    http://scala-lang.org/               **\n+** /____/\\___/_/ |_/____/_/ | |                                         **\n+**                          |/                                          **\n+\\*                                                                      */\n+\n+package scala\n+\n+import scala.compat.Platform.currentTime\n+import scala.collection.mutable.ListBuffer\n+\n+/** The `App` trait can be used to quickly turn objects\n+ *  into executable programs. Here is an example:\n+ *  {{{\n+ *  object Main extends App {\n+ *    Console.println(\"Hello World: \" + (args mkString \", \"))\n+ *  }\n+ *  }}}\n+ *  Here, object `Main` inherits the `main` method of `App`.\n+ *\n+ *  `args` returns the current command line arguments as an array.\n+ *\n+ *  ==Caveats==\n+ *\n+ *  '''''It should be noted that this trait is implemented using the [[DelayedInit]]\n+ *  functionality, which means that fields of the object will not have been initialized\n+ *  before the main method has been executed.'''''\n+ *\n+ *  It should also be noted that the `main` method should not be overridden:\n+ *  the whole class body becomes the â€œmain methodâ€�."
+  }
+]

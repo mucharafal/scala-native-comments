@@ -1,0 +1,145 @@
+[
+  {
+    "id" : "984f369a-b909-4620-a1a9-e97c9ca21c70",
+    "prId" : 694,
+    "comments" : [
+      {
+        "id" : "4b1227c6-baac-4607-a156-4d921d1cde2b",
+        "parentId" : null,
+        "author" : {
+          "login" : "allanrenucci",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/4996324?u=67c597149723b5c3a27b376013df0a970f8389a2&v=4"
+        },
+        "body" : "```scala\r\nreadLine() match {\r\n  case null => SStream.empty\r\n  case line => line #:: toScalaStream()\r\n}\r\n```",
+        "createdAt" : "2017-05-07T13:48:21Z",
+        "updatedAt" : "2017-05-20T14:29:58Z",
+        "lastEditedBy" : {
+          "login" : "allanrenucci",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/4996324?u=67c597149723b5c3a27b376013df0a970f8389a2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c47b27eae72cfa98cb8898eddf01629e41dc3ee3",
+    "line" : 28,
+    "diffHunk" : "@@ -149,4 +155,12 @@ class BufferedReader(in: Reader, sz: Int) extends Reader {\n       pos += 1\n     }\n   }\n+\n+  private def toScalaStream(): SStream[String] = {\n+    Option(readLine()) match {\n+      case None       => SStream.empty\n+      case Some(line) => line #:: toScalaStream()\n+    }"
+  },
+  {
+    "id" : "1a651995-1004-4c44-bc89-92ddf4ef6fa6",
+    "prId" : 799,
+    "comments" : [
+      {
+        "id" : "a21fdc1b-cccc-458f-9af5-8c2c8ac1c307",
+        "parentId" : null,
+        "author" : {
+          "login" : "johnynek",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/67958?u=e6b72e024b1cc5c09d47056087f7bf3f60cf0467&v=4"
+        },
+        "body" : "Does this need to be a var?",
+        "createdAt" : "2017-06-10T07:53:43Z",
+        "updatedAt" : "2017-06-11T09:09:23Z",
+        "lastEditedBy" : {
+          "login" : "johnynek",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/67958?u=e6b72e024b1cc5c09d47056087f7bf3f60cf0467&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "913d36a7-50d5-493f-9034-7d821e92da9f",
+        "parentId" : "a21fdc1b-cccc-458f-9af5-8c2c8ac1c307",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It doesn't, nice catch!",
+        "createdAt" : "2017-06-11T09:09:35Z",
+        "updatedAt" : "2017-06-11T09:09:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "73722ab2375c8fc59ea7fbeffccaac8648df8608",
+    "line" : null,
+    "diffHunk" : "@@ -72,13 +72,15 @@ class BufferedReader(in: Reader, sz: Int) extends Reader {\n   def readLine(): String = {\n     ensureOpen()\n \n-    var res = \"\"\n+    var sb = new java.lang.StringBuilder"
+  },
+  {
+    "id" : "be60cb68-c099-4fcf-8365-837fea2ac12f",
+    "prId" : 1024,
+    "comments" : [
+      {
+        "id" : "3400e44c-064f-4e6d-a142-8b068925f5ce",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't put curly braces for bodies of the case clauses. ",
+        "createdAt" : "2017-09-22T12:54:21Z",
+        "updatedAt" : "2017-09-22T13:14:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "7216d56ea2c5dcdbfdb8f9cf4c5b066fd0ad4004",
+    "line" : null,
+    "diffHunk" : "@@ -159,10 +162,17 @@ class BufferedReader(in: Reader, sz: Int) extends Reader {\n     }\n   }\n \n-  private def toScalaStream(): SStream[String] = {\n+  private def toScalaStream(): SStream[String] =\n+    toScalaStream(false)\n+\n+  private[this] def toScalaStream(closeAtEnd: Boolean): SStream[String] = {\n     Option(readLine()) match {\n-      case None       => SStream.empty\n-      case Some(line) => line #:: toScalaStream()\n+      case None => {\n+        if (closeAtEnd)\n+          close()\n+        SStream.empty\n+      }"
+  },
+  {
+    "id" : "34c61b0c-f1c8-4a89-88dc-bce2ac460d05",
+    "prId" : 1024,
+    "comments" : [
+      {
+        "id" : "017ac8cb-fa21-4447-bc98-961471881c08",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This if clause would look a bit better with curlies around the close call. ",
+        "createdAt" : "2017-09-22T12:54:52Z",
+        "updatedAt" : "2017-09-22T13:14:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "7216d56ea2c5dcdbfdb8f9cf4c5b066fd0ad4004",
+    "line" : null,
+    "diffHunk" : "@@ -159,10 +162,17 @@ class BufferedReader(in: Reader, sz: Int) extends Reader {\n     }\n   }\n \n-  private def toScalaStream(): SStream[String] = {\n+  private def toScalaStream(): SStream[String] =\n+    toScalaStream(false)\n+\n+  private[this] def toScalaStream(closeAtEnd: Boolean): SStream[String] = {\n     Option(readLine()) match {\n-      case None       => SStream.empty\n-      case Some(line) => line #:: toScalaStream()\n+      case None => {\n+        if (closeAtEnd)\n+          close()"
+  }
+]

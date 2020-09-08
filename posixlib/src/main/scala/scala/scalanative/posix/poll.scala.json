@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "55101887-27a4-46cc-9762-0bc6f4f2c637",
+    "prId" : 1242,
+    "comments" : [
+      {
+        "id" : "a2ffd52d-8ecb-4b51-bf19-dcc1888ea963",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This looks like a hack to be honest. We should assume we only support 64-bit until 32-bit is officially merged. ",
+        "createdAt" : "2019-03-04T16:03:21Z",
+        "updatedAt" : "2019-03-08T19:46:14Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b7838db5-a0e9-4fdb-9aa8-e1167aeca600",
+        "parentId" : "a2ffd52d-8ecb-4b51-bf19-dcc1888ea963",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Sir, you do  that section great honor by calling it a hack ;-)\r\n\r\nPut into motion by your spot on comment, I removed that section entirely\r\nand focused on the issue I was trying to express.  \r\n\r\nUpon further study, I figured out that  this is/was not a 32/64 bit issue, but a signed-Int to unsigned-Int conversion issue.  Especially how to make it easier for the most common\r\nuser to get it right:Least Astonishment.  \r\n\r\nI put a TL;DR comment just after the declaration of the poll() method, showing the\r\nintended usage.\r\n\r\nThen I put a longer comment describing the rationale for the suggested usage.\r\nThe Haskell school would say that comment is excessive and should be deleted.\r\nI put it there because I could barely figure out the reasoning this time and am\r\npretty sure I would spend days figuring it out in a year.  Others may be sharper\r\nbut I hope to be kind to all.\r\n",
+        "createdAt" : "2019-03-08T20:12:01Z",
+        "updatedAt" : "2019-03-08T20:12:02Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2b3207fb290c513cce8011dd076424128fd9b6f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,82 @@\n+package scala.scalanative\n+package posix\n+\n+import scalanative.native._\n+\n+object pollNfds {\n+\n+  type nfds_t = CUnsignedLongInt\n+\n+  // Keep the breakage in the nfds_t abstraction confined to here.\n+  // The following code will work on both 64 and 32 bit machines.\n+  //\n+  // posix FOPEN_MAX is currently defined in scalanative wrap.c\n+  // as an unsigned int. So any scala Long with bits greater than #31\n+  // set are going to fail anyway. Some/most systems will probably\n+  // exceed FOPEN_MAX earlier than that.\n+  //\n+  // Revisit & simplify when better 32/64 bit support arrives.\n+\n+  @inline\n+  def toNfsd_t(in: Int): nfds_t = in.toUInt\n+\n+  def toNfsd_t(in: ULong): nfds_t = {\n+    val uIntMax = UInt.MaxValue\n+    if (in > uIntMax) {\n+      throw new Exception(s\"pollNfds: too many nfds: ${in}  > ${uIntMax}\")\n+    } else {\n+      // may still fail later if greater than FOPEN_MAX. Let code\n+      // more closely concerned test for that.\n+      // On 64 bit machines UInt will get silently promoted match the\n+      // ULong nfsd_t on that machine, so types work out.\n+      in.toUInt // truncation is now harmless.\n+    }\n+  }"
+  }
+]

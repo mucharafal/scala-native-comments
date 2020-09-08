@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "976e273f-b386-4a15-a646-d5986d5b1701",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "6a2d24c1-8000-4554-bd2e-8e7f3b660672",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems that we've settled on `ModuleName_functionName` that are defined in `Module.{h, c}` a naming convention. Lets use consistently everywhere. ",
+        "createdAt" : "2017-05-22T10:19:23Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,185 @@\n+#include <stdlib.h>\n+#include <stdio.h>\n+#include <string.h>\n+#include \"LargeAllocator.h\"\n+#include \"utils/MathUtils.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"headers/ObjectHeader.h\"\n+\n+inline static int size_to_linked_list(size_t size) {"
+  },
+  {
+    "id" : "aa08a8cb-3873-4529-8fa5-5a0f75625539",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "c9e42520-c6d8-41b8-ad69-8e7e04b87e1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`FreeList_init`",
+        "createdAt" : "2017-05-26T12:53:27Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,184 @@\n+#include <stdlib.h>\n+#include <stdio.h>\n+#include <string.h>\n+#include \"LargeAllocator.h\"\n+#include \"utils/MathUtils.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"headers/ObjectHeader.h\"\n+\n+inline static int sizeToLinkedListIndex(size_t size) {\n+    assert(size >= MIN_BLOCK_SIZE);\n+    return log2_floor(size) - LARGE_OBJECT_MIN_SIZE_BITS;\n+}\n+\n+static inline size_t Chunk_getSize(Chunk *chunk) {\n+    return (chunk->header.size << WORD_SIZE_BITS);\n+}\n+\n+static inline void Chunk_setSize(Chunk *chunk, size_t size) {\n+    chunk->header.size = (uint32_t)(size >> WORD_SIZE_BITS);\n+}\n+\n+void freeList_init(FreeList *freeList) {"
+  }
+]

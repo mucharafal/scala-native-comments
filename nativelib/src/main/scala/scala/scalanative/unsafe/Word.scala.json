@@ -1,0 +1,208 @@
+[
+  {
+    "id" : "877eeea8-58fa-4101-ae05-bd54e416eae5",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "2c98ee87-9c07-4ad3-b884-825526f983c0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No need for newlines between imports. ",
+        "createdAt" : "2019-05-28T09:19:20Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 12,
+    "diffHunk" : "@@ -0,0 +1,353 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+"
+  },
+  {
+    "id" : "8459dbca-a7fe-4bbe-8695-a22293fc18f7",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "4b19d719-a794-4009-989d-ded00e90c3f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Newline after `=`.",
+        "createdAt" : "2019-05-28T09:19:39Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "20ba10d2-99ee-4cca-a508-acf55a035e54",
+        "parentId" : "4b19d719-a794-4009-989d-ded00e90c3f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This also has problem wrt cooperative equality but lets keep it this way for now. ",
+        "createdAt" : "2019-05-28T09:20:15Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 28,
+    "diffHunk" : "@@ -0,0 +1,353 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+import scalanative.unsigned._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toByte: Byte   = castRawWordToInt(rawWord).toByte\n+  @alwaysinline def toChar: Char   = castRawWordToInt(rawWord).toChar\n+  @alwaysinline def toShort: Short = castRawWordToInt(rawWord).toShort\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toLong: Long   = castRawWordToLong(rawWord)\n+\n+  @alwaysinline def toUByte: UByte   = toByte.toUByte\n+  @alwaysinline def toUShort: UShort = toShort.toUShort\n+  @alwaysinline def toUInt: UInt     = toInt.toUInt\n+  @alwaysinline def toULong: ULong   = toLong.toULong\n+  @alwaysinline def toUWord: UWord   = new UWord(rawWord)\n+\n+  override def hashCode: Int = java.lang.Long.hashCode(toLong)"
+  },
+  {
+    "id" : "e5bfb204-b24b-43a8-9c43-853765f2ac33",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "6c69a266-cf54-4f42-9069-39cabfb61927",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs intrinsic for equality here.",
+        "createdAt" : "2019-05-28T09:21:31Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 132,
+    "diffHunk" : "@@ -0,0 +1,353 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+import scalanative.unsigned._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toByte: Byte   = castRawWordToInt(rawWord).toByte\n+  @alwaysinline def toChar: Char   = castRawWordToInt(rawWord).toChar\n+  @alwaysinline def toShort: Short = castRawWordToInt(rawWord).toShort\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toLong: Long   = castRawWordToLong(rawWord)\n+\n+  @alwaysinline def toUByte: UByte   = toByte.toUByte\n+  @alwaysinline def toUShort: UShort = toShort.toUShort\n+  @alwaysinline def toUInt: UInt     = toInt.toUInt\n+  @alwaysinline def toULong: ULong   = toLong.toULong\n+  @alwaysinline def toUWord: UWord   = new UWord(rawWord)\n+\n+  override def hashCode: Int = java.lang.Long.hashCode(toLong)\n+\n+  override def equals(other: Any): Boolean =\n+    (this eq other.asInstanceOf[AnyRef]) || (other match {\n+      case other: Word =>\n+        other.rawWord == rawWord\n+      case _ =>\n+        false\n+    })\n+\n+  override def toString(): String = toLong.toString\n+\n+  /**\n+   * Returns the bitwise negation of this value.\n+   * @example {{{\n+   * ~5 == 4294967290\n+   * // in binary: ~00000101 ==\n+   * //             11111010\n+   * }}}\n+   */\n+  @alwaysinline def unary_~ : Word =\n+    (~toLong).toWord // TODO(shadaj): intrinsify\n+\n+  /** Returns the negated version of this value. */\n+  @alwaysinline def unary_- : Word = 0 - this // TODO(shadaj): intrinsify\n+\n+  /**\n+   * Returns this value bit-shifted left by the specified number of bits,\n+   *         filling in the new right bits with zeroes.\n+   * @example {{{ 6 << 3 == 48 // in binary: 0110 << 3 == 0110000 }}}\n+   */\n+  @alwaysinline def <<(x: Int): Word =\n+    (toLong << x).toWord // TODO(shadaj): intrinsify\n+\n+  /**\n+   * Returns this value bit-shifted left by the specified number of bits,\n+   *         filling in the new right bits with zeroes.\n+   * @example {{{ 6 << 3 == 48 // in binary: 0110 << 3 == 0110000 }}}\n+   */\n+  @alwaysinline def <<(x: Long): Word =\n+    (toLong << x).toWord // TODO(shadaj): intrinsify\n+\n+  /**\n+   * Returns this value bit-shifted right by the specified number of bits,\n+   *         filling the new left bits with zeroes.\n+   * @example {{{ 21 >>> 3 == 2 // in binary: 010101 >>> 3 == 010 }}}\n+   * @example {{{\n+   * 4294967275 >>> 3 == 536870909\n+   * // in binary: 11111111 11111111 11111111 11101011 >>> 3 ==\n+   * //            00011111 11111111 11111111 11111101\n+   * }}}\n+   */\n+  @alwaysinline def >>>(x: Int): Word =\n+    (toLong >>> x).toWord // TODO(shadaj): intrinsify\n+\n+  /**\n+   * Returns this value bit-shifted right by the specified number of bits,\n+   *         filling the new left bits with zeroes.\n+   * @example {{{ 21 >>> 3 == 2 // in binary: 010101 >>> 3 == 010 }}}\n+   * @example {{{\n+   * 4294967275 >>> 3 == 536870909\n+   * // in binary: 11111111 11111111 11111111 11101011 >>> 3 ==\n+   * //            00011111 11111111 11111111 11111101\n+   * }}}\n+   */\n+  @alwaysinline def >>>(x: Long): Word =\n+    (toLong >>> x).toWord // TODO(shadaj): intrinsify\n+\n+  /**\n+   * Returns this value bit-shifted left by the specified number of bits,\n+   *         filling in the right bits with the same value as the left-most bit of this.\n+   * @example {{{\n+   * 4294967275 >> 3 == 4294967293\n+   * // in binary: 11111111 11111111 11111111 11101011 >> 3 ==\n+   * //            11111111 11111111 11111111 11111101\n+   * }}}\n+   */\n+  @inline final def >>(x: Int): Word = (toLong >> x).toWord\n+\n+  /**\n+   * Returns this value bit-shifted left by the specified number of bits,\n+   *         filling in the right bits with the same value as the left-most bit of this.\n+   * @example {{{\n+   * 4294967275 >> 3 == 4294967293\n+   * // in binary: 11111111 11111111 11111111 11101011 >> 3 ==\n+   * //            11111111 11111111 11111111 11111101\n+   * }}}\n+   */\n+  @inline final def >>(x: Long): Word = (toLong >> x).toWord\n+\n+  /** Returns `true` if this value is equal to x, `false` otherwise. */\n+  @alwaysinline def ==(x: Byte): Boolean = this == x.toWord\n+\n+  /** Returns `true` if this value is equal to x, `false` otherwise. */\n+  @alwaysinline def ==(x: Short): Boolean = this == x.toWord\n+\n+  /** Returns `true` if this value is equal to x, `false` otherwise. */\n+  @alwaysinline def ==(x: Int): Boolean = this == x.toWord\n+\n+  /** Returns `true` if this value is equal to x, `false` otherwise. */\n+  @alwaysinline def ==(x: Long): Boolean = this.toLong == x\n+\n+  /** Returns `true` if this value is equal to x, `false` otherwise. */\n+  @alwaysinline def ==(other: Word): Boolean =\n+    this.toLong == other.toLong // TODO(shadaj): intrinsify"
+  },
+  {
+    "id" : "b1ac5806-800e-42da-9b28-59f6ad7afcf5",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "c82307d8-7525-4478-8ff3-10a0f7c2b895",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs to use intrinsic for equality here.",
+        "createdAt" : "2019-05-28T09:21:41Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 33,
+    "diffHunk" : "@@ -0,0 +1,353 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+import scalanative.unsigned._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toByte: Byte   = castRawWordToInt(rawWord).toByte\n+  @alwaysinline def toChar: Char   = castRawWordToInt(rawWord).toChar\n+  @alwaysinline def toShort: Short = castRawWordToInt(rawWord).toShort\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toLong: Long   = castRawWordToLong(rawWord)\n+\n+  @alwaysinline def toUByte: UByte   = toByte.toUByte\n+  @alwaysinline def toUShort: UShort = toShort.toUShort\n+  @alwaysinline def toUInt: UInt     = toInt.toUInt\n+  @alwaysinline def toULong: ULong   = toLong.toULong\n+  @alwaysinline def toUWord: UWord   = new UWord(rawWord)\n+\n+  override def hashCode: Int = java.lang.Long.hashCode(toLong)\n+\n+  override def equals(other: Any): Boolean =\n+    (this eq other.asInstanceOf[AnyRef]) || (other match {\n+      case other: Word =>\n+        other.rawWord == rawWord"
+  },
+  {
+    "id" : "8a2aa8da-9f1e-4064-9362-876580b1d960",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "9cf5d238-bd56-4dde-b46c-8d73ba37410f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs intrinsic.",
+        "createdAt" : "2019-05-28T09:21:53Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 49,
+    "diffHunk" : "@@ -0,0 +1,353 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+import scalanative.unsigned._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toByte: Byte   = castRawWordToInt(rawWord).toByte\n+  @alwaysinline def toChar: Char   = castRawWordToInt(rawWord).toChar\n+  @alwaysinline def toShort: Short = castRawWordToInt(rawWord).toShort\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toLong: Long   = castRawWordToLong(rawWord)\n+\n+  @alwaysinline def toUByte: UByte   = toByte.toUByte\n+  @alwaysinline def toUShort: UShort = toShort.toUShort\n+  @alwaysinline def toUInt: UInt     = toInt.toUInt\n+  @alwaysinline def toULong: ULong   = toLong.toULong\n+  @alwaysinline def toUWord: UWord   = new UWord(rawWord)\n+\n+  override def hashCode: Int = java.lang.Long.hashCode(toLong)\n+\n+  override def equals(other: Any): Boolean =\n+    (this eq other.asInstanceOf[AnyRef]) || (other match {\n+      case other: Word =>\n+        other.rawWord == rawWord\n+      case _ =>\n+        false\n+    })\n+\n+  override def toString(): String = toLong.toString\n+\n+  /**\n+   * Returns the bitwise negation of this value.\n+   * @example {{{\n+   * ~5 == 4294967290\n+   * // in binary: ~00000101 ==\n+   * //             11111010\n+   * }}}\n+   */\n+  @alwaysinline def unary_~ : Word =\n+    (~toLong).toWord // TODO(shadaj): intrinsify"
+  },
+  {
+    "id" : "babb945e-a4fe-43f4-b57c-b26ac1ccbc38",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "c92f61b0-1713-4a9e-84c8-aa0ccb3e8bd9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs intrinsic.",
+        "createdAt" : "2019-05-28T09:22:11Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0c169aa5-876d-455e-bbc7-d26d9db7e4be",
+        "parentId" : "c92f61b0-1713-4a9e-84c8-aa0ccb3e8bd9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'll skip commenting on any more `// TODO: intrinsify` comments, but all of them need to become intrinsics as well. ",
+        "createdAt" : "2019-05-28T09:23:16Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 52,
+    "diffHunk" : "@@ -0,0 +1,353 @@\n+package scala.scalanative\n+package unsafe\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+\n+import scalanative.annotation.alwaysinline\n+\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+import scalanative.unsigned._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toByte: Byte   = castRawWordToInt(rawWord).toByte\n+  @alwaysinline def toChar: Char   = castRawWordToInt(rawWord).toChar\n+  @alwaysinline def toShort: Short = castRawWordToInt(rawWord).toShort\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toLong: Long   = castRawWordToLong(rawWord)\n+\n+  @alwaysinline def toUByte: UByte   = toByte.toUByte\n+  @alwaysinline def toUShort: UShort = toShort.toUShort\n+  @alwaysinline def toUInt: UInt     = toInt.toUInt\n+  @alwaysinline def toULong: ULong   = toLong.toULong\n+  @alwaysinline def toUWord: UWord   = new UWord(rawWord)\n+\n+  override def hashCode: Int = java.lang.Long.hashCode(toLong)\n+\n+  override def equals(other: Any): Boolean =\n+    (this eq other.asInstanceOf[AnyRef]) || (other match {\n+      case other: Word =>\n+        other.rawWord == rawWord\n+      case _ =>\n+        false\n+    })\n+\n+  override def toString(): String = toLong.toString\n+\n+  /**\n+   * Returns the bitwise negation of this value.\n+   * @example {{{\n+   * ~5 == 4294967290\n+   * // in binary: ~00000101 ==\n+   * //             11111010\n+   * }}}\n+   */\n+  @alwaysinline def unary_~ : Word =\n+    (~toLong).toWord // TODO(shadaj): intrinsify\n+\n+  /** Returns the negated version of this value. */\n+  @alwaysinline def unary_- : Word = 0 - this // TODO(shadaj): intrinsify"
+  }
+]

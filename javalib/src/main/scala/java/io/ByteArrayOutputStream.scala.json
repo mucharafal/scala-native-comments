@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "0253b865-2f19-4704-973a-369725ae0327",
+    "prId" : 702,
+    "comments" : [
+      {
+        "id" : "d9b9c429-657b-4436-b5f7-d9cdb0ff096b",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This becomes unnecessary if `flush()` is not abstract.",
+        "createdAt" : "2017-05-09T09:15:28Z",
+        "updatedAt" : "2017-05-11T15:32:16Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "971906e2-714d-42e4-8ba6-833a64e73bce",
+        "parentId" : "d9b9c429-657b-4436-b5f7-d9cdb0ff096b",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ditto.",
+        "createdAt" : "2017-05-09T17:03:50Z",
+        "updatedAt" : "2017-05-11T15:32:16Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35be25dc3918e70f44d1b68f55e1732b256439fa",
+    "line" : null,
+    "diffHunk" : "@@ -46,6 +46,8 @@ class ByteArrayOutputStream(initBufSize: Int) extends OutputStream {\n   def toString(charsetName: String): String =\n     new String(buf, 0, count, charsetName)\n \n+  override def flush(): Unit = ()"
+  }
+]

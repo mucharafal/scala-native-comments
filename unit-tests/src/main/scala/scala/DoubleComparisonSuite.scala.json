@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "85d8a1f9-8fba-4ea6-874e-5f140b01e48e",
+    "prId" : 362,
+    "comments" : [
+      {
+        "id" : "d90cd905-93a8-44dc-b432-dc5d490e8901",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You might want to add infinities, here. `Double.PositiveInfinity` and `Double.NegativeInfinity`.\n",
+        "createdAt" : "2016-10-28T10:01:06Z",
+        "updatedAt" : "2016-10-28T10:31:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d23d5f0d-108a-444f-85a3-51bd08704186",
+        "parentId" : "d90cd905-93a8-44dc-b432-dc5d490e8901",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good idea, just added it to the suite. \n",
+        "createdAt" : "2016-10-28T10:34:02Z",
+        "updatedAt" : "2016-10-28T10:34:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "16948c508312bfc308e5300a67d661fd4d698de4",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,323 @@\n+\n+object DoubleComparisonSuite extends tests.Suite {\n+  test(\"fcmp\") {\n+    // These were code-generated on the JVM using:\n+    //\n+    // scala> val values = Seq((\"0.0d\", 0.0d),\n+    //                         (\"-0.0d\", -0.0d),\n+    //                         (\"Double.MaxValue\", Double.MaxValue),\n+    //                         (\"Double.MinValue\", Double.MinValue),\n+    //                         (\"Double.NaN\", Double.NaN),\n+    //                         (\"42.0d\", 42.0d),\n+    //                         (\"-42.0d\", -42.0d))"
+  }
+]

@@ -1,0 +1,126 @@
+[
+  {
+    "id" : "c9d9428e-5f6d-499d-bb61-6a98976a23b8",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "a1c99afe-f0ec-4954-b08b-76e70391ad24",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Passing an extra O2 option is duplicated here and in sbt plugin. There is a risk that it's changed in one place and not the other, lets refactor this. ",
+        "createdAt" : "2018-01-18T13:14:24Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,148 @@\n+package scala.scalanative\n+\n+import java.nio.file.{Files, Path, Paths}\n+import java.util.Arrays\n+\n+import scala.sys.process.Process\n+\n+import nir.Global\n+\n+import tools.{\n+  Config,\n+  GarbageCollector,\n+  IO,\n+  LinkerReporter,\n+  LinkerResult,\n+  Logger,\n+  OptimizerDriver,\n+  OptimizerReporter\n+}\n+import IO.RichPath\n+\n+package object build {\n+\n+  def build(nativeLib: Path,\n+            paths: Seq[Path],\n+            entry: String,\n+            target: Path,\n+            workdir: Path,\n+            logger: Logger): Path = {\n+    val config = Config.default(nativeLib, paths, entry, workdir, logger)\n+    build(config, target, logger)\n+  }\n+\n+  def build(config: Config, target: Path, logger: Logger) = {\n+    val linkerResult = tools.link(config)\n+    val optimized =\n+      tools.optimize(config, linkerResult.defns, linkerResult.dyns)\n+    val generated = {\n+      tools.codegen(config, optimized)\n+      IO.getAll(config.workdir, \"glob:**.ll\")\n+    }\n+    val objectFiles = llvm.compileLL(config, generated, logger)\n+    val unpackedLib = unpackNativeLibrary(config.nativeLib, config.workdir)\n+\n+    val nativeLibConfig =\n+      config.withCompileOptions(\"-O2\" +: config.compileOptions)"
+  },
+  {
+    "id" : "395ec0f3-f3e3-4b78-9683-9dc3c99f545b",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "0b628a5d-83df-47ed-969a-5d5e3a31baf5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a big fat docstring. We expect this to be the main entry point so it should be very clear and very prominent that it's the one you want to use if you're implementing Scala Native support in your build tool. It would be nice to put this higher up in the file as well.",
+        "createdAt" : "2018-03-12T10:25:29Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,208 @@\n+package scala.scalanative\n+\n+import java.nio.file.{Files, Path, Paths}\n+import java.util.Arrays\n+\n+import scala.sys.process.Process\n+\n+import build.IO.RichPath\n+import nir.Global\n+\n+package object build {\n+\n+  type LinkerPath = linker.ClassPath\n+  val LinkerPath = linker.ClassPath\n+\n+  type LinkerReporter = linker.Reporter\n+  val LinkerReporter = linker.Reporter\n+\n+  type LinkerResult = linker.Result\n+  val LinkerResult = linker.Result\n+\n+  type OptimizerDriver = optimizer.Driver\n+  val OptimizerDriver = optimizer.Driver\n+\n+  type OptimizerReporter = optimizer.Reporter\n+  val OptimizerReporter = optimizer.Reporter\n+\n+  /** Given the classpath and main entry point, link under closed-world\n+   *  assumption.\n+   */\n+  def link(config: Config): LinkerResult = {\n+    val result = config.logger.time(\"Linking\") {\n+      val chaDeps   = optimizer.analysis.ClassHierarchy.depends\n+      val passes    = config.driver.passes\n+      val passDeps  = passes.flatMap(_.depends).distinct\n+      val deps      = (chaDeps ++ passDeps).distinct\n+      val injects   = passes.flatMap(_.injects)\n+      val mainClass = nir.Global.Top(config.entry)\n+      val entry =\n+        nir.Global\n+          .Member(mainClass, \"main_scala.scalanative.runtime.ObjectArray_unit\")\n+      val result =\n+        (linker.Linker(config)).link(entry +: deps)\n+\n+      result.withDefns(result.defns ++ injects)\n+    }\n+\n+    if (result.unresolved.nonEmpty) {\n+      result.unresolved.map(_.show).sorted.foreach { signature =>\n+        config.logger.error(s\"cannot link: $signature\")\n+      }\n+      throw new Exception(\"unable to link\")\n+    }\n+    val classCount = result.defns.count {\n+      case _: nir.Defn.Class | _: nir.Defn.Module | _: nir.Defn.Trait => true\n+      case _                                                          => false\n+    }\n+    val methodCount = result.defns.count(_.isInstanceOf[nir.Defn.Define])\n+    config.logger.info(\n+      s\"Discovered ${classCount} classes and ${methodCount} methods\")\n+\n+    result\n+  }\n+\n+  /** Link just the given entries, disregarding the extra ones that are\n+   *  needed for the optimizer and/or codegen.\n+   */\n+  def linkRaw(config: Config, entries: Seq[nir.Global]): LinkerResult =\n+    config.logger.time(\"Linking\") {\n+      linker.Linker(config).link(entries)\n+    }\n+\n+  /** Transform high-level closed world to its lower-level counterpart. */\n+  def optimize(config: Config,\n+               assembly: Seq[nir.Defn],\n+               dyns: Seq[String]): Seq[nir.Defn] =\n+    config.logger.time(s\"Optimizing (${config.driver.mode} mode)\") {\n+      optimizer.Optimizer(config, assembly, dyns)\n+    }\n+\n+  /** Given low-level assembly, emit LLVM IR for it to the buildDirectory. */\n+  def codegen(config: Config, assembly: Seq[nir.Defn]): Seq[Path] = {\n+    config.logger.time(\"Generating intermediate code\") {\n+      scalanative.codegen.CodeGen(config, assembly)\n+    }\n+    val produced = IO.getAll(config.workdir, \"glob:**.ll\")\n+    config.logger.info(s\"Produced ${produced.length} files\")\n+    produced\n+  }\n+\n+  def build(nativeLib: Path,"
+  },
+  {
+    "id" : "914260ae-c66f-414f-971e-2e30eb6c7bf7",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "59e441c0-5d1a-4e91-8843-00c7ca070595",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring.",
+        "createdAt" : "2018-03-12T10:25:54Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,208 @@\n+package scala.scalanative\n+\n+import java.nio.file.{Files, Path, Paths}\n+import java.util.Arrays\n+\n+import scala.sys.process.Process\n+\n+import build.IO.RichPath\n+import nir.Global\n+\n+package object build {\n+\n+  type LinkerPath = linker.ClassPath\n+  val LinkerPath = linker.ClassPath\n+\n+  type LinkerReporter = linker.Reporter\n+  val LinkerReporter = linker.Reporter\n+\n+  type LinkerResult = linker.Result\n+  val LinkerResult = linker.Result\n+\n+  type OptimizerDriver = optimizer.Driver\n+  val OptimizerDriver = optimizer.Driver\n+\n+  type OptimizerReporter = optimizer.Reporter\n+  val OptimizerReporter = optimizer.Reporter\n+\n+  /** Given the classpath and main entry point, link under closed-world\n+   *  assumption.\n+   */\n+  def link(config: Config): LinkerResult = {\n+    val result = config.logger.time(\"Linking\") {\n+      val chaDeps   = optimizer.analysis.ClassHierarchy.depends\n+      val passes    = config.driver.passes\n+      val passDeps  = passes.flatMap(_.depends).distinct\n+      val deps      = (chaDeps ++ passDeps).distinct\n+      val injects   = passes.flatMap(_.injects)\n+      val mainClass = nir.Global.Top(config.entry)\n+      val entry =\n+        nir.Global\n+          .Member(mainClass, \"main_scala.scalanative.runtime.ObjectArray_unit\")\n+      val result =\n+        (linker.Linker(config)).link(entry +: deps)\n+\n+      result.withDefns(result.defns ++ injects)\n+    }\n+\n+    if (result.unresolved.nonEmpty) {\n+      result.unresolved.map(_.show).sorted.foreach { signature =>\n+        config.logger.error(s\"cannot link: $signature\")\n+      }\n+      throw new Exception(\"unable to link\")\n+    }\n+    val classCount = result.defns.count {\n+      case _: nir.Defn.Class | _: nir.Defn.Module | _: nir.Defn.Trait => true\n+      case _                                                          => false\n+    }\n+    val methodCount = result.defns.count(_.isInstanceOf[nir.Defn.Define])\n+    config.logger.info(\n+      s\"Discovered ${classCount} classes and ${methodCount} methods\")\n+\n+    result\n+  }\n+\n+  /** Link just the given entries, disregarding the extra ones that are\n+   *  needed for the optimizer and/or codegen.\n+   */\n+  def linkRaw(config: Config, entries: Seq[nir.Global]): LinkerResult =\n+    config.logger.time(\"Linking\") {\n+      linker.Linker(config).link(entries)\n+    }\n+\n+  /** Transform high-level closed world to its lower-level counterpart. */\n+  def optimize(config: Config,\n+               assembly: Seq[nir.Defn],\n+               dyns: Seq[String]): Seq[nir.Defn] =\n+    config.logger.time(s\"Optimizing (${config.driver.mode} mode)\") {\n+      optimizer.Optimizer(config, assembly, dyns)\n+    }\n+\n+  /** Given low-level assembly, emit LLVM IR for it to the buildDirectory. */\n+  def codegen(config: Config, assembly: Seq[nir.Defn]): Seq[Path] = {\n+    config.logger.time(\"Generating intermediate code\") {\n+      scalanative.codegen.CodeGen(config, assembly)\n+    }\n+    val produced = IO.getAll(config.workdir, \"glob:**.ll\")\n+    config.logger.info(s\"Produced ${produced.length} files\")\n+    produced\n+  }\n+\n+  def build(nativeLib: Path,\n+            paths: Seq[Path],\n+            entry: String,\n+            target: Path,\n+            workdir: Path,\n+            logger: Logger): Path = {\n+    val config = Config.default(nativeLib, paths, entry, workdir, logger)\n+    build(config, target)\n+  }\n+\n+  def build(config: Config, target: Path) = {\n+    val linkerResult = link(config)\n+    val optimized =\n+      optimize(config, linkerResult.defns, linkerResult.dyns)\n+    val generated = {\n+      codegen(config, optimized)\n+      IO.getAll(config.workdir, \"glob:**.ll\")\n+    }\n+    val objectFiles = LLVM.compileLL(config, generated)\n+    val unpackedLib = unpackNativeLibrary(config.nativeLib, config.workdir)\n+\n+    val nativeLibConfig =\n+      config.withCompileOptions(\"-O2\" +: config.compileOptions)\n+    val _ =\n+      compileNativeLib(nativeLibConfig, linkerResult, unpackedLib)\n+\n+    LLVM.linkLL(config, linkerResult, objectFiles, unpackedLib, target)\n+  }\n+\n+  /**\n+   * Unpack the `nativelib` to `workdir/lib`.\n+   *\n+   * If the same archive has already been unpacked to this location, this\n+   * call has no effects.\n+   *\n+   * @param nativelib The JAR to unpack.\n+   * @param workdir   The working directory. The nativelib will be unpacked\n+   *                  to `workdir/lib`.\n+   * @return The location where the nativelib has been unpacked, `workdir/lib`.\n+   */\n+  def unpackNativeLibrary(nativeLib: Path, workdir: Path): Path = {\n+    val lib         = workdir.resolve(\"lib\")\n+    val jarhash     = IO.sha1(nativeLib)\n+    val jarhashPath = lib.resolve(\"jarhash\")\n+    def unpacked =\n+      Files.exists(lib) &&\n+        Files.exists(jarhashPath) &&\n+        Arrays.equals(jarhash, Files.readAllBytes(jarhashPath))\n+\n+    if (!unpacked) {\n+      IO.deleteRecursive(lib)\n+      IO.unzip(nativeLib, lib)\n+      IO.write(jarhashPath, jarhash)\n+    }\n+\n+    lib\n+  }\n+\n+  def compileNativeLib(config: Config,"
+  },
+  {
+    "id" : "dd6c6ad0-c3df-433f-b0e2-9cbb7bb9ad7a",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "a6cd95ca-6169-4243-a7c6-4b74dc05dd0b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We already have `target` in Config that means something different (LLVM platform target). Lets pick a different name for this parameter to avoid potential confusion.",
+        "createdAt" : "2018-03-12T14:01:51Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,210 @@\n+package scala.scalanative\n+\n+import java.nio.file.{Files, Path, Paths}\n+import java.util.Arrays\n+\n+import scala.sys.process.Process\n+\n+import build.IO.RichPath\n+import nir.Global\n+\n+package object build {\n+\n+  type LinkerPath = linker.ClassPath\n+  val LinkerPath = linker.ClassPath\n+\n+  type LinkerReporter = linker.Reporter\n+  val LinkerReporter = linker.Reporter\n+\n+  type LinkerResult = linker.Result\n+  val LinkerResult = linker.Result\n+\n+  type OptimizerDriver = optimizer.Driver\n+  val OptimizerDriver = optimizer.Driver\n+\n+  type OptimizerReporter = optimizer.Reporter\n+  val OptimizerReporter = optimizer.Reporter\n+\n+  def build(nativelib: Path,\n+            paths: Seq[Path],\n+            entry: String,\n+            target: Path,"
+  }
+]

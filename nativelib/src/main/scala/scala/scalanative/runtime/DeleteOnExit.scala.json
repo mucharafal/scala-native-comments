@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "a56c39e9-4da6-4174-b49b-3fb19113f6c7",
+    "prId" : 1222,
+    "comments" : [
+      {
+        "id" : "efefe6c9-2b54-4dac-b2b3-dd993947d7fd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It would be more clear with more explicit names here `def deleteOnExit(path: String): Unit = ...`",
+        "createdAt" : "2018-07-10T14:59:09Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2b7cd67a-d621-4033-b70d-4ecb54b8c49c",
+        "parentId" : "efefe6c9-2b54-4dac-b2b3-dd993947d7fd",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "`DeleteOnExit.deleteOnExit` sounds redundant to me. Perhaps `DeleteOnExit.addFile(name: String)`?",
+        "createdAt" : "2018-07-11T00:44:54Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e3c2fc4e-37ea-4583-b405-9d486c99f958",
+        "parentId" : "efefe6c9-2b54-4dac-b2b3-dd993947d7fd",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That works as well.",
+        "createdAt" : "2018-07-11T10:23:19Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c55e86fa77bfe6d57340b58ef19643780969b4ba",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,22 @@\n+package scala.scalanative.runtime\n+\n+import scala.collection.mutable\n+import scala.scalanative.native.{Zone, stdio, toCString}\n+\n+object DeleteOnExit {\n+  private[this] val toDeleteSet: mutable.Set[String] = mutable.Set.empty\n+  private[this] val toDelete: mutable.ArrayBuffer[String] =\n+    mutable.ArrayBuffer.empty\n+  Shutdown.addHook(2, new Runnable() {\n+    override def run() {\n+      toDelete.foreach { f =>\n+        Zone { implicit z =>\n+          stdio.remove(toCString(f))\n+        }\n+      }\n+    }\n+  })\n+  def add(s: String) = toDelete.synchronized {"
+  },
+  {
+    "id" : "19622e9f-25a9-4032-b3ed-d25789cdc2f3",
+    "prId" : 1222,
+    "comments" : [
+      {
+        "id" : "3b4dd450-2be5-4466-b145-aa41a785ccdf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `private` should be sufficient.",
+        "createdAt" : "2018-07-10T14:59:19Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b232ace5-fe4b-42b0-9a48-30740e5f1b5d",
+        "parentId" : "3b4dd450-2be5-4466-b145-aa41a785ccdf",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Yeah, I guess in this particular case there is no reason for private[this]. It's just a habit of mine.",
+        "createdAt" : "2018-07-11T21:08:42Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c55e86fa77bfe6d57340b58ef19643780969b4ba",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,22 @@\n+package scala.scalanative.runtime\n+\n+import scala.collection.mutable\n+import scala.scalanative.native.{Zone, stdio, toCString}\n+\n+object DeleteOnExit {\n+  private[this] val toDeleteSet: mutable.Set[String] = mutable.Set.empty\n+  private[this] val toDelete: mutable.ArrayBuffer[String] ="
+  }
+]

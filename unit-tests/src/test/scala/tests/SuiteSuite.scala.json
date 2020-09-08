@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "625b39a2-eea8-45e2-906e-08677e2c47a9",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "244ce71a-eba6-48b9-ae55-bb776b44b89c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "scalafmt does something horrible here. Consider moving the comment above the if or inside the branch so that this doesn't happen.",
+        "createdAt" : "2020-08-20T16:00:45Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -66,7 +66,9 @@ object SuiteSuite extends Suite {\n         }\n \n       case exc: Throwable =>\n-        if (exc == AssertionFailed) // got case object, expected case class\n+        if (exc.isInstanceOf[\n+              AssertionFailed\n+            ]) // got case object, expected case class"
+  }
+]

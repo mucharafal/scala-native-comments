@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "be8b4fae-c403-4551-beca-d5ef9cd43ec7",
+    "prId" : 406,
+    "comments" : [
+      {
+        "id" : "b388adb7-9d50-4333-92ed-374541346c5d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good riddance.",
+        "createdAt" : "2016-11-26T13:15:10Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f3b96fdf83ada2341c08f79cbd400e3421bfcfeb",
+    "line" : 4,
+    "diffHunk" : "@@ -1,4 +0,0 @@\n-package scala.scalanative\n-package linker\n-\n-final case class Error(msg: String) extends Exception"
+  }
+]

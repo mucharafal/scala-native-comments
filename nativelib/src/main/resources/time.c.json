@@ -1,0 +1,346 @@
+[
+  {
+    "id" : "c3525a77-6d47-4acf-9ef5-be8b904018ef",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "bf7ce4d6-c67b-402b-8459-c7f3dfdbfc84",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`scalanative_nano_time`\n",
+        "createdAt" : "2016-10-28T15:32:33Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5692ae39-a8fb-4eb7-9a9d-f83d593867c8",
+        "parentId" : "bf7ce4d6-c67b-402b-8459-c7f3dfdbfc84",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I changed it\n",
+        "createdAt" : "2016-10-30T12:58:34Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,29 @@\n+#include <time.h>\n+#include <sys/time.h>\n+#include <stdio.h>\n+\n+#ifdef __MACH__\n+#include <mach/clock.h>\n+#include <mach/mach.h>\n+#endif\n+\n+// https://gist.github.com/jbenet/1087739\n+long nanoTime() {"
+  },
+  {
+    "id" : "fc517d81-7352-4840-9aee-c1bd53bcb866",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "7b60e4cd-2fc8-49ea-8945-326ba8bea0b8",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The formatting looks a bit off here.",
+        "createdAt" : "2017-04-10T16:21:07Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f0e04f28-99d6-465e-8f40-af2175e1a77f",
+        "parentId" : "7b60e4cd-2fc8-49ea-8945-326ba8bea0b8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I see some mixture of spaces and tabs. How would you like the format - 4 spaces? We are running `scalafmt` on Scala files. Is it safe to use that on `.c` files?",
+        "createdAt" : "2017-04-10T17:52:43Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9dcf83c4-3f7a-40e8-9155-465e55bce711",
+        "parentId" : "7b60e4cd-2fc8-49ea-8945-326ba8bea0b8",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Running scalafmt on `.c` files is not safe. But we could use clang-format for this.",
+        "createdAt" : "2017-04-10T19:25:19Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f9e2965b-bff9-4e74-bad0-2310da509a30",
+        "parentId" : "7b60e4cd-2fc8-49ea-8945-326ba8bea0b8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I used for Mac OS `brew install clang-format` and then `clang-format -i nativelib/src/main/resources/time.c`. There is also a -style=LLVM but I couldn't see any difference in this source.",
+        "createdAt" : "2017-04-10T20:49:58Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -30,3 +30,28 @@ long long scalanative_nano_time() {\n \n   return nano_time;\n }\n+\n+long long scalanative_current_time_millis() {\n+\tlong long current_time_millis;\n+\n+#define NANOS_PER_MILLI 1000000\n+#define MILLIS_PER_SEC 1000\n+#define MICROS_PER_MILLI 1000\n+\n+#ifdef __MACH__\n+\tstruct timeval  tv;\n+\tgettimeofday(&tv, NULL);\n+\tcurrent_time_millis = tv.tv_sec * MILLIS_PER_SEC + tv.tv_usec / MICROS_PER_MILLI;\n+#else\n+\tstruct timespec ts;\n+    clock_gettime(CLOCK_REALTIME, &ts);"
+  },
+  {
+    "id" : "f516e2b3-0689-423a-8510-2bd8987d5c63",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "4d3dffa6-e7e0-4014-be97-39d967794069",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I am curious what is the reason to not use `gettimeofday` on all platforms?",
+        "createdAt" : "2017-04-10T16:22:44Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f7eeb64f-df06-43e8-8102-e4506a92fff1",
+        "parentId" : "4d3dffa6-e7e0-4014-be97-39d967794069",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I second the curiosity, harmony uses `gettimeofday` on all `*nix` platforms. \r\n```\r\nAPR_DECLARE(apr_time_t) apr_time_now(void)\r\n{\r\n    struct timeval tv;\r\n    gettimeofday(&tv, NULL);\r\n    return tv.tv_sec * APR_USEC_PER_SEC + tv.tv_usec;\r\n}\r\n```",
+        "createdAt" : "2017-04-10T17:19:00Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "85d9a919-9ee5-4bf8-a304-277cceb07194",
+        "parentId" : "4d3dffa6-e7e0-4014-be97-39d967794069",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "The `clock_gettime` is the POSIX version so my thinking is we should try and be as POSIX compliant as possible to be the most portable - supposedly it is available on Mac OS after a certain version but I had no luck. http://www.unix.com/man-page/POSIX/3posix/clock_gettime/",
+        "createdAt" : "2017-04-10T17:57:12Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e80c1ea8-d643-4b3d-8b4e-5f82b1b5def8",
+        "parentId" : "4d3dffa6-e7e0-4014-be97-39d967794069",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd prefer to stick to just using `gettimeofday` for simplicity, if we see it's a problem for portability, we can revise the solution. ",
+        "createdAt" : "2017-04-10T19:26:02Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f6b89d4-6f1e-4fe2-a3b6-664026d7aedb",
+        "parentId" : "4d3dffa6-e7e0-4014-be97-39d967794069",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I reworked the code using just `gettimeofday`.",
+        "createdAt" : "2017-04-10T21:12:49Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -30,3 +30,28 @@ long long scalanative_nano_time() {\n \n   return nano_time;\n }\n+\n+long long scalanative_current_time_millis() {\n+\tlong long current_time_millis;\n+\n+#define NANOS_PER_MILLI 1000000\n+#define MILLIS_PER_SEC 1000\n+#define MICROS_PER_MILLI 1000\n+\n+#ifdef __MACH__\n+\tstruct timeval  tv;\n+\tgettimeofday(&tv, NULL);"
+  },
+  {
+    "id" : "2832e956-2a5e-4350-9b5e-fafc36927cac",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "fab0435e-8056-4a9c-83dc-ef79f49cc997",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Two-space indentation is something that I've rarely seen in C world, lets go with 4 instead.",
+        "createdAt" : "2017-04-11T09:13:24Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3fb73d2f-1c31-4b75-b410-0a7ab5a089ae",
+        "parentId" : "fab0435e-8056-4a9c-83dc-ef79f49cc997",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "We could have a `.clang-format` file to the project so we could all get consistent formatting fof C and add info to the guide? I used this command to get 4 space indent (default was 2). `clang-format -i -style=\"{IndentWidth: 4}\" <file>`.",
+        "createdAt" : "2017-04-11T11:56:24Z",
+        "updatedAt" : "2017-04-11T11:56:24Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ef49a114-9103-434d-93f8-e919bbef31d5",
+        "parentId" : "fab0435e-8056-4a9c-83dc-ef79f49cc997",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Integrating clang-format into the CI would be super nice if you want to have a look at it, but that's out of scope for this PR.",
+        "createdAt" : "2017-04-11T12:51:56Z",
+        "updatedAt" : "2017-04-11T12:51:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -9,24 +9,41 @@\n \n // https://gist.github.com/jbenet/1087739\n long long scalanative_nano_time() {\n-\tlong long nano_time;\n+  long long nano_time;\n \n #define NANOSECONDS_PER_SECOND 1000000000LL\n \n #ifdef __MACH__ // OS X does not have clock_gettime, use clock_get_time\n-\tclock_serv_t cclock;\n-\tmach_timespec_t mts;\n-\thost_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);\n-\tclock_get_time(cclock, &mts);\n-\tmach_port_deallocate(mach_task_self(), cclock);\n-\tnano_time = mts.tv_sec * NANOSECONDS_PER_SECOND + mts.tv_nsec;\n+  clock_serv_t cclock;\n+  mach_timespec_t mts;\n+  host_get_clock_service(mach_host_self(), CALENDAR_CLOCK, &cclock);\n+  clock_get_time(cclock, &mts);\n+  mach_port_deallocate(mach_task_self(), cclock);\n+  nano_time = mts.tv_sec * NANOSECONDS_PER_SECOND + mts.tv_nsec;\n #else\n-\tstruct timespec ts;\n-\tclock_gettime(CLOCK_MONOTONIC, &ts);\n-\tnano_time = ts.tv_sec * NANOSECONDS_PER_SECOND + ts.tv_nsec;\n+  struct timespec ts;\n+  clock_gettime(CLOCK_MONOTONIC, &ts);\n+  nano_time = ts.tv_sec * NANOSECONDS_PER_SECOND + ts.tv_nsec;\n #endif\n \n #undef NANOSECONDS_PER_SECOND\n \n   return nano_time;\n }\n+\n+long long scalanative_current_time_millis() {\n+  long long current_time_millis;\n+\n+#define MILLIS_PER_SEC 1000\n+#define MICROS_PER_MILLI 1000\n+\n+  struct timeval tv;\n+  gettimeofday(&tv, NULL);\n+  current_time_millis =\n+      tv.tv_sec * MILLIS_PER_SEC + tv.tv_usec / MICROS_PER_MILLI;\n+\n+#undef MILLIS_PER_SEC\n+#undef MICROS_PER_MILLI\n+\n+  return current_time_millis;\n+}"
+  }
+]

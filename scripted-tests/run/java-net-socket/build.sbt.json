@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "0808b5ca-893e-4815-9f38-80fc05ff89ea",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "105587a7-a8c8-45eb-a423-c0267af7dac3",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It would probably be better to let the JVM select a port, write it to a file and read the port from the file on the native side (otherwise I'm afraid we could have spurious failures).",
+        "createdAt" : "2017-07-17T07:29:03Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "aa020bb0-7274-47ad-ad4d-2f0a9551c2ad",
+        "parentId" : "105587a7-a8c8-45eb-a423-c0267af7dac3",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-18T12:53:49Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+import java.net.{ServerSocket}\n+import java.io.{PrintWriter, BufferedReader, InputStreamReader}\n+\n+import scala.concurrent.Future\n+import scala.concurrent.ExecutionContext.Implicits.global\n+\n+enablePlugins(ScalaNativePlugin)\n+\n+scalaVersion := \"2.11.11\"\n+\n+lazy val launchEchoServer =\n+  taskKey[Unit](\"Setting up echo server on port 5832\")\n+\n+launchEchoServer := {\n+  val echoServer = new ServerSocket(5832)"
+  },
+  {
+    "id" : "f295eebf-00e5-45dd-b05c-ab2073512afa",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "933e948e-5b73-4b8e-b575-0cc5ebd05fc6",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The doc is outdated (the port is not fixed)",
+        "createdAt" : "2017-08-14T09:31:08Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -9,10 +9,40 @@ enablePlugins(ScalaNativePlugin)\n \n scalaVersion := \"2.11.11\"\n \n-lazy val launchEchoServer =\n-  taskKey[Unit](\"Setting up tcp echo server\")\n+lazy val launchServer = taskKey[Unit](\"Setting up a server for tests\")\n+lazy val launchTcpEchoServer =\n+  taskKey[Unit](\"Setting up echo server on port 5832\")"
+  }
+]

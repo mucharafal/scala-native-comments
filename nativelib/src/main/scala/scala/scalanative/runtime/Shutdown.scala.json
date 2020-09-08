@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "b7764e29-e75e-465d-9b20-2275e2b76191",
+    "prId" : 1222,
+    "comments" : [
+      {
+        "id" : "d1c7879b-87ff-489d-bdbb-66b2229eaf51",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think the `id` is necessary here. Lets just make it a `mutable.Seq[Runnable]`. Every time you add a hook it adds one more hook to run, in the order they were added. ",
+        "createdAt" : "2018-07-10T15:02:04Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "12c928d6-251b-40ea-bf67-51ee7024f969",
+        "parentId" : "d1c7879b-87ff-489d-bdbb-66b2229eaf51",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "The `id` variable name was bad. It should have been priority. On the jvm, shutdown hooks have a priority that determine the order in which they run. For example, on the jvm the delete on exit hooks are always the last to run. The hooks added via `Runtime.addShutdownHook(Thread)` should run first. I didn't add that api because the current Thread implementation has a private constructor so there is no way for a user to add it at the moment. Leaving in the priority field, it would be trivial in the future to add `Runtime.addShutdownHook`. If that really isn't a concern, then we can go ahead and switch to a Seq now.",
+        "createdAt" : "2018-07-11T00:43:33Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bbbb3e74-9dab-4517-951a-c49df73fb3b0",
+        "parentId" : "d1c7879b-87ff-489d-bdbb-66b2229eaf51",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that it's an internal API, it's good to keep as simple as possible for now (i.e. just a sequence of hooks), we can revise this decision later once more features rely on it.",
+        "createdAt" : "2018-07-11T10:26:26Z",
+        "updatedAt" : "2018-07-12T00:09:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c55e86fa77bfe6d57340b58ef19643780969b4ba",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,35 @@\n+package scala.scalanative.runtime\n+\n+import scala.collection.mutable\n+import scala.scalanative.native._\n+\n+private[runtime] object Shutdown {\n+  def runHooks(): Unit = {\n+    hooks.toSeq.sortBy(_._1).foreach {\n+      case (_, runnables) =>\n+        runnables.foreach(runnable =>\n+          try {\n+            runnable.run()\n+          } catch {\n+            case e: Exception => // Maybe add a system propery that adds logging of exceptions?\n+        })\n+    }\n+  }\n+  def addHook(id: Int, runnable: Runnable) =\n+    hooks.synchronized(hooks.get(id) match {\n+      case Some(runnables) => runnables += runnable\n+      case None =>\n+        val runnables = mutable.Set(runnable)\n+        hooks += id -> runnables\n+    })\n+  private[this] val hooks: mutable.Map[Int, mutable.Set[Runnable]] =\n+    mutable.Map.empty"
+  }
+]

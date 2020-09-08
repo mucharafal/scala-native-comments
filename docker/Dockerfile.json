@@ -1,0 +1,275 @@
+[
+  {
+    "id" : "c24c0290-a939-4458-83d9-25dac94e04e9",
+    "prId" : 56,
+    "comments" : [
+      {
+        "id" : "9f07f409-d42a-49b8-86c7-a125e15bc01c",
+        "parentId" : null,
+        "author" : {
+          "login" : "hayd",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1931852?u=4943013fd2b830d33114d48acbfe3c70de651621&v=4"
+        },
+        "body" : "Is there a reason to use ubuntu over alpine?\n\nAlso, you should really glue up all these RUN statements together, the cleanup needs to happen in the same command (e.g. you could remove the build deps that aren't required later). This entire file could be rewritten using a single RUN command.\n\nDoing that would make this docker file much much smaller.\n",
+        "createdAt" : "2016-05-13T04:44:35Z",
+        "updatedAt" : "2016-05-13T09:14:55Z",
+        "lastEditedBy" : {
+          "login" : "hayd",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1931852?u=4943013fd2b830d33114d48acbfe3c70de651621&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "be23b409-a41f-407d-a6b3-76b8e53c487b",
+        "parentId" : "9f07f409-d42a-49b8-86c7-a125e15bc01c",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "Ubuntu over alpine because this is intended to be a development environment and not a deploy one.\n\nGoing to polish a bit the commands to make it smaller.\n",
+        "createdAt" : "2016-05-13T08:02:44Z",
+        "updatedAt" : "2016-05-13T09:14:55Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "60cc9f6d75877a79b4cfb2f25ba683bed8ad5400",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,74 @@\n+FROM ubuntu:16.04"
+  },
+  {
+    "id" : "9666fbd0-818c-4d7e-833a-ef0f1c643798",
+    "prId" : 56,
+    "comments" : [
+      {
+        "id" : "ad0e461d-31d3-4169-b1ba-41dc064eb280",
+        "parentId" : null,
+        "author" : {
+          "login" : "nightscape",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/35170?u=1b318b87eea00602a878513eac4728a2d56d630f&v=4"
+        },
+        "body" : "Is there a reason why you clone the repo here instead of ADDing it?\nThat makes using Docker for development harder ;)\n",
+        "createdAt" : "2016-05-13T14:51:25Z",
+        "updatedAt" : "2016-05-13T14:51:25Z",
+        "lastEditedBy" : {
+          "login" : "nightscape",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/35170?u=1b318b87eea00602a878513eac4728a2d56d630f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b94a2e41-6fca-4a37-83e9-828c1c0fa9f4",
+        "parentId" : "ad0e461d-31d3-4169-b1ba-41dc064eb280",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "This is needed to let Docker cache most of the build dependencies at build time (takes soooooooo long)\n",
+        "createdAt" : "2016-05-14T04:00:40Z",
+        "updatedAt" : "2016-05-14T04:00:40Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "60cc9f6d75877a79b4cfb2f25ba683bed8ad5400",
+    "line" : 44,
+    "diffHunk" : "@@ -0,0 +1,59 @@\n+FROM ubuntu:16.04\n+\n+MAINTAINER andrea peruffo <andrea.peruffo1982@gmail.com>\n+\n+# --- --- ---  Proxy Settings --- --- ---\n+#UNCOMMENT IF BHEIND A PROXY\n+#SET A PROPER PROXY IP\n+\n+#ENV DOCKER_PROXY PROXY_IP\n+\n+#ENV http_proxy ${DOCKER_PROXY}\n+#ENV HTTP_PROXY ${DOCKER_PROXY}\n+#ENV https_proxy ${DOCKER_PROXY}\n+#ENV HTTPS_PROXY ${DOCKER_PROXY}\n+#ENV NO_PROXY '127.0.0.1, localhost, /var/run/docker.sock'\n+\n+ENV SCALA_VERSION 2.11.8\n+ENV SBT_VERSION 0.13.11\n+\n+RUN apt-get update && \\\n+    apt-get install -y \\\n+    wget tar curl git \\\n+    openjdk-8-jdk \\\n+    clang++-3.7 llvm-3.7 llvm-3.7-dev llvm-3.7-runtime llvm-3.7-tool \\\n+    libgc-dev\n+\n+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk\n+\n+RUN \\\n+  curl -fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \\\n+  echo >> /root/.bashrc && \\\n+  echo 'export PATH=~/scala-$SCALA_VERSION/bin:$PATH' >> /root/.bashrc\n+\n+RUN \\\n+  curl -L -o sbt-$SBT_VERSION.deb http://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \\\n+  dpkg -i sbt-$SBT_VERSION.deb && \\\n+  rm sbt-$SBT_VERSION.deb\n+\n+RUN apt-get update && \\\n+    apt-get -y install sbt\n+\n+WORKDIR /tmp\n+\n+RUN git clone https://github.com/scala-native/scala-native.git"
+  },
+  {
+    "id" : "2d91ef9d-4e8b-4caa-9638-89f2b1488acc",
+    "prId" : 56,
+    "comments" : [
+      {
+        "id" : "b465a1c5-f0bd-44f2-a5b2-239bceb2b562",
+        "parentId" : null,
+        "author" : {
+          "login" : "hayd",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1931852?u=4943013fd2b830d33114d48acbfe3c70de651621&v=4"
+        },
+        "body" : "Is this clone required? It should _certainly_ have some `--depth` this is a 25,000 commit repo.\n",
+        "createdAt" : "2016-05-13T20:32:28Z",
+        "updatedAt" : "2016-05-13T20:32:28Z",
+        "lastEditedBy" : {
+          "login" : "hayd",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1931852?u=4943013fd2b830d33114d48acbfe3c70de651621&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "295b61ab-8534-47e8-aa0e-5ebb0ada7faf",
+        "parentId" : "b465a1c5-f0bd-44f2-a5b2-239bceb2b562",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "probably here one can fix adding `--depth=1` \n",
+        "createdAt" : "2016-05-14T04:02:15Z",
+        "updatedAt" : "2016-05-14T04:02:15Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "fcadf954-5552-4582-a43d-9921f7b7788b",
+        "parentId" : "b465a1c5-f0bd-44f2-a5b2-239bceb2b562",
+        "author" : {
+          "login" : "hayd",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1931852?u=4943013fd2b830d33114d48acbfe3c70de651621&v=4"
+        },
+        "body" : "Thanks for putting this Dockerfile together!\n",
+        "createdAt" : "2016-05-14T04:03:23Z",
+        "updatedAt" : "2016-05-14T04:03:23Z",
+        "lastEditedBy" : {
+          "login" : "hayd",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1931852?u=4943013fd2b830d33114d48acbfe3c70de651621&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "29a4126c-a91a-4d0c-971d-40b01f247552",
+        "parentId" : "b465a1c5-f0bd-44f2-a5b2-239bceb2b562",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "Cheers! :-)\n",
+        "createdAt" : "2016-05-14T04:04:25Z",
+        "updatedAt" : "2016-05-14T04:04:25Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "60cc9f6d75877a79b4cfb2f25ba683bed8ad5400",
+    "line" : 48,
+    "diffHunk" : "@@ -0,0 +1,59 @@\n+FROM ubuntu:16.04\n+\n+MAINTAINER andrea peruffo <andrea.peruffo1982@gmail.com>\n+\n+# --- --- ---  Proxy Settings --- --- ---\n+#UNCOMMENT IF BHEIND A PROXY\n+#SET A PROPER PROXY IP\n+\n+#ENV DOCKER_PROXY PROXY_IP\n+\n+#ENV http_proxy ${DOCKER_PROXY}\n+#ENV HTTP_PROXY ${DOCKER_PROXY}\n+#ENV https_proxy ${DOCKER_PROXY}\n+#ENV HTTPS_PROXY ${DOCKER_PROXY}\n+#ENV NO_PROXY '127.0.0.1, localhost, /var/run/docker.sock'\n+\n+ENV SCALA_VERSION 2.11.8\n+ENV SBT_VERSION 0.13.11\n+\n+RUN apt-get update && \\\n+    apt-get install -y \\\n+    wget tar curl git \\\n+    openjdk-8-jdk \\\n+    clang++-3.7 llvm-3.7 llvm-3.7-dev llvm-3.7-runtime llvm-3.7-tool \\\n+    libgc-dev\n+\n+ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk\n+\n+RUN \\\n+  curl -fsL http://downloads.typesafe.com/scala/$SCALA_VERSION/scala-$SCALA_VERSION.tgz | tar xfz - -C /root/ && \\\n+  echo >> /root/.bashrc && \\\n+  echo 'export PATH=~/scala-$SCALA_VERSION/bin:$PATH' >> /root/.bashrc\n+\n+RUN \\\n+  curl -L -o sbt-$SBT_VERSION.deb http://dl.bintray.com/sbt/debian/sbt-$SBT_VERSION.deb && \\\n+  dpkg -i sbt-$SBT_VERSION.deb && \\\n+  rm sbt-$SBT_VERSION.deb\n+\n+RUN apt-get update && \\\n+    apt-get -y install sbt\n+\n+WORKDIR /tmp\n+\n+RUN git clone https://github.com/scala-native/scala-native.git\n+\n+WORKDIR /tmp/scala-native/submodules\n+\n+RUN rm -rf scala && git clone https://github.com/scala/scala.git"
+  },
+  {
+    "id" : "c8182abe-0e20-46ef-971a-af71f4c5be71",
+    "prId" : 93,
+    "comments" : [
+      {
+        "id" : "717c1fe4-a8c8-4460-b4d1-be979e08a1f3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just a few issues left to address to make it work out-of-the-box on linux. 👍 \n",
+        "createdAt" : "2016-05-17T11:51:17Z",
+        "updatedAt" : "2016-05-17T12:02:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2d9ccc46-7dd8-4cc7-b120-16bfbf3f7ec3",
+        "parentId" : "717c1fe4-a8c8-4460-b4d1-be979e08a1f3",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "Could I work on this?\nHow do you prefer to target this feature? sbt settings, environment checks, use of external tools (i.e.  cmake) or whatever?\n",
+        "createdAt" : "2016-05-17T12:04:49Z",
+        "updatedAt" : "2016-05-17T12:04:49Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1dff67bf-4146-4aa3-8b55-a3e93a7d5974",
+        "parentId" : "717c1fe4-a8c8-4460-b4d1-be979e08a1f3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "See https://github.com/scala-native/scala-native/issues/102 \n",
+        "createdAt" : "2016-05-18T05:29:52Z",
+        "updatedAt" : "2016-05-18T05:30:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dba3ec4eac44e9b298c897284797dfbb11771ae0",
+    "line" : 7,
+    "diffHunk" : "@@ -43,14 +43,10 @@ WORKDIR /tmp\n \n RUN git clone https://github.com/scala-native/scala-native.git\n \n-WORKDIR /tmp/scala-native/submodules\n-\n-RUN rm -rf scala && git clone https://github.com/scala/scala.git\n-"
+  },
+  {
+    "id" : "c9a1de00-5368-41ee-8758-6ebf744d2cc3",
+    "prId" : 174,
+    "comments" : [
+      {
+        "id" : "a9b37987-1cda-447e-a7b4-628b3f778e9e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The last hack standing just lost its ground. \n",
+        "createdAt" : "2016-06-14T09:14:29Z",
+        "updatedAt" : "2016-06-14T09:14:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a3707640649506c740d2b4a698c1300c51b85419",
+    "line" : 4,
+    "diffHunk" : "@@ -45,8 +45,6 @@ RUN git clone https://github.com/scala-native/scala-native.git\n \n WORKDIR /tmp/scala-native\n \n-RUN sed -i 's|__stdoutp|stdout|;s|__stderrp|stderr|' clib/src/main/scala/scala/scalanative/libc/stdlib.scala"
+  }
+]

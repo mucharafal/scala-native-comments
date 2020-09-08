@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "29bd2da1-ce1a-4480-b3c2-f4d7097e0d85",
+    "prId" : 373,
+    "comments" : [
+      {
+        "id" : "f63dd86f-cd8f-445b-b1e2-128d6de4585c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : " `Workaround for #375`\n",
+        "createdAt" : "2016-11-08T10:35:51Z",
+        "updatedAt" : "2016-11-11T20:56:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b45ac808ee880d0ab120bd9ad3e969bbf6ec49a9",
+    "line" : null,
+    "diffHunk" : "@@ -7,4 +7,9 @@ trait ListIterator[E] extends Iterator[E] {\n   def previousIndex(): Int\n   def nextIndex(): Int\n   def set(e: E): Unit\n+\n+  // Needed to avoid linking error"
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "e93bb84d-b510-4235-9716-e8d0511df092",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "97d4f463-8986-48ed-b298-dedf2c61c6f3",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Missing Type.Null case?",
+        "createdAt" : "2018-10-24T04:24:15Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ba0b51b0-c9f9-466f-b645-a801f24d8682",
+        "parentId" : "97d4f463-8986-48ed-b298-dedf2c61c6f3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2018-10-24T12:57:48Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : 36,
+    "diffHunk" : "@@ -0,0 +1,45 @@\n+package scala.scalanative\n+package nir\n+\n+import org.scalatest._\n+\n+class TypeManglingSuite extends FunSuite {\n+  Seq(\n+    Type.Void,\n+    Type.Vararg,\n+    Type.Ptr,\n+    Type.Byte,\n+    Type.Short,\n+    Type.Int,\n+    Type.Long,\n+    Type.UByte,\n+    Type.UShort,\n+    Type.ULong,\n+    Type.Float,\n+    Type.Double,\n+    Type.ArrayValue(Type.Byte, 256),\n+    Type.StructValue(Seq(Type.Byte)),\n+    Type.StructValue(Seq(Type.Byte, Type.Int)),\n+    Type.StructValue(Seq(Type.Byte, Type.Int, Type.Float)),\n+    Type.Function(Seq.empty, Type.Int),\n+    Type.Function(Seq(Type.Int), Type.Int),\n+    Type.Function(Seq(Type.Float, Type.Int), Type.Int),\n+    Type.Nothing,\n+    Type.Unit,\n+    Type.Array(Rt.Object, nullable = false),\n+    Type.Array(Rt.Object, nullable = true),\n+    Type.Ref(Rt.Object.name, exact = true, nullable = true),\n+    Type.Ref(Rt.Object.name, exact = true, nullable = false),\n+    Type.Ref(Rt.Object.name, exact = false, nullable = true),\n+    Type.Ref(Rt.Object.name, exact = false, nullable = false)\n+  ).foreach { ty =>"
+  }
+]

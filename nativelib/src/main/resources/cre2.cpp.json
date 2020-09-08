@@ -1,0 +1,430 @@
+[
+  {
+    "id" : "1a32380b-8877-4e02-9dbc-3ee6629e3e3c",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "4dbc88d4-de67-4c43-90c1-2f3a14f7380d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Needs full text of the license in comment\r\n2. `removes`",
+        "createdAt" : "2017-04-05T13:58:57Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,261 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012, 2016 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  For the license notice see the COPYING file.\n+*/\n+\n+// Scala-Native version remove unused functions"
+  },
+  {
+    "id" : "377297dd-4797-486e-9d9a-eef2c7adbe09",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "51f96f14-24f7-4e2d-9fed-ba47a6daf4f0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@MasseGuillaume Is this your comment, or was it originally in the code? ",
+        "createdAt" : "2017-04-10T12:46:32Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dd707d67-c29c-47fe-8c0d-504175dfc267",
+        "parentId" : "51f96f14-24f7-4e2d-9fed-ba47a6daf4f0",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "original code.",
+        "createdAt" : "2017-04-10T14:43:34Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ba6eae7d-2c74-4377-bd89-16f9e11b7338",
+        "parentId" : "51f96f14-24f7-4e2d-9fed-ba47a6daf4f0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets keep it to minimize the diff. ",
+        "createdAt" : "2017-04-10T16:43:43Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+*/\n+\n+// Scala-Native version removes unused functions\n+\n+#include <re2/re2.h>\n+#include <re2/set.h>\n+#include \"cre2.h\"\n+\n+#include <cstdlib>\n+#include <cstdio>\n+#include <vector>\n+#include <map>\n+\n+/** --------------------------------------------------------------------\n+ ** Options objects.\n+ ** ----------------------------------------------------------------- */\n+\n+/* Cast    the  pointer    argument   \"opt\"   to   a   pointer   of   type\n+   \"RE2::Options*\". */\n+#define TO_OPT(opt) (reinterpret_cast<RE2::Options *>(opt))\n+\n+/* Allocate and return a new options object. */\n+cre2_options_t * cre2_opt_new(void) {\n+  // FIXME: is  this use of  \"nothrow\" good to avoid  raising exceptions\n+  // when memory allocation fails and to return NULL instead?"
+  },
+  {
+    "id" : "2c9185d0-12ff-4dc9-ab53-29736f01d607",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "f8cc00e7-b435-46c1-b7e8-1a86b6627236",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@MasseGuillaume Is this your comment, or was it originally in the code?",
+        "createdAt" : "2017-04-10T12:46:53Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "09df8f1b-66e9-4bf8-bc8e-57591f57b928",
+        "parentId" : "f8cc00e7-b435-46c1-b7e8-1a86b6627236",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "original code",
+        "createdAt" : "2017-04-10T14:43:51Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0b48f70e-e891-4abd-873b-b8d1f33241b6",
+        "parentId" : "f8cc00e7-b435-46c1-b7e8-1a86b6627236",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets keep it to minimize the diff. ",
+        "createdAt" : "2017-04-10T16:43:58Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : 163,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+*/\n+\n+// Scala-Native version removes unused functions\n+\n+#include <re2/re2.h>\n+#include <re2/set.h>\n+#include \"cre2.h\"\n+\n+#include <cstdlib>\n+#include <cstdio>\n+#include <vector>\n+#include <map>\n+\n+/** --------------------------------------------------------------------\n+ ** Options objects.\n+ ** ----------------------------------------------------------------- */\n+\n+/* Cast    the  pointer    argument   \"opt\"   to   a   pointer   of   type\n+   \"RE2::Options*\". */\n+#define TO_OPT(opt) (reinterpret_cast<RE2::Options *>(opt))\n+\n+/* Allocate and return a new options object. */\n+cre2_options_t * cre2_opt_new(void) {\n+  // FIXME: is  this use of  \"nothrow\" good to avoid  raising exceptions\n+  // when memory allocation fails and to return NULL instead?\n+  return reinterpret_cast<void*>(new (std::nothrow) RE2::Options());\n+}\n+\n+/* Finalise an options object. */\n+void cre2_opt_delete (cre2_options_t *opt) {\n+  delete TO_OPT(opt);\n+}\n+\n+/* Set or unset option flags in an options object. */\n+#define OPT_BOOL(name)  \\\n+ void cre2_opt_set_##name (cre2_options_t *opt, int flag)  \\\n+ {                \\\n+   TO_OPT(opt)->set_##name(bool(flag));        \\\n+ }                \\\n+ int cre2_opt_##name (cre2_options_t *opt)      \\\n+ {                \\\n+   return TO_OPT(opt)->name();          \\\n+ }\n+OPT_BOOL(posix_syntax)\n+OPT_BOOL(longest_match)\n+OPT_BOOL(log_errors)\n+OPT_BOOL(literal)\n+OPT_BOOL(never_nl)\n+OPT_BOOL(dot_nl)\n+OPT_BOOL(never_capture)\n+OPT_BOOL(case_sensitive)\n+OPT_BOOL(perl_classes)\n+OPT_BOOL(word_boundary)\n+OPT_BOOL(one_line)\n+#undef OPT_BOOL\n+\n+/* Select the encoding in an options object. */\n+void cre2_opt_set_encoding (cre2_options_t *opt, cre2_encoding_t enc) {\n+  switch (enc) {\n+  case CRE2_UTF8:\n+    TO_OPT(opt)->set_encoding(RE2::Options::EncodingUTF8);\n+    break;\n+  case CRE2_Latin1:\n+    TO_OPT(opt)->set_encoding(RE2::Options::EncodingLatin1);\n+    break;\n+  default:\n+    fprintf(stderr, \"CRE2: internal error: unknown encoding %d\\n\", enc);\n+    exit(EXIT_FAILURE);\n+  }\n+}\n+\n+cre2_encoding_t cre2_opt_encoding (cre2_options_t *opt)\n+{\n+  RE2::Options::Encoding  E = TO_OPT(opt)->encoding();\n+  switch (E) {\n+  case RE2::Options::EncodingUTF8:\n+    return CRE2_UTF8;\n+  case RE2::Options::EncodingLatin1:\n+    return CRE2_Latin1;\n+  default:\n+    return CRE2_UNKNOWN;\n+  }\n+}\n+\n+/* Configure the maximum amount of memory in an options object. */\n+void cre2_opt_set_max_mem (cre2_options_t *opt, int64_t m) {\n+  TO_OPT(opt)->set_max_mem(m);\n+}\n+\n+int64_t cre2_opt_max_mem (cre2_options_t *opt) {\n+  return TO_OPT(opt)->max_mem();\n+}\n+\n+// #598 (remove this)\n+int cre2_distance(const char* a, const char* b) {\n+  return a - b;\n+}\n+\n+/** --------------------------------------------------------------------\n+ ** Precompiled regular expressions objects.\n+ ** ----------------------------------------------------------------- */\n+\n+#define TO_RE2(re)   (reinterpret_cast<RE2 *>(re))\n+#define TO_CONST_RE2(re) (reinterpret_cast<const RE2 *>(re))\n+\n+cre2_regexp_t* cre2_new (const char *pattern, int pattern_len, const cre2_options_t *opt) {\n+  re2::StringPiece pattern_re2(pattern, pattern_len);\n+  if (opt) {\n+    // FIXME:  is  this   use   of  \"nothrow\"  enough  to  avoid   raising\n+    // exceptions  when   memory   allocation  fails and  to  return  NULL\n+    // instead?"
+  },
+  {
+    "id" : "68c081cb-892e-4ae3-9224-fcb2064ec01c",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "90c38ae0-3b46-434d-94c0-6d674ddfa7fa",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Did you do any modifications apart from removing unused code? ",
+        "createdAt" : "2017-04-10T12:50:30Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9c3bfd39-e2cf-409c-9558-136aa06ad519",
+        "parentId" : "90c38ae0-3b46-434d-94c0-6d674ddfa7fa",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please make an exhaustive list of changes made wrt the original `cre2` here so that we know what to do if we ever want to upgrade it (all changes will have to be re-done then.)",
+        "createdAt" : "2017-04-10T12:53:49Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+*/\n+\n+// Scala-Native version removes unused functions"
+  },
+  {
+    "id" : "9b67ab30-1ac7-4081-9af0-d2e07c76bc0b",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "6bcdff97-1b05-4e68-8882-c08feb0ec25a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Preserving original names might cause random linking errors if people ever try to write bindings for `cre2` themselves. We should prefix all of the functions with `scalanative_` to avoid this. ",
+        "createdAt" : "2017-04-10T12:51:42Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9f73ebdf-1564-4a43-a9fc-5fdf3e299aff",
+        "parentId" : "6bcdff97-1b05-4e68-8882-c08feb0ec25a",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Let's expose our binding then.",
+        "createdAt" : "2017-04-10T15:12:37Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "adc3c4c8-436b-4d2f-a47b-72758fae4e9f",
+        "parentId" : "6bcdff97-1b05-4e68-8882-c08feb0ec25a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The problem is that ours `cre2` is a modified version of the original that we inline into your binary without you knowing about it. I think it's going to be way less confusing to keep it prefixed. Moreover, this would also let us change the implementation later on without being locked into having to support re2 forever. ",
+        "createdAt" : "2017-04-10T16:43:29Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+*/\n+\n+// Scala-Native version removes unused functions\n+\n+#include <re2/re2.h>\n+#include <re2/set.h>\n+#include \"cre2.h\"\n+\n+#include <cstdlib>\n+#include <cstdio>\n+#include <vector>\n+#include <map>\n+\n+/** --------------------------------------------------------------------\n+ ** Options objects.\n+ ** ----------------------------------------------------------------- */\n+\n+/* Cast    the  pointer    argument   \"opt\"   to   a   pointer   of   type\n+   \"RE2::Options*\". */\n+#define TO_OPT(opt) (reinterpret_cast<RE2::Options *>(opt))\n+\n+/* Allocate and return a new options object. */\n+cre2_options_t * cre2_opt_new(void) {"
+  },
+  {
+    "id" : "0010f0b5-ded9-4410-8286-1dacf1ca9e3a",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "d0b26ab1-ae64-4419-b1bb-814eba82c8aa",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This method is never called, you're most likely leaking memory somewhere. ",
+        "createdAt" : "2017-04-10T13:07:49Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+*/\n+\n+// Scala-Native version removes unused functions\n+\n+#include <re2/re2.h>\n+#include <re2/set.h>\n+#include \"cre2.h\"\n+\n+#include <cstdlib>\n+#include <cstdio>\n+#include <vector>\n+#include <map>\n+\n+/** --------------------------------------------------------------------\n+ ** Options objects.\n+ ** ----------------------------------------------------------------- */\n+\n+/* Cast    the  pointer    argument   \"opt\"   to   a   pointer   of   type\n+   \"RE2::Options*\". */\n+#define TO_OPT(opt) (reinterpret_cast<RE2::Options *>(opt))\n+\n+/* Allocate and return a new options object. */\n+cre2_options_t * cre2_opt_new(void) {\n+  // FIXME: is  this use of  \"nothrow\" good to avoid  raising exceptions\n+  // when memory allocation fails and to return NULL instead?\n+  return reinterpret_cast<void*>(new (std::nothrow) RE2::Options());\n+}\n+\n+/* Finalise an options object. */\n+void cre2_opt_delete (cre2_options_t *opt) {\n+  delete TO_OPT(opt);\n+}\n+\n+/* Set or unset option flags in an options object. */\n+#define OPT_BOOL(name)  \\\n+ void cre2_opt_set_##name (cre2_options_t *opt, int flag)  \\\n+ {                \\\n+   TO_OPT(opt)->set_##name(bool(flag));        \\\n+ }                \\\n+ int cre2_opt_##name (cre2_options_t *opt)      \\\n+ {                \\\n+   return TO_OPT(opt)->name();          \\\n+ }\n+OPT_BOOL(posix_syntax)\n+OPT_BOOL(longest_match)\n+OPT_BOOL(log_errors)\n+OPT_BOOL(literal)\n+OPT_BOOL(never_nl)\n+OPT_BOOL(dot_nl)\n+OPT_BOOL(never_capture)\n+OPT_BOOL(case_sensitive)\n+OPT_BOOL(perl_classes)\n+OPT_BOOL(word_boundary)\n+OPT_BOOL(one_line)\n+#undef OPT_BOOL\n+\n+/* Select the encoding in an options object. */\n+void cre2_opt_set_encoding (cre2_options_t *opt, cre2_encoding_t enc) {\n+  switch (enc) {\n+  case CRE2_UTF8:\n+    TO_OPT(opt)->set_encoding(RE2::Options::EncodingUTF8);\n+    break;\n+  case CRE2_Latin1:\n+    TO_OPT(opt)->set_encoding(RE2::Options::EncodingLatin1);\n+    break;\n+  default:\n+    fprintf(stderr, \"CRE2: internal error: unknown encoding %d\\n\", enc);\n+    exit(EXIT_FAILURE);\n+  }\n+}\n+\n+cre2_encoding_t cre2_opt_encoding (cre2_options_t *opt)\n+{\n+  RE2::Options::Encoding  E = TO_OPT(opt)->encoding();\n+  switch (E) {\n+  case RE2::Options::EncodingUTF8:\n+    return CRE2_UTF8;\n+  case RE2::Options::EncodingLatin1:\n+    return CRE2_Latin1;\n+  default:\n+    return CRE2_UNKNOWN;\n+  }\n+}\n+\n+/* Configure the maximum amount of memory in an options object. */\n+void cre2_opt_set_max_mem (cre2_options_t *opt, int64_t m) {\n+  TO_OPT(opt)->set_max_mem(m);\n+}\n+\n+int64_t cre2_opt_max_mem (cre2_options_t *opt) {\n+  return TO_OPT(opt)->max_mem();\n+}\n+\n+// #598 (remove this)\n+int cre2_distance(const char* a, const char* b) {\n+  return a - b;\n+}\n+\n+/** --------------------------------------------------------------------\n+ ** Precompiled regular expressions objects.\n+ ** ----------------------------------------------------------------- */\n+\n+#define TO_RE2(re)   (reinterpret_cast<RE2 *>(re))\n+#define TO_CONST_RE2(re) (reinterpret_cast<const RE2 *>(re))\n+\n+cre2_regexp_t* cre2_new (const char *pattern, int pattern_len, const cre2_options_t *opt) {\n+  re2::StringPiece pattern_re2(pattern, pattern_len);\n+  if (opt) {\n+    // FIXME:  is  this   use   of  \"nothrow\"  enough  to  avoid   raising\n+    // exceptions  when   memory   allocation  fails and  to  return  NULL\n+    // instead?\n+    return reinterpret_cast<void*>\n+      (new (std::nothrow) RE2(pattern_re2, *reinterpret_cast<const RE2::Options *>(opt)));\n+  } else {\n+    return reinterpret_cast<void*> (new (std::nothrow) RE2(pattern_re2));\n+  }\n+}\n+\n+void cre2_delete (cre2_regexp_t *re) {"
+  },
+  {
+    "id" : "dd631fd0-0dc5-4b98-a6cd-eb6aed0197ef",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "e7033d71-da16-4cbc-8a83-82e553776ae1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`CPtrDiff` PR by @jonas has just been merged, we don't need this any longer. ",
+        "createdAt" : "2017-04-10T16:48:38Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,309 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  CRE2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+\n+\n+Scala-Native modifications\n+\n+ + cre2_find_named_capturing_groups (https://github.com/marcomaggi/cre2/pull/14)\n+\n+ - cre2_opt_* (options getter)\n+ - cre2_easy_match\n+ - cre2_match_*\n+ - cre2_strings_to_ranges\n+ - cre2_replace & cre2_global_replace (we use functions accepting regex)\n+ - cre2_possible_match_range\n+ - cre2_check_rewrite_string\n+ - cre2_extract & cre2_extract_re\n+*/\n+\n+\n+#include <re2/re2.h>\n+#include <re2/set.h>\n+#include \"cre2.h\"\n+\n+#include <cstdlib>\n+#include <cstdio>\n+#include <vector>\n+#include <map>\n+\n+/** --------------------------------------------------------------------\n+ ** Options objects.\n+ ** ----------------------------------------------------------------- */\n+\n+/* Cast    the  pointer    argument   \"opt\"   to   a   pointer   of   type\n+   \"RE2::Options*\". */\n+#define TO_OPT(opt) (reinterpret_cast<RE2::Options *>(opt))\n+\n+/* Allocate and return a new options object. */\n+cre2_options_t * cre2_opt_new(void) {\n+  // FIXME: is  this use of  \"nothrow\" good to avoid  raising exceptions\n+  // when memory allocation fails and to return NULL instead?\n+  return reinterpret_cast<void*>(new (std::nothrow) RE2::Options());\n+}\n+\n+/* Finalise an options object. */\n+void cre2_opt_delete (cre2_options_t *opt) {\n+  delete TO_OPT(opt);\n+}\n+\n+/* Set or unset option flags in an options object. */\n+#define OPT_BOOL(name)  \\\n+ void cre2_opt_set_##name (cre2_options_t *opt, int flag)  \\\n+ {                \\\n+   TO_OPT(opt)->set_##name(bool(flag));        \\\n+ }                \\\n+ int cre2_opt_##name (cre2_options_t *opt)      \\\n+ {                \\\n+   return TO_OPT(opt)->name();          \\\n+ }\n+OPT_BOOL(posix_syntax)\n+OPT_BOOL(longest_match)\n+OPT_BOOL(log_errors)\n+OPT_BOOL(literal)\n+OPT_BOOL(never_nl)\n+OPT_BOOL(dot_nl)\n+OPT_BOOL(never_capture)\n+OPT_BOOL(case_sensitive)\n+OPT_BOOL(perl_classes)\n+OPT_BOOL(word_boundary)\n+OPT_BOOL(one_line)\n+#undef OPT_BOOL\n+\n+/* Select the encoding in an options object. */\n+void cre2_opt_set_encoding (cre2_options_t *opt, cre2_encoding_t enc) {\n+  switch (enc) {\n+  case CRE2_UTF8:\n+    TO_OPT(opt)->set_encoding(RE2::Options::EncodingUTF8);\n+    break;\n+  case CRE2_Latin1:\n+    TO_OPT(opt)->set_encoding(RE2::Options::EncodingLatin1);\n+    break;\n+  default:\n+    fprintf(stderr, \"CRE2: internal error: unknown encoding %d\\n\", enc);\n+    exit(EXIT_FAILURE);\n+  }\n+}\n+\n+cre2_encoding_t cre2_opt_encoding (cre2_options_t *opt)\n+{\n+  RE2::Options::Encoding  E = TO_OPT(opt)->encoding();\n+  switch (E) {\n+  case RE2::Options::EncodingUTF8:\n+    return CRE2_UTF8;\n+  case RE2::Options::EncodingLatin1:\n+    return CRE2_Latin1;\n+  default:\n+    return CRE2_UNKNOWN;\n+  }\n+}\n+\n+/* Configure the maximum amount of memory in an options object. */\n+void cre2_opt_set_max_mem (cre2_options_t *opt, int64_t m) {\n+  TO_OPT(opt)->set_max_mem(m);\n+}\n+\n+int64_t cre2_opt_max_mem (cre2_options_t *opt) {\n+  return TO_OPT(opt)->max_mem();\n+}\n+\n+int cre2_distance(const char* a, const char* b) {\n+  return a - b;\n+}"
+  },
+  {
+    "id" : "bc952c51-8190-43c8-9027-7d885cb12092",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "e5748a44-ca6f-42f0-b3b6-c07d92512606",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This needs an update, it doesn't seem to be complete.",
+        "createdAt" : "2017-04-10T18:53:06Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6c6d36e3-33da-4013-8802-213f420e2972",
+        "parentId" : "e5748a44-ca6f-42f0-b3b6-c07d92512606",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "What would be missing?",
+        "createdAt" : "2017-04-10T18:54:50Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "20f67f8e-719f-419e-a7dd-92f08c240e36",
+        "parentId" : "e5748a44-ca6f-42f0-b3b6-c07d92512606",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Imagine writing an instruction what needs to be done to the original file to make this one. It doesn't include the fact that we add `scalanative_` prefix for example.",
+        "createdAt" : "2017-04-10T19:13:56Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : 58,
+    "diffHunk" : "@@ -0,0 +1,305 @@\n+/*\n+  https://github.com/marcomaggi/cre2 (0.3.0)\n+\n+  Source  file  for  cre2, a  C   language  wrapper  for RE2:  a   regular\n+  expressions library by Google.\n+\n+  Copyright (c) 2012 Marco Maggi <marco.maggi-ipsu@poste.it>\n+  Copyright (c) 2011 Keegan McAllister\n+  All rights reserved.\n+\n+  Redistribution and  use in source and binary  forms, with or\n+  without  modification,  are   permitted  provided  that  the\n+  following conditions are met:\n+\n+  1.  Redistributions of  source  code must  retain the  above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following disclaimer.\n+\n+  2. Redistributions  in binary form must  reproduce the above\n+     copyright  notice,  this   list  of  conditions  and  the\n+     following  disclaimer in  the documentation  and/or other\n+     materials provided with the distribution.\n+\n+  3.  Neither the  name of  the author  nor the  names  of his\n+     contributors may  be used to endorse  or promote products\n+     derived from this software without specific prior written\n+     permission.\n+\n+  THIS  SOFTWARE  IS PROVIDED  BY  THE  COPYRIGHT HOLDERS  AND\n+  CONTRIBUTORS   ``AS  IS''   AND  ANY   EXPRESS   OR  IMPLIED\n+  WARRANTIES,  INCLUDING,  BUT  NOT  LIMITED TO,  THE  IMPLIED\n+  WARRANTIES OF  MERCHANTABILITY AND FITNESS  FOR A PARTICULAR\n+  PURPOSE ARE  DISCLAIMED.  IN NO  EVENT SHALL THE  AUTHORS OR\n+  CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,\n+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n+  NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;\n+  LOSS  OF USE,  DATA, OR  PROFITS; OR  BUSINESS INTERRUPTION)\n+  HOWEVER CAUSED  AND ON ANY  THEORY OF LIABILITY,  WHETHER IN\n+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR\n+  OTHERWISE)  ARISING  IN ANY  WAY  OUT  OF  THE USE  OF  THIS\n+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+\n+\n+Scala-Native modifications\n+\n+ + cre2_find_named_capturing_groups (https://github.com/marcomaggi/cre2/pull/14)\n+\n+ - cre2_opt_* (options getter)\n+ - cre2_easy_match\n+ - cre2_match_*\n+ - cre2_strings_to_ranges\n+ - cre2_replace & cre2_global_replace (we use functions accepting regex)\n+ - cre2_possible_match_range\n+ - cre2_check_rewrite_string\n+ - cre2_extract & cre2_extract_re"
+  }
+]

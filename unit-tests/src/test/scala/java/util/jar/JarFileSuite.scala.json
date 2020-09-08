@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "783e4d0d-1f62-48ce-a1ee-c629d42c87bd",
+    "prId" : 942,
+    "comments" : [
+      {
+        "id" : "0dcba7bc-da52-4df7-b881-054f6c8452ca",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I've already amended my port of `JarOutputStream` to re-enable this test.",
+        "createdAt" : "2017-08-17T12:16:35Z",
+        "updatedAt" : "2017-08-21T10:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b866654b8210cd95d2a141b17dcd3491686c7677",
+    "line" : 98,
+    "diffHunk" : "@@ -0,0 +1,392 @@\n+package java.util.jar\n+\n+// Ported from Apache Harmony\n+\n+import java.io.{ByteArrayOutputStream, FileOutputStream, InputStream}\n+import java.nio.file.Files\n+import java.util.zip.ZipEntry\n+import JarBytes._\n+\n+object JarFileSuite extends tests.Suite {\n+\n+  private def getJAR1() = getJarFile(hyts_patchBytes)\n+  private def getJAR2() = getJarFile(hyts_patch2Bytes)\n+  private def getJAR3() = getJarFile(hyts_manifest1Bytes)\n+  private def getJAR4() = getJarFile(hyts_signedBytes)\n+  private def getJAR5() = getJarFile(integrateBytes)\n+\n+  private final val JAR1_ENTRY1       = \"foo/bar/A.class\"\n+  private final val JAR5_SIGNED_ENTRY = \"Test.class\"\n+  private final val JAR4_SIGNED_ENTRY = \"coucou/FileAccess.class\"\n+  private final val emptyEntry1       = \"subfolder/internalSubset01.js\";\n+  private final val emptyEntry2       = \"svgtest.js\";\n+  private final val emptyEntry3       = \"svgunit.js\";\n+\n+  test(\"Constructor()\") {\n+    assert(getJAR1().getEntry(JAR1_ENTRY1).getName() == JAR1_ENTRY1)\n+  }\n+\n+  test(\"entries()\") {\n+    val jarFile = getJAR1()\n+    val e       = jarFile.entries()\n+    var i       = 0\n+    while (e.hasMoreElements()) {\n+      e.nextElement()\n+      i += 1\n+    }\n+    assert(jarFile.size() == i)\n+    jarFile.close()\n+    assert(i == 6)\n+  }\n+\n+  test(\"entriesIterator\") {\n+    var jarFile     = getJAR1()\n+    var enumeration = jarFile.entries()\n+    jarFile.close()\n+    assertThrows[IllegalStateException] {\n+      enumeration.hasMoreElements()\n+    }\n+\n+    jarFile = getJAR1()\n+    enumeration = jarFile.entries()\n+    jarFile.close()\n+    assertThrows[IllegalStateException] {\n+      enumeration.nextElement()\n+    }\n+  }\n+\n+  test(\"getEntry(String)\") {\n+    val jarFile = getJAR1()\n+    assert(jarFile.getEntry(JAR1_ENTRY1).getSize() == 311)\n+\n+    var enumeration = jarFile.entries()\n+    assert(enumeration.hasMoreElements())\n+    while (enumeration.hasMoreElements()) {\n+      val je = enumeration.nextElement()\n+      jarFile.getEntry(je.getName())\n+    }\n+\n+    enumeration = jarFile.entries()\n+    assert(enumeration.hasMoreElements())\n+    val je = enumeration.nextElement()\n+    jarFile.close()\n+    assertThrows[IllegalStateException] {\n+      jarFile.getEntry(je.getName)\n+    }\n+  }\n+\n+  test(\"getJarEntry(String)\") {\n+    val jarFile = getJAR1()\n+    assert(jarFile.getJarEntry(JAR1_ENTRY1).getSize() == 311)\n+\n+    var enumeration = jarFile.entries()\n+    assert(enumeration.hasMoreElements())\n+    while (enumeration.hasMoreElements()) {\n+      val je = enumeration.nextElement()\n+      jarFile.getJarEntry(je.getName())\n+    }\n+\n+    enumeration = jarFile.entries()\n+    assert(enumeration.hasMoreElements())\n+    val je = enumeration.nextElement()\n+    jarFile.close()\n+    assertThrows[IllegalStateException] {\n+      jarFile.getJarEntry(je.getName)\n+    }\n+  }\n+\n+  // TODO: Enable this test once we support `JarOutputStream`:"
+  }
+]

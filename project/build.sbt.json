@@ -1,0 +1,164 @@
+[
+  {
+    "id" : "7af7442c-b6c7-4d27-b418-7253a02fcfb8",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "4d5afa77-d152-45f3-bc6d-b851cb27415d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`0.5.0`.",
+        "createdAt" : "2018-07-19T09:13:14Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 4,
+    "diffHunk" : "@@ -21,6 +21,7 @@ addSbtPlugin(\"com.eed3si9n\"       % \"sbt-dirty-money\"   % \"0.1.0\")\n addSbtPlugin(\"org.foundweekends\"  % \"sbt-bintray\"       % \"0.5.2\")\n addSbtPlugin(\"com.jsuereth\"       % \"sbt-pgp\"           % \"1.0.0\")\n addSbtPlugin(\"com.typesafe\"       % \"sbt-mima-plugin\"   % \"0.1.14\")\n+addSbtPlugin(\"org.portable-scala\" % \"sbt-crossproject\"  % \"0.4.0\")"
+  },
+  {
+    "id" : "b3381533-d339-4310-9ddd-40ae729859c7",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "ba6201e6-6fd7-40ff-abdf-67f957499e6b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's a bit unfortunate that we have to depend on  cross project here, but I don't have an easy fix for it.",
+        "createdAt" : "2018-10-29T09:40:30Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 4,
+    "diffHunk" : "@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(\n   \"org.eclipse.jgit\" % \"org.eclipse.jgit.pgm\" % \"3.2.0.201312181205-r\"\n )\n \n-addSbtPlugin(\"org.portable-scala\" % \"sbt-platform-deps\" % \"1.0.0-M2\")\n+addSbtPlugin(\"org.portable-scala\" % \"sbt-platform-deps\" % \"1.0.0\")\n+addSbtPlugin(\"org.portable-scala\" % \"sbt-crossproject\"  % \"0.6.0\")"
+  },
+  {
+    "id" : "c80afac1-afc5-4855-addd-c521be14c7b9",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "04a5fdbe-fc4c-4745-9418-bed020d3a6db",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be kept. These settings apply to the build itself. If you remove them, we won't see warnings happening in the build itself anymore.",
+        "createdAt" : "2020-05-05T16:07:31Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "08ae67e9-3fee-451e-8150-c85d21305681",
+        "parentId" : "04a5fdbe-fc4c-4745-9418-bed020d3a6db",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Restored as suggested.",
+        "createdAt" : "2020-05-05T20:51:47Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : 16,
+    "diffHunk" : "@@ -20,11 +20,3 @@ addSbtPlugin(\"com.eed3si9n\"       % \"sbt-dirty-money\"   % \"0.2.0\")\n addSbtPlugin(\"org.foundweekends\"  % \"sbt-bintray\"       % \"0.5.4\")\n addSbtPlugin(\"com.jsuereth\"       % \"sbt-pgp\"           % \"2.0.0\")\n addSbtPlugin(\"com.typesafe\"       % \"sbt-mima-plugin\"   % \"0.6.1\")\n-\n-scalacOptions ++= Seq(\n-  \"-deprecation\",\n-  \"-unchecked\",\n-  \"-feature\",\n-  \"-encoding\",\n-  \"utf8\"\n-)"
+  },
+  {
+    "id" : "ec0c19fc-dd9a-4dfa-9699-efd16c271fdc",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "3fb45660-ca60-4998-9c8c-6be44dbeaab5",
+        "parentId" : null,
+        "author" : {
+          "login" : "hepin1989",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/501740?u=b0b4ebfd5fdd2e824196d92f212984038a65b942&v=4"
+        },
+        "body" : "really nice to see this resolved.\r\nrefs: https://github.com/scala-native/scala-native/issues/1793",
+        "createdAt" : "2020-05-14T04:56:54Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "hepin1989",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/501740?u=b0b4ebfd5fdd2e824196d92f212984038a65b942&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : 7,
+    "diffHunk" : "@@ -11,10 +11,6 @@ Compile / unmanagedSourceDirectories ++= {\n   ).map(dir => root / s\"$dir/src/main/scala\")\n }\n \n-libraryDependencies ++= Seq(\n-  \"org.eclipse.jgit\" % \"org.eclipse.jgit.pgm\" % \"5.5.1.201910021850-r\"\n-)\n-"
+  },
+  {
+    "id" : "691c9433-1258-4ccf-aadc-051bd45c8345",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "b0636586-efbf-40f0-8e68-e312fa336c2b",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It seems that you're not using `sbt-header` anywhere. At least I haven't seen its configuration, nor invocations of it in the CI scripts, etc.\r\n\r\nI recommend removing it if it's not going to be used.",
+        "createdAt" : "2020-07-09T12:22:00Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -11,6 +11,7 @@ Compile / unmanagedSourceDirectories ++= {\n   ).map(dir => root / s\"$dir/src/main/scala\")\n }\n \n+addSbtPlugin(\"de.heikoseeberger\"  % \"sbt-header\"        % \"5.0.0\")"
+  }
+]

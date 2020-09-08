@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "f4f49e67-59e3-4d11-84e9-dc0f30ccb94b",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "231b37d7-7565-49db-9ca9-6b8dfa4d576a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't really plan to support `Object*Stream` (i.e., java serialization), so might as well just drop code that depends on it.",
+        "createdAt" : "2019-04-02T10:06:01Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c0499bec-8a25-45e7-9df3-cb2ed84332f3",
+        "parentId" : "231b37d7-7565-49db-9ca9-6b8dfa4d576a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Changed as recommended.  Thank you for the improvement & simplification.  Less lore to\r\nremember or re-create.\r\n\r\nPasses Travis CI.",
+        "createdAt" : "2019-04-03T22:51:33Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,210 @@\n+package scala.re2s\n+\n+import java.io._\n+\n+object RE2PatternSuite extends tests.Suite {\n+  test(\"compile\") {\n+    val p = Pattern.compile(\"abc\")\n+    assert(\"abc\" == p.pattern)\n+    assert(0 == p.flags)\n+  }\n+\n+  test(\"toString\") {\n+    val p = Pattern.compile(\"abc\")\n+    assert(\"abc\" == p.toString)\n+  }\n+\n+  test(\"CompileFlags\") {\n+    val p = Pattern.compile(\"abc\", 5)\n+    assert(\"abc\" == p.pattern)\n+    assert(5 == p.flags)\n+  }\n+\n+  test(\"SyntaxError\") {\n+    var caught = false\n+    try Pattern.compile(\"abc(\")\n+    catch {\n+      case e: PatternSyntaxException =>\n+        assert(4 == e.getIndex)\n+        assert(\"\" != e.getDescription)\n+        assert(\"\" != e.getMessage)\n+        assert(\"abc(\" == e.getPattern)\n+        caught = true\n+    }\n+    assert(caught)\n+  }\n+\n+  test(\"MatchesNoFlags\") {\n+    ApiTestUtils.testMatches(\"ab+c\", \"abbbc\", \"cbbba\")\n+    ApiTestUtils.testMatches(\"ab.*c\", \"abxyzc\", \"ab\\nxyzc\")\n+    ApiTestUtils.testMatches(\"^ab.*c$\", \"abc\", \"xyz\\nabc\\ndef\")\n+  }\n+\n+  test(\"MatchesWithFlags\") {\n+    ApiTestUtils.testMatchesRE2(\"ab+c\", 0, \"abbbc\", \"cbba\")\n+    ApiTestUtils.testMatchesRE2(\"ab+c\",\n+                                Pattern.CASE_INSENSITIVE,\n+                                \"abBBc\",\n+                                \"cbbba\")\n+    ApiTestUtils.testMatchesRE2(\"ab.*c\", 0, \"abxyzc\", \"ab\\nxyzc\")\n+    ApiTestUtils.testMatchesRE2(\"ab.*c\", Pattern.DOTALL, \"ab\\nxyzc\", \"aB\\nxyzC\")\n+    ApiTestUtils.testMatchesRE2(\"ab.*c\",\n+                                Pattern.DOTALL | Pattern.CASE_INSENSITIVE,\n+                                \"aB\\nxyzC\",\n+                                \"z\")\n+    ApiTestUtils.testMatchesRE2(\"^ab.*c$\", 0, \"abc\", \"xyz\\nabc\\ndef\")\n+    ApiTestUtils.testMatchesRE2(\"^ab.*c$\",\n+                                Pattern.MULTILINE,\n+                                \"abc\",\n+                                \"xyz\\nabc\\ndef\")\n+    ApiTestUtils.testMatchesRE2(\"^ab.*c$\", Pattern.MULTILINE, \"abc\", \"\")\n+    ApiTestUtils.testMatchesRE2(\"^ab.*c$\",\n+                                Pattern.DOTALL | Pattern.MULTILINE,\n+                                \"ab\\nc\",\n+                                \"AB\\nc\")\n+    ApiTestUtils.testMatchesRE2(\n+      \"^ab.*c$\",\n+      Pattern.DOTALL | Pattern.MULTILINE | Pattern.CASE_INSENSITIVE,\n+      \"AB\\nc\",\n+      \"z\")\n+  }\n+\n+  private def testFind(regexp: String,\n+                       flag: Int,\n+                       `match`: String,\n+                       nonMatch: String): Unit = {\n+    assert(Pattern.compile(regexp, flag).matcher(`match`).find)\n+    assert(!Pattern.compile(regexp, flag).matcher(nonMatch).find)\n+  }\n+\n+  test(\"Find\") {\n+    testFind(\"ab+c\", 0, \"xxabbbc\", \"cbbba\")\n+    testFind(\"ab+c\", Pattern.CASE_INSENSITIVE, \"abBBc\", \"cbbba\")\n+    testFind(\"ab.*c\", 0, \"xxabxyzc\", \"ab\\nxyzc\")\n+    testFind(\"ab.*c\", Pattern.DOTALL, \"ab\\nxyzc\", \"aB\\nxyzC\")\n+    testFind(\"ab.*c\",\n+             Pattern.DOTALL | Pattern.CASE_INSENSITIVE,\n+             \"xaB\\nxyzCz\",\n+             \"z\")\n+    testFind(\"^ab.*c$\", 0, \"abc\", \"xyz\\nabc\\ndef\")\n+    testFind(\"^ab.*c$\", Pattern.MULTILINE, \"xyz\\nabc\\ndef\", \"xyz\\nab\\nc\\ndef\")\n+    testFind(\"^ab.*c$\",\n+             Pattern.DOTALL | Pattern.MULTILINE,\n+             \"xyz\\nab\\nc\\ndef\",\n+             \"xyz\\nAB\\nc\\ndef\")\n+    testFind(\"^ab.*c$\",\n+             Pattern.DOTALL | Pattern.MULTILINE | Pattern.CASE_INSENSITIVE,\n+             \"xyz\\nAB\\nc\\ndef\",\n+             \"z\")\n+  }\n+\n+  test(\"Split\") {\n+    ApiTestUtils.testSplit(\"/\", \"abcde\", Array[String](\"abcde\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           Array[String](\"a\", \"b\", \"cc\", \"\", \"d\", \"e\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           3,\n+                           Array[String](\"a\", \"b\", \"cc//d/e//\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           4,\n+                           Array[String](\"a\", \"b\", \"cc\", \"/d/e//\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           5,\n+                           Array[String](\"a\", \"b\", \"cc\", \"\", \"d/e//\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           6,\n+                           Array[String](\"a\", \"b\", \"cc\", \"\", \"d\", \"e//\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           7,\n+                           Array[String](\"a\", \"b\", \"cc\", \"\", \"d\", \"e\", \"/\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           8,\n+                           Array[String](\"a\", \"b\", \"cc\", \"\", \"d\", \"e\", \"\", \"\"))\n+    ApiTestUtils.testSplit(\"/\",\n+                           \"a/b/cc//d/e//\",\n+                           9,\n+                           Array[String](\"a\", \"b\", \"cc\", \"\", \"d\", \"e\", \"\", \"\"))\n+    // The tests below are listed at\n+    // http://docs.oracle.com/javase/1.5.0/docs/api/java/util/regex/Pattern.html#split(java.lang.CharSequence, int)\n+    val s       = \"boo:and:foo\"\n+    val regexp1 = \":\"\n+    val regexp2 = \"o\"\n+    ApiTestUtils.testSplit(regexp1, s, 2, Array[String](\"boo\", \"and:foo\"))\n+    ApiTestUtils.testSplit(regexp1, s, 5, Array[String](\"boo\", \"and\", \"foo\"))\n+    ApiTestUtils.testSplit(regexp1, s, -2, Array[String](\"boo\", \"and\", \"foo\"))\n+    ApiTestUtils.testSplit(regexp2,\n+                           s,\n+                           5,\n+                           Array[String](\"b\", \"\", \":and:f\", \"\", \"\"))\n+    ApiTestUtils.testSplit(regexp2,\n+                           s,\n+                           -2,\n+                           Array[String](\"b\", \"\", \":and:f\", \"\", \"\"))\n+    ApiTestUtils.testSplit(regexp2, s, 0, Array[String](\"b\", \"\", \":and:f\"))\n+    ApiTestUtils.testSplit(regexp2, s, Array[String](\"b\", \"\", \":and:f\"))\n+  }\n+\n+  test(\"GroupCount\") { // It is a simple delegation, but still test it.\n+    ApiTestUtils.testGroupCount(\"(.*)ab(.*)a\", 2)\n+    ApiTestUtils.testGroupCount(\"(.*)(ab)(.*)a\", 3)\n+    ApiTestUtils.testGroupCount(\"(.*)((a)b)(.*)a\", 4)\n+    ApiTestUtils.testGroupCount(\"(.*)(\\\\(ab)(.*)a\", 3)\n+    ApiTestUtils.testGroupCount(\"(.*)(\\\\(a\\\\)b)(.*)a\", 3)\n+  }\n+\n+  test(\"Quote\") {\n+    ApiTestUtils.testMatchesRE2(Pattern.quote(\"ab+c\"), 0, \"ab+c\", \"abc\")\n+  }\n+\n+  private def reserialize(obj: Pattern) = {\n+\n+    obj // Remove when Object*Stream methods are implemented"
+  }
+]

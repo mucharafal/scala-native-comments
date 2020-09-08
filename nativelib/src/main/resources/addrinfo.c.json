@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "2fddc0f9-b6f8-4be1-8bce-d323acb2486a",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "3022d106-58f5-4954-aba3-c2ddaac2bf2b",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Could you re-write that in Scala? I think that you should probably already have most of the bindings you need.\r\n\r\nWe usually try to keep our C code as short and simple as possible (just forwarders, and converters for `struct`s).",
+        "createdAt" : "2017-06-15T07:58:07Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "97102167-46d5-4449-a9c9-337a2ba413b4",
+        "parentId" : "3022d106-58f5-4954-aba3-c2ddaac2bf2b",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "As @muxanick provided windows version of the bindings I that's a better idea for sure. I will rewrite in Scala.",
+        "createdAt" : "2017-06-15T13:02:23Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,236 @@\n+#include <sys/socket.h>\n+#include <sys/types.h>\n+#include <netdb.h>\n+#include <string.h>\n+#include <arpa/inet.h>\n+#include <netinet/in.h>\n+#include <netinet/ip_icmp.h>\n+#include <stdio.h>\n+#include <stdbool.h>\n+#include <stdlib.h>\n+\n+char* scalanative_host_to_ip(char* host) {"
+  },
+  {
+    "id" : "7990cb1d-af29-4dd2-b513-6d994b3d9366",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "06c02952-7f92-4b62-88c2-03ff5d58955d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You can get some stuff like `struct timeval`, `getaddrinfo` and others from https://github.com/masseguillaume/hands-on-scala-native (in case it didn't get into Scala Native in the end).",
+        "createdAt" : "2017-06-15T08:02:15Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,236 @@\n+#include <sys/socket.h>\n+#include <sys/types.h>\n+#include <netdb.h>\n+#include <string.h>\n+#include <arpa/inet.h>\n+#include <netinet/in.h>\n+#include <netinet/ip_icmp.h>\n+#include <stdio.h>\n+#include <stdbool.h>\n+#include <stdlib.h>\n+\n+char* scalanative_host_to_ip(char* host) {\n+\tint status;\n+\tstruct addrinfo hints, *ret;\n+\n+\tchar ipstr[INET6_ADDRSTRLEN];\n+\n+\tmemset(&hints, 0, sizeof hints);\n+\thints.ai_family = AF_UNSPEC;\n+\thints.ai_socktype = 0;\n+\n+\tif((status = getaddrinfo(host, NULL, &hints, &ret)) != 0) {\n+\t\treturn NULL;\n+\t}\n+\n+\tvoid *addr;\n+\n+\tif(ret->ai_family == AF_INET) {\n+\t\tstruct sockaddr_in *ipv4 = (struct sockaddr_in *)ret->ai_addr;\n+\t\taddr = &(ipv4->sin_addr);\n+\t}\n+\telse {\n+\t\tstruct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)ret->ai_addr;\n+\t\taddr = &(ipv6->sin6_addr);\n+\t}\n+\n+\tinet_ntop(ret->ai_family, addr, ipstr, sizeof ipstr);\n+\tfreeaddrinfo(ret);\n+\tchar *retip = malloc(INET6_ADDRSTRLEN * sizeof(char));\n+\tstrcpy(retip, ipstr);\n+\treturn retip;\n+}\n+\n+char* scalanative_ip_to_host(char* ip, bool isv4) {\n+\tchar host[1024];\n+\tchar service[20];\n+\tint status = -1;\n+\tif(isv4) {\n+\t\tstruct sockaddr_in addr4;\n+\t\taddr4.sin_family = AF_INET;\n+\t\tinet_pton(AF_INET, ip, &(addr4.sin_addr));\n+\t\tstatus = getnameinfo((struct sockaddr *)&addr4, sizeof addr4, host, sizeof host, service, sizeof service, 0);\n+\t}\n+\telse {\n+\t\tstruct sockaddr_in6 addr6;\n+\t\taddr6.sin6_family = AF_INET6;\n+\t\tinet_pton(AF_INET6, ip, &(addr6.sin6_addr));\n+\t\tstatus = getnameinfo((struct sockaddr *)&addr6, sizeof addr6, host, sizeof host, service, sizeof service, 0);\n+\t}\n+\tif(status == 0) {\n+\t\tchar *rethost = malloc(1024 * sizeof(char));\n+\t\tstrcpy(rethost, host);\n+\t\treturn rethost;\n+\t}\n+\treturn NULL;\n+}\n+\n+char** scalanative_host_to_ip_array(char *host) {\n+\tstruct addrinfo hints, *res, *p;\n+\tint status;\n+\tchar ipstr[INET6_ADDRSTRLEN];\n+\n+\tmemset(&hints, 0, sizeof hints);\n+\thints.ai_family = AF_UNSPEC;\n+\thints.ai_socktype = SOCK_STREAM;\n+\n+\tchar** retarr = malloc(sizeof(char*));\n+\t\n+\tif((status = getaddrinfo(host, NULL, &hints, &res)) != 0) {\n+\t\treturn NULL;\n+\t}\n+\n+\tint count = 0;\n+\tfor(p = res; p != NULL; p = p->ai_next) {\n+\t\tvoid* addr;\n+\t\tchar *ipver;\n+\t\tchar** newretarr = realloc(retarr, (count + 1) * sizeof(char*));\n+\t\tif(newretarr == NULL)\n+\t\t\treturn NULL;\n+\t\tretarr = newretarr;\n+\n+\t\tif(p->ai_family == AF_INET) {\n+\t\t\tstruct sockaddr_in *ipv4 = (struct sockaddr_in *)p->ai_addr;\n+\t\t\taddr = &(ipv4->sin_addr);\n+\t\t}\n+\t\telse {\n+\t\t\tstruct sockaddr_in6 *ipv6 = (struct sockaddr_in6 *)p->ai_addr;\n+\t\t\taddr = &(ipv6->sin6_addr);\n+\t\t}\n+\t\tinet_ntop(p->ai_family, addr, ipstr, sizeof ipstr);\n+\t\tretarr[count] = malloc(INET6_ADDRSTRLEN * sizeof(char));\n+\t\tstrcpy(retarr[count], ipstr);\n+\t\tcount++;\n+\t}\n+\tretarr[count] = malloc(4 * sizeof(char));\n+\tstrcpy(retarr[count], \"END\");\n+\tfreeaddrinfo(res);\n+\treturn retarr;\n+}\n+\n+// based on: https://stackoverflow.com/a/20105379/3645391\n+bool scalanative_is_reachable_by_icmp(char* ip, int time, bool v6) {\n+\tstruct sockaddr addr;\n+\tint family = AF_INET;\n+\tif(v6) {\n+\t\tstruct sockaddr_in6 addr6;\n+\t\tinet_pton(AF_INET6, ip, &(addr6.sin6_addr));\n+\t\taddr6.sin6_family = AF_INET6;\n+\t\taddr = *((struct sockaddr *)&addr6);\n+\t\tfamily = AF_INET6;\n+\t}\n+\telse {\n+\t\tstruct sockaddr_in addr4;\n+\t\tinet_pton(AF_INET, ip, &(addr4.sin_addr)); \n+\t\taddr4.sin_family = AF_INET;\n+\t\taddr = *((struct sockaddr *)&addr4);\n+\t}\n+\n+\tstruct icmphdr icmp_hdr;\n+\tint sequence = 0;\n+\tint sock = socket(family, SOCK_DGRAM, IPPROTO_ICMP);\n+\tif(sock < 0) {\n+\t\treturn false;\n+\t}\n+\n+\tmemset(&icmp_hdr, 0, sizeof icmp_hdr);\n+\ticmp_hdr.type = ICMP_ECHO;\n+\ticmp_hdr.un.echo.id = 1337; // arbitrary id\n+\n+\tunsigned char data[2048];\n+\tint rc;\n+\tstruct timeval timeout;\n+\ttimeout.tv_sec = time / 1000;\n+\ttimeout.tv_usec = (time % 1000) * 1000;"
+  }
+]

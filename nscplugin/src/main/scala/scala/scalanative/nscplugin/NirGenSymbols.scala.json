@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "378814d6-60b1-4819-9ea6-79c3ab1efa31",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "44c3db08-c40e-4a23-ab8b-ea94fef168eb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is now unused, I think.",
+        "createdAt" : "2020-04-25T02:24:11Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,25 @@\n+package scala.scalanative\n+\n+import scala.scalanative.nir.Global\n+import scala.scalanative.nir.Type\n+\n+object NirGenSymbols {\n+  val serializable = Global.Top(\"scala.Serializable\")\n+\n+  val jlClass    = Global.Top(\"java.lang.Class\")\n+  val jlClassRef = Type.Ref(jlClass)\n+\n+  val jlObject    = Global.Top(\"java.lang.Object\")\n+  val jlObjectRef = Type.Ref(jlObject)\n+\n+  val jlNumber    = Global.Top(\"java.lang.Number\")\n+  val jlNumberRef = Type.Ref(jlNumber)"
+  }
+]

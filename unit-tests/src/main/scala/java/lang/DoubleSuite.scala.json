@@ -1,0 +1,184 @@
+[
+  {
+    "id" : "a6acf527-b9d2-49a3-9dd0-dfd6387a8add",
+    "prId" : 356,
+    "comments" : [
+      {
+        "id" : "93fc4716-f036-463e-8afb-f3d6ee0e4320",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A few more tests cases would be nice to have here and for `FloatSuite` too. \n",
+        "createdAt" : "2016-10-26T14:46:17Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "467d03f1-e012-4978-b13b-da6bcd06880b",
+        "parentId" : "93fc4716-f036-463e-8afb-f3d6ee0e4320",
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "Any specific wishes?\n",
+        "createdAt" : "2016-10-26T14:55:00Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "91099a23-5852-406a-bd30-8fb6e1072814",
+        "parentId" : "93fc4716-f036-463e-8afb-f3d6ee0e4320",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Some interesting values are: `+0.0`, `0.0`, `NaN`, `MaxValue`, `MinValue`, `-42`, `+42`. Would be nice to add more asserts to check that those are equivalent when boxed independently. And not equivalent when you compare the different ones. \n",
+        "createdAt" : "2016-10-26T14:58:24Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e6f725a1-fdf5-4b32-92bf-5f9c9992d364",
+        "parentId" : "93fc4716-f036-463e-8afb-f3d6ee0e4320",
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "Done!\n",
+        "createdAt" : "2016-10-27T00:14:59Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6733f6903e51ab1fb2584fa85f1548ffb20f0d2a",
+    "line" : null,
+    "diffHunk" : "@@ -1,6 +1,18 @@\n package java.lang\n \n+import java.lang.Double.{doubleToRawLongBits, longBitsToDouble}\n+\n object DoubleSuite extends tests.Suite {\n+  test(\"equals\") {\n+    assertNot(+0.0 equals -0.0)\n+\n+    assert(Double.NaN equals Double.NaN)\n+\n+    val x = Double.NaN\n+    val y = longBitsToDouble(doubleToRawLongBits(x) | 1)\n+    assert(x equals y)\n+  }"
+  },
+  {
+    "id" : "bbdec64a-c518-4ac4-ae4c-30167245a8c7",
+    "prId" : 356,
+    "comments" : [
+      {
+        "id" : "c1f2b757-3f66-4ac5-9abd-96430a03429c",
+        "parentId" : null,
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "If this is ok for you, I'd like to defer investigation of this to another issue/PR to be able to create PRs for the work I have already done that depends on the fixes in this PR.\n\nI haven't figured out whether this is actually a real bug yet (the OpenJDK explicitly warns that the NaN bit patterns might change and are platform-dependent) or a valid variation.\n",
+        "createdAt" : "2016-10-27T01:43:05Z",
+        "updatedAt" : "2016-10-27T01:43:05Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3bf2fe6e-ed4f-4c58-a5c1-379733e0408f",
+        "parentId" : "c1f2b757-3f66-4ac5-9abd-96430a03429c",
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "One reason why this might happen is that we use `fcmp ueq` which returns `true` if either operand is unordered (NaN). Maybe `fcmp oeq` captures the semantics of the JVM's == for floating point numbers more precisely?\n",
+        "createdAt" : "2016-10-27T01:56:30Z",
+        "updatedAt" : "2016-10-27T01:56:30Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "48e254a6-ebcf-48de-9ebf-6b27b2d0e737",
+        "parentId" : "c1f2b757-3f66-4ac5-9abd-96430a03429c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Seems like unrelated issue, let's defer it for later PR. \n",
+        "createdAt" : "2016-10-27T08:23:53Z",
+        "updatedAt" : "2016-10-27T08:23:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0d5efc43-2a6e-44bd-bd65-d01a4dea453e",
+        "parentId" : "c1f2b757-3f66-4ac5-9abd-96430a03429c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "#360 \n",
+        "createdAt" : "2016-10-27T08:33:23Z",
+        "updatedAt" : "2016-10-27T08:33:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6733f6903e51ab1fb2584fa85f1548ffb20f0d2a",
+    "line" : 152,
+    "diffHunk" : "@@ -1,6 +1,191 @@\n package java.lang\n \n+import java.lang.Double.{\n+  doubleToLongBits,\n+  doubleToRawLongBits,\n+  longBitsToDouble\n+}\n+\n object DoubleSuite extends tests.Suite {\n+  test(\"equals\") {\n+    val pzero = +0.0\n+    val nzero = -0.0\n+    assert(pzero equals pzero)\n+    assert(nzero equals nzero)\n+    assertNot(pzero equals nzero)\n+    val szero = 1.0 - 1.0\n+    assert(pzero equals szero)\n+\n+    val bpzero: java.lang.Double = pzero\n+    val bnzero: java.lang.Double = nzero\n+    assertNot(bpzero equals bnzero)\n+    val bszero: java.lang.Double = szero\n+    assert(bpzero equals bszero)\n+\n+    val num1 = 123.45\n+    val num2 = 123.45\n+    assert(num1 equals num2)\n+\n+    val bnum1: java.lang.Double = num1\n+    val bnum2: java.lang.Double = num2\n+    assert(bnum1 == bnum2)\n+    val pmax1 = scala.Double.MaxValue\n+    val pmax2 = scala.Double.MaxValue\n+    assert(pmax1 equals pmax2)\n+    val pmax3 = scala.Double.MaxValue + 1\n+    assert(pmax1 equals pmax3)\n+\n+    val bpmax1: java.lang.Double = scala.Double.MaxValue\n+    val bpmax2: java.lang.Double = scala.Double.MaxValue\n+    assert(bpmax1 equals bpmax2)\n+    val bpmax3: java.lang.Double = scala.Double.MaxValue + 1\n+    assert(bpmax1 equals bpmax3)\n+\n+    val pmin1 = scala.Double.MinValue\n+    val pmin2 = scala.Double.MinValue\n+    assert(pmin1 equals pmin2)\n+    val pmin3 = scala.Double.MinValue + 1\n+    assert(pmin1 equals pmin3)\n+\n+    val bpmin1: java.lang.Double = scala.Double.MinValue\n+    val bpmin2: java.lang.Double = scala.Double.MinValue\n+    assert(bpmin1 equals bpmin2)\n+    val bpmin3: java.lang.Double = scala.Double.MinValue + 1\n+    assert(bpmin1 equals bpmin3)\n+\n+    val pinf1 = scala.Double.PositiveInfinity\n+    val pinf2 = scala.Double.MaxValue + scala.Double.MaxValue\n+    assert(pinf1 equals pinf2)\n+\n+    val bpinf1: java.lang.Double = pinf1\n+    val bpinf2: java.lang.Double = pinf2\n+    assert(bpinf1 equals bpinf2)\n+\n+    val ninf1 = scala.Double.NegativeInfinity\n+    val ninf2 = scala.Double.MinValue + scala.Double.MinValue\n+    assert(ninf1 equals ninf2)\n+\n+    val bninf1: java.lang.Double = ninf1\n+    val bninf2: java.lang.Double = ninf2\n+    assert(bninf1 equals bninf2)\n+\n+    assert(Double.NaN equals Double.NaN)\n+\n+    val x = Double.NaN\n+    val y = longBitsToDouble(doubleToRawLongBits(x) | 1)\n+    assert(x equals y)\n+\n+    val z = longBitsToDouble(doubleToLongBits(x) | 1)\n+    assert(x equals z)\n+  }\n+\n+  test(\"==\") {\n+    val pzero = +0.0\n+    val nzero = -0.0\n+    assert(pzero == pzero)\n+    assert(nzero == nzero)\n+    assert(pzero == nzero)\n+    val szero = 1.0 - 1.0\n+    assert(pzero == szero)\n+\n+    val bpzero: java.lang.Double = pzero\n+    val bnzero: java.lang.Double = nzero\n+    assertNot(bpzero == bnzero)\n+    val bszero: java.lang.Double = szero\n+    assert(bpzero == bszero)\n+\n+    val num1 = 123.45\n+    val num2 = 123.45\n+    assert(num1 == num2)\n+\n+    val bnum1: java.lang.Double = num1\n+    val bnum2: java.lang.Double = num2\n+    assert(bnum1 == bnum2)\n+\n+    val pmax1 = scala.Double.MaxValue\n+    val pmax2 = scala.Double.MaxValue\n+    assert(pmax1 == pmax2)\n+    val pmax3 = scala.Double.MaxValue + 1\n+    assert(pmax1 == pmax3)\n+\n+    val bpmax1: java.lang.Double = scala.Double.MaxValue\n+    val bpmax2: java.lang.Double = scala.Double.MaxValue\n+    assert(bpmax1 == bpmax2)\n+    val bpmax3: java.lang.Double = scala.Double.MaxValue + 1\n+    assert(bpmax1 == bpmax3)\n+\n+    val pmin1 = scala.Double.MinValue\n+    val pmin2 = scala.Double.MinValue\n+    assert(pmin1 == pmin2)\n+    val pmin3 = scala.Double.MinValue + 1\n+    assert(pmin1 == pmin3)\n+\n+    val bpmin1: java.lang.Double = scala.Double.MinValue\n+    val bpmin2: java.lang.Double = scala.Double.MinValue\n+    assert(bpmin1 == bpmin2)\n+    val bpmin3: java.lang.Double = scala.Double.MinValue + 1\n+    assert(bpmin1 == bpmin3)\n+\n+    val pinf1 = scala.Double.PositiveInfinity\n+    val pinf2 = scala.Double.MaxValue + scala.Double.MaxValue\n+    assert(pinf1 == pinf2)\n+\n+    val bpinf1: java.lang.Double = pinf1\n+    val bpinf2: java.lang.Double = pinf2\n+    assert(bpinf1 == bpinf2)\n+\n+    val ninf1 = scala.Double.NegativeInfinity\n+    val ninf2 = scala.Double.MinValue + scala.Double.MinValue\n+    assert(ninf1 == ninf2)\n+\n+    val bninf1: java.lang.Double = ninf1\n+    val bninf2: java.lang.Double = ninf2\n+    assert(bninf1 == bninf2)\n+\n+    assertNot(Double.NaN == Double.NaN)\n+\n+    val x = Double.NaN\n+    val y = longBitsToDouble(doubleToRawLongBits(x) | 1)\n+    // assertNot(x == y) // FIXME this works on the JVM, but fails on native.\n+\n+    val z = longBitsToDouble(doubleToLongBits(x) | 1)\n+    // assertNot(x == z) // FIXME this works on the JVM, but fails on native."
+  }
+]

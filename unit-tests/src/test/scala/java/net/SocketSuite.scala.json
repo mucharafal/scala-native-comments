@@ -1,0 +1,115 @@
+[
+  {
+    "id" : "93bdc477-b503-49d9-ab9c-9cb3d997054d",
+    "prId" : 1334,
+    "comments" : [
+      {
+        "id" : "6f5f927e-9349-4bc3-8a75-bafaa5dcd0fc",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Looks like you copy pasted the above code. Should be getSendBufferSize and setSendBufferSize.",
+        "createdAt" : "2018-08-31T15:10:07Z",
+        "updatedAt" : "2018-08-31T18:36:18Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "987dbef6-68e5-424b-8f4f-39e361970a47",
+        "parentId" : "6f5f927e-9349-4bc3-8a75-bafaa5dcd0fc",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Oops!  Thank you for the review and, especially, catching that! \r\nColor me embarrassed.\r\n\r\nJust corrected this and will baby-sit Travis to ensure I did not\r\nmess anything up on the process of correcting.",
+        "createdAt" : "2018-08-31T17:06:30Z",
+        "updatedAt" : "2018-08-31T18:36:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2d3f3d85beef64827244e8fa17cc20cbc136d09d",
+    "line" : 39,
+    "diffHunk" : "@@ -54,23 +54,55 @@ object SocketSuite extends tests.Suite {\n   }\n \n   test(\"receiveBufferSize\") {\n-    val s         = new Socket()\n-    val prevValue = s.getReceiveBufferSize\n-    s.setReceiveBufferSize(prevValue + 100)\n-    // On linux the size is actually set to the double of given parameter\n-    // so we don't test if it's equal\n-    assert(s.getReceiveBufferSize >= prevValue + 100)\n-    s.close()\n+    // This test basically checks that getReceiveBufferSize &\n+    // setReceiveBufferSize do not unexpectedly throw and that the former\n+    // returns a minimally sane value.\n+    //\n+    // The Java 8 documentation at URL\n+    // https://docs.oracle.com/javase/8/docs/api/java/net/\\\n+    //     Socket.html#setReceiveBufferSize-int- [sic trailing dash]\n+    // describes the argument for setReceiveBufferSize(int) &\n+    // setSendBufferSize(int) as a _hint_ to the operating system, _not_\n+    // a requirement or demand.  This description is basically unaltered\n+    // in Java 10.\n+    //\n+    // There are a number of reasons the operating system can choose to\n+    // ignore the hint. Changing the buffer size, even before a bind() call,\n+    // may not be implemented. The buffer size may already be at its\n+    // maximum.\n+    //\n+    // Since, by definition, the OS can ignore the hint, it makes no\n+    // sense to set the size, then re-read it and see if it changed.\n+    //\n+    // The sendBuffersize test refers to this comment.\n+    // Please keep both tests synchronized.\n+\n+    val s = new Socket()\n+\n+    try {\n+      val prevValue = s.getReceiveBufferSize\n+      assert(prevValue > 0)\n+      s.setReceiveBufferSize(prevValue + 100)\n+    } finally {\n+      s.close()\n+    }\n   }\n \n   test(\"sendBufferSize\") {\n-    val s         = new Socket()\n-    val prevValue = s.getSendBufferSize\n-    s.setSendBufferSize(prevValue + 100)\n-    // On linux the size is actually set to the double of given parameter\n-    // so we don't test if it's equal\n-    assert(s.getSendBufferSize >= prevValue + 100)\n-    s.close()\n+    // This test basically checks that getSendBufferSize &\n+    // setSendBufferSize do not unexpectedly throw and that the former\n+    // returns a minimally sane value.\n+    // See more extensive comments in setBufferSize test.\n+\n+    val s = new Socket()\n+\n+    try {\n+      val prevValue = s.getReceiveBufferSize\n+      assert(prevValue > 0)\n+      s.setReceiveBufferSize(prevValue + 100)"
+  },
+  {
+    "id" : "c5ee0ac9-bf72-45cb-a933-581c9ff52a37",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "45f5952f-2474-4bb3-9e14-8d1ec5d40ab3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Probably needs an issue opened for this.",
+        "createdAt" : "2018-10-17T09:23:18Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d65c6e44-d7ce-4a49-a712-dc98875ac6c4",
+        "parentId" : "45f5952f-2474-4bb3-9e14-8d1ec5d40ab3",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "https://github.com/scala-native/scala-native/issues/1369",
+        "createdAt" : "2018-10-17T17:15:29Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4a1e46b6-3148-48b5-bedc-e84d9cb0d641",
+        "parentId" : "45f5952f-2474-4bb3-9e14-8d1ec5d40ab3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2018-10-18T08:54:32Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 23,
+    "diffHunk" : "@@ -45,13 +47,26 @@ object SocketSuite extends tests.Suite {\n     s.close()\n   }\n \n-  test(\"soTimeout\") {\n-    val s         = new Socket()\n-    val prevValue = s.getSoTimeout\n-    s.setSoTimeout(prevValue + 1000)\n-    assertEquals(s.getSoTimeout, prevValue + 1000)\n-    s.close()\n-  }\n+  Platform.cross3264(\n+    {\n+      // something is broken on i386"
+  }
+]

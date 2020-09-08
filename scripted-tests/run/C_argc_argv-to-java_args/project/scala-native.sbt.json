@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "a168f9af-4455-46cc-a9b2-851a56c1949e",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "706404a8-9482-4f0b-a2eb-6f1c704da2a5",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "`assumeStandardLibraryStripMargin = true` will fix this, but it seems to be non-idempotent in some corner cases.\n",
+        "createdAt" : "2016-09-29T22:03:35Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : 7,
+    "diffHunk" : "@@ -1,7 +1,8 @@\n {\n   val pluginVersion = System.getProperty(\"plugin.version\")\n-  if(pluginVersion == null)\n-    throw new RuntimeException(\"\"\"|The system property 'plugin.version' is not defined.\n+  if (pluginVersion == null)\n+    throw new RuntimeException(\n+      \"\"\"|The system property 'plugin.version' is not defined."
+  }
+]

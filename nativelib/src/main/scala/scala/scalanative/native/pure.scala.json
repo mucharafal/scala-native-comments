@@ -1,0 +1,121 @@
+[
+  {
+    "id" : "a25a1f35-a7cc-4777-ba36-fd659d7e7503",
+    "prId" : 129,
+    "comments" : [
+      {
+        "id" : "4a857315-071f-4ff9-ae5d-81a8a926726d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Lol! [Here I am](https://github.com/scala-js/scala-js/issues/2227) defending myself against adding such an annotation in Scala.js, and Scala Native already has it ...\n",
+        "createdAt" : "2016-05-24T09:01:02Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b2639d2b-45e6-41dc-9abe-334351995640",
+        "parentId" : "4a857315-071f-4ff9-ae5d-81a8a926726d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is really simple, just assume it's pure and eliminate module loads / function calls based on this assumption. If it is in fact side-effecting in observable ways, it's programmer's fault. Full-blown purity analysis probably wouldn't happen any time soon (and then this annotation will become mute) and we need some short-term solution to clean up of extraneous runtime module loads and runtime calls. \n",
+        "createdAt" : "2016-05-24T09:05:42Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "64eccb1c-9ad6-4b0c-a977-d7578bd40c1f",
+        "parentId" : "4a857315-071f-4ff9-ae5d-81a8a926726d",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "> we need some short-term solution to clean up of extraneous runtime module loads and runtime calls. \n\nAre you sure you do? As in, do you have benchmarks that show that applications are significantly slower if you do not use `@pure`?\n\n> If it is in fact side-effecting in observable ways, it's programmer's fault.\n\ni.e., undefined behavior. UB is fine, but it should be possible to _check_ them in development mode. Here, I don't think one can check that `@pure` was not erroneously used (even at run-time).\n",
+        "createdAt" : "2016-05-24T09:14:47Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6b7f2322-38d1-4954-bee2-410bac799d0c",
+        "parentId" : "4a857315-071f-4ff9-ae5d-81a8a926726d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "[`@pure` was originally added to completely get rid off boxing around polymorphic builtins like casts and pointer ops.](https://github.com/scala-native/scala-native/commit/554be157aadddf3f71e9b06e6ad1f2cd06e73cf0) It used to allocate two boxes on every such operation at some time and that's really bad for a low-level primitive. \n",
+        "createdAt" : "2016-05-24T09:20:32Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2a6fea4a-d979-4599-a4da-a6a468a4ef10",
+        "parentId" : "4a857315-071f-4ff9-ae5d-81a8a926726d",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These operations are primitive and known to support the language. It is therefore OK for a compiler or an optimizer to leverage its knowledge of the standard library as \"intrinsics\" to optimize them away. But I would refrain from exposing such a dangerous feature to developers, as long as possible.\n",
+        "createdAt" : "2016-05-24T09:38:56Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d91e32f0778c018d217fbfef1bc56209717d2ebc",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package scala.scalanative\n+package native\n+\n+/** Let optimizer assume that given method is pure.\n+  * This means that repetitive calls to the same method\n+  * with the same arguments are allowed to be eliminated.\n+  * Additionally, if method result to given method is not used\n+  * then the call can be elided altogether.\n+  */\n+final class pure extends scala.annotation.StaticAnnotation"
+  }
+]

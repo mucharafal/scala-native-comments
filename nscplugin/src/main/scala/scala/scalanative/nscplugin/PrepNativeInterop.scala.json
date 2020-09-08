@@ -1,0 +1,139 @@
+[
+  {
+    "id" : "d790e38f-9bfc-416c-a7ec-64b30d5b2290",
+    "prId" : 985,
+    "comments" : [
+      {
+        "id" : "256185f7-4281-4ac3-8d35-b2bc48db5e40",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why is this method capitalized? Lets make it lower-case for consistency. ",
+        "createdAt" : "2017-08-31T08:42:21Z",
+        "updatedAt" : "2017-08-31T11:04:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "53a6b165-6542-4892-a27e-9841922a0a71",
+        "parentId" : "256185f7-4281-4ac3-8d35-b2bc48db5e40",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "To follow the same convention as `private def ScalaEnumValName` that is defined a few lines before. Should I still change it?",
+        "createdAt" : "2017-08-31T08:54:48Z",
+        "updatedAt" : "2017-08-31T11:04:38Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f3f7d137-eac4-4e24-8d2a-7104176d752f",
+        "parentId" : "256185f7-4281-4ac3-8d35-b2bc48db5e40",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets switch to lower-case for the start of the name of the all methods in there. ",
+        "createdAt" : "2017-08-31T08:56:28Z",
+        "updatedAt" : "2017-08-31T11:04:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f96564883ff646eb68f43e6671f328a2304a0684",
+    "line" : null,
+    "diffHunk" : "@@ -252,6 +266,57 @@ abstract class PrepNativeInterop\n     }\n   }\n \n+  /**\n+   * Rewrite the rhs of `lazy val scalaProps` in trait `PropertiesTrait` to return a pre-populated\n+   * `java.util.Properties` if the resource to read is `/library.properties`.\n+   * @param original  The original `DefDef`\n+   * @param freshName A function that generates a fresh name\n+   * @return The new (typed) rhs of the given `DefDef`.\n+   */\n+  private def ShortCircuitLibraryProperties("
+  },
+  {
+    "id" : "85e3d25d-9005-4189-a1fc-451b177bc76c",
+    "prId" : 985,
+    "comments" : [
+      {
+        "id" : "1bf6c848-f686-494e-b113-1ee976d7ffb0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This comment is not very clear any longer. (i.e. what does partially mean here exactly?)\r\n\r\nLets put \"ported from Scala.js\" down to the list item `Rewrite calls to scala.Enumeration.Value`.",
+        "createdAt" : "2017-08-31T08:46:22Z",
+        "updatedAt" : "2017-08-31T11:04:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f96564883ff646eb68f43e6671f328a2304a0684",
+    "line" : null,
+    "diffHunk" : "@@ -5,12 +5,16 @@ import scala.tools.nsc\n import nsc._\n \n import scala.collection.immutable.ListMap\n-import scala.collection.mutable\n+import scala.collection.mutable.Buffer\n \n+// Partially"
+  },
+  {
+    "id" : "c05e06ca-5751-4398-bc89-684925164dcb",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "c89f0428-c075-48a8-a966-4e07d577ae60",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Debug code.",
+        "createdAt" : "2020-08-20T15:18:12Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -161,7 +195,12 @@ abstract class PrepNativeInterop\n           )\n           super.transform(tree)\n \n-        case _ => super.transform(tree)\n+        // case TypeApply(_, _) if tree.toString.contains(\"classOf\") =>\n+        //   println(\"type apply: \" + tree)\n+        //   super.transform(tree)"
+  }
+]

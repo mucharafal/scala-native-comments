@@ -1,0 +1,192 @@
+[
+  {
+    "id" : "4a31a593-bf49-44e7-a3b3-d9b49d2a81f5",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "5b3612b6-5552-4a8b-82fb-8a01b2263723",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Unfortunately, `suseconds_t` is an `int` on macOS, and a `long` on Linux.\r\n\r\nOn macOS, you'll have issues when copying a `long` coming from Scala Native to the actual C struct.",
+        "createdAt" : "2017-06-28T09:41:49Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1bf81241-66a8-4268-b728-e71e03567d0f",
+        "parentId" : "5b3612b6-5552-4a8b-82fb-8a01b2263723",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-06-28T13:39:18Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+#include <sys/select.h>\n+#include <stdbool.h>\n+#include <errno.h>\n+#include <stddef.h>\n+#include <string.h>\n+\n+struct scalanative_timeval {\n+\ttime_t tv_sec;\n+\tsuseconds_t tv_usec;"
+  },
+  {
+    "id" : "449796d7-3529-46db-82cb-2f0cb0017b55",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "40ea4b3c-e1c2-472c-8705-34a06f8eff62",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Why are you setting `errno`? Shouldn't it be set by `select` in case there's an error?",
+        "createdAt" : "2017-06-28T09:43:03Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "617e71f1-6c29-4e6c-9b54-5471613332b8",
+        "parentId" : "40ea4b3c-e1c2-472c-8705-34a06f8eff62",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-01T14:20:48Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+#include <sys/select.h>\n+#include <stdbool.h>\n+#include <errno.h>\n+#include <stddef.h>\n+#include <string.h>\n+\n+struct scalanative_timeval {\n+\ttime_t tv_sec;\n+\tsuseconds_t tv_usec;\n+};\n+\n+int scalanative_FD_SETSIZE() { return FD_SETSIZE; }\n+\n+void convert_scalanative_timeval(struct scalanative_timeval *in, struct timeval *out) {\n+\tout->tv_sec = in->tv_sec;\n+\tout->tv_usec = in->tv_usec;\n+}\n+\n+void scalanative_FD_ZERO(int *set) {\n+\tmemset(set, '\\0', sizeof(*set));\n+}\n+\n+void scalanative_FD_CLR(int fd, int *set) {\n+\tset[fd/sizeof(int)] &= ~((int)(1<<(fd % sizeof(int))));\n+}\n+\n+void scalanative_FD_SET(int fd, int *set) {\n+\tset[fd/sizeof(int)] |= ((int)(1<<(fd % sizeof(int))));\n+}\n+\n+int scalanative_FD_ISSET(int fd, int *set) {\n+\treturn (set[fd/sizeof(int)] & ((int)(1<<(fd & sizeof(int)))));\n+}\n+\n+int scalanative_select(int nfds, int *readfds, int *writefds,\n+\t\t       int *exceptfds, struct scalanative_timeval *scalanative_timeout) {\n+\tfd_set rfds;\n+\tfd_set wfds;\n+\tfd_set efds;\n+\tbool r, w, e;\n+\tr = (readfds != NULL);\n+\tw = (writefds != NULL);\n+\te = (exceptfds != NULL);\n+\n+\tFD_ZERO(&rfds);\n+\tFD_ZERO(&wfds);\n+\tFD_ZERO(&efds);\n+\tfor(int i = 0; i < FD_SETSIZE; ++i) {\n+\t\tif(!r && !w && !e) break;\n+\t\tif(r) {\n+\t\t\tif(scalanative_FD_ISSET(i, readfds)) {\n+\t\t\t\tFD_SET(i, &rfds);\n+\t\t\t}\n+\t\t}\n+\t\tif(w) {\n+\t\t\tif(scalanative_FD_ISSET(i, writefds)) {\n+\t\t\t\tFD_SET(writefds[i], &wfds);\n+\t\t\t}\n+\t\t}\n+\t\tif(e) {\n+\t\t\tif(scalanative_FD_ISSET(i, exceptfds)) {\n+\t\t\t\tFD_SET(exceptfds[i], &efds);\n+\t\t\t}\n+\t\t}\n+\t}\n+\n+\tint status;\n+\tif(scalanative_timeout != NULL) {\n+\t\tstruct timeval timeout;\n+\t\tconvert_scalanative_timeval(scalanative_timeout, &timeout);\n+\t\tstatus = select(nfds, &rfds, &wfds, &efds, &timeout);\n+\t}\n+\telse {\n+\t\tstatus = select(nfds, &rfds, &wfds, &efds, NULL);\n+\t}\n+\n+\tif(status == -1) {\n+\t\terrno = -1;"
+  },
+  {
+    "id" : "8697094b-0ef4-41ab-af61-97c59007aef8",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "dbcf33b5-43f6-464f-98d4-9eb2951a10a3",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Why can't you just pass `readfds`, `writfds` and `exceptfds` to `select`?",
+        "createdAt" : "2017-06-28T09:44:54Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d94f6b4f-ec3c-4806-8700-6ecdb253cd6d",
+        "parentId" : "dbcf33b5-43f6-464f-98d4-9eb2951a10a3",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "fd_set is different on all platforms. Apple uses int for its bitmask, on my system (linux) it is long int and on windows something even different There is probably a better way to convert my implementation of fd_set to system's implementation though. ",
+        "createdAt" : "2017-06-29T12:19:11Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+#include <sys/select.h>\n+#include <stdbool.h>\n+#include <errno.h>\n+#include <stddef.h>\n+#include <string.h>\n+\n+struct scalanative_timeval {\n+\ttime_t tv_sec;\n+\tsuseconds_t tv_usec;\n+};\n+\n+int scalanative_FD_SETSIZE() { return FD_SETSIZE; }\n+\n+void convert_scalanative_timeval(struct scalanative_timeval *in, struct timeval *out) {\n+\tout->tv_sec = in->tv_sec;\n+\tout->tv_usec = in->tv_usec;\n+}\n+\n+void scalanative_FD_ZERO(int *set) {\n+\tmemset(set, '\\0', sizeof(*set));\n+}\n+\n+void scalanative_FD_CLR(int fd, int *set) {\n+\tset[fd/sizeof(int)] &= ~((int)(1<<(fd % sizeof(int))));\n+}\n+\n+void scalanative_FD_SET(int fd, int *set) {\n+\tset[fd/sizeof(int)] |= ((int)(1<<(fd % sizeof(int))));\n+}\n+\n+int scalanative_FD_ISSET(int fd, int *set) {\n+\treturn (set[fd/sizeof(int)] & ((int)(1<<(fd & sizeof(int)))));\n+}\n+\n+int scalanative_select(int nfds, int *readfds, int *writefds,\n+\t\t       int *exceptfds, struct scalanative_timeval *scalanative_timeout) {\n+\tfd_set rfds;"
+  },
+  {
+    "id" : "92d2ce10-b3cc-42d2-bf16-91891e63c4af",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "e7906a07-6282-4d29-9b5e-5eadd8a4398b",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Could you please re-explain why this function needs to be so complicated and why we can't simply forward all the `FD_*` functions?",
+        "createdAt" : "2017-07-03T11:05:23Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,94 @@\n+#include <sys/select.h>\n+#include <stdbool.h>\n+#include <errno.h>\n+#include <stddef.h>\n+#include <string.h>\n+\n+struct scalanative_timeval {\n+    time_t tv_sec;\n+    int tv_usec;\n+};\n+\n+int scalanative_FD_SETSIZE() { return FD_SETSIZE; }\n+\n+void convert_scalanative_timeval(struct scalanative_timeval *in,\n+                                 struct timeval *out) {\n+    out->tv_sec = in->tv_sec;\n+    out->tv_usec = in->tv_usec;\n+}\n+\n+void scalanative_FD_ZERO(int *set) { memset(set, '\\0', sizeof(*set)); }\n+\n+void scalanative_FD_CLR(int fd, int *set) {\n+    set[fd / sizeof(int)] &= ~((int)(1 << (fd % sizeof(int))));\n+}\n+\n+void scalanative_FD_SET(int fd, int *set) {\n+    set[fd / sizeof(int)] |= ((int)(1 << (fd % sizeof(int))));\n+}\n+\n+int scalanative_FD_ISSET(int fd, int *set) {\n+    return (set[fd / sizeof(int)] & ((int)(1 << (fd & sizeof(int)))));\n+}\n+\n+int scalanative_select(int nfds, int *readfds, int *writefds, int *exceptfds,"
+  }
+]

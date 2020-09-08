@@ -1,0 +1,550 @@
+[
+  {
+    "id" : "7f5319b2-89c8-431a-a5ef-9b59684b4e3c",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "ed16eac8-5177-4f94-b8ed-584ac41a6f03",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should be:\n\n``` scala\n@inline def doubleToRawLongBits(value: scala.Double): scala.Long = \n  value.cast[scala.Long]\n```\n\nAlso we don't support Java-style `@native` annotations. \n",
+        "createdAt" : "2016-06-21T11:24:32Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long"
+  },
+  {
+    "id" : "5d8b2206-c3f9-4645-889f-d994d4c6dd2b",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "58c11d90-23e2-4acc-9fd7-d8e08b48408f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "``` scala\n@inline def longBitsToDouble(value: scala.Long): scala.Double = \n  value.cast[scala.Double]\n```\n",
+        "createdAt" : "2016-06-21T11:25:34Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long\n \n-  @inline def toString(d: scala.Double): String =\n-    \"\" + d\n+  @inline def hashCode(value: scala.Double): scala.Int = {\n+    val v = doubleToLongBits(value)\n+    (v ^ (v >>> 32)).toInt\n+  }\n+\n+//  def isFinite(d: scala.Double): scala.Boolean = ???\n \n-  def compare(a: scala.Double, b: scala.Double): scala.Int = ???\n+  @inline def isInfinite(v: scala.Double): scala.Boolean =\n+    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n \n   @inline def isNaN(v: scala.Double): scala.Boolean =\n     v != v\n \n-  @inline def isInfinite(v: scala.Double): scala.Boolean =\n-    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n+  @native def longBitsToDouble(bits: scala.Long): scala.Double"
+  },
+  {
+    "id" : "a6a8e834-b63b-4369-a67b-a33ab2d00376",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "387df0a4-da1a-4e0e-b270-17207cf878ce",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`= !isInfinite(d)`\n",
+        "createdAt" : "2016-06-21T11:41:44Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long\n \n-  @inline def toString(d: scala.Double): String =\n-    \"\" + d\n+  @inline def hashCode(value: scala.Double): scala.Int = {\n+    val v = doubleToLongBits(value)\n+    (v ^ (v >>> 32)).toInt\n+  }\n+\n+//  def isFinite(d: scala.Double): scala.Boolean = ???"
+  },
+  {
+    "id" : "b371fac1-efc5-4077-89cd-7165a910b18a",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "8d3d4add-014f-4bf3-b3d2-81f5a94b78d7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-06-21T11:41:58Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bedc2943-7df0-4dc9-ab64-d8ea7865cae4",
+        "parentId" : "8d3d4add-014f-4bf3-b3d2-81f5a94b78d7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "All the other `sum`-s too.\n",
+        "createdAt" : "2016-06-21T11:43:45Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long\n \n-  @inline def toString(d: scala.Double): String =\n-    \"\" + d\n+  @inline def hashCode(value: scala.Double): scala.Int = {\n+    val v = doubleToLongBits(value)\n+    (v ^ (v >>> 32)).toInt\n+  }\n+\n+//  def isFinite(d: scala.Double): scala.Boolean = ???\n \n-  def compare(a: scala.Double, b: scala.Double): scala.Int = ???\n+  @inline def isInfinite(v: scala.Double): scala.Boolean =\n+    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n \n   @inline def isNaN(v: scala.Double): scala.Boolean =\n     v != v\n \n-  @inline def isInfinite(v: scala.Double): scala.Boolean =\n-    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n+  @native def longBitsToDouble(bits: scala.Long): scala.Double\n+\n+  def max(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.max(a, b)\n+\n+  def min(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.min(a, b)\n+\n+  @inline def parseDouble(s: _String): scala.Double =\n+    NumberParser.parseDouble(s)\n+\n+  def sum(a: scala.Double, b: scala.Double): scala.Double =\n+    a + b"
+  },
+  {
+    "id" : "d2169840-bbd5-41e8-b3b1-7ea9d66d87ef",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "38b8aece-6b15-4ca3-ab65-9468da58efb7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-06-21T11:42:07Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9bdac722-8d1b-40ec-a3a1-e298edf32151",
+        "parentId" : "38b8aece-6b15-4ca3-ab65-9468da58efb7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "All the other `min`-s too.\n",
+        "createdAt" : "2016-06-21T11:43:32Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long\n \n-  @inline def toString(d: scala.Double): String =\n-    \"\" + d\n+  @inline def hashCode(value: scala.Double): scala.Int = {\n+    val v = doubleToLongBits(value)\n+    (v ^ (v >>> 32)).toInt\n+  }\n+\n+//  def isFinite(d: scala.Double): scala.Boolean = ???\n \n-  def compare(a: scala.Double, b: scala.Double): scala.Int = ???\n+  @inline def isInfinite(v: scala.Double): scala.Boolean =\n+    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n \n   @inline def isNaN(v: scala.Double): scala.Boolean =\n     v != v\n \n-  @inline def isInfinite(v: scala.Double): scala.Boolean =\n-    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n+  @native def longBitsToDouble(bits: scala.Long): scala.Double\n+\n+  def max(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.max(a, b)\n+\n+  def min(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.min(a, b)"
+  },
+  {
+    "id" : "d6b31be8-cfc7-43b3-ba48-67323d44895a",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "48478741-fc87-485e-aa18-dd0be151b17e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-06-21T11:42:14Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "aa299941-023a-4c3a-8c33-ab47817a3ec0",
+        "parentId" : "48478741-fc87-485e-aa18-dd0be151b17e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "All the other `max`-s too.\n",
+        "createdAt" : "2016-06-21T11:43:26Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long\n \n-  @inline def toString(d: scala.Double): String =\n-    \"\" + d\n+  @inline def hashCode(value: scala.Double): scala.Int = {\n+    val v = doubleToLongBits(value)\n+    (v ^ (v >>> 32)).toInt\n+  }\n+\n+//  def isFinite(d: scala.Double): scala.Boolean = ???\n \n-  def compare(a: scala.Double, b: scala.Double): scala.Int = ???\n+  @inline def isInfinite(v: scala.Double): scala.Boolean =\n+    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n \n   @inline def isNaN(v: scala.Double): scala.Boolean =\n     v != v\n \n-  @inline def isInfinite(v: scala.Double): scala.Boolean =\n-    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n+  @native def longBitsToDouble(bits: scala.Long): scala.Double\n+\n+  def max(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.max(a, b)"
+  },
+  {
+    "id" : "cefb38c1-3e39-46dd-8e9f-0b0d65c5f54b",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "e85c1ba0-700f-4144-8d58-a3c8e4c890ef",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The longest possible string has length 24, unless I'm mistaken. It is `-0x0.0000000000001p-1022`, which would be produced by `(-Double.MinPositiveValue).toHexString()`. Hence, you should create the `StringBuilder` with an argument of 24 instead of 10.\n",
+        "createdAt" : "2016-06-22T07:56:06Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0d != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val d1 = doubleToRawLongBits(x)\n+        val d2 = doubleToRawLongBits(y)\n+        ((d1 >> 63) - (d2 >> 63)).toInt\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Double = valueOf(parseDouble(s))\n+  @inline def doubleToLongBits(value: scala.Double): scala.Long =\n+    if (value != value) 0x7ff8000000000000L\n+    else doubleToRawLongBits(value)\n \n-  def parseDouble(s: String): scala.Double = ???\n+  @native def doubleToRawLongBits(value: scala.Double): scala.Long\n \n-  @inline def toString(d: scala.Double): String =\n-    \"\" + d\n+  @inline def hashCode(value: scala.Double): scala.Int = {\n+    val v = doubleToLongBits(value)\n+    (v ^ (v >>> 32)).toInt\n+  }\n+\n+//  def isFinite(d: scala.Double): scala.Boolean = ???\n \n-  def compare(a: scala.Double, b: scala.Double): scala.Int = ???\n+  @inline def isInfinite(v: scala.Double): scala.Boolean =\n+    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n \n   @inline def isNaN(v: scala.Double): scala.Boolean =\n     v != v\n \n-  @inline def isInfinite(v: scala.Double): scala.Boolean =\n-    v == POSITIVE_INFINITY || v == NEGATIVE_INFINITY\n+  @native def longBitsToDouble(bits: scala.Long): scala.Double\n+\n+  def max(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.max(a, b)\n+\n+  def min(a: scala.Double, b: scala.Double): scala.Double =\n+    Math.min(a, b)\n+\n+  @inline def parseDouble(s: _String): scala.Double =\n+    NumberParser.parseDouble(s)\n+\n+  def sum(a: scala.Double, b: scala.Double): scala.Double =\n+    a + b\n+\n+  def toHexString(d: scala.Double): _String = {\n+    if (d != d) {\n+      \"NaN\"\n+    } else if (d == POSITIVE_INFINITY) {\n+      \"Infinity\"\n+    } else if (d == NEGATIVE_INFINITY) {\n+      \"-Infinity\"\n+    } else {\n+      val bitValue = doubleToLongBits(d)\n+      val negative = (bitValue & 0x8000000000000000L) != 0\n+      val exponent = (bitValue & 0x7FF0000000000000L) >>> 52\n+      var significand = bitValue & 0x000FFFFFFFFFFFFFL\n+      if (exponent == 0 && significand == 0) {\n+        if (negative) \"-0x0.0p0\"\n+        else \"0x0.0p0\"\n+      } else {\n+        val hexString = new java.lang.StringBuilder(10)"
+  },
+  {
+    "id" : "12efd39a-698d-451b-9bf7-989ebcde9d73",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "35aa6f76-c175-40e4-a615-0d8d5112d510",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`x < y`\n",
+        "createdAt" : "2016-06-22T09:21:49Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,30 +59,132 @@ object Double {\n   final val MIN_EXPONENT      = -1022\n   final val SIZE              = 64\n \n-  @inline def valueOf(doubleValue: scala.Double): Double =\n-    new Double(doubleValue)\n+  @inline def compare(x: scala.Double, y: scala.Double): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1"
+  },
+  {
+    "id" : "0011951f-4565-423a-91fa-738848759b6c",
+    "prId" : 212,
+    "comments" : [
+      {
+        "id" : "68895871-dbed-4be2-8a09-df1696c8cf31",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-07-13T13:37:41Z",
+        "updatedAt" : "2016-07-13T13:37:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fde256b043f37f07d62ae5867c2845a877d78287",
+    "line" : 25,
+    "diffHunk" : "@@ -1,25 +1,38 @@\n package java.lang\n \n+import scalanative.native._\n+\n final class Double(val doubleValue: scala.Double)\n     extends Number\n     with Comparable[Double] {\n-  def this(s: String) = this(Double.parseDouble(s))\n-\n-  @inline override def byteValue(): scala.Byte   = doubleValue.toByte\n-  @inline override def shortValue(): scala.Short = doubleValue.toShort\n-  @inline def intValue(): scala.Int              = doubleValue.toInt\n-  @inline def longValue(): scala.Long            = doubleValue.toLong\n-  @inline def floatValue(): scala.Float          = doubleValue.toFloat\n-\n-  override def equals(that: Any): scala.Boolean = that match {\n-    case that: Double =>\n-      val a = doubleValue\n-      val b = that.doubleValue\n-      (a == b) || (Double.isNaN(a) && Double.isNaN(b))\n-\n-    case _ =>\n-      false\n-  }\n+  def this(s: String) ="
+  },
+  {
+    "id" : "2b2dc3d0-fed0-4eeb-8ab3-175168298bbb",
+    "prId" : 356,
+    "comments" : [
+      {
+        "id" : "c49593cf-7604-48d5-b086-515a2e07800e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Harmony does nearly the same thing here. That's good that we converge on the same solution independently. \n",
+        "createdAt" : "2016-10-26T14:47:49Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6733f6903e51ab1fb2584fa85f1548ffb20f0d2a",
+    "line" : 11,
+    "diffHunk" : "@@ -26,9 +26,11 @@ final class Double(override val doubleValue: scala.Double)\n   @inline override def equals(that: Any): scala.Boolean =\n     that match {\n       case that: Double =>\n-        val a = doubleValue\n-        val b = that.doubleValue\n-        (a == b) || (Double.isNaN(a) && Double.isNaN(b))\n+        // As doubles with different NaNs are considered equal,\n+        // use doubleToLongBits instead of doubleToRawLongBits\n+        val a = Double.doubleToLongBits(doubleValue)\n+        val b = Double.doubleToLongBits(that.doubleValue)\n+        a == b"
+  },
+  {
+    "id" : "5ff37a24-4011-4356-975d-1214bc3e5e81",
+    "prId" : 1047,
+    "comments" : [
+      {
+        "id" : "a37ec0e0-16c4-4bfc-8b35-204c0f4460b2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is much better than what we had before, and it indeed fixes `parseDouble(\"foobar\")` to throw as expected. But the problem still remains for the `parseFloat(\"0.0foobar\")`. `strtod` would happily eat `0.0` and then stop.\r\n\r\nWe can fix it by: \r\n1. Finding pointer to the end of the string by skipping all characters until we see `'\\0'`. \r\n2. And then checking that `end` as returned by `strtod` is the end of the string. ",
+        "createdAt" : "2017-10-03T12:03:45Z",
+        "updatedAt" : "2017-10-03T17:00:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2a9478ea-570d-4d1f-9ecc-af1260936e77",
+        "parentId" : "a37ec0e0-16c4-4bfc-8b35-204c0f4460b2",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Then `if (errno.errno == 0 && cstr != !end && !end == '\\0') res` should work.",
+        "createdAt" : "2017-10-03T13:48:57Z",
+        "updatedAt" : "2017-10-03T17:00:18Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "715471c4-a5ab-4b13-9f68-e8d2cd8ca820",
+        "parentId" : "a37ec0e0-16c4-4bfc-8b35-204c0f4460b2",
+        "author" : {
+          "login" : "longshorej",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/515201?u=2321ccbfcb279383c4515efa90f04a223de28302&v=4"
+        },
+        "body" : "Thanks - I'll get this fixed. Yeah, I think that'll work @ekrich - thanks for the suggestion.",
+        "createdAt" : "2017-10-03T14:30:03Z",
+        "updatedAt" : "2017-10-03T17:00:18Z",
+        "lastEditedBy" : {
+          "login" : "longshorej",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/515201?u=2321ccbfcb279383c4515efa90f04a223de28302&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b26eb62c702c800e880e9574ec2c7a0ea7341d92",
+    "line" : null,
+    "diffHunk" : "@@ -244,7 +244,7 @@ object Double {\n       errno.errno = 0\n       val res = stdlib.strtod(cstr, end)\n \n-      if (errno.errno == 0) res\n+      if (errno.errno == 0 && cstr != !end) res"
+  },
+  {
+    "id" : "cee2579e-ad03-4610-88d8-6689154dfe54",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "2bc6e76c-331e-4840-b5b2-08c325c924fc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs curlies.",
+        "createdAt" : "2019-05-28T09:11:48Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 7,
+    "diffHunk" : "@@ -248,7 +248,8 @@ object Double {\n       errno.errno = 0\n       val res = stdlib.strtod(cstr, end)\n \n-      if (errno.errno == 0 && cstr != !end && string.strlen(!end) == 0) res\n+      if (errno.errno == 0 && cstr != !end && string.strlen(!end).toInt == 0)\n+        res"
+  },
+  {
+    "id" : "fe159c06-1921-4d66-ad7f-c478944ffaca",
+    "prId" : 1714,
+    "comments" : [
+      {
+        "id" : "09d3c9e7-8496-4ec9-b16f-093f66fd9e11",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is this configurable? Can we ask scalafmt to preserve lowercase for hexadecimal digits?",
+        "createdAt" : "2020-02-21T10:23:15Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d616f563-7c08-499a-985f-fceb131140ff",
+        "parentId" : "09d3c9e7-8496-4ec9-b16f-093f66fd9e11",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "These are the defaults for just the character at the end as far as I know. It looks like they just uppercase or lowercase the whole number rather than just the last character.\r\n```\r\nliterals.long = Upper\r\nliterals.float = Lower\r\nliterals.double = Lower\r\n```\r\nI also looked checked and if the hexidecimal number is not a `long` it leaves those alone so in `java.lang.Character` some hexadecimals are lowercase and some are uppercase.\r\n\r\nI think I should just roll back that change and report it to `scalafmt` until a change can be made. \r\n\r\nThe last character casing above makes sense but not changing the hex portion unless they are changed everywhere. Also, if you have E Notation like `10E-3f` it changes to `10e-3f` and if you have `10e-3L` it would change to `10E-3L`. This is clearly weird.\r\n",
+        "createdAt" : "2020-02-21T18:56:17Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7a175ef7-adc3-49be-a4f2-6c1a31bcd2f2",
+        "parentId" : "09d3c9e7-8496-4ec9-b16f-093f66fd9e11",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "The whole idea is you have common decent standards and then forget about it as the tool does it for you.",
+        "createdAt" : "2020-02-21T18:57:19Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9f0521daf3eb1228c7a2fc8864f0f4f24ceb5ad0",
+    "line" : null,
+    "diffHunk" : "@@ -211,7 +211,7 @@ object Double {\n     }\n \n   @inline def doubleToLongBits(value: scala.Double): scala.Long =\n-    if (value != value) 0x7ff8000000000000L\n+    if (value != value) 0x7FF8000000000000L"
+  }
+]

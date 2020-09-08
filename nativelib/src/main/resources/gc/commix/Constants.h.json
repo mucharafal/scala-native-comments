@@ -1,0 +1,121 @@
+[
+  {
+    "id" : "85833ace-15ac-4d5a-ae13-a1501e497b68",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "23b8f98c-e692-403e-8d42-832770c0fb4b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should probably be a configurable setting (similarly to heap size).",
+        "createdAt" : "2019-02-08T11:44:55Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e4eee183-49bd-42e6-a7ba-c06767df9d4c",
+        "parentId" : "23b8f98c-e692-403e-8d42-832770c0fb4b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "i.e., `SCALANATIVE_TIME_RATIO` similarly to `-XX:GCTimeRatio` on the JVM.",
+        "createdAt" : "2019-02-08T11:59:56Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f8ade3ef-bfce-4adf-a5df-9873d749cc21",
+        "parentId" : "23b8f98c-e692-403e-8d42-832770c0fb4b",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Done, only using the `SCALANATIVE_MARK_TIME_RATIO` setting. Because we are not based on the total GC time, just the mark time.",
+        "createdAt" : "2019-02-27T14:26:56Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bd11fc8d-e7d0-4681-9c14-a010c23cbebf",
+        "parentId" : "23b8f98c-e692-403e-8d42-832770c0fb4b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "With concurrent sweep, mark time is the direct proxy gc time +/- error.",
+        "createdAt" : "2019-02-27T15:06:58Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "68ff2652-621f-40d6-a4c2-802896a90306",
+        "parentId" : "23b8f98c-e692-403e-8d42-832770c0fb4b",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Makes sense",
+        "createdAt" : "2019-02-27T17:04:42Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,94 @@\n+#ifndef IMMIX_CONSTANTS_H\n+#define IMMIX_CONSTANTS_H\n+\n+#define WORD_SIZE_BITS 3\n+#define WORD_SIZE (1 << WORD_SIZE_BITS)\n+\n+#define ALLOCATION_ALIGNMENT_WORDS 2\n+#define ALLOCATION_ALIGNMENT (ALLOCATION_ALIGNMENT_WORDS * WORD_SIZE)\n+#define ALLOCATION_ALIGNMENT_INVERSE_MASK (~((word_t)ALLOCATION_ALIGNMENT - 1))\n+\n+#define BLOCK_SIZE_BITS 15\n+#define LINE_SIZE_BITS 8\n+#define BLOCK_COUNT_BITS 24\n+\n+#define LINE_METADATA_SIZE_BITS 0\n+\n+#define BLOCK_TOTAL_SIZE (1 << BLOCK_SIZE_BITS)\n+#define LINE_SIZE (1UL << LINE_SIZE_BITS)\n+#define LINE_METADATA_SIZE (1 << LINE_METADATA_SIZE_BITS)\n+#define MAX_BLOCK_COUNT (1 << BLOCK_COUNT_BITS)\n+\n+#define LINE_COUNT (BLOCK_TOTAL_SIZE / LINE_SIZE)\n+\n+#define WORDS_IN_LINE (LINE_SIZE / WORD_SIZE)\n+#define WORDS_IN_BLOCK (BLOCK_TOTAL_SIZE / WORD_SIZE)\n+\n+#define BLOCK_SIZE_IN_BYTES_MASK (BLOCK_TOTAL_SIZE - 1)\n+#define BLOCK_SIZE_IN_BYTES_INVERSE_MASK (~BLOCK_SIZE_IN_BYTES_MASK)\n+\n+#define LARGE_BLOCK_SIZE_BITS 13\n+#define LARGE_BLOCK_SIZE (1 << LARGE_BLOCK_SIZE_BITS)\n+\n+#define LARGE_OBJECT_MIN_SIZE_BITS 13\n+\n+#define MIN_BLOCK_SIZE (1UL << LARGE_OBJECT_MIN_SIZE_BITS)\n+\n+#define LARGE_BLOCK_MASK (~((1 << LARGE_OBJECT_MIN_SIZE_BITS) - 1))\n+\n+#define EARLY_GROWTH_THRESHOLD (128 * 1024 * 1024UL)\n+#define EARLY_GROWTH_RATE 2.0\n+#define GROWTH_RATE 1.414213562\n+#define GROWTH_MARK_FRACTION 0.05"
+  }
+]

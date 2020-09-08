@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "66c8d7e1-0cba-4c03-b69d-681ac1a36c06",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "31fee89c-3330-4c0b-89b4-cf42dde85b58",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Yay, happy to see this fix is the real world\n",
+        "createdAt" : "2016-09-29T22:00:42Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : 25,
+    "diffHunk" : "@@ -89,11 +88,11 @@ final case class Focus(\n     val casecompl   = cases.map(_._2)\n     val caseblockss = cases.map(_._3)\n     val blocks = finish(\n-        Cf.Switch(scrut,\n-                  Next.Label(defaultname, Seq()),\n-                  casevals.zip(casenames).map {\n-                case (v, n) => Next.Case(v, n)\n-              })).blocks\n+      Cf.Switch(scrut,\n+                Next.Label(defaultname, Seq()),\n+                casevals.zip(casenames).map {"
+  }
+]

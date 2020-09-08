@@ -1,0 +1,214 @@
+[
+  {
+    "id" : "4bb67e40-8379-49db-86a4-c8ca98bcfb36",
+    "prId" : 401,
+    "comments" : [
+      {
+        "id" : "887e96ed-09f5-4bf4-b491-0f8330d7cd6f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You should seal that trait (and any other similar trait), otherwise you cannot add methods later on.",
+        "createdAt" : "2016-11-23T14:41:05Z",
+        "updatedAt" : "2016-11-24T09:28:33Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "163a3cf5-febf-4ce6-8d23-057a571bcc1e",
+        "parentId" : "887e96ed-09f5-4bf4-b491-0f8330d7cd6f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2016-11-23T15:09:49Z",
+        "updatedAt" : "2016-11-24T09:28:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "45bf30ff68dc247bdb7422428a0ed548a8e2a7fb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,80 @@\n+package scala.scalanative\n+package tools\n+\n+import scalanative.io.VirtualDirectory\n+import nir.Global\n+\n+trait Config {"
+  },
+  {
+    "id" : "1c346643-6d56-4aa4-8b2e-a111eab68df9",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "25b6f2e1-6860-4ee5-ba3b-a96658b6c75d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why was mode removed here? ",
+        "createdAt" : "2018-01-18T13:16:37Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -1,80 +1,197 @@\n package scala.scalanative\n package tools\n \n-import java.io.File\n+import java.nio.file.{Path, Paths}\n+\n import nir.Global\n \n sealed trait Config {\n \n+  /** Path to the nativelib jar. */\n+  def nativeLib: Path\n+\n+  /** The driver to use for the optimizer. */\n+  def driver: OptimizerDriver\n+\n+  /** The reporter that receives messages from the linker. */\n+  def linkerReporter: LinkerReporter\n+\n+  /** The reporter that receives messages from the optimizer. */\n+  def optimizerReporter: OptimizerReporter\n+\n   /** Entry point for linking. */\n-  def entry: Global\n+  def entry: String\n \n   /** Sequence of all NIR locations. */\n-  def paths: Seq[File]\n+  def paths: Seq[Path]\n \n   /** Directory to emit intermediate compilation results. */\n-  def workdir: File\n+  def workdir: Path\n+\n+  /** The path to the `clang` executable. */\n+  def clang: Path\n+\n+  /** The path to the `clang++` executable. */\n+  def clangpp: Path\n \n   /** Target triple. */\n   def target: String\n \n-  /** Compilation mode. */\n-  def mode: Mode\n+  /** The options passed to LLVM's linker. */\n+  def linkingOptions: Seq[String]\n+\n+  /** The compilation options passed to LLVM. */\n+  def compileOptions: Seq[String]\n+\n+  /** The garbage collector to use. */\n+  def gc: GarbageCollector\n \n   /** Should stubs be linked? */\n   def linkStubs: Boolean\n \n+  /** Create a new config with given path to nativelib. */\n+  def withNativeLib(value: Path): Config\n+\n+  /** Create a new config with given driver. */\n+  def withDriver(value: OptimizerDriver): Config\n+\n+  /** Create a new config with given linker reporter. */\n+  def withLinkerReporter(value: LinkerReporter): Config\n+\n+  /** Create a new config with given optimizer reporter. */\n+  def withOptimizerReporter(value: OptimizerReporter): Config\n+\n   /** Create new config with given entry point. */\n-  def withEntry(value: Global): Config\n+  def withEntry(value: String): Config\n \n   /** Create a new config with given nir paths. */\n-  def withPaths(value: Seq[File]): Config\n+  def withPaths(value: Seq[Path]): Config\n \n   /** Create a new config with given directory. */\n-  def withWorkdir(value: File): Config\n+  def withWorkdir(value: Path): Config\n+\n+  /** Create a new config with given path to clang. */\n+  def withClang(value: Path): Config\n+\n+  /** Create a new config with given path to clang++. */\n+  def withClangPP(value: Path): Config\n \n   /** Create a new config with given target triple. */\n   def withTarget(value: String): Config\n \n-  /** Create a new config with given compilation mode. */\n-  def withMode(value: Mode): Config"
+  },
+  {
+    "id" : "a239b3fd-b1fd-404d-9e6f-f8e454b80eb2",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "8bde23aa-1bbd-48ea-b571-b552ccb13820",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Having pluggable `OptimizerReporter` and `LinkerReporter` leaks NIR into the build API. We need to replace with something less powerful. For example: we can add a boolean option that turns on an off current to-file reporters.",
+        "createdAt" : "2018-01-18T13:21:17Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f4402be-369e-433f-9490-79a229d4d2d9",
+        "parentId" : "8bde23aa-1bbd-48ea-b571-b552ccb13820",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The `Reporter`s no longer leak NIR.",
+        "createdAt" : "2018-03-12T12:24:25Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -1,80 +1,197 @@\n package scala.scalanative\n package tools\n \n-import java.io.File\n+import java.nio.file.{Path, Paths}\n+\n import nir.Global\n \n sealed trait Config {\n \n+  /** Path to the nativelib jar. */\n+  def nativeLib: Path\n+\n+  /** The driver to use for the optimizer. */\n+  def driver: OptimizerDriver\n+\n+  /** The reporter that receives messages from the linker. */\n+  def linkerReporter: LinkerReporter\n+\n+  /** The reporter that receives messages from the optimizer. */\n+  def optimizerReporter: OptimizerReporter"
+  },
+  {
+    "id" : "ddc8e2c6-b86c-4467-916e-68ed281cfd40",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "d985ad01-b7c6-4bc5-9b69-6e36195d6cef",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Having customizable optimizer driver implies leaking NIR into the API. If it's not customizable it might as well be removed from the config object (and materialized on demand in the build api implementation).",
+        "createdAt" : "2018-01-18T13:22:32Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "92234196-9feb-4623-9139-916ee992643d",
+        "parentId" : "d985ad01-b7c6-4bc5-9b69-6e36195d6cef",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "With `passes` field commented out, it's not leaking NIR any more, but referencing to optimizer-internal class in a public API is still suboptimal. ",
+        "createdAt" : "2018-01-18T15:52:40Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e41a673e-b56c-4b84-96ce-ce513ad5ab53",
+        "parentId" : "d985ad01-b7c6-4bc5-9b69-6e36195d6cef",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Is it okay as it is now?",
+        "createdAt" : "2018-03-12T12:26:33Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -1,80 +1,197 @@\n package scala.scalanative\n package tools\n \n-import java.io.File\n+import java.nio.file.{Path, Paths}\n+\n import nir.Global\n \n sealed trait Config {\n \n+  /** Path to the nativelib jar. */\n+  def nativeLib: Path\n+\n+  /** The driver to use for the optimizer. */\n+  def driver: OptimizerDriver"
+  }
+]

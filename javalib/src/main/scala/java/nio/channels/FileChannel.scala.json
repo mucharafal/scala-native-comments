@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "0ca8458a-9efd-467a-b44d-5d93b407ea1f",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "0b5dd6b3-3c55-42c2-aa27-1bd1aecae5d5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Use `//`, not `/* ... */` here.",
+        "createdAt" : "2017-04-10T17:47:39Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,32 @@\n+package java.nio.channels;\n+\n+import java.io.IOException;\n+\n+/*Code implementation of this abstract class come from  AbstractInterruptibleChannel\n+    To simplify integration in scala-native, and since they are the only methods\n+    used in FileOutputStream and FileInputStream, they are moved here.\n+ */"
+  }
+]

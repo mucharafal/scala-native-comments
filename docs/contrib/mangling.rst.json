@@ -1,0 +1,249 @@
+[
+  {
+    "id" : "3856ef59-5ba0-4c33-9563-92a208762135",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "4df3c6c9-751a-4659-a1c1-12bf98bb0b2c",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "`thar` -> `that`",
+        "createdAt" : "2018-10-22T18:25:23Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "761ea022-f2d4-4bdc-a059-f28f9da9073f",
+        "parentId" : "4df3c6c9-751a-4659-a1c1-12bf98bb0b2c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good catch!",
+        "createdAt" : "2018-10-24T11:19:21Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,50 @@\n+Name mangling\n+-------------\n+\n+Scala Native toolchain mangles names for all definitions except\n+the ones which have been explicitly exported to C using\n+``extern``. Mangling scheme is defined through a simple grammar\n+thar uses a notation inspired by"
+  },
+  {
+    "id" : "1d817314-0af2-4d70-86c5-941934951777",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "f7c319c8-19a3-493a-93ec-232020a25a6f",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "It's not clear to me how `exact class type-name` is different from the non-exact version.",
+        "createdAt" : "2018-10-23T21:09:15Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "066d008c-2915-4d3c-be5a-9aea01eebe93",
+        "parentId" : "f7c319c8-19a3-493a-93ec-232020a25a6f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given a pseudo-Scala syntax with exact types:\r\n```\r\nclass A { def foo = 'A' }\r\nclass B extends A { override def foo = 'B' }\r\n\r\nval x: exact A = new A\r\nx.foo // can *only* call A.foo\r\n\r\nval y: A = x\r\nx.foo // can call either A.foo or B.foo\r\n```\r\nFrom the Scala point of view all reference types are non-exact and nullable. Interflow will infer exactness and nullability. Exactness is primiraly useful for devirtualization. Nullability for partial evaluation of is/as instance of. ",
+        "createdAt" : "2018-10-24T12:56:09Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : 44,
+    "diffHunk" : "@@ -0,0 +1,58 @@\n+Name mangling\n+-------------\n+\n+Scala Native toolchain mangles names for all definitions except\n+the ones which have been explicitly exported to C using\n+``extern``. Mangling scheme is defined through a simple grammar\n+thar uses a notation inspired by\n+`Itanium ABI <http://refspecs.linuxbase.org/cxxabi-1.83.html>`_::\n+\n+    <mangled-name> ::=\n+        _S <defn-name>\n+\n+    <defn-name> ::=\n+        T <name>                       // top-level name\n+        M <name> <sig-name>            // member name\n+\n+    <sig-name> ::=\n+        F <name>                       // field name\n+        R <type-name>+ E               // constructor name\n+        D <name> <type-name>+ E        // method name\n+        P <name> <type-name>+ E        // proxy name\n+        C <name>                       // c extern name\n+        G <name>                       // generated name\n+        K <sig-name> <type-name>+ E    // duplicate name\n+\n+    <type-name> ::=\n+        v                              // c void\n+        g                              // c vararg\n+        R _                            // c pointer type-name\n+        R <type-name>+ E               // c function type-name\n+        S <type-name>+ E               // c anonymous struct type-name\n+        A <type-name> <number> _       // c array type-name\n+        U <integer-type-name>          // unsigned integer type-name\n+        <integer-type-name>            // signed integer type-name\n+        z                              // scala.Boolean\n+        c                              // scala.Char\n+        f                              // scala.Float\n+        d                              // scala.Double\n+        u                              // scala.Unit\n+        n                              // scala.Nothing\n+        L <nullable-type-name>         // nullable type-name\n+        A <type-name> _                // nonnull array type-name\n+        X <name>                       // nonnull exact class type-name"
+  },
+  {
+    "id" : "0aaba235-05eb-480a-b2a7-6b5ded0c437b",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "5d8b39b8-eceb-456d-8c0d-3c6cfa8b431d",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "`Type.Null` which is represented as `l` is not listed.",
+        "createdAt" : "2018-10-23T21:24:51Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d0c395bb-c0e0-41fd-adcf-b97f65320750",
+        "parentId" : "5d8b39b8-eceb-456d-8c0d-3c6cfa8b431d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2018-10-24T12:57:37Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : 45,
+    "diffHunk" : "@@ -0,0 +1,58 @@\n+Name mangling\n+-------------\n+\n+Scala Native toolchain mangles names for all definitions except\n+the ones which have been explicitly exported to C using\n+``extern``. Mangling scheme is defined through a simple grammar\n+thar uses a notation inspired by\n+`Itanium ABI <http://refspecs.linuxbase.org/cxxabi-1.83.html>`_::\n+\n+    <mangled-name> ::=\n+        _S <defn-name>\n+\n+    <defn-name> ::=\n+        T <name>                       // top-level name\n+        M <name> <sig-name>            // member name\n+\n+    <sig-name> ::=\n+        F <name>                       // field name\n+        R <type-name>+ E               // constructor name\n+        D <name> <type-name>+ E        // method name\n+        P <name> <type-name>+ E        // proxy name\n+        C <name>                       // c extern name\n+        G <name>                       // generated name\n+        K <sig-name> <type-name>+ E    // duplicate name\n+\n+    <type-name> ::=\n+        v                              // c void\n+        g                              // c vararg\n+        R _                            // c pointer type-name\n+        R <type-name>+ E               // c function type-name\n+        S <type-name>+ E               // c anonymous struct type-name\n+        A <type-name> <number> _       // c array type-name\n+        U <integer-type-name>          // unsigned integer type-name\n+        <integer-type-name>            // signed integer type-name\n+        z                              // scala.Boolean\n+        c                              // scala.Char\n+        f                              // scala.Float\n+        d                              // scala.Double\n+        u                              // scala.Unit\n+        n                              // scala.Nothing\n+        L <nullable-type-name>         // nullable type-name\n+        A <type-name> _                // nonnull array type-name\n+        X <name>                       // nonnull exact class type-name\n+        <name>                         // nonnull class type-name"
+  },
+  {
+    "id" : "05047369-f7b1-4f7d-8959-2d552aef4ebd",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "1ccc44ab-6581-4e14-8afe-31a78354b294",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "This should be `A <type-name> <number> E` according to the code.",
+        "createdAt" : "2018-10-23T21:26:33Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1297be66-5ff7-4c09-b793-230e80e88b99",
+        "parentId" : "1ccc44ab-6581-4e14-8afe-31a78354b294",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Actually, we should rather fix the code. We've used `E` only after the variable-length number of elements as end terminator so far. It should probably stay this way.",
+        "createdAt" : "2018-10-24T12:59:11Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : 32,
+    "diffHunk" : "@@ -0,0 +1,58 @@\n+Name mangling\n+-------------\n+\n+Scala Native toolchain mangles names for all definitions except\n+the ones which have been explicitly exported to C using\n+``extern``. Mangling scheme is defined through a simple grammar\n+thar uses a notation inspired by\n+`Itanium ABI <http://refspecs.linuxbase.org/cxxabi-1.83.html>`_::\n+\n+    <mangled-name> ::=\n+        _S <defn-name>\n+\n+    <defn-name> ::=\n+        T <name>                       // top-level name\n+        M <name> <sig-name>            // member name\n+\n+    <sig-name> ::=\n+        F <name>                       // field name\n+        R <type-name>+ E               // constructor name\n+        D <name> <type-name>+ E        // method name\n+        P <name> <type-name>+ E        // proxy name\n+        C <name>                       // c extern name\n+        G <name>                       // generated name\n+        K <sig-name> <type-name>+ E    // duplicate name\n+\n+    <type-name> ::=\n+        v                              // c void\n+        g                              // c vararg\n+        R _                            // c pointer type-name\n+        R <type-name>+ E               // c function type-name\n+        S <type-name>+ E               // c anonymous struct type-name\n+        A <type-name> <number> _       // c array type-name"
+  },
+  {
+    "id" : "d0bce963-ad7a-4c6c-9e06-720db9584449",
+    "prId" : 1862,
+    "comments" : [
+      {
+        "id" : "c3f29cca-a2ba-4855-812b-36c496059641",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This change was already merged in another PR. If you rebase on master it should disappear from here.",
+        "createdAt" : "2020-07-23T17:40:01Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bdb807d2-8aa4-4830-afc8-70522c8ee4f6",
+        "parentId" : "c3f29cca-a2ba-4855-812b-36c496059641",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Gone now.  An intended http to https change remains.",
+        "createdAt" : "2020-07-23T19:14:36Z",
+        "updatedAt" : "2020-07-23T19:14:36Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9ea46e55b33c2a3626955c9169a0a1929715a1b8",
+    "line" : null,
+    "diffHunk" : "@@ -54,4 +54,4 @@ that uses a notation inspired by\n         j                              // scala.Long\n \n     <name> ::=\n-        <length number> <chars>        // raw identifier of given length\n+        <length number> [-] <chars>    // raw identifier of given length; `-` separator is only used when <chars> starts with digit or `-` itself"
+  }
+]

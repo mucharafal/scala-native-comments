@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "1fc69d36-0e43-4e6e-8288-d8525ec773df",
+    "prId" : 787,
+    "comments" : [
+      {
+        "id" : "5ee2e4af-1566-4176-8f9e-9d86a1733cbb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg That's an unexpected one. I'd expect for type annotation to stay on the same line. i.e.:\r\n```\r\nval Double: P[Double] = \r\n  neg(Infinity | Literals.Literals.Float.!) map (_.toDouble)\r\n```",
+        "createdAt" : "2017-06-06T08:31:47Z",
+        "updatedAt" : "2017-06-06T08:31:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "653560c8-32ea-4a65-97d7-400b7adbc108",
+        "parentId" : "5ee2e4af-1566-4176-8f9e-9d86a1733cbb",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Hmmm 🤔 the penalty for breaking before `:` is very high, but in this case it's not allowed to break after `=` because  `map` is an infix operator. It doesn't break on `=` when the rhs body is an infix expression because I hit on funky routing/akka DSLs where it clearly wasn't supposed to break after `=`. There is a rewrite http://scalameta.org/scalafmt/#AvoidInfix that converts misuse of infix into regular application, that should fix this particular case. \r\n\r\nIdeally, scalafmt should take way more control over infix operators, but I never managed to get it right for corner cases.",
+        "createdAt" : "2017-06-06T08:45:01Z",
+        "updatedAt" : "2017-06-06T08:45:01Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "62faa29af80383102a7c0d781d2790a95eb5f6f2",
+    "line" : 9,
+    "diffHunk" : "@@ -72,8 +72,10 @@ object Base {\n   val Int: P[Int]         = neg((HexNum | DecNum).!) map (_.toInt)\n   val Long: P[Long]       = neg((HexNum | DecNum).!) map (_.toLong)\n   val Infinity: P[String] = P(\"Infinityf\".!) map (_.init)\n-  val Float: P[Float]     = neg(Infinity | Literals.Literals.Float.!) map (_.toFloat)\n-  val Double: P[Double]   = neg(Infinity | Literals.Literals.Float.!) map (_.toDouble)\n+  val Float\n+    : P[Float] = neg(Infinity | Literals.Literals.Float.!) map (_.toFloat)\n+  val Double\n+    : P[Double] = neg(Infinity | Literals.Literals.Float.!) map (_.toDouble)"
+  }
+]

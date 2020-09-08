@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "95f04aaa-7d8e-4e79-b95d-14bbec8af17b",
+    "prId" : 346,
+    "comments" : [
+      {
+        "id" : "cec71055-6e14-400c-b11c-353e7f4ebfe2",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "There is an invalid `sext` generated in the function below\n\n```\n  define i64 @\"java.lang.Long$::divideUnsigned_i64_i64_i64\"(i8* %src.0, i64 %src.1, i64 %src.2)alwaysinline personality i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*) {\n    src.3:\n\n      %src.4 = udiv i64 %src.1, %src.2\n    %src.5 = sext i64 %src.4 to i64\n    ret i64 %src.5\n  }\n```\n\nI didn't find the root cause so I wrote this dubious pass..\n",
+        "createdAt" : "2016-10-21T22:56:35Z",
+        "updatedAt" : "2016-10-24T20:17:08Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7d6aac74-9329-4b1c-adf3-0eba6f930c7f",
+        "parentId" : "cec71055-6e14-400c-b11c-353e7f4ebfe2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed in #351 \n",
+        "createdAt" : "2016-10-24T09:47:06Z",
+        "updatedAt" : "2016-10-24T20:17:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "447905ab4bcdb07c44fb14c6049d8537c1120295",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,18 @@\n+package scala.scalanative.compiler.pass\n+\n+import scala.scalanative.compiler.{Ctx, Pass, PassCompanion}\n+import scala.scalanative.nir.Inst.Let\n+import scala.scalanative.nir.{Conv, Op}\n+\n+class BadSextElimination extends Pass {"
+  }
+]

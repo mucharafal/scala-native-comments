@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "c855ce99-1a0b-4796-a40f-1b46b81d6527",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "fcd31c3d-314c-4a57-ae39-e8c0623bc81c",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The name is a bit misleading... How about `crossVersionAddPlatformPart`?",
+        "createdAt" : "2017-10-24T11:50:37Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package scala.scalanative\n+package sbtplugin\n+\n+import sbt._, Keys._\n+import scala.sys.process.{ProcessBuilder, ProcessLogger}\n+import scala.language.implicitConversions\n+\n+// https://github.com/scala-js/scala-js/blob/v0.6.20/sbt-plugin/src/main/scala-sbt-0.13/org/scalajs/sbtplugin/SBTCompat.scala#L1\n+\n+private[sbtplugin] object SBTCompat {\n+  def crossVersionAddScalaJSPart(cross: CrossVersion,"
+  },
+  {
+    "id" : "e0a2fd05-646f-455c-a00c-8b8546cdf7b3",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "cca62a25-4413-4f84-a2b7-79ba48b72ec8",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Usually we simply put `// Ported from Scala.js`.",
+        "createdAt" : "2017-10-24T11:54:53Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package scala.scalanative\n+package sbtplugin\n+\n+import sbt._, Keys._\n+import scala.sys.process.{ProcessBuilder, ProcessLogger}\n+import scala.language.implicitConversions\n+\n+// https://github.com/scala-js/scala-js/blob/v0.6.20/sbt-plugin/src/main/scala-sbt-0.13/org/scalajs/sbtplugin/SBTCompat.scala#L1"
+  }
+]

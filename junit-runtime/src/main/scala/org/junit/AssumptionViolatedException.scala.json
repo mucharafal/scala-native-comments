@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "b5b4bf59-7151-4ed8-bed6-baa6e339eaca",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "a1bf4b49-cde1-43e5-9ba5-dbbe71e61f89",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Could you file an issue for this, and reference it from the code here?",
+        "createdAt" : "2020-07-09T11:42:04Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : 32,
+    "diffHunk" : "@@ -0,0 +1,37 @@\n+/*\n+ * Ported from https://github.com/junit-team/junit\n+ */\n+package org.junit\n+\n+import org.hamcrest.Matcher\n+\n+// @SuppressWarnings(\"deprecation\")\n+class AssumptionViolatedException protected (fAssumption: String,\n+                                             fValueMatcher: Boolean,\n+                                             fMatcher: Matcher[_],\n+                                             fValue: AnyRef)\n+    extends org.junit.internal.AssumptionViolatedException(fAssumption,\n+                                                           fValueMatcher,\n+                                                           fMatcher,\n+                                                           fValue) {\n+\n+  @Deprecated\n+  def this(actual: Any, matcher: Matcher[_]) =\n+    this(null, true, fMatcher = matcher, fValue = actual.asInstanceOf[AnyRef])\n+\n+  @Deprecated\n+  def this(message: String, expected: Any, matcher: Matcher[_]) =\n+    this(message,\n+         true,\n+         fMatcher = matcher,\n+         fValue = expected.asInstanceOf[AnyRef])\n+\n+  def this(message: String) =\n+    this(message, false, null, null)\n+\n+//  Commented out, as this constructor triggers an unknown runtime error in Scala Native."
+  }
+]

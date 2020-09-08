@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "fcdda503-5695-4768-8617-a5e0f57ba4b3",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "849e9edb-bc8b-48c4-947c-d6ac782df75e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You're declaring global mutable state here. That will break down when two instances of the compiler are instantiated in the same JVM (which happens in IDEs, notably). You need to declare this as a class, and keep an instance in the `NirGenStat` (or wherever you need it).",
+        "createdAt" : "2020-04-24T13:05:26Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "312d00aa-4ac5-480b-8e6b-e649f8aa4f25",
+        "parentId" : "849e9edb-bc8b-48c4-947c-d6ac782df75e",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Also, this looks like a glorified `UnrolledBuffer[ReflectiveInstantiationBuffer]`. You as well declare not define this at all, and simply declare a `val reflectiveInstantiationInfo: mutable.UnrolledBuffer[ReflectiveInstantiationBuffer]` instead.",
+        "createdAt" : "2020-04-24T13:24:45Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,36 @@\n+package scala.scalanative\n+\n+package nscplugin\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+\n+class ReflectiveInstantiationBuffer(val fqcn: String) {\n+  private val buf = mutable.UnrolledBuffer.empty[nir.Defn]\n+\n+  def +=(defn: nir.Defn): Unit = {\n+    buf += defn\n+  }\n+\n+  val name = nir.Global.Top(\"SN$ReflectivelyInstantiate$\" + fqcn)\n+\n+  def nonEmpty = buf.nonEmpty\n+  def toSeq    = buf.toSeq\n+}\n+\n+object ReflectiveInstantiationInfo {"
+  },
+  {
+    "id" : "8b7bfd75-e4f5-4f5f-9f6b-44ab5c52f451",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "10b87855-7872-47e3-aeaf-7318e7909437",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You should turn this around. Something like\r\n```suggestion\r\n  val name = nir.Global.Top(fqcn + \"$SN$ReflectivelyInstantiate\")\r\n```\r\nso that the resulting class lives in the same package as the class `fqcn`.\r\n\r\nOtherwise, the name will look something like `SN$ReflectivelyInstantiated$foo.bar.Foobar`, which makes no sense and could cause weird issues.",
+        "createdAt" : "2020-04-24T13:23:09Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,36 @@\n+package scala.scalanative\n+\n+package nscplugin\n+\n+import scala.collection.mutable\n+import scala.scalanative.nir._\n+\n+class ReflectiveInstantiationBuffer(val fqcn: String) {\n+  private val buf = mutable.UnrolledBuffer.empty[nir.Defn]\n+\n+  def +=(defn: nir.Defn): Unit = {\n+    buf += defn\n+  }\n+\n+  val name = nir.Global.Top(\"SN$ReflectivelyInstantiate$\" + fqcn)"
+  }
+]

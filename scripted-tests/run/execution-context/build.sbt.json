@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "6b26dde3-d762-4c78-ae30-9b416769ba35",
+    "prId" : 621,
+    "comments" : [
+      {
+        "id" : "e3432b49-72f0-49ce-b7b4-126aabe118e0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should ideally be\r\n```scala\r\nenablePlugins(ScalaNativePlugin)\r\n```",
+        "createdAt" : "2017-04-06T20:50:48Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "86a1d483-21a6-47e0-a9bc-ec81bb6959f7",
+        "parentId" : "e3432b49-72f0-49ce-b7b4-126aabe118e0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good point.",
+        "createdAt" : "2017-04-10T11:34:47Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "85449dbb-2292-44c9-b4bd-6330c14cc1f3",
+        "parentId" : "e3432b49-72f0-49ce-b7b4-126aabe118e0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-04-10T11:54:35Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "519a04ea55e644018688f8debbd0684e3d3a7ab7",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,11 @@\n+ScalaNativePlugin.projectSettings"
+  }
+]

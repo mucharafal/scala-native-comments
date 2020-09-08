@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "66bc2627-9b84-442a-8924-7e9013676410",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "9acf105c-1b32-4e74-9431-a53d66e4bb83",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please mark two methods above with `scalanative.native.stub` annotation.",
+        "createdAt" : "2017-11-27T12:09:15Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c46697fb-9ec0-459d-85b1-1ec9d98f863e",
+        "parentId" : "9acf105c-1b32-4e74-9431-a53d66e4bb83",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "done",
+        "createdAt" : "2018-01-21T06:31:34Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,3 +1,8 @@\n package java.security.cert\n \n-class Certificate\n+abstract class Certificate(private val `type`: String) {\n+\n+  override def toString: String = ???\n+\n+  override def equals(other: Any): Boolean = ???"
+  }
+]

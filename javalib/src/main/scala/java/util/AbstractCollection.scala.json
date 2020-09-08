@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "b0912fdc-ef0b-45a0-ba72-c26b48e63092",
+    "prId" : 373,
+    "comments" : [
+      {
+        "id" : "9879a40a-817b-4914-855a-313d9d249a03",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why the change? We should stick to what we do on JVM/JS whenever possible. \n",
+        "createdAt" : "2016-11-08T10:37:51Z",
+        "updatedAt" : "2016-11-11T20:56:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "fba0b64a-6377-43cf-b66c-a1749597be20",
+        "parentId" : "9879a40a-817b-4914-855a-313d9d249a03",
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "Yes, this change moves the implementation in line with what the JDK does.\n",
+        "createdAt" : "2016-11-11T20:56:32Z",
+        "updatedAt" : "2016-11-11T20:56:53Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b45ac808ee880d0ab120bd9ad3e969bbf6ec49a9",
+    "line" : 5,
+    "diffHunk" : "@@ -78,5 +78,5 @@ abstract class AbstractCollection[E] protected () extends Collection[E] {\n   }\n \n   override def toString(): String =\n-    iterator.mkString(\"[\", \",\", \"]\")\n+    iterator.mkString(\"[\", \", \", \"]\")"
+  }
+]

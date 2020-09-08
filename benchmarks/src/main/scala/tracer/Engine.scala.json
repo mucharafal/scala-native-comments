@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "54d14b0e-a396-4618-9158-616801894d61",
+    "prId" : 927,
+    "comments" : [
+      {
+        "id" : "9f90fd00-aa76-4d23-86c8-9b4cb51aa75e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg 82 column line with 80 column limit.",
+        "createdAt" : "2017-08-09T11:13:20Z",
+        "updatedAt" : "2017-08-09T12:50:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6b6a4959468b2913685c807b59caa6a043a7421a",
+    "line" : 6,
+    "diffHunk" : "@@ -52,8 +52,7 @@ class Engine(val config: EngineConfiguration) {\n   }\n \n   // 'canvasContext' can be null if raytracer runs as benchmark\n-  def renderScene(scene: Scene,\n-                  canvasContext: CanvasRenderingContext2D): Unit = {\n+  def renderScene(scene: Scene, canvasContext: CanvasRenderingContext2D): Unit = {"
+  }
+]

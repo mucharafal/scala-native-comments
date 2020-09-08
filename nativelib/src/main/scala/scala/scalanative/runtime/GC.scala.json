@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "505e01e0-522e-42b4-9123-83d62e850390",
+    "prId" : 137,
+    "comments" : [
+      {
+        "id" : "df8f2214-0f05-4bf9-a351-514ae64fd5a9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think that we want to preserve original name without `GC_` prefix here. \n",
+        "createdAt" : "2016-06-02T13:34:48Z",
+        "updatedAt" : "2016-06-08T00:34:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "56ec2e1a1d55e28898f0ac7a2bde0b9303cef2c9",
+    "line" : null,
+    "diffHunk" : "@@ -3,10 +3,17 @@ package runtime\n \n import native._\n \n+/**\n+ * The Boehm GC conservative garbage collector\n+ *\n+ * @see [[http://hboehm.info/gc/gcinterface.html C Interface]]\n+ */\n @link(\"gc\")\n @extern object GC {\n   @name(\"GC_malloc\")\n   def malloc(size: CSize): Ptr[_] = extern\n+  @name(\"GC_malloc_atomic\")\n+  def malloc_pointer_free(size: CSize): Ptr[_] = extern"
+  },
+  {
+    "id" : "1398cecd-cbf9-4a58-801b-2bb1819c4734",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "8918908a-f51c-4765-a2d6-09f1e5f56bcf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You've shown me that we need another call to be able to force a GC collection. Lets add it straight away. \r\n\r\nAdditionally it shall be used to implement `java.lang.System.gc`",
+        "createdAt" : "2017-03-16T12:48:58Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -8,11 +8,10 @@ import native._\n  *\n  * @see [[http://hboehm.info/gc/gcinterface.html C Interface]]\n  */\n-@link(\"gc\")\n @extern\n object GC {\n-  @name(\"GC_malloc\")\n+  @name(\"scalanative_alloc_raw\")\n   def malloc(size: CSize): Ptr[Byte] = extern\n-  @name(\"GC_malloc_atomic\")\n+  @name(\"scalanative_alloc_raw_atomic\")\n   def malloc_atomic(size: CSize): Ptr[Byte] = extern\n }"
+  }
+]

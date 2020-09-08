@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "247b2969-2f0d-4e16-85b0-b51b19924caa",
+    "prId" : 399,
+    "comments" : [
+      {
+        "id" : "3b421858-2a6e-4bcb-b60c-5d666a3fed7c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Computing which parameters are used and not is really a task of `analysis.UseDef`. We should move the code there and integrate it well into existing use def information. ",
+        "createdAt" : "2016-12-09T13:41:33Z",
+        "updatedAt" : "2016-12-10T11:43:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d8f7cf08ecf629cf6447db8166ce49cdd81cb4f4",
+    "line" : null,
+    "diffHunk" : "@@ -32,9 +40,39 @@ class DeadCodeElimination(implicit top: Top) extends Pass {\n \n       Seq(defn.copy(insts = newinsts))\n   }\n+\n+  private def buildParamChanges("
+  }
+]

@@ -1,0 +1,201 @@
+[
+  {
+    "id" : "8610320d-d68f-446e-ace8-314bf369b2ca",
+    "prId" : 828,
+    "comments" : [
+      {
+        "id" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "These two are extremely valuable and deserve a separate PR. Given that scope/resource API is platform independent we can cross-publish it to be available on JVM and JS.",
+        "createdAt" : "2017-06-27T09:14:31Z",
+        "updatedAt" : "2017-06-27T09:14:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "757fa054-ed58-4da9-9681-bbb6d32408e7",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I'm just copied it from tools, it's your file :)",
+        "createdAt" : "2017-06-27T09:25:11Z",
+        "updatedAt" : "2017-06-27T09:25:11Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b97379cf-b7c9-4d71-bf49-27491474ebe9",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sure! This one deserves it's own module. Tools can just depend on it. ",
+        "createdAt" : "2017-06-27T09:27:14Z",
+        "updatedAt" : "2017-06-27T09:27:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "46262921-5fb4-46be-bd47-b08a59920b0a",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I would not make this module myself, it seems not right to make a module from file which is written by other person.",
+        "createdAt" : "2017-06-27T09:43:57Z",
+        "updatedAt" : "2017-06-27T09:43:57Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cd014de3-d016-4a1b-b8b2-ae1b2b65b09c",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I mean a separate subproject in our sbt build inside of the main repo. It's perfectly fine to move stuff around as part of a PR. :)",
+        "createdAt" : "2017-06-27T09:46:27Z",
+        "updatedAt" : "2017-06-27T09:46:27Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0720b35a-c0b7-45f1-893f-5570c3fe2742",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "When you said `These two are`, which is second?",
+        "createdAt" : "2017-06-27T09:49:38Z",
+        "updatedAt" : "2017-06-27T09:49:38Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "24e8480c-6a08-4598-945b-d16dfcf5d1ff",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Scope and Resource. Btw Resource can just be an alias to AutoCloseable.",
+        "createdAt" : "2017-06-27T10:54:46Z",
+        "updatedAt" : "2017-06-27T10:54:46Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c0450dc2-3f16-4b9e-a318-ab62008e2474",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "AutoCloseable crashes the compiler, pretty much anything from other libs is crashing the compiler",
+        "createdAt" : "2017-06-27T11:12:11Z",
+        "updatedAt" : "2017-06-27T11:12:11Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "29097375-62b9-472c-88b7-86b977e9c256",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "body" : "> AutoCloseable crashes the compiler\r\n\r\nhttps://github.com/scala-native/scala-native/pull/853 fixed?",
+        "createdAt" : "2017-06-27T11:17:21Z",
+        "updatedAt" : "2017-06-27T11:17:22Z",
+        "lastEditedBy" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "583e0e8e-99c6-48cd-8ce1-55b057f4e0fa",
+        "parentId" : "7860d7c9-cf5f-4512-8424-11b056df9cae",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I will check, thanks",
+        "createdAt" : "2017-06-27T11:54:33Z",
+        "updatedAt" : "2017-06-27T11:54:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "53e1111cf89de5754aad30995fe8c950fc5754bb",
+    "line" : 24,
+    "diffHunk" : "@@ -0,0 +1,63 @@\n+package scala.scalanative.misc\n+\n+/** Scoped implicit lifetime.\n+ *\n+ *  The main idea behind the Scope is to encode resource lifetimes through\n+ *  a concept of an implicit scope. Scopes are necessary to acquire resources.\n+ *  They are responsible for disposal of the resources once the evaluation exits\n+ *  the demarkated block in the source code.\n+ *\n+ *  See https://www.youtube.com/watch?v=MV2eJkwarT4 for details.\n+ */\n+trait Resource {\n+  def close(): Unit\n+}\n+\n+@annotation.implicitNotFound(msg = \"Resource acquisition requires a scope.\")\n+trait Scope {\n+\n+  /** Push resource onto the resource stack. */\n+  def acquire[R <: Resource](res: R): R\n+\n+  /** Clean up all the resources in FIFO order. */\n+  def close(): Unit\n+}"
+  }
+]

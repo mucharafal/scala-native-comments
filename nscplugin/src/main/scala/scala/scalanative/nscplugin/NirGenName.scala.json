@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "ae790ccc-0347-48f3-900e-a5d820049b32",
+    "prId" : 1348,
+    "comments" : [
+      {
+        "id" : "c9c1d353-42af-4745-a959-13caaa2ade80",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "This drops the `_=` part of the name and then decodes the name as done by `nativeIdOf`.",
+        "createdAt" : "2018-09-08T22:30:21Z",
+        "updatedAt" : "2018-09-21T15:34:17Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5be01752a875f00d6b1c6f52577f2ee2c3f23160",
+    "line" : 6,
+    "diffHunk" : "@@ -78,7 +78,12 @@ trait NirGenName { self: NirGenPhase =>\n     if (sym == String_+) {\n       genMethodName(StringConcatMethod)\n     } else if (sym.owner.isExternModule) {\n-      owner member id tag \"extern\"\n+      if (sym.isSetter) {\n+        val id0 = sym.name.dropSetter.decoded.toString"
+  },
+  {
+    "id" : "96cf1766-2d96-4e1f-a27b-1fcff66a3974",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "a14d4c62-5c8b-45aa-b95f-e9ef28c6b1f8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be kept (or changed to `&& !isImplClass(sym)`). We don't want impl classes of 2.11 to get an extra `$`.",
+        "createdAt" : "2020-08-20T15:12:38Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -39,7 +39,7 @@ trait NirGenName { self: NirGenPhase =>\n         genTypeName(sym.moduleClass)\n       case _ =>\n         val idWithSuffix =\n-          if (sym.isModuleClass && !nme.isImplClassName(sym.name)) {\n+          if (sym.isModuleClass) {"
+  }
+]

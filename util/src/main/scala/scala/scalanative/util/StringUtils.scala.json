@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "1189300e-9a3a-4d50-9160-e957744e8ec3",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "76902ea8-f819-404a-a41f-26b9b268d637",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "A `String` is never UTF-8. In all generality it is UCS-2, a superset of UTF-16.",
+        "createdAt" : "2020-08-18T09:58:39Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,62 @@\n+package scala.scalanative.util\n+\n+import scala.StringContext.InvalidEscapeException\n+import scala.annotation.tailrec\n+\n+object StringUtils {\n+\n+  /**\n+   * Custom implementation of StringContext.processEscapes which also parses hex values\n+   * @param str UTF-8 encoded input string optionally containing literal escapes and hex values"
+  },
+  {
+    "id" : "8228fad1-f659-49c1-a18c-d52dfeeddfc5",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "533ae19b-6c6c-43a6-959f-8f3c2e2ef0f2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Since this method really parses a *byte string*, it should directly return an `Array[Byte]`. It should not try to encode the byte string into a String, only to then re-decode that String into a byte string by calling `getBytes(\"UTF-8\")`. As such, it should use an `Array.newBuilder[Byte]` instead of a `StringBuilder`.\r\n\r\nThis will avoid many indirections, and would allow to parse byte strings that are not valid UTF-8 sequences (but could be valid in other interpretations, which we must not prevent).",
+        "createdAt" : "2020-08-18T10:11:33Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,62 @@\n+package scala.scalanative.util\n+\n+import scala.StringContext.InvalidEscapeException\n+import scala.annotation.tailrec\n+\n+object StringUtils {\n+\n+  /**\n+   * Custom implementation of StringContext.processEscapes which also parses hex values\n+   * @param str UTF-8 encoded input string optionally containing literal escapes and hex values\n+   * @return UTF-8 representation of escaped ByteString\n+   */\n+  def processEscapes(str: String): String = {"
+  }
+]

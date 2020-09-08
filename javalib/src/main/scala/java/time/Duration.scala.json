@@ -1,0 +1,365 @@
+[
+  {
+    "id" : "2b05a3cd-de99-4a74-988a-06eb2e882520",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "4f14daf3-5c85-4cd9-8d15-a83f8791fc2b",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "In my recent Ryu Double.toString PR, @densh asked me to do a cut & paste of the license terms to\r\nLICENSE.txt (and leave copy here in place).  He may ask the same here.",
+        "createdAt" : "2019-03-19T14:54:59Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "15a60c6e-700c-4868-b3cd-c9171bd77d48",
+        "parentId" : "4f14daf3-5c85-4cd9-8d15-a83f8791fc2b",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I made a nice entry in the license file that I think is even up to your documentation standards 😄 ",
+        "createdAt" : "2019-03-19T20:04:05Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "29e53d3b-6bc2-44b5-bb7d-c68d2f58cbe4",
+        "parentId" : "4f14daf3-5c85-4cd9-8d15-a83f8791fc2b",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Bravo!   You even avoided the word `begat`.  If I were an IP lawyer I could trace that.",
+        "createdAt" : "2019-03-19T23:43:12Z",
+        "updatedAt" : "2019-03-19T23:43:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+/*"
+  },
+  {
+    "id" : "dc6b9373-5c6f-4891-a441-28f7e7ec8663",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "9aeb8bdc-776a-4794-b770-17a1a06b087c",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Does the `@SerialVersionUUID` `line add any value in scala?  I believe not, but then I am no expert.",
+        "createdAt" : "2019-03-19T14:56:07Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3d462297-ec6d-44fd-abee-e3bbda0f2eef",
+        "parentId" : "9aeb8bdc-776a-4794-b770-17a1a06b087c",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, removed - the other library supports JVM.",
+        "createdAt" : "2019-03-19T20:04:47Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+/*\n+ * Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos\n+ *\n+ * All rights reserved.\n+ *\n+ * Redistribution and use in source and binary forms, with or without\n+ * modification, are permitted provided that the following conditions are met:\n+ *\n+ *  * Redistributions of source code must retain the above copyright notice,\n+ *    this list of conditions and the following disclaimer.\n+ *\n+ *  * Redistributions in binary form must reproduce the above copyright notice,\n+ *    this list of conditions and the following disclaimer in the documentation\n+ *    and/or other materials provided with the distribution.\n+ *\n+ *  * Neither the name of JSR-310 nor the names of its contributors\n+ *    may be used to endorse or promote products derived from this software\n+ *    without specific prior written permission.\n+ *\n+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n+ * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+ */\n+\n+package java.time\n+\n+import java.time.temporal.TemporalAmount\n+\n+@SerialVersionUID(3078945930695997490L)"
+  },
+  {
+    "id" : "3bab5f6e-a1b3-42bf-b41a-9f46af028fef",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "23f68819-bf53-4b4c-912c-e1401b792bd8",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I think that on scala you can drop both `private val` and get object private values without the getters and setters which are, I believe never used in this code.",
+        "createdAt" : "2019-03-19T14:58:27Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "50328668-02b0-46f2-bced-d41a5d2ebe4f",
+        "parentId" : "23f68819-bf53-4b4c-912c-e1401b792bd8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This is actually needed so other instances can see the `val` for `equals` etc. The first `private` is because there is no public constructor. I will add `getSeconds` and `getNano` to remove as they did in Scala.JS.",
+        "createdAt" : "2019-03-19T20:13:40Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+/*\n+ * Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos\n+ *\n+ * All rights reserved.\n+ *\n+ * Redistribution and use in source and binary forms, with or without\n+ * modification, are permitted provided that the following conditions are met:\n+ *\n+ *  * Redistributions of source code must retain the above copyright notice,\n+ *    this list of conditions and the following disclaimer.\n+ *\n+ *  * Redistributions in binary form must reproduce the above copyright notice,\n+ *    this list of conditions and the following disclaimer in the documentation\n+ *    and/or other materials provided with the distribution.\n+ *\n+ *  * Neither the name of JSR-310 nor the names of its contributors\n+ *    may be used to endorse or promote products derived from this software\n+ *    without specific prior written permission.\n+ *\n+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n+ * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+ */\n+\n+package java.time\n+\n+import java.time.temporal.TemporalAmount\n+\n+@SerialVersionUID(3078945930695997490L)\n+final class Duration private (private val seconds: Long, private val nanos: Int)"
+  },
+  {
+    "id" : "d029e269-46d8-4598-9f02-3e554e65abb7",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "34ee689d-f19e-4326-aa0d-496f94e93174",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I believe current scala best practice is to drop the  `: Long` type declaration?/ascription?   \r\nIt is probably not wrong, but is is also not Haskell minimalism.\r\n\r\nI often use the type declaration in my development phase or debugging phase where I want\r\nto ensure that the Right Hand Side is generating the type I expect.  I have been trained to delete\r\nthat code for final review.\r\n\r\nOthers may know better",
+        "createdAt" : "2019-03-19T15:02:20Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "40fdf588-d074-49bd-8a93-f839e4110dc8",
+        "parentId" : "34ee689d-f19e-4326-aa0d-496f94e93174",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "On public definitions a return type is desired. I think too since procedure syntax going away that it is desired to add a return type to help the type safety and readability.",
+        "createdAt" : "2019-03-19T20:16:13Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ae980334-9143-4f55-96a3-12b9a60a675b",
+        "parentId" : "34ee689d-f19e-4326-aa0d-496f94e93174",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Sorry for my poor quoting skills. I was trying to refer to the line:\r\n` val result: Long = Math.multiplyExact(seconds, Duration.MILLIS_PER_SEC)`.\r\n\r\nThis general idea happens in several places in the file.  Probably not worth another\r\nedit & CI cycle.  I mentioned it because I was asked to be in super-picky line edit mode.\r\n\r\nI concur that the return type in the def is indeed needed.",
+        "createdAt" : "2019-03-19T23:36:20Z",
+        "updatedAt" : "2019-03-19T23:36:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ec65366a-67b5-4ede-b981-df9f5eacff77",
+        "parentId" : "34ee689d-f19e-4326-aa0d-496f94e93174",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Oh, I see. I am not really sure if that is ok style or not but it is defensive for sure. If @densh doesn't like it I could still make some changes.",
+        "createdAt" : "2019-03-20T00:21:07Z",
+        "updatedAt" : "2019-03-20T00:21:07Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : 48,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+/*\n+ * Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos\n+ *\n+ * All rights reserved.\n+ *\n+ * Redistribution and use in source and binary forms, with or without\n+ * modification, are permitted provided that the following conditions are met:\n+ *\n+ *  * Redistributions of source code must retain the above copyright notice,\n+ *    this list of conditions and the following disclaimer.\n+ *\n+ *  * Redistributions in binary form must reproduce the above copyright notice,\n+ *    this list of conditions and the following disclaimer in the documentation\n+ *    and/or other materials provided with the distribution.\n+ *\n+ *  * Neither the name of JSR-310 nor the names of its contributors\n+ *    may be used to endorse or promote products derived from this software\n+ *    without specific prior written permission.\n+ *\n+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n+ * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+ */\n+\n+package java.time\n+\n+import java.time.temporal.TemporalAmount\n+\n+@SerialVersionUID(3078945930695997490L)\n+final class Duration private (private val seconds: Long, private val nanos: Int)\n+    extends TemporalAmount\n+    with Ordered[Duration]\n+    with Serializable {\n+\n+  def toMillis: Long = {\n+    val result: Long = Math.multiplyExact(seconds, Duration.MILLIS_PER_SEC)"
+  },
+  {
+    "id" : "686f573c-b4c1-4ef9-9c4b-e130b0d1adb3",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "dc418171-af79-4913-b29f-bb7c506488e8",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Same issue, several places",
+        "createdAt" : "2019-03-19T15:02:57Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e9a27384-2d5c-4333-b71a-73639787b2d0",
+        "parentId" : "dc418171-af79-4913-b29f-bb7c506488e8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Same as above.",
+        "createdAt" : "2019-03-19T20:16:25Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+/*\n+ * Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos\n+ *\n+ * All rights reserved.\n+ *\n+ * Redistribution and use in source and binary forms, with or without\n+ * modification, are permitted provided that the following conditions are met:\n+ *\n+ *  * Redistributions of source code must retain the above copyright notice,\n+ *    this list of conditions and the following disclaimer.\n+ *\n+ *  * Redistributions in binary form must reproduce the above copyright notice,\n+ *    this list of conditions and the following disclaimer in the documentation\n+ *    and/or other materials provided with the distribution.\n+ *\n+ *  * Neither the name of JSR-310 nor the names of its contributors\n+ *    may be used to endorse or promote products derived from this software\n+ *    without specific prior written permission.\n+ *\n+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n+ * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+ */\n+\n+package java.time\n+\n+import java.time.temporal.TemporalAmount\n+\n+@SerialVersionUID(3078945930695997490L)\n+final class Duration private (private val seconds: Long, private val nanos: Int)\n+    extends TemporalAmount\n+    with Ordered[Duration]\n+    with Serializable {\n+\n+  def toMillis: Long = {\n+    val result: Long = Math.multiplyExact(seconds, Duration.MILLIS_PER_SEC)\n+    Math.addExact(result, nanos / Duration.NANOS_PER_MILLI)\n+  }\n+\n+  def compare(otherDuration: Duration): Int = {\n+    val cmp: Int = java.lang.Long.compare(seconds, otherDuration.seconds)"
+  },
+  {
+    "id" : "d2918148-2d38-4318-b0ff-63fa3736beda",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "31774d1e-2ea7-4ada-9cd5-2ac21a63af60",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Again passing on experience from my Double.toString PR.\r\nI believe these should be `private final val` without the type ascription.  I am told that will\r\nhelp the compiler inline these values.  Not super critical here, but a good habit to get.",
+        "createdAt" : "2019-03-19T15:05:28Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6ce6b601-3375-4382-a2af-c0d6f7274687",
+        "parentId" : "31774d1e-2ea7-4ada-9cd5-2ac21a63af60",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I am `final`ly done with this one.",
+        "createdAt" : "2019-03-19T20:17:07Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,95 @@\n+/*\n+ * Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos\n+ *\n+ * All rights reserved.\n+ *\n+ * Redistribution and use in source and binary forms, with or without\n+ * modification, are permitted provided that the following conditions are met:\n+ *\n+ *  * Redistributions of source code must retain the above copyright notice,\n+ *    this list of conditions and the following disclaimer.\n+ *\n+ *  * Redistributions in binary form must reproduce the above copyright notice,\n+ *    this list of conditions and the following disclaimer in the documentation\n+ *    and/or other materials provided with the distribution.\n+ *\n+ *  * Neither the name of JSR-310 nor the names of its contributors\n+ *    may be used to endorse or promote products derived from this software\n+ *    without specific prior written permission.\n+ *\n+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n+ * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+ */\n+\n+package java.time\n+\n+import java.time.temporal.TemporalAmount\n+\n+@SerialVersionUID(3078945930695997490L)\n+final class Duration private (private val seconds: Long, private val nanos: Int)\n+    extends TemporalAmount\n+    with Ordered[Duration]\n+    with Serializable {\n+\n+  def toMillis: Long = {\n+    val result: Long = Math.multiplyExact(seconds, Duration.MILLIS_PER_SEC)\n+    Math.addExact(result, nanos / Duration.NANOS_PER_MILLI)\n+  }\n+\n+  def compare(otherDuration: Duration): Int = {\n+    val cmp: Int = java.lang.Long.compare(seconds, otherDuration.seconds)\n+    if (cmp != 0) cmp\n+    else nanos - otherDuration.nanos\n+  }\n+\n+  override def compareTo(other: Duration): Int = compare(other)\n+\n+  override def equals(other: Any): Boolean =\n+    other match {\n+      case otherDuration: Duration =>\n+        (this eq otherDuration) || (this.seconds == otherDuration.seconds && this.nanos == otherDuration.nanos)\n+      case _ => false\n+    }\n+\n+  override def hashCode: Int = (seconds ^ (seconds >>> 32)).toInt + (51 * nanos)\n+}\n+\n+@SerialVersionUID(3078945930695997490L)\n+object Duration {\n+  private val NANOS_PER_MILLI: Int = 1000000"
+  }
+]

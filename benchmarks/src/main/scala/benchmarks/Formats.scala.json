@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "73a6b479-1122-44f2-bf69-7af41a3d86ba",
+    "prId" : 425,
+    "comments" : [
+      {
+        "id" : "f1adf50b-14f3-4536-b480-a3ff8b930190",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can we align text into a nice table like in JMH ? \r\n```\r\nBenchmark                   Mode Thr     Count  Sec         Mean   Mean error    Units\r\nb.HelloWorld.helloWorld    thrpt   1        10    1  3073969.337    65631.592   ops/ms\r\n```",
+        "createdAt" : "2016-12-06T19:27:30Z",
+        "updatedAt" : "2016-12-07T10:40:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "abb884890cc11f69e7fb66c25f7674695a8fa8e5",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,123 @@\n+package benchmarks\n+\n+/** Describes hwo to display the benchmarks results */\n+trait Format {\n+\n+  /** Shows the given benchmark results. */\n+  final def show(result: BenchmarkResult): String = result match {\n+    case completed: BenchmarkCompleted => show(completed)\n+    case failed: BenchmarkFailed       => show(failed)\n+    case disabled: BenchmarkDisabled   => show(disabled)\n+  }\n+\n+  /** Shows the results for the given successful benchmark */\n+  def show(completed: BenchmarkCompleted): String\n+\n+  /** Shows the results for the given failed benchmark */\n+  def show(failed: BenchmarkFailed): String\n+\n+  /** Shows the results for the given disabled benchmark */\n+  def show(disabled: BenchmarkDisabled): String\n+}\n+\n+object Format {\n+\n+  /** Returns the format matching `name`, defaults to `TextFormat`. */\n+  def apply(name: String): Format = formats.getOrElse(name, TextFormat)\n+\n+  private val formats: Map[String, Format] =\n+    Map(\"text\" -> TextFormat, \"csv\" -> CSVFormat)\n+}\n+\n+/** A verbose human-friendly format. */\n+object TextFormat extends Format {\n+  import StatUtils._\n+  override def show(completed: BenchmarkCompleted): String = {\n+    import completed._\n+\n+    val timesMs    = timesNs map (_ / 1e6)\n+    val sortedMs   = timesMs.sorted\n+    val minMs      = timesMs.min\n+    val maxMs      = timesMs.max\n+    val avgMs      = average(timesMs)\n+    val medianMs   = percentile(50, sortedMs)\n+    val p95Ms      = percentile(95, sortedMs)\n+    val p05Ms      = percentile(5, sortedMs)\n+    val iterations = timesNs.length\n+    val stddev =\n+      Math.sqrt(timesMs.map(t => Math.pow(t - avgMs, 2) / iterations).sum)\n+    val avgBetweenP05AndP95 =\n+      average(timesMs filter (t => t >= p05Ms && t <= p95Ms))\n+\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${format(minMs)}ms, max ${format(maxMs)}ms,\" +\n+      s\" avg ${format(avgMs)}ms, median ${format(medianMs)}, p05 ${format(p05Ms)}ms,\" +\n+      s\" p95 ${format(p95Ms)}ms, avg in [p05, p95] ${format(avgBetweenP05AndP95)}ms\"\n+  }"
+  }
+]

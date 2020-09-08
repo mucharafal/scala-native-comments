@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "9c7f2ac1-733a-48fc-999d-c16311de3bab",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "d1564a2d-3cb2-461c-ae2a-8086b4a9ec8a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You mark it as `sealed` to work around the bug. That's what we did in Scala.js:\r\nhttps://github.com/scala-js/scala-js/blob/8dc581072cc47ded199a0b497ff5283de1ed89c2/ir/src/main/scala/org/scalajs/ir/Trees.scala#L56",
+        "createdAt" : "2020-05-05T16:06:47Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dc66fdfd-3f97-4732-bc57-d9ecd6d64441",
+        "parentId" : "d1564a2d-3cb2-461c-ae2a-8086b4a9ec8a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Implemented as suggested.  Thank you for your knowledge and willingness to share it.\r\nLarge block of code smell comments removed.",
+        "createdAt" : "2020-05-05T20:51:08Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -8,7 +8,27 @@ trait NirGenType { self: NirGenPhase =>\n   import nirAddons._\n   import nirDefinitions._\n \n-  final case class SimpleType(sym: Symbol, targs: Seq[SimpleType] = Seq.empty) {\n+  // The code as originally written made this class 'final'.\n+  // Unfortunately a pattern matching bug dating from years before\n+  // and present in Scala 2.11\n+  // (https://github.com/scala/bug/issues/4440,\n+  //  https://github.com/scalameta/scalameta/issues/900)\n+  // causes the Scala compiler to give the warning:\n+  //   \"The outer reference in this type test cannot be checked at run time\".\n+  //\n+  // Agreed that removing 'final' allows users to override methods within.\n+  // All or almost all of those users are within the Scala Native build itself\n+  // and within the control of SN developers.\n+  //\n+  // A hypothetical other user could override, but the override itself\n+  // states that user is taking the blade guards off on purpose and playing\n+  // with sharp edges: A persona damna inde secuta actus suos (\"A person\n+  // bears the consequences of their own actions\").\n+  //\n+  // 'final' can & should be restored once SN is compiled with Scala >= 2.12.\n+\n+  /* final */\n+  case class SimpleType(sym: Symbol, targs: Seq[SimpleType] = Seq.empty) {"
+  },
+  {
+    "id" : "00b7aae5-d067-472a-b271-e0bbfea31b55",
+    "prId" : 1764,
+    "comments" : [
+      {
+        "id" : "9cac2aa8-80a0-4674-8ee4-127334720d6d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why are all these additional `scala.scalanative.` required, in this file?",
+        "createdAt" : "2020-04-28T13:40:15Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "57c3af65-50e1-4426-9d20-99437795acac",
+        "parentId" : "9cac2aa8-80a0-4674-8ee4-127334720d6d",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Woah, seems that IntelliJ decided to \"optimise imports\" when I refactored.",
+        "createdAt" : "2020-04-28T13:42:38Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e10c524f2af5ddf1af3e3ad56070a717fc426a6e",
+    "line" : null,
+    "diffHunk" : "@@ -58,7 +58,7 @@ trait NirGenType { self: NirGenPhase =>\n   def genArrayCode(st: SimpleType): Char =\n     genPrimCode(st.targs.head)\n \n-  def genBoxType(st: SimpleType): nir.Type = st.sym match {\n+  def genBoxType(st: SimpleType): scala.scalanative.nir.Type = st.sym match {"
+  }
+]

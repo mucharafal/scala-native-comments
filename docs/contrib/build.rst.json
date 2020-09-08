@@ -1,0 +1,481 @@
+[
+  {
+    "id" : "e3da4891-6046-46b2-b8a7-a02da1a0dde9",
+    "prId" : 1117,
+    "comments" : [
+      {
+        "id" : "b2be41f8-01c9-4027-aaa9-8a5d84d0a1d6",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "if there's a change in codegen, is `rebuild` the only option?",
+        "createdAt" : "2018-01-16T11:14:59Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "23063e7e-28f0-48c4-af13-23723d042a81",
+        "parentId" : "b2be41f8-01c9-4027-aaa9-8a5d84d0a1d6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This was suppose to cover the basics. The next section talks about the codegen but I have never worked on that myself. http://www.scala-native.org/en/latest/contrib/compiler.html",
+        "createdAt" : "2018-01-16T22:53:04Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5e7b3127-3d84-4089-9951-cbc13187c0ab",
+        "parentId" : "b2be41f8-01c9-4027-aaa9-8a5d84d0a1d6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If you change anything in `tools` (linker, optimizer, codegen), you need to `reload`, not `rebuild`. It's possible because we textually include code of sbt plugin and the toolchain. \r\n\r\nIf you change `nscplugin`, `rebuild` is the only option. ",
+        "createdAt" : "2018-01-19T11:23:40Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "471f8d97-7e9b-4997-a83d-e032189ee947",
+        "parentId" : "b2be41f8-01c9-4027-aaa9-8a5d84d0a1d6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I included this in the docs as well.",
+        "createdAt" : "2018-01-19T14:57:48Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3b157db1b8667e1688b5f6f3d335d469d2faafa9",
+    "line" : 94,
+    "diffHunk" : "@@ -0,0 +1,159 @@\n+.. _build:\n+\n+Guide to the sbt build\n+======================================\n+\n+This section gives some basic information and tips about the build system. The\n+``sbt`` build system is quite complex and effectively brings together all the\n+components of Scala Native. The ``build.sbt`` file is at the root of the project\n+along with the sub-projects that make up the system.\n+\n+Overview\n+--------------------------------\n+In order to effectively work with Scala Native, a knowledge of the build system\n+is very helpful. In general the code is built and published to your local Ivy\n+repository using the `sbt` `publishLocal` command so that other components in the\n+system can depend on each other via normal `sbt` dependencies. Although the\n+``build.sbt`` file and other code in the system is the way to learn the system\n+thoroughly, the following sections will give information that should be helpful\n+to get started.\n+\n+The build has roughly four groups of sub-projects as follows:\n+\n+1.  The Native Scala Compiler plugin and libraries. Each of these projects depend\n+    on the next project in the list.\n+\n+    - `nscplugin`\n+\n+    - `nativelib`\n+\n+    - `javalib`\n+\n+    - `auxlib`\n+\n+    - `scalalib`\n+\n+2.  The Scala Native plugin and dependencies (directory names are in parentheses).\n+\n+    - `sbtScalaNative (sbt-scala-native)`\n+\n+    - `tools`\n+\n+    - `nir`\n+\n+    - `util`\n+\n+3.  The Scala Native test interface and dependencies.\n+\n+    - `testInterface (test-interface)`\n+\n+    - `testInterfaceSerialization (test-interface-serialization)`\n+\n+    - `testInterfaceSbtDefs (test-interface-sbt-defs)`\n+\n+4.  Tests and benchmarks (no dependencies on each other).\n+\n+    - `tests (unit-tests)`\n+\n+    - `tools` This has tests within the project\n+\n+    - `(scripted-tests)`\n+\n+    - `benchmarks`\n+\n+Each of the groups above also depend on the previous group being compiled and\n+published locally. The sbt plugin ``sbtScalaNative`` is used inside Scala Native\n+exactly as it is used in a project using Scala Native. The plugin is needed\n+by the `testInterface` and also the `tests` that use the `testInterface`\n+to compile native code.\n+\n+Building Scala Native\n+---------------------\n+Once you have cloned Scala Native from git, `cd` into the base directory. Inside\n+this directory is the `build.sbt` file which is used to build Scala Native. This\n+file has `sbt` command aliases which are used to help build the system. In order\n+to build Scala Native for the first time you should run the following commands:\n+\n+.. code-block:: text\n+\n+    $ sbt\n+    > rebuild\n+\n+If you want to run all the tests and benchmarks, which take awhile you can run\n+the `test-all` command after the systems builds.\n+\n+Normal development workflow\n+---------------------------\n+Let us suppose that you wish to work on the `javalib` project to add some code\n+or fix a bug. Once you make a change to the code, run the following command\n+at the sbt prompt to compile the code and run the tests:\n+\n+.. code-block:: text\n+\n+    > javalib/publishLocal\n+    > tests/test"
+  },
+  {
+    "id" : "c25afe16-77d5-431e-b98b-00ca75fa4193",
+    "prId" : 1117,
+    "comments" : [
+      {
+        "id" : "a66eb1cb-6260-4603-b179-9774bf855daf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is extremely valuable! 👍",
+        "createdAt" : "2018-01-19T11:24:56Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d2a64c1d-416b-429a-a518-3014ae9f677b",
+        "parentId" : "a66eb1cb-6260-4603-b179-9774bf855daf",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks!",
+        "createdAt" : "2018-01-19T14:57:21Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3b157db1b8667e1688b5f6f3d335d469d2faafa9",
+    "line" : 3,
+    "diffHunk" : "@@ -0,0 +1,159 @@\n+.. _build:\n+\n+Guide to the sbt build"
+  },
+  {
+    "id" : "b3c8af3a-ece9-43c7-a8d3-151d18197524",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "07691773-c30f-472c-aa77-d2bb22e3f4a8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should probably be in its own PR.",
+        "createdAt" : "2020-06-11T08:29:07Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e07f07c6-34f0-4fbd-acbe-563427edf167",
+        "parentId" : "07691773-c30f-472c-aa77-d2bb22e3f4a8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Agreed.",
+        "createdAt" : "2020-06-11T18:12:34Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "05c44c53-db27-470f-b2b1-df14dea28f40",
+        "parentId" : "07691773-c30f-472c-aa77-d2bb22e3f4a8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Resolved: https://github.com/scala-native/scala-native/pull/1821",
+        "createdAt" : "2020-06-11T19:26:17Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -44,6 +44,17 @@ You can run only the test of interest by using one of the following commands:\n     > tests/testOnly java.lang.StringSuite\n     > tests/testOnly *StringSuite\n \n+Scripted tests are used when you need to interact with the file system,"
+  },
+  {
+    "id" : "bf4b42bf-c4c7-4298-94ba-3ad1d5c3fffd",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "e4b795a4-7278-45ce-8c23-14d45216b0e8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Probably a spurious change?",
+        "createdAt" : "2020-07-08T14:41:48Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "83678b55-6f0e-4787-9460-48aa7741224a",
+        "parentId" : "e4b795a4-7278-45ce-8c23-14d45216b0e8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I removed this as requested and created a new PR. https://github.com/scala-native/scala-native/commit/4d639629d7e1947975adc7374a2cf931d10e404f\r\nIt must have gotten removed on rebase. For future reference, should I leave the change in the old PR too?\r\nWhat is the best way to resolve this now with GIT?",
+        "createdAt" : "2020-07-09T14:52:12Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "50a89dad-9db7-4793-8da1-49aad07efc58",
+        "parentId" : "e4b795a4-7278-45ce-8c23-14d45216b0e8",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The best way to resolve this is to rebase on top of the latest master.",
+        "createdAt" : "2020-07-09T15:17:49Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cd09aa9a-3853-4989-9f2c-84dc8f4f3842",
+        "parentId" : "e4b795a4-7278-45ce-8c23-14d45216b0e8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I was rebased on top of that commit. That is why I am a bit confused on what I did wrong.",
+        "createdAt" : "2020-07-09T15:49:14Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0e180551-48dd-4ef6-ad54-9e25d0dde14d",
+        "parentId" : "e4b795a4-7278-45ce-8c23-14d45216b0e8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2020-07-09T15:56:38Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -44,18 +44,6 @@ You can run only the test of interest by using one of the following commands:\n     > tests/testOnly java.lang.StringSuite\n     > tests/testOnly *StringSuite\n \n-Scripted tests are used when you need to interact with the file system,"
+  },
+  {
+    "id" : "ce5ab12a-af02-47de-a210-ced1b8d9f178",
+    "prId" : 1810,
+    "comments" : [
+      {
+        "id" : "b9a17bf8-710e-475f-a903-35c41416efe4",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "`clean` also cleans deletes cached scala sources & intermediate files.\r\nPerhaps \"delete all compiled artifacts and generated intermediates, including\r\nproject scala source cache.\" or such.   \r\n\r\nI suggest \"delete\" because I have been  taught by professional documentation writers that the left and right side of a definition should be different.",
+        "createdAt" : "2020-05-27T16:47:18Z",
+        "updatedAt" : "2020-05-28T11:49:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3cf186d4-56c4-4103-bd20-a8cc0bc85352",
+        "parentId" : "b9a17bf8-710e-475f-a903-35c41416efe4",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "done.",
+        "createdAt" : "2020-05-27T18:10:31Z",
+        "updatedAt" : "2020-05-28T11:49:20Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "24a02432b38e21b31b4cd178fda94b498e860a6b",
+    "line" : null,
+    "diffHunk" : "@@ -8,30 +8,32 @@ This section gives some basic information and tips about the build system. The\n components of Scala Native. The ``build.sbt`` file is at the root of the project\n along with the sub-projects that make up the system.\n \n-Building Scala Native\n----------------------\n-Once you have cloned Scala Native from git, `cd` into the base directory. Inside\n-this directory is the `build.sbt` file which is used to build Scala Native. This\n-file has `sbt` command aliases which are used to help build the system. In order\n-to build Scala Native for the first time you should run the following commands:\n-\n-.. code-block:: text\n-\n-    $ sbt\n-    > rebuild\n-\n-If you want to run all the tests and benchmarks, which takes awhile, you can run\n-the `test-all` command after the systems builds.\n+Common sbt commands\n+-------------------\n+Once you have cloned Scala Native from git, ``cd`` into the base directory and\n+run ``sbt`` to launch the sbt build. Inside the sbt shell, the most common\n+commands are the following:\n+\n+- ``sandbox/run`` -- run the main method of the `sandbox` project\n+- ``tests/test`` -- run the unit tests\n+- ``tools/test`` -- run the unit tests of the tools, aka the linker\n+- ``sbtScalaNative/scripted`` -- run the integration tests of the sbt plugin\n+  (this takes a while)\n+- ``clean`` -- clean all compiled artifacts"
+  },
+  {
+    "id" : "e634dd30-2c0e-455b-9978-cb8887bd760b",
+    "prId" : 1810,
+    "comments" : [
+      {
+        "id" : "8fe01e26-2eea-4cf7-a7bb-b46917a9a619",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Since these are not in alphabetical order, or in another obvious order,\r\nit may be worthwhile to say that projects later in the list depend on those\r\nearlier in the list.",
+        "createdAt" : "2020-05-27T16:50:58Z",
+        "updatedAt" : "2020-05-28T11:49:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ba180f9b-0c4a-4487-b474-048f14a3120f",
+        "parentId" : "8fe01e26-2eea-4cf7-a7bb-b46917a9a619",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2020-05-27T18:10:38Z",
+        "updatedAt" : "2020-05-28T11:49:20Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "24a02432b38e21b31b4cd178fda94b498e860a6b",
+    "line" : 145,
+    "diffHunk" : "@@ -111,75 +114,62 @@ The following shows how to set ``nativeGC`` on all the projects.\n \n The same process above will work for setting `nativeMode`.\n \n-Detailed build information\n---------------------------------\n-Knowledge of the Scala Native build system is very helpful for many tasks.\n-In general the code is built and published to your local Ivy repository\n-using the `sbt` `publishLocal` command so that other components in the\n-system can depend on each other via normal `sbt` dependencies. Although the\n-``build.sbt`` file and other code in the system is the way to learn the system\n-thoroughly, the following sections will give information that should be helpful\n-to get started.\n-\n-The build has roughly four groups of sub-projects as follows:\n+Organization of the build\n+-------------------------\n+The build has roughly five groups of sub-projects as follows:\n \n-1.  The Native Scala Compiler plugin and libraries. This first list is in\n-    reverse dependency order.\n+1.  The compiler plugin, which generates NIR files. It is used in all the\n+    Scana Native artifacts in the build, with\n+    ``.dependsOn(nscplugin % \"plugin\")``. This is a JVM project.\n \n-    When we do a `rebuild` or `dirty-rebuild` the alias calls\n-    `scalalib/publishLocal` first. The `scalalib` project depends on all the\n-    projects above it in the following list. This means that the `nscplugin`\n-    must be built and published locally first. The `nscplugin` project contains\n-    the Scala compiler plugin which is normal Scala (JVM). The plugin compiles\n-    Scala code into NIR which is needed for all the Scala Native libraries\n-    lower in the list below.\n+    - ``nscplugin``\n \n-    - `nscplugin`\n+2.  The Scala Native core libraries. Those are core artifacts which the sbt\n+    plugin adds to the ``Compile`` configuration of all Scala Native projects.\n+    The libraries in this group are themselves Scala Native projects.\n \n-    - `nativelib`\n+    - ``nativelib``\n \n-    - `clib`\n+    - ``clib``\n \n-    - `posixlib`\n+    - ``posixlib``\n \n-    - `javalib`\n+    - ``javalib``\n \n-    - `auxlib`\n+    - ``auxlib``\n \n-    - `scalalib`\n+    - ``scalalib``"
+  },
+  {
+    "id" : "a1b29453-c62d-4218-abce-815cf8ac4616",
+    "prId" : 1866,
+    "comments" : [
+      {
+        "id" : "3d5ade8d-8c6e-429b-a97d-aa5560968df3",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "One that was forgotten:\r\n```suggestion\r\nThe `optimize` setting is controlled via the `SCALANATIVE_OPTIMIZE` environment\r\n```",
+        "createdAt" : "2020-07-29T22:31:09Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f34c6df8-987a-4fb7-a43a-08e41152eef0",
+        "parentId" : "3d5ade8d-8c6e-429b-a97d-aa5560968df3",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Ah, I did case sensitive search and replace.",
+        "createdAt" : "2020-07-29T22:36:06Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "7c1262208078829fb371c8c62305ad0cf4bbb6ec",
+    "line" : null,
+    "diffHunk" : "@@ -103,6 +103,10 @@ whereas the `release` mode performs additional optimizations and takes longer\n to compile. The `release-fast` mode builds faster, performs less optimizations,\n but may perform better than `release`.\n \n+The `optimize` setting is controlled via the `SCALANATIVE_OPTIMISE` environment"
+  }
+]

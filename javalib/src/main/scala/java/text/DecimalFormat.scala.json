@@ -1,0 +1,118 @@
+[
+  {
+    "id" : "ee5fc570-d449-4a8e-81aa-28754fec47e3",
+    "prId" : 804,
+    "comments" : [
+      {
+        "id" : "4012e23b-f6cd-4344-b7c3-511c60e495d8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't leave TODOs in the code, they get out of date too easily. ",
+        "createdAt" : "2017-08-07T11:09:08Z",
+        "updatedAt" : "2017-08-07T12:22:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f8dba2ebf2d57ef8f753a811fb72cffc6e2ce047",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,674 @@\n+package java.text\n+\n+import java.math.BigDecimal\n+import java.math.BigInteger\n+import java.math.MathContext\n+import java.math.RoundingMode\n+import java.util.Locale\n+\n+class DecimalFormat extends NumberFormat {\n+  // basic implementation for java.util.Formatter with Locale.US only\n+  // TODO: add missing methods"
+  },
+  {
+    "id" : "9520f590-024e-41dc-b603-43f5f59d0010",
+    "prId" : 804,
+    "comments" : [
+      {
+        "id" : "5919c758-32bd-4269-aecb-6ab08a9fe9f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs `// Ported from Harmony` comment.",
+        "createdAt" : "2017-08-07T12:24:39Z",
+        "updatedAt" : "2017-08-07T12:26:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2659fcdc-1d2a-4ab4-af8a-81358394761f",
+        "parentId" : "5919c758-32bd-4269-aecb-6ab08a9fe9f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Every file which was ported from Harmony needs that somewhere high up in the start of the file.",
+        "createdAt" : "2017-08-07T12:25:45Z",
+        "updatedAt" : "2017-08-07T12:26:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "70c4dd44-9dfd-48ed-a553-dc6d6876b3d8",
+        "parentId" : "5919c758-32bd-4269-aecb-6ab08a9fe9f6",
+        "author" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "body" : "`DecimalFormat` is not ported from Harmony. It's written from scratch.",
+        "createdAt" : "2017-08-07T12:28:35Z",
+        "updatedAt" : "2017-08-07T12:28:35Z",
+        "lastEditedBy" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "102838db-0eb5-4e38-81e9-9fcd8e5305f2",
+        "parentId" : "5919c758-32bd-4269-aecb-6ab08a9fe9f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I see. Just a precaution. ",
+        "createdAt" : "2017-08-07T12:29:34Z",
+        "updatedAt" : "2017-08-07T12:29:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f8dba2ebf2d57ef8f753a811fb72cffc6e2ce047",
+    "line" : 9,
+    "diffHunk" : "@@ -0,0 +1,673 @@\n+package java.text\n+\n+import java.math.BigDecimal\n+import java.math.BigInteger\n+import java.math.MathContext\n+import java.math.RoundingMode\n+import java.util.Locale\n+\n+class DecimalFormat extends NumberFormat {"
+  }
+]

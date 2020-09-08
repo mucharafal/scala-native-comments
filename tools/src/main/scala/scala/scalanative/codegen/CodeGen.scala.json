@@ -1,0 +1,661 @@
+[
+  {
+    "id" : "175d950b-08ce-45ea-b99a-7050b65dba68",
+    "prId" : 630,
+    "comments" : [
+      {
+        "id" : "09667b5e-68c4-4a14-8a0b-9df3d2a0f47d",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Why the double nested scratch buffer? The outer one doesn't touch the `buffer` at all",
+        "createdAt" : "2017-04-11T17:19:25Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "974786d1-f197-4711-b498-908da6592188",
+        "parentId" : "09667b5e-68c4-4a14-8a0b-9df3d2a0f47d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice catch, that was not intended. ",
+        "createdAt" : "2017-04-11T19:38:44Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "efeaf9a1-cf3a-4f39-b37d-b97e8abc73e1",
+        "parentId" : "09667b5e-68c4-4a14-8a0b-9df3d2a0f47d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-04-11T20:05:44Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e791f07d668b442dbb5ec1d3c800fa193024ce2e",
+    "line" : null,
+    "diffHunk" : "@@ -5,70 +5,72 @@ import java.{lang => jl}\n import java.nio.ByteBuffer\n import java.nio.file.Paths\n import scala.collection.mutable\n-import scalanative.util.{ShowBuilder, unsupported}\n+import scalanative.util.{Scope, ShowBuilder, unsupported}\n import scalanative.io.{VirtualDirectory, withScratchBuffer}\n import scalanative.optimizer.analysis.ControlFlow.{Graph => CFG, Block, Edge}\n import scalanative.nir._\n \n object CodeGen {\n \n   /** Generate code for given assembly. */\n-  def apply(config: tools.Config, assembly: Seq[Defn]): Unit = {\n-    val env = assembly.map(defn => defn.name -> defn).toMap\n-\n-    def debug(): Unit = {\n-      val batches = mutable.Map.empty[String, mutable.Buffer[Defn]]\n-      assembly.foreach { defn =>\n-        val top = defn.name.top.id\n-        val key =\n-          if (top.startsWith(\"__\")) top\n-          else if (top == \"main\") \"__main\"\n-          else {\n-            val pkg = top.split(\"\\\\.\").init.mkString(\".\")\n-            if (pkg == \"\") \"__empty\"\n-            else pkg\n+  def apply(config: tools.Config, assembly: Seq[Defn]): Unit =\n+    Scope { implicit in =>\n+      val env     = assembly.map(defn => defn.name -> defn).toMap\n+      val workdir = VirtualDirectory.real(config.workdir)\n+\n+      def debug(): Unit = {\n+        val batches = mutable.Map.empty[String, mutable.Buffer[Defn]]\n+        assembly.foreach { defn =>\n+          val top = defn.name.top.id\n+          val key =\n+            if (top.startsWith(\"__\")) top\n+            else if (top == \"main\") \"__main\"\n+            else {\n+              val pkg = top.split(\"\\\\.\").init.mkString(\".\")\n+              if (pkg == \"\") \"__empty\"\n+              else pkg\n+            }\n+          if (!batches.contains(key)) {\n+            batches(key) = mutable.UnrolledBuffer.empty[Defn]\n           }\n-        if (!batches.contains(key)) {\n-          batches(key) = mutable.UnrolledBuffer.empty[Defn]\n+          batches(key) += defn\n+        }\n+        batches.par.foreach {\n+          case (k, defns) =>\n+            val impl =\n+              new Impl(config.target, env, defns, workdir)\n+            val outpath = k + \".ll\"\n+            withScratchBuffer { buffer =>\n+              impl.gen(buffer)\n+              buffer.flip\n+              workdir.write(Paths.get(outpath), buffer)\n+            }\n         }\n-        batches(key) += defn\n       }\n-      batches.par.foreach {\n-        case (k, defns) =>\n-          val impl =\n-            new Impl(config.target, env, defns, config.targetDirectory)\n-          val outpath = k + \".ll\"\n+\n+      def release(): Unit = {\n+        withScratchBuffer { buffer =>\n+          val defns   = assembly\n+          val impl    = new Impl(config.target, env, defns, workdir)\n+          val outpath = \"out.ll\"\n           withScratchBuffer { buffer =>"
+  },
+  {
+    "id" : "f8267bd1-2b00-47f0-99d1-b80de135068b",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "fc4f3aeb-f25d-4c1a-9a44-3e7e076d6f62",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "You already defined `isWindows`. Note that there is also `Platform.isWindows`. Perhaps, we could merge some of these?",
+        "createdAt" : "2017-05-07T17:24:38Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "58c7c2ea-9199-4c46-8f97-7df014b45c39",
+        "parentId" : "fc4f3aeb-f25d-4c1a-9a44-3e7e076d6f62",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "It could be possible, but it's actually three different things:\r\n1. sbt os name (for sbt plugin)\r\n2. tools has target for compilation\r\n3. runtime method scalanative_isWindows for running application",
+        "createdAt" : "2017-05-08T18:31:17Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5dc9d243-7f66-48b3-9ba4-a3c7855f12dd",
+        "parentId" : "fc4f3aeb-f25d-4c1a-9a44-3e7e076d6f62",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "SBT which includes all the build and plugin contains some handy code to deal with Files and Paths. http://www.scala-sbt.org/0.13/docs/Paths.html  Note that normal File has a constructor that takes a `File(dir: String or File, file: String)` https://docs.oracle.com/javase/7/docs/api/java/io/File.html and there is also `java.nio.file` that other methods. Most of the String encoded paths not using File.separator code could be replaced.\r\n\r\nThis won't work for 3. above as you point out above.",
+        "createdAt" : "2017-05-08T19:50:06Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5c2da843-9840-4698-9c33-2c16eb73dfdc",
+        "parentId" : "fc4f3aeb-f25d-4c1a-9a44-3e7e076d6f62",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We can not merge them, library and compiler can't share the code. One is Scala Native compiled and the other one is JVM compiled.",
+        "createdAt" : "2017-08-07T11:38:01Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : 13,
+    "diffHunk" : "@@ -12,6 +12,13 @@ import scalanative.nir._\n \n object CodeGen {\n \n+  private final class Platform(target: String) {\n+    val isWindows = target.contains(\"indows\")"
+  },
+  {
+    "id" : "b8c5b965-f90d-4b9d-b32c-c9b00409f84c",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "34a2b19a-889b-47eb-92d6-e576eef2ab20",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Remove semicolon",
+        "createdAt" : "2017-05-09T17:22:58Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "adf040ad-3cb7-47da-b5c4-663160f5981f",
+        "parentId" : "34a2b19a-889b-47eb-92d6-e576eef2ab20",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "fixed",
+        "createdAt" : "2017-05-09T19:55:44Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -256,6 +276,10 @@ object CodeGen {\n \n       genBlockHeader()\n       indent()\n+      if (platform.isWindows && block.isExceptionHandler && block.pred.isEmpty) {\n+        newline();"
+  },
+  {
+    "id" : "d610f733-fd39-43bd-a530-b9787efbb110",
+    "prId" : 889,
+    "comments" : [
+      {
+        "id" : "9d7e8a10-8bed-4846-a91a-aafa2a11c4d1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@tailrec`.",
+        "createdAt" : "2017-08-07T11:18:59Z",
+        "updatedAt" : "2017-08-07T15:01:01Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc73665e7aa3cabdc6919f0c58d1d64119bf42eb",
+    "line" : null,
+    "diffHunk" : "@@ -394,6 +392,56 @@ object CodeGen {\n         unsupported(v)\n     }\n \n+    def genChars(value: String): Unit = {\n+      // `value` should contain a content of a CString literal as is in its source file\n+      // malformed literals are assumed absent\n+      str(\"c\\\"\")\n+      def loop(from: Int): Unit ="
+  },
+  {
+    "id" : "0ba1fdfe-f88e-40f3-82e3-70389b43422f",
+    "prId" : 1132,
+    "comments" : [
+      {
+        "id" : "1aa0eb03-244f-4a39-82cc-28c741f692de",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Can we merge these\r\n```\r\ncase Op.Call(ty, Val.Global(pointee, _), args, Next.None) =>\r\ncase Op.Call(ty, ptr, args, Next.None) =>\r\n```\r\nand these\r\n```\r\ncase Op.Call(ty, Val.Global(pointee, _), args, unwind) =>\r\ncase Op.Call(ty, ptr, args, unwind) =>\r\n```\r\n?\r\n\r\nThe only differences seem to be prefixing pointee with either `@` or `%` and optional bitcast",
+        "createdAt" : "2018-01-11T22:00:47Z",
+        "updatedAt" : "2018-01-18T16:26:12Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "14c423d6-c12e-42ce-a79a-d49d894ae1ad",
+        "parentId" : "1aa0eb03-244f-4a39-82cc-28c741f692de",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good call, fixed in 41a732f.",
+        "createdAt" : "2018-01-18T16:26:32Z",
+        "updatedAt" : "2018-01-18T16:26:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "41a732f889a938bf78f94bc67beace25c87b5a78",
+    "line" : null,
+    "diffHunk" : "@@ -714,7 +714,8 @@ object CodeGen {\n \n     def genCall(genBind: () => Unit, call: Op.Call)(\n         implicit fresh: Fresh): Unit = call match {\n-      case Op.Call(ty, Val.Global(pointee, _), args, Next.None) =>\n+      case Op.Call(ty, Val.Global(pointee, _), args, Next.None)\n+          if lookup(pointee) == ty =>"
+  },
+  {
+    "id" : "9434811f-3a1c-4908-b81b-90569cfb0600",
+    "prId" : 1676,
+    "comments" : [
+      {
+        "id" : "c4d0fbb6-7847-4202-99c3-cfcbcfc5d351",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why do you need buffer's current position here? This looks like a hack.",
+        "createdAt" : "2019-08-02T08:43:28Z",
+        "updatedAt" : "2019-08-02T08:46:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "58fac707-8caa-4e7b-904c-f8582e64f4b8",
+        "parentId" : "c4d0fbb6-7847-4202-99c3-cfcbcfc5d351",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I need to insert a variable on the stack `alloca` for exception handler (this is the only way to receive exception address from catchpad), so I need a something after header but I want to know ahead of time that this scope need that variable (to not add it to every scope). So, it's a hack and I am looking for better solution, any ideas?",
+        "createdAt" : "2019-08-02T11:00:48Z",
+        "updatedAt" : "2019-08-02T11:00:48Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "85c60b798e4e9c52ff082fad991619883731cf08",
+    "line" : 83,
+    "diffHunk" : "@@ -345,6 +374,9 @@ object CodeGen {\n \n       genBlockHeader()\n       indent()\n+      if (platform.isWindows && block.pred.isEmpty) {\n+        ehVarPosition = currentPosition"
+  },
+  {
+    "id" : "24538802-d518-47d5-9c03-9079ef288101",
+    "prId" : 1744,
+    "comments" : [
+      {
+        "id" : "40c1bc39-4be8-4323-a8b2-b9e64d6f1b25",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Please \"inline\" the content of this `case` inside the `case '\\\\' =>`, replacing `idx` with `idx + 1`. This is easier to understand, as we don't need to reason about the `escaping` state.",
+        "createdAt" : "2020-05-15T13:12:40Z",
+        "updatedAt" : "2020-05-15T13:18:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3198f231d144d4ea69d04b7fb995675bf421da19",
+    "line" : 57,
+    "diffHunk" : "@@ -536,49 +536,51 @@ object CodeGen {\n     def genChars(value: String): Unit = {\n       // `value` should contain a content of a CString literal as is in its source file\n       // malformed literals are assumed absent\n-      str(\"c\\\"\")\n-      @tailrec def loop(from: Int): Unit =\n-        value.indexOf('\\\\', from) match {\n-          case -1 => str(value.substring(from))\n-          case idx =>\n-            str(value.substring(from, idx))\n-            import Character.isDigit\n-            def isOct(c: Char): Boolean = isDigit(c) && c != '8' && c != '9'\n-            def isHex(c: Char): Boolean =\n-              isDigit(c) ||\n-                c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n-                c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n-            value(idx + 1) match {\n-              case c @ ('\\'' | '\"' | '?') => str(c); loop(idx + 2)\n-              case '\\\\'                   => str(\"\\\\\\\\\"); loop(idx + 2)\n-              case 'a'                    => str(\"\\\\07\"); loop(idx + 2)\n-              case 'b'                    => str(\"\\\\08\"); loop(idx + 2)\n-              case 'f'                    => str(\"\\\\0C\"); loop(idx + 2)\n-              case 'n'                    => str(\"\\\\0A\"); loop(idx + 2)\n-              case 'r'                    => str(\"\\\\0D\"); loop(idx + 2)\n-              case 't'                    => str(\"\\\\09\"); loop(idx + 2)\n-              case 'v'                    => str(\"\\\\0B\"); loop(idx + 2)\n-              case d if isOct(d) =>\n-                val oct = value.drop(idx + 1).take(3).takeWhile(isOct)\n-                val hex =\n-                  Integer.toHexString(Integer.parseInt(oct, 8)).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 1 + oct.length)\n-              case 'x' =>\n-                val hex = value.drop(idx + 2).takeWhile(isHex).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 2 + hex.length)\n-              case unknown =>\n-                // clang warns but allows unknown escape sequences, while java emits errors\n-                str(unknown); loop(idx + 2)\n-            }\n+      def isOct(c: Char): Boolean = Character.isDigit(c) && c != '8' && c != '9'\n+      def isHex(c: Char): Boolean =\n+        Character.isDigit(c) ||\n+          c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n+          c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n+      def escapedHex(hex: String) =\n+        if (hex.length < 2) s\"\\\\0$hex\" else s\"\\\\$hex\"\n+      @tailrec def loop(idx: Int, escaping: Boolean = false): Unit = {\n+        if (idx < value.length) {\n+          value(idx) match {\n+            case '\"' => str(\"\\\\22\"); loop(idx + 1)\n+            case c if escaping =>"
+  },
+  {
+    "id" : "5e703527-d6ea-46b7-9c3f-29a72ba4a22c",
+    "prId" : 1744,
+    "comments" : [
+      {
+        "id" : "d5ed71a3-c0b2-4ca1-b4a4-8c7c1679e5d6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider looping to find the first character that is either `'\"'` nor `'\\\\'` (or the end of the string), so that we can preserve the `str(value.substring(..., ...))` idiom, which should be faster than emitting one character at a time.",
+        "createdAt" : "2020-05-15T13:15:58Z",
+        "updatedAt" : "2020-05-15T13:18:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3198f231d144d4ea69d04b7fb995675bf421da19",
+    "line" : 85,
+    "diffHunk" : "@@ -536,49 +536,51 @@ object CodeGen {\n     def genChars(value: String): Unit = {\n       // `value` should contain a content of a CString literal as is in its source file\n       // malformed literals are assumed absent\n-      str(\"c\\\"\")\n-      @tailrec def loop(from: Int): Unit =\n-        value.indexOf('\\\\', from) match {\n-          case -1 => str(value.substring(from))\n-          case idx =>\n-            str(value.substring(from, idx))\n-            import Character.isDigit\n-            def isOct(c: Char): Boolean = isDigit(c) && c != '8' && c != '9'\n-            def isHex(c: Char): Boolean =\n-              isDigit(c) ||\n-                c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n-                c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n-            value(idx + 1) match {\n-              case c @ ('\\'' | '\"' | '?') => str(c); loop(idx + 2)\n-              case '\\\\'                   => str(\"\\\\\\\\\"); loop(idx + 2)\n-              case 'a'                    => str(\"\\\\07\"); loop(idx + 2)\n-              case 'b'                    => str(\"\\\\08\"); loop(idx + 2)\n-              case 'f'                    => str(\"\\\\0C\"); loop(idx + 2)\n-              case 'n'                    => str(\"\\\\0A\"); loop(idx + 2)\n-              case 'r'                    => str(\"\\\\0D\"); loop(idx + 2)\n-              case 't'                    => str(\"\\\\09\"); loop(idx + 2)\n-              case 'v'                    => str(\"\\\\0B\"); loop(idx + 2)\n-              case d if isOct(d) =>\n-                val oct = value.drop(idx + 1).take(3).takeWhile(isOct)\n-                val hex =\n-                  Integer.toHexString(Integer.parseInt(oct, 8)).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 1 + oct.length)\n-              case 'x' =>\n-                val hex = value.drop(idx + 2).takeWhile(isHex).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 2 + hex.length)\n-              case unknown =>\n-                // clang warns but allows unknown escape sequences, while java emits errors\n-                str(unknown); loop(idx + 2)\n-            }\n+      def isOct(c: Char): Boolean = Character.isDigit(c) && c != '8' && c != '9'\n+      def isHex(c: Char): Boolean =\n+        Character.isDigit(c) ||\n+          c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n+          c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n+      def escapedHex(hex: String) =\n+        if (hex.length < 2) s\"\\\\0$hex\" else s\"\\\\$hex\"\n+      @tailrec def loop(idx: Int, escaping: Boolean = false): Unit = {\n+        if (idx < value.length) {\n+          value(idx) match {\n+            case '\"' => str(\"\\\\22\"); loop(idx + 1)\n+            case c if escaping =>\n+              c match {\n+                case '\\'' | '?' => str(c); loop(idx + 1)\n+                case '\\\\'       => str(\"\\\\\\\\\"); loop(idx + 1)\n+                case 'a'        => str(\"\\\\07\"); loop(idx + 1)\n+                case 'b'        => str(\"\\\\08\"); loop(idx + 1)\n+                case 'f'        => str(\"\\\\0C\"); loop(idx + 1)\n+                case 'n'        => str(\"\\\\0A\"); loop(idx + 1)\n+                case 'r'        => str(\"\\\\0D\"); loop(idx + 1)\n+                case 't'        => str(\"\\\\09\"); loop(idx + 1)\n+                case 'v'        => str(\"\\\\0B\"); loop(idx + 1)\n+                case d if isOct(d) =>\n+                  val oct = value.drop(idx).take(3).takeWhile(isOct)\n+                  val hex =\n+                    Integer.toHexString(Integer.parseInt(oct, 8)).toUpperCase\n+                  str(escapedHex(hex))\n+                  loop(idx + oct.length)\n+                case 'x' =>\n+                  val hex = value.drop(idx + 1).takeWhile(isHex).toUpperCase\n+                  str(escapedHex(hex))\n+                  loop(idx + 1 + hex.length)\n+                case unknown =>\n+                  // clang warns but allows unknown escape sequences, while java emits errors\n+                  str(unknown); loop(idx + 1)\n+              }\n+            case '\\\\' =>\n+              loop(idx + 1, escaping = true)\n+            case c =>\n+              str(c); loop(idx + 1)"
+  },
+  {
+    "id" : "3fb38ce4-3a4e-42d0-90ed-703bd3db4fcd",
+    "prId" : 1746,
+    "comments" : [
+      {
+        "id" : "72416826-d0f8-43bc-abbd-f4cae9a4d447",
+        "parentId" : null,
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "I don't really like idea of traversing `deps` each time. You may consider adding `val externSigMembers = mutable.Map.empty[Sig, Global.Member]` and use it instead of `deps` traversal. Also I would consider this fix as a hacking so we should provide some comment describing it. \r\n\r\n```suggestion\r\n         /*In case if it's a call to extern method with same mangled Sig as some already defined call\r\n            in other module we need to manually enforce getting into second case of `genCall`\r\n            (when lookup(pointee) != call.ty). By replacing `call.ptr` with ptr of that already defined call we would\r\n            enforce creating call bitcasts to correct type.\r\n\r\n            Due to deduplication in `genDeps` and since mangling Sig.Extern is not based on function types\r\n            each extern method in deps is generated only once in IR file. In this case LLVM linking\r\n            would result in call arguments type mismatch.\r\n          */\r\n          val callDef = call.ptr match {\r\n            case Val.Global(m @ Global.Member(_, sig), valty) if sig.isExtern =>\r\n              val glob = externSigMembers.getOrElseUpdate(sig, m)\r\n              if (glob == m) call\r\n              else call.copy(ptr = Val.Global(glob, valty))\r\n            case _ => call\r\n          }\r\n          genCall(genBind, callDef, unwind)\r\n```",
+        "createdAt" : "2020-08-26T09:50:22Z",
+        "updatedAt" : "2020-08-27T10:00:04Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "86d15c22-a95c-4fe7-9335-fc14d311bfa2",
+        "parentId" : "72416826-d0f8-43bc-abbd-f4cae9a4d447",
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Thank you for the suggestion @WojciechMazur. I'm going to apply it as soon as I can.",
+        "createdAt" : "2020-08-26T10:47:20Z",
+        "updatedAt" : "2020-08-27T10:00:04Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3a9c57fe44683f9365f533743bf9a19bfd18406c",
+    "line" : null,
+    "diffHunk" : "@@ -730,7 +730,20 @@ object CodeGen {\n           ()\n \n         case call: Op.Call =>\n-          genCall(genBind, call, unwind)\n+          val withGeneratedExtern = call match {\n+            case Op.Call(ty, Val.Global(g @ Global.Member(_, sig), valty), args)\n+                if sig.isExtern =>\n+              deps.collectFirst {\n+                case gg @ Global.Member(_, `sig`) => gg\n+              } match {\n+                case Some(gg) if gg != g =>\n+                  Op.Call(ty, Val.Global(gg, valty), args)\n+                case _ => call\n+              }\n+            case _ =>\n+              call\n+          }\n+          genCall(genBind, withGeneratedExtern, unwind)"
+  },
+  {
+    "id" : "4f2c814e-7bfe-40da-a254-a92452fea83a",
+    "prId" : 1746,
+    "comments" : [
+      {
+        "id" : "302f64a7-3692-4d10-acce-d3199f522d73",
+        "parentId" : null,
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Question: Does it make sense to make these mutable things `private`? In case it does, should this be part of this pull request?",
+        "createdAt" : "2020-08-27T08:22:27Z",
+        "updatedAt" : "2020-08-27T10:00:04Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0d02bd7f-5fa5-4b48-9b68-fd1842df3ec5",
+        "parentId" : "302f64a7-3692-4d10-acce-d3199f522d73",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The class itself is private is private, so it doesn't matter much, but feel free to make them explicitly private if they are not used by other classes in the same file. It won't hurt :)",
+        "createdAt" : "2020-08-27T08:39:09Z",
+        "updatedAt" : "2020-08-27T10:00:04Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3a9c57fe44683f9365f533743bf9a19bfd18406c",
+    "line" : null,
+    "diffHunk" : "@@ -88,10 +88,11 @@ object CodeGen {\n     var currentBlockName: Local = _\n     var currentBlockSplit: Int  = _\n \n-    val copies    = mutable.Map.empty[Local, Val]\n-    val deps      = mutable.Set.empty[Global]\n-    val generated = mutable.Set.empty[String]\n-    val builder   = new ShowBuilder\n+    val copies           = mutable.Map.empty[Local, Val]\n+    val deps             = mutable.Set.empty[Global]\n+    val generated        = mutable.Set.empty[String]\n+    val externSigMembers = mutable.Map.empty[Sig, Global.Member]\n+    val builder          = new ShowBuilder"
+  },
+  {
+    "id" : "b0e5903c-6f7a-4793-9380-9cfa5ebf9912",
+    "prId" : 1746,
+    "comments" : [
+      {
+        "id" : "25961862-f0d2-496f-9e39-d4554a989be0",
+        "parentId" : null,
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "I rephrased a bit your comment @WojciechMazur, tell me if you like the new phrasing :)",
+        "createdAt" : "2020-08-27T08:22:56Z",
+        "updatedAt" : "2020-08-27T10:00:04Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "73c30eec-4d8d-4002-9130-cf7c11341404",
+        "parentId" : "25961862-f0d2-496f-9e39-d4554a989be0",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "It's fine I guess",
+        "createdAt" : "2020-08-27T09:51:09Z",
+        "updatedAt" : "2020-08-27T10:00:04Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3a9c57fe44683f9365f533743bf9a19bfd18406c",
+    "line" : 45,
+    "diffHunk" : "@@ -681,7 +682,22 @@ object CodeGen {\n           ()\n \n         case call: Op.Call =>\n-          genCall(genBind, call, unwind)\n+          /* When a call points to an extern method with same mangled Sig as some already defined call\n+           * in another extern object we need to manually enforce getting into second case of `genCall`\n+           * (when lookup(pointee) != call.ty). By replacing `call.ptr` with the ptr of that already\n+           * defined call so we can enforce creating call bitcasts to the correct types.\n+           * Because of the deduplication in `genDeps` and since mangling Sig.Extern is not based\n+           * on function types, each extern method in deps is generated only once in IR file.\n+           * In this case LLVM linking would otherwise result in call arguments type mismatch.\n+           */"
+  },
+  {
+    "id" : "566a3f7a-798f-47a8-aaca-fa1352721933",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "8967608e-9ae3-416f-8483-bb91b2d41ce9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We also have to escape other characters that would be treated specially by LLVM's parser. At the very least, the character `\"` must be escaped, but I'm sure other characters need escaping as well. New lines are likely candidates, as well as all control characters. It's unclear from the LLVM docs what the possible escape formats are, however it's clear that double-hex-digit bytes are allowed, so we should use that for all characters that aren't safe.",
+        "createdAt" : "2020-07-16T10:24:52Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "091308df-ae29-4898-bdc0-714c92efc322",
+        "parentId" : "8967608e-9ae3-416f-8483-bb91b2d41ce9",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "All characters other then digits and letters would not be encoded as double-hex-digit (only `\\` is encoded as `\\\\`). One of the problems I've noticed was that LLVM treats `\\\"'` as two characters, which means it had to be encoded as `\\22` anyway. \r\nI'm only wondering does encoding all whitespaces as hex values is good solution. It's the safest option  spaces or tabs are currently also hex values. Maybe I should have change that?",
+        "createdAt" : "2020-07-17T09:46:15Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2441f7ca-1c02-4bfb-8593-f2af5549708d",
+        "parentId" : "8967608e-9ae3-416f-8483-bb91b2d41ce9",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I suggest to encode:\r\n\r\n* Every non-ASCII character (> 0x7F)\r\n* All control characters (< 0x20 and also 0x7F), so that includes tab but not space (which is = 0x20)\r\n* `\"` itself, obviously\r\n\r\nConcretely, if `c < 0x20 || c == '\"' || c >= 0x7f`, then encode it, otherwise don't encode it.\r\n\r\nAnd I agree that we should always encode using the format `\\xx` where `xx` is a 2-digit hex value.",
+        "createdAt" : "2020-07-17T09:53:52Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -534,52 +534,10 @@ object CodeGen {\n     }\n \n     def genChars(value: String): Unit = {\n-      // `value` should contain a content of a CString literal as is in its source file\n+      // `value` should contain a content of a CString literal as is in its source file parsed with parsed escaped characters\n       // malformed literals are assumed absent\n       str(\"c\\\"\")\n-      @tailrec def loop(from: Int): Unit =\n-        value.indexOf('\\\\', from) match {\n-          case -1 => str(value.substring(from))\n-          case idx =>\n-            str(value.substring(from, idx))\n-            import Character.isDigit\n-            def isOct(c: Char): Boolean = isDigit(c) && c != '8' && c != '9'\n-            def isHex(c: Char): Boolean =\n-              isDigit(c) ||\n-                c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n-                c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n-            value(idx + 1) match {\n-              case c @ ('\\'' | '\"' | '?') => str(c); loop(idx + 2)\n-              case '\\\\'                   => str(\"\\\\\\\\\"); loop(idx + 2)\n-              case 'a'                    => str(\"\\\\07\"); loop(idx + 2)\n-              case 'b'                    => str(\"\\\\08\"); loop(idx + 2)\n-              case 'f'                    => str(\"\\\\0C\"); loop(idx + 2)\n-              case 'n'                    => str(\"\\\\0A\"); loop(idx + 2)\n-              case 'r'                    => str(\"\\\\0D\"); loop(idx + 2)\n-              case 't'                    => str(\"\\\\09\"); loop(idx + 2)\n-              case 'v'                    => str(\"\\\\0B\"); loop(idx + 2)\n-              case d if isOct(d) =>\n-                val oct = value.drop(idx + 1).take(3).takeWhile(isOct)\n-                val hex =\n-                  Integer.toHexString(Integer.parseInt(oct, 8)).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 1 + oct.length)\n-              case 'x' =>\n-                val hex = value.drop(idx + 2).takeWhile(isHex).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 2 + hex.length)\n-              case unknown =>\n-                // clang warns but allows unknown escape sequences, while java emits errors\n-                str(unknown); loop(idx + 2)\n-            }\n-        }\n-      loop(0)\n+      str(value.replace(\"\\\\\", \"\\\\\" * 2))"
+  },
+  {
+    "id" : "3a6cc4e8-2820-48b6-993c-182f2897e0ce",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "ab7c65eb-7de3-4c3d-be76-0bc415e308ca",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider constant-folding this. `* 2` is a method call that is relatively expensive:\r\n```suggestion\r\n        case '\\\\' => str(\"\\\\\\\\\")\r\n```",
+        "createdAt" : "2020-08-18T09:46:02Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -533,53 +533,18 @@ object CodeGen {\n         unsupported(v)\n     }\n \n-    def genChars(value: String): Unit = {\n-      // `value` should contain a content of a CString literal as is in its source file\n-      // malformed literals are assumed absent\n+    def genChars(bytes: Array[Byte]): Unit = {\n       str(\"c\\\"\")\n-      @tailrec def loop(from: Int): Unit =\n-        value.indexOf('\\\\', from) match {\n-          case -1 => str(value.substring(from))\n-          case idx =>\n-            str(value.substring(from, idx))\n-            import Character.isDigit\n-            def isOct(c: Char): Boolean = isDigit(c) && c != '8' && c != '9'\n-            def isHex(c: Char): Boolean =\n-              isDigit(c) ||\n-                c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n-                c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n-            value(idx + 1) match {\n-              case c @ ('\\'' | '\"' | '?') => str(c); loop(idx + 2)\n-              case '\\\\'                   => str(\"\\\\\\\\\"); loop(idx + 2)\n-              case 'a'                    => str(\"\\\\07\"); loop(idx + 2)\n-              case 'b'                    => str(\"\\\\08\"); loop(idx + 2)\n-              case 'f'                    => str(\"\\\\0C\"); loop(idx + 2)\n-              case 'n'                    => str(\"\\\\0A\"); loop(idx + 2)\n-              case 'r'                    => str(\"\\\\0D\"); loop(idx + 2)\n-              case 't'                    => str(\"\\\\09\"); loop(idx + 2)\n-              case 'v'                    => str(\"\\\\0B\"); loop(idx + 2)\n-              case d if isOct(d) =>\n-                val oct = value.drop(idx + 1).take(3).takeWhile(isOct)\n-                val hex =\n-                  Integer.toHexString(Integer.parseInt(oct, 8)).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 1 + oct.length)\n-              case 'x' =>\n-                val hex = value.drop(idx + 2).takeWhile(isHex).toUpperCase\n-                str {\n-                  if (hex.length < 2) \"\\\\0\" + hex\n-                  else \"\\\\\" + hex\n-                }\n-                loop(idx + 2 + hex.length)\n-              case unknown =>\n-                // clang warns but allows unknown escape sequences, while java emits errors\n-                str(unknown); loop(idx + 2)\n-            }\n-        }\n-      loop(0)\n+      bytes.foreach {\n+        case '\\\\' => str(\"\\\\\" * 2)"
+  }
+]

@@ -1,0 +1,105 @@
+[
+  {
+    "id" : "69a05075-0919-45b9-b4b6-915b2299502b",
+    "prId" : 702,
+    "comments" : [
+      {
+        "id" : "48ab0b1d-a308-4f83-b70a-679ae1899ee5",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The POSIX spec says that `stdin`, `stdout` and `stderr` have value `0`, `1` and `2`, so that's ok 👍 \r\n",
+        "createdAt" : "2017-05-11T19:01:22Z",
+        "updatedAt" : "2017-05-11T19:33:33Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35be25dc3918e70f44d1b68f55e1732b256439fa",
+    "line" : 15,
+    "diffHunk" : "@@ -3,17 +3,26 @@ package java.io\n import scala.scalanative.posix.unistd\n \n /** Wraps a UNIX file descriptor */\n-final class FileDescriptor private[io] (private[io] val fd: Int) {\n+final class FileDescriptor private[io] (private[io] val fd: Int,\n+                                        val readOnly: Boolean = false) {\n \n   def this() = this(-1)\n \n+  // inspired by Apache Harmony including filedesc.c\n   def sync(): Unit =\n-    unistd.fsync(fd) match {\n-      case 0 => ()\n-      case _ => throw new java.io.SyncFailedException(\"sync failed\")\n+    if (fd <= 2) throwSyncFailed()"
+  },
+  {
+    "id" : "f45ce5ac-cc4b-4bcb-84cf-d9350e0e400a",
+    "prId" : 702,
+    "comments" : [
+      {
+        "id" : "feca713c-962d-4224-bbcf-d28cd11bda22",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "🤦‍♂️  Thanks!",
+        "createdAt" : "2017-05-11T19:02:22Z",
+        "updatedAt" : "2017-05-11T19:33:33Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "23b20e33-eecf-43e2-83d4-99a81d560e5d",
+        "parentId" : "feca713c-962d-4224-bbcf-d28cd11bda22",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks for the tips and encouragement!",
+        "createdAt" : "2017-05-11T19:53:12Z",
+        "updatedAt" : "2017-05-11T19:53:12Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35be25dc3918e70f44d1b68f55e1732b256439fa",
+    "line" : 24,
+    "diffHunk" : "@@ -3,17 +3,26 @@ package java.io\n import scala.scalanative.posix.unistd\n \n /** Wraps a UNIX file descriptor */\n-final class FileDescriptor private[io] (private[io] val fd: Int) {\n+final class FileDescriptor private[io] (private[io] val fd: Int,\n+                                        val readOnly: Boolean = false) {\n \n   def this() = this(-1)\n \n+  // inspired by Apache Harmony including filedesc.c\n   def sync(): Unit =\n-    unistd.fsync(fd) match {\n-      case 0 => ()\n-      case _ => throw new java.io.SyncFailedException(\"sync failed\")\n+    if (fd <= 2) throwSyncFailed()\n+    else if (!readOnly) {\n+      unistd.fsync(fd) match {\n+        case 0 => ()\n+        case _ => throwSyncFailed()\n+      }\n     }\n \n-  def valid(): Boolean = fd == -1\n+  def valid(): Boolean = fd != -1"
+  },
+  {
+    "id" : "f15d88fc-2614-406f-9071-46e7eb333faf",
+    "prId" : 769,
+    "comments" : [
+      {
+        "id" : "5989d473-461e-4308-b93a-2ff425712ee8",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`openReadOnly`",
+        "createdAt" : "2017-06-06T09:47:11Z",
+        "updatedAt" : "2017-06-06T09:49:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "39a3710adb17acd175fb2904e0b24b3bc67e638e",
+    "line" : 13,
+    "diffHunk" : "@@ -31,4 +32,13 @@ object FileDescriptor {\n   val out: FileDescriptor = new FileDescriptor(unistd.STDOUT_FILENO)\n   val err: FileDescriptor = new FileDescriptor(unistd.STDERR_FILENO)\n \n+  private[io] def open(file: File): FileDescriptor ="
+  }
+]

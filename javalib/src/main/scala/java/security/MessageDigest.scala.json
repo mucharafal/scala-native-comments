@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "4f6adea6-8824-4d57-9bf1-b2db3046a5cd",
+    "prId" : 942,
+    "comments" : [
+      {
+        "id" : "6e804d8a-8227-4814-856f-5adcacbac09f",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I added a note to the issue tracking progress on the zip/jar front (#932) to remind us to eventually port those for real.",
+        "createdAt" : "2017-08-17T12:14:21Z",
+        "updatedAt" : "2017-08-21T10:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d04e34d2-f66f-4231-be8f-14f715bab32f",
+        "parentId" : "6e804d8a-8227-4814-856f-5adcacbac09f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "TODOs in code are not maintainable. Lets keep those out and concentrate on having those as issues instead.",
+        "createdAt" : "2017-08-18T08:56:39Z",
+        "updatedAt" : "2017-08-21T10:57:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b866654b8210cd95d2a141b17dcd3491686c7677",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,32 @@\n+package java.security\n+\n+// This is only a partial, minimal implementation.\n+// TODO: Port me from Apache Harmony"
+  }
+]

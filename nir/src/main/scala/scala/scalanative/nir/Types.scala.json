@@ -1,0 +1,286 @@
+[
+  {
+    "id" : "3400909f-8e06-48b7-9005-feea77d2547e",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "d8a74caa-0f56-45a4-89e2-feaf48a1a925",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another thing that would be good to add here is `isExtern` boolean flag to the function type. This will make easy to fix #122 afterwards. \n",
+        "createdAt" : "2016-10-05T13:53:12Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "236af3be-240e-4549-8eb9-91eee4ad8abe",
+        "parentId" : "d8a74caa-0f56-45a4-89e2-feaf48a1a925",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Thinking about it some more: More generally `isExtern` is probably a special case of calling convention (with variants c and fast calling conventions), similarly to how `sret` and `byval` are variants of passing conventions. Having a simple sealed hiearchy for each (`CallConv` and `PassConv`)  seems to be a good idea. \n",
+        "createdAt" : "2016-10-05T14:02:33Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b695d3b7-ebd0-4136-85a5-e3bd51877ff3",
+        "parentId" : "d8a74caa-0f56-45a4-89e2-feaf48a1a925",
+        "author" : {
+          "login" : "kmltml",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/7456500?v=4"
+        },
+        "body" : "Do you think calling convention should be added as part of this pull request, or should it be added later on?\n",
+        "createdAt" : "2016-10-05T14:09:10Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "kmltml",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/7456500?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "51824f42-e5f5-4162-9a9f-2adbf78fb8ae",
+        "parentId" : "d8a74caa-0f56-45a4-89e2-feaf48a1a925",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Might be added later on. It's fine both ways.\n",
+        "createdAt" : "2016-10-05T14:14:07Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : 5,
+    "diffHunk" : "@@ -38,7 +38,7 @@ object Type {\n   final object F64 extends F(64)\n \n   final case class Array(ty: Type, n: Int)              extends Type\n-  final case class Function(args: Seq[Type], ret: Type) extends Type\n+  final case class Function(args: Seq[Arg], ret: Type)  extends Type"
+  },
+  {
+    "id" : "1be47165-ddf5-4175-98fc-caa4666db6f4",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "c8f9f59b-81f2-417f-8a0b-c4071a86393c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should go straight to `object Type`, no need for extra top-level definition just to hold this map. ",
+        "createdAt" : "2016-12-04T10:58:16Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -50,3 +50,21 @@ object Type {\n   final case class Trait(name: Global)  extends RefKind with Named\n   final case class Module(name: Global) extends RefKind with Named\n }\n+\n+object Boxes {\n+\n+  val unbox = Map[Type, Type]("
+  },
+  {
+    "id" : "84c4741b-47fd-4555-88fb-f1acd496d66b",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "695480ed-54db-4a63-ad5f-1f52fc4b55d6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`final def` to make it clear that it's never overriden. ",
+        "createdAt" : "2017-02-22T16:09:12Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -17,6 +18,16 @@ sealed abstract class Type {\n \n   final def show: String = nir.Show(this)\n \n+  def size: Long = this match {"
+  },
+  {
+    "id" : "7750bb1b-0094-48ea-863f-baa7184826e2",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "db96dd19-74da-4c29-8837-a886c4556b50",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd reorder the two above. We put the \"canonical\" box for given primitive type last.",
+        "createdAt" : "2019-04-29T12:47:49Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -88,18 +89,49 @@ object Type {\n   final case class Var(ty: Type)                        extends SpecialKind\n   final case class Function(args: Seq[Type], ret: Type) extends SpecialKind\n \n-  val unbox = Map[Type, Type](\n-    Type.Ref(Global.Top(\"java.lang.Boolean\"))   -> Type.Bool,\n-    Type.Ref(Global.Top(\"java.lang.Character\")) -> Type.Char,\n-    Type.Ref(Global.Top(\"java.lang.Byte\"))      -> Type.Byte,\n-    Type.Ref(Global.Top(\"java.lang.Short\"))     -> Type.Short,\n-    Type.Ref(Global.Top(\"java.lang.Integer\"))   -> Type.Int,\n-    Type.Ref(Global.Top(\"java.lang.Long\"))      -> Type.Long,\n-    Type.Ref(Global.Top(\"java.lang.Float\"))     -> Type.Float,\n-    Type.Ref(Global.Top(\"java.lang.Double\"))    -> Type.Double\n+  val boxesTo = Seq[(Type, Type)](\n+    Type.Ref(Global.Top(\"scala.scalanative.native.Word\"))   -> Type.Word,\n+    Type.Ref(Global.Top(\"scala.scalanative.native.UWord\"))  -> Type.Word,"
+  },
+  {
+    "id" : "35f53d35-e660-4f09-a5f1-c1728f368fad",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "c6612a63-fae5-4559-a3f2-29ee4855e57a",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "This could be phrased as \"unexpected\" instead of \"unknown\". Essentially, typeToName is used to wrap a type to a name (as per SN terminology). If the match fails, then the type given was not expected there.\r\n\r\nTherefore, I would phrase it as something like \"type to name: unexpected type ${tpe.show}\".",
+        "createdAt" : "2020-05-06T07:13:20Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "685ce8b9-0669-4582-add6-b28bcf2ed797",
+        "parentId" : "c6612a63-fae5-4559-a3f2-29ee4855e57a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Implemented as suggested.  Thank you for the rapid turnaround review and suggested improvement.\r\n\r\nWhen writing C code, I almost always put the function name in the error message, expecially\r\nif there is more than one place where \"error foo\" might occur. \r\n\r\nIt seems the practice is Scala is to omit the method name and let people figure things\r\nout from the Exception stack trace.  I find that takes much more time and emotional energy\r\nto walk back a pig-ugly stack trace than to comprehend a face-evident message.",
+        "createdAt" : "2020-05-06T15:46:49Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -168,6 +168,8 @@ object Type {\n     case Array(tpe, _)      => toArrayClass(tpe)\n     case ArrayValue(tpe, _) => toArrayClass(tpe)\n     case Function(args, _)  => Global.Top(s\"scala.Function${args.length}\")\n+    case _ =>\n+      throw new Exception(s\"unknown type ${tpe.show}\")"
+  },
+  {
+    "id" : "9ecf507e-d657-4c42-8567-db7de1c8d11e",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "67f93f31-6f67-457f-851d-2b8f9b8d1110",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "This is not used, must have been left behind. You may remove `primConvSig` entirely.",
+        "createdAt" : "2020-05-06T07:13:56Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0915ecba-62aa-4ebb-936f-92e067c2df78",
+        "parentId" : "67f93f31-6f67-457f-851d-2b8f9b8d1110",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Deleted, thank you.",
+        "createdAt" : "2020-05-06T15:47:36Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -176,5 +178,7 @@ object Type {\n     case Long   => Sig.Method(\"longValue\", Seq(tpe))\n     case Float  => Sig.Method(\"floatValue\", Seq(tpe))\n     case Double => Sig.Method(\"doubleValue\", Seq(tpe))\n+    case _ =>\n+      throw new Exception(s\"unknown type ${tpe.show}\")"
+  }
+]

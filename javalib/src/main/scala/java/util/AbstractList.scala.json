@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "d6ca8801-3b50-423a-88a8-26648fce2c5e",
+    "prId" : 796,
+    "comments" : [
+      {
+        "id" : "4f486943-fc78-43ba-adb8-2ababc8188fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This probably another instance of https://github.com/scala-native/scala-native/issues/375\r\n\r\nPlease cite this issue in the comment. ",
+        "createdAt" : "2017-06-08T11:23:01Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "08ebb9d1280630cd5470d374d8e4748fde22094e",
+    "line" : null,
+    "diffHunk" : "@@ -11,6 +11,10 @@ abstract class AbstractList[E] protected ()\n     true\n   }\n \n+  // tests/compile:nativeLinkNIR fails without this re-declaration for some reason\n+  // cannot link: @java.util.AbstractList::get_i32_java.lang.Object"
+  }
+]

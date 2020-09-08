@@ -1,0 +1,320 @@
+[
+  {
+    "id" : "b3daf0ef-2f22-41b0-afd5-53bce2b8ad5d",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "10cbc7cd-112b-46b5-a943-4da9e694ab6f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We actually never use the type in `Op.Field`. Lets remove it as a field altogether.\n",
+        "createdAt" : "2016-10-31T09:57:00Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "210922c7-8dd4-4d46-817b-4fd953aa82bc",
+        "parentId" : "10cbc7cd-112b-46b5-a943-4da9e694ab6f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Should I update the NIR in this PR?\n",
+        "createdAt" : "2016-10-31T09:58:30Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "40badbc6-8d4c-478e-9366-48714fc8487c",
+        "parentId" : "10cbc7cd-112b-46b5-a943-4da9e694ab6f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yeah, lets change it straight away.\n",
+        "createdAt" : "2016-10-31T10:03:25Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e15be8c7-e7e3-4a92-b559-270aa4d8af39",
+        "parentId" : "10cbc7cd-112b-46b5-a943-4da9e694ab6f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done\n",
+        "createdAt" : "2016-10-31T10:43:21Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,451 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import fastparse.WhitespaceApi\n+import fastparse.noApi._\n+\n+trait NirParser[T] {\n+  def parser: P[T]\n+\n+  final def apply(nir: String) =\n+    parser.parse(nir)\n+}\n+\n+object Base {\n+  import fastparse.all._\n+  def byte: P[Byte]   = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toByte; case (_, n) => (\"-\" + n).toByte })\n+  def short: P[Short] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toShort; case (_, n) => (\"-\" + n).toShort })\n+  def int: P[Int]     = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toInt; case (_, n) => (\"-\" + n).toInt })\n+  def long: P[Long]   = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toLong; case (_, n) => (\"-\" + n).toLong })\n+  def infinityF: P[Float] =\n+    P(\"-\".!.? ~ \"Infinity\") map { case None => Float.PositiveInfinity; case _ => Float.NegativeInfinity }\n+  def float: P[Float] =\n+    P(\n+        infinityF |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Float.parseFloat))\n+  def infinityD: P[Double] =\n+    P(\"-\".!.? ~ \"Infinity\") map { case None => Double.PositiveInfinity; case _ => Double.NegativeInfinity }\n+  def double: P[Double] =\n+    P(\n+        infinityD |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Double.parseDouble))\n+  val okInId: Seq[Char] = Seq('=', '$', '+', '-', '_', '?', '/', '<', '>')\n+  def idStart: P[String] =\n+    P(CharIn(('A' to 'Z') ++ ('a' to 'z') ++ okInId).!)\n+  def idAfter: P[String] =\n+    (idStart | CharIn(('0' to '9')).!)\n+  def id: P[String] =\n+    idStart ~ idAfter.rep map { case (s, t) => s + t.mkString }\n+  def mangledQualifiedId: P[String] =\n+    P(id.rep(sep = \".\") map (_.mkString))\n+  def qualifiedId: P[String] =\n+    P(mangledQualifiedId ~ (\":\" ~ qualifiedId).?) map { case (a, Some(b)) => s\"$a:$b\"; case (a, None) => a }\n+  def escaped: P[String] =\n+    P(\"\\\\\" ~ CharIn(Seq('\\\\', '\"'))).! map (_.mkString)\n+  def stringDelim: P[Unit] =\n+    P(\"\\\"\")\n+  def inString: P[String] =\n+    P((escaped ~ inString).! | stringDelim | (AnyChar ~ inString)).! map (_.init.mkString)\n+  def stringLit: P[String] =\n+    P(stringDelim ~ inString)\n+}\n+\n+object NirParser extends NirParser[Seq[nir.Defn]] {\n+\n+  import Base._\n+\n+  private val IgnoreWhitespace = WhitespaceApi.Wrapper {\n+    import fastparse.all._\n+    NoTrace(CharIn(Seq(' ', '\\n')).rep)\n+  }\n+  import IgnoreWhitespace._\n+\n+  override def parser: P[Seq[nir.Defn]] =\n+    Defn.parser.rep ~ End\n+\n+  object Arg extends NirParser[nir.Arg] {\n+\n+    override def parser: P[nir.Arg] =\n+      P(PassConv.parser.? ~ Type.parser map {\n+        case (pc, ty) => nir.Arg(ty, pc)\n+      })\n+\n+  }\n+\n+  object Attrs extends NirParser[nir.Attrs] {\n+    override def parser: P[nir.Attrs] =\n+      P(Attr.parser.rep map (nir.Attrs.fromSeq(_)))\n+  }\n+\n+  object Attr extends NirParser[nir.Attr] {\n+\n+    def MayInline    = P(\"mayinline\".! map (_ => nir.Attr.MayInline))\n+    def InlineHint   = P(\"inlinehint\".! map (_ => nir.Attr.InlineHint))\n+    def NoInline     = P(\"noinline\".! map (_ => nir.Attr.NoInline))\n+    def AlwaysInline = P(\"alwaysinline\".! map (_ => nir.Attr.AlwaysInline))\n+    def Pure         = P(\"pure\".! map (_ => nir.Attr.Pure))\n+    def Extern       = P(\"extern\".! map (_ => nir.Attr.Extern))\n+    def Override =\n+      P(\"override(\" ~ Global.parser ~ \")\" map (nir.Attr.Override(_)))\n+    def Link      = P(\"link(\" ~ id ~ \")\" map (nir.Attr.Link(_)))\n+    def PinAlways = P(\"pin(\" ~ Global.parser ~ \")\" map (nir.Attr.PinAlways(_)))\n+    def PinIf =\n+      P(\"pin-if(\" ~ Global.parser ~ \",\" ~ Global.parser ~ \")\" map {\n+        case (name, cond) => nir.Attr.PinIf(name, cond)\n+      })\n+\n+    override def parser: P[nir.Attr] =\n+      MayInline | InlineHint | NoInline | AlwaysInline | Pure | Extern | Override | Link | PinAlways | PinIf\n+\n+  }\n+\n+  object Bin extends NirParser[nir.Bin] {\n+    def Iadd = P(\"iadd\".! map (_ => nir.Bin.Iadd))\n+    def Fadd = P(\"fadd\".! map (_ => nir.Bin.Fadd))\n+    def Isub = P(\"isub\".! map (_ => nir.Bin.Isub))\n+    def Fsub = P(\"fsub\".! map (_ => nir.Bin.Fsub))\n+    def Imul = P(\"imul\".! map (_ => nir.Bin.Imul))\n+    def Fmul = P(\"fmul\".! map (_ => nir.Bin.Fmul))\n+    def Sdiv = P(\"sdiv\".! map (_ => nir.Bin.Sdiv))\n+    def Udiv = P(\"udiv\".! map (_ => nir.Bin.Udiv))\n+    def Fdiv = P(\"fdiv\".! map (_ => nir.Bin.Fdiv))\n+    def Srem = P(\"srem\".! map (_ => nir.Bin.Srem))\n+    def Urem = P(\"urem\".! map (_ => nir.Bin.Urem))\n+    def Frem = P(\"frem\".! map (_ => nir.Bin.Frem))\n+    def Shl  = P(\"shl\".! map (_ => nir.Bin.Shl))\n+    def Lshr = P(\"lshr\".! map (_ => nir.Bin.Lshr))\n+    def Ashr = P(\"ashr\".! map (_ => nir.Bin.Ashr))\n+    def And  = P(\"and\".! map (_ => nir.Bin.And))\n+    def Or   = P(\"or\".! map (_ => nir.Bin.Or))\n+    def Xor  = P(\"xor\".! map (_ => nir.Bin.Xor))\n+    override def parser: P[nir.Bin] =\n+      Iadd | Fadd | Isub | Fsub | Imul | Fmul | Sdiv | Udiv | Fdiv | Srem | Urem | Frem | Shl | Lshr | Ashr | And | Or | Xor\n+  }\n+\n+  object Comp extends NirParser[nir.Comp] {\n+    def Ieq = P(\"ieq\".! map (_ => nir.Comp.Ieq))\n+    def Ine = P(\"ine\".! map (_ => nir.Comp.Ine))\n+    def Ugt = P(\"ugt\".! map (_ => nir.Comp.Ugt))\n+    def Uge = P(\"uge\".! map (_ => nir.Comp.Uge))\n+    def Ult = P(\"ult\".! map (_ => nir.Comp.Ult))\n+    def Ule = P(\"ule\".! map (_ => nir.Comp.Ule))\n+    def Sgt = P(\"sgt\".! map (_ => nir.Comp.Sgt))\n+    def Sge = P(\"sge\".! map (_ => nir.Comp.Sge))\n+    def Slt = P(\"slt\".! map (_ => nir.Comp.Slt))\n+    def Sle = P(\"sle\".! map (_ => nir.Comp.Sle))\n+    def Feq = P(\"feq\".! map (_ => nir.Comp.Feq))\n+    def Fne = P(\"fne\".! map (_ => nir.Comp.Fne))\n+    def Fgt = P(\"fgt\".! map (_ => nir.Comp.Fgt))\n+    def Fge = P(\"fge\".! map (_ => nir.Comp.Fge))\n+    def Flt = P(\"flt\".! map (_ => nir.Comp.Flt))\n+    def Fle = P(\"fle\".! map (_ => nir.Comp.Fle))\n+    override def parser: P[nir.Comp] =\n+      Ieq | Ine | Ugt | Uge | Ult | Ule | Sgt | Sge | Slt | Sle | Feq | Fne | Fgt | Fge | Flt | Fle\n+  }\n+\n+  object Conv extends NirParser[nir.Conv] {\n+    def Trunc    = P(\"trunc\".! map (_ => nir.Conv.Trunc))\n+    def Zext     = P(\"zext\".! map (_ => nir.Conv.Zext))\n+    def Sext     = P(\"sext\".! map (_ => nir.Conv.Sext))\n+    def Fptrunc  = P(\"fptrunc\".! map (_ => nir.Conv.Fptrunc))\n+    def Fpext    = P(\"fpext\".! map (_ => nir.Conv.Fpext))\n+    def Fptoui   = P(\"fptoui\".! map (_ => nir.Conv.Fptoui))\n+    def Fptosi   = P(\"fptosi\".! map (_ => nir.Conv.Fptosi))\n+    def Uitofp   = P(\"uitofp\".! map (_ => nir.Conv.Uitofp))\n+    def Sitofp   = P(\"sitofp\".! map (_ => nir.Conv.Sitofp))\n+    def Ptrtoint = P(\"ptrtoint\".! map (_ => nir.Conv.Ptrtoint))\n+    def Inttoptr = P(\"inttoptr\".! map (_ => nir.Conv.Inttoptr))\n+    def Bitcast  = P(\"bitcast\".! map (_ => nir.Conv.Bitcast))\n+    override def parser: P[nir.Conv] =\n+      Trunc | Zext | Sext | Fptrunc | Fpext | Fptoui | Fptosi | Uitofp | Sitofp | Ptrtoint | Inttoptr | Bitcast\n+  }\n+\n+  object Defn extends NirParser[nir.Defn] {\n+    def Var =\n+      P(Attrs.parser ~ \"var\" ~ Global.parser ~ \":\" ~ Type.parser ~ (\"=\" ~ Val.parser).? map {\n+        case (attrs, name, ty, v) =>\n+          nir.Defn.Var(attrs, name, ty, v getOrElse nir.Val.None)\n+      })\n+    def Const =\n+      P(Attrs.parser ~ \"const\" ~ Global.parser ~ \":\" ~ Type.parser ~ (\"=\" ~ Val.parser).? map {\n+        case (attrs, name, ty, v) =>\n+          nir.Defn.Const(attrs, name, ty, v getOrElse nir.Val.None)\n+      })\n+    def Declare =\n+      P(Attrs.parser ~ \"def\" ~ Global.parser ~ \":\" ~ Type.parser map {\n+        case (attrs, name, ty) => nir.Defn.Declare(attrs, name, ty)\n+      })\n+    def Define =\n+      P(Attrs.parser ~ \"def\" ~ Global.parser ~ \":\" ~ Type.parser ~ \"{\" ~ Inst.parser.rep ~ \"}\" map {\n+        case (attrs, name, ty, insts) =>\n+          nir.Defn.Define(attrs, name, ty, insts)\n+      })\n+    def Struct =\n+      P(\n+          Attrs.parser ~ \"struct\" ~ Global.parser ~ \"{\" ~ Type.parser.rep(\n+              sep = \",\") ~ \"}\" map {\n+        case (attrs, name, tys) => nir.Defn.Struct(attrs, name, tys)\n+      })\n+    def Trait =\n+      P(\n+          Attrs.parser ~ \"trait\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+                  sep = \",\")).? map {\n+        case (attrs, name, ifaces) =>\n+          nir.Defn.Trait(attrs, name, ifaces getOrElse Seq())\n+      })\n+    def Class =\n+      P(\n+          Attrs.parser ~ \"class\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+                  sep = \",\")).? map {\n+        case (attrs, name, None) => nir.Defn.Class(attrs, name, None, Seq())\n+        case (attrs, name, Some(inherits)) =>\n+          nir.Defn.Class(attrs, name, inherits.headOption, inherits.tail)\n+      })\n+    def Module =\n+      P(\n+          Attrs.parser ~ \"module\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+                  sep = \",\")).? map {\n+        case (attrs, name, None) => nir.Defn.Module(attrs, name, None, Seq())\n+        case (attrs, name, Some(inherits)) =>\n+          nir.Defn.Module(attrs, name, inherits.headOption, inherits.tail)\n+      })\n+    override def parser: P[nir.Defn] =\n+      Var | Const | Define | Declare | Struct | Trait | Class | Module\n+  }\n+\n+  object Global extends NirParser[nir.Global] {\n+    def Top = P(\"@\" ~ mangledQualifiedId.! map (nir.Global.Top(_)))\n+    def Member =\n+      P(Top ~ \"::\" ~ qualifiedId.! map { case (t, m) => t member m })\n+    override def parser: P[nir.Global] = Member | Top\n+  }\n+\n+  object Inst extends NirParser[nir.Inst] {\n+    def None = P(\"none\".! map (_ => nir.Inst.None))\n+    def Label =\n+      P(Local.parser ~ (\"(\" ~ Val.Local.rep(sep = \",\") ~ \")\").? ~ \":\" map {\n+        case (name, params) => nir.Inst.Label(name, params getOrElse Seq())\n+      })\n+    def Let =\n+      P(Local.parser ~ \"=\" ~ Op.parser map {\n+        case (name, op) => nir.Inst.Let(name, op)\n+      })\n+    def Unreachable = P(\"unreachable\".! map (_ => nir.Inst.Unreachable))\n+    def Ret =\n+      P(\"ret\" ~ Val.parser.? map (v =>\n+                nir.Inst.Ret(v.getOrElse(nir.Val.None))))\n+    def Jump = P(\"jump\" ~ Next.parser map (nir.Inst.Jump(_)))\n+    def If =\n+      P(\"if\" ~ Val.parser ~ \"then\" ~ Next.parser ~ \"else\" ~ Next.parser map {\n+        case (cond, thenp, elsep) => nir.Inst.If(cond, thenp, elsep)\n+      })\n+    def Switch =\n+      P(\"switch\" ~ Val.parser ~ \"{\" ~ Next.parser.rep ~ \"default:\" ~ Next.parser ~ \"}\" map {\n+        case (scrut, cases, default) => nir.Inst.Switch(scrut, default, cases)\n+      })\n+    def Invoke =\n+      P(\"invoke[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \"(\" ~ Val.parser.rep(sep =\n+                \",\") ~ \")\" ~ \"to\" ~ Next.parser ~ \"unwind\" ~ Next.parser map {\n+        case (ty, ptr, args, succ, fail) =>\n+          nir.Inst.Invoke(ty, ptr, args, succ, fail)\n+      })\n+    def Throw = P(\"throw\" ~ Val.parser map (nir.Inst.Throw(_)))\n+    def Try =\n+      P(\"try\" ~ Next.parser ~ \"catch\" ~ Next.parser map {\n+        case (normal, exc) => nir.Inst.Try(normal, exc)\n+      })\n+    override def parser: P[nir.Inst] =\n+      None | Label | Let | Unreachable | Ret | Jump | If | Switch | Invoke | Throw | Try\n+  }\n+\n+  object Local extends NirParser[nir.Local] {\n+    override def parser: P[nir.Local] =\n+      P(\"%\" ~ id ~ \".\" ~ int map {\n+        case (scope, id) => nir.Local(scope, id)\n+      })\n+  }\n+\n+  object Next extends NirParser[nir.Next] {\n+    def Label =\n+      P(Local.parser ~ (\"(\" ~ Val.parser.rep(sep = \",\") ~ \")\").? map {\n+        case (name, args) => nir.Next.Label(name, args getOrElse Seq())\n+      })\n+    def Succ = P(\"succ\" ~ Local.parser map (nir.Next.Succ(_)))\n+    def Fail = P(\"fail\" ~ Local.parser map (nir.Next.Fail(_)))\n+    def Case =\n+      P(\"case\" ~ Val.parser ~ \"=>\" ~ Local.parser map {\n+        case (value, name) => nir.Next.Case(value, name)\n+      })\n+    override def parser: P[nir.Next] = Label | Succ | Fail | Case\n+  }\n+\n+  object Op extends NirParser[nir.Op] {\n+    def Call =\n+      P(\n+          \"call[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \"(\" ~ Val.parser.rep(\n+              sep = \",\") ~ \")\" map {\n+        case (ty, f, args) => nir.Op.Call(ty, f, args)\n+      })\n+    def Load =\n+      P(\"load[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (ty, ptr) => nir.Op.Load(ty, ptr)\n+      })\n+    def Store =\n+      P(\"store[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (ty, ptr, value) => nir.Op.Store(ty, ptr, value)\n+      })\n+    def Elem =\n+      P(\n+          \"elem[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser.rep(\n+              sep = \",\") map {\n+        case (ty, ptr, indices) => nir.Op.Elem(ty, ptr, indices)\n+      })\n+    def Extract =\n+      P(\"extract\" ~ Val.parser ~ \",\" ~ int.rep(sep = \",\") map {\n+        case (aggr, indices) => nir.Op.Extract(aggr, indices)\n+      })\n+    def Insert =\n+      P(\n+          \"insert\" ~ Val.parser ~ \",\" ~ Val.parser ~ \",\" ~ int\n+            .rep(sep = \",\") map {\n+        case (aggr, value, indices) => nir.Op.Insert(aggr, value, indices)\n+      })\n+    def Stackalloc =\n+      P(\"stackalloc[\" ~ Type.parser ~ \"]\" ~ Val.parser.? map {\n+        case (ty, n) => nir.Op.Stackalloc(ty, n getOrElse nir.Val.None)\n+      })\n+    def Bin =\n+      P(NirParser.Bin.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (name, ty, l, r) => nir.Op.Bin(name, ty, l, r)\n+      })\n+    def Comp =\n+      P(NirParser.Comp.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (name, ty, l, r) => nir.Op.Comp(name, ty, l, r)\n+      })\n+    def Conv =\n+      P(NirParser.Conv.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (name, ty, v) => nir.Op.Conv(name, ty, v)\n+      })\n+    def Select =\n+      P(\"select\" ~ Val.parser ~ \",\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (cond, thenp, elsep) => nir.Op.Select(cond, thenp, elsep)\n+      })\n+    def Classalloc = P(\"classalloc\" ~ Global.parser map (nir.Op.Classalloc(_)))\n+    def Field =\n+      P(\"field[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Global.parser map {\n+        case (ty, value, name) => nir.Op.Field(ty, value, name)\n+      })"
+  },
+  {
+    "id" : "8780aa20-5163-4532-9c64-6ff15945737c",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "fefeb8c2-d2bf-4563-90a7-47ab780545b5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same here, we don't use type field, lets remove it. \n",
+        "createdAt" : "2016-10-31T09:57:18Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0a913432-6a8e-44d1-b24f-4ddcba5dc41d",
+        "parentId" : "fefeb8c2-d2bf-4563-90a7-47ab780545b5",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done\n",
+        "createdAt" : "2016-10-31T10:43:16Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,451 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import fastparse.WhitespaceApi\n+import fastparse.noApi._\n+\n+trait NirParser[T] {\n+  def parser: P[T]\n+\n+  final def apply(nir: String) =\n+    parser.parse(nir)\n+}\n+\n+object Base {\n+  import fastparse.all._\n+  def byte: P[Byte]   = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toByte; case (_, n) => (\"-\" + n).toByte })\n+  def short: P[Short] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toShort; case (_, n) => (\"-\" + n).toShort })\n+  def int: P[Int]     = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toInt; case (_, n) => (\"-\" + n).toInt })\n+  def long: P[Long]   = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toLong; case (_, n) => (\"-\" + n).toLong })\n+  def infinityF: P[Float] =\n+    P(\"-\".!.? ~ \"Infinity\") map { case None => Float.PositiveInfinity; case _ => Float.NegativeInfinity }\n+  def float: P[Float] =\n+    P(\n+        infinityF |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Float.parseFloat))\n+  def infinityD: P[Double] =\n+    P(\"-\".!.? ~ \"Infinity\") map { case None => Double.PositiveInfinity; case _ => Double.NegativeInfinity }\n+  def double: P[Double] =\n+    P(\n+        infinityD |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Double.parseDouble))\n+  val okInId: Seq[Char] = Seq('=', '$', '+', '-', '_', '?', '/', '<', '>')\n+  def idStart: P[String] =\n+    P(CharIn(('A' to 'Z') ++ ('a' to 'z') ++ okInId).!)\n+  def idAfter: P[String] =\n+    (idStart | CharIn(('0' to '9')).!)\n+  def id: P[String] =\n+    idStart ~ idAfter.rep map { case (s, t) => s + t.mkString }\n+  def mangledQualifiedId: P[String] =\n+    P(id.rep(sep = \".\") map (_.mkString))\n+  def qualifiedId: P[String] =\n+    P(mangledQualifiedId ~ (\":\" ~ qualifiedId).?) map { case (a, Some(b)) => s\"$a:$b\"; case (a, None) => a }\n+  def escaped: P[String] =\n+    P(\"\\\\\" ~ CharIn(Seq('\\\\', '\"'))).! map (_.mkString)\n+  def stringDelim: P[Unit] =\n+    P(\"\\\"\")\n+  def inString: P[String] =\n+    P((escaped ~ inString).! | stringDelim | (AnyChar ~ inString)).! map (_.init.mkString)\n+  def stringLit: P[String] =\n+    P(stringDelim ~ inString)\n+}\n+\n+object NirParser extends NirParser[Seq[nir.Defn]] {\n+\n+  import Base._\n+\n+  private val IgnoreWhitespace = WhitespaceApi.Wrapper {\n+    import fastparse.all._\n+    NoTrace(CharIn(Seq(' ', '\\n')).rep)\n+  }\n+  import IgnoreWhitespace._\n+\n+  override def parser: P[Seq[nir.Defn]] =\n+    Defn.parser.rep ~ End\n+\n+  object Arg extends NirParser[nir.Arg] {\n+\n+    override def parser: P[nir.Arg] =\n+      P(PassConv.parser.? ~ Type.parser map {\n+        case (pc, ty) => nir.Arg(ty, pc)\n+      })\n+\n+  }\n+\n+  object Attrs extends NirParser[nir.Attrs] {\n+    override def parser: P[nir.Attrs] =\n+      P(Attr.parser.rep map (nir.Attrs.fromSeq(_)))\n+  }\n+\n+  object Attr extends NirParser[nir.Attr] {\n+\n+    def MayInline    = P(\"mayinline\".! map (_ => nir.Attr.MayInline))\n+    def InlineHint   = P(\"inlinehint\".! map (_ => nir.Attr.InlineHint))\n+    def NoInline     = P(\"noinline\".! map (_ => nir.Attr.NoInline))\n+    def AlwaysInline = P(\"alwaysinline\".! map (_ => nir.Attr.AlwaysInline))\n+    def Pure         = P(\"pure\".! map (_ => nir.Attr.Pure))\n+    def Extern       = P(\"extern\".! map (_ => nir.Attr.Extern))\n+    def Override =\n+      P(\"override(\" ~ Global.parser ~ \")\" map (nir.Attr.Override(_)))\n+    def Link      = P(\"link(\" ~ id ~ \")\" map (nir.Attr.Link(_)))\n+    def PinAlways = P(\"pin(\" ~ Global.parser ~ \")\" map (nir.Attr.PinAlways(_)))\n+    def PinIf =\n+      P(\"pin-if(\" ~ Global.parser ~ \",\" ~ Global.parser ~ \")\" map {\n+        case (name, cond) => nir.Attr.PinIf(name, cond)\n+      })\n+\n+    override def parser: P[nir.Attr] =\n+      MayInline | InlineHint | NoInline | AlwaysInline | Pure | Extern | Override | Link | PinAlways | PinIf\n+\n+  }\n+\n+  object Bin extends NirParser[nir.Bin] {\n+    def Iadd = P(\"iadd\".! map (_ => nir.Bin.Iadd))\n+    def Fadd = P(\"fadd\".! map (_ => nir.Bin.Fadd))\n+    def Isub = P(\"isub\".! map (_ => nir.Bin.Isub))\n+    def Fsub = P(\"fsub\".! map (_ => nir.Bin.Fsub))\n+    def Imul = P(\"imul\".! map (_ => nir.Bin.Imul))\n+    def Fmul = P(\"fmul\".! map (_ => nir.Bin.Fmul))\n+    def Sdiv = P(\"sdiv\".! map (_ => nir.Bin.Sdiv))\n+    def Udiv = P(\"udiv\".! map (_ => nir.Bin.Udiv))\n+    def Fdiv = P(\"fdiv\".! map (_ => nir.Bin.Fdiv))\n+    def Srem = P(\"srem\".! map (_ => nir.Bin.Srem))\n+    def Urem = P(\"urem\".! map (_ => nir.Bin.Urem))\n+    def Frem = P(\"frem\".! map (_ => nir.Bin.Frem))\n+    def Shl  = P(\"shl\".! map (_ => nir.Bin.Shl))\n+    def Lshr = P(\"lshr\".! map (_ => nir.Bin.Lshr))\n+    def Ashr = P(\"ashr\".! map (_ => nir.Bin.Ashr))\n+    def And  = P(\"and\".! map (_ => nir.Bin.And))\n+    def Or   = P(\"or\".! map (_ => nir.Bin.Or))\n+    def Xor  = P(\"xor\".! map (_ => nir.Bin.Xor))\n+    override def parser: P[nir.Bin] =\n+      Iadd | Fadd | Isub | Fsub | Imul | Fmul | Sdiv | Udiv | Fdiv | Srem | Urem | Frem | Shl | Lshr | Ashr | And | Or | Xor\n+  }\n+\n+  object Comp extends NirParser[nir.Comp] {\n+    def Ieq = P(\"ieq\".! map (_ => nir.Comp.Ieq))\n+    def Ine = P(\"ine\".! map (_ => nir.Comp.Ine))\n+    def Ugt = P(\"ugt\".! map (_ => nir.Comp.Ugt))\n+    def Uge = P(\"uge\".! map (_ => nir.Comp.Uge))\n+    def Ult = P(\"ult\".! map (_ => nir.Comp.Ult))\n+    def Ule = P(\"ule\".! map (_ => nir.Comp.Ule))\n+    def Sgt = P(\"sgt\".! map (_ => nir.Comp.Sgt))\n+    def Sge = P(\"sge\".! map (_ => nir.Comp.Sge))\n+    def Slt = P(\"slt\".! map (_ => nir.Comp.Slt))\n+    def Sle = P(\"sle\".! map (_ => nir.Comp.Sle))\n+    def Feq = P(\"feq\".! map (_ => nir.Comp.Feq))\n+    def Fne = P(\"fne\".! map (_ => nir.Comp.Fne))\n+    def Fgt = P(\"fgt\".! map (_ => nir.Comp.Fgt))\n+    def Fge = P(\"fge\".! map (_ => nir.Comp.Fge))\n+    def Flt = P(\"flt\".! map (_ => nir.Comp.Flt))\n+    def Fle = P(\"fle\".! map (_ => nir.Comp.Fle))\n+    override def parser: P[nir.Comp] =\n+      Ieq | Ine | Ugt | Uge | Ult | Ule | Sgt | Sge | Slt | Sle | Feq | Fne | Fgt | Fge | Flt | Fle\n+  }\n+\n+  object Conv extends NirParser[nir.Conv] {\n+    def Trunc    = P(\"trunc\".! map (_ => nir.Conv.Trunc))\n+    def Zext     = P(\"zext\".! map (_ => nir.Conv.Zext))\n+    def Sext     = P(\"sext\".! map (_ => nir.Conv.Sext))\n+    def Fptrunc  = P(\"fptrunc\".! map (_ => nir.Conv.Fptrunc))\n+    def Fpext    = P(\"fpext\".! map (_ => nir.Conv.Fpext))\n+    def Fptoui   = P(\"fptoui\".! map (_ => nir.Conv.Fptoui))\n+    def Fptosi   = P(\"fptosi\".! map (_ => nir.Conv.Fptosi))\n+    def Uitofp   = P(\"uitofp\".! map (_ => nir.Conv.Uitofp))\n+    def Sitofp   = P(\"sitofp\".! map (_ => nir.Conv.Sitofp))\n+    def Ptrtoint = P(\"ptrtoint\".! map (_ => nir.Conv.Ptrtoint))\n+    def Inttoptr = P(\"inttoptr\".! map (_ => nir.Conv.Inttoptr))\n+    def Bitcast  = P(\"bitcast\".! map (_ => nir.Conv.Bitcast))\n+    override def parser: P[nir.Conv] =\n+      Trunc | Zext | Sext | Fptrunc | Fpext | Fptoui | Fptosi | Uitofp | Sitofp | Ptrtoint | Inttoptr | Bitcast\n+  }\n+\n+  object Defn extends NirParser[nir.Defn] {\n+    def Var =\n+      P(Attrs.parser ~ \"var\" ~ Global.parser ~ \":\" ~ Type.parser ~ (\"=\" ~ Val.parser).? map {\n+        case (attrs, name, ty, v) =>\n+          nir.Defn.Var(attrs, name, ty, v getOrElse nir.Val.None)\n+      })\n+    def Const =\n+      P(Attrs.parser ~ \"const\" ~ Global.parser ~ \":\" ~ Type.parser ~ (\"=\" ~ Val.parser).? map {\n+        case (attrs, name, ty, v) =>\n+          nir.Defn.Const(attrs, name, ty, v getOrElse nir.Val.None)\n+      })\n+    def Declare =\n+      P(Attrs.parser ~ \"def\" ~ Global.parser ~ \":\" ~ Type.parser map {\n+        case (attrs, name, ty) => nir.Defn.Declare(attrs, name, ty)\n+      })\n+    def Define =\n+      P(Attrs.parser ~ \"def\" ~ Global.parser ~ \":\" ~ Type.parser ~ \"{\" ~ Inst.parser.rep ~ \"}\" map {\n+        case (attrs, name, ty, insts) =>\n+          nir.Defn.Define(attrs, name, ty, insts)\n+      })\n+    def Struct =\n+      P(\n+          Attrs.parser ~ \"struct\" ~ Global.parser ~ \"{\" ~ Type.parser.rep(\n+              sep = \",\") ~ \"}\" map {\n+        case (attrs, name, tys) => nir.Defn.Struct(attrs, name, tys)\n+      })\n+    def Trait =\n+      P(\n+          Attrs.parser ~ \"trait\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+                  sep = \",\")).? map {\n+        case (attrs, name, ifaces) =>\n+          nir.Defn.Trait(attrs, name, ifaces getOrElse Seq())\n+      })\n+    def Class =\n+      P(\n+          Attrs.parser ~ \"class\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+                  sep = \",\")).? map {\n+        case (attrs, name, None) => nir.Defn.Class(attrs, name, None, Seq())\n+        case (attrs, name, Some(inherits)) =>\n+          nir.Defn.Class(attrs, name, inherits.headOption, inherits.tail)\n+      })\n+    def Module =\n+      P(\n+          Attrs.parser ~ \"module\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+                  sep = \",\")).? map {\n+        case (attrs, name, None) => nir.Defn.Module(attrs, name, None, Seq())\n+        case (attrs, name, Some(inherits)) =>\n+          nir.Defn.Module(attrs, name, inherits.headOption, inherits.tail)\n+      })\n+    override def parser: P[nir.Defn] =\n+      Var | Const | Define | Declare | Struct | Trait | Class | Module\n+  }\n+\n+  object Global extends NirParser[nir.Global] {\n+    def Top = P(\"@\" ~ mangledQualifiedId.! map (nir.Global.Top(_)))\n+    def Member =\n+      P(Top ~ \"::\" ~ qualifiedId.! map { case (t, m) => t member m })\n+    override def parser: P[nir.Global] = Member | Top\n+  }\n+\n+  object Inst extends NirParser[nir.Inst] {\n+    def None = P(\"none\".! map (_ => nir.Inst.None))\n+    def Label =\n+      P(Local.parser ~ (\"(\" ~ Val.Local.rep(sep = \",\") ~ \")\").? ~ \":\" map {\n+        case (name, params) => nir.Inst.Label(name, params getOrElse Seq())\n+      })\n+    def Let =\n+      P(Local.parser ~ \"=\" ~ Op.parser map {\n+        case (name, op) => nir.Inst.Let(name, op)\n+      })\n+    def Unreachable = P(\"unreachable\".! map (_ => nir.Inst.Unreachable))\n+    def Ret =\n+      P(\"ret\" ~ Val.parser.? map (v =>\n+                nir.Inst.Ret(v.getOrElse(nir.Val.None))))\n+    def Jump = P(\"jump\" ~ Next.parser map (nir.Inst.Jump(_)))\n+    def If =\n+      P(\"if\" ~ Val.parser ~ \"then\" ~ Next.parser ~ \"else\" ~ Next.parser map {\n+        case (cond, thenp, elsep) => nir.Inst.If(cond, thenp, elsep)\n+      })\n+    def Switch =\n+      P(\"switch\" ~ Val.parser ~ \"{\" ~ Next.parser.rep ~ \"default:\" ~ Next.parser ~ \"}\" map {\n+        case (scrut, cases, default) => nir.Inst.Switch(scrut, default, cases)\n+      })\n+    def Invoke =\n+      P(\"invoke[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \"(\" ~ Val.parser.rep(sep =\n+                \",\") ~ \")\" ~ \"to\" ~ Next.parser ~ \"unwind\" ~ Next.parser map {\n+        case (ty, ptr, args, succ, fail) =>\n+          nir.Inst.Invoke(ty, ptr, args, succ, fail)\n+      })\n+    def Throw = P(\"throw\" ~ Val.parser map (nir.Inst.Throw(_)))\n+    def Try =\n+      P(\"try\" ~ Next.parser ~ \"catch\" ~ Next.parser map {\n+        case (normal, exc) => nir.Inst.Try(normal, exc)\n+      })\n+    override def parser: P[nir.Inst] =\n+      None | Label | Let | Unreachable | Ret | Jump | If | Switch | Invoke | Throw | Try\n+  }\n+\n+  object Local extends NirParser[nir.Local] {\n+    override def parser: P[nir.Local] =\n+      P(\"%\" ~ id ~ \".\" ~ int map {\n+        case (scope, id) => nir.Local(scope, id)\n+      })\n+  }\n+\n+  object Next extends NirParser[nir.Next] {\n+    def Label =\n+      P(Local.parser ~ (\"(\" ~ Val.parser.rep(sep = \",\") ~ \")\").? map {\n+        case (name, args) => nir.Next.Label(name, args getOrElse Seq())\n+      })\n+    def Succ = P(\"succ\" ~ Local.parser map (nir.Next.Succ(_)))\n+    def Fail = P(\"fail\" ~ Local.parser map (nir.Next.Fail(_)))\n+    def Case =\n+      P(\"case\" ~ Val.parser ~ \"=>\" ~ Local.parser map {\n+        case (value, name) => nir.Next.Case(value, name)\n+      })\n+    override def parser: P[nir.Next] = Label | Succ | Fail | Case\n+  }\n+\n+  object Op extends NirParser[nir.Op] {\n+    def Call =\n+      P(\n+          \"call[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \"(\" ~ Val.parser.rep(\n+              sep = \",\") ~ \")\" map {\n+        case (ty, f, args) => nir.Op.Call(ty, f, args)\n+      })\n+    def Load =\n+      P(\"load[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (ty, ptr) => nir.Op.Load(ty, ptr)\n+      })\n+    def Store =\n+      P(\"store[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (ty, ptr, value) => nir.Op.Store(ty, ptr, value)\n+      })\n+    def Elem =\n+      P(\n+          \"elem[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser.rep(\n+              sep = \",\") map {\n+        case (ty, ptr, indices) => nir.Op.Elem(ty, ptr, indices)\n+      })\n+    def Extract =\n+      P(\"extract\" ~ Val.parser ~ \",\" ~ int.rep(sep = \",\") map {\n+        case (aggr, indices) => nir.Op.Extract(aggr, indices)\n+      })\n+    def Insert =\n+      P(\n+          \"insert\" ~ Val.parser ~ \",\" ~ Val.parser ~ \",\" ~ int\n+            .rep(sep = \",\") map {\n+        case (aggr, value, indices) => nir.Op.Insert(aggr, value, indices)\n+      })\n+    def Stackalloc =\n+      P(\"stackalloc[\" ~ Type.parser ~ \"]\" ~ Val.parser.? map {\n+        case (ty, n) => nir.Op.Stackalloc(ty, n getOrElse nir.Val.None)\n+      })\n+    def Bin =\n+      P(NirParser.Bin.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (name, ty, l, r) => nir.Op.Bin(name, ty, l, r)\n+      })\n+    def Comp =\n+      P(NirParser.Comp.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (name, ty, l, r) => nir.Op.Comp(name, ty, l, r)\n+      })\n+    def Conv =\n+      P(NirParser.Conv.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (name, ty, v) => nir.Op.Conv(name, ty, v)\n+      })\n+    def Select =\n+      P(\"select\" ~ Val.parser ~ \",\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (cond, thenp, elsep) => nir.Op.Select(cond, thenp, elsep)\n+      })\n+    def Classalloc = P(\"classalloc\" ~ Global.parser map (nir.Op.Classalloc(_)))\n+    def Field =\n+      P(\"field[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Global.parser map {\n+        case (ty, value, name) => nir.Op.Field(ty, value, name)\n+      })\n+    def Method =\n+      P(\"method[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Global.parser map {\n+        case (ty, value, name) => nir.Op.Method(ty, value, name)\n+      })"
+  },
+  {
+    "id" : "ec913a19-deee-41c9-b34e-7cf279e4afd7",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "67ceaf20-64b1-482b-b1f1-d3f601a6431f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If I'm not mistaken, for fastparse it's idiomatic to have parsers defined as vals whenever possible, not defs. This ensures we don't instantiate them over and over again for no good reason. \n",
+        "createdAt" : "2016-10-31T10:16:54Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3860bfc5-600f-4f51-82b2-19ccad98ee33",
+        "parentId" : "67ceaf20-64b1-482b-b1f1-d3f601a6431f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done\n",
+        "createdAt" : "2016-10-31T10:43:04Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,451 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import fastparse.WhitespaceApi\n+import fastparse.noApi._\n+\n+trait NirParser[T] {\n+  def parser: P[T]\n+\n+  final def apply(nir: String) =\n+    parser.parse(nir)\n+}\n+\n+object Base {\n+  import fastparse.all._\n+  def byte: P[Byte]   = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map { case (None, n) => n.toByte; case (_, n) => (\"-\" + n).toByte })"
+  },
+  {
+    "id" : "17cd5d43-e5cf-469b-b8d2-6ad4a9556f9f",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "8a37dd69-7b73-40b3-bc5b-692771b2f7b5",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "@densh The type of a `Val.Global` doesn't appear in the HNIR. Should I add it?\n",
+        "createdAt" : "2016-10-31T10:46:43Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1cd013c6-982e-425b-8783-24952f390c2c",
+        "parentId" : "8a37dd69-7b73-40b3-bc5b-692771b2f7b5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice catch, we should include it. HNIR is supposed to be 100% explicit. \n",
+        "createdAt" : "2016-10-31T10:51:52Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,466 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import fastparse.WhitespaceApi\n+import fastparse.noApi._\n+\n+trait NirParser[T] {\n+  def parser: P[T]\n+\n+  final def apply(nir: String) =\n+    parser.parse(nir)\n+}\n+\n+object Base {\n+  import fastparse.all._\n+  val byte: P[Byte] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toByte; case (_, n) => (\"-\" + n).toByte\n+  })\n+  val short: P[Short] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toShort; case (_, n) => (\"-\" + n).toShort\n+  })\n+  val int: P[Int] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toInt; case (_, n) => (\"-\" + n).toInt\n+  })\n+  val long: P[Long] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toLong; case (_, n) => (\"-\" + n).toLong\n+  })\n+  val infinityF: P[Float] =\n+    P(\"-\".!.? ~ \"Infinity\") map {\n+      case None => Float.PositiveInfinity; case _ => Float.NegativeInfinity\n+    }\n+  val float: P[Float] =\n+    P(\n+      infinityF |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Float.parseFloat))\n+  val infinityD: P[Double] =\n+    P(\"-\".!.? ~ \"Infinity\") map {\n+      case None => Double.PositiveInfinity; case _ => Double.NegativeInfinity\n+    }\n+  val double: P[Double] =\n+    P(\n+      infinityD |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Double.parseDouble))\n+  val okInId: Seq[Char] = Seq('=', '$', '+', '-', '_', '?', '/', '<', '>')\n+  val idStart: P[String] =\n+    P(CharIn(('A' to 'Z') ++ ('a' to 'z') ++ okInId).!)\n+  val idAfter: P[String] =\n+    (idStart | CharIn(('0' to '9')).!)\n+  val id: P[String] =\n+    idStart ~ idAfter.rep map { case (s, t) => s + t.mkString }\n+  val mangledQualifiedId: P[String] =\n+    P(id.rep(sep = \".\") map (_.mkString))\n+  val qualifiedId: P[String] =\n+    P(mangledQualifiedId ~ (\":\" ~ qualifiedId).?) map {\n+      case (a, Some(b)) => s\"$a:$b\"; case (a, None) => a\n+    }\n+  val escaped: P[String] =\n+    P(\"\\\\\" ~ CharIn(Seq('\\\\', '\"'))).! map (_.mkString)\n+  val stringDelim: P[Unit] =\n+    P(\"\\\"\")\n+  val inString: P[String] =\n+    P((escaped ~ inString).! | stringDelim | (AnyChar ~ inString)).! map (_.init.mkString)\n+  val stringLit: P[String] =\n+    P(stringDelim ~ inString)\n+}\n+\n+object NirParser extends NirParser[Seq[nir.Defn]] {\n+\n+  import Base._\n+\n+  private val IgnoreWhitespace = WhitespaceApi.Wrapper {\n+    import fastparse.all._\n+    NoTrace(CharIn(Seq(' ', '\\n')).rep)\n+  }\n+  import IgnoreWhitespace._\n+\n+  override val parser: P[Seq[nir.Defn]] =\n+    Defn.parser.rep ~ End\n+\n+  object Arg extends NirParser[nir.Arg] {\n+\n+    override val parser: P[nir.Arg] =\n+      P(PassConv.parser.? ~ Type.parser map {\n+        case (pc, ty) => nir.Arg(ty, pc)\n+      })\n+\n+  }\n+\n+  object Attrs extends NirParser[nir.Attrs] {\n+    override val parser: P[nir.Attrs] =\n+      P(Attr.parser.rep map (nir.Attrs.fromSeq(_)))\n+  }\n+\n+  object Attr extends NirParser[nir.Attr] {\n+\n+    val MayInline    = P(\"mayinline\".! map (_ => nir.Attr.MayInline))\n+    val InlineHint   = P(\"inlinehint\".! map (_ => nir.Attr.InlineHint))\n+    val NoInline     = P(\"noinline\".! map (_ => nir.Attr.NoInline))\n+    val AlwaysInline = P(\"alwaysinline\".! map (_ => nir.Attr.AlwaysInline))\n+    val Pure         = P(\"pure\".! map (_ => nir.Attr.Pure))\n+    val Extern       = P(\"extern\".! map (_ => nir.Attr.Extern))\n+    val Override =\n+      P(\"override(\" ~ Global.parser ~ \")\" map (nir.Attr.Override(_)))\n+    val Link      = P(\"link(\" ~ id ~ \")\" map (nir.Attr.Link(_)))\n+    val PinAlways = P(\"pin(\" ~ Global.parser ~ \")\" map (nir.Attr.PinAlways(_)))\n+    val PinIf =\n+      P(\"pin-if(\" ~ Global.parser ~ \",\" ~ Global.parser ~ \")\" map {\n+        case (name, cond) => nir.Attr.PinIf(name, cond)\n+      })\n+\n+    override val parser: P[nir.Attr] =\n+      MayInline | InlineHint | NoInline | AlwaysInline | Pure | Extern | Override | Link | PinAlways | PinIf\n+\n+  }\n+\n+  object Bin extends NirParser[nir.Bin] {\n+    val Iadd = P(\"iadd\".! map (_ => nir.Bin.Iadd))\n+    val Fadd = P(\"fadd\".! map (_ => nir.Bin.Fadd))\n+    val Isub = P(\"isub\".! map (_ => nir.Bin.Isub))\n+    val Fsub = P(\"fsub\".! map (_ => nir.Bin.Fsub))\n+    val Imul = P(\"imul\".! map (_ => nir.Bin.Imul))\n+    val Fmul = P(\"fmul\".! map (_ => nir.Bin.Fmul))\n+    val Sdiv = P(\"sdiv\".! map (_ => nir.Bin.Sdiv))\n+    val Udiv = P(\"udiv\".! map (_ => nir.Bin.Udiv))\n+    val Fdiv = P(\"fdiv\".! map (_ => nir.Bin.Fdiv))\n+    val Srem = P(\"srem\".! map (_ => nir.Bin.Srem))\n+    val Urem = P(\"urem\".! map (_ => nir.Bin.Urem))\n+    val Frem = P(\"frem\".! map (_ => nir.Bin.Frem))\n+    val Shl  = P(\"shl\".! map (_ => nir.Bin.Shl))\n+    val Lshr = P(\"lshr\".! map (_ => nir.Bin.Lshr))\n+    val Ashr = P(\"ashr\".! map (_ => nir.Bin.Ashr))\n+    val And  = P(\"and\".! map (_ => nir.Bin.And))\n+    val Or   = P(\"or\".! map (_ => nir.Bin.Or))\n+    val Xor  = P(\"xor\".! map (_ => nir.Bin.Xor))\n+    override val parser: P[nir.Bin] =\n+      Iadd | Fadd | Isub | Fsub | Imul | Fmul | Sdiv | Udiv | Fdiv | Srem | Urem | Frem | Shl | Lshr | Ashr | And | Or | Xor\n+  }\n+\n+  object Comp extends NirParser[nir.Comp] {\n+    val Ieq = P(\"ieq\".! map (_ => nir.Comp.Ieq))\n+    val Ine = P(\"ine\".! map (_ => nir.Comp.Ine))\n+    val Ugt = P(\"ugt\".! map (_ => nir.Comp.Ugt))\n+    val Uge = P(\"uge\".! map (_ => nir.Comp.Uge))\n+    val Ult = P(\"ult\".! map (_ => nir.Comp.Ult))\n+    val Ule = P(\"ule\".! map (_ => nir.Comp.Ule))\n+    val Sgt = P(\"sgt\".! map (_ => nir.Comp.Sgt))\n+    val Sge = P(\"sge\".! map (_ => nir.Comp.Sge))\n+    val Slt = P(\"slt\".! map (_ => nir.Comp.Slt))\n+    val Sle = P(\"sle\".! map (_ => nir.Comp.Sle))\n+    val Feq = P(\"feq\".! map (_ => nir.Comp.Feq))\n+    val Fne = P(\"fne\".! map (_ => nir.Comp.Fne))\n+    val Fgt = P(\"fgt\".! map (_ => nir.Comp.Fgt))\n+    val Fge = P(\"fge\".! map (_ => nir.Comp.Fge))\n+    val Flt = P(\"flt\".! map (_ => nir.Comp.Flt))\n+    val Fle = P(\"fle\".! map (_ => nir.Comp.Fle))\n+    override val parser: P[nir.Comp] =\n+      Ieq | Ine | Ugt | Uge | Ult | Ule | Sgt | Sge | Slt | Sle | Feq | Fne | Fgt | Fge | Flt | Fle\n+  }\n+\n+  object Conv extends NirParser[nir.Conv] {\n+    val Trunc    = P(\"trunc\".! map (_ => nir.Conv.Trunc))\n+    val Zext     = P(\"zext\".! map (_ => nir.Conv.Zext))\n+    val Sext     = P(\"sext\".! map (_ => nir.Conv.Sext))\n+    val Fptrunc  = P(\"fptrunc\".! map (_ => nir.Conv.Fptrunc))\n+    val Fpext    = P(\"fpext\".! map (_ => nir.Conv.Fpext))\n+    val Fptoui   = P(\"fptoui\".! map (_ => nir.Conv.Fptoui))\n+    val Fptosi   = P(\"fptosi\".! map (_ => nir.Conv.Fptosi))\n+    val Uitofp   = P(\"uitofp\".! map (_ => nir.Conv.Uitofp))\n+    val Sitofp   = P(\"sitofp\".! map (_ => nir.Conv.Sitofp))\n+    val Ptrtoint = P(\"ptrtoint\".! map (_ => nir.Conv.Ptrtoint))\n+    val Inttoptr = P(\"inttoptr\".! map (_ => nir.Conv.Inttoptr))\n+    val Bitcast  = P(\"bitcast\".! map (_ => nir.Conv.Bitcast))\n+    override val parser: P[nir.Conv] =\n+      Trunc | Zext | Sext | Fptrunc | Fpext | Fptoui | Fptosi | Uitofp | Sitofp | Ptrtoint | Inttoptr | Bitcast\n+  }\n+\n+  object Defn extends NirParser[nir.Defn] {\n+    val Var =\n+      P(Attrs.parser ~ \"var\" ~ Global.parser ~ \":\" ~ Type.parser ~ (\"=\" ~ Val.parser).? map {\n+        case (attrs, name, ty, v) =>\n+          nir.Defn.Var(attrs, name, ty, v getOrElse nir.Val.None)\n+      })\n+    val Const =\n+      P(Attrs.parser ~ \"const\" ~ Global.parser ~ \":\" ~ Type.parser ~ (\"=\" ~ Val.parser).? map {\n+        case (attrs, name, ty, v) =>\n+          nir.Defn.Const(attrs, name, ty, v getOrElse nir.Val.None)\n+      })\n+    val Declare =\n+      P(Attrs.parser ~ \"def\" ~ Global.parser ~ \":\" ~ Type.parser map {\n+        case (attrs, name, ty) => nir.Defn.Declare(attrs, name, ty)\n+      })\n+    val Define =\n+      P(Attrs.parser ~ \"def\" ~ Global.parser ~ \":\" ~ Type.parser ~ \"{\" ~ Inst.parser.rep ~ \"}\" map {\n+        case (attrs, name, ty, insts) =>\n+          nir.Defn.Define(attrs, name, ty, insts)\n+      })\n+    val Struct =\n+      P(\n+        Attrs.parser ~ \"struct\" ~ Global.parser ~ \"{\" ~ Type.parser.rep(\n+          sep = \",\") ~ \"}\" map {\n+          case (attrs, name, tys) => nir.Defn.Struct(attrs, name, tys)\n+        })\n+    val Trait =\n+      P(\n+        Attrs.parser ~ \"trait\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+          sep = \",\")).? map {\n+          case (attrs, name, ifaces) =>\n+            nir.Defn.Trait(attrs, name, ifaces getOrElse Seq())\n+        })\n+    val Class =\n+      P(\n+        Attrs.parser ~ \"class\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+          sep = \",\")).? map {\n+          case (attrs, name, None) => nir.Defn.Class(attrs, name, None, Seq())\n+          case (attrs, name, Some(inherits)) =>\n+            nir.Defn.Class(attrs, name, inherits.headOption, inherits.tail)\n+        })\n+    val Module =\n+      P(\n+        Attrs.parser ~ \"module\" ~ Global.parser ~ (\":\" ~ Global.parser.rep(\n+          sep = \",\")).? map {\n+          case (attrs, name, None) => nir.Defn.Module(attrs, name, None, Seq())\n+          case (attrs, name, Some(inherits)) =>\n+            nir.Defn.Module(attrs, name, inherits.headOption, inherits.tail)\n+        })\n+    override val parser: P[nir.Defn] =\n+      Var | Const | Define | Declare | Struct | Trait | Class | Module\n+  }\n+\n+  object Global extends NirParser[nir.Global] {\n+    val Top = P(\"@\" ~ mangledQualifiedId.! map (nir.Global.Top(_)))\n+    val Member =\n+      P(Top ~ \"::\" ~ qualifiedId.! map { case (t, m) => t member m })\n+    override val parser: P[nir.Global] = Member | Top\n+  }\n+\n+  object Inst extends NirParser[nir.Inst] {\n+    val None = P(\"none\".! map (_ => nir.Inst.None))\n+    val Label =\n+      P(Local.parser ~ (\"(\" ~ Val.Local.rep(sep = \",\") ~ \")\").? ~ \":\" map {\n+        case (name, params) => nir.Inst.Label(name, params getOrElse Seq())\n+      })\n+    val Let =\n+      P(Local.parser ~ \"=\" ~ Op.parser map {\n+        case (name, op) => nir.Inst.Let(name, op)\n+      })\n+    val Unreachable = P(\"unreachable\".! map (_ => nir.Inst.Unreachable))\n+    val Ret =\n+      P(\"ret\" ~ Val.parser.? map (v =>\n+                                    nir.Inst.Ret(v.getOrElse(nir.Val.None))))\n+    val Jump = P(\"jump\" ~ Next.parser map (nir.Inst.Jump(_)))\n+    val If =\n+      P(\"if\" ~ Val.parser ~ \"then\" ~ Next.parser ~ \"else\" ~ Next.parser map {\n+        case (cond, thenp, elsep) => nir.Inst.If(cond, thenp, elsep)\n+      })\n+    val Switch =\n+      P(\"switch\" ~ Val.parser ~ \"{\" ~ Next.parser.rep ~ \"default:\" ~ Next.parser ~ \"}\" map {\n+        case (scrut, cases, default) => nir.Inst.Switch(scrut, default, cases)\n+      })\n+    val Invoke =\n+      P(\n+        \"invoke[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \"(\" ~ Val.parser.rep(sep =\n+          \",\") ~ \")\" ~ \"to\" ~ Next.parser ~ \"unwind\" ~ Next.parser map {\n+          case (ty, ptr, args, succ, fail) =>\n+            nir.Inst.Invoke(ty, ptr, args, succ, fail)\n+        })\n+    val Throw = P(\"throw\" ~ Val.parser map (nir.Inst.Throw(_)))\n+    val Try =\n+      P(\"try\" ~ Next.parser ~ \"catch\" ~ Next.parser map {\n+        case (normal, exc) => nir.Inst.Try(normal, exc)\n+      })\n+    override val parser: P[nir.Inst] =\n+      None | Label | Let | Unreachable | Ret | Jump | If | Switch | Invoke | Throw | Try\n+  }\n+\n+  object Local extends NirParser[nir.Local] {\n+    override val parser: P[nir.Local] =\n+      P(\"%\" ~ id ~ \".\" ~ int map {\n+        case (scope, id) => nir.Local(scope, id)\n+      })\n+  }\n+\n+  object Next extends NirParser[nir.Next] {\n+    val Label =\n+      P(Local.parser ~ (\"(\" ~ Val.parser.rep(sep = \",\") ~ \")\").? map {\n+        case (name, args) => nir.Next.Label(name, args getOrElse Seq())\n+      })\n+    val Succ = P(\"succ\" ~ Local.parser map (nir.Next.Succ(_)))\n+    val Fail = P(\"fail\" ~ Local.parser map (nir.Next.Fail(_)))\n+    val Case =\n+      P(\"case\" ~ Val.parser ~ \"=>\" ~ Local.parser map {\n+        case (value, name) => nir.Next.Case(value, name)\n+      })\n+    override val parser: P[nir.Next] = Label | Succ | Fail | Case\n+  }\n+\n+  object Op extends NirParser[nir.Op] {\n+    val Call =\n+      P(\n+        \"call[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \"(\" ~ Val.parser.rep(\n+          sep = \",\") ~ \")\" map {\n+          case (ty, f, args) => nir.Op.Call(ty, f, args)\n+        })\n+    val Load =\n+      P(\"load[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (ty, ptr) => nir.Op.Load(ty, ptr)\n+      })\n+    val Store =\n+      P(\"store[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (ty, ptr, value) => nir.Op.Store(ty, ptr, value)\n+      })\n+    val Elem =\n+      P(\n+        \"elem[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser.rep(\n+          sep = \",\") map {\n+          case (ty, ptr, indices) => nir.Op.Elem(ty, ptr, indices)\n+        })\n+    val Extract =\n+      P(\"extract\" ~ Val.parser ~ \",\" ~ int.rep(sep = \",\") map {\n+        case (aggr, indices) => nir.Op.Extract(aggr, indices)\n+      })\n+    val Insert =\n+      P(\n+        \"insert\" ~ Val.parser ~ \",\" ~ Val.parser ~ \",\" ~ int\n+          .rep(sep = \",\") map {\n+          case (aggr, value, indices) => nir.Op.Insert(aggr, value, indices)\n+        })\n+    val Stackalloc =\n+      P(\"stackalloc[\" ~ Type.parser ~ \"]\" ~ Val.parser.? map {\n+        case (ty, n) => nir.Op.Stackalloc(ty, n getOrElse nir.Val.None)\n+      })\n+    val Bin =\n+      P(NirParser.Bin.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (name, ty, l, r) => nir.Op.Bin(name, ty, l, r)\n+      })\n+    val Comp =\n+      P(NirParser.Comp.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (name, ty, l, r) => nir.Op.Comp(name, ty, l, r)\n+      })\n+    val Conv =\n+      P(NirParser.Conv.parser ~ \"[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (name, ty, v) => nir.Op.Conv(name, ty, v)\n+      })\n+    val Select =\n+      P(\"select\" ~ Val.parser ~ \",\" ~ Val.parser ~ \",\" ~ Val.parser map {\n+        case (cond, thenp, elsep) => nir.Op.Select(cond, thenp, elsep)\n+      })\n+    val Classalloc = P(\"classalloc\" ~ Global.parser map (nir.Op.Classalloc(_)))\n+    val Field =\n+      P(\"field\" ~ Val.parser ~ \",\" ~ Global.parser map {\n+        case (value, name) => nir.Op.Field(value, name)\n+      })\n+    val Method =\n+      P(\"method\" ~ Val.parser ~ \",\" ~ Global.parser map {\n+        case (value, name) => nir.Op.Method(value, name)\n+      })\n+    val Module = P(\"module\" ~ Global.parser map (nir.Op.Module(_)))\n+    val As =\n+      P(\"as[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (ty, value) => nir.Op.As(ty, value)\n+      })\n+    val Is =\n+      P(\"is[\" ~ Type.parser ~ \"]\" ~ Val.parser map {\n+        case (ty, value) => nir.Op.Is(ty, value)\n+      })\n+    val Copy   = P(\"copy\" ~ Val.parser map (nir.Op.Copy(_)))\n+    val Sizeof = P(\"sizeof[\" ~ Type.parser ~ \"]\" map (nir.Op.Sizeof(_)))\n+    val Closure =\n+      P(\"closure[\" ~ Type.parser ~ \"]\" ~ Val.parser.rep(sep = \",\") map {\n+        case (ty, fun +: captures) => nir.Op.Closure(ty, fun, captures)\n+      })\n+    override val parser: P[nir.Op] =\n+      Call | Load | Store | Elem | Extract | Insert | Stackalloc | Bin | Comp | Conv | Select | Classalloc | Field | Method | Module | As | Is | Copy | Sizeof | Closure\n+  }\n+\n+  object PassConv extends NirParser[nir.PassConv] {\n+    val Byval                            = P(\"byval[\" ~ Type.parser ~ \"]\" map (nir.PassConv.Byval(_)))\n+    val Sret                             = P(\"sret[\" ~ Type.parser ~ \"]\" map (nir.PassConv.Sret(_)))\n+    override val parser: P[nir.PassConv] = Byval | Sret\n+  }\n+\n+  object Type extends NirParser[nir.Type] {\n+    val None   = P(\"none\".! map (_ => nir.Type.None))\n+    val Void   = P(\"void\".! map (_ => nir.Type.Void))\n+    val Vararg = P(\"...\".! map (_ => nir.Type.Vararg))\n+    val Ptr    = P(\"ptr\".! map (_ => nir.Type.Ptr))\n+    val Bool   = P(\"bool\".! map (_ => nir.Type.Bool))\n+    val I8     = P(\"i8\".! map (_ => nir.Type.I8))\n+    val I16    = P(\"i16\".! map (_ => nir.Type.I16))\n+    val I32    = P(\"i32\".! map (_ => nir.Type.I32))\n+    val I64    = P(\"i64\".! map (_ => nir.Type.I64))\n+    val F32    = P(\"f32\".! map (_ => nir.Type.F32))\n+    val F64    = P(\"f64\".! map (_ => nir.Type.F64))\n+    val Array =\n+      P(\"[\" ~ Type.parser ~ \"x\" ~ int ~ \"]\" map {\n+        case (ty, n) => nir.Type.Array(ty, n)\n+      })\n+    val Function =\n+      P(\"(\" ~ Arg.parser.rep(sep = \",\") ~ \")\" ~ \"=>\" ~ Type.parser map {\n+        case (args, ret) => nir.Type.Function(args, ret)\n+      })\n+    val NoneStruct =\n+      P(\n+        \"{\" ~ Type.parser.rep(sep = \",\") ~ \"}\" map (nir.Type\n+          .Struct(nir.Global.None, _)))\n+    val Struct  = P(\"struct\" ~ Global.parser map (nir.Type.Struct(_, Nil)))\n+    val Unit    = P(\"unit\".! map (_ => nir.Type.Unit))\n+    val Nothing = P(\"nothing\".! map (_ => nir.Type.Nothing))\n+    val Class   = P(\"class\" ~ Global.parser map (nir.Type.Class(_)))\n+    val Trait   = P(\"trait\" ~ Global.parser map (nir.Type.Trait(_)))\n+    val Module  = P(\"module\" ~ Global.parser map (nir.Type.Module(_)))\n+\n+    override val parser: P[nir.Type] =\n+      None | Void | Vararg | Ptr | Bool | I8 | I16 | I32 | I64 | F32 | F64 | Array | Function | NoneStruct | Struct | Unit | Nothing | Class | Trait | Module\n+  }\n+\n+  object Val extends NirParser[nir.Val] {\n+    val None  = P(\"none\".! map (_ => nir.Val.None))\n+    val True  = P(\"true\".! map (_ => nir.Val.True))\n+    val False = P(\"false\".! map (_ => nir.Val.False))\n+    val Zero  = P(\"zero[\" ~ Type.parser ~ \"]\" map (nir.Val.Zero(_)))\n+    val Undef = P(\"undef[\" ~ Type.parser ~ \"]\" map (nir.Val.Undef(_)))\n+    val I8    = P(byte ~ \"i8\" map (nir.Val.I8(_)))\n+    val I16   = P(short ~ \"i16\" map (nir.Val.I16(_)))\n+    val I32   = P(int ~ \"i32\" map (nir.Val.I32(_)))\n+    val I64   = P(long ~ \"i64\" map (nir.Val.I64(_)))\n+    val F32   = P(float ~ \"f32\" map (nir.Val.F32(_)))\n+    val F64   = P(double ~ \"f64\" map (nir.Val.F64(_)))\n+    val NoneStruct =\n+      P(\n+        \"struct\" ~ \"{\" ~ Val.parser.rep(sep = \",\") ~ \"}\" map (nir.Val\n+          .Struct(nir.Global.None, _)))\n+    val Struct =\n+      P(\n+        \"struct\" ~ NirParser.Global.parser ~ \"{\" ~ Val.parser\n+          .rep(sep = \",\") ~ \"}\" map {\n+          case (n, values) => nir.Val.Struct(n, values)\n+        })\n+    val Array =\n+      P(\"array\" ~ Type.parser ~ \"{\" ~ Val.parser.rep(sep = \",\") ~ \"}\" map {\n+        case (ty, values) => nir.Val.Array(ty, values)\n+      })\n+    val Chars = P(\"c\" ~ stringLit map (nir.Val.Chars(_)))\n+    val Local =\n+      P(NirParser.Local.parser ~ \":\" ~ Type.parser map {\n+        case (name, ty) => nir.Val.Local(name, ty)\n+      })\n+    val Global =\n+      P(NirParser.Global.parser map (nir.Val.Global(_, nir.Type.None))) /// FIXME"
+  },
+  {
+    "id" : "14c71c4c-1008-47ed-aaca-2ec92355b0e0",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "1365fe3e-dc02-4f3f-8712-b5e8158df490",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Base[T]` and put both `Base` trait and companion in a separate file. \n",
+        "createdAt" : "2016-10-31T10:47:33Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,466 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import fastparse.WhitespaceApi\n+import fastparse.noApi._\n+\n+trait NirParser[T] {"
+  },
+  {
+    "id" : "4aab4f18-107e-4ed5-9254-ed3b12cc58a5",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "7632ee60-4b36-4f6d-9132-92cb2fba571b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets split those into one parser per file. (e.g. `Defn.scala`, `Arg.scala`, `Attr.scala`, ...)\n",
+        "createdAt" : "2016-10-31T10:50:09Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,466 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import fastparse.WhitespaceApi\n+import fastparse.noApi._\n+\n+trait NirParser[T] {\n+  def parser: P[T]\n+\n+  final def apply(nir: String) =\n+    parser.parse(nir)\n+}\n+\n+object Base {\n+  import fastparse.all._\n+  val byte: P[Byte] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toByte; case (_, n) => (\"-\" + n).toByte\n+  })\n+  val short: P[Short] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toShort; case (_, n) => (\"-\" + n).toShort\n+  })\n+  val int: P[Int] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toInt; case (_, n) => (\"-\" + n).toInt\n+  })\n+  val long: P[Long] = P(\"-\".!.? ~ CharIn('0' to '9').rep(1).! map {\n+    case (None, n) => n.toLong; case (_, n) => (\"-\" + n).toLong\n+  })\n+  val infinityF: P[Float] =\n+    P(\"-\".!.? ~ \"Infinity\") map {\n+      case None => Float.PositiveInfinity; case _ => Float.NegativeInfinity\n+    }\n+  val float: P[Float] =\n+    P(\n+      infinityF |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Float.parseFloat))\n+  val infinityD: P[Double] =\n+    P(\"-\".!.? ~ \"Infinity\") map {\n+      case None => Double.PositiveInfinity; case _ => Double.NegativeInfinity\n+    }\n+  val double: P[Double] =\n+    P(\n+      infinityD |\n+        CharIn(('0' to '9') ++ Seq('.'))\n+          .rep(1)\n+          .!\n+          .map(java.lang.Double.parseDouble))\n+  val okInId: Seq[Char] = Seq('=', '$', '+', '-', '_', '?', '/', '<', '>')\n+  val idStart: P[String] =\n+    P(CharIn(('A' to 'Z') ++ ('a' to 'z') ++ okInId).!)\n+  val idAfter: P[String] =\n+    (idStart | CharIn(('0' to '9')).!)\n+  val id: P[String] =\n+    idStart ~ idAfter.rep map { case (s, t) => s + t.mkString }\n+  val mangledQualifiedId: P[String] =\n+    P(id.rep(sep = \".\") map (_.mkString))\n+  val qualifiedId: P[String] =\n+    P(mangledQualifiedId ~ (\":\" ~ qualifiedId).?) map {\n+      case (a, Some(b)) => s\"$a:$b\"; case (a, None) => a\n+    }\n+  val escaped: P[String] =\n+    P(\"\\\\\" ~ CharIn(Seq('\\\\', '\"'))).! map (_.mkString)\n+  val stringDelim: P[Unit] =\n+    P(\"\\\"\")\n+  val inString: P[String] =\n+    P((escaped ~ inString).! | stringDelim | (AnyChar ~ inString)).! map (_.init.mkString)\n+  val stringLit: P[String] =\n+    P(stringDelim ~ inString)\n+}\n+\n+object NirParser extends NirParser[Seq[nir.Defn]] {"
+  }
+]

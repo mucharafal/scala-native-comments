@@ -1,0 +1,192 @@
+[
+  {
+    "id" : "9ddbfbbe-4cd7-4100-9baa-4365c44857a8",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "12f6498f-2392-4a07-a918-33efc1318fae",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No need for an empty file if there is nothing in there.",
+        "createdAt" : "2017-04-10T17:47:14Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1 @@\n+"
+  },
+  {
+    "id" : "4b5b62a6-f8b6-4016-b446-f24dc9e7a15b",
+    "prId" : 729,
+    "comments" : [
+      {
+        "id" : "9b915290-00d5-4f4d-9a65-75f097e9869e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "According to the modified version of the  code above you're going to create a new file only if all of the conditions below are met:\r\n\r\n1. It it doesn't exist\r\n2. Options doesn't contain CREATE and CREATE_NEW\r\n3. Options contains WRITE\r\n\r\nThis doesn't seem to match the spec for CREATE and CREATE_NEW that should create new file no matter if WRITE is present or not as defined in https://docs.oracle.com/javase/8/docs/api/java/nio/file/Files.html#newByteChannel-java.nio.file.Path-java.util.Set-java.nio.file.attribute.FileAttribute...-",
+        "createdAt" : "2017-05-22T10:01:37Z",
+        "updatedAt" : "2017-05-22T12:33:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a4dbac33-0954-47d6-b15d-93976b44b941",
+        "parentId" : "9b915290-00d5-4f4d-9a65-75f097e9869e",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "In 2., we will throw an exception if `options` doesn't contain `CREATE` and `CREATE_NEW`. I changed that to make it clearer.\r\n\r\nRegarding the spec, my reading is that we shouldn't try to create the file if we don't open it for writing:\r\n> `CREATE_NEW`: This option is ignored when the file is opened only for reading. \r\n\r\n> `CREATE`: This option is ignored if the CREATE_NEW option is also present or the file is opened only for reading. \r\n\r\nMy understanding is also that if none of `WRITE` or `APPEND` is specified, then the file should be opened for reading only:\r\n\r\n> The READ and WRITE options determine if the file should be opened for reading and/or writing. If neither option (or the APPEND option) is contained in the array then the file is opened for reading.\r\n\r\nI also fixed an issue with APPEND that didn't work correctly.",
+        "createdAt" : "2017-05-22T12:42:25Z",
+        "updatedAt" : "2017-05-22T12:42:25Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "388b6b42841b1cc5e3bdd75ba0f0408a37d1d4ef",
+    "line" : null,
+    "diffHunk" : "@@ -144,18 +144,21 @@ private object FileChannelImpl {\n     val mode = new StringBuilder(\"r\")\n     if (options.contains(WRITE) || options.contains(APPEND)) mode.append(\"w\")\n \n-    if (!Files.exists(path, Array.empty) && !options.contains(CREATE) && !options\n-          .contains(CREATE_NEW)) {\n-      throw new NoSuchFileException(path.toString)\n-    }\n-\n-    if (options.contains(CREATE_NEW) && Files.exists(path, Array.empty)) {\n-      throw new FileAlreadyExistsException(path.toString)\n-    }\n-\n-    if (options.contains(WRITE) && (options.contains(CREATE_NEW) || options\n-          .contains(CREATE))) {\n-      Files.createFile(path, attrs)\n+    if (!Files.exists(path, Array.empty)) {\n+      if (!options.contains(CREATE) && !options.contains(CREATE_NEW)) {\n+        throw new NoSuchFileException(path.toString)\n+      } else if (options.contains(WRITE)) {\n+        Files.createFile(path, attrs)\n+      }"
+  },
+  {
+    "id" : "4a625add-5f3f-48c9-bfe8-d9af8591b6cf",
+    "prId" : 1200,
+    "comments" : [
+      {
+        "id" : "c47b38a5-5f21-42d8-a083-00dc6adda6c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please use while loops instead of for comprehensions for performance-sensitive code.",
+        "createdAt" : "2018-03-22T13:57:59Z",
+        "updatedAt" : "2018-03-29T22:41:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "65512fad0b80b0c3acadedbcd1159e72521abb49",
+    "line" : null,
+    "diffHunk" : "@@ -57,22 +57,40 @@ final class FileChannelImpl(path: Path,\n                     start: Int,\n                     number: Int): Long = {\n     ensureOpen()\n-    val dst = new Array[Byte](1)\n-    val nb  = raf.read(dst)\n-    var i   = 0\n-    while (i < number) {\n-      buffers(start + i).put(dst)\n-      i += 1\n+\n+    var bread: Long = 0\n+\n+    for (i <- start until number) {"
+  },
+  {
+    "id" : "2da0c388-b6b7-4bcb-925b-b2e3b071856e",
+    "prId" : 1200,
+    "comments" : [
+      {
+        "id" : "89000987-9436-434d-b8f6-6dc9df363ebd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Ambiguous name wrt 🥖.",
+        "createdAt" : "2018-03-22T13:58:51Z",
+        "updatedAt" : "2018-03-29T22:41:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f38bf215-3ede-4709-86c8-8c8a9ebe436c",
+        "parentId" : "89000987-9436-434d-b8f6-6dc9df363ebd",
+        "author" : {
+          "login" : "dlpatri",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2879880?v=4"
+        },
+        "body" : "Yeah, I thought it'd be a fun way to write bytesRead in way that enforces the correct reading of read (like \"red\", as opposed to \"reed\"). But I can change it.",
+        "createdAt" : "2018-03-22T15:54:54Z",
+        "updatedAt" : "2018-03-29T22:41:29Z",
+        "lastEditedBy" : {
+          "login" : "dlpatri",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2879880?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "104ff1d9-ae30-4c73-88d8-a0f1241c70c4",
+        "parentId" : "89000987-9436-434d-b8f6-6dc9df363ebd",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I looked at that too and said \"what!\". Then I figured maybe it was `bytesRead` but given your other short names it seemed out of place. I liked the 🍞 icon though. 😃 ",
+        "createdAt" : "2018-03-22T16:23:56Z",
+        "updatedAt" : "2018-03-29T22:41:29Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "65512fad0b80b0c3acadedbcd1159e72521abb49",
+    "line" : null,
+    "diffHunk" : "@@ -57,22 +57,40 @@ final class FileChannelImpl(path: Path,\n                     start: Int,\n                     number: Int): Long = {\n     ensureOpen()\n-    val dst = new Array[Byte](1)\n-    val nb  = raf.read(dst)\n-    var i   = 0\n-    while (i < number) {\n-      buffers(start + i).put(dst)\n-      i += 1\n+\n+    var bread: Long = 0"
+  }
+]

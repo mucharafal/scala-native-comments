@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "45709e4e-9410-41e3-b735-2ce558784365",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "83fde693-4492-4e6a-a129-ba815609e18a",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I think that you should wrap it all in a\r\n\r\n```scala\r\ntry {\r\n  // ...\r\n} finally close(sock)\r\n```\r\nto ensure you won't leak `sock` if there's an exception.",
+        "createdAt" : "2017-07-17T07:15:06Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6108e0a0-be8d-4c6d-91a8-6e90d6f5d6a8",
+        "parentId" : "83fde693-4492-4e6a-a129-ba815609e18a",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "And probably `freeaddrinfo` too.",
+        "createdAt" : "2017-07-17T07:18:05Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "014ea8a5-334a-40d7-aa50-c9d77ebe2c6d",
+        "parentId" : "83fde693-4492-4e6a-a129-ba815609e18a",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-17T10:09:58Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,185 @@\n+package java.net\n+\n+import scala.scalanative.native._\n+import scala.scalanative.posix.{netdb, netdbOps}, netdb._, netdbOps._\n+import scala.scalanative.posix.arpa.inet._\n+import scala.scalanative.posix.sys.socketOps._\n+import scala.scalanative.posix.sys.socket._\n+import scala.scalanative.posix.sys.select._\n+import scala.scalanative.posix.unistd.close\n+import scala.scalanative.posix.fcntl._\n+import scala.scalanative.posix.sys.selectOps._\n+import scala.scalanative.posix.netinet.{in, inOps}, in._, inOps._\n+\n+private[net] object SocketHelpers {\n+\n+  def isReachableByEcho(ip: String, timeout: Int, port: Int): Boolean = {\n+    Zone { implicit z =>\n+      val cIP   = toCString(ip)\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_protocol = 0\n+      hints.ai_addr = null\n+      hints.ai_flags = 4 // AI_NUMERICHOST\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_next = null\n+\n+      if (getaddrinfo(cIP, toCString(port.toString), hints, ret) != 0) {\n+        return false\n+      }\n+\n+      val sock = socket((!ret).ai_family, SOCK_STREAM, (!ret).ai_protocol);\n+      if (sock < 0) {\n+        freeaddrinfo(!ret)\n+        return false\n+      }\n+      fcntl(sock, F_SETFL, O_NONBLOCK)\n+\n+      val fdset = stackalloc[fd_set]\n+      !fdset._1 = stackalloc[CLongInt](FD_SETSIZE / sizeof[CLongInt])\n+      FD_ZERO(fdset)\n+      FD_SET(sock, fdset)\n+\n+      val time = stackalloc[timeval]\n+      time.tv_sec = timeout / 1000\n+      time.tv_usec = (timeout % 1000) * 1000\n+\n+      connect(sock, (!ret).ai_addr, (!ret).ai_addrlen)\n+\n+      if (select(sock + 1, null, fdset, null, time) == 1) {\n+        val so_error = stackalloc[CInt].cast[Ptr[Byte]]\n+        val len      = stackalloc[socklen_t]\n+        !len = sizeof[CInt].toUInt\n+        getsockopt(sock, SOL_SOCKET, SO_ERROR, so_error, len)\n+        if (!(so_error.cast[Ptr[CInt]]) != 0) {\n+          freeaddrinfo(!ret)\n+          close(sock)\n+          return false\n+        }\n+      }\n+\n+      freeaddrinfo(!ret)\n+\n+      val sentBytes = send(sock, toCString(\"echo\"), 4, 0)\n+      if (sentBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      if (select(sock + 1, fdset, null, null, time) != 1) {\n+        close(sock)\n+        return false;\n+      } else {\n+        val buf      = stackalloc[CChar](5)\n+        val recBytes = recv(sock, buf, 5, 0)\n+        if (recBytes < 4) {\n+          close(sock)\n+          return false\n+        }\n+      }\n+\n+      close(sock)\n+    }\n+    true"
+  },
+  {
+    "id" : "b080fa00-8208-4863-82d4-aab533cf27b9",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "196d3de1-034f-4861-b1d8-d33f7bdff7f2",
+        "parentId" : null,
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "I've encountered a weird bug here - it doesn't work without the `catch` clause. If I try to compile with just `try-finally`, the compiler throws a NullPointerException. I was not able to reproduce it on simple `try` blocks, though I will try to minimize the reproduction and file an issue with it.\r\n\r\nThe catch clause doesn't affect the logic of the code, so I guess it can be fixed later.",
+        "createdAt" : "2017-07-18T12:58:47Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -65,15 +65,19 @@ private[net] object SocketHelpers {\n         } \n \n         if (select(sock + 1, fdset, null, null, time) != 1) {\n-          return false;\n+          return false\n         } else {\n           val buf      = stackalloc[CChar](5)\n           val recBytes = recv(sock, buf, 5, 0)\n           if (recBytes < 4) {\n             return false\n           }\n         }\n-      } finally {\n+      } \n+      catch {"
+  }
+]

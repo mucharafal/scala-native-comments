@@ -1,0 +1,143 @@
+[
+  {
+    "id" : "2ed795eb-c08d-471d-a797-df02cab3c25c",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "c35d0ed1-da78-4508-b011-85b67c8dbd44",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is only used in the `tools`. Consider moving this `Platform` object to the tools, and make it package-private.",
+        "createdAt" : "2020-08-20T16:03:07Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8ec4ade1-f886-4851-b006-f241f53b1f1b",
+        "parentId" : "c35d0ed1-da78-4508-b011-85b67c8dbd44",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Yes, I have to fix this.\r\n\r\nBasically, this should change with the Scala version of the linked code that is tested, so it can't go to `tools`. This means that it should probably be refactored to be obtained via `sbt-buildinfo`. However, I can't really find an appropriate place to move it to. The only cross-compiled project `tools` depends on is `testingCompilerInterface`, but I am not sure we can enable `sbt-buildinfo` there.",
+        "createdAt" : "2020-08-20T21:38:00Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9d484f90-be59-4037-98ab-d6ae0251b1ce",
+        "parentId" : "c35d0ed1-da78-4508-b011-85b67c8dbd44",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We don't have *any* project that cross compiles. There's no such thing. A project is either for the JVM or for Native. Cross compilation is an illusion provided by having two projects with the same sources. But even that we don't have in this build.\r\n\r\nBut you really don't need that. What you need is, in tools, the value of `nativelib / scalaVersion`. That's easy to obtain with sbt-buildinfo enabled on the tools project.",
+        "createdAt" : "2020-08-20T23:15:41Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c3b43736-ee8f-4ed2-81b2-80943d407422",
+        "parentId" : "c35d0ed1-da78-4508-b011-85b67c8dbd44",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "But, if we enable `sbt-buildinfo` in `tools`, which is compiled with 2.12, then the `scalaVersion` in the generated sources will be 2.12. Am I missing something here?",
+        "createdAt" : "2020-08-21T08:27:08Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "12c7734e-6c6f-499e-82fd-41ba3b85b6ed",
+        "parentId" : "c35d0ed1-da78-4508-b011-85b67c8dbd44",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We just need to configure sbt-buildinfo with an additional key that represents the `scalaVersion` of `nativelib`. sbt-buildinfo is sufficiently configurable to add custom info.",
+        "createdAt" : "2020-08-21T09:41:59Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0c2f8ea0-24f9-45af-ba12-c8ad880ef390",
+        "parentId" : "c35d0ed1-da78-4508-b011-85b67c8dbd44",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Ah, yes, you can tell I am missing sbt intuition.",
+        "createdAt" : "2020-08-21T09:51:42Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,5 @@\n+package scala.scalanative.util\n+\n+object Platform {\n+  def scalaVersion: String = scala.util.Properties.versionNumberString"
+  }
+]

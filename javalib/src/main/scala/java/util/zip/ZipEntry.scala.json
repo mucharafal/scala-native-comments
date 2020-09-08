@@ -1,0 +1,115 @@
+[
+  {
+    "id" : "612ae45e-2803-4193-a1c1-8f3934149979",
+    "prId" : 935,
+    "comments" : [
+      {
+        "id" : "a431e362-5fa5-4d73-8d38-5179354bc684",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can you file an issue for this and setTime? TODOs in code are often overlooked.",
+        "createdAt" : "2017-08-15T08:59:17Z",
+        "updatedAt" : "2017-08-15T09:00:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "dc0051a6-5c94-4afc-8ba2-3e6194729251",
+        "parentId" : "a431e362-5fa5-4d73-8d38-5179354bc684",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Opened #936",
+        "createdAt" : "2017-08-15T09:19:07Z",
+        "updatedAt" : "2017-08-15T09:19:07Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d005de54824065ddc45490ef00730ada498cb0f0",
+    "line" : 87,
+    "diffHunk" : "@@ -0,0 +1,287 @@\n+package java.util.zip\n+\n+// Ported from Apache Harmony\n+\n+import java.io.{\n+  EOFException,\n+  IOException,\n+  InputStream,\n+  RandomAccessFile,\n+  UnsupportedEncodingException\n+}\n+import java.util.{Calendar, Date, GregorianCalendar}\n+\n+class ZipEntry private (private[zip] var name: String,\n+                        private[zip] var comment: String,\n+                        private[zip] var compressedSize: Long,\n+                        private[zip] var crc: Long,\n+                        private[zip] var size: Long,\n+                        private[zip] var compressionMethod: Int,\n+                        private[zip] var time: Int,\n+                        private[zip] var modDate: Int,\n+                        private[zip] var extra: Array[Byte],\n+                        private[zip] var nameLen: Int,\n+                        private[zip] var mLocalHeaderRelOffset: Long)\n+    extends ZipConstants\n+    with Cloneable {\n+\n+  def this(name: String) =\n+    this(name, null, -1, -1, -1, -1, -1, -1, null, -1, -1)\n+\n+  def this(e: ZipEntry) =\n+    this(e.name,\n+         e.comment,\n+         e.compressedSize,\n+         e.crc,\n+         e.size,\n+         e.compressionMethod,\n+         e.time,\n+         e.modDate,\n+         e.extra,\n+         e.nameLen,\n+         e.mLocalHeaderRelOffset)\n+\n+  if (name == null) {\n+    throw new NullPointerException()\n+  }\n+  if (name.length() > 0xFFFF) {\n+    throw new IllegalArgumentException()\n+  }\n+\n+  def getComment(): String =\n+    comment\n+\n+  def getCompressedSize(): Long =\n+    compressedSize\n+\n+  def getCrc(): Long =\n+    crc\n+\n+  def getExtra(): Array[Byte] =\n+    extra\n+\n+  def getMethod(): Int =\n+    compressionMethod\n+\n+  def getName(): String =\n+    name\n+\n+  def getSize(): Long =\n+    size\n+\n+  def getTime(): Long =\n+    -1\n+  // TODO: Uncomment once we have Calendar\n+  // if (time != -1) {\n+  //   val cal = new GregorianCalendar()\n+  //   cal.set(Calendar.MILLISECOND, 0)\n+  //   cal.set(1980 + ((modDate >> 9) & 0x7f),\n+  //           ((modDate >> 5) & 0xf) - 1,\n+  //           modDate & 0x1f,\n+  //           (time >> 11) & 0x1f,\n+  //           (time >> 5) & 0x3f,\n+  //           (time & 0x1f) << 1)\n+  //   cal.getTime().getTime()\n+  // } else {\n+  //   -1\n+  // }"
+  },
+  {
+    "id" : "10b298b2-c341-449b-b6ec-8cc5195f049e",
+    "prId" : 935,
+    "comments" : [
+      {
+        "id" : "a92d4107-88f5-479f-9e4a-adbfae404275",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs an issue instead of TODO.",
+        "createdAt" : "2017-08-15T08:59:56Z",
+        "updatedAt" : "2017-08-15T09:00:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2ebaeb70-6eb2-4e72-9eb1-96f32cadc93d",
+        "parentId" : "a92d4107-88f5-479f-9e4a-adbfae404275",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Sure.\r\nJust for the records, this comment comes from Harmony's source code:\r\nhttps://github.com/apache/harmony/blob/java6/classlib/modules/archive/src/main/java/java/util/zip/ZipEntry.java#L404-L411",
+        "createdAt" : "2017-08-15T09:10:11Z",
+        "updatedAt" : "2017-08-15T09:10:11Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8e2a1a06-6619-49fb-9469-612e8cadb270",
+        "parentId" : "a92d4107-88f5-479f-9e4a-adbfae404275",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Opened #937",
+        "createdAt" : "2017-08-15T09:18:42Z",
+        "updatedAt" : "2017-08-15T09:18:42Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d005de54824065ddc45490ef00730ada498cb0f0",
+    "line" : 245,
+    "diffHunk" : "@@ -0,0 +1,287 @@\n+package java.util.zip\n+\n+// Ported from Apache Harmony\n+\n+import java.io.{\n+  EOFException,\n+  IOException,\n+  InputStream,\n+  RandomAccessFile,\n+  UnsupportedEncodingException\n+}\n+import java.util.{Calendar, Date, GregorianCalendar}\n+\n+class ZipEntry private (private[zip] var name: String,\n+                        private[zip] var comment: String,\n+                        private[zip] var compressedSize: Long,\n+                        private[zip] var crc: Long,\n+                        private[zip] var size: Long,\n+                        private[zip] var compressionMethod: Int,\n+                        private[zip] var time: Int,\n+                        private[zip] var modDate: Int,\n+                        private[zip] var extra: Array[Byte],\n+                        private[zip] var nameLen: Int,\n+                        private[zip] var mLocalHeaderRelOffset: Long)\n+    extends ZipConstants\n+    with Cloneable {\n+\n+  def this(name: String) =\n+    this(name, null, -1, -1, -1, -1, -1, -1, null, -1, -1)\n+\n+  def this(e: ZipEntry) =\n+    this(e.name,\n+         e.comment,\n+         e.compressedSize,\n+         e.crc,\n+         e.size,\n+         e.compressionMethod,\n+         e.time,\n+         e.modDate,\n+         e.extra,\n+         e.nameLen,\n+         e.mLocalHeaderRelOffset)\n+\n+  if (name == null) {\n+    throw new NullPointerException()\n+  }\n+  if (name.length() > 0xFFFF) {\n+    throw new IllegalArgumentException()\n+  }\n+\n+  def getComment(): String =\n+    comment\n+\n+  def getCompressedSize(): Long =\n+    compressedSize\n+\n+  def getCrc(): Long =\n+    crc\n+\n+  def getExtra(): Array[Byte] =\n+    extra\n+\n+  def getMethod(): Int =\n+    compressionMethod\n+\n+  def getName(): String =\n+    name\n+\n+  def getSize(): Long =\n+    size\n+\n+  def getTime(): Long =\n+    -1\n+  // TODO: Uncomment once we have Calendar\n+  // if (time != -1) {\n+  //   val cal = new GregorianCalendar()\n+  //   cal.set(Calendar.MILLISECOND, 0)\n+  //   cal.set(1980 + ((modDate >> 9) & 0x7f),\n+  //           ((modDate >> 5) & 0xf) - 1,\n+  //           modDate & 0x1f,\n+  //           (time >> 11) & 0x1f,\n+  //           (time >> 5) & 0x3f,\n+  //           (time & 0x1f) << 1)\n+  //   cal.getTime().getTime()\n+  // } else {\n+  //   -1\n+  // }\n+\n+  def isDirectory(): Boolean =\n+    name.charAt(name.length - 1) == '/'\n+\n+  def setComment(string: String): Unit =\n+    if (string == null || string.length <= 0xFFFF) {\n+      comment = string\n+    } else {\n+      throw new IllegalArgumentException()\n+    }\n+\n+  def setCompressedSize(value: Long): Unit =\n+    compressedSize = value\n+\n+  def setCrc(value: Long): Unit = {\n+    if (value >= 0 && value <= 0xFFFFFFFFL) {\n+      crc = value\n+    } else {\n+      throw new IllegalArgumentException()\n+    }\n+  }\n+\n+  def setExtra(data: Array[Byte]): Unit = {\n+    if (data == null || data.length <= 0xFFFF) {\n+      extra = data\n+    } else {\n+      throw new IllegalArgumentException()\n+    }\n+  }\n+\n+  def setMethod(value: Int): Unit =\n+    if (value != ZipEntry.STORED && value != ZipEntry.DEFLATED) {\n+      throw new IllegalArgumentException()\n+    } else {\n+      compressionMethod = value\n+    }\n+\n+  def setSize(value: Long): Unit =\n+    if (value >= 0 && value <= 0xFFFFFFFFL) {\n+      size = value\n+    } else {\n+      throw new IllegalArgumentException()\n+    }\n+\n+  def setTime(value: Long): Unit = {\n+    // TODO: Uncomment once we have Date\n+    // val cal = new GregorianCalendar()\n+    // cal.setTime(new Date(value))\n+    // val year = cal.get(Calendar.YEAR)\n+    // if (year < 1980) {\n+    //   modDate = 0x21\n+    //   time = 0\n+    // } else {\n+    //   modDate = cal.get(Calendar.DATE)\n+    //   modDate = (cal.get(Calendar.MONTH) + 1 << 5) | modDate\n+    //   modDate = ((cal.get(Calendar.YEAR) - 1980) << 9) | modDate\n+    //   time = cal.get(Calendar.SECOND) >> 1\n+    //   time = (cal.get(Calendar.MINUTE) << 5) | time\n+    //   time = (cal.get(Calendar.HOUR_OF_DAY) << 11) | time\n+    // }\n+  }\n+\n+  override def toString(): String =\n+    name\n+\n+  override def clone(): Object =\n+    new ZipEntry(this)\n+\n+  override def hashCode(): Int =\n+    name.hashCode()\n+\n+}\n+\n+object ZipEntry extends ZipConstants {\n+  final val DEFLATED: Int = 8\n+  final val STORED: Int   = 0\n+\n+  private def myReadFully(in: InputStream, b: Array[Byte]): Unit = {\n+    var len = b.length\n+    var off = 0\n+\n+    while (len > 0) {\n+      val count = in.read(b, off, len)\n+      if (count <= 0) {\n+        throw new EOFException()\n+      }\n+      off += count\n+      len -= count\n+    }\n+  }\n+\n+  private[zip] def readIntLE(raf: RandomAccessFile): Long = {\n+    val b0 = raf.read()\n+    val b1 = raf.read()\n+    val b2 = raf.read()\n+    val b3 = raf.read()\n+\n+    if (b3 < 0) {\n+      throw new EOFException()\n+    } else {\n+      b0 | (b1 << 8) | (b2 << 16) | (b3 << 24) // ATTENTION: DOES SIGN EXTENSION: IS THIS WANTED?\n+    }\n+  }\n+\n+  def fromInputStream(ler: LittleEndianReader, in: InputStream): ZipEntry = {\n+    val hdrBuf = ler.hdrBuf\n+    myReadFully(in, hdrBuf)\n+\n+    val sig = ((hdrBuf(0) & 0xFF) | ((hdrBuf(1) & 0xFF) << 8) | ((hdrBuf(2) & 0xFF) << 16) | ((hdrBuf(\n+      3) & 0xFF) << 24)).toLong & 0xFFFFFFFFL\n+    if (sig != CENSIG) {\n+      throw new ZipException(\"Central Directory Entry not found\")\n+    }\n+\n+    val compressionMethod = (hdrBuf(10) & 0xff) | ((hdrBuf(11) & 0xff) << 8)\n+    val time              = (hdrBuf(12) & 0xff) | ((hdrBuf(13) & 0xff) << 8)\n+    val modDate           = (hdrBuf(14) & 0xff) | ((hdrBuf(15) & 0xff) << 8)\n+    val crc = (hdrBuf(16) & 0xff) | ((hdrBuf(17) & 0xff) << 8) | ((hdrBuf(18) & 0xff) << 16) | ((hdrBuf(\n+      19) << 24) & 0xffffffffL)\n+    val compressedSize = (hdrBuf(20) & 0xff) | ((hdrBuf(21) & 0xff) << 8) | ((hdrBuf(\n+      22) & 0xff) << 16) | ((hdrBuf(23) << 24) & 0xffffffffL)\n+    val size = (hdrBuf(24) & 0xff) | ((hdrBuf(25) & 0xff) << 8) | ((hdrBuf(26) & 0xff) << 16) | ((hdrBuf(\n+      27) << 24) & 0xffffffffL)\n+    val nameLen    = (hdrBuf(28) & 0xff) | ((hdrBuf(29) & 0xff) << 8)\n+    val extraLen   = (hdrBuf(30) & 0xff) | ((hdrBuf(31) & 0xff) << 8)\n+    val commentLen = (hdrBuf(32) & 0xff) | ((hdrBuf(33) & 0xff) << 8)\n+    val mLocalHeaderRelOffset = (hdrBuf(42) & 0xff) | ((hdrBuf(43) & 0xff) << 8) | ((hdrBuf(\n+      44) & 0xff) << 16) | ((hdrBuf(45) << 24) & 0xffffffffL)\n+\n+    val nameBytes = new Array[Byte](nameLen)\n+    myReadFully(in, nameBytes)\n+\n+    val commentBytes =\n+      if (commentLen > 0) {\n+        val commentBytes = new Array[Byte](commentLen)\n+        myReadFully(in, commentBytes)\n+        commentBytes\n+      } else {\n+        null\n+      }\n+\n+    val extra =\n+      if (extraLen > 0) {\n+        val extra = new Array[Byte](extraLen)\n+        myReadFully(in, extra)\n+        extra\n+      } else {\n+        null\n+      }\n+\n+    try {\n+      /*\n+       * The actual character set is \"IBM Code Page 437\".  As of\n+       * Sep 2006, the Zip spec (APPNOTE.TXT) supports UTF-8.  When\n+       * bit 11 of the GP flags field is set, the file name and\n+       * comment fields are UTF-8.\n+       *\n+       * TODO: add correct UTF-8 support."
+  }
+]

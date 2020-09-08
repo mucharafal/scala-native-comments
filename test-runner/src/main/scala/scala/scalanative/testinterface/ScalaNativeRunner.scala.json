@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "c6884a87-ed87-49df-9a80-e3d364bef871",
+    "prId" : 1812,
+    "comments" : [
+      {
+        "id" : "8fa9d8ee-e3eb-46e1-b583-b4a467bc839d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I think this actually belongs to the `ComRunner`. A `ComRunner` should throw an `IllegalStateException` if someone attempts to call `send()` or `receive()` when it's already been closed. IMO that is the appropriate place to deal with this.",
+        "createdAt" : "2020-06-02T08:41:15Z",
+        "updatedAt" : "2020-06-02T08:41:27Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7325d4f270fa76b2c7766461e1d56b74cb80b58f",
+    "line" : 13,
+    "diffHunk" : "@@ -51,9 +51,17 @@ class ScalaNativeRunner(val framework: ScalaNativeFramework,\n   }\n \n   override def done(): String = {\n-    send(Command.RunnerDone(\"\"))\n-    val Command.RunnerDone(summary) = receive()\n-    master.close()\n-    summary\n+// 2020-05-22 LeeT - note to reviewers, not for final PR.\n+// this.ensureNotDone has its own set of problems, so do not use it here.\n+\n+    if (master.isClosed) {\n+      throw new IllegalStateException(\n+        \"Premature end of ComRunner, not all tests may have been run.\")"
+  }
+]

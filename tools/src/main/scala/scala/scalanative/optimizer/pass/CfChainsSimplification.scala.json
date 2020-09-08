@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "f1c20b54-567e-46db-8f74-c83fba4e8811",
+    "prId" : 418,
+    "comments" : [
+      {
+        "id" : "a548b82f-24de-4b57-b8ee-c0b871a31be7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Control-flow can only happen as the last instruction of the block.",
+        "createdAt" : "2016-12-09T13:45:47Z",
+        "updatedAt" : "2017-02-05T12:35:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5a153ac19ccefc24138f4cc0a3692963bbddba9d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,214 @@\n+package scala.scalanative\n+package optimizer\n+package pass\n+\n+import analysis.ControlFlow\n+import analysis.ControlFlow.Block\n+import analysis.UseDef\n+import analysis.ClassHierarchy.Top\n+\n+import nir._\n+import Inst._\n+\n+class CfChainsSimplification(implicit fresh: Fresh, top: Top) extends Pass {\n+  import CfChainsSimplification._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      val cfg = ControlFlow.Graph(defn.insts)\n+\n+      val newInsts = defn.insts.flatMap {\n+        case cfInst: Cf    => simplifyCf(cfInst, cfg)\n+        case otherInst @ _ => Seq(otherInst)\n+      }"
+  },
+  {
+    "id" : "e5004400-80b1-4da4-b9e2-da2a78734036",
+    "prId" : 1048,
+    "comments" : [
+      {
+        "id" : "0e55cd36-4ca6-425b-bfdf-a1a6e569d0a7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The code would be a bit cleaner if you make `MethodInfo` an implicit argument. This way you don't have to manually pass it around in recursive calls down the chain. ",
+        "createdAt" : "2017-10-03T09:18:59Z",
+        "updatedAt" : "2017-10-09T17:18:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3b6518f2-eb7a-4a8c-b398-1247c6317cd2",
+        "parentId" : "0e55cd36-4ca6-425b-bfdf-a1a6e569d0a7",
+        "author" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "body" : "I changed it, is that what you had in mind ?",
+        "createdAt" : "2017-10-10T09:00:27Z",
+        "updatedAt" : "2017-10-10T09:00:27Z",
+        "lastEditedBy" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "294fb206-3ba1-447f-97c2-96e2ae704644",
+        "parentId" : "0e55cd36-4ca6-425b-bfdf-a1a6e569d0a7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, it's much better now! ",
+        "createdAt" : "2017-10-10T09:45:05Z",
+        "updatedAt" : "2017-10-10T09:45:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2f24e6950a088f4cf367a4362534565b13a7ee73",
+    "line" : 7,
+    "diffHunk" : "@@ -14,20 +14,22 @@ class CfChainsSimplification(implicit top: Top) extends Pass {\n   import CfChainsSimplification._\n \n   override def onInsts(insts: Seq[Inst]): Seq[Inst] = {\n-    val cfg = ControlFlow.Graph(insts)\n+    val cfg    = ControlFlow.Graph(insts)\n+    val usedef = UseDef(cfg)\n+    val method = MethodInfo(cfg, usedef)"
+  }
+]

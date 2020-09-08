@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "930c3a2b-cf28-4188-b762-735fbe91e477",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "04a52273-d66f-4c47-9589-42a9812de6fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@It looks like most of the File I/O tests are disabled. How do we distinguish what's supported and what's not? ",
+        "createdAt" : "2017-08-07T11:45:03Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "954cb29c-61bb-41c4-a106-6037bf41b95c",
+        "parentId" : "04a52273-d66f-4c47-9589-42a9812de6fb",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "JVM doesn't support these file operations and crashes, but scala-native has support of it on windows and all unit-tests passed (not scripted one). I spoke with Martin about it, we haven't clear decision what to do with this problem.",
+        "createdAt" : "2017-08-08T11:09:22Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "fdee714b-8970-4de9-9238-4566ddbdfbb4",
+        "parentId" : "04a52273-d66f-4c47-9589-42a9812de6fb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can you provide an example of things crash on JVM exactly? ",
+        "createdAt" : "2017-08-08T12:02:11Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : 6,
+    "diffHunk" : "@@ -1,7 +1,8 @@\n object CanonicalPathTest {\n   import Files._\n+  import scala.scalanative.runtime.Platform\n \n-  def main(args: Array[String]): Unit = {\n+  def main(args: Array[String]): Unit = if (!Platform.isWindows) {"
+  }
+]

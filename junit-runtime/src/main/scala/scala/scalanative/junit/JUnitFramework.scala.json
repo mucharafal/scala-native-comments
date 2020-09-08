@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "52a74e4c-9566-4161-97da-535c9b168e02",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "e8d259ad-be2a-4971-8625-1d7580843ccf",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here.",
+        "createdAt" : "2020-08-07T18:23:35Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -25,6 +25,22 @@ final class JUnitFramework extends Framework {\n     new JUnitRunner(args, remoteArgs, parseRunSettings(args))\n   }\n \n+  /** Scala Native specific: Creates a worker for a given run."
+  }
+]

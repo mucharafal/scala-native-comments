@@ -1,0 +1,80 @@
+[
+  {
+    "id" : "fcc2f1ab-c319-485b-a1d6-695cc5e7f1e2",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "b2a49854-6547-4000-a48b-3742bdd6c21d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This change would have been devastating if it made into a release. It turned `native0.3` binary version into `native0`. #1096",
+        "createdAt" : "2017-11-28T12:10:51Z",
+        "updatedAt" : "2017-11-28T12:10:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c9737509-2106-439a-9150-825b6648ac0e",
+        "parentId" : "b2a49854-6547-4000-a48b-3742bdd6c21d",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "nice catch!",
+        "createdAt" : "2017-11-28T12:16:56Z",
+        "updatedAt" : "2017-11-28T12:16:56Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : 21,
+    "diffHunk" : "@@ -5,38 +5,21 @@ package sbtplugin\n \n import sbt._\n import scala.scalanative.nir.Versions\n+import SBTCompat._\n \n object ScalaNativeCrossVersion {\n+  private final val ReleaseVersion =\n+    raw\"\"\"(\\d+)\\.(\\d+)\\.(\\d+)\"\"\".r\n \n-  val currentBinaryVersion = {\n-    val ReleaseVersion = raw\"\"\"(\\d+)\\.(\\d+)\\.(\\d+)\"\"\".r\n+  val currentBinaryVersion = binaryVersion(Versions.current)\n \n-    def binaryVersion(full: String): String = full match {\n-      case ReleaseVersion(major, minor, _) => s\"$major.$minor\"\n-      case _                               => full\n-    }\n-\n-    binaryVersion(Versions.current)\n+  def binaryVersion(full: String): String = full match {\n+    case ReleaseVersion(major, _, _) => major"
+  },
+  {
+    "id" : "f9cc59c1-9c0c-473a-a252-5b34f75d473c",
+    "prId" : 1819,
+    "comments" : [
+      {
+        "id" : "15bc0f08-2cbc-464b-9659-0e1763ab7204",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There's a spurious formatting change here.",
+        "createdAt" : "2020-07-10T05:53:10Z",
+        "updatedAt" : "2020-07-10T10:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2ebd7f93305a7939ca5780fc7ba518779ebb4cc6",
+    "line" : null,
+    "diffHunk" : "@@ -5,17 +5,32 @@ package sbtplugin\n \n import sbt._\n import scala.scalanative.nir.Versions\n-import SBTCompat._\n \n object ScalaNativeCrossVersion {\n   private final val ReleaseVersion =\n     raw\"\"\"(\\d+)\\.(\\d+)\\.(\\d+)\"\"\".r\n \n   val currentBinaryVersion = binaryVersion(Versions.current)\n \n-  def binaryVersion(full: String): String = full match {\n-    case ReleaseVersion(major, minor, _) => s\"$major.$minor\"\n-    case _                               => full\n+  def binaryVersion(full: String): String =\n+    full match {"
+  }
+]

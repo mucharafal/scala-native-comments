@@ -1,0 +1,489 @@
+[
+  {
+    "id" : "1caaeff9-7802-429d-8f84-4a2c07497d3f",
+    "prId" : 1653,
+    "comments" : [
+      {
+        "id" : "ef2b3358-512c-42fc-af46-c2a93f7d430e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why is this ignored? There should be a comment.",
+        "createdAt" : "2020-08-07T10:59:11Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a6b3c7a0-23fb-4d7a-8473-49298ce4822f",
+        "parentId" : "ef2b3358-512c-42fc-af46-c2a93f7d430e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Something seems to be wrong with `default` handling - these tests are from Scala.js.",
+        "createdAt" : "2020-08-07T19:30:30Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6dc43714-1cfd-444f-a124-a3f469330f66",
+        "parentId" : "ef2b3358-512c-42fc-af46-c2a93f7d430e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "These two tests do not pass, I overlooked these when porting from Scala.js. They have to do with the default properties. If you see something obvious let me know. I need to fix these two and remove `@ignore`.",
+        "createdAt" : "2020-08-07T22:45:45Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bb8f464f-5b7d-4e79-9607-50d533f0473a",
+        "parentId" : "ef2b3358-512c-42fc-af46-c2a93f7d430e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Resolved by using code from Scala.js and porting `ScalaOps` over.",
+        "createdAt" : "2020-08-07T23:06:46Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fbfab64e-a224-4e90-87d6-40e6ea57a764",
+        "parentId" : "ef2b3358-512c-42fc-af46-c2a93f7d430e",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah, but all that new code has nothing to do with this PR :s\r\n\r\nCould you set aside that last commit, remove it from this PR, and resubmit it as a separate PR once this one is merged please? And instead, *delete* the `@Ignored` tests in this PR, since they have nothing to do with `load` and `store` either. They should be part of the separate PR that focuses on fixing `propertyNames` and `stringPropertyNames`.",
+        "createdAt" : "2020-08-08T05:45:27Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6eec7467-5bba-40dd-ab0b-eb45f92bc2bb",
+        "parentId" : "ef2b3358-512c-42fc-af46-c2a93f7d430e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Sure thing - Issue created: https://github.com/scala-native/scala-native/issues/1871",
+        "createdAt" : "2020-08-08T20:37:16Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6da8c9aec7858ca01f17188a1333b62d54089d7a",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,448 @@\n+/**\n+ * Ported from Harmony\n+ */\n+package java.util\n+\n+import java.io._\n+import java.{util => ju}\n+\n+import org.junit.Test\n+import org.junit.Ignore\n+import org.junit.Assert._\n+import org.junit.Assume._\n+\n+import scala.scalanative.junit.utils.AssertThrows._\n+import scala.scalanative.junit.utils.Utils._\n+\n+class PropertiesTest {\n+  // remove when Platform is implemented\n+  val hasCompliantAsInstanceOfs = true\n+\n+  // ported from Scala.js - 2 tests ignored below\n+  @Test def setProperty(): Unit = {\n+    val prop = new Properties()\n+    prop.setProperty(\"a\", \"A\")\n+    assertEquals(\"A\", prop.get(\"a\"))\n+    prop.setProperty(\"a\", \"AA\")\n+    prop.setProperty(\"b\", \"B\")\n+    assertEquals(\"AA\", prop.get(\"a\"))\n+    assertEquals(\"B\", prop.get(\"b\"))\n+\n+    val prop2 = new Properties(prop)\n+    prop2.setProperty(\"a\", \"AAA\")\n+    assertEquals(\"AAA\", prop2.get(\"a\"))\n+  }\n+\n+  @Test def getProperty(): Unit = {\n+    val prop = new Properties()\n+\n+    assertNull(prop.getProperty(\"a\"))\n+    prop.setProperty(\"a\", \"A\")\n+    assertEquals(\"A\", prop.getProperty(\"a\"))\n+    assertNull(prop.getProperty(\"aa\"))\n+\n+    assertEquals(\"A\", prop.getProperty(\"a\", \"B\"))\n+    assertEquals(\"B\", prop.getProperty(\"b\", \"B\"))\n+\n+    // Tests with default properties\n+    prop.setProperty(\"b\", \"B\")\n+\n+    val prop2 = new Properties(prop)\n+    prop2.setProperty(\"b\", \"BB\")\n+    prop2.setProperty(\"c\", \"C\")\n+    assertEquals(\"A\", prop2.getProperty(\"a\"))\n+    assertEquals(\"BB\", prop2.getProperty(\"b\"))\n+    assertEquals(\"C\", prop2.getProperty(\"c\"))\n+  }\n+\n+  @Test def propertyNames(): Unit = {\n+    val prop = new Properties()\n+    assertTrue(enumerationIsEmpty(prop.propertyNames()))\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+    assertEquals(3, enumerationSize(prop.propertyNames()))\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\")(prop.propertyNames())\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+    assertEquals(4, enumerationSize(prop2.propertyNames()))\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"d\")(prop2.propertyNames())\n+  }\n+\n+  @Ignore @Test def propertyNamesIsNotAffectedByOverriddenPropertyNamesInDefaults()"
+  },
+  {
+    "id" : "a677f6f4-8e78-4e68-97d3-e2f6e7d9c598",
+    "prId" : 1653,
+    "comments" : [
+      {
+        "id" : "cba3fcaf-0f21-4477-8c3d-81af95e147bc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here. There should be a comment explaining why it is ignored.",
+        "createdAt" : "2020-08-07T10:59:33Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "62842f01-9252-4c35-bcb5-c1f5ca7e36d7",
+        "parentId" : "cba3fcaf-0f21-4477-8c3d-81af95e147bc",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Same as above, removed `@ignore`.",
+        "createdAt" : "2020-08-07T23:07:12Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6da8c9aec7858ca01f17188a1333b62d54089d7a",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,448 @@\n+/**\n+ * Ported from Harmony\n+ */\n+package java.util\n+\n+import java.io._\n+import java.{util => ju}\n+\n+import org.junit.Test\n+import org.junit.Ignore\n+import org.junit.Assert._\n+import org.junit.Assume._\n+\n+import scala.scalanative.junit.utils.AssertThrows._\n+import scala.scalanative.junit.utils.Utils._\n+\n+class PropertiesTest {\n+  // remove when Platform is implemented\n+  val hasCompliantAsInstanceOfs = true\n+\n+  // ported from Scala.js - 2 tests ignored below\n+  @Test def setProperty(): Unit = {\n+    val prop = new Properties()\n+    prop.setProperty(\"a\", \"A\")\n+    assertEquals(\"A\", prop.get(\"a\"))\n+    prop.setProperty(\"a\", \"AA\")\n+    prop.setProperty(\"b\", \"B\")\n+    assertEquals(\"AA\", prop.get(\"a\"))\n+    assertEquals(\"B\", prop.get(\"b\"))\n+\n+    val prop2 = new Properties(prop)\n+    prop2.setProperty(\"a\", \"AAA\")\n+    assertEquals(\"AAA\", prop2.get(\"a\"))\n+  }\n+\n+  @Test def getProperty(): Unit = {\n+    val prop = new Properties()\n+\n+    assertNull(prop.getProperty(\"a\"))\n+    prop.setProperty(\"a\", \"A\")\n+    assertEquals(\"A\", prop.getProperty(\"a\"))\n+    assertNull(prop.getProperty(\"aa\"))\n+\n+    assertEquals(\"A\", prop.getProperty(\"a\", \"B\"))\n+    assertEquals(\"B\", prop.getProperty(\"b\", \"B\"))\n+\n+    // Tests with default properties\n+    prop.setProperty(\"b\", \"B\")\n+\n+    val prop2 = new Properties(prop)\n+    prop2.setProperty(\"b\", \"BB\")\n+    prop2.setProperty(\"c\", \"C\")\n+    assertEquals(\"A\", prop2.getProperty(\"a\"))\n+    assertEquals(\"BB\", prop2.getProperty(\"b\"))\n+    assertEquals(\"C\", prop2.getProperty(\"c\"))\n+  }\n+\n+  @Test def propertyNames(): Unit = {\n+    val prop = new Properties()\n+    assertTrue(enumerationIsEmpty(prop.propertyNames()))\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+    assertEquals(3, enumerationSize(prop.propertyNames()))\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\")(prop.propertyNames())\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+    assertEquals(4, enumerationSize(prop2.propertyNames()))\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"d\")(prop2.propertyNames())\n+  }\n+\n+  @Ignore @Test def propertyNamesIsNotAffectedByOverriddenPropertyNamesInDefaults()\n+      : Unit = {\n+    val defaults = new java.util.Properties {\n+      override def propertyNames(): ju.Enumeration[_] =\n+        ju.Collections.emptyEnumeration[String]()\n+    }\n+    defaults.setProperty(\"foo\", \"bar\")\n+\n+    val props = new Properties(defaults)\n+    props.setProperty(\"foobar\", \"babar\")\n+    assertEnumSameElementsAsSet[Any](\"foo\", \"foobar\")(props.propertyNames())\n+  }\n+\n+  @Test def propertyNamesWithBadContents(): Unit = {\n+    assumeTrue(\"Assumed compliant asInstanceOf\", hasCompliantAsInstanceOfs)\n+\n+    val prop = new Properties()\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+\n+    prop.put(1.asInstanceOf[AnyRef], \"2\")\n+    assertThrows(classOf[Throwable], prop.propertyNames())\n+    prop.remove(1.asInstanceOf[AnyRef])\n+\n+    prop.put(\"1\", 1.asInstanceOf[AnyRef])\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"1\")(prop.propertyNames())\n+    prop.remove(\"1\")\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+\n+    prop2.put(1.asInstanceOf[AnyRef], \"2\")\n+    assertThrows(classOf[Throwable], prop2.propertyNames())\n+    prop2.remove(1.asInstanceOf[AnyRef])\n+\n+    prop2.put(\"1\", 1.asInstanceOf[AnyRef])\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"d\", \"1\")(\n+      prop2.propertyNames())\n+  }\n+\n+  @Test def stringPropertyNames(): Unit = {\n+    val prop = new Properties()\n+    assertEquals(0, prop.stringPropertyNames().size)\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+    assertEquals(3, prop.stringPropertyNames().size)\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\")(prop.stringPropertyNames())\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+    assertEquals(4, prop2.stringPropertyNames().size)\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\", \"d\")(prop2.stringPropertyNames())\n+  }\n+\n+  @Ignore @Test def stringPropertyNamesIsNotAffectedByOverriddenStringPropertyNamesInDefaults()"
+  },
+  {
+    "id" : "74ae04df-ca0f-48b6-8829-a9c8752d1415",
+    "prId" : 1653,
+    "comments" : [
+      {
+        "id" : "6e131ff5-997f-490d-8fd7-075280c912b8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Any reason you're not directly passing the literal strings as arguments to `assertResult`?",
+        "createdAt" : "2020-08-07T11:01:21Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c67d11bc-6d3a-4a1f-a59f-fbad5e812abf",
+        "parentId" : "6e131ff5-997f-490d-8fd7-075280c912b8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I don't see any reason so I changed it.",
+        "createdAt" : "2020-08-07T19:29:20Z",
+        "updatedAt" : "2020-08-08T20:43:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6da8c9aec7858ca01f17188a1333b62d54089d7a",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,448 @@\n+/**\n+ * Ported from Harmony\n+ */\n+package java.util\n+\n+import java.io._\n+import java.{util => ju}\n+\n+import org.junit.Test\n+import org.junit.Ignore\n+import org.junit.Assert._\n+import org.junit.Assume._\n+\n+import scala.scalanative.junit.utils.AssertThrows._\n+import scala.scalanative.junit.utils.Utils._\n+\n+class PropertiesTest {\n+  // remove when Platform is implemented\n+  val hasCompliantAsInstanceOfs = true\n+\n+  // ported from Scala.js - 2 tests ignored below\n+  @Test def setProperty(): Unit = {\n+    val prop = new Properties()\n+    prop.setProperty(\"a\", \"A\")\n+    assertEquals(\"A\", prop.get(\"a\"))\n+    prop.setProperty(\"a\", \"AA\")\n+    prop.setProperty(\"b\", \"B\")\n+    assertEquals(\"AA\", prop.get(\"a\"))\n+    assertEquals(\"B\", prop.get(\"b\"))\n+\n+    val prop2 = new Properties(prop)\n+    prop2.setProperty(\"a\", \"AAA\")\n+    assertEquals(\"AAA\", prop2.get(\"a\"))\n+  }\n+\n+  @Test def getProperty(): Unit = {\n+    val prop = new Properties()\n+\n+    assertNull(prop.getProperty(\"a\"))\n+    prop.setProperty(\"a\", \"A\")\n+    assertEquals(\"A\", prop.getProperty(\"a\"))\n+    assertNull(prop.getProperty(\"aa\"))\n+\n+    assertEquals(\"A\", prop.getProperty(\"a\", \"B\"))\n+    assertEquals(\"B\", prop.getProperty(\"b\", \"B\"))\n+\n+    // Tests with default properties\n+    prop.setProperty(\"b\", \"B\")\n+\n+    val prop2 = new Properties(prop)\n+    prop2.setProperty(\"b\", \"BB\")\n+    prop2.setProperty(\"c\", \"C\")\n+    assertEquals(\"A\", prop2.getProperty(\"a\"))\n+    assertEquals(\"BB\", prop2.getProperty(\"b\"))\n+    assertEquals(\"C\", prop2.getProperty(\"c\"))\n+  }\n+\n+  @Test def propertyNames(): Unit = {\n+    val prop = new Properties()\n+    assertTrue(enumerationIsEmpty(prop.propertyNames()))\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+    assertEquals(3, enumerationSize(prop.propertyNames()))\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\")(prop.propertyNames())\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+    assertEquals(4, enumerationSize(prop2.propertyNames()))\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"d\")(prop2.propertyNames())\n+  }\n+\n+  @Ignore @Test def propertyNamesIsNotAffectedByOverriddenPropertyNamesInDefaults()\n+      : Unit = {\n+    val defaults = new java.util.Properties {\n+      override def propertyNames(): ju.Enumeration[_] =\n+        ju.Collections.emptyEnumeration[String]()\n+    }\n+    defaults.setProperty(\"foo\", \"bar\")\n+\n+    val props = new Properties(defaults)\n+    props.setProperty(\"foobar\", \"babar\")\n+    assertEnumSameElementsAsSet[Any](\"foo\", \"foobar\")(props.propertyNames())\n+  }\n+\n+  @Test def propertyNamesWithBadContents(): Unit = {\n+    assumeTrue(\"Assumed compliant asInstanceOf\", hasCompliantAsInstanceOfs)\n+\n+    val prop = new Properties()\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+\n+    prop.put(1.asInstanceOf[AnyRef], \"2\")\n+    assertThrows(classOf[Throwable], prop.propertyNames())\n+    prop.remove(1.asInstanceOf[AnyRef])\n+\n+    prop.put(\"1\", 1.asInstanceOf[AnyRef])\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"1\")(prop.propertyNames())\n+    prop.remove(\"1\")\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+\n+    prop2.put(1.asInstanceOf[AnyRef], \"2\")\n+    assertThrows(classOf[Throwable], prop2.propertyNames())\n+    prop2.remove(1.asInstanceOf[AnyRef])\n+\n+    prop2.put(\"1\", 1.asInstanceOf[AnyRef])\n+    assertEnumSameElementsAsSet[Any](\"a\", \"b\", \"c\", \"d\", \"1\")(\n+      prop2.propertyNames())\n+  }\n+\n+  @Test def stringPropertyNames(): Unit = {\n+    val prop = new Properties()\n+    assertEquals(0, prop.stringPropertyNames().size)\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+    assertEquals(3, prop.stringPropertyNames().size)\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\")(prop.stringPropertyNames())\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+    assertEquals(4, prop2.stringPropertyNames().size)\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\", \"d\")(prop2.stringPropertyNames())\n+  }\n+\n+  @Ignore @Test def stringPropertyNamesIsNotAffectedByOverriddenStringPropertyNamesInDefaults()\n+      : Unit = {\n+    val defaults = new java.util.Properties {\n+      override def stringPropertyNames(): ju.Set[String] =\n+        ju.Collections.emptySet[String]()\n+    }\n+    defaults.setProperty(\"foo\", \"bar\")\n+\n+    val props = new Properties(defaults)\n+    props.setProperty(\"foobar\", \"babar\")\n+    assertCollSameElementsAsSet(\"foo\", \"foobar\")(props.stringPropertyNames())\n+  }\n+\n+  @Test def stringPropertyNamesWithBadContents(): Unit = {\n+    assumeTrue(\"Assumed compliant asInstanceOf\", hasCompliantAsInstanceOfs)\n+\n+    val prop = new Properties()\n+    prop.setProperty(\"a\", \"A\")\n+    prop.setProperty(\"b\", \"B\")\n+    prop.setProperty(\"c\", \"C\")\n+\n+    prop.put(1.asInstanceOf[AnyRef], \"2\")\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\")(prop.stringPropertyNames())\n+    prop.remove(1.asInstanceOf[AnyRef])\n+\n+    prop.put(\"1\", 1.asInstanceOf[AnyRef])\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\")(prop.stringPropertyNames())\n+    prop.remove(\"1\")\n+\n+    val prop2 = new Properties(prop)\n+    prop.setProperty(\"c\", \"CC\")\n+    prop.setProperty(\"d\", \"D\")\n+\n+    prop2.put(1.asInstanceOf[AnyRef], \"2\")\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\", \"d\")(prop2.stringPropertyNames())\n+    prop2.remove(1.asInstanceOf[AnyRef])\n+\n+    prop2.put(\"1\", 1.asInstanceOf[AnyRef])\n+    assertCollSameElementsAsSet(\"a\", \"b\", \"c\", \"d\")(prop2.stringPropertyNames())\n+  }\n+\n+  // ported from Harmony\n+  @Test def put_on_null_key_or_null_value(): Unit = {\n+    val properties = new Properties\n+    assertThrows(classOf[NullPointerException], properties.put(null, \"any\"))\n+    assertThrows(classOf[NullPointerException], properties.put(\"any\", null))\n+  }\n+\n+  @Test def non_string_values(): Unit = {\n+    val properties = new Properties\n+\n+    properties.put(\"age\", Int.box(18))\n+    assertNull(properties.getProperty(\"age\"))\n+    assertThrows(classOf[ClassCastException],\n+                 properties.list(new PrintWriter(new ByteArrayOutputStream)))\n+  }\n+\n+  @Test def list(): Unit = {\n+    val properties = new Properties\n+\n+    def assertResult(result: String): Unit = {\n+      val buffer4stream = new ByteArrayOutputStream\n+      val stream        = new PrintStream(buffer4stream)\n+      properties.list(stream)\n+      assertEquals(buffer4stream.toString.trim, result.trim)\n+      stream.flush()\n+    }\n+\n+    val result0 = \"-- listing properties --\\n\"\n+    assertResult(result0)"
+  },
+  {
+    "id" : "ac4cf129-86c2-4182-9ba3-57e02dd0dffa",
+    "prId" : 1875,
+    "comments" : [
+      {
+        "id" : "4e9be808-c7fd-44c0-a3cd-5be7c7f5ef19",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The correct way to do this is in fact\r\n```suggestion\r\n    properties.put(\"age\", Integer.valueOf(18))\r\n```",
+        "createdAt" : "2020-08-13T19:17:29Z",
+        "updatedAt" : "2020-08-17T21:29:38Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4a159ed84f5ffc2f285716f09c7da5c2b08c73f0",
+    "line" : 24,
+    "diffHunk" : "@@ -180,40 +180,40 @@ class PropertiesTest {\n   @Test def non_string_values(): Unit = {\n     val properties = new Properties\n \n-    properties.put(\"age\", Int.box(18))\n+    properties.put(\"age\", new Integer(18))"
+  },
+  {
+    "id" : "87e8e898-dab7-455e-8d6f-756c9ab542d4",
+    "prId" : 1875,
+    "comments" : [
+      {
+        "id" : "b9c03c43-35c8-4ada-96e9-bfcfb2ec45be",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This doesn't seem to be used.",
+        "createdAt" : "2020-08-14T16:16:17Z",
+        "updatedAt" : "2020-08-17T21:29:38Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "67850ec6-622e-4317-bf69-c8437e434520",
+        "parentId" : "b9c03c43-35c8-4ada-96e9-bfcfb2ec45be",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "OK",
+        "createdAt" : "2020-08-17T21:31:02Z",
+        "updatedAt" : "2020-08-17T21:31:03Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4a159ed84f5ffc2f285716f09c7da5c2b08c73f0",
+    "line" : null,
+    "diffHunk" : "@@ -358,32 +349,51 @@ class PropertiesTest {\n                  prop.store(null: OutputStream, \"\"))\n   }\n \n+  def store(props: Properties, header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(out, header)\n+    out.close()\n+    out\n+  }\n+\n+  def storeWriter(props: Properties,\n+                  header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(new OutputStreamWriter(out), header)\n+    out.close()\n+    out\n+  }\n+\n+  def load(out: ByteArrayOutputStream): Properties ="
+  },
+  {
+    "id" : "81c16d29-09a6-4113-b7db-46c89b44724f",
+    "prId" : 1875,
+    "comments" : [
+      {
+        "id" : "ab0e8e75-a6a5-428c-a1bd-e6778948b521",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It seems you're always calling this method with a `new ByteArrayInputStream(someBytes)`. You could take the `bytes: Array[Byte]`s directly as an argument to avoid that repetition.\r\n\r\nFurther, you could even take a `String`, since in virtually all cases you pass in `someString.getBytes()`. Speaking of which, you should use `.getBytes(StandardCharsets.ISO_8859_1)` not to depend on the system charset.",
+        "createdAt" : "2020-08-14T16:18:36Z",
+        "updatedAt" : "2020-08-17T21:29:38Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f6af17b9-a41d-4755-99be-8e0a4aae8635",
+        "parentId" : "ab0e8e75-a6a5-428c-a1bd-e6778948b521",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I used this suggestion which really helped.",
+        "createdAt" : "2020-08-17T21:31:06Z",
+        "updatedAt" : "2020-08-17T21:31:06Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4a159ed84f5ffc2f285716f09c7da5c2b08c73f0",
+    "line" : null,
+    "diffHunk" : "@@ -358,32 +349,51 @@ class PropertiesTest {\n                  prop.store(null: OutputStream, \"\"))\n   }\n \n+  def store(props: Properties, header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(out, header)\n+    out.close()\n+    out\n+  }\n+\n+  def storeWriter(props: Properties,\n+                  header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(new OutputStreamWriter(out), header)\n+    out.close()\n+    out\n+  }\n+\n+  def load(out: ByteArrayOutputStream): Properties =\n+    load(new ByteArrayInputStream(out.toByteArray))\n+\n+  def load(in: ByteArrayInputStream): Properties = {"
+  },
+  {
+    "id" : "e6c32b14-f8ad-40f3-b676-cb923b6a1167",
+    "prId" : 1875,
+    "comments" : [
+      {
+        "id" : "01da3104-8803-4d15-920c-b00f94554180",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider using more descriptive names:\r\n```suggestion\r\n  def assertAll(expected: Properties, actual: Properties): Unit = {\r\n```",
+        "createdAt" : "2020-08-14T16:19:43Z",
+        "updatedAt" : "2020-08-17T21:29:38Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7844a513-f6a3-43b7-a58b-97513e55ae1f",
+        "parentId" : "01da3104-8803-4d15-920c-b00f94554180",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Done, thank you.",
+        "createdAt" : "2020-08-17T21:31:24Z",
+        "updatedAt" : "2020-08-17T21:31:24Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4a159ed84f5ffc2f285716f09c7da5c2b08c73f0",
+    "line" : null,
+    "diffHunk" : "@@ -358,32 +349,51 @@ class PropertiesTest {\n                  prop.store(null: OutputStream, \"\"))\n   }\n \n+  def store(props: Properties, header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(out, header)\n+    out.close()\n+    out\n+  }\n+\n+  def storeWriter(props: Properties,\n+                  header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(new OutputStreamWriter(out), header)\n+    out.close()\n+    out\n+  }\n+\n+  def load(out: ByteArrayOutputStream): Properties =\n+    load(new ByteArrayInputStream(out.toByteArray))\n+\n+  def load(in: ByteArrayInputStream): Properties = {\n+    val props = new Properties()\n+    props.load(in)\n+    in.close()\n+    props\n+  }\n+\n+  def assertAll(props1: Properties, props2: Properties): Unit = {"
+  },
+  {
+    "id" : "18c9ab9f-efcf-4e21-8d26-42ff24442691",
+    "prId" : 1875,
+    "comments" : [
+      {
+        "id" : "af45a8f8-b579-4608-8a05-31bb673d42d1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This now only used in `store_OutputStream_comments_load_InputStream_roundtrip()`. Consider moving it inside that method, along with `out1`. And then redeclare another `out1` based on some trivial `Properties` in the test `check_comment_formatted_correctly()` (or merge that test with the previous one to avoid even that).",
+        "createdAt" : "2020-08-14T16:23:38Z",
+        "updatedAt" : "2020-08-17T21:29:38Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5230b3e8-a95c-41a5-bd95-860440bb337e",
+        "parentId" : "af45a8f8-b579-4608-8a05-31bb673d42d1",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I fixed most everything I could see up. I also made the test names consistent with toggle case.",
+        "createdAt" : "2020-08-17T21:32:48Z",
+        "updatedAt" : "2020-08-17T21:32:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4a159ed84f5ffc2f285716f09c7da5c2b08c73f0",
+    "line" : null,
+    "diffHunk" : "@@ -358,32 +349,51 @@ class PropertiesTest {\n                  prop.store(null: OutputStream, \"\"))\n   }\n \n+  def store(props: Properties, header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(out, header)\n+    out.close()\n+    out\n+  }\n+\n+  def storeWriter(props: Properties,\n+                  header: String = \"\"): ByteArrayOutputStream = {\n+    val out = new ByteArrayOutputStream()\n+    props.store(new OutputStreamWriter(out), header)\n+    out.close()\n+    out\n+  }\n+\n+  def load(out: ByteArrayOutputStream): Properties =\n+    load(new ByteArrayInputStream(out.toByteArray))\n+\n+  def load(in: ByteArrayInputStream): Properties = {\n+    val props = new Properties()\n+    props.load(in)\n+    in.close()\n+    props\n+  }\n+\n+  def assertAll(props1: Properties, props2: Properties): Unit = {\n+    val e = props1.propertyNames()\n+    while (e.hasMoreElements) {\n+      val nextKey = e.nextElement().asInstanceOf[String]\n+      assertEquals(props2.getProperty(nextKey), props1.getProperty(nextKey))\n+    }\n+  }\n+\n   // used for next two tests, \\b prints as \\u0008\n   val prop1 = new Properties()"
+  }
+]

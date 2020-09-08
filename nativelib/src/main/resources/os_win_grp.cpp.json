@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "b6267fc8-c33b-459f-9ce4-964143ecffc6",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "69b92106-9a95-4875-8f01-1b02325e7e6c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why is this commented out? ",
+        "createdAt" : "2017-08-07T11:34:47Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8919c346-95a5-445d-80c7-f3d6f96f48d7",
+        "parentId" : "69b92106-9a95-4875-8f01-1b02325e7e6c",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I left it there for future investigations, these part if not supported by JVM but scala-native has partly support of it.\r\nI can remove it actually.",
+        "createdAt" : "2017-08-08T10:47:45Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "de9bb518-8030-4725-ba31-326a559d69e7",
+        "parentId" : "69b92106-9a95-4875-8f01-1b02325e7e6c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't leave commented-out code in the master branch. It tends to get out of date/unmaintained too easily. ",
+        "createdAt" : "2017-08-08T12:00:06Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "627bf18e-74a7-4f68-a17b-681d6dc1644b",
+        "parentId" : "69b92106-9a95-4875-8f01-1b02325e7e6c",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I will remove",
+        "createdAt" : "2017-08-08T12:20:09Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,121 @@\n+#ifdef _WIN32\n+#include \"os_win_grp.h\"\n+#ifndef WIN32_LEAN_AND_MEAN\n+#define WIN32_LEAN_AND_MEAN\n+#endif\n+#include <windows.h>\n+#include <string>\n+#include <vector>\n+\n+namespace {\n+struct groupInternal {\n+    groupInternal() : gr_gid(-1) {}\n+    std::string gr_name; /** The name of the group. */\n+    unsigned int gr_gid; /** Numerical group ID. */\n+    std::vector<std::string>\n+        gr_mem; /** Pointer to a null-terminated array of character\n+pointers to member names. */\n+    std::vector<const char *> gr_memChars;\n+    group *getGrp() {\n+        grp.gr_gid = gr_gid;\n+        grp.gr_name = const_cast<char *>(gr_name.data());\n+        gr_memChars.clear();\n+        gr_memChars.reserve(gr_mem.size());\n+        for (auto &n : gr_mem) {\n+            gr_memChars.push_back(n.data());\n+        }\n+        grp.gr_mem = const_cast<char **>(gr_memChars.data());\n+        return &grp;\n+    }\n+\n+  private:\n+    group grp;\n+};\n+\n+std::vector<groupInternal> &groups() {\n+    static std::vector<groupInternal> db;\n+    return db;\n+}\n+\n+groupInternal &getInternalGroup(gid_t idx) {\n+    auto &db = groups();\n+    if (idx >= db.size()) {\n+        const bool first = db.size() == 0;\n+        db.resize(idx + 1);\n+        if (first) {\n+            db[0].gr_name = \"none\";\n+            db[0].gr_gid = 0;\n+            db[0].gr_mem.push_back(\"anon\");\n+        }\n+    }\n+    return db[idx];\n+}\n+\n+groupInternal &findInternalGroup(const char *groupname) {\n+    auto &db = groups();\n+    for (auto &g : db) {\n+        if (g.gr_name == groupname) {\n+            return g;\n+        }\n+    }\n+    return db[0];\n+}\n+\n+extern \"C\" long long getFileSID(const char *path) {\n+    /*PSID pSidOwner = NULL;\n+    PSECURITY_DESCRIPTOR pSD = NULL;\n+    const int cSize = 1024;\n+    wchar_t pathw[cSize];\n+    size_t outLength = 0;\n+    mbstowcs_s(&outLength, pathw, cSize, path, cSize);\n+\n+    HANDLE hFile = CreateFileW(\n+        pathw,\n+        GENERIC_READ,\n+        FILE_SHARE_READ,\n+        NULL,\n+        OPEN_EXISTING,\n+        FILE_ATTRIBUTE_NORMAL,\n+        NULL);\n+\n+    // Check GetLastError for CreateFile error code.\n+    if (hFile == INVALID_HANDLE_VALUE) {\n+        DWORD dwErrorCode = 0;\n+\n+        dwErrorCode = GetLastError();\n+        printf(\"CreateFile error = %d\\n\", dwErrorCode);\n+        return -1;\n+    }\n+\n+    // Get the owner SID of the file.\n+    DWORD dwRtnCode = GetSecurityInfo(\n+        hFile,\n+        SE_FILE_OBJECT,\n+        OWNER_SECURITY_INFORMATION,\n+        &pSidOwner,\n+        NULL,\n+        NULL,\n+        NULL,\n+        &pSD);\n+\n+    // Check GetLastError for GetSecurityInfo error condition.\n+    if (dwRtnCode != ERROR_SUCCESS) {\n+        DWORD dwErrorCode = 0;\n+\n+        dwErrorCode = GetLastError();\n+        printf(\"GetSecurityInfo error = %d\\n\", dwErrorCode);\n+        return -1;\n+    }\n+    return (long long)pSidOwner;*/"
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id" : "06f70967-28d2-4749-932e-653de2a17de1",
+    "prId" : 501,
+    "comments" : [
+      {
+        "id" : "eeed8b88-4434-4341-ad76-ea9d54f056f5",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "YOLO",
+        "createdAt" : "2017-02-05T16:02:23Z",
+        "updatedAt" : "2017-02-05T16:16:21Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a861fd6a-596d-4440-88a1-e7c90439cdda",
+        "parentId" : "eeed8b88-4434-4341-ad76-ea9d54f056f5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "As mentioned in the other PR, the test change does not look good to me. ",
+        "createdAt" : "2017-02-15T13:42:57Z",
+        "updatedAt" : "2017-02-15T13:42:58Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d6f448861e092aa71fcb456c37961eec930cf32d",
+    "line" : 33,
+    "diffHunk" : "@@ -7,29 +7,20 @@ object ExceptionSuite extends tests.Suite {\n     val sw = new java.io.StringWriter\n     val pw = new java.io.PrintWriter(sw)\n     (new Exception).printStackTrace(pw)\n-    val expected = Seq(\n+\n+    val segments = Seq(\n       \"java.lang.Exception\",\n-      \"\\tat java.lang.Throwable::fillInStackTrace_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Throwable::init_class.java.lang.String_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Exception::init_class.java.lang.String_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Exception::init\",\n       \"\\tat java.lang.ExceptionSuite$$anonfun$1::apply$mcV$sp_unit\",\n       \"\\tat tests.Suite$$anonfun$test$1::apply$mcZ$sp_bool\",\n       \"\\tat tests.Suite$$anonfun$run$1::apply_class.tests.Test_unit\",\n       \"\\tat tests.Suite$$anonfun$run$1::apply_class.java.lang.Object_class.java.lang.Object\",\n-      \"\\tat scala.collection.mutable.UnrolledBuffer$Unrolled::foreach_trait.scala.Function1_unit\",\n-      \"\\tat scala.collection.mutable.UnrolledBuffer::foreach_trait.scala.Function1_unit\",\n       \"\\tat tests.Suite::run_bool\",\n-      \"\\tat tests.Main$$anonfun$main$1::apply_class.tests.Suite_unit\",\n-      \"\\tat tests.Main$$anonfun$main$1::apply_class.java.lang.Object_class.java.lang.Object\",\n-      \"\\tat scala.collection.immutable.List::foreach_trait.scala.Function1_unit\",\n-      \"\\tat tests.Main$::main_class.ssnr.ObjectArray_unit\",\n       \"\\tat main\"\n-    ).mkString(\"\\n\")\n-    // It's startsWith and not == as there could be additional stack\n-    // activations before main in the stack trace. For example on linux\n-    // there would be additional __libc_start_main and _start frames.\n-    assert(sw.toString.startsWith(expected))\n+    )\n+\n+    val stackTrace = sw.toString\n+\n+    assert(segments.forall(stackTrace.contains))"
+  },
+  {
+    "id" : "3a17cd41-08b5-40f0-8bfb-e0109842474c",
+    "prId" : 502,
+    "comments" : [
+      {
+        "id" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This doesn't look that good to me. What's the full text of the stack trace that you're getting? ",
+        "createdAt" : "2017-02-07T11:26:08Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "39512bb2-1a8c-4b09-92f1-290fa1d66201",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@MasseGuillaume ?",
+        "createdAt" : "2017-02-14T10:54:17Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4c406973-6058-4294-83c4-950257b01429",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "@densh \r\n\r\n```\r\n* java.lang.ExceptionSuite$\r\njava.lang.Exception\r\n        at java.lang.ExceptionSuite$$anonfun$1::apply$mcV$sp_unit\r\n        at tests.Suite$$anonfun$test$1::apply$mcZ$sp_bool\r\n        at tests.Suite$$anonfun$run$1::apply_class.tests.Test_unit\r\n        at tests.Suite$$anonfun$run$1::apply_class.java.lang.Object_class.java.lang.Object\r\n        at tests.Suite::run_bool\r\n        at tests.Main$::main_class.ssnr.ObjectArray_unit\r\n        at main\r\n        at __libc_start_main\r\n        at _start\r\n        at \r\n```\r\n\r\nwith `ExceptionSuite.run()` in `Main`",
+        "createdAt" : "2017-02-14T12:25:24Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5423f5d0-2c90-4c79-83c2-a03ba544cef2",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can you show me your clang invocation? It seemed like some calls were inlined. We use `-O0` by default in tests so this should not normally happen. ",
+        "createdAt" : "2017-02-14T12:31:06Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fec55381-c3fd-4c9e-bbfd-df00c9fe9068",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "```\r\n> tests/run\r\n[info] running\r\n[info] /nix/store/p4zpakqa8rdhaz7cg6mjgib3688fy047-clang-wrapper-3.9.1/bin/clang++\r\n[info]  -o\r\n[info]  /home/gui/center/native/scala-native/unit-tests/target/scala-2.11/tests-out\r\n[info]  -lrt\r\n[info]  -lunwind\r\n[info]  -lunwind-x86_64\r\n[info]  -lgc\r\n[info]  -target\r\n[info]  x86_64-unknown-linux-gnu\r\n[info]  -I/usr/local/include\r\n[info]  -L/usr/local/lib\r\n[info]  -O0\r\n[info]  /home/gui/center/native/scala-native/unit-tests/target/scala-2.11/out.ll\r\n[info]  /home/gui/.scalanative/nativelib-0.1.0-SNAPSHOT/gc.o\r\n[info]  /home/gui/.scalanative/nativelib-0.1.0-SNAPSHOT/time.o\r\n[info]  /home/gui/.scalanative/nativelib-0.1.0-SNAPSHOT/unwind.o\r\n[info]  /home/gui/.scalanative/nativelib-0.1.0-SNAPSHOT/wrap.o\r\n[info]  /home/gui/.scalanative/nativelib-0.1.0-SNAPSHOT/posix.o\r\n[info]  /home/gui/.scalanative/nativelib-0.1.0-SNAPSHOT/eh.o\r\n```",
+        "createdAt" : "2017-02-14T16:00:19Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7a765881-8521-4055-ad87-d34abd75d7af",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This looks like a legitimate tests failure, we should not change the test here. ",
+        "createdAt" : "2017-02-15T13:40:33Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f9176f8f-6fc2-4c93-8527-198f992b64de",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "@densh any hint on what went wrong here ?",
+        "createdAt" : "2017-02-20T16:12:52Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c163bfc5-97ec-466f-8696-a5fef72a117b",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "result:\r\n```\r\nat java.lang.ExceptionSuite$$anonfun$1::apply$mcV$sp_unit\r\nat tests.Suite$$anonfun$test$1::apply$mcZ$sp_bool\r\nat tests.Suite$$anonfun$run$1::apply_class.java.lang.Object_class.java.lang.Object\r\nat scala.collection.mutable.UnrolledBuffer::foreach_trait.scala.Function1_unit\r\nat tests.Suite::run_bool\r\nat tests.Main$$anonfun$main$1::apply_class.java.lang.Object_class.java.lang.Object\r\nat scala.collection.immutable.List::foreach_trait.scala.Function1_unit\r\nat tests.Main$::main_class.ssnr.ObjectArray_unit\r\nat main\r\nat __libc_start_main\r\nat _start\r\nat \r\n```\r\n\r\nexpected\r\n```\r\nat java.lang.Throwable::fillInStackTrace_class.java.lang.Throwable\r\nat java.lang.Throwable::init_class.java.lang.String_class.java.lang.Throwable\r\nat java.lang.Exception::init_class.java.lang.String_class.java.lang.Throwable\r\nat java.lang.Exception::init\r\nat java.lang.ExceptionSuite$$anonfun$1::apply$mcV$sp_unit\r\nat tests.Suite$$anonfun$test$1::apply$mcZ$sp_bool\r\nat tests.Suite$$anonfun$run$1::apply_class.tests.Test_unit\r\nat tests.Suite$$anonfun$run$1::apply_class.java.lang.Object_class.java.lang.Object\r\nat scala.collection.mutable.UnrolledBuffer$Unrolled::foreach_trait.scala.Function1_unit\r\nat scala.collection.mutable.UnrolledBuffer::foreach_trait.scala.Function1_unit\r\nat tests.Suite::run_bool\r\nat tests.Main$$anonfun$main$1::apply_class.tests.Suite_unit\r\nat tests.Main$$anonfun$main$1::apply_class.java.lang.Object_class.java.lang.Object\r\nat scala.collection.immutable.List::foreach_trait.scala.Function1_unit\r\nat tests.Main$::main_class.ssnr.ObjectArray_unit\r\nat main\r\n```\r\n\r\n diff result expected\r\n```\r\n0a1,4\r\n> at java.lang.Throwable::fillInStackTrace_class.java.lang.Throwable\r\n> at java.lang.Throwable::init_class.java.lang.String_class.java.lang.Throwable\r\n> at java.lang.Exception::init_class.java.lang.String_class.java.lang.Throwable\r\n> at java.lang.Exception::init\r\n2a7\r\n> at tests.Suite$$anonfun$run$1::apply_class.tests.Test_unit\r\n3a9\r\n> at scala.collection.mutable.UnrolledBuffer$Unrolled::foreach_trait.scala.Function1_unit\r\n5a12\r\n> at tests.Main$$anonfun$main$1::apply_class.tests.Suite_unit\r\n10,12d16\r\n< at __libc_start_main\r\n< at _start\r\n< at \r\n```",
+        "createdAt" : "2017-02-20T17:16:12Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7d5a8026-c001-4bf1-8285-f52f30dfa0b6",
+        "parentId" : "13006b36-d61c-4c42-a77c-e88d086d1ddb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't exactly know the cause yet, lets file and discuss the issue separately. ",
+        "createdAt" : "2017-02-20T17:52:52Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f67b506adfc14f24c63a19046e0f468740a5ecaa",
+    "line" : null,
+    "diffHunk" : "@@ -7,29 +7,20 @@ object ExceptionSuite extends tests.Suite {\n     val sw = new java.io.StringWriter\n     val pw = new java.io.PrintWriter(sw)\n     (new Exception).printStackTrace(pw)\n-    val expected = Seq(\n+\n+    val segments = Seq(\n       \"java.lang.Exception\",\n-      \"\\tat java.lang.Throwable::fillInStackTrace_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Throwable::init_class.java.lang.String_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Exception::init_class.java.lang.String_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Exception::init\",\n       \"\\tat java.lang.ExceptionSuite$$anonfun$1::apply$mcV$sp_unit\",\n       \"\\tat tests.Suite$$anonfun$test$1::apply$mcZ$sp_bool\",\n       \"\\tat tests.Suite$$anonfun$run$1::apply_class.tests.Test_unit\",\n       \"\\tat tests.Suite$$anonfun$run$1::apply_class.java.lang.Object_class.java.lang.Object\",\n-      \"\\tat scala.collection.mutable.UnrolledBuffer$Unrolled::foreach_trait.scala.Function1_unit\",\n-      \"\\tat scala.collection.mutable.UnrolledBuffer::foreach_trait.scala.Function1_unit\",\n       \"\\tat tests.Suite::run_bool\",\n-      \"\\tat tests.Main$$anonfun$main$1::apply_class.tests.Suite_unit\",\n-      \"\\tat tests.Main$$anonfun$main$1::apply_class.java.lang.Object_class.java.lang.Object\",\n-      \"\\tat scala.collection.immutable.List::foreach_trait.scala.Function1_unit\",\n-      \"\\tat tests.Main$::main_class.ssnr.ObjectArray_unit\",\n       \"\\tat main\"\n-    ).mkString(\"\\n\")\n-    // It's startsWith and not == as there could be additional stack\n-    // activations before main in the stack trace. For example on linux\n-    // there would be additional __libc_start_main and _start frames.\n-    assert(sw.toString.startsWith(expected))\n+    )\n+\n+    val stackTrace = sw.toString\n+\n+    assert(segments.forall(stackTrace.contains))"
+  },
+  {
+    "id" : "bbd724a1-0dab-4fd8-a1de-a04afac12b3a",
+    "prId" : 576,
+    "comments" : [
+      {
+        "id" : "8785d737-acae-4c56-bbdd-0669d577ab1a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Commenting out tests that used to work is **never** an option, we don't do that. ",
+        "createdAt" : "2017-03-21T10:13:19Z",
+        "updatedAt" : "2017-04-18T15:50:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "716cc104-5cb9-481d-b696-c868c6294873",
+        "parentId" : "8785d737-acae-4c56-bbdd-0669d577ab1a",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "yep I know read the commit message.\r\n\"pending test to get build time\"\r\nI'm going to revert as soon as it works.",
+        "createdAt" : "2017-03-21T12:01:12Z",
+        "updatedAt" : "2017-04-18T15:50:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "16182399-85f7-4292-bc95-09291051989b",
+        "parentId" : "8785d737-acae-4c56-bbdd-0669d577ab1a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Okey, missed that. ",
+        "createdAt" : "2017-03-21T12:04:25Z",
+        "updatedAt" : "2017-04-18T15:50:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6f7996a2d8c7e20de820168075aeac76af9343e9",
+    "line" : null,
+    "diffHunk" : "@@ -31,7 +31,8 @@ object ExceptionSuite extends tests.Suite {\n     // there would be additional __libc_start_main and _start frames.\n \n     // fails on nix https://github.com/scala-native/scala-native/issues/516\n-    assert(sw.toString.startsWith(expected))\n+    // assert(sw.toString.startsWith(expected))\n+    println(\"pending\")"
+  },
+  {
+    "id" : "0c56cffe-9acd-495f-9b1b-61f0e4b9df08",
+    "prId" : 630,
+    "comments" : [
+      {
+        "id" : "f9e07171-e44d-4c25-8c39-98d6fd3511a8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@MasseGuillaume I've relaxed this test as it was way too flaky. Might have fixed nix test failure too.",
+        "createdAt" : "2017-04-11T15:23:47Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e791f07d668b442dbb5ec1d3c800fa193024ce2e",
+    "line" : null,
+    "diffHunk" : "@@ -7,42 +7,21 @@ object ExceptionSuite extends tests.Suite {\n     val sw = new java.io.StringWriter\n     val pw = new java.io.PrintWriter(sw)\n     (new Exception).printStackTrace(pw)\n-\n-    // Stacktrace when C/C++ files are compiled with -O2\n-    val expected = Seq(\n-      \"java.lang.Exception\",\n-      \"\\tat java.lang.Throwable::init_class.java.lang.String_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Exception::init_class.java.lang.String_class.java.lang.Throwable\",\n-      \"\\tat java.lang.Exception::init\",\n-      \"\\tat java.lang.ExceptionSuite$$anonfun$1::apply$mcV$sp_unit\",\n-      \"\\tat tests.Suite$$anonfun$test$1::apply$mcZ$sp_bool\",\n-      \"\\tat tests.Suite$$anonfun$run$1::apply_class.tests.Test_unit\",\n-      \"\\tat tests.Suite$$anonfun$run$1::apply_class.java.lang.Object_class.java.lang.Object\",\n-      \"\\tat scala.collection.mutable.UnrolledBuffer$Unrolled::foreach_trait.scala.Function1_unit\",\n-      \"\\tat scala.collection.mutable.UnrolledBuffer::foreach_trait.scala.Function1_unit\",\n-      \"\\tat tests.Suite::run_bool\",\n-      \"\\tat tests.Main$$anonfun$main$1::apply_class.tests.Suite_unit\",\n-      \"\\tat tests.Main$$anonfun$main$1::apply_class.java.lang.Object_class.java.lang.Object\",\n-      \"\\tat scala.collection.immutable.List::foreach_trait.scala.Function1_unit\",\n-      \"\\tat tests.Main$::main_class.ssnr.ObjectArray_unit\",\n-      \"\\tat main\"\n-    ).mkString(\"\\n\")\n-    // It's startsWith and not == as there could be additional stack\n-    // activations before main in the stack trace. For example on linux\n-    // there would be additional __libc_start_main and _start frames.\n-\n-    // fails on nix https://github.com/scala-native/scala-native/issues/516\n-    assert(sw.toString.startsWith(expected))\n+    val trace = sw.toString\n+    assert(trace.startsWith(\"java.lang.Exception\"))\n+    assert(trace.contains(\"\\tat tests.Main$::main_class.ssnr.ObjectArray_unit\"))\n+    assert(trace.contains(\"\\tat main\"))"
+  }
+]

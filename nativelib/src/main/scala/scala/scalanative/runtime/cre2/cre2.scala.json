@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "86f99e17-ac1d-405e-ab11-5ec4f442ccfc",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "fae3a52d-a5e3-4647-8940-5d81b88329fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nobody is going to see this comment when 598 is fixed. Please leave a comment on the issue itself as a todo and remove the code comment.",
+        "createdAt" : "2017-04-10T12:52:59Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3f941d62-e7f7-4fe3-9450-97bc51be9756",
+        "parentId" : "fae3a52d-a5e3-4647-8940-5d81b88329fb",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "https://github.com/scala-native/scala-native/issues/598#issuecomment-292972050",
+        "createdAt" : "2017-04-10T14:47:26Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,141 @@\n+package java.util.regex\n+\n+import scala.scalanative._\n+import native._\n+import native.stdlib._\n+import runtime.GC\n+\n+import java.nio.charset.Charset\n+\n+// Syntax guide: https://github.com/google/re2/wiki/Syntax\n+// re2 c wrapper: https://github.com/marcomaggi/cre2\n+@link(\"re2\")\n+@extern\n+private[regex] object cre2 {\n+  import cre2h._\n+\n+  def cre2_new(\n+      pattern: CString,\n+      pattern_len: CInt,\n+      options: Ptr[cre2_options_t]\n+  ): Ptr[cre2_regexp_t] = extern\n+\n+  def cre2_delete(\n+      regex: Ptr[cre2_regexp_t]\n+  ): Unit = extern\n+\n+  def cre2_quote_meta(\n+      quoted: cre2_string_t,\n+      original: cre2_string_t\n+  ): CInt = extern\n+\n+  def cre2_num_capturing_groups(\n+      regex: Ptr[cre2_regexp_t]\n+  ): CInt = extern\n+\n+  def cre2_find_named_capturing_groups(\n+      regex: Ptr[cre2_regexp_t],\n+      name: CString\n+  ): CInt = extern\n+\n+  def cre2_match(\n+      regex: Ptr[cre2_regexp_t],\n+      text: CString,\n+      textlen: CInt,\n+      startpos: CInt,\n+      endpos: CInt,\n+      anchor: cre2_anchor_t,\n+      matches: cre2_string_t,\n+      nMatches: CInt\n+  ): CInt = extern\n+\n+  def cre2_replace_re(\n+      regex: Ptr[cre2_regexp_t],\n+      text_and_target: cre2_string_t,\n+      rewrite: cre2_string_t\n+  ): CInt = extern\n+\n+  def cre2_global_replace_re(\n+      regex: Ptr[cre2_regexp_t],\n+      text_and_target: cre2_string_t,\n+      rewrite: cre2_string_t\n+  ): CInt = extern\n+\n+  // #598 (remove this)"
+  }
+]

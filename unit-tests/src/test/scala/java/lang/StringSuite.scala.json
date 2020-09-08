@@ -1,0 +1,174 @@
+[
+  {
+    "id" : "2150890a-2c29-4e81-9b7c-b02792ef1f1b",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "67293100-9f83-431e-b705-369c4cdef4b6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It doesn't seem like these changes should be part of this PR.",
+        "createdAt" : "2020-05-05T16:13:23Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "de8098bc-5608-4b9b-98d4-26fe40f0d121",
+        "parentId" : "67293100-9f83-431e-b705-369c4cdef4b6",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I like the way you think of things...\r\n\r\nReading your comment, it looked like a space shot to me also. I could not reverse engineer it to\r\nprovide a reason, so I spent some hours re-creating the original conditions.\r\n`sbt rebuild` is silent but `sbt test-all` gives:\r\n```\r\n[error] /Devo_1/PR_build_warnings_I1748_V2/unit-tests/src/test/scala/java/lang/StringSuite.scala:260:22: method getBytes in class String is deprecated: see corresponding Javadoc for more information.\r\n[error]     \"This is a test\".getBytes(10, 14, b, 0)\r\n[error]                      ^\r\n[error] one error found\r\n[error] (tests / Test / compileIncremental) Compilation failed\r\n[error] Total time: 49 s, completed May 5, 2020 3:56:41 PM\r\n```\r\n\r\nThe code of this PR gets rid of the deprecated overload of getBytes() and then\r\nprovides a reasonably strong test, including Unicode, for the current overload.\r\n",
+        "createdAt" : "2020-05-05T20:29:28Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f81f0b87-8603-499f-a177-5bcfb97ceb03",
+        "parentId" : "67293100-9f83-431e-b705-369c4cdef4b6",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah, I see what's happening.\r\n\r\nNow that's a bit tricky, because the changes mean that we are not testing `getBytes(Array[Byte])` anymore. Even if it is deprecated, we must keep testing it. That shows that we have to live with deprecations *in the test suite*. This is inevitable.\r\n\r\nWould adding `-deprecation:false` in the test suite project solve this? (like you did in the `scalalib` project)",
+        "createdAt" : "2020-05-06T09:29:34Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e0832a4c-5af7-4e28-abd2-72b6b567c5ba",
+        "parentId" : "67293100-9f83-431e-b705-369c4cdef4b6",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I rolled back the deprecation check in the test sub-project. That puts that sub-project at\r\n\"no worse than today\"and allows the main benefit of this PR to advance.\r\n\r\nFate willing, I will file two PRs. One to add the UTF-8 test. As long as it is written and\r\nworking, it is worthwhile to capture the currently recommended case.\r\n\r\nThe second PR would add deprecation checking back in.  I need to sandbox \r\nsome ideas from Scala 2.13.2 and the silencer plugin.",
+        "createdAt" : "2020-05-06T15:56:28Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5d3732aa-0879-46ae-b32b-0eed453b1938",
+        "parentId" : "67293100-9f83-431e-b705-369c4cdef4b6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "It might be nice if you experimented with `sbt-tpolecat` if you find the time. It is the most strict but also is designed for cross project so if we release a 2.12/2.13 and eventually Scala 3/Dotty it should take the options in account as they are changed/added/removed from version to version.",
+        "createdAt" : "2020-05-06T16:27:39Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "33ed9199-5608-459f-ab6d-c1c7e6b6d978",
+        "parentId" : "67293100-9f83-431e-b705-369c4cdef4b6",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@ekrich Thank you, as always, for the on-point suggestion.  You could open an Issue for\r\n discussion and as a forget-me-not.\r\n\r\nAt the time I did this PR, I had looked at tpolecat's recommendation list and the date on\r\nthat list.  I chose the options I understood, mostly from having used them.  I also wanted\r\nto chose options which did not disrupt the world too much. I left that for my no-unused-imports\r\nPR :grimacing:  \r\n\r\nBased on your recommendation, I just did a quick sweep of sbt-tpolecat. A topic for\r\na separate Issue.  Selected option, such a \"partial-unification\" and such look promising\r\nbut require a menagerie of plugins.   Out of scope for this PR, I think but worth discussing\r\nin another venue.",
+        "createdAt" : "2020-05-06T19:20:43Z",
+        "updatedAt" : "2020-05-06T19:20:44Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -255,10 +255,37 @@ object StringSuite extends tests.Suite {\n     splitTest(\"ab\", splitExpr = Some(\"(ab)\"))\n   }\n \n-  test(\"getBytes\") {\n-    val b = new Array[scala.Byte](4)\n-    \"This is a test\".getBytes(10, 14, b, 0)\n-    assert(new String(b) equals \"test\")\n+  test(\"getBytes(\\\"UTF-8\\\")\") {"
+  },
+  {
+    "id" : "7620fdc2-1446-4ff0-b0e5-23bcacd96566",
+    "prId" : 1844,
+    "comments" : [
+      {
+        "id" : "95151fc8-088b-4a97-b838-c7946d6be72d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Spurious change.",
+        "createdAt" : "2020-07-10T15:10:08Z",
+        "updatedAt" : "2020-07-10T16:14:53Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d4143d33db0c36f92bbb3d2dde9471a33cc1bef0",
+    "line" : null,
+    "diffHunk" : "@@ -393,4 +393,5 @@ object StringSuite extends tests.Suite {\n         .toString\n         .toLowerCase equals \"scala native\")\n   }\n+"
+  }
+]

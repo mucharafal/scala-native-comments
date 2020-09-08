@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "9c8e8087-31c9-48d8-a783-af2c6473fc51",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "671c2950-e0d6-445e-95cf-dde9ed0ce6bf",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is probably redundant with the `implicit val` above.",
+        "createdAt" : "2020-08-20T13:30:41Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -181,7 +182,7 @@ trait Inline { self: Interflow =>\n               case Inst.Throw(value, unwind) =>\n                 val excv = block.end.materialize(value)\n                 emit ++= block.toInsts.init\n-                emit.raise(excv, unwind)\n+                emit.raise(excv, unwind)(block.cf.pos)"
+  }
+]

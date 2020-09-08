@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "6987f94b-f010-4b59-a888-4bb37633ad37",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "c15fb858-28bb-4409-9941-cc67a4bd3a7e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Double definition of `scalanative_eintr` wrt to one defined in `posix.c`.\n",
+        "createdAt" : "2016-10-29T09:16:55Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -166,3 +166,7 @@ int scalanative_eilseq() {\n int scalanaitve_erange() {\n     return ERANGE;\n }\n+\n+int scalanative_eintr() {\n+    return EINTR;\n+}"
+  }
+]

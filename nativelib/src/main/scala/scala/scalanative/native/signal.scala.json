@@ -1,0 +1,200 @@
+[
+  {
+    "id" : "660c0a53-67fd-4000-95d2-833be9d12f9e",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "941108fa-450c-450c-9380-5bd2d53116ad",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not a correct binding for \r\n```\r\n      union sigval {          /* Data passed with notification */\r\n           int     sival_int;         /* Integer value */\r\n           void   *sival_ptr;         /* Pointer value */\r\n       };\r\n```\r\nIt should be `Ptr[Byte]`. ",
+        "createdAt" : "2017-05-03T09:34:24Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 14,
+    "diffHunk" : "@@ -11,6 +13,11 @@ object signal {\n     extern\n   def raise(sig: CInt): CInt = extern\n \n+  // Type\n+  type sigval = Unit // Union[2]"
+  },
+  {
+    "id" : "8835e878-cb83-4f95-b8dd-cbcf1843d61a",
+    "prId" : 698,
+    "comments" : [
+      {
+        "id" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Is there already a naming convention for Scala Native bindings? Having only one object wouldn't pollute the namespace that much.",
+        "createdAt" : "2017-05-07T17:02:16Z",
+        "updatedAt" : "2017-05-07T17:02:17Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "531ef205-960b-426f-a09a-eeac941e50cd",
+        "parentId" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "This second object is mandatory due to the recursive type ucontext_t, to handle it we need to create the implicit class and since it contains function definitions it cannot be in the main object (@extern prohibit function definition)",
+        "createdAt" : "2017-05-07T20:19:28Z",
+        "updatedAt" : "2017-05-07T20:19:28Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "bb7ef223-e3f1-4234-9afd-8103f13b83da",
+        "parentId" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Ah, I hadn't noticed the `implicit class`. Interesting trick. I will use it as well.",
+        "createdAt" : "2017-05-07T21:43:35Z",
+        "updatedAt" : "2017-05-07T21:43:35Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8e1620d7-afde-4bfa-820c-55af889472a6",
+        "parentId" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "There are more details in #634 if you need",
+        "createdAt" : "2017-05-08T08:46:06Z",
+        "updatedAt" : "2017-05-08T08:46:06Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f7234af6-5c1e-44f2-96c5-00f547e266f7",
+        "parentId" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Type aliases should be defined in the extern object.\r\n2. `signalH` doesn't seem to be clear enough. Given that it only holds Ops helpers, lets name `signalOps` instead.",
+        "createdAt" : "2017-05-18T10:40:55Z",
+        "updatedAt" : "2017-05-18T10:46:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e5393f4f-e71b-4047-bc97-87ea1a2f542e",
+        "parentId" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I thought the convention that @MasseGuillaume used in his native demo of `import ncurses._, ncursesh._` where the first is the native functions and the second (header) contains the types and other glue and helpers.\r\nhttps://github.com/MasseGuillaume/hands-on-scala-native\r\nI like the lower case `h` as that is more unix like.",
+        "createdAt" : "2017-05-18T14:11:27Z",
+        "updatedAt" : "2017-05-18T14:11:27Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b59ef1dc-aef5-445a-a755-5a68e49ab5e7",
+        "parentId" : "d7fcbd48-b12c-4835-a586-2aa534f204ea",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The problem with 'h' suffix is that both objects correspond to the header file, and the second one only contains ops-like decorators. ",
+        "createdAt" : "2017-05-18T14:41:31Z",
+        "updatedAt" : "2017-05-18T14:41:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d130f2c92a51c5ae61c2edea2b0876254b5552cc",
+    "line" : 351,
+    "diffHunk" : "@@ -1,34 +1,374 @@\n package scala.scalanative\n package native\n \n+import scala.scalanative.posix.sys.types.{pid_t, pthread_attr_t, uid_t}\n+import scala.scalanative.posix.time.timespec\n+\n+// http://pubs.opengroup.org/onlinepubs/9699919799/\n+\n @extern\n object signal {\n \n-  // Signals\n+  import signalH._\n+\n+  def kill(pid: pid_t, sig: CInt): CInt = extern\n+\n+  def killpg(pid: pid_t, sig: CInt): CInt = extern\n+\n+  def psiginfo(pinfo: Ptr[siginfo_t], s: CString): Unit = extern\n+\n+  def psignal(sig: CInt, s: CString): Unit = extern\n+\n+  // pthread signals here\n+\n+  def raise(sig: CInt): CInt = extern\n+\n+  def sigaction(signum: CInt,\n+                act: Ptr[sigaction],\n+                oldact: Ptr[sigaction]): CInt = extern\n+\n+  def sigaddset(set: Ptr[sigset_t], signum: CInt): CInt = extern\n+\n+  def sigaltstack(ss: Ptr[stack_t], oss: Ptr[stack_t]): CInt = extern\n+\n+  def sigdelset(set: Ptr[sigset_t], sig: CInt): CInt = extern\n+\n+  def sigemptyset(set: Ptr[sigset_t]): CInt = extern\n+\n+  def sigfillset(set: Ptr[sigset_t]): CInt = extern\n+\n+  def sighold(sig: CInt): CInt = extern\n+\n+  def sigignore(sig: CInt): CInt = extern\n+\n+  def siginterrupt(sig: CInt, flag: CInt): CInt = extern\n+\n+  def sigismember(set: Ptr[sigset_t], signum: CInt): CInt = extern\n \n   def signal(sig: CInt,\n              handler: CFunctionPtr1[CInt, Unit]): CFunctionPtr1[CInt, Unit] =\n     extern\n-  def raise(sig: CInt): CInt = extern\n+\n+  def sigpause(sig: CInt): CInt = extern\n+\n+  def sigpending(set: Ptr[sigset_t]): CInt = extern\n+\n+  def sigprocmask(how: CInt, set: Ptr[sigset_t], oldset: Ptr[sigset_t]): CInt =\n+    extern\n+\n+  def sigqueue(pid: pid_t, sig: CInt, value: sigval): CInt = extern\n+\n+  def sigrelse(set: Ptr[sigset_t]): CInt = extern\n+\n+  def sigset(sig: CInt,\n+             handler: CFunctionPtr1[CInt, Unit]): CFunctionPtr1[CInt, Unit] =\n+    extern\n+\n+  def sigsuspend(set: Ptr[sigset_t]): CInt = extern\n+\n+  def sigtimedwait(set: Ptr[sigset_t],\n+                   info: Ptr[siginfo_t],\n+                   timeout: Ptr[timespec]): CInt = extern\n+\n+  def sigwait(set: Ptr[sigset_t], sig: Ptr[CInt]): CInt = extern\n+\n+  def sigwaitinfo(set: Ptr[sigset_t], info: Ptr[siginfo_t]): CInt = extern\n \n   // Macros\n \n   @name(\"scalanative_libc_sig_dfl\")\n   def SIG_DFL: CFunctionPtr1[CInt, Unit] = extern\n-  @name(\"scalanative_libc_sig_ign\")\n-  def SIG_IGN: CFunctionPtr1[CInt, Unit] = extern\n+\n   @name(\"scalanative_libc_sig_err\")\n   def SIG_ERR: CFunctionPtr1[CInt, Unit] = extern\n+\n+  @name(\"scalanative_libc_sig_hold\")\n+  def SIG_HOLD: CFunctionPtr1[CInt, Unit] = extern\n+\n+  @name(\"scalanative_libc_sig_ign\")\n+  def SIG_IGN: CFunctionPtr1[CInt, Unit] = extern\n+\n+  @name(\"scalanative_libc_sigev_none\")\n+  def SIGEV_NONE: CInt = extern\n+\n+  @name(\"scalanative_libc_sigev_signal\")\n+  def SIGEV_SIGNAL: CInt = extern\n+\n+  @name(\"scalanative_libc_sigev_none\")\n+  def SIGEV_THREAD: CInt = extern\n+\n   @name(\"scalanative_libc_sigabrt\")\n   def SIGABRT: CInt = extern\n+\n+  @name(\"scalanative_libc_sigalrm\")\n+  def SIGALRM: CInt = extern\n+\n+  @name(\"scalanative_libc_sigbus\")\n+  def SIGBUS: CInt = extern\n+\n+  @name(\"scalanative_libc_sigchld\")\n+  def SIGCHLD: CInt = extern\n+\n+  @name(\"scalanative_libc_sigcont\")\n+  def SIGCONT: CInt = extern\n+\n   @name(\"scalanative_libc_sigfpe\")\n   def SIGFPE: CInt = extern\n+\n+  @name(\"scalanative_libc_sighup\")\n+  def SIGHUP: CInt = extern\n+\n   @name(\"scalanative_libc_sigill\")\n   def SIGILL: CInt = extern\n+\n   @name(\"scalanative_libc_sigint\")\n   def SIGINT: CInt = extern\n+\n+  @name(\"scalanative_libc_sigkill\")\n+  def SIGKILL: CInt = extern\n+\n+  @name(\"scalanative_libc_sigpipe\")\n+  def SIGPIPE: CInt = extern\n+\n+  @name(\"scalanative_libc_sigquit\")\n+  def SIGQUIT: CInt = extern\n+\n   @name(\"scalanative_libc_sigsegv\")\n   def SIGSEGV: CInt = extern\n+\n+  @name(\"scalanative_libc_sigstop\")\n+  def SIGSTOP: CInt = extern\n+\n   @name(\"scalanative_libc_sigterm\")\n   def SIGTERM: CInt = extern\n+\n+  @name(\"scalanative_libc_sigtstp\")\n+  def SIGTSTP: CInt = extern\n+\n+  @name(\"scalanative_libc_sigttin\")\n+  def SIGTTIN: CInt = extern\n+\n+  @name(\"scalanative_libc_sigttou\")\n+  def SIGTTOU: CInt = extern\n+\n+  @name(\"scalanative_libc_sigusr1\")\n+  def SIGUSR1: CInt = extern\n+\n+  @name(\"scalanative_libc_sigusr2\")\n+  def SIGUSR2: CInt = extern\n+\n+  @name(\"scalanative_libc_sigpoll\")\n+  def SIGPOLL: CInt = extern\n+\n+  @name(\"scalanative_libc_sigprof\")\n+  def SIGPROF: CInt = extern\n+\n+  @name(\"scalanative_libc_sigsys\")\n+  def SIGSYS: CInt = extern\n+\n+  @name(\"scalanative_libc_sigtrap\")\n+  def SIGTRAP: CInt = extern\n+\n+  @name(\"scalanative_libc_sigurg\")\n+  def SIGURG: CInt = extern\n+\n+  @name(\"scalanative_libc_sigvtalrm\")\n+  def SIGVTALRM: CInt = extern\n+\n+  @name(\"scalanative_libc_sigxcpu\")\n+  def SIGXCPU: CInt = extern\n+\n+  @name(\"scalanative_libc_sigxfsz\")\n+  def SIGXFSZ: CInt = extern\n+\n+  @name(\"scalanative_libc_sig_block\")\n+  def SIG_BLOCK: CInt = extern\n+\n+  @name(\"scalanative_libc_sig_unblock\")\n+  def SIG_UNBLOCK: CInt = extern\n+\n+  @name(\"scalanative_libc_sig_setmask\")\n+  def SIG_SETMASK: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_nocldstop\")\n+  def SA_NOCLDSTOP: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_onstack\")\n+  def SA_ONSTACK: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_resethand\")\n+  def SA_RESETHAND: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_restart\")\n+  def SA_RESTART: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_siginfo\")\n+  def SA_SIGINFO: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_nocldwait\")\n+  def SA_NOCLDWAIT: CInt = extern\n+\n+  @name(\"scalanative_libc_sa_nodefer\")\n+  def SA_NODEFER: CInt = extern\n+\n+  @name(\"scalanative_libc_ss_onstack\")\n+  def SS_ONSTACK: CInt = extern\n+\n+  @name(\"scalanative_libc_ss_disable\")\n+  def SS_DISABLE: CInt = extern\n+\n+  @name(\"scalanative_libc_minsigstksz\")\n+  def MINSIGSTKSZ: CInt = extern\n+\n+  @name(\"scalanative_libc_sigstksz\")\n+  def SIGSTKSZ: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_illopc\")\n+  def ILL_ILLOPC: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_illopn\")\n+  def ILL_ILLOPN: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_illadr\")\n+  def ILL_ILLADR: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_illtrp\")\n+  def ILL_ILLTRP: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_prvopc\")\n+  def ILL_PRVOPC: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_prvreg\")\n+  def ILL_PRVREG: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_coproc\")\n+  def ILL_COPROC: CInt = extern\n+\n+  @name(\"scalanative_libc_ill_badstk\")\n+  def ILL_BADSTK: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_intdiv\")\n+  def FPE_INTDIV: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_intovf\")\n+  def FPE_INTOVF: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_fltdiv\")\n+  def FPE_FLTDIV: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_fltovf\")\n+  def FPE_FLTOVF: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_fltund\")\n+  def FPE_FLTUND: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_fltres\")\n+  def FPE_FLTRES: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_fltinv\")\n+  def FPE_FLTINV: CInt = extern\n+\n+  @name(\"scalanative_libc_fpe_fltsub\")\n+  def FPE_FLTSUB: CInt = extern\n+\n+  @name(\"scalanative_libc_segv_maperr\")\n+  def SEGV_MAPERR: CInt = extern\n+\n+  @name(\"scalanative_libc_segv_accerr\")\n+  def SEGV_ACCERR: CInt = extern\n+\n+  @name(\"scalanative_libc_bus_adraln\")\n+  def BUS_ADRALN: CInt = extern\n+\n+  @name(\"scalanative_libc_bus_adrerr\")\n+  def BUS_ADRERR: CInt = extern\n+\n+  @name(\"scalanative_libc_bus_objerr\")\n+  def BUS_OBJERR: CInt = extern\n+\n+  @name(\"scalanative_libc_trap_brkpt\")\n+  def TRAP_BRKPT: CInt = extern\n+\n+  @name(\"scalanative_libc_trap_trace\")\n+  def TRAP_TRACE: CInt = extern\n+\n+  @name(\"scalanative_libc_cld_exited\")\n+  def CLD_EXITED: CInt = extern\n+\n+  @name(\"scalanative_libc_cld_killed\")\n+  def CLD_KILLED: CInt = extern\n+\n+  @name(\"scalanative_libc_cld_dumped\")\n+  def CLD_DUMPED: CInt = extern\n+\n+  @name(\"scalanative_libc_cld_trapped\")\n+  def CLD_TRAPPED: CInt = extern\n+\n+  @name(\"scalanative_libc_cld_stopped\")\n+  def CLD_STOPPED: CInt = extern\n+\n+  @name(\"scalanative_libc_cld_continued\")\n+  def CLD_CONTINUED: CInt = extern\n+\n+  @name(\"scalanative_libc_poll_in\")\n+  def POLL_IN: CInt = extern\n+\n+  @name(\"scalanative_libc_poll_out\")\n+  def POLL_OUT: CInt = extern\n+\n+  @name(\"scalanative_libc_poll_msg\")\n+  def POLL_MSG: CInt = extern\n+\n+  @name(\"scalanative_libc_poll_err\")\n+  def POLL_ERR: CInt = extern\n+\n+  @name(\"scalanative_libc_poll_pri\")\n+  def POLL_PRI: CInt = extern\n+\n+  @name(\"scalanative_libc_poll_hup\")\n+  def POLL_HUP: CInt = extern\n+\n+  @name(\"scalanative_libc_si_user\")\n+  def SI_USER: CInt = extern\n+\n+  @name(\"scalanative_libc_si_queue\")\n+  def SI_QUEUE: CInt = extern\n+\n+  @name(\"scalanative_libc_si_timer\")\n+  def SI_TIMER: CInt = extern\n+\n+  @name(\"scalanative_libc_si_asyncio\")\n+  def SI_ASYNCIO: CInt = extern\n+\n+  @name(\"scalanative_libc_si_mesgq\")\n+  def SI_MESGQ: CInt = extern\n+}\n+\n+object signalH {"
+  },
+  {
+    "id" : "8208e1b3-424c-4ade-97ad-f9f3d9a63589",
+    "prId" : 698,
+    "comments" : [
+      {
+        "id" : "6d09f4c7-4900-44f5-b980-90ddbfa16ae6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Seems to be missing pthread_kill and pthread_sigmask.",
+        "createdAt" : "2017-05-18T10:36:37Z",
+        "updatedAt" : "2017-05-18T10:46:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d130f2c92a51c5ae61c2edea2b0876254b5552cc",
+    "line" : 21,
+    "diffHunk" : "@@ -1,34 +1,374 @@\n package scala.scalanative\n package native\n \n+import scala.scalanative.posix.sys.types.{pid_t, pthread_attr_t, uid_t}\n+import scala.scalanative.posix.time.timespec\n+\n+// http://pubs.opengroup.org/onlinepubs/9699919799/\n+\n @extern\n object signal {\n \n-  // Signals\n+  import signalH._\n+\n+  def kill(pid: pid_t, sig: CInt): CInt = extern\n+\n+  def killpg(pid: pid_t, sig: CInt): CInt = extern\n+\n+  def psiginfo(pinfo: Ptr[siginfo_t], s: CString): Unit = extern\n+\n+  def psignal(sig: CInt, s: CString): Unit = extern"
+  }
+]

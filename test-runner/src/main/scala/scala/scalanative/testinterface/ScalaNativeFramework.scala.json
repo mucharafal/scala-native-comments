@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "04b41b45-cfdf-486c-a8a0-516853887af3",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "a00cb85b-c1b6-4935-8221-da2f09d3580f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Normally I wouldn't say that, but let's keep this, commented out, with a comment explaining why we're not using it at the moment, and that we should reenable it in the future.",
+        "createdAt" : "2020-05-19T12:43:59Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : 35,
+    "diffHunk" : "@@ -35,11 +33,4 @@ class ScalaNativeFramework(val framework: Framework,\n   }\n \n   private[testinterface] def runDone(): Unit = _runner = null\n-\n-  private def fetchFrameworkInfo(): FrameworkInfo = {\n-    _runner.send(Command.SendInfo(id, None))\n-    val Command.SendInfo(_, Some(infos)) = _runner.receive()\n-    infos\n-  }"
+  }
+]

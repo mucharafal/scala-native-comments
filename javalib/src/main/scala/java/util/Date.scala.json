@@ -1,0 +1,227 @@
+[
+  {
+    "id" : "50b6b8c1-0543-4265-bd72-5addb5a1539d",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "f2a4c988-1cd9-468e-b701-c6d70d964206",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Using nanoTime for date is likely going to end up being extremely confusing. I think we really need to implement currentTimeMillis first, and then use it instead.",
+        "createdAt" : "2017-04-05T10:28:25Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "183827c2-4779-4ceb-9f76-314491e62c99",
+        "parentId" : "f2a4c988-1cd9-468e-b701-c6d70d964206",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, I also found out that nanoTime is not based on the epoch so this won't work.",
+        "createdAt" : "2017-04-05T20:09:47Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package java.util\n+\n+/** Ported from Scala JS and Apache Harmony\n+ * - omits deprecation\n+ * - immutable\n+ *\n+ * TODO: needs TimeZone, Calendar or java.util.time for compatible toString\n+ *       and other deprecated methods if needed\n+ */\n+class Date(protected[this] val milliseconds: Long)\n+    extends Object\n+    with Serializable\n+    with Cloneable\n+    with Comparable[Date] {\n+\n+  //def this() = this(System.currentTimeMillis())\n+  def this() = this(System.nanoTime() / 1000000L)"
+  },
+  {
+    "id" : "1dd80177-fcfb-40fb-8abb-3daf202c2f9a",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "56171217-ca3c-4cd1-bc46-ad04dec483d6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Unfortunately, we have to live with this design decision forever. Dates are mutable on both JVM and in Scala.js, ours shouldn't be an exception.",
+        "createdAt" : "2017-04-10T17:06:10Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a9ee7c29-cf12-4182-9fec-c11ba26e600e",
+        "parentId" : "56171217-ca3c-4cd1-bc46-ad04dec483d6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, I just figured it is probably never used - in Java 1.0 the interpreter was slow with no GIT and GC was slow so a common pattern was to reuse objects to avoid GC etc. Why couldn't we change it to mutable if needed? Binary compatibility issue?",
+        "createdAt" : "2017-04-10T18:02:45Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "de102696-f2a1-431f-a626-4660771d8155",
+        "parentId" : "56171217-ca3c-4cd1-bc46-ad04dec483d6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's only a question of binary compatibility. If a project uses `setTime` it won't link any longer with our reimplementation. ",
+        "createdAt" : "2017-04-10T19:27:01Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "801f6555-d8a4-44c7-95a0-ad2ddaa4bc83",
+        "parentId" : "56171217-ca3c-4cd1-bc46-ad04dec483d6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Agreed. It is not deprecated so people could definitely use it without any warnings.",
+        "createdAt" : "2017-04-10T21:11:15Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+package java.util\n+\n+/** Ported from Scala JS and Apache Harmony\n+ * - omits deprecated methods\n+ * - immutable, setTime not implemented\n+ * - toString not jdk compatible\n+ */\n+class Date(milliseconds: Long)\n+    extends Object\n+    with Serializable\n+    with Cloneable\n+    with Comparable[Date] {\n+\n+  def this() = this(System.currentTimeMillis())\n+\n+  def after(when: Date): Boolean = milliseconds > when.getTime()\n+\n+  def before(when: Date): Boolean = milliseconds < when.getTime()\n+\n+  override def clone(): Object = new Date(milliseconds)\n+\n+  override def compareTo(anotherDate: Date): Int =\n+    milliseconds.compareTo(anotherDate.getTime())\n+\n+  override def equals(obj: Any): Boolean = obj match {\n+    case d: Date => d.getTime == milliseconds\n+    case _       => false\n+  }\n+\n+  def getTime(): Long = milliseconds\n+\n+  override def hashCode(): Int = milliseconds.hashCode()\n+\n+  // only implement if mutable is required\n+//  def setTime(time: Long): Unit =\n+//    milliseconds = time"
+  },
+  {
+    "id" : "efa6146e-35ff-41f8-b02d-080dff41170c",
+    "prId" : 602,
+    "comments" : [
+      {
+        "id" : "0378c387-b305-461c-8c14-9a3a6f4d601c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't have any statistics on the usage of the `java.util.Date` yet, but it would be nice to be on par with Scala.js in terms of the number of methods we support. ",
+        "createdAt" : "2017-04-10T17:20:54Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c2e1e74a-25c7-4bae-b298-dd53a5f237b7",
+        "parentId" : "0378c387-b305-461c-8c14-9a3a6f4d601c",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "We need to have either `Calendar` or `java.time` or some other equivalent to implement the deprecated methods. My view was that those methods are probably not used in any Scala API and was thinking that Date is not used for much except a container to the time in millis. We could get the deprecated methods by calling into C possibly. In ScalaJS most of them are delegation into js.Date. https://github.com/scala-js/scala-js/blob/master/javalib/src/main/scala/java/util/Date.scala",
+        "createdAt" : "2017-04-10T18:18:09Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b79cca99-9319-45d0-a169-7692de7f017d",
+        "parentId" : "0378c387-b305-461c-8c14-9a3a6f4d601c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets delay it until the time we get `Calendar` then. ",
+        "createdAt" : "2017-04-10T19:27:34Z",
+        "updatedAt" : "2017-04-11T11:54:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "623964a8cc4882c93b752b0c8446483ae01761b2",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+package java.util\n+\n+/** Ported from Scala JS and Apache Harmony\n+ * - omits deprecated methods\n+ * - immutable, setTime not implemented\n+ * - toString not jdk compatible\n+ */\n+class Date(milliseconds: Long)"
+  }
+]

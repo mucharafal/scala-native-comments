@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "cdd905fb-a3c7-4cca-9cd0-3d71533bdf74",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "dbba8a0d-1014-4c19-b716-0cded570549c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good catch, totally missed that one.",
+        "createdAt" : "2018-10-17T09:13:51Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 11,
+    "diffHunk" : "@@ -6,12 +6,13 @@ import runtime.Intrinsics._\n package object runtime {\n \n   /** Runtime Type Information. */\n-  type Type = CStruct3[Int, String, Byte]\n+  type Type = CStruct4[Int, Int, String, Byte]\n \n   implicit class TypeOps(val self: Ptr[Type]) extends AnyVal {\n     def id: Int      = !(self._1)\n-    def name: String = !(self._2)\n-    def kind: Long   = !(self._3)\n+    def traitId: Int = !(self._2)"
+  }
+]

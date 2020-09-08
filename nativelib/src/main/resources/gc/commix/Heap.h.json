@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "2945fb80-a024-455f-adac-dc7f4a228c7b",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "b7711d3a-ac4e-4d05-a7bd-80ba87855f17",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets move all of the allocation logic to `Allocator`, so that `Heap` is only responsible` for garbage collection entry-point and size management. ",
+        "createdAt" : "2019-02-01T09:56:10Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3da3b486-1fef-4edc-900d-ed4587e1576a",
+        "parentId" : "b7711d3a-ac4e-4d05-a7bd-80ba87855f17",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Moved",
+        "createdAt" : "2019-02-01T19:41:29Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,99 @@\n+#ifndef IMMIX_HEAP_H\n+#define IMMIX_HEAP_H\n+\n+#include \"GCTypes.h\"\n+#include \"Allocator.h\"\n+#include \"LargeAllocator.h\"\n+#include \"datastructures/Bytemap.h\"\n+#include \"datastructures/BlockRange.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"metadata/LineMeta.h\"\n+#include \"Stats.h\"\n+#include <stdio.h>\n+#include <stdatomic.h>\n+#include <stdbool.h>\n+#include <pthread.h>\n+#include <semaphore.h>\n+\n+typedef enum {\n+    gc_idle = 0x0,\n+    gc_mark = 0x1,\n+    gc_sweep = 0x2\n+} GCThreadPhase;\n+\n+typedef struct {\n+    word_t *blockMetaStart;\n+    word_t *blockMetaEnd;\n+    word_t *lineMetaStart;\n+    word_t *lineMetaEnd;\n+    word_t *heapStart;\n+    word_t *heapEnd;\n+    word_t *greyPacketsStart;\n+    size_t heapSize;\n+    size_t maxHeapSize;\n+    uint32_t blockCount;\n+    uint32_t maxBlockCount;\n+    struct {\n+        sem_t start;\n+        sem_t start0;\n+        atomic_uint_fast8_t phase;\n+        int count;\n+        void *all;\n+    } gcThreads;\n+    struct {\n+        atomic_uint_fast32_t cursor;\n+        atomic_uint_fast32_t limit;\n+        atomic_uint_fast32_t coalesceDone;\n+        atomic_bool postSweepDone;\n+        pthread_mutex_t growMutex;\n+    } sweep;\n+    struct {\n+        // making cursorDone atomic so it keeps sequential consistency with the\n+        // other atomics\n+        atomic_uint_fast32_t cursorDone;\n+        // NB! This must be sequentially consistent with sweep.cursor.\n+        // Otherwise coalescing can miss updates.\n+        BlockRange lastActivity; // _First = 1 if active, _Limit = last cursor observed\n+        BlockRangeVal lastActivityObserved; // _First = 1 if active, _Limit = last cursor observed\n+    } lazySweep;\n+    struct {\n+        uint64_t lastEnd_ns;\n+        uint64_t currentStart_ns;\n+        uint64_t currentEnd_ns;\n+        atomic_uint_fast32_t total;\n+        GreyList empty;\n+        GreyList full;\n+    } mark;\n+    Bytemap *bytemap;\n+    Stats *stats;\n+} Heap;\n+\n+extern long long scalanative_nano_time();\n+\n+static inline bool Heap_IsWordInHeap(Heap *heap, word_t *word) {\n+    return word >= heap->heapStart && word < heap->heapEnd;\n+}\n+\n+static inline LineMeta *Heap_LineMetaForWord(Heap *heap, word_t *word) {\n+    // assumes there are no gaps between lines\n+    assert(LINE_COUNT * LINE_SIZE == BLOCK_TOTAL_SIZE);\n+    assert(Heap_IsWordInHeap(heap, word));\n+    word_t lineGlobalIndex =\n+        ((word_t)word - (word_t)heap->heapStart) >> LINE_SIZE_BITS;\n+    assert(lineGlobalIndex >= 0);\n+    LineMeta *lineMeta = (LineMeta *)heap->lineMetaStart + lineGlobalIndex;\n+    assert(lineMeta < (LineMeta *)heap->lineMetaEnd);\n+    return lineMeta;\n+}\n+\n+void Heap_Init(Heap *heap, size_t minHeapSize, size_t maxHeapSize);\n+word_t *Heap_Alloc(Heap *heap, uint32_t objectSize);\n+word_t *Heap_AllocSmall(Heap *heap, uint32_t objectSize);\n+word_t *Heap_AllocLarge(Heap *heap, uint32_t objectSize);"
+  },
+  {
+    "id" : "68cb5411-e5d3-412e-a604-a09084e07d3d",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "de0a07da-5b23-447a-acf9-ce1b94ce0e23",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "What's the difference between `start` and `start0` ?",
+        "createdAt" : "2019-02-01T10:19:29Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cbe10623-29de-47d2-9069-83becda2be0b",
+        "parentId" : "de0a07da-5b23-447a-acf9-ce1b94ce0e23",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "`start0` is for GC Thread 0 (main GC thread)\r\n`start` is for all other GC threads\r\nI will change all the suffixes 0 to `Main` or `Master` so it is more explicit.",
+        "createdAt" : "2019-02-01T19:49:26Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,99 @@\n+#ifndef IMMIX_HEAP_H\n+#define IMMIX_HEAP_H\n+\n+#include \"GCTypes.h\"\n+#include \"Allocator.h\"\n+#include \"LargeAllocator.h\"\n+#include \"datastructures/Bytemap.h\"\n+#include \"datastructures/BlockRange.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"metadata/LineMeta.h\"\n+#include \"Stats.h\"\n+#include <stdio.h>\n+#include <stdatomic.h>\n+#include <stdbool.h>\n+#include <pthread.h>\n+#include <semaphore.h>\n+\n+typedef enum {\n+    gc_idle = 0x0,\n+    gc_mark = 0x1,\n+    gc_sweep = 0x2\n+} GCThreadPhase;\n+\n+typedef struct {\n+    word_t *blockMetaStart;\n+    word_t *blockMetaEnd;\n+    word_t *lineMetaStart;\n+    word_t *lineMetaEnd;\n+    word_t *heapStart;\n+    word_t *heapEnd;\n+    word_t *greyPacketsStart;\n+    size_t heapSize;\n+    size_t maxHeapSize;\n+    uint32_t blockCount;\n+    uint32_t maxBlockCount;\n+    struct {\n+        sem_t start;\n+        sem_t start0;"
+  }
+]

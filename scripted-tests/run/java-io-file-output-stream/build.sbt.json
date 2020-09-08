@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "665ec5d9-a902-404c-9306-372fdda20cca",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "8e9c18e0-e8e0-4255-933f-82a0e71fbbda",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Here and in the other new scripted tests, we should do `enablePlugins(ScalaNativePlugin)` instead. This has changed recently in #621. ",
+        "createdAt" : "2017-04-10T18:44:27Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5b99edc0-fd97-4b21-b1eb-c03e890e4199",
+        "parentId" : "8e9c18e0-e8e0-4255-933f-82a0e71fbbda",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:44:23Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,49 @@\n+import java.io.File\n+import java.io.FileOutputStream\n+import java.io.FileInputStream\n+\n+ScalaNativePlugin.projectSettings"
+  }
+]

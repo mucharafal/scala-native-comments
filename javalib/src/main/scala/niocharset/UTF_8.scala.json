@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "3b648204-176b-4eba-b88e-eaa69dc5f910",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "accc3582-3e99-4d68-9d9f-fc9ad4631c16",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "ditto.\n",
+        "createdAt" : "2016-09-29T21:59:37Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : 137,
+    "diffHunk" : "@@ -40,139 +40,139 @@ private[niocharset] object UTF_8\n    */\n \n   private val lengthByLeading: Array[Int] = Array(\n-      // 10wwwwww\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      // 110yyyyy\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      2,\n-      // 1110zzzz\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      3,\n-      // 11110uuu\n-      4,\n-      4,\n-      4,\n-      4,\n-      4,\n-      4,\n-      4,\n-      4,\n-      // > 11110111\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1,\n-      -1\n+    // 10wwwwww"
+  }
+]

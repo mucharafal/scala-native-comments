@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "09387c55-9ae5-4a58-95a9-37ad855a57bc",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "c68dbbc7-d0fd-430c-9b06-3556e1d4fc8b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is one is deprecated in Scala.js and we should keep it being deprecated in native.",
+        "createdAt" : "2017-06-12T10:02:13Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,6 @@\n+package scala.scalajs.js.annotation\n+\n+class JSExportDescendentClasses(ignoreInvalidDescendants: Boolean)"
+  }
+]

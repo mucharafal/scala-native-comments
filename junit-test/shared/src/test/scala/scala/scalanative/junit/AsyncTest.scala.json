@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "fcbce922-6526-41b1-8129-eea4b9b4dcd0",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "2cd5fe40-6410-4a80-a988-e09ae5be9c65",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n  def success(): AsyncResult = await {\r\n```\r\nThat's the whole point of `junit.async._`.\r\n\r\nAlso for the two methods below.",
+        "createdAt" : "2020-07-09T14:18:20Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,31 @@\n+package scala.scalanative.junit\n+\n+// Ported from Scala.js\n+\n+import org.junit.Test\n+\n+import scala.concurrent.ExecutionContext.Implicits.global\n+import scala.concurrent.Future\n+import scala.scalanative.junit.async._\n+import scala.scalanative.junit.utils._\n+\n+class AsyncTest {\n+  @Test\n+  def success(): Unit = await {"
+  }
+]

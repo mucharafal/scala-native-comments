@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "b6a9e5e9-859c-49db-98ff-dedba4019dbc",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "ec910c07-c9ec-457e-982f-58606a8fcb61",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd group cast intrinsics together with previous casts. ",
+        "createdAt" : "2019-05-28T09:08:47Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 117,
+    "diffHunk" : "@@ -161,5 +186,20 @@ abstract class NirPrimitives {\n     addPrimitive(CastIntToRawPtrMethod, CAST_INT_TO_RAWPTR)\n     addPrimitive(CastLongToRawPtrMethod, CAST_LONG_TO_RAWPTR)\n     addPrimitive(ResolveCFuncPtrMethod, RESOLVE_CFUNCPTR)\n+\n+    addPrimitive(CastRawWordToInt, CAST_RAWWORD_TO_INT)\n+    addPrimitive(CastRawWordToLong, CAST_RAWWORD_TO_LONG)\n+    addPrimitive(CastIntToRawWord, CAST_INT_TO_RAWWORD)\n+    addPrimitive(CastLongToRawWord, CAST_LONG_TO_RAWWORD)"
+  },
+  {
+    "id" : "8aff97c9-00c9-4391-aacc-d343c67e9706",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "0f02de7f-ea2b-41bc-ad65-d6ec905ef65a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Group with previous casts here too.",
+        "createdAt" : "2019-05-28T09:09:03Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -63,6 +65,21 @@ object NirPrimitives {\n   final val CAST_LONG_TO_RAWPTR    = 1 + CAST_INT_TO_RAWPTR\n \n   final val RESOLVE_CFUNCPTR = 1 + CAST_LONG_TO_RAWPTR\n+\n+  final val CAST_RAWWORD_TO_INT  = 1 + RESOLVE_CFUNCPTR\n+  final val CAST_RAWWORD_TO_LONG = 1 + CAST_RAWWORD_TO_INT\n+  final val CAST_INT_TO_RAWWORD  = 1 + CAST_RAWWORD_TO_LONG\n+  final val CAST_LONG_TO_RAWWORD = 1 + CAST_INT_TO_RAWWORD"
+  }
+]

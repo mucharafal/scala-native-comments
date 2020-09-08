@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "0c2b4d93-7217-4659-83a1-17282c2a31ca",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "91232cdd-346d-4f15-a141-bfce7c64f73a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I'm pretty sure this does nothing but loading the companion object `BailOut`. It should be `bailOut` to call the `def` defined above. Also, since all the other `case`s in this match have their bodies on separate lines, consider following the style, as follows:\r\n```suggestion\r\n        case _ =>\r\n          bailOut\r\n```",
+        "createdAt" : "2020-05-05T16:11:37Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e569eced-0e10-445e-a6f1-f5e66e88dd08",
+        "parentId" : "91232cdd-346d-4f15-a141-bfce7c64f73a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Good catch!  Thank you.   Implemented as suggested.",
+        "createdAt" : "2020-05-05T20:52:25Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -90,6 +90,7 @@ trait Eval { self: Interflow =>\n             throw BailOut(\"try-catch\")\n           }\n           return Inst.Unreachable(Next.None)\n+        case _ => BailOut"
+  }
+]

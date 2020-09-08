@@ -1,0 +1,3101 @@
+[
+  {
+    "id" : "d96efc8a-4bfa-4452-9d57-993c79e523c7",
+    "prId" : 406,
+    "comments" : [
+      {
+        "id" : "2e4c5944-9266-44d4-ad8f-170f5b9c6d0e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Formatting seems off. Did you run `scalafmt` ?",
+        "createdAt" : "2016-11-26T12:08:53Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f3b96fdf83ada2341c08f79cbd400e3421bfcfeb",
+    "line" : null,
+    "diffHunk" : "@@ -61,11 +70,38 @@ object ScalaNativePluginInternal {\n     }\n   }\n \n+  case object NoPosition extends Position {\n+    import Maybe._\n+\n+    def line: Maybe[Integer]        = nothing[Integer]\n+    def lineContent: String         = \"\"\n+    def offset: Maybe[Integer]      = nothing[Integer]\n+    def pointer: Maybe[Integer]     = nothing[Integer]\n+    def pointerSpace: Maybe[String] = nothing[String]\n+    def sourcePath: Maybe[String]   = nothing[String]\n+    def sourceFile: Maybe[File]     = nothing[File]\n+  }\n+\n   /** Compiles application nir to llvm ir. */\n-  private def compileNir(config: tools.Config): Seq[nir.Attr.Link] = {\n-    val driver       = tools.Driver(config)\n-    val (links, raw) = tools.link(config, driver)\n-    val optimized    = tools.optimize(config, driver, raw)\n+  private def compileNir(config: tools.Config, logger: Logger, reporter: Option[Reporter]): Seq[nir.Attr.Link] = {\n+    val driver = tools.Driver(config)\n+    val (unresolved, links, raw) = tools.link(config, driver)\n+\n+    if(!unresolved.isEmpty) {\n+      import nir.Shows._\n+\n+      unresolved.map(u => sh\"$u\".toString).sorted.foreach{signature =>"
+  },
+  {
+    "id" : "87e5c822-6f4b-4bd3-ab9b-266f80747099",
+    "prId" : 406,
+    "comments" : [
+      {
+        "id" : "da392a3c-80d7-4064-9416-b53462238882",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`compilerReporter` seems to be a massive overkill for this. Are there any lighter-weight abstractions in sbt for logging? ",
+        "createdAt" : "2016-11-26T12:11:19Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "764ed245-e746-4fcb-a38a-9fde3f4eedc4",
+        "parentId" : "da392a3c-80d7-4064-9416-b53462238882",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Now it's a bit too much, but if we add position to linker error it will actually provide lots os things for free.",
+        "createdAt" : "2016-11-26T12:36:29Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "78a8d1ba-8e1e-4b8b-845a-770faff17e02",
+        "parentId" : "da392a3c-80d7-4064-9416-b53462238882",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "hum ok let's not use compilerReporter since we do not have position for linking errors right now.",
+        "createdAt" : "2016-11-26T12:40:59Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f3b96fdf83ada2341c08f79cbd400e3421bfcfeb",
+    "line" : null,
+    "diffHunk" : "@@ -61,11 +70,38 @@ object ScalaNativePluginInternal {\n     }\n   }\n \n+  case object NoPosition extends Position {\n+    import Maybe._\n+\n+    def line: Maybe[Integer]        = nothing[Integer]\n+    def lineContent: String         = \"\"\n+    def offset: Maybe[Integer]      = nothing[Integer]\n+    def pointer: Maybe[Integer]     = nothing[Integer]\n+    def pointerSpace: Maybe[String] = nothing[String]\n+    def sourcePath: Maybe[String]   = nothing[String]\n+    def sourceFile: Maybe[File]     = nothing[File]\n+  }\n+\n   /** Compiles application nir to llvm ir. */\n-  private def compileNir(config: tools.Config): Seq[nir.Attr.Link] = {\n-    val driver       = tools.Driver(config)\n-    val (links, raw) = tools.link(config, driver)\n-    val optimized    = tools.optimize(config, driver, raw)\n+  private def compileNir(config: tools.Config, logger: Logger, reporter: Option[Reporter]): Seq[nir.Attr.Link] = {\n+    val driver = tools.Driver(config)\n+    val (unresolved, links, raw) = tools.link(config, driver)\n+\n+    if(!unresolved.isEmpty) {\n+      import nir.Shows._\n+\n+      unresolved.map(u => sh\"$u\".toString).sorted.foreach{signature =>\n+        val message = s\"cannot link: $signature\"\n+        reporter match {\n+          case Some(r) => r.log(NoPosition, message, Severity.Error)\n+          case None => logger.error(message)\n+        }        \n+      }"
+  },
+  {
+    "id" : "77830adf-2c80-4a40-ae0a-933c22ddc9e3",
+    "prId" : 406,
+    "comments" : [
+      {
+        "id" : "069a2ee5-a8f9-4dd4-bb9f-343d563c6f28",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Dead code!",
+        "createdAt" : "2016-11-26T13:14:20Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f3b96fdf83ada2341c08f79cbd400e3421bfcfeb",
+    "line" : null,
+    "diffHunk" : "@@ -61,11 +67,35 @@ object ScalaNativePluginInternal {\n     }\n   }\n \n+  case object NoPosition extends Position {\n+    import Maybe._\n+\n+    def line: Maybe[Integer]        = nothing[Integer]\n+    def lineContent: String         = \"\"\n+    def offset: Maybe[Integer]      = nothing[Integer]\n+    def pointer: Maybe[Integer]     = nothing[Integer]\n+    def pointerSpace: Maybe[String] = nothing[String]\n+    def sourcePath: Maybe[String]   = nothing[String]\n+    def sourceFile: Maybe[File]     = nothing[File]\n+  }"
+  },
+  {
+    "id" : "f5747ea2-facd-49b1-b214-895bff8535ac",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "a09a3de8-0cda-476a-a5c6-03cfaeb8e2a1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is there a key in sbt that gives us \"classes\" directory straight away? ",
+        "createdAt" : "2016-11-29T16:33:50Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -199,16 +199,38 @@ object ScalaNativePluginInternal {\n     artifactPath in nativeLink := {\n       (crossTarget in Compile).value / (moduleName.value + \"-out\")\n     },\n+    nativeExternalDependencies := {\n+      val forceCompile = (compile in Compile).value\n+\n+      val target  = (crossTarget in Compile).value / \"classes\""
+  },
+  {
+    "id" : "5df88837-7780-413d-8c7c-49840906428d",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "7b8e7dcb-a3cc-4224-98c3-ea94a7fc64e5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think it's best to keep all of the clang-related vals together. ",
+        "createdAt" : "2016-11-30T15:20:16Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -213,15 +217,18 @@ object ScalaNativePluginInternal {\n     nativeLinkerReporter := tools.LinkerReporter.empty,\n     nativeOptimizerReporter := tools.OptimizerReporter.empty,\n     nativeLink := ResourceScope { implicit in =>\n+      val clang = nativeClang.value\n+      checkThatClangIsRecentEnough(clang)\n+\n       val mainClass = (selectMainClass in Compile).value.getOrElse(\n         throw new MessageOnlyException(\"No main class detected.\")\n       )\n-      val entry             = nir.Global.Top(mainClass.toString + \"$\")\n-      val classpath         = (fullClasspath in Compile).value.map(_.data)\n-      val target            = (crossTarget in Compile).value\n-      val appll             = target / \"out.ll\"\n-      val binary            = (artifactPath in nativeLink).value\n-      val clang             = nativeClang.value\n+      val entry     = nir.Global.Top(mainClass.toString + \"$\")\n+      val classpath = (fullClasspath in Compile).value.map(_.data)\n+      val target    = (crossTarget in Compile).value\n+      val appll     = target / \"out.ll\"\n+      val binary    = (artifactPath in nativeLink).value\n+\n       val clangpp           = nativeClangPP.value\n       val clangOpts         = nativeClangOptions.value"
+  },
+  {
+    "id" : "e9874431-91d0-4ce2-96a0-472d4ae99002",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "261e1e82-2857-4d71-8c53-40ba2f37e2b3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think it's best to keep all of the block-local imports in the very beginning of the block whenever possible. ",
+        "createdAt" : "2016-11-30T15:21:35Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -283,6 +288,25 @@ object ScalaNativePluginInternal {\n       val result = compileIfChanged(inputFiles)\n       binary\n     },\n+    nativeExternalDependencies := {\n+      val forceCompile = (compile in Compile).value\n+\n+      val classes = classDirectory.target\n+      val progDir = VirtualDirectory.real(classes)\n+      val prog    = tools.Path(progDir)\n+\n+      import nir.Shows._"
+  },
+  {
+    "id" : "1e8989e6-3cb6-48b2-87bb-a66dfb863ee0",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "427c7700-035b-4fa1-982e-958cdc52a91b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`List all external dependencies.`",
+        "createdAt" : "2016-11-30T15:23:42Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -19,12 +19,16 @@ import scala.util.Try\n import System.{lineSeparator => nl}\n \n object ScalaNativePluginInternal {\n+\n   val nativeLinkerReporter = settingKey[tools.LinkerReporter](\n     \"A reporter that gets notified whenever a linking event happens.\")\n \n   val nativeOptimizerReporter = settingKey[tools.OptimizerReporter](\n     \"A reporter that gets notified whenever an optimizer event happens.\")\n \n+  val nativeExternalDependencies =\n+    taskKey[Seq[String]](\"Find all external dependencies\")"
+  },
+  {
+    "id" : "26eabfb3-1c0f-460b-94f3-b4f22962ebce",
+    "prId" : 412,
+    "comments" : [
+      {
+        "id" : "95918698-c11d-48ba-b435-48223628aaf9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a detailed comment to explain what's going on down there. ",
+        "createdAt" : "2016-11-29T15:22:05Z",
+        "updatedAt" : "2016-11-30T15:17:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fbbab6949946b1c51a2be92737adc6b0a62273f3",
+    "line" : null,
+    "diffHunk" : "@@ -169,18 +169,67 @@ object ScalaNativePluginInternal {\n     Process(compile, target) ! logger\n   }\n \n-  lazy val projectSettings = Seq(\n+  lazy val projectSettings =\n+    unscopedSettings ++\n+      inConfig(Compile)(scopedSettings) ++\n+      inConfig(Test)(scopedSettings) ++\n+      inScope(Global)(defaultSettings)\n+\n+  lazy val unscopedSettings = Seq(\n     libraryDependencies ++= Seq(\n-      \"org.scala-native\" %%% \"nativelib\" % nativeVersion,\n-      \"org.scala-native\" %%% \"javalib\"   % nativeVersion,\n-      \"org.scala-native\" %%% \"scalalib\"  % nativeVersion\n+      \"org.scala-native\" %% \"nativelib\" % nativeVersion,\n+      \"org.scala-native\" %% \"javalib\"   % nativeVersion,\n+      \"org.scala-native\" %% \"scalalib\"  % nativeVersion,\n+      \"org.scala-native\" %% \"test-interface\" % nativeVersion % \"test\"\n     ),\n     addCompilerPlugin(\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full),\n     nativeVerbose := false,\n     nativeEmitDependencyGraphPath := None,\n     nativeLibraryLinkage := Map(),\n-    nativeSharedLibrary := false,\n+    nativeSharedLibrary := false\n+  )\n+\n+  def derivedProjects(proj: ProjectDefinition[_]): Seq[Project] ="
+  },
+  {
+    "id" : "f3df4870-5327-460d-a30d-ade7940523c3",
+    "prId" : 477,
+    "comments" : [
+      {
+        "id" : "64b4e6e0-6d8b-42a5-87b7-86aee96dcee9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not working out that well. Apparently there is more than one name for the same target on MacOS depending on whether apple-built or homebrew-built clang is used. We should probably just compile dummy C file with `-S -emit-llvm` and find `target triple` in there. This will also remove dependency on `llc`.",
+        "createdAt" : "2017-01-10T12:18:08Z",
+        "updatedAt" : "2017-01-13T13:35:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "98aae687-81ae-4ff5-afcd-36c238b9cbbc",
+        "parentId" : "64b4e6e0-6d8b-42a5-87b7-86aee96dcee9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed in https://github.com/scala-native/scala-native/pull/484",
+        "createdAt" : "2017-01-10T16:33:41Z",
+        "updatedAt" : "2017-01-13T13:35:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4676d2da934189e1643fdfed11d84c007f82275a",
+    "line" : null,
+    "diffHunk" : "@@ -268,7 +272,15 @@ object ScalaNativePluginInternal {\n       discover(\"clang++\", Seq((\"3\", \"8\"), (\"3\", \"7\")))\n     },\n     nativeClangOptions := {\n-      includes ++ libs ++ maybeInjectShared(nativeSharedLibrary.value)\n+      val target = Seq(\"-target\", nativeTarget.value)\n+      target ++ includes ++ libs ++ maybeInjectShared(\n+        nativeSharedLibrary.value)\n+    },\n+    nativeTarget := {\n+      Process(\"llc -version\").lines_!.collectFirst {\n+        case line if line.contains(\"Default target: \") =>\n+          line.replace(\"Default target: \", \"\").replace(\" \", \"\")\n+      }.get"
+  },
+  {
+    "id" : "f66a7645-b626-455b-a0c8-3a0883dd5a33",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "41412e14-53c9-454d-b853-3d05d62c5c80",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same comment as above. ",
+        "createdAt" : "2017-03-20T10:22:01Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -479,4 +487,31 @@ object ScalaNativePluginInternal {\n       throw new MessageOnlyException(\n         \"nativeMode can be either \\\"debug\\\" or \\\"release\\\", not: \" + value)\n   }\n+\n+  private def garbageCollector(gc: String) = gc match {\n+    case \"nogc\"    => NoGC\n+    case \"boehmgc\" => BoehmGC\n+    case value =>\n+      throw new MessageOnlyException(\n+        \"nativeGC can be either \\\"nogc\\\" or \\\"boehmgc\\\", not: \" + value)\n+  }"
+  },
+  {
+    "id" : "1cb65130-0b6d-4cad-ae04-ff5faa4a1cfd",
+    "prId" : 583,
+    "comments" : [
+      {
+        "id" : "3121c5fd-0048-48d9-8bc3-e5a71d878380",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This changes the stack trace in `printStackTrace` test. It should be updated with new reference. ",
+        "createdAt" : "2017-04-05T08:56:10Z",
+        "updatedAt" : "2017-04-05T12:15:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e0ba817997e18702df4b2b71e306a06b7648808d",
+    "line" : 5,
+    "diffHunk" : "@@ -149,7 +149,7 @@ object ScalaNativePluginInternal {\n     paths.par\n       .map { path =>\n         val compiler = abs(if (path.endsWith(\".cpp\")) clangpp else clang)\n-        val compilec = compiler +: (includes :+ \"-c\" :+ path :+ \"-o\" :+ path + \".o\")\n+        val compilec = compiler +: \"-O2\" +: (includes :+ \"-c\" :+ path :+ \"-o\" :+ path + \".o\")"
+  },
+  {
+    "id" : "eb387929-0f57-4114-a094-e1929676ffe2",
+    "prId" : 587,
+    "comments" : [
+      {
+        "id" : "89a573ce-30cb-4eb8-b974-2efba9d239ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Java 9 and newer should be fine too, it's only blocked by the availability of the new NIO APIs. ",
+        "createdAt" : "2017-03-22T15:33:34Z",
+        "updatedAt" : "2017-04-03T09:08:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ebdae782-fcdc-4975-afe4-8afd9c6beb89",
+        "parentId" : "89a573ce-30cb-4eb8-b974-2efba9d239ff",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I changed it to Java 8 or more recent.",
+        "createdAt" : "2017-03-22T15:46:53Z",
+        "updatedAt" : "2017-04-03T09:08:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9ada01112bb328187869ff1497fd91b3d8336465",
+    "line" : null,
+    "diffHunk" : "@@ -284,6 +284,12 @@ object ScalaNativePluginInternal {\n       \"org.scala-native\" %%% \"javalib\"   % nativeVersion,\n       \"org.scala-native\" %%% \"scalalib\"  % nativeVersion\n     ),\n+    javacOptions ++= Seq(\"-source\", \"1.8\", \"-target\", \"1.8\"),\n+    initialize := {\n+      val res = initialize.value\n+      if (sys.props(\"java.specification.version\") != \"1.8\")\n+        sys.error(\"Java 8 is required for this project.\")\n+    },"
+  },
+  {
+    "id" : "940cb8a2-0ddf-4246-b198-2145e18de304",
+    "prId" : 587,
+    "comments" : [
+      {
+        "id" : "a1c4c9cd-00bd-4164-a925-c9924df9d81d",
+        "parentId" : null,
+        "author" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "body" : "`toDouble` may throws NumberFormatException ?\r\n\r\n- https://github.com/scala/scala/pull/5276\r\n- http://openjdk.java.net/jeps/223",
+        "createdAt" : "2017-03-22T15:52:30Z",
+        "updatedAt" : "2017-04-03T09:08:57Z",
+        "lastEditedBy" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dab78a69-6f9c-4364-b2c2-8b49b8d42d82",
+        "parentId" : "a1c4c9cd-00bd-4164-a925-c9924df9d81d",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Thanks, I quickly looked at `java.specification.version` but didn't find evidence that it may have a different format. I'll change that.",
+        "createdAt" : "2017-03-22T15:53:58Z",
+        "updatedAt" : "2017-04-03T09:08:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9ada01112bb328187869ff1497fd91b3d8336465",
+    "line" : null,
+    "diffHunk" : "@@ -287,8 +287,8 @@ object ScalaNativePluginInternal {\n     javacOptions ++= Seq(\"-source\", \"1.8\", \"-target\", \"1.8\"),\n     initialize := {\n       val res = initialize.value\n-      if (sys.props(\"java.specification.version\") != \"1.8\")\n-        sys.error(\"Java 8 is required for this project.\")\n+      if (sys.props(\"java.specification.version\").toDouble < 1.8)"
+  },
+  {
+    "id" : "c21041eb-5c62-479e-baed-fce5339452ce",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "b21f72e6-5158-4736-a138-b39bda8f49d6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't need these options.",
+        "createdAt" : "2017-04-05T14:02:17Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "71b88cae-8da4-478f-9673-a9c3e97845f9",
+        "parentId" : "b21f72e6-5158-4736-a138-b39bda8f49d6",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "https://github.com/scala-native/scala-native/pull/588#discussion_r109931239",
+        "createdAt" : "2017-04-05T14:31:18Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -309,11 +316,14 @@ object ScalaNativePluginInternal {\n     nativeClangPP := {\n       discover(\"clang++\", Seq((\"3\", \"8\"), (\"3\", \"7\")))\n     },\n+    nativeClangOptions := Seq(),\n+    nativeClangPPOptions := Seq(\"-std=c++11\"),"
+  },
+  {
+    "id" : "d58a4f92-c84b-4dd3-b9a0-d0f19e6d7f5f",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "4f9d5dab-abc0-4503-8186-44681f3b21bc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Use `@link(\"re2\")` on the object with bindings instead. There is no need to link with re2 if the bindings are not used.",
+        "createdAt" : "2017-04-05T14:03:24Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -223,8 +229,9 @@ object ScalaNativePluginInternal {\n       val opaths = (nativelib ** \"*.o\").get.map(abs)\n       val paths  = apppaths ++ opaths\n       val links = {\n-        val os   = Option(sys props \"os.name\").getOrElse(\"\")\n-        val arch = compileTarget.split(\"-\").head\n+        val os    = Option(sys props \"os.name\").getOrElse(\"\")\n+        val arch  = compileTarget.split(\"-\").head\n+        val regex = Seq(\"re2\")"
+  },
+  {
+    "id" : "5668ba82-e5dd-4626-8c40-29a819c9db10",
+    "prId" : 612,
+    "comments" : [
+      {
+        "id" : "d78d1cda-7b50-4f9e-947c-97d132d87a27",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't really see how signal number is any friendlier than exit code. Showing exit code and equivalent human-readable signal name in parenthesis might be a slight improvement over what we have now. ",
+        "createdAt" : "2017-04-05T10:24:37Z",
+        "updatedAt" : "2017-04-05T10:24:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "cda79b5cc0bee6c3e3347744e9c1270b77185e72",
+    "line" : 20,
+    "diffHunk" : "@@ -432,7 +432,24 @@ object ScalaNativePluginInternal {\n       val args   = spaceDelimited(\"<arg>\").parsed\n \n       logger.running(binary +: args)\n-      val exitCode = Process(binary +: args).!\n+      val exitCode =\n+        Process(binary +: args).run(logger, connectInput = true).exitValue\n+\n+      val fatal = 128\n+      val message =\n+        if (exitCode == 0) None\n+        else if (exitCode > fatal) {\n+          // http://man7.org/linux/man-pages/man7/signal.7.html\n+          val SIGSEGV = 11\n+\n+          val signal = exitCode - fatal\n+\n+          if (signal == SIGSEGV) {\n+            Some(\"Segmentation fault\")\n+          } else {\n+            Some(\"Nonzero exit code: signal \" + signal)"
+  },
+  {
+    "id" : "7e7e46f9-a6f5-48dc-a375-62d71dd9ef04",
+    "prId" : 613,
+    "comments" : [
+      {
+        "id" : "b35fc0d6-98f3-4d7c-9779-d0400c1a9e7f",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It would be cool to also recompile with `-g`.",
+        "createdAt" : "2017-04-04T19:13:06Z",
+        "updatedAt" : "2017-04-04T19:13:06Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "140a51aa-0f2d-4e4f-847e-d7b5612e2d9b",
+        "parentId" : "b35fc0d6-98f3-4d7c-9779-d0400c1a9e7f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It doesn't really matter as that flag only applies for the C/C++ code, not LLVM that we generate. We don't emit any debug symbols ourselves yet (see #29.)",
+        "createdAt" : "2017-04-05T10:14:13Z",
+        "updatedAt" : "2017-04-05T10:14:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e354b410-2f9f-4b74-a586-5ad2fc50a369",
+        "parentId" : "b35fc0d6-98f3-4d7c-9779-d0400c1a9e7f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Wouldn't it still help for debugging the nativelib?",
+        "createdAt" : "2017-04-05T11:04:07Z",
+        "updatedAt" : "2017-04-05T11:04:08Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d781cfb2-239e-4370-9d80-98e04d067900",
+        "parentId" : "b35fc0d6-98f3-4d7c-9779-d0400c1a9e7f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "But you'll have to turn it off for release builds. I'm not sure if extra complexity is worth it here. Especially considering that C/C++ code in nativelib are mostly wrappers. ",
+        "createdAt" : "2017-04-05T11:06:15Z",
+        "updatedAt" : "2017-04-05T11:06:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "888e2d0503561687eef855b1f8f630f41ded153b",
+    "line" : 13,
+    "diffHunk" : "@@ -322,6 +322,16 @@ object ScalaNativePluginInternal {\n       IO.read(nativeNativelib.value / \"target\")\n     },\n     nativeMode := \"debug\",\n+    nativeDebug := {\n+      val binary = abs(nativeLink.value)\n+      val lldb   = abs(nativeLLDB.value)\n+      val logger = streams.value.log\n+      Process(lldb +: Seq(\"-f\", binary, \"-o\", \"run\"))\n+        .run(logger, connectInput = true)\n+        .exitValue\n+\n+      ()\n+    },"
+  },
+  {
+    "id" : "46b604db-db28-47fd-aef0-4ca607220dd6",
+    "prId" : 613,
+    "comments" : [
+      {
+        "id" : "a04d10b8-ddaa-49ae-8d9d-d3a38db30ee4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Code for discovery of `lldb` is missing.",
+        "createdAt" : "2017-04-05T10:30:00Z",
+        "updatedAt" : "2017-04-05T10:30:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "888e2d0503561687eef855b1f8f630f41ded153b",
+    "line" : 6,
+    "diffHunk" : "@@ -322,6 +322,16 @@ object ScalaNativePluginInternal {\n       IO.read(nativeNativelib.value / \"target\")\n     },\n     nativeMode := \"debug\",\n+    nativeDebug := {\n+      val binary = abs(nativeLink.value)\n+      val lldb   = abs(nativeLLDB.value)"
+  },
+  {
+    "id" : "d3870439-d907-4e67-9696-c6eba9b94964",
+    "prId" : 630,
+    "comments" : [
+      {
+        "id" : "5d22a417-32ce-48ce-b23f-eee14731f695",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Hum this undo the work for: https://github.com/scala-native/scala-native/issues/562",
+        "createdAt" : "2017-04-11T15:27:00Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "fbf3fcfe-10ef-4958-bfee-0bfe6b5afc29",
+        "parentId" : "5d22a417-32ce-48ce-b23f-eee14731f695",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yes, it did not scale at all to the model where everything is a task. ",
+        "createdAt" : "2017-04-11T15:28:19Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "787c6a8d-1175-41a4-b48b-81ca6315916d",
+        "parentId" : "5d22a417-32ce-48ce-b23f-eee14731f695",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Actually, as tasks, they will get evaluated only if another task depending on them is executed. So it should be quite fine for #562.",
+        "createdAt" : "2017-04-11T20:13:50Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e69189be-3272-422b-a914-a9d4e92398a0",
+        "parentId" : "5d22a417-32ce-48ce-b23f-eee14731f695",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A bit of background: previously @MasseGuillaume suggested we make `nativeClang` a setting of type `Option[File]` instead of `File`. This seemed to be okey when most of the code was outside DSL world in helper functions. Now, when everything is a task, it's super annoying to deal with this option and it complicates code considerably. So instead, this PR goes with a simpler solution: making `nativeClang` to be a task.",
+        "createdAt" : "2017-04-12T08:36:46Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e791f07d668b442dbb5ec1d3c800fa193024ce2e",
+    "line" : 302,
+    "diffHunk" : "@@ -313,131 +112,254 @@ object ScalaNativePluginInternal {\n     },\n     addCompilerPlugin(\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full),\n-    nativeSharedLibrary := false,\n-    nativeClang := None,\n-    nativeClangPP := None,\n+    nativeClang := {"
+  },
+  {
+    "id" : "5bb46691-525d-4fa9-9d75-98acf1138a4d",
+    "prId" : 630,
+    "comments" : [
+      {
+        "id" : "484aab15-949c-4240-bea6-7da13bddf745",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Use `outpath`",
+        "createdAt" : "2017-04-11T17:28:51Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3cb8ed7c-9de3-4626-adca-c3dfb660b539",
+        "parentId" : "484aab15-949c-4240-bea6-7da13bddf745",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-04-11T20:06:04Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e791f07d668b442dbb5ec1d3c800fa193024ce2e",
+    "line" : null,
+    "diffHunk" : "@@ -313,131 +112,254 @@ object ScalaNativePluginInternal {\n     },\n     addCompilerPlugin(\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full),\n-    nativeSharedLibrary := false,\n-    nativeClang := None,\n-    nativeClangPP := None,\n+    nativeClang := {\n+      val clang = discover(\"clang\", clangVersions)\n+      checkThatClangIsRecentEnough(clang)\n+      clang\n+    },\n+    nativeClangPP := {\n+      val clang = discover(\"clang++\", clangVersions)\n+      checkThatClangIsRecentEnough(clang)\n+      clang\n+    },\n     nativeCompileOptions := {\n-      Seq(\"-Qunused-arguments\") ++\n+      val includes = {\n+        val includedir =\n+          Try(Process(\"llvm-config --includedir\").lines_!.toSeq)\n+            .getOrElse(Seq.empty)\n+        (\"/usr/local/include\" +: includedir).map(s => s\"-I$s\")\n+      }\n+      includes :+ \"-Qunused-arguments\" :+\n         (mode(nativeMode.value) match {\n-          case tools.Mode.Debug   => Seq(\"-O0\")\n-          case tools.Mode.Release => Seq(\"-O2\")\n+          case tools.Mode.Debug   => \"-O0\"\n+          case tools.Mode.Release => \"-O2\"\n         })\n     },\n     nativeLinkingOptions := {\n-      includes ++ libs ++ maybeInjectShared(nativeSharedLibrary.value)\n+      val libs = {\n+        val libdir =\n+          Try(Process(\"llvm-config --libdir\").lines_!.toSeq)\n+            .getOrElse(Seq.empty)\n+        (\"/usr/local/lib\" +: libdir).map(s => s\"-L$s\")\n+      }\n+      libs\n     },\n     nativeTarget := {\n-      IO.read(nativeNativelib.value / \"target\")\n+      val logger       = nativeLogger.value\n+      val cwd          = nativeWorkdir.value\n+      val clang        = nativeClang.value\n+      val targetcfile  = cwd / \"target.c\"\n+      val targetllfile = cwd / \"target.ll\"\n+      val compilec     = Seq(abs(clang), \"-S\", \"-emit-llvm\", abs(targetcfile))\n+      def fail =\n+        throw new MessageOnlyException(\"Failed to detect native target.\")\n+\n+      IO.write(targetcfile, \"int probe;\")\n+      logger.running(compilec)\n+      val exit = Process(compilec, cwd) ! logger\n+      if (exit != 0) fail\n+      IO.readLines(targetllfile)\n+        .collectFirst {\n+          case line if line.startsWith(\"target triple\") =>\n+            line.split(\"\\\"\").apply(1)\n+        }\n+        .getOrElse(fail)\n     },\n     nativeMode := \"debug\",\n     artifactPath in nativeLink := {\n       (crossTarget in Compile).value / (moduleName.value + \"-out\")\n     },\n     nativeLinkerReporter := tools.LinkerReporter.empty,\n     nativeOptimizerReporter := tools.OptimizerReporter.empty,\n+    nativeOptimizerDriver := tools.OptimizerDriver(nativeConfig.value),\n+    nativeWorkdir := {\n+      val workdir = (Keys.crossTarget in Compile).value / \"native\"\n+      IO.delete(workdir)\n+      IO.createDirectory(workdir)\n+      workdir\n+    },\n+    nativeLogger := streams.value.log,\n     nativeGC := \"boehm\",\n-    nativeNativelib := {\n-      val nativelib = (crossTarget in Compile).value / \"nativelib\"\n-\n-      val clang   = findClang(nativeClang.value)\n-      val clangpp = findClangPP(nativeClangPP.value)\n-\n-      val jar = (fullClasspath in Compile).value\n-        .map(entry => abs(entry.data))\n-        .collectFirst {\n-          case p if p.contains(\"scala-native\") && p.contains(\"nativelib\") =>\n-            file(p)\n-        }\n-        .get\n-      val logger = streams.value.log\n-\n+    nativeCompileLib := {\n+      val cwd       = nativeWorkdir.value\n+      val logger    = nativeLogger.value\n+      val gc        = nativeGC.value\n+      val clang     = nativeClang.value\n+      val clangpp   = nativeClangPP.value\n+      val classpath = (fullClasspath in Compile).value\n+      val opts      = nativeCompileOptions.value\n+\n+      val lib = cwd / \"lib\"\n+      val jar =\n+        classpath\n+          .map(entry => abs(entry.data))\n+          .collectFirst {\n+            case p if p.contains(\"scala-native\") && p.contains(\"nativelib\") =>\n+              file(p)\n+          }\n+          .get\n       val jarhash     = Hash(jar).toSeq\n-      val jarhashfile = nativelib / \"jarhash\"\n+      val jarhashfile = lib / \"jarhash\"\n       def bootstrapped =\n-        nativelib.exists &&\n+        lib.exists &&\n           jarhashfile.exists &&\n           jarhash == IO.readBytes(jarhashfile).toSeq\n \n       if (!bootstrapped) {\n-        IO.delete(nativelib)\n-        IO.unzip(jar, nativelib)\n+        IO.delete(lib)\n+        IO.unzip(jar, lib)\n         IO.write(jarhashfile, Hash(jar))\n \n-        val compiledC =\n-          compileCSources(clang, clangpp, nativelib, nativeGC.value, logger)\n-\n-        val detectedTarget = compileTargetProbe(clang, nativelib, logger)\n-\n-        if (!compiledC || !detectedTarget) {\n-          throw new MessageOnlyException(\"failed to unpack nativelib\")\n+        val cpaths   = filterGCSources(gc, (cwd ** \"*.c\").get, cwd).map(abs)\n+        val cpppaths = filterGCSources(gc, (cwd ** \"*.cpp\").get, cwd).map(abs)\n+        val paths    = cpaths ++ cpppaths\n+\n+        paths.par.foreach {\n+          path =>\n+            val isCppSource = path.endsWith(\".cpp\")\n+\n+            val compiler = abs(if (isCppSource) clangpp else clang)\n+            val flags = Seq(\"-O2\") ++ (if (isCppSource) Seq(\"-std=c++11\")\n+                                       else Seq()) ++ opts\n+            val compilec = Seq(compiler) ++ flags ++ Seq(\"-c\",\n+                                                         path,\n+                                                         \"-o\",\n+                                                         path + \".o\")\n+\n+            logger.running(compilec)\n+            val result = Process(compilec, cwd) ! logger\n+            if (result != 0) {\n+              println(\"Failed to compile native library runtime code.\")\n+            }\n         }\n       }\n \n-      nativelib\n+      lib\n     },\n-    nativeLink := ResourceScope { implicit scope =>\n-      val logger = streams.value.log\n+    nativeConfig := {\n+      val mainClass = (selectMainClass in Compile).value.getOrElse(\n+        throw new MessageOnlyException(\"No main class detected.\")\n+      )\n+      val classpath = (fullClasspath in Compile).value.map(_.data)\n+      val entry     = nir.Global.Top(mainClass.toString + \"$\")\n+      val cwd       = nativeWorkdir.value\n+\n+      tools.Config.empty\n+        .withEntry(entry)\n+        .withPaths(classpath)\n+        .withWorkdir(cwd)\n+        .withTarget(nativeTarget.value)\n+        .withMode(mode(nativeMode.value))\n+    },\n+    nativeLinkNIR := {\n+      val logger   = nativeLogger.value\n+      val driver   = nativeOptimizerDriver.value\n+      val config   = nativeConfig.value\n+      val reporter = nativeLinkerReporter.value\n+      val result = logger.time(\"Linking\") {\n+        tools.link(config, driver, reporter)\n+      }\n+      if (result.unresolved.nonEmpty) {\n+        result.unresolved.map(_.show).sorted.foreach { signature =>\n+          logger.error(s\"cannot link: $signature\")\n+          throw new MessageOnlyException(\"unable to link\")\n+        }\n+      }\n+      val classCount = result.defns.count {\n+        case _: nir.Defn.Class | _: nir.Defn.Module | _: nir.Defn.Trait => true\n+        case _                                                          => false\n+      }\n+      val methodCount = result.defns.count(_.isInstanceOf[nir.Defn.Define])\n+      logger.info(\n+        s\"Discovered ${classCount} classes and ${methodCount} methods\")\n+      result\n+    },\n+    nativeOptimizeNIR := {\n+      val logger   = nativeLogger.value\n+      val result   = nativeLinkNIR.value\n+      val config   = nativeConfig.value\n+      val reporter = nativeOptimizerReporter.value\n+      val driver   = nativeOptimizerDriver.value\n+      logger.time(\"Optimizing\") {\n+        tools.optimize(config, driver, result.defns, result.dyns, reporter)\n+      }\n+    },\n+    nativeGenerateLL := {\n+      val logger    = nativeLogger.value\n+      val config    = nativeConfig.value\n+      val optimized = nativeOptimizeNIR.value\n+      val cwd       = nativeWorkdir.value\n+      logger.time(\"Generating intermediate code\") {\n+        tools.codegen(config, optimized)\n+      }\n+      logger.info(s\"Produced ${(cwd ** \"*.ll\").get.length} files\")\n+      (cwd ** \"*.ll\").get.toSeq\n+    },\n+    nativeCompileLL := {\n+      val logger      = nativeLogger.value\n+      val generated   = nativeGenerateLL.value\n+      val clangpp     = nativeClangPP.value\n+      val cwd         = nativeWorkdir.value\n+      val compileOpts = nativeCompileOptions.value\n+      logger.time(\"Compiling to native code\") {\n+        generated.par\n+          .map { ll =>\n+            val apppath = abs(ll)\n+            val outpath = apppath + \".o\"\n+            val compile = Seq(abs(clangpp),\n+                              \"-c\",\n+                              apppath,\n+                              \"-o\",\n+                              apppath + \".o\") ++ compileOpts"
+  },
+  {
+    "id" : "9c2a0471-5178-458b-a37c-4c3446ac7102",
+    "prId" : 630,
+    "comments" : [
+      {
+        "id" : "590ecb76-02d3-4f6b-9a07-961a7bf5de91",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "An interesting side effect of making everything an sbt task, is that every single part can be overriden. For example one can inject their own NIR passes into the optimizer driver if they are not afraid to use internal APIs.",
+        "createdAt" : "2017-04-12T08:52:46Z",
+        "updatedAt" : "2017-04-12T09:19:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e791f07d668b442dbb5ec1d3c800fa193024ce2e",
+    "line" : 152,
+    "diffHunk" : "@@ -22,252 +22,57 @@ import java.io.File\n \n object ScalaNativePluginInternal {\n \n-  val nativeNativelib =\n-    taskKey[File](\"Unpack and precompile native lib.\")\n-\n-  val nativeTarget = taskKey[String](\"Target triple.\")\n-\n-  val nativeLinkerReporter = settingKey[tools.LinkerReporter](\n-    \"A reporter that gets notified whenever a linking event happens.\")\n-\n-  val nativeOptimizerReporter = settingKey[tools.OptimizerReporter](\n-    \"A reporter that gets notified whenever an optimizer event happens.\")\n-\n-  val nativeExternalDependencies =\n-    taskKey[Seq[String]](\"List all external dependencies at link time.\")\n-\n-  val nativeAvailableDependencies =\n-    taskKey[Seq[String]](\"List all symbols available at link time\")\n-\n-  val nativeMissingDependencies =\n-    taskKey[Seq[String]](\"List all symbols not available at link time\")\n-\n-  private lazy val includes = {\n-    val includedir =\n-      Try(Process(\"llvm-config --includedir\").lines_!.toSeq)\n-        .getOrElse(Seq.empty)\n-    (\"/usr/local/include\" +: includedir).map(s => s\"-I$s\")\n-  }\n-\n-  private lazy val libs = {\n-    val libdir =\n-      Try(Process(\"llvm-config --libdir\").lines_!.toSeq).getOrElse(Seq.empty)\n-    (\"/usr/local/lib\" +: libdir).map(s => s\"-L$s\")\n-  }\n-\n-  private def abs(file: File): String =\n-    file.getAbsolutePath\n-\n-  def discover(binaryName: String,\n-               binaryVersions: Seq[(String, String)]): File = {\n-\n-    val docInstallUrl =\n-      \"http://scala-native.readthedocs.io/en/latest/user/setup.html#installing-llvm-clang-and-boehm-gc\"\n-\n-    val envName =\n-      if (binaryName == \"clang\") \"CLANG\"\n-      else if (binaryName == \"clang++\") \"CLANGPP\"\n-      else binaryName\n-\n-    sys.env.get(s\"${envName}_PATH\") match {\n-      case Some(path) => file(path)\n-      case None => {\n-        val binaryNames = binaryVersions.flatMap {\n-          case (major, minor) =>\n-            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n-        } :+ binaryName\n-\n-        Process(\"which\" +: binaryNames).lines_!\n-          .map(file(_))\n-          .headOption\n-          .getOrElse {\n-            throw new MessageOnlyException(\n-              s\"no ${binaryNames.mkString(\", \")} found in $$PATH. Install clang ($docInstallUrl)\")\n-          }\n-      }\n-    }\n-  }\n-\n-  private def reportLinkingErrors(unresolved: Seq[nir.Global],\n-                                  logger: Logger): Nothing = {\n-    unresolved.map(_.show).sorted.foreach { signature =>\n-      logger.error(s\"cannot link: $signature\")\n-    }\n-\n-    throw new MessageOnlyException(\"unable to link\")\n-  }\n-\n-  implicit class RichLogger(logger: Logger) {\n-    def time[T](msg: String)(f: => T): T = {\n-      import java.lang.System.nanoTime\n-      val start = nanoTime()\n-      val res   = f\n-      val end   = nanoTime()\n-      logger.info(s\"$msg (${(end - start) / 1000000} ms)\")\n-      res\n-    }\n-\n-    def running(command: Seq[String]): Unit =\n-      logger.debug(\"running\" + nl + command.mkString(nl + \"\\t\"))\n-  }\n-\n-  /** Compiles application nir to llvm ir. */\n-  private def compileNir(config: tools.Config,\n-                         logger: Logger,\n-                         linkerReporter: tools.LinkerReporter,\n-                         optimizerReporter: tools.OptimizerReporter,\n-                         cwd: File): Seq[nir.Attr.Link] = {\n-\n-    val driver = tools.OptimizerDriver(config)\n-    val (unresolved, links, raw, dyns) = logger.time(\"Linking\") {\n-      tools.link(config, driver, linkerReporter)\n-    }\n-\n-    if (unresolved.nonEmpty) { reportLinkingErrors(unresolved, logger) }\n-\n-    val classCount = raw.count {\n-      case _: nir.Defn.Class | _: nir.Defn.Module | _: nir.Defn.Trait => true\n-      case _                                                          => false\n-    }\n-    val methodCount = raw.count(_.isInstanceOf[nir.Defn.Define])\n-    logger.info(s\"Discovered ${classCount} classes and ${methodCount} methods\")\n-\n-    val optimized = logger.time(\"Optimizing\") {\n-      tools.optimize(config, driver, raw, dyns, optimizerReporter)\n-    }\n-\n-    logger.time(\"Generating intermediate code\") {\n-      tools.codegen(config, optimized)\n-    }\n-    logger.info(s\"Produced ${(cwd ** \"*.ll\").get.length} files\")\n-\n-    links\n-  }\n-\n-  /** Compiles *.c[pp] in `cwd`. */\n-  def compileCSources(clang: File,\n-                      clangpp: File,\n-                      cwd: File,\n-                      gc: String,\n-                      logger: Logger): Boolean = {\n+  val nativeTarget =\n+    taskKey[String](\"Target triple.\")\n \n-    val cpaths   = filterGCSources(gc, (cwd ** \"*.c\").get, cwd).map(abs)\n-    val cpppaths = filterGCSources(gc, (cwd ** \"*.cpp\").get, cwd).map(abs)\n-    val paths    = cpaths ++ cpppaths\n+  val nativeLinkerReporter =\n+    settingKey[tools.LinkerReporter](\n+      \"A reporter that gets notified whenever a linking event happens.\")\n \n-    paths.par\n-      .map { path =>\n-        val isCppSource = path.endsWith(\".cpp\")\n+  val nativeOptimizerReporter =\n+    settingKey[tools.OptimizerReporter](\n+      \"A reporter that gets notified whenever an optimizer event happens.\")\n \n-        val compiler = abs(if (isCppSource) clangpp else clang)\n-        val flags    = if (isCppSource) Seq(\"-std=c++11\") else Seq()\n+  val nativeOptimizerDriver =\n+    taskKey[tools.OptimizerDriver](\"Pass manager for the optimizer.\")"
+  },
+  {
+    "id" : "d4aba525-8635-4f40-a826-83d5ac24d742",
+    "prId" : 653,
+    "comments" : [
+      {
+        "id" : "3a2ae85a-b32c-408a-a369-f846876b0483",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We do want to keep `-O2` as code from runtime library should always be optimized, even in debug mode. ",
+        "createdAt" : "2017-04-21T08:31:32Z",
+        "updatedAt" : "2017-04-21T12:13:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "bdb1154b-68e7-4ba6-a9d8-9cad3cd6b7fb",
+        "parentId" : "3a2ae85a-b32c-408a-a369-f846876b0483",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "In my experience `-O2` makes debugging harder and I'd expect that we want to ensure that the runtime library code itself is debug friendly when the user requests it, especially since it in some cases uses C wrappers.\r\n\r\nIf you insist that this is not the case, I think there is still a bug in that the optimization flag needs to be moved after the common flags to take effect.",
+        "createdAt" : "2017-04-21T11:45:19Z",
+        "updatedAt" : "2017-04-21T12:13:45Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0f8990c2-3e40-46a7-a088-66df366452ac",
+        "parentId" : "3a2ae85a-b32c-408a-a369-f846876b0483",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not the case at the moment. Most of the C/C++ code we have out there are just simple wrappers without any logic whatsoever, there isn't anything to debug in there.",
+        "createdAt" : "2017-04-21T11:47:28Z",
+        "updatedAt" : "2017-04-21T12:13:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "9cc0ef0f-e97d-4bce-9d5a-3231083bd542",
+        "parentId" : "3a2ae85a-b32c-408a-a369-f846876b0483",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "OK, I've updated the fix to fix the order so setting `nativeMode` to debug doesn't override it.",
+        "createdAt" : "2017-04-21T12:14:24Z",
+        "updatedAt" : "2017-04-21T12:14:24Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "139ca50b18848a3369ea42ccf50e9b761d86cf0a",
+    "line" : 15,
+    "diffHunk" : "@@ -221,8 +221,7 @@ object ScalaNativePluginInternal {\n             val isCppSource = path.endsWith(\".cpp\")\n \n             val compiler = abs(if (isCppSource) clangpp else clang)\n-            val flags = Seq(\"-O2\") ++ (if (isCppSource) Seq(\"-std=c++11\")\n-                                       else Seq()) ++ opts\n+            val flags    = (if (isCppSource) Seq(\"-std=c++11\") else Seq()) ++ opts"
+  },
+  {
+    "id" : "9afa2413-4c65-454c-8b35-e2ef21186ee6",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "3d007794-6f42-4463-abc9-cab481b96c6b",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "It might better to use `java.io.File.separator` in this function.",
+        "createdAt" : "2017-05-07T17:19:47Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8ae56715-3184-48cf-9ea4-ac30af9f1beb",
+        "parentId" : "3d007794-6f42-4463-abc9-cab481b96c6b",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "will fix",
+        "createdAt" : "2017-05-08T18:23:13Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -498,8 +513,10 @@ object ScalaNativePluginInternal {\n                               nativelib: File) = {\n     val gc = garbageCollector(gcName)\n     // Directory in nativelib containing the garbage collectors\n-    val garbageCollectorsDir = \"lib/gc\"\n-    val specificDir          = s\"$garbageCollectorsDir/${gc.dir}\"\n+    val garbageCollectorsDir = if (isWindows) \"lib\\\\gc\" else \"lib/gc\""
+  },
+  {
+    "id" : "89460dd7-5760-4447-9212-4c500894e3c4",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "3a6e4311-a50e-4991-a152-5f76ce20a180",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "`sys.props` will be deprecated in Scala 2.13. Use `System.getProperties` instead. Also, the dot for qualified access is preferred.",
+        "createdAt" : "2017-05-07T17:22:56Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6bc662fe-bf6f-4483-96ed-a0eeb9a83a18",
+        "parentId" : "3a6e4311-a50e-4991-a152-5f76ce20a180",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "is it ok like that?\r\nval os = Option(System.getProperty(\"os.name\")).getOrElse(\"\")",
+        "createdAt" : "2017-05-08T18:29:09Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ca025b33-5a90-457d-8537-e8150e0a9548",
+        "parentId" : "3a6e4311-a50e-4991-a152-5f76ce20a180",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "It should always be set. If `getProperty()` returns `null`, it would be better to throw an exception to prevent any unexpected behaviour further down the line.",
+        "createdAt" : "2017-05-08T18:54:12Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -509,6 +526,11 @@ object ScalaNativePluginInternal {\n     files.filterNot(f => isOtherGC(f.getPath().toString, nativelib))\n   }\n \n+  private val isWindows: Boolean = {\n+    val os = Option(sys props \"os.name\").getOrElse(\"\")"
+  },
+  {
+    "id" : "f6dd7e4a-4935-4f6e-a399-b12749e50b21",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "674369c9-1fae-4930-bc27-cddec1191c19",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Why does Windows require C++14?",
+        "createdAt" : "2017-05-07T17:25:59Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5e84dfa2-de62-4f4d-8007-052d678cd249",
+        "parentId" : "674369c9-1fae-4930-bc27-cddec1191c19",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "it suddenly includes <algorithm> file in the long chain of includes which has 'auto' as return method, so:\r\n\"\\include\\algorithm:2522:2: error: 'auto' return without trailing return type; deduced return types\r\n are a C++14 extension\"",
+        "createdAt" : "2017-05-08T18:34:52Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -226,7 +236,10 @@ object ScalaNativePluginInternal {\n             val isCppSource = path.endsWith(\".cpp\")\n \n             val compiler = abs(if (isCppSource) clangpp else clang)\n-            val flags    = (if (isCppSource) Seq(\"-std=c++11\") else Seq()) ++ opts\n+            val flags = (if (isCppSource)\n+                           (if (isWindows) Seq(\"-std=c++14\")"
+  },
+  {
+    "id" : "0a219f50-189a-40b0-9b40-33ba0ce34168",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "7b12ea85-caef-4afb-bf9f-f67fe8352ba0",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Please remove lines that were commented out.",
+        "createdAt" : "2017-05-07T17:26:39Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6844f943-537e-47b0-8e4f-c0b758a41cc3",
+        "parentId" : "7b12ea85-caef-4afb-bf9f-f67fe8352ba0",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "fixed",
+        "createdAt" : "2017-05-08T18:47:42Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -138,7 +144,9 @@ object ScalaNativePluginInternal {\n             .getOrElse(Seq.empty)\n         (\"/usr/local/include\" +: includedir).map(s => s\"-I$s\")\n       }\n-      includes :+ \"-Qunused-arguments\" :+\n+\n+      //includes :+ \"-mstack-probe-size=16384\" :+ \"-g\" :+ \"-fstandalone-debug\" :+ \"-fdebug-macro\" :+ \"-Qunused-arguments\" :+"
+  },
+  {
+    "id" : "fb19d183-0bcd-4322-b873-fab98562a956",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "7704b321-613a-4693-ae86-2f9bd4bc265d",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I think the path passed via this environment can be assumed good.",
+        "createdAt" : "2017-05-08T20:33:57Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0198f7cc-1d6b-4093-95ca-42f4e1fc03ff",
+        "parentId" : "7704b321-613a-4693-ae86-2f9bd4bc265d",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Yeah, I will fix it, I just don't want to reboot a computer before finish exception handler",
+        "createdAt" : "2017-05-08T21:29:46Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -411,7 +425,8 @@ object ScalaNativePluginInternal {\n       else binaryName\n \n     sys.env.get(s\"${envName}_PATH\") match {\n-      case Some(path) => file(path)\n+      case Some(path) =>\n+        file(if (isWindows) path.replaceAll(\"clang-cl\", binaryName) else path)"
+  },
+  {
+    "id" : "dc69a2f6-b6bc-4fbe-8904-8a8fa79078f0",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "163fddd0-7d7b-452b-9857-cae834643ae4",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Adding a `case \"Windows\"=> Seq.empty` or using the special case for macOS would be more in the spirit of the existing code.",
+        "createdAt" : "2017-05-08T20:35:38Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f3fdbd86-378d-4385-8cb4-c110a2dd3415",
+        "parentId" : "163fddd0-7d7b-452b-9857-cae834643ae4",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Unfortunately it could be many combinations of \"*indows*\", and we already did that operation before. And it's not Seq.empty anymore.",
+        "createdAt" : "2017-05-08T21:31:36Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "66eba348-c180-4a38-9dce-b1fd03c51f49",
+        "parentId" : "163fddd0-7d7b-452b-9857-cae834643ae4",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "But you could match on `os.toLowerCase` and then write `case s if s.contains(\"windows\") => Seq.empty`.",
+        "createdAt" : "2017-05-09T09:05:10Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "775d2663-e899-4e86-b935-a22490550ea1",
+        "parentId" : "163fddd0-7d7b-452b-9857-cae834643ae4",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "sounds good and I think we can change getting \"os\" by non-deprecated property",
+        "createdAt" : "2017-05-09T09:23:07Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -345,7 +358,8 @@ object ScalaNativePluginInternal {\n         }\n         val libunwind = os match {\n           case \"Mac OS X\" => Seq.empty\n-          case _          => Seq(\"unwind\", \"unwind-\" + arch)\n+          case _ =>\n+            if (isWindows) Seq.empty else Seq(\"unwind\", \"unwind-\" + arch)"
+  },
+  {
+    "id" : "788e3d8a-b2d0-45a8-977b-94bb634c07c8",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "07538976-13be-4e91-ab57-f90032314e98",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "How about using `new File(\"lib\", \"gc\")` instead?",
+        "createdAt" : "2017-05-09T17:22:23Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f1b3f4c4-01c3-4b37-bf05-efd2ba957f57",
+        "parentId" : "07538976-13be-4e91-ab57-f90032314e98",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "fixed",
+        "createdAt" : "2017-05-09T19:53:02Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -513,10 +516,10 @@ object ScalaNativePluginInternal {\n                               nativelib: File) = {\n     val gc = garbageCollector(gcName)\n     // Directory in nativelib containing the garbage collectors\n-    val garbageCollectorsDir = if (isWindows) \"lib\\\\gc\" else \"lib/gc\"\n-    val specificDir =\n-      if (isWindows) s\"$garbageCollectorsDir\\\\${gc.dir}\"\n-      else s\"$garbageCollectorsDir/${gc.dir}\"\n+    val garbageCollectorsDir =\n+      Seq(\"lib\", \"gc\").mkString(\"\", java.io.File.separator, \"\")"
+  },
+  {
+    "id" : "ae0bf9af-747c-48e9-8b76-f878feeaa596",
+    "prId" : 714,
+    "comments" : [
+      {
+        "id" : "b8a51d2d-a516-4fde-9344-296fcb5a34b8",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Looks like this is a fix of #692",
+        "createdAt" : "2017-05-09T07:37:29Z",
+        "updatedAt" : "2017-05-16T18:46:28Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7e777013-ed27-40bb-b6f5-041c2ef87cf1",
+        "parentId" : "b8a51d2d-a516-4fde-9344-296fcb5a34b8",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Yup, I mentioned it in the commit message, but forgot to in the PR description. Thanks!",
+        "createdAt" : "2017-05-09T07:38:19Z",
+        "updatedAt" : "2017-05-16T18:46:28Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f4d4d863-48cb-4401-b55d-31b80e91c788",
+        "parentId" : "b8a51d2d-a516-4fde-9344-296fcb5a34b8",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Note that `sys.error` will be deprecated in 2.13: https://github.com/scala/scala/pull/5677. It's better to use `throw new RuntimeException` instead.",
+        "createdAt" : "2017-05-11T09:45:37Z",
+        "updatedAt" : "2017-05-16T18:46:28Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1413c57457b47f24aafed82dc38f607959f73cb5",
+    "line" : 83,
+    "diffHunk" : "@@ -235,18 +236,18 @@ object ScalaNativePluginInternal {\n             logger.running(compilec)\n             val result = Process(compilec, cwd) ! logger\n             if (result != 0) {\n-              println(\"Failed to compile native library runtime code.\")\n+              sys.error(\"Failed to compile native library runtime code.\")"
+  },
+  {
+    "id" : "ee977216-024c-4094-ad9e-066ffa79d500",
+    "prId" : 725,
+    "comments" : [
+      {
+        "id" : "766c7dad-1bbd-4cf4-8e70-11e19a1cf646",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems like all settings/keys that we document should be here. Why are `nativeCompileOptions`, `nativeLinkingOptions`, `nativeClang`, `nativeClangPP` not there? ",
+        "createdAt" : "2017-06-09T09:08:56Z",
+        "updatedAt" : "2017-06-09T09:09:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d8b822a5-f43a-4707-96fc-b6d6638cea2d",
+        "parentId" : "766c7dad-1bbd-4cf4-8e70-11e19a1cf646",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "They are, I think you've been tricked by the folded diff. All the keys in global scope are:\r\n`nativeWarnOldJVM`, `nativeClang`, `nativeClangPP`, `nativeCompileOptions`, `nativeLinkingOptions`, `nativeMode`, `nativeLinkerReporter`, `nativeOptimizerReporter`, `nativeLogger`, and `nativeGC`.",
+        "createdAt" : "2017-06-09T09:37:16Z",
+        "updatedAt" : "2017-06-09T09:37:16Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0adf2d2f-8678-4504-918a-4c5a086e84fd",
+        "parentId" : "766c7dad-1bbd-4cf4-8e70-11e19a1cf646",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Indeed, folded diff is very misleading here.",
+        "createdAt" : "2017-06-09T09:39:13Z",
+        "updatedAt" : "2017-06-09T09:39:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "8ff53b81575763b53a781b246fb75d8b6f341f29",
+    "line" : 26,
+    "diffHunk" : "@@ -154,6 +155,14 @@ object ScalaNativePluginInternal {\n       }\n       libs\n     },\n+    nativeMode := \"debug\",\n+    nativeLinkerReporter := tools.LinkerReporter.empty,\n+    nativeOptimizerReporter := tools.OptimizerReporter.empty,\n+    nativeLogger := streams.value.log,\n+    nativeGC := \"boehm\"\n+  )"
+  },
+  {
+    "id" : "313fb0d2-9288-45df-a34a-db64b074a83e",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "1ee7e3ff-4f91-495a-82b4-d1f050af0f86",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs an sbt doc page update to mention this. ",
+        "createdAt" : "2017-05-22T10:31:35Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : 8,
+    "diffHunk" : "@@ -496,9 +496,10 @@ object ScalaNativePluginInternal {\n   private def garbageCollector(gc: String) = gc match {\n     case \"none\"  => GarbageCollector.None\n     case \"boehm\" => GarbageCollector.Boehm\n+    case \"immix\" => GarbageCollector.Immix\n     case value =>\n       throw new MessageOnlyException(\n-        \"nativeGC can be either \\\"none\\\" or \\\"boehm\\\", not: \" + value)\n+        \"nativeGC can be either \\\"none\\\", \\\"boehm\\\" or \\\"immix\\\", not: \" + value)"
+  },
+  {
+    "id" : "c18a108f-06ce-4095-9acb-221ce87e79d5",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "3a0d8978-ce6e-4e3f-ac7c-ab7c4c710d98",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think that we should change the default just yet. New GC will be a non-default opt-in version for at least one release so that we can gather feedback from people. ",
+        "createdAt" : "2017-05-22T10:33:09Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "da61ab41-c270-4708-ab3f-449aae53cb1f",
+        "parentId" : "3a0d8978-ce6e-4e3f-ac7c-ab7c4c710d98",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I've just opened a PR for matrix builds over a GC implementation: #730. This will make sure that Immix is tested without being a default implementation. ",
+        "createdAt" : "2017-05-22T12:23:25Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -197,7 +197,7 @@ object ScalaNativePluginInternal {\n       workdir\n     },\n     nativeLogger := streams.value.log,\n-    nativeGC := \"boehm\",\n+    nativeGC := \"immix\","
+  },
+  {
+    "id" : "688c8468-33af-4f12-8044-f2e7b9f3a4a4",
+    "prId" : 743,
+    "comments" : [
+      {
+        "id" : "799e724d-0aaf-4ff8-892d-8f9d1fd815d0",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I suggest updating the docs to mention zlib as a required library with instructions on how to install it with header files.",
+        "createdAt" : "2017-05-26T13:37:06Z",
+        "updatedAt" : "2017-06-12T09:20:39Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "815ca443-8e09-4e29-a018-581e3d991c69",
+        "parentId" : "799e724d-0aaf-4ff8-892d-8f9d1fd815d0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I also think that this one should be completely optional, i.e. it should be linked by default unless you zip functionality.",
+        "createdAt" : "2017-05-29T11:03:40Z",
+        "updatedAt" : "2017-06-12T09:20:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35ba831c69cd842300e213e6fa18c6c35310f7b6",
+    "line" : null,
+    "diffHunk" : "@@ -350,6 +350,7 @@ object ScalaNativePluginInternal {\n         val arch = target.split(\"-\").head\n         // we need re2 to link the re2 c wrapper (cre2.h)\n         val regex = Seq(\"re2\")\n+        val zlib  = Seq(\"z\")"
+  },
+  {
+    "id" : "e8a8b579-e792-4cdd-a862-3b768d75333d",
+    "prId" : 880,
+    "comments" : [
+      {
+        "id" : "a14afc20-b1ed-41b0-b7d0-cceaebd07cb5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You shouldn't need this. Looking up `(nativeClang in Compile).value` will delegate to `nativeClang.value`.",
+        "createdAt" : "2017-06-28T10:58:53Z",
+        "updatedAt" : "2017-06-28T14:53:33Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "217b3a38-e931-4842-b006-6e96dda03622",
+        "parentId" : "a14afc20-b1ed-41b0-b7d0-cceaebd07cb5",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There are plenty of similar things.",
+        "createdAt" : "2017-06-28T10:59:35Z",
+        "updatedAt" : "2017-06-28T14:53:33Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2ebe8c24-e470-4a3f-abbc-1d3616fd0dae",
+        "parentId" : "a14afc20-b1ed-41b0-b7d0-cceaebd07cb5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's true that those aliases are useless for `Test` and `Config` but we still need some of them for `NativeTest` to work. ",
+        "createdAt" : "2017-06-28T14:53:32Z",
+        "updatedAt" : "2017-06-28T14:53:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5203b396-f771-4bd8-a029-7c41667e2d7c",
+        "parentId" : "a14afc20-b1ed-41b0-b7d0-cceaebd07cb5",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Are you sure? `NativeTest` extends `Test`, so it should receive those for free.",
+        "createdAt" : "2017-06-28T15:19:29Z",
+        "updatedAt" : "2017-06-28T15:19:29Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "743712de-c569-4b2d-b593-b4933d0dad2c",
+        "parentId" : "a14afc20-b1ed-41b0-b7d0-cceaebd07cb5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yeah, I double checked just now. It's really strange. ",
+        "createdAt" : "2017-06-29T11:22:43Z",
+        "updatedAt" : "2017-06-29T11:22:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f044d8a59e375c5bddb7d19bffd099df3cfd1039",
+    "line" : null,
+    "diffHunk" : "@@ -125,39 +81,34 @@ object ScalaNativePluginInternal {\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full)\n   )\n \n-  lazy val globalSettings = Seq(\n-    nativeWarnOldJVM := {\n-      val logger = nativeLogger.value\n-      Try(Class.forName(\"java.util.function.Function\")).toOption match {\n-        case None =>\n-          logger.warn(\"Scala Native is only supported on Java 8 or newer.\")\n-        case Some(_) =>\n-          ()\n-      }\n-    },\n+  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = Seq(\n+    crossVersion := ScalaNativeCrossVersion.binary,\n+    crossPlatform := NativePlatform,\n     nativeClang := {\n       val clang = discover(\"clang\", clangVersions)\n       checkThatClangIsRecentEnough(clang)\n       clang\n     },\n+    nativeClang in Compile := nativeClang.value,\n+    nativeClang in Test := nativeClang.value,"
+  },
+  {
+    "id" : "0564dde7-6201-40df-996b-b2968ae3be96",
+    "prId" : 880,
+    "comments" : [
+      {
+        "id" : "15ccaffe-16db-461e-b0f8-3bedf37b4ff3",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This `nativeLogger` is bullshit. You must directly use `streams.value.log` in tasks that require a logger. Otherwise `last` will not work for those tasks.\r\n\r\n`streams` is magical: it gives you a task-specific `Logger` depending on which task requests it. Right now you are bypassing that mechanism, and all logs are associated with the `nativeLogger` task instead of the relevant tasks.",
+        "createdAt" : "2017-06-28T11:02:07Z",
+        "updatedAt" : "2017-06-28T14:53:33Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ad685f18-5de8-406f-af2e-5f6e48dd6480",
+        "parentId" : "15ccaffe-16db-461e-b0f8-3bedf37b4ff3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-06-28T14:53:41Z",
+        "updatedAt" : "2017-06-28T14:53:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f044d8a59e375c5bddb7d19bffd099df3cfd1039",
+    "line" : null,
+    "diffHunk" : "@@ -167,48 +118,33 @@ object ScalaNativePluginInternal {\n       }\n       libs\n     },\n+    nativeLinkingOptions in Compile := nativeLinkingOptions.value,\n+    nativeLinkingOptions in Test := nativeLinkingOptions.value,\n     nativeMode := \"debug\",\n+    nativeMode in Compile := nativeMode.value,\n+    nativeMode in Test := nativeMode.value,\n     nativeLinkerReporter := tools.LinkerReporter.empty,\n+    nativeLinkerReporter in Compile := nativeLinkerReporter.value,\n+    nativeLinkerReporter in Test := nativeLinkerReporter.value,\n     nativeOptimizerReporter := tools.OptimizerReporter.empty,\n-    nativeLogger := streams.value.log,\n-    nativeGC := \"boehm\"\n+    nativeOptimizerReporter in Compile := nativeOptimizerReporter.value,\n+    nativeOptimizerReporter in Test := nativeOptimizerReporter.value,\n+    nativeGC := \"boehm\",\n+    nativeGC in Compile := nativeGC.value,\n+    nativeGC in Test := nativeGC.value\n   )\n \n-  lazy val testSettings = Seq(\n-    test := (test in NativeTest).value,\n-    testOnly := (testOnly in NativeTest).evaluated,\n-    testQuick := (testQuick in NativeTest).evaluated\n-  )\n-\n-  lazy val nativeTestSettings =\n-    Defaults.compileSettings ++\n-      Defaults.testSettings ++\n-      Seq(\n-        classDirectory := (classDirectory in Test).value,\n-        dependencyClasspath := (dependencyClasspath in Test).value,\n-        parallelExecution in test := false,\n-        sourceGenerators += Def.task {\n-          val frameworks = (loadedTestFrameworks in Test).value.map(_._2).toSeq\n-          val tests      = (definedTests in Test).value\n-          val output     = sourceManaged.value / \"FrameworksMap.scala\"\n-          IO.write(output, TestUtilities.makeTestMain(frameworks, tests))\n-          Seq(output)\n-        }.taskValue,\n-        loadedTestFrameworks := {\n-          val frameworks = (loadedTestFrameworks in Test).value\n-          val logger     = streams.value.log\n-          val testBinary = nativeLink.value\n-          val envVars    = (Keys.envVars in (Test, test)).value\n-          (frameworks.zipWithIndex).map {\n-            case ((tf, f), id) =>\n-              (tf,\n-               new ScalaNativeFramework(f, id, logger, testBinary, envVars))\n-          }\n-        },\n-        definedTests := (definedTests in Test).value\n-      )\n-\n-  lazy val scopedSettings = Seq(\n+  lazy val scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n+    nativeWarnOldJVM := {\n+      val logger = nativeLogger.value\n+      Try(Class.forName(\"java.util.function.Function\")).toOption match {\n+        case None =>\n+          logger.warn(\"Scala Native is only supported on Java 8 or newer.\")\n+        case Some(_) =>\n+          ()\n+      }\n+    },\n+    nativeLogger := streams.value.log,"
+  },
+  {
+    "id" : "e7d93966-8038-4251-ac14-f64fbc39d94e",
+    "prId" : 880,
+    "comments" : [
+      {
+        "id" : "a4b527b1-a6fb-4995-a5c2-d7788afd0ba8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I would keep this one in the base settings. Better, I would put it in `globalSettings` (which ends up being `in Global`).",
+        "createdAt" : "2017-06-28T11:03:28Z",
+        "updatedAt" : "2017-06-28T14:53:33Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8dbfb0ef-565d-42d8-8e68-9b6b4b99f035",
+        "parentId" : "a4b527b1-a6fb-4995-a5c2-d7788afd0ba8",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-06-28T14:53:37Z",
+        "updatedAt" : "2017-06-28T14:53:37Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f044d8a59e375c5bddb7d19bffd099df3cfd1039",
+    "line" : null,
+    "diffHunk" : "@@ -167,48 +118,33 @@ object ScalaNativePluginInternal {\n       }\n       libs\n     },\n+    nativeLinkingOptions in Compile := nativeLinkingOptions.value,\n+    nativeLinkingOptions in Test := nativeLinkingOptions.value,\n     nativeMode := \"debug\",\n+    nativeMode in Compile := nativeMode.value,\n+    nativeMode in Test := nativeMode.value,\n     nativeLinkerReporter := tools.LinkerReporter.empty,\n+    nativeLinkerReporter in Compile := nativeLinkerReporter.value,\n+    nativeLinkerReporter in Test := nativeLinkerReporter.value,\n     nativeOptimizerReporter := tools.OptimizerReporter.empty,\n-    nativeLogger := streams.value.log,\n-    nativeGC := \"boehm\"\n+    nativeOptimizerReporter in Compile := nativeOptimizerReporter.value,\n+    nativeOptimizerReporter in Test := nativeOptimizerReporter.value,\n+    nativeGC := \"boehm\",\n+    nativeGC in Compile := nativeGC.value,\n+    nativeGC in Test := nativeGC.value\n   )\n \n-  lazy val testSettings = Seq(\n-    test := (test in NativeTest).value,\n-    testOnly := (testOnly in NativeTest).evaluated,\n-    testQuick := (testQuick in NativeTest).evaluated\n-  )\n-\n-  lazy val nativeTestSettings =\n-    Defaults.compileSettings ++\n-      Defaults.testSettings ++\n-      Seq(\n-        classDirectory := (classDirectory in Test).value,\n-        dependencyClasspath := (dependencyClasspath in Test).value,\n-        parallelExecution in test := false,\n-        sourceGenerators += Def.task {\n-          val frameworks = (loadedTestFrameworks in Test).value.map(_._2).toSeq\n-          val tests      = (definedTests in Test).value\n-          val output     = sourceManaged.value / \"FrameworksMap.scala\"\n-          IO.write(output, TestUtilities.makeTestMain(frameworks, tests))\n-          Seq(output)\n-        }.taskValue,\n-        loadedTestFrameworks := {\n-          val frameworks = (loadedTestFrameworks in Test).value\n-          val logger     = streams.value.log\n-          val testBinary = nativeLink.value\n-          val envVars    = (Keys.envVars in (Test, test)).value\n-          (frameworks.zipWithIndex).map {\n-            case ((tf, f), id) =>\n-              (tf,\n-               new ScalaNativeFramework(f, id, logger, testBinary, envVars))\n-          }\n-        },\n-        definedTests := (definedTests in Test).value\n-      )\n-\n-  lazy val scopedSettings = Seq(\n+  lazy val scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n+    nativeWarnOldJVM := {"
+  },
+  {
+    "id" : "2c4c07d1-e394-4e63-9b38-b7324693d6cb",
+    "prId" : 993,
+    "comments" : [
+      {
+        "id" : "f79ace5d-208d-462f-ab40-faebba3c9a45",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice and easy fix! 👍 ",
+        "createdAt" : "2017-09-01T12:17:03Z",
+        "updatedAt" : "2017-09-01T12:17:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fc4d7005b46c77593f66d437a6c1c2bbe9f41242",
+    "line" : 4,
+    "diffHunk" : "@@ -179,7 +179,7 @@ object ScalaNativePluginInternal {\n       val mainClass = selectMainClass.value.getOrElse(\n         throw new MessageOnlyException(\"No main class detected.\")\n       )\n-      val classpath = fullClasspath.value.map(_.data)"
+  },
+  {
+    "id" : "d7fb9ce8-4177-4970-a4c7-f78ad66db4c1",
+    "prId" : 993,
+    "comments" : [
+      {
+        "id" : "007d613c-fd22-4b64-89c2-5868a2d9019f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why this change? ",
+        "createdAt" : "2017-09-01T12:17:12Z",
+        "updatedAt" : "2017-09-01T12:17:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f235d331-59f5-4c41-91e4-8d5935dbf572",
+        "parentId" : "007d613c-fd22-4b64-89c2-5868a2d9019f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "That's to fix the deprecation warning:\r\nhttps://github.com/sbt/sbt-zero-thirteen/blob/3d50ca2f6ab531ac0c5ca23b1ff2b40cda84300a/main/src/main/scala/sbt/Defaults.scala#L2200-L2201",
+        "createdAt" : "2017-09-01T12:22:41Z",
+        "updatedAt" : "2017-09-01T12:22:41Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "658f44f7-ac77-4989-9231-7539585cafbe",
+        "parentId" : "007d613c-fd22-4b64-89c2-5868a2d9019f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds good then!",
+        "createdAt" : "2017-09-01T12:26:24Z",
+        "updatedAt" : "2017-09-01T12:26:24Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fc4d7005b46c77593f66d437a6c1c2bbe9f41242",
+    "line" : 13,
+    "diffHunk" : "@@ -424,7 +424,7 @@ object ScalaNativePluginInternal {\n         if (exitCode == 0) None\n         else Some(\"Nonzero exit code: \" + exitCode)\n \n-      Defaults.toError(message)"
+  },
+  {
+    "id" : "7c195990-d783-402d-a130-9bcafd107aac",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "56f13803-3ee7-4625-99c3-5b4ede066476",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "This is now an error in sbt.\r\n\r\nIt's to guard us from the bogus sbt evaluation model. For example:\r\n\r\n```\r\nval foo =\r\n  if(false) task1.value\r\n  else task2.value\r\n```\r\n\r\nboth tasks will be evaluated.",
+        "createdAt" : "2017-09-29T15:55:24Z",
+        "updatedAt" : "2017-11-10T13:53:52Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : null,
+    "diffHunk" : "@@ -434,24 +438,31 @@ object ScalaNativePluginInternal {\n       (nativeExternalDependencies.value.toSet --\n         nativeAvailableDependencies.value.toSet).toList.sorted\n     },\n-    nativeAvailableDependencies := ResourceScope { implicit scope =>\n-      val forceCompile = compile.value\n-\n-      val globals = fullClasspath.value\n-        .collect { case p if p.data.exists => p.data }\n-        .flatMap(p => tools.LinkerPath(VirtualDirectory.real(p)).globals.toSeq)\n-\n-      globals.map(_.show).sorted\n-    },\n-    nativeExternalDependencies := ResourceScope { implicit scope =>\n+    nativeAvailableDependencies := Def\n+      .task {\n+        val fcp = fullClasspath.value"
+  },
+  {
+    "id" : "f406d18a-f3ec-41fe-9c3c-0c9fb817bdcb",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "fd39966e-2e82-4576-bc5a-f51c0973ccc1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`fullClasspath` indirectly depends on `compile` for the same configuration, so this line is unnecessary. Consequently, you don't need the `Def.task` wrapper.",
+        "createdAt" : "2017-10-04T06:59:16Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : null,
+    "diffHunk" : "@@ -434,24 +438,31 @@ object ScalaNativePluginInternal {\n       (nativeExternalDependencies.value.toSet --\n         nativeAvailableDependencies.value.toSet).toList.sorted\n     },\n-    nativeAvailableDependencies := ResourceScope { implicit scope =>\n-      val forceCompile = compile.value\n-\n-      val globals = fullClasspath.value\n-        .collect { case p if p.data.exists => p.data }\n-        .flatMap(p => tools.LinkerPath(VirtualDirectory.real(p)).globals.toSeq)\n-\n-      globals.map(_.show).sorted\n-    },\n-    nativeExternalDependencies := ResourceScope { implicit scope =>\n+    nativeAvailableDependencies := Def\n+      .task {\n+        val fcp = fullClasspath.value\n+        ResourceScope { implicit scope =>\n+          val globals = fcp\n+            .collect { case p if p.data.exists => p.data }\n+            .flatMap(p =>\n+              tools.LinkerPath(VirtualDirectory.real(p)).globals.toSeq)\n+\n+          globals.map(_.show).sorted\n+        }\n+      }\n+      .dependsOn(compile)"
+  },
+  {
+    "id" : "8c3fc3bd-b0d5-42dd-b967-13afb0dad1a9",
+    "prId" : 1041,
+    "comments" : [
+      {
+        "id" : "ca5d5585-b01c-460f-b29f-7368579fb6c8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'm not completely sold on printing this in every project that uses Scala Native. It's useful for developing Scala Native but should not be shown by default.",
+        "createdAt" : "2017-11-29T10:05:31Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d8347831-e0f9-49d9-85b8-9fb36766a5b9",
+        "parentId" : "ca5d5585-b01c-460f-b29f-7368579fb6c8",
+        "author" : {
+          "login" : "dwijnand",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/344610?u=e620300a97e79cdb29b3b8793d27d2e9649178e5&v=4"
+        },
+        "body" : "Perhaps it should be a debug level log message instead. (sorry, for the intrusion in your PR)",
+        "createdAt" : "2017-11-29T11:24:38Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "dwijnand",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/344610?u=e620300a97e79cdb29b3b8793d27d2e9649178e5&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "20f3fcec-11ab-4e76-a0b6-3b9936908d92",
+        "parentId" : "ca5d5585-b01c-460f-b29f-7368579fb6c8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This was mainly used as a debug tool so I could guarantee that each Scala Native link was using the correct setting so debug probably make more sense. I wasn't completely sold but it does tell what is happening. Maybe \"Using\" could be \" Linking\" or something as well?",
+        "createdAt" : "2017-11-29T17:46:59Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d774bcd01fa627c6507719d4af64ec6a41685b32",
+    "line" : null,
+    "diffHunk" : "@@ -236,6 +236,8 @@ object ScalaNativePluginInternal {\n       val cpppaths  = (cwd ** \"*.cpp\").get.map(_.abs)\n       val paths     = cpaths ++ cpppaths\n \n+      logger.info(s\"Using $gc gc\")"
+  },
+  {
+    "id" : "e656a19c-9afd-419d-84e0-a0c9a1aa5049",
+    "prId" : 1041,
+    "comments" : [
+      {
+        "id" : "c6538a3d-e0dc-4e12-bdbc-bcb0684ad87d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`nativeGC` should be in base settings, not global settings. Global settings are not scoped separately for compile and test and should generally be avoided. ",
+        "createdAt" : "2017-11-29T10:06:55Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d16b55fc-1a9a-437f-b6dc-86251d7b73ac",
+        "parentId" : "c6538a3d-e0dc-4e12-bdbc-bcb0684ad87d",
+        "author" : {
+          "login" : "dwijnand",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/344610?u=e620300a97e79cdb29b3b8793d27d2e9649178e5&v=4"
+        },
+        "body" : "What's the concern with global settings not being scoped separately for compile and test?\r\n\r\nI believe the intent here is to define the default value of for the key `nativeGC` (introduced by this plugin), which is one of the use cases for which global settings _should_ be used (http://www.scala-sbt.org/1.0/docs/Plugins.html#projectSettings+and+buildSettings).\r\n\r\nThe benefit of doing this is you if you want to redefine the value of `nativeGC` for all the projects in your build you can do so by defining `nativeGC in ThisBuild := \"immix\"` (either in your build code, or in the shell with `set`).",
+        "createdAt" : "2017-11-29T11:22:57Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "dwijnand",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/344610?u=e620300a97e79cdb29b3b8793d27d2e9649178e5&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b4d7accc-6129-4a07-ae79-bf034d0fccca",
+        "parentId" : "c6538a3d-e0dc-4e12-bdbc-bcb0684ad87d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I was not able to get a behaviour where I could change the `nativeGC` setting for ScalaNative or a user project that would apply across all the native projects so this is what led me to the global key along with help from Dale. The original intent of this PR was just to be able to `set nativeGC in ThisBuild := \"immix\"` and all the other changes are somewhat incidental to making that happen. I really tried to make as few changes as possible.",
+        "createdAt" : "2017-11-29T17:46:47Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d774bcd01fa627c6507719d4af64ec6a41685b32",
+    "line" : 18,
+    "diffHunk" : "@@ -135,7 +133,9 @@ object ScalaNativePluginInternal {\n         case Some(_) =>\n           ()\n       }\n-    }\n+    },\n+    nativeGC := \"boehm\",\n+    nativeGC in NativeTest := (nativeGC in Test).value"
+  },
+  {
+    "id" : "b5a0a049-6eb4-47c2-abc5-42b02b0b1b5a",
+    "prId" : 1082,
+    "comments" : [
+      {
+        "id" : "2b3e301c-4696-41bc-823c-4c2e6c2a379e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Shouldn't be necessary once we add `@link(\"pthread\")` on the extern object for pthread.",
+        "createdAt" : "2018-02-13T16:35:06Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8e968ef5-8606-4b93-9cd9-5bdc152bd48f",
+        "parentId" : "2b3e301c-4696-41bc-823c-4c2e6c2a379e",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "process_monitor.c doesn't compile on the travis server without this.",
+        "createdAt" : "2018-02-22T00:42:19Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ecd37e5909a957621cdeef446c0e6c59b77bd151",
+    "line" : 5,
+    "diffHunk" : "@@ -388,7 +388,7 @@ object ScalaNativePluginInternal {\n         librt ++ libunwind ++ linked.links\n           .map(_.name) ++ garbageCollector(gc).links\n       }\n-      val linkopts  = links.map(\"-l\" + _) ++ linkingOpts\n+      val linkopts  = links.map(\"-l\" + _) ++ linkingOpts ++ Seq(\"-lpthread\")"
+  },
+  {
+    "id" : "05fbf5ac-c584-4c24-8890-eb85ef80cc04",
+    "prId" : 1117,
+    "comments" : [
+      {
+        "id" : "ec272f86-4cbe-4de6-9dd6-388d535641d9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd change the format to `Linking native code ($gc gc)\"`.",
+        "createdAt" : "2018-01-19T11:19:14Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "34779775-462b-4ced-bd04-669525193d31",
+        "parentId" : "ec272f86-4cbe-4de6-9dd6-388d535641d9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets also add similar change to explicitly print current mode in nativeOptimizeNIR:\r\n\r\n```\r\nlogger.time(\"Optimizing ($mode mode)\") { ... }\r\n```",
+        "createdAt" : "2018-01-19T11:29:17Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "17391c5c-f93d-420e-9864-ca2e86ccf1d1",
+        "parentId" : "ec272f86-4cbe-4de6-9dd6-388d535641d9",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I added this and made the change so the outputs look the same. Thanks for the help and support.",
+        "createdAt" : "2018-01-19T14:59:30Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3b157db1b8667e1688b5f6f3d335d469d2faafa9",
+    "line" : null,
+    "diffHunk" : "@@ -395,7 +395,7 @@ object ScalaNativePluginInternal {\n       val paths     = apppaths.map(_.abs) ++ opaths\n       val compile   = clangpp.abs +: (flags ++ paths)\n \n-      logger.time(\"Linking native code\") {\n+      logger.time(s\"Linking native code - $gc gc\") {"
+  },
+  {
+    "id" : "8d1aec33-8a6b-46ae-a1b6-eb3be23be388",
+    "prId" : 1117,
+    "comments" : [
+      {
+        "id" : "08b1bf8e-87a5-4060-b98f-32caa30e6b12",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets also add `SCALANATIVE_MODE` similarly to `SCALANATIVE_GC`. ",
+        "createdAt" : "2018-01-19T11:24:35Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "54a69214-4f11-4ee6-9a04-e2231819025e",
+        "parentId" : "08b1bf8e-87a5-4060-b98f-32caa30e6b12",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2018-01-19T14:58:08Z",
+        "updatedAt" : "2018-01-19T15:14:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3b157db1b8667e1688b5f6f3d335d469d2faafa9",
+    "line" : 16,
+    "diffHunk" : "@@ -123,7 +123,7 @@ object ScalaNativePluginInternal {\n     nativeLinkerReporter in NativeTest := (nativeLinkerReporter in Test).value,\n     nativeOptimizerReporter := tools.OptimizerReporter.empty,\n     nativeOptimizerReporter in NativeTest := (nativeOptimizerReporter in Test).value,\n-    nativeGC := \"boehm\",\n+    nativeGC := Option(System.getenv.get(\"SCALANATIVE_GC\")).getOrElse(\"boehm\"),"
+  },
+  {
+    "id" : "ce04d628-949f-4aef-8875-2c06858c01cd",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "fd9a43d5-7451-4675-96f7-7437294ae569",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that subproject is called `nativelib`, I'd avoid capitalization for `Lib` here and everywhere else in this PR (when referring to `{native, scala, java, aux}lib`).",
+        "createdAt" : "2018-03-12T10:16:34Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -184,24 +149,39 @@ object ScalaNativePluginInternal {\n       val mainClass = selectMainClass.value.getOrElse(\n         throw new MessageOnlyException(\"No main class detected.\")\n       )\n-      val classpath = fullClasspath.value.map(_.data).filter(_.exists)\n-      val entry     = nir.Global.Top(mainClass.toString + \"$\")\n-      val cwd       = nativeWorkdir.value\n-\n-      tools.Config.empty\n+      val classpath =\n+        fullClasspath.value.map(_.data.toPath).filter(f => Files.exists(f))\n+\n+      val nativeLibJar ="
+  },
+  {
+    "id" : "8144ba35-5626-43d8-93eb-6379b42984df",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "20c80687-8775-4003-82c9-4356ecb882bc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Wow, just 169 lines in sbt plugin, that's awesome! 👏",
+        "createdAt" : "2018-03-12T12:00:57Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -178,86 +157,13 @@ object ScalaNativePluginInternal {\n         .withGC(gc)\n         .withLinkStubs(nativeLinkStubs.value)\n     },\n-    nativeUnpackLib := {\n-      val cwd       = nativeWorkdir.value\n-      val classpath = (fullClasspath in Compile).value\n-\n-      val jar =\n-        classpath\n-          .map(entry => entry.data.abs)\n-          .collectFirst {\n-            case p if p.contains(\"scala-native\") && p.contains(\"nativelib\") =>\n-              file(p)\n-          }\n-          .get\n-\n-      build.unpackNativeLibrary(jar.toPath, cwd.toPath).toFile\n-    },\n-    nativeCompileLib := {\n-      val logger = streams.value.log.toLogger\n-      val config = {\n-        val config0 = nativeConfig.value\n-        config0.withCompileOptions(\"-O2\" +: config0.compileOptions)\n-      }.withLogger(logger)\n-\n-      val linked  = nativeLinkNIR.value\n-      val libPath = nativeUnpackLib.value.toPath\n-\n-      val outPath =\n-        build.compileNativeLib(config, linked, libPath)\n-      outPath.toFile\n-    },\n-    nativeLinkNIR := {\n-      val logger = streams.value.log.toLogger\n-      val config = nativeConfig.value.withLogger(logger)\n-      build.link(config)\n-    },\n-    nativeOptimizeNIR := {\n-      val logger = streams.value.log.toLogger\n-      val result = nativeLinkNIR.value\n-      val config = nativeConfig.value.withLogger(logger)\n-      val mode   = nativeMode.value\n-      build.optimize(config, result.defns, result.dyns)\n-    },\n-    nativeGenerateLL := {\n-      val logger    = streams.value.log.toLogger\n-      val config    = nativeConfig.value.withLogger(logger)\n-      val optimized = nativeOptimizeNIR.value\n-      val outPaths  = build.codegen(config, optimized)\n-      outPaths.map(_.toFile)\n-    },\n-    nativeCompileLL := {\n-      val logger    = streams.value.log.toLogger\n-      val config    = nativeConfig.value.withLogger(logger)\n-      val generated = nativeGenerateLL.value.map(_.toPath)\n-\n-      val outPaths =\n-        LLVM.compileLL(config, generated)\n-      outPaths.map(_.toFile)\n-    },\n-    nativeLinkLL := {\n-      val logger    = streams.value.log.toLogger\n-      val linked    = nativeLinkNIR.value\n-      val apppaths  = nativeCompileLL.value.map(_.toPath)\n-      val nativelib = nativeCompileLib.value.toPath\n-      val outpath   = (artifactPath in nativeLink).value.toPath\n-      val config    = nativeConfig.value.withLogger(logger)\n-\n-      val outPath =\n-        LLVM.linkLL(config, linked, apppaths, nativelib, outpath)\n-      outPath.toFile\n-    },\n     nativeLink := {\n-      nativeWarnOldJVM.value\n-      // We explicitly mention all of the steps in the pipeline\n-      // although only the last one is strictly necessary.\n-      compile.value\n-      nativeLinkNIR.value\n-      nativeOptimizeNIR.value\n-      nativeGenerateLL.value\n-      nativeCompileLL.value\n-      nativeCompileLib.value\n-      nativeLinkLL.value\n+      val logger  = streams.value.log.toLogger\n+      val config  = nativeConfig.value.withLogger(logger)\n+      val outpath = (artifactPath in nativeLink).value\n+\n+      build.build(config, outpath.toPath)\n+      outpath\n     },\n     run := {\n       val env    = (envVars in run).value.toSeq"
+  },
+  {
+    "id" : "cbba4359-fff8-4989-a41d-5f138b44c3b0",
+    "prId" : 1228,
+    "comments" : [
+      {
+        "id" : "a3ef7156-3717-4340-9d60-dea92e590de1",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Is it ok to have a key for the reporter back if it's in `ScalaNativePluginInternal`? @densh @Duhemm ",
+        "createdAt" : "2018-04-15T13:15:30Z",
+        "updatedAt" : "2018-04-15T13:15:31Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6b220eff-4ebe-449c-947d-50378d18f67c",
+        "parentId" : "a3ef7156-3717-4340-9d60-dea92e590de1",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Does it make sense to have a build relative default directory? ",
+        "createdAt" : "2018-04-16T14:42:14Z",
+        "updatedAt" : "2018-04-16T14:42:14Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b65f8ce8-663a-4398-96a9-0dad25aeb285",
+        "parentId" : "a3ef7156-3717-4340-9d60-dea92e590de1",
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "That would mean we would always have a reporter configured and would always output files, which is a change from current behavior.\r\n\r\nI'd like to have reporters configured for all projects in scala-native repository for easier debbuging, but I'm not sure about making it a default at the level of\r\nscala native sbt plugin.\r\n\r\n",
+        "createdAt" : "2018-04-17T08:20:43Z",
+        "updatedAt" : "2018-04-17T08:20:43Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "26e03a1f-d1d8-43c1-85e5-a9a85ae6861f",
+        "parentId" : "a3ef7156-3717-4340-9d60-dea92e590de1",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Well, we could have a switch to turn it on and off and have a project relative destination in the target directory. I think that would work for each project that uses the plugin. @Duhemm What do you think?",
+        "createdAt" : "2018-04-17T14:56:36Z",
+        "updatedAt" : "2018-04-17T14:56:37Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b06b23082474a00226706c70a131d4bebcf174f5",
+    "line" : 24,
+    "diffHunk" : "@@ -25,6 +25,9 @@ import scalanative.sbtplugin.testinterface.ScalaNativeFramework\n \n object ScalaNativePluginInternal {\n \n+  val optimizerReporterOutPath ="
+  },
+  {
+    "id" : "c2c1695f-8301-484a-a8db-27406e7779be",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "a32f95a0-31a9-4943-abb9-843271123e8e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Logic here needs to move to `Discover.targetArchitecture` (so that other build tools can use it).",
+        "createdAt" : "2018-10-17T09:25:05Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -69,7 +73,27 @@ object ScalaNativePluginInternal {\n       .getOrElse(build.GC.default.name),\n     nativeGC in NativeTest := (nativeGC in Test).value,\n     nativeLTO := Discover.LTO(),\n-    nativeLTO in NativeTest := (nativeLTO in Test).value\n+    nativeLTO in NativeTest := (nativeLTO in Test).value,\n+    targetArchitecture := {"
+  },
+  {
+    "id" : "31275d27-7802-464c-b4d5-11e3bc3a6116",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "602ace2d-6bdc-49b0-a22d-9b4318ee7190",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why is this addition necessary? ",
+        "createdAt" : "2018-10-29T09:39:38Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0bb0a2d5-d74f-4062-8394-d65133650c9b",
+        "parentId" : "602ace2d-6bdc-49b0-a22d-9b4318ee7190",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "This makes it possible to run `test:nativeLink` for quickly testing LLVM compilation without actually running. It's especially useful when testing on macOS where running the container can get pretty slow.",
+        "createdAt" : "2018-10-29T16:38:00Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 48,
+    "diffHunk" : "@@ -166,7 +182,8 @@ object ScalaNativePluginInternal {\n     scalaNativeConfigSettings ++ Seq(\n       test := (test in NativeTest).value,\n       testOnly := (testOnly in NativeTest).evaluated,\n-      testQuick := (testQuick in NativeTest).evaluated\n+      testQuick := (testQuick in NativeTest).evaluated,\n+      nativeLink := (nativeLink in NativeTest).value"
+  },
+  {
+    "id" : "4eece024-8791-472f-aa2f-079502b1476f",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "d3e5f77c-9c29-4675-a03f-a89243cc9699",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Looks like those changes are unrelated to this PR.",
+        "createdAt" : "2020-07-08T14:48:42Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ffc2193d-007e-4c5c-ac22-2462e72a1064",
+        "parentId" : "d3e5f77c-9c29-4675-a03f-a89243cc9699",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, but I was trying to use the Boy Scout Rule. Also, I think having them all consistent and in the build tools rather than in the `sbt` plugin is a good change.",
+        "createdAt" : "2020-07-09T16:00:22Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : 21,
+    "diffHunk" : "@@ -48,11 +50,9 @@ object ScalaNativePluginInternal {\n     nativeClangPP := interceptBuildException(Discover.clangpp().toFile),\n     nativeCompileOptions := Discover.compileOptions(),\n     nativeLinkingOptions := Discover.linkingOptions(),\n-    nativeMode := Option(System.getenv.get(\"SCALANATIVE_MODE\"))\n-      .getOrElse(build.Mode.default.name),\n+    nativeMode := Discover.mode(),\n     nativeLinkStubs := false,\n-    nativeGC := Option(System.getenv.get(\"SCALANATIVE_GC\"))\n-      .getOrElse(build.GC.default.name),\n+    nativeGC := Discover.GC(),"
+  },
+  {
+    "id" : "98e41bf2-83cf-4e6e-ae83-11027dfa03e4",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "1662b172-641d-4fcd-a8aa-fc0d195204b2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "All these one-line changes that have nothing to do with this PR should be in a separate PR.",
+        "createdAt" : "2020-05-19T10:26:30Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -94,7 +76,7 @@ object ScalaNativePluginInternal {\n       val clang = nativeClang.value.toPath\n       Discover.targetTriple(clang, cwd)\n     },\n-    artifactPath in nativeLink := {\n+    nativeLink / artifactPath := {"
+  },
+  {
+    "id" : "badc6b63-ae8b-4eb8-9d46-6dce755451eb",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "c5ac22c5-b63a-4b35-a24c-9e4927d5adec",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`Defaults.testSettings` should be removed as well. Those are already *by default* in the `Test` configuration, from sbt. They were necessary in `NativeTest` because `NativeTest` was a made-up config that sbt doesn't configure at all. But not only is it redundant in `Test`, it can actively interfere with another sbt plugin that would override/augment some settings in the `Test` config.",
+        "createdAt" : "2020-05-19T10:29:13Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -169,51 +151,32 @@ object ScalaNativePluginInternal {\n     scalaNativeConfigSettings\n \n   lazy val scalaNativeTestSettings: Seq[Setting[_]] =\n-    scalaNativeConfigSettings ++ Seq(\n-      test := (test in NativeTest).value,\n-      testOnly := (testOnly in NativeTest).evaluated,\n-      testQuick := (testQuick in NativeTest).evaluated\n-    )\n-\n-  lazy val NativeTest = config(\"nativetest\").extend(Test).hide\n-\n-  lazy val scalaNativeNativeTestSettings: Seq[Setting[_]] =\n     Defaults.testSettings ++"
+  },
+  {
+    "id" : "cab84b71-9c52-4a0f-8b6a-ed8b17c41fae",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "f5474847-f3f8-481b-b6b2-0c4023185cf4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n          val frameworks = loadedTestFrameworks.value\r\n```\r\nYou are in the `Test` configuration. `Test /` is redundant.",
+        "createdAt" : "2020-05-19T10:32:48Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -169,51 +151,32 @@ object ScalaNativePluginInternal {\n     scalaNativeConfigSettings\n \n   lazy val scalaNativeTestSettings: Seq[Setting[_]] =\n-    scalaNativeConfigSettings ++ Seq(\n-      test := (test in NativeTest).value,\n-      testOnly := (testOnly in NativeTest).evaluated,\n-      testQuick := (testQuick in NativeTest).evaluated\n-    )\n-\n-  lazy val NativeTest = config(\"nativetest\").extend(Test).hide\n-\n-  lazy val scalaNativeNativeTestSettings: Seq[Setting[_]] =\n     Defaults.testSettings ++\n-      scalaNativeConfigSettings ++ Seq(\n-      classDirectory := (classDirectory in Test).value,\n-      dependencyClasspath := (dependencyClasspath in Test).value,\n-      parallelExecution in test := false,\n-      sourceGenerators += Def.task {\n-        val frameworks = (loadedTestFrameworks in Test).value.map(_._2).toSeq\n-        val tests      = (definedTests in Test).value\n-        val output     = sourceManaged.value / \"FrameworksMap.scala\"\n-        IO.write(output, makeTestMain(frameworks, tests))\n-        Seq(output)\n-      }.taskValue,\n-      loadedTestFrameworks := {\n-        val frameworks = (loadedTestFrameworks in Test).value\n-        val logger     = streams.value.log\n-        val testBinary = nativeLink.value\n-        val envVars    = (Keys.envVars in (Test, test)).value\n-        (frameworks.zipWithIndex).map {\n-          case ((tf, f), id) =>\n-            (tf,\n-             new ScalaNativeFramework(f,\n-                                      id,\n-                                      logger.toLogger,\n-                                      testBinary,\n-                                      envVars))\n+      scalaNativeConfigSettings ++\n+      Seq(\n+        mainClass := Some(\"scala.scalanative.testinterface.TestMain\"),\n+        loadedTestFrameworks := {\n+          val frameworks = (Test / loadedTestFrameworks).value"
+  },
+  {
+    "id" : "50440b0e-5f21-462b-8528-0aecb14eb817",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "f1577045-8cfc-4dfc-b39f-6cdbc4084d5b",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n          val envVars    = (test / Keys.`envVars`).value\r\n```",
+        "createdAt" : "2020-05-19T10:33:02Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -169,51 +151,32 @@ object ScalaNativePluginInternal {\n     scalaNativeConfigSettings\n \n   lazy val scalaNativeTestSettings: Seq[Setting[_]] =\n-    scalaNativeConfigSettings ++ Seq(\n-      test := (test in NativeTest).value,\n-      testOnly := (testOnly in NativeTest).evaluated,\n-      testQuick := (testQuick in NativeTest).evaluated\n-    )\n-\n-  lazy val NativeTest = config(\"nativetest\").extend(Test).hide\n-\n-  lazy val scalaNativeNativeTestSettings: Seq[Setting[_]] =\n     Defaults.testSettings ++\n-      scalaNativeConfigSettings ++ Seq(\n-      classDirectory := (classDirectory in Test).value,\n-      dependencyClasspath := (dependencyClasspath in Test).value,\n-      parallelExecution in test := false,\n-      sourceGenerators += Def.task {\n-        val frameworks = (loadedTestFrameworks in Test).value.map(_._2).toSeq\n-        val tests      = (definedTests in Test).value\n-        val output     = sourceManaged.value / \"FrameworksMap.scala\"\n-        IO.write(output, makeTestMain(frameworks, tests))\n-        Seq(output)\n-      }.taskValue,\n-      loadedTestFrameworks := {\n-        val frameworks = (loadedTestFrameworks in Test).value\n-        val logger     = streams.value.log\n-        val testBinary = nativeLink.value\n-        val envVars    = (Keys.envVars in (Test, test)).value\n-        (frameworks.zipWithIndex).map {\n-          case ((tf, f), id) =>\n-            (tf,\n-             new ScalaNativeFramework(f,\n-                                      id,\n-                                      logger.toLogger,\n-                                      testBinary,\n-                                      envVars))\n+      scalaNativeConfigSettings ++\n+      Seq(\n+        mainClass := Some(\"scala.scalanative.testinterface.TestMain\"),\n+        loadedTestFrameworks := {\n+          val frameworks = (Test / loadedTestFrameworks).value\n+          val logger     = streams.value.log\n+          val testBinary = nativeLink.value\n+          val envVars    = (Test / test / Keys.`envVars`).value"
+  },
+  {
+    "id" : "14e4b0c1-1716-4521-9755-a38bd3184b3c",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "61eb981a-daba-4c22-8bd4-4cc103bd0c7e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n          val envVars    = (test / Keys.envVars).value\r\n```\r\nThe backquotes were not there before, and seem unnecessary.",
+        "createdAt" : "2020-05-20T15:35:25Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -169,51 +151,31 @@ object ScalaNativePluginInternal {\n     scalaNativeConfigSettings\n \n   lazy val scalaNativeTestSettings: Seq[Setting[_]] =\n-    scalaNativeConfigSettings ++ Seq(\n-      test := (test in NativeTest).value,\n-      testOnly := (testOnly in NativeTest).evaluated,\n-      testQuick := (testQuick in NativeTest).evaluated\n-    )\n-\n-  lazy val NativeTest = config(\"nativetest\").extend(Test).hide\n-\n-  lazy val scalaNativeNativeTestSettings: Seq[Setting[_]] =\n-    Defaults.testSettings ++\n-      scalaNativeConfigSettings ++ Seq(\n-      classDirectory := (classDirectory in Test).value,\n-      dependencyClasspath := (dependencyClasspath in Test).value,\n-      parallelExecution in test := false,\n-      sourceGenerators += Def.task {\n-        val frameworks = (loadedTestFrameworks in Test).value.map(_._2).toSeq\n-        val tests      = (definedTests in Test).value\n-        val output     = sourceManaged.value / \"FrameworksMap.scala\"\n-        IO.write(output, makeTestMain(frameworks, tests))\n-        Seq(output)\n-      }.taskValue,\n-      loadedTestFrameworks := {\n-        val frameworks = (loadedTestFrameworks in Test).value\n-        val logger     = streams.value.log\n-        val testBinary = nativeLink.value\n-        val envVars    = (Keys.envVars in (Test, test)).value\n-        (frameworks.zipWithIndex).map {\n-          case ((tf, f), id) =>\n-            (tf,\n-             new ScalaNativeFramework(f,\n-                                      id,\n-                                      logger.toLogger,\n-                                      testBinary,\n-                                      envVars))\n+    scalaNativeConfigSettings ++\n+      Seq(\n+        mainClass := Some(\"scala.scalanative.testinterface.TestMain\"),\n+        loadedTestFrameworks := {\n+          val frameworks = loadedTestFrameworks.value\n+          val logger     = streams.value.log\n+          val testBinary = nativeLink.value\n+          val envVars    = (test / Keys.`envVars`).value"
+  },
+  {
+    "id" : "c8ac6ee5-e872-45d1-ac18-6a7e6f687685",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "a9ca5e12-ecfb-4dd8-b9cb-be7a11655644",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The `{}` are not necessary if the rhs is just a `Seq()`, like it used to be. Consider reverting this change so that the diff is smaller. And the same applies to other setting seqs below.",
+        "createdAt" : "2020-08-26T10:55:11Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -41,120 +42,138 @@ object ScalaNativePluginInternal {\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full)\n   )\n \n-  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = Seq(\n-    crossVersion := ScalaNativeCrossVersion.binary,\n-    platformDepsCrossVersion := ScalaNativeCrossVersion.binary,\n-    nativeClang := interceptBuildException(Discover.clang().toFile),\n-    nativeClangPP := interceptBuildException(Discover.clangpp().toFile),\n-    nativeCompileOptions := Discover.compileOptions(),\n-    nativeLinkingOptions := Discover.linkingOptions(),\n-    nativeMode := Discover.mode(),\n-    nativeLinkStubs := false,\n-    nativeGC := Discover.GC(),\n-    nativeLTO := Discover.LTO(),\n-    nativeCheck := false,\n-    nativeDump := false\n-  )\n+  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = {"
+  },
+  {
+    "id" : "8a1ca6ce-a8a5-4de6-9820-0ff5c0a68755",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "a286648d-066c-4db4-8d98-8400b7be31cb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This will need to be computed inside the rhs of `nativeConfig := ...` to be done only when we actually use `nativeConfig` (cf discussion above about tasks vs settings).",
+        "createdAt" : "2020-08-26T10:56:13Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -41,120 +42,138 @@ object ScalaNativePluginInternal {\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full)\n   )\n \n-  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = Seq(\n-    crossVersion := ScalaNativeCrossVersion.binary,\n-    platformDepsCrossVersion := ScalaNativeCrossVersion.binary,\n-    nativeClang := interceptBuildException(Discover.clang().toFile),\n-    nativeClangPP := interceptBuildException(Discover.clangpp().toFile),\n-    nativeCompileOptions := Discover.compileOptions(),\n-    nativeLinkingOptions := Discover.linkingOptions(),\n-    nativeMode := Discover.mode(),\n-    nativeLinkStubs := false,\n-    nativeGC := Discover.GC(),\n-    nativeLTO := Discover.LTO(),\n-    nativeCheck := false,\n-    nativeDump := false\n-  )\n+  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = {\n+    Seq(\n+      crossVersion := ScalaNativeCrossVersion.binary,\n+      platformDepsCrossVersion := ScalaNativeCrossVersion.binary,\n+      nativeClang := nativeConfig.value.clang.toFile,\n+      nativeClangPP := nativeConfig.value.clangPP.toFile,\n+      nativeCompileOptions := nativeConfig.value.compileOptions,\n+      nativeLinkingOptions := nativeConfig.value.linkingOptions,\n+      nativeMode := nativeConfig.value.mode.name,\n+      nativeGC := nativeConfig.value.gc.name,\n+      nativeLTO := nativeConfig.value.LTO.name,\n+      nativeLinkStubs := nativeConfig.value.linkStubs,\n+      nativeCheck := nativeConfig.value.check,\n+      nativeDump := nativeConfig.value.dump\n+    )\n+  }\n \n-  lazy val scalaNativeGlobalSettings: Seq[Setting[_]] = Seq(\n-    nativeWarnOldJVM := {\n-      val logger = streams.value.log\n-      Try(Class.forName(\"java.util.function.Function\")).toOption match {\n-        case None =>\n-          logger.warn(\"Scala Native is only supported on Java 8 or newer.\")\n-        case Some(_) =>\n-          ()\n-      }\n-    },\n-    onComplete := {\n-      val prev: () => Unit = onComplete.value\n-      () => {\n-        prev()\n-        testAdapters.getAndSet(Nil).foreach(_.close())\n+  lazy val scalaNativeGlobalSettings: Seq[Setting[_]] = {\n+    val config = build.NativeConfig.empty"
+  },
+  {
+    "id" : "0b7625df-3e14-40b7-aab3-e262a8f937cd",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "b8e99ce4-d95c-42da-9664-141b663c6a9a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This can probably be removed now, either by inlining its computation in `nativeConfig in key`, or in `nativeLink`, depending on what seems nicer (probably the former).",
+        "createdAt" : "2020-08-26T11:00:23Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -26,7 +27,7 @@ object ScalaNativePluginInternal {\n   val nativeWorkdir =\n     taskKey[File](\"Working directory for intermediate build files.\")\n \n-  val nativeConfig =\n+  val nativeBuildConfig ="
+  },
+  {
+    "id" : "89a25eee-d873-44ef-a039-d06b637daec1",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "80b0d1bb-3d76-4b22-ab21-a0ac15d85b67",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is only called with `key = nativeLink`, so you can just use `nativeLink` instead. In Scala.js we have two tasks, `fastOptJS` and `fullOptJS`, so it makes sense. But Scala Native only has the one `nativeLink`. That also means that most `in key`s are actually useless can be removed instead of writing `in nativeLink`.",
+        "createdAt" : "2020-08-26T11:06:41Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -41,120 +42,138 @@ object ScalaNativePluginInternal {\n       \"org.scala-native\" % \"nscplugin\" % nativeVersion cross CrossVersion.full)\n   )\n \n-  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = Seq(\n-    crossVersion := ScalaNativeCrossVersion.binary,\n-    platformDepsCrossVersion := ScalaNativeCrossVersion.binary,\n-    nativeClang := interceptBuildException(Discover.clang().toFile),\n-    nativeClangPP := interceptBuildException(Discover.clangpp().toFile),\n-    nativeCompileOptions := Discover.compileOptions(),\n-    nativeLinkingOptions := Discover.linkingOptions(),\n-    nativeMode := Discover.mode(),\n-    nativeLinkStubs := false,\n-    nativeGC := Discover.GC(),\n-    nativeLTO := Discover.LTO(),\n-    nativeCheck := false,\n-    nativeDump := false\n-  )\n+  lazy val scalaNativeBaseSettings: Seq[Setting[_]] = {\n+    Seq(\n+      crossVersion := ScalaNativeCrossVersion.binary,\n+      platformDepsCrossVersion := ScalaNativeCrossVersion.binary,\n+      nativeClang := nativeConfig.value.clang.toFile,\n+      nativeClangPP := nativeConfig.value.clangPP.toFile,\n+      nativeCompileOptions := nativeConfig.value.compileOptions,\n+      nativeLinkingOptions := nativeConfig.value.linkingOptions,\n+      nativeMode := nativeConfig.value.mode.name,\n+      nativeGC := nativeConfig.value.gc.name,\n+      nativeLTO := nativeConfig.value.LTO.name,\n+      nativeLinkStubs := nativeConfig.value.linkStubs,\n+      nativeCheck := nativeConfig.value.check,\n+      nativeDump := nativeConfig.value.dump\n+    )\n+  }\n \n-  lazy val scalaNativeGlobalSettings: Seq[Setting[_]] = Seq(\n-    nativeWarnOldJVM := {\n-      val logger = streams.value.log\n-      Try(Class.forName(\"java.util.function.Function\")).toOption match {\n-        case None =>\n-          logger.warn(\"Scala Native is only supported on Java 8 or newer.\")\n-        case Some(_) =>\n-          ()\n-      }\n-    },\n-    onComplete := {\n-      val prev: () => Unit = onComplete.value\n-      () => {\n-        prev()\n-        testAdapters.getAndSet(Nil).foreach(_.close())\n+  lazy val scalaNativeGlobalSettings: Seq[Setting[_]] = {\n+    val config = build.NativeConfig.empty\n+      .withClang(interceptBuildException(Discover.clang()))\n+      .withClangPP(interceptBuildException(Discover.clangpp()))\n+      .withCompileOptions(Discover.compileOptions())\n+      .withLinkingOptions(Discover.linkingOptions())\n+      .withLTO(Discover.LTO())\n+      .withGC(Discover.GC())\n+      .withMode(Discover.mode())\n+      .withOptimize(Discover.optimize())\n+\n+    Seq(\n+      nativeConfig := config,\n+      nativeBuildConfig := build.Config.empty\n+        .withCompilerConfig(config),\n+      nativeWarnOldJVM := {\n+        val logger = streams.value.log\n+        Try(Class.forName(\"java.util.function.Function\")).toOption match {\n+          case None =>\n+            logger.warn(\"Scala Native is only supported on Java 8 or newer.\")\n+          case Some(_) =>\n+            ()\n+        }\n+      },\n+      onComplete := {\n+        val prev: () => Unit = onComplete.value\n+        () => {\n+          prev()\n+          testAdapters.getAndSet(Nil).foreach(_.close())\n+        }\n       }\n-    }\n-  )\n+    )\n+  }\n \n-  lazy val scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n-    nativeTarget := interceptBuildException {\n-      val cwd   = nativeWorkdir.value.toPath\n-      val clang = nativeClang.value.toPath\n-      Discover.targetTriple(clang, cwd)\n-    },\n-    artifactPath in nativeLink := {\n-      crossTarget.value / (moduleName.value + \"-out\")\n-    },\n-    nativeWorkdir := {\n-      val workdir = crossTarget.value / \"native\"\n-      if (!workdir.exists) {\n-        IO.createDirectory(workdir)\n-      }\n-      workdir\n-    },\n-    nativeConfig := {\n-      val mainClass = selectMainClass.value.getOrElse {\n-        throw new MessageOnlyException(\"No main class detected.\")\n+  def scalaNativeConfigSettings(key: TaskKey[File]): Seq[Setting[_]] = {"
+  },
+  {
+    "id" : "dc19df11-c862-4d6a-be0f-dd6a43b7b2f1",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "2f320c0b-c92e-48ff-b4cc-63506b8a469f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I still think we should remove all the `in nativeLink` that were not there before. We can debate whether it would be better to have them, but that is a change in semantics compared to before this PR, and since this PR and only a \"refactoring\", it definitely should not change semantics.",
+        "createdAt" : "2020-08-26T13:20:42Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -75,57 +82,55 @@ object ScalaNativePluginInternal {\n     }\n   )\n \n-  lazy val scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n-    nativeTarget := interceptBuildException {\n-      val cwd   = nativeWorkdir.value.toPath\n-      val clang = nativeClang.value.toPath\n+  def scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n+    nativeTarget in nativeLink := interceptBuildException {"
+  },
+  {
+    "id" : "b76b106c-fc75-4d1f-bd59-40129e082614",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "aea4ce1a-5ea8-432a-acea-4cd490250b0e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This `in nativeLink` is also unnecessary. The `nativeConfig.value` on the rhs of `:=` will delegate to `nativeConfig` in the project scope, and be used to see the value of `nativeConfig` in the configuration scope. Users can then configure it per-config without having to write `in nativeLink` themselves.",
+        "createdAt" : "2020-08-26T13:21:56Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -75,57 +82,55 @@ object ScalaNativePluginInternal {\n     }\n   )\n \n-  lazy val scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n-    nativeTarget := interceptBuildException {\n-      val cwd   = nativeWorkdir.value.toPath\n-      val clang = nativeClang.value.toPath\n+  def scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n+    nativeTarget in nativeLink := interceptBuildException {\n+      val cwd   = (nativeWorkdir in nativeLink).value.toPath\n+      val clang = (nativeClang in nativeLink).value.toPath\n       Discover.targetTriple(clang, cwd)\n     },\n     artifactPath in nativeLink := {\n-      crossTarget.value / (moduleName.value + \"-out\")\n+      (crossTarget in nativeLink).value / (moduleName.value + \"-out\")\n     },\n-    nativeWorkdir := {\n-      val workdir = crossTarget.value / \"native\"\n+    nativeWorkdir in nativeLink := {\n+      val workdir = (crossTarget in nativeLink).value / \"native\"\n       if (!workdir.exists) {\n         IO.createDirectory(workdir)\n       }\n       workdir\n     },\n-    nativeConfig := {\n-      val mainClass = selectMainClass.value.getOrElse {\n-        throw new MessageOnlyException(\"No main class detected.\")\n-      }\n-\n-      val classpath =\n-        fullClasspath.value.map(_.data.toPath).filter(f => Files.exists(f))\n-      val maincls = mainClass.toString + \"$\"\n-      val cwd     = nativeWorkdir.value.toPath\n-      val clang   = nativeClang.value.toPath\n-      val clangpp = nativeClangPP.value.toPath\n-      val gc      = build.GC(nativeGC.value)\n-      val mode    = build.Mode(nativeMode.value)\n-\n-      build.Config.empty\n-        .withMainClass(maincls)\n-        .withClassPath(classpath)\n-        .withWorkdir(cwd)\n-        .withClang(clang)\n-        .withClangPP(clangpp)\n-        .withTargetTriple(nativeTarget.value)\n-        .withCompileOptions(nativeCompileOptions.value)\n-        .withLinkingOptions(nativeLinkingOptions.value)\n-        .withGC(gc)\n-        .withMode(mode)\n-        .withLinkStubs(nativeLinkStubs.value)\n-        .withLTO(nativeLTO.value)\n-        .withCheck(nativeCheck.value)\n-        .withDump(nativeDump.value)\n-        .withOptimize(Discover.optimize())\n+    nativeConfig in nativeLink := {"
+  },
+  {
+    "id" : "4d391c01-068f-444d-9f1e-2fd06494e689",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "e28000da-0c2e-4ce9-9cc9-b598f9ae9be4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "One tiny detail I missed earlier, sorry: we can make that again a `lazy val` rather than a `def`, which will speed up build loading.",
+        "createdAt" : "2020-08-26T13:50:46Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -75,7 +82,7 @@ object ScalaNativePluginInternal {\n     }\n   )\n \n-  lazy val scalaNativeConfigSettings: Seq[Setting[_]] = Seq(\n+  def scalaNativeConfigSettings: Seq[Setting[_]] = Seq("
+  },
+  {
+    "id" : "5beb31ea-36a4-4927-bd2b-18880942ae51",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "08e80f4d-e4af-4bc6-ac5c-4cd62b50a83d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I don't understand this.",
+        "createdAt" : "2020-08-18T14:08:10Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6e128463-d6a4-47ac-adfa-66dace2fa60a",
+        "parentId" : "08e80f4d-e4af-4bc6-ac5c-4cd62b50a83d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I put that in there as a suggestion. If you use `sbt` the code goes in a `native` directory. If `mill` for example also put it in a `native` then it would be easier on the developers to find the code.",
+        "createdAt" : "2020-08-18T14:53:21Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d6325dcf-4406-44c7-b6c3-66e49a5e35e1",
+        "parentId" : "08e80f4d-e4af-4bc6-ac5c-4cd62b50a83d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I can just remove that or reword it somehow. Edit: removed.",
+        "createdAt" : "2020-08-18T19:31:17Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -80,6 +80,8 @@ object ScalaNativePluginInternal {\n       crossTarget.value / (moduleName.value + \"-out\")\n     },\n     nativeWorkdir := {\n+      // all build tools should have the workdir\n+      // ending in `native` for users' consistency"
+  }
+]

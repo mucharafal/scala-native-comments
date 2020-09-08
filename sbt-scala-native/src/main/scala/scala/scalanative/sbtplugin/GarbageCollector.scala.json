@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "6180deee-f83e-49ff-8949-40f74dfde06b",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "93aa18d8-b949-45e9-9b44-be8df0327951",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "For style consistency with other ADTs like that (e.g. in NIR), lets structure the code the following way:\r\n\r\n```\r\nsealed abstract class GarbageCollector(...)\r\nobject GarbageCollector {\r\n  object None extends ...\r\n  object Boehm extends ...\r\n}\r\n```",
+        "createdAt" : "2017-03-20T10:21:09Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,14 @@\n+package scala.scalanative\n+package sbtplugin\n+\n+import java.io.File\n+\n+/**\n+ * @param dir directory name of the gc\n+ * @param links dependencies of the gc\n+ */\n+sealed abstract class GarbageCollector(val dir: String,\n+                                       val links: Seq[String] = Nil)\n+\n+object NoGC extends GarbageCollector(\"nogc\")\n+object BoehmGC extends GarbageCollector(\"boehm\", Seq(\"gc\"))"
+  }
+]

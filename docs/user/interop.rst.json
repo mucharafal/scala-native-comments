@@ -1,0 +1,277 @@
+[
+  {
+    "id" : "0394668a-78a1-4dc4-834a-2c921f392481",
+    "prId" : 472,
+    "comments" : [
+      {
+        "id" : "b0b2e7f4-95c4-4df3-bce9-44ab22f873a3",
+        "parentId" : null,
+        "author" : {
+          "login" : "keithc-ca",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/17774687?u=86f163b58b59c217ccb5ddcbef18b1f4d8f4b9ec&v=4"
+        },
+        "body" : "Shouldn't this be `CUnsignedChar`?",
+        "createdAt" : "2017-01-03T15:26:28Z",
+        "updatedAt" : "2017-01-03T15:26:28Z",
+        "lastEditedBy" : {
+          "login" : "keithc-ca",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/17774687?u=86f163b58b59c217ccb5ddcbef18b1f4d8f4b9ec&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1816383a-ce0c-449a-92b7-b56dfd059432",
+        "parentId" : "b0b2e7f4-95c4-4df3-bce9-44ab22f873a3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice catch! I'm going to address this in #473",
+        "createdAt" : "2017-01-03T15:39:05Z",
+        "updatedAt" : "2017-01-03T15:39:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5d496e43db5dcf1f5857b659ea76d2f4fb620e56",
+    "line" : 55,
+    "diffHunk" : "@@ -3,4 +3,157 @@\n Native code interoperability\n ============================\n \n+Scala Native provides an interop layer that makes it easy to interact with\n+foreign native code. This includes C and other languages that can expose APIs\n+via C ABI (e.g. C++, D, Rust etc.)\n+\n+Extern objects\n+--------------\n+\n+Extern objects are simple wrapper objects that demarcate scopes where methods\n+and fields are treated as their native C ABI-friendly counterparts. They are\n+roughly analagous to header files in C.\n+\n+For example to call C's ``malloc`` one might declare it as following::\n+\n+    @extern object libc {\n+      def malloc(size: CSize): Ptr[Byte] = extern\n+    }\n+\n+``extern`` on the right hand side of the method definition signifies\n+that the body of the method is defined elsewhere in a native library that is\n+available on the library path (see `Linking with native libraries`_.) Signature\n+of the extern function must match the signature of the original C function\n+(see `Finding the right signature`_.)\n+\n+Apart from calling extern methods, one may also observe global state\n+defined in native libraries. To access global variable ``myvariable``\n+defined in C::\n+\n+    int myvariable;\n+\n+One can declare it as following in Scala::\n+\n+    @extern object mylib {\n+      var myvariable: CInt = extern\n+    }\n+\n+Reads and write to `myvariable` will be mapped to reads and writes to a\n+corresponding external global variable.\n+\n+Finding the right signature\n+```````````````````````````\n+\n+To find a correct signature for a given C function one must provide an\n+equivalent Scala type for each of the arguments (wher all of the types with\n+``C`` prefix and ``Ptr``, are defined in ``scala.scalanative.native`` package):\n+\n+===================== =========================\n+C Type                Scala Type\n+===================== =========================\n+void                  Unit\n+bool                  CBool\n+char, signed char     CChar\n+unsigned char         CUnsignedShort (1)"
+  },
+  {
+    "id" : "121461c9-0473-4dae-9684-f5ba96c07c24",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "72cd3eda-3320-4601-9186-3dee4142bdc6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Pointer offset` doesn't seem to be very clear. Lets try `Elements between` instead.",
+        "createdAt" : "2017-04-10T08:46:22Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -122,6 +123,7 @@ Operation        C syntax                 Scala Syntax\n Load value       ``*ptr``                 ``!ptr``\n Store value      ``*ptr = value``         ``!ptr = value``\n Pointer to index ``ptr + i``, ``&ptr[i]`` ``ptr + i``\n+Pointer offset   ``ptr1 - ptr2``          ``ptr1 - ptr2``"
+  },
+  {
+    "id" : "7974e4f0-bac7-4c2c-bb9d-cf2bfb5b3cca",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "f18fb5c6-fab4-4a07-a63b-1046aded5c51",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We capitalize names for things that come from C, i.e.`CPtrDiff`.",
+        "createdAt" : "2017-04-10T08:46:45Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -55,6 +55,7 @@ unsigned long         native.CUnsignedLong (1)\n long long             native.CLongLong\n unsigned long long    native.CUnsignedLongLong (1)\n size_t                native.CSize\n+ptrdiff_t             native.CPtrdiff (2)"
+  },
+  {
+    "id" : "634f314d-cbaf-4aca-95c9-642de85adca0",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "730198e1-4701-4504-9ad7-779c12a30290",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "> As in C, it takes the library name without the ``lib`` prefix.\r\n\r\nI'm not sure this sentence makes things much clearer. I got a bit confused because `lib` is a suffix in the example above, plus this is not always true (take for instance zlib, you need to pass `-l z` to the linker). Maybe just say that you have to put whatever you would give your C compiler? I'm not a native English speaker, so that's really just a suggestion.",
+        "createdAt" : "2017-05-09T07:50:09Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "38fc0101-5ded-4679-9b51-2f88ff0e0e12",
+        "parentId" : "730198e1-4701-4504-9ad7-779c12a30290",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Thanks! This was in reference to `libuv`, which becomes `-luv` (later in the section there is an example with it). I will rephrase this sentence to make it clearer.",
+        "createdAt" : "2017-05-09T09:37:05Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -29,70 +29,87 @@ For example to call C's ``malloc`` one might declare it as following:\n \n ``native.extern`` on the right hand side of the method definition signifies\n that the body of the method is defined elsewhere in a native library that is\n-available on the library path (see `Linking with native libraries`_.) Signature\n-of the extern function must match the signature of the original C function\n-(see `Finding the right signature`_.)\n+available on the library path (see `Linking with native libraries`_). The\n+signature of the external function must match the signature of the original C\n+function (see `Finding the right signature`_).\n \n Finding the right signature\n ```````````````````````````\n \n To find a correct signature for a given C function one must provide an\n equivalent Scala type for each of the arguments:\n \n-===================== =========================\n-C Type                Scala Type\n-===================== =========================\n-void                  Unit\n-bool                  native.CBool\n-char, signed char     native.CChar\n-unsigned char         native.CUnsignedChar (1)\n-short                 native.CShort\n-unsigned short        native.CUnsignedShort (1)\n-int                   native.CInt\n-unsigned int          native.CUnsignedInt (1)\n-long                  native.CLong\n-unsigned long         native.CUnsignedLong (1)\n-long long             native.CLongLong\n-unsigned long long    native.CUnsignedLongLong (1)\n-size_t                native.CSize\n-ptrdiff_t             native.CPtrDiff (2)\n-wchar_t               native.CWideChar\n-char16_t              native.CChar16\n-char32_t              native.CChar32\n-float                 native.CFloat\n-double                native.CDouble\n-void*                 native.Ptr[Byte] (2)\n-int*                  native.Ptr[native.CInt] (2)\n-char*                 native.CString (2) (3)\n-int (\\*)(int)         native.CFunctionPtr1[native.CInt, native.CInt] (2) (4)\n-struct { int x, y; }* native.Ptr[native.CStruct2[native.CInt, native.CInt]] (2) (5)\n-struct { int x, y; }  Not supported\n-===================== =========================\n-\n-(1) See `Unsigned integer types`_.\n-(2) See `Pointer types`_.\n-(3) See `Byte strings`_.\n-(4) See `Function pointers`_.\n-(5) See `Memory layout types`_.\n+========================= =========================\n+C Type                    Scala Type\n+========================= =========================\n+``void``                  ``Unit``\n+``bool``                  ``native.CBool``\n+``char``, ``signed char`` ``native.CChar``\n+``unsigned char``         ``native.CUnsignedChar`` [1_]\n+``short``                 ``native.CShort``\n+``unsigned short``        ``native.CUnsignedShort`` [1_]\n+``int``                   ``native.CInt``\n+``unsigned int``          ``native.CUnsignedInt`` [1_]\n+``long``                  ``native.CLong``\n+``unsigned long``         ``native.CUnsignedLong`` [1_]\n+``long long``             ``native.CLongLong``\n+``unsigned long long``    ``native.CUnsignedLongLong`` [1_]\n+``size_t``                ``native.CSize``\n+``ptrdiff_t``             ``native.CPtrDiff`` [2_]\n+``wchar_t``               ``native.CWideChar``\n+``char16_t``              ``native.CChar16``\n+``char32_t``              ``native.CChar32``\n+``float``                 ``native.CFloat``\n+``double``                ``native.CDouble``\n+``void*``                 ``native.Ptr[Byte]`` [2_]\n+``int*``                  ``native.Ptr[native.CInt]`` [2_]\n+``char*``                 ``native.CString`` [2_] [3_]\n+``int (*)(int)``          ``native.CFunctionPtr1[native.CInt, native.CInt]`` [2_] [4_]\n+``struct { int x, y; }*`` ``native.Ptr[native.CStruct2[native.CInt, native.CInt]]`` [2_] [5_]\n+``struct { int x, y; }``  Not supported\n+========================= =========================\n+\n+.. [1] See `Unsigned integer types`_.\n+.. [2] See `Pointer types`_.\n+.. [3] See `Byte strings`_.\n+.. [4] See `Function pointers`_.\n+.. [5] See `Memory layout types`_.\n \n Linking with native libraries\n `````````````````````````````\n \n-In C/C++ one has to typically pass an additional ``-l mylib`` flag to\n-dynamically link with a library. In Scala Native one can annotate libraries\n-to link with using ``@native.link`` annotation:\n+C compilers typically require to pass an additional ``-l mylib`` flag to\n+dynamically link with a library. In Scala Native, one can annotate libraries to\n+link with using the ``@native.link`` annotation. As in C, it takes the library\n+name without the ``lib`` prefix."
+  },
+  {
+    "id" : "15443b2c-2ec4-4a3f-acc7-774d1e3187cd",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "be2a192f-60c8-4c0a-838d-85eb361147b7",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Well said!  I like the examples, they clarify.\r\n\r\nI hope that you are not getting frustrated by the review cycles.\r\n\r\nWhack a mole time!    I can create an independent issue for the concern below\r\nso that the current PR can proceed. \r\n\r\nI think this section exposes a weakness in the section which follows it. \r\n\r\nAbsent any documentation, it is reasonable to believe that the c interpolator\r\nand toCString() have the same results.  One knows that _someone_ is going\r\nto do toCString() and report that it allows escapes which the quote-equivalent-unquote\r\ninterpolator does not.\r\n```\r\nAdditionally, we also expose two helper functions unsafe.toCString and unsafe.fromCString to convert between C-style and Java-style strings.\r\n```\r\nI think that creating some test cases to figure out what toCString() is actually\r\ndoing with regards to escapes and documenting it in this .rst is worthwhile.\r\nI _think_ it is converting from Java strings to bytes and then copying those bytes to allocated memory.  The creation of the Java string would have done escape\r\nprocessing but toCString() would not. Thus one would need a Java \"\\\\a\" to pass\r\n the two bytes '\\' & 'a' to C.  \r\n\r\nThe same consideration and need for explicit test cases applies to fromCString().\r\nFor the sake of this discussion, consider a byte array read in from user input.\r\nI believe that each byte gets visited one by one and converted to a Java 16 bit Character without escape processing.  Thus a CString holding the two bytes\r\n'\\' and 'n' become two Java Characters, not one newline.  \r\n\r\nI propose that one or more test cases be created and the behavior documented\r\nin this section of the .rst.",
+        "createdAt" : "2020-07-17T12:22:47Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6e18d88b-9e36-45f5-abf7-3b56ff3c9ae1",
+        "parentId" : "be2a192f-60c8-4c0a-838d-85eb361147b7",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The key insight is that:\r\n\r\n* A `String` is a UCS string, i.e., a sequence of 2-byte Chars. It is *usually* interpreted as UTF-16.\r\n* A `CString` is a *byte string*, i.e., a sequence of Bytes. It is *usually* interpreted as UTF-8, but it can also be ASCII or latin1 or whatever.\r\n* The `c\"...\"` interpolator describes a *byte string*, without any specific encoding. Because the source code is text, *some* encoding needs to be chosen when encoding the text *at compile-time* into a byte string. The natural choice is latin1 aka ISO-8859-1, because it uses 1-byte code points, and its valid code point range (0-255) corresponds to the same range in UTF-16 `Char`s and in abstract Unicode code point.\r\n* `fromCString` and `toCString` are charset-aware. They will always assume that the `String` is UTF-16 (as do the `java.nio.charset` APIs) and take an `Charset` parameter to know what encoding to assume for the byte string. If not specified, it is UTF-8. They are very similar to `String.getBytes` and `new String(Array[Byte])`, except that they work with a `CString` instead of an `Array[Byte]`.\r\n\r\n`fromCString` and `toCString` don't care about escapes; escapes are a source-level programming language concern, not a run-time concern. They don't copy byte-by-byte because that would not respect the charset-aware decoding and encoding.",
+        "createdAt" : "2020-07-17T14:33:36Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : 8,
+    "diffHunk" : "@@ -357,6 +357,9 @@ strings (similarly to C):\n     val msg: CString = c\"Hello, world!\"\n     stdio.printf(msg)\n \n+It does not allow any octal values or escape characters not supported by Scala compiler, like ``\\a`` or ``\\?``.\n+It is possible to use C-style hex values up to value 0xFF, eg. ``c\"Hello \\x61\\x62\\x63\"``\n+"
+  },
+  {
+    "id" : "99c04e4c-9e84-4a1b-95cc-c315e3057fdb",
+    "prId" : 1859,
+    "comments" : [
+      {
+        "id" : "8d695c7f-4eac-4ac4-b562-b5f2f0547bc9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I'm a bit confused by this change. This is probably my lack of knowledge about the .rst format. Would you mind explaining what is going here, or point me to relevant documentation?",
+        "createdAt" : "2020-07-21T20:45:46Z",
+        "updatedAt" : "2020-07-21T23:14:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5dce5ed8-3bc7-4426-8e76-1dd98f2dac83",
+        "parentId" : "8d695c7f-4eac-4ac4-b562-b5f2f0547bc9",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you for the timely review.  Yes, there is a bit of wizardry going on there. I could find no good way\r\nto document it inline (but may have just now. I will try that after this)\r\n\r\nThe primary documentation is (sphinx)[ https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html?highlight=code-block#showing-code-examples ]. Follow the \r\n(Pygments)[https://pygments.org/docs/lexers/] link to show that a scala parser is available.\r\n\r\nI found the (tutorial) [https://thomas-cokelaer.info/tutorials/sphinx/rest_syntax.html#inserting-code-and-literal-blocks]\r\nmore useful.\r\n\r\nBasically, there is no visible change in the output.  Prior to this PR, Sphinx warned that it could not \r\nparse those two blocks as Scala, so it was not doing any Scala highlighting for them.   I took Sphinx\r\nat its word and dropped the Scala specification.   I did not try to figure out why Sphinx could not parse\r\nthe contained code because I could not economically change Sphinx.    I suspect that it has something\r\nto do with the leading underbars, especially when the rest looks like a number.\r\n\r\nTurns out that Sphinx can parse & highlight the first changed block (as the default python).\r\n I believe the highlighting is proper but can check again. So that is actually a step to make that block\r\n consistent with the rest of the file.\r\n\r\nThe second block did not have highlighting before this PR and does not after it.  \r\n\r\nI have been told that if one leads a good life, one never gets this deep into Rich Structured Text details.\r\n\r\nDoes this address your concerns?   I'll see about adding a comment so that it is not visible in the end\r\nproduct but briefly explains the wizardry in the file: reduced astonishment.",
+        "createdAt" : "2020-07-21T22:50:03Z",
+        "updatedAt" : "2020-07-21T23:14:49Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "84e172e3-8efb-4548-b209-4502b1e9bebd",
+        "parentId" : "8d695c7f-4eac-4ac4-b562-b5f2f0547bc9",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "While chasing down the documentation to explain this change, I discovered a way to enter comments\r\nin the source file.  I believe it is far better to not have surprises in the file but where they are unavoidable\r\na brief comment helps the next person understand.    ",
+        "createdAt" : "2020-07-21T23:18:17Z",
+        "updatedAt" : "2020-07-21T23:18:17Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "545056a0fcc152c08b32da3cd4903cf1d7835875",
+    "line" : 59,
+    "diffHunk" : "@@ -325,17 +325,13 @@ pointers and do not have a corresponding first-class values backing them.\n   a type-level natural number. Natural numbers are types that are composed of\n   base naturals ``Nat._0, ... Nat._9`` and an additional ``Nat.DigitN``\n   constructors, where ``N`` refers to number of digits in the given number. \n-  So for example number ``1024`` is going to be encoded as following:\n-\n-  .. code-block:: scala\n+  So for example number ``1024`` is going to be encoded as following::"
+  }
+]

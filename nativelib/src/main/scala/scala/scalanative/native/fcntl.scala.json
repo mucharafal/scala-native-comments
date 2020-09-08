@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "73c1a3a2-c649-4dbc-bac2-394a8d7ed8cc",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "043db89c-d629-4584-ba9c-920fdcfa14d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please make sure that all the posix-related wrappers are in `scala.scalanative.posix`. ",
+        "createdAt" : "2017-04-10T18:39:15Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e865d2a8-e2f1-4de5-bbad-166c316bbfd2",
+        "parentId" : "043db89c-d629-4584-ba9c-920fdcfa14d4",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done! I've moved `dirent`, `fcntl`, `limits`, `stat` and `utime` to the `posix` package.",
+        "createdAt" : "2017-04-11T09:44:17Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+package scala.scalanative\n+package native\n+\n+import stat.mode_t\n+\n+@extern\n+object fcntl {"
+  }
+]

@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "03dd0c70-f262-4e01-a84b-8fd4bc6eff99",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "7eb74eb2-ecf3-4a3c-9210-cc8be3906229",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "And here we go down the rabbit hole!.\r\n\r\nI suggest a comment that this is an implementation stub, just enough to get Duration.scala to work.\r\nThat would yield `least astonishment` to future readers of the file.   ",
+        "createdAt" : "2019-03-19T15:10:08Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "70b29096-679e-4afe-b643-e4322e5ceb0a",
+        "parentId" : "7eb74eb2-ecf3-4a3c-9210-cc8be3906229",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Added commented out methods for readability. This was only added to complete the `class` signature of `Duration`.",
+        "createdAt" : "2019-03-19T20:18:31Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "de121991-1594-4812-a5fc-fe029ea476f4",
+        "parentId" : "7eb74eb2-ecf3-4a3c-9210-cc8be3906229",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I understand completely... In six months time, somebody, perhaps you or I, will be singing your praises for the clue.\r\nIn fact, I will even sing a verse of praise now for putting up with the tedium ;-)",
+        "createdAt" : "2019-03-19T23:39:48Z",
+        "updatedAt" : "2019-03-19T23:39:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,3 @@\n+package java.time.temporal\n+\n+trait TemporalAmount {}"
+  }
+]

@@ -1,0 +1,286 @@
+[
+  {
+    "id" : "e2303007-29d1-471c-ba55-79b4b3a8ab47",
+    "prId" : 171,
+    "comments" : [
+      {
+        "id" : "eab5a466-4dd2-452c-b1b9-0680e59da5e2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Not really related to this PR, but this is probably not correct wrt. the reference equality of `java.lang.Class`es. You should have a global map of already created instances of `Class`.\n",
+        "createdAt" : "2016-06-13T17:56:10Z",
+        "updatedAt" : "2016-06-13T18:35:42Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d66fb4cb-a72e-4655-ae5e-3e01c6627aae",
+        "parentId" : "eab5a466-4dd2-452c-b1b9-0680e59da5e2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good point, I've just filed an issue for that. https://github.com/scala-native/scala-native/issues/172\n",
+        "createdAt" : "2016-06-13T18:03:27Z",
+        "updatedAt" : "2016-06-13T18:35:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2834dc55020918b55f3ee83f98428cdbe3979e87",
+    "line" : 14,
+    "diffHunk" : "@@ -14,22 +14,22 @@ class _Object {\n     getClass.getName + \"@\" + Integer.toHexString(hashCode)\n \n   def _getClass(): _Class[_] =\n-    new _Class(Type.get(this))\n+    new _Class(runtime.getType(this))"
+  },
+  {
+    "id" : "e8e34604-4291-4e19-a072-c514529af68c",
+    "prId" : 514,
+    "comments" : [
+      {
+        "id" : "c6c693b3-16c9-460f-bce6-612734edf84e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`this eq null`, really!?\r\n\r\nHow does this work with the dynamic dispatch that would have to happen on `(null: Any).__scala_==(that)`?",
+        "createdAt" : "2017-02-21T13:08:46Z",
+        "updatedAt" : "2017-02-21T13:08:46Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0a467aed-eace-4613-b05b-0bde9e956855",
+        "parentId" : "c6c693b3-16c9-460f-bce6-612734edf84e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is actually completely unnecessary, you're right. ",
+        "createdAt" : "2017-02-21T13:46:02Z",
+        "updatedAt" : "2017-02-21T13:46:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "8747091e1bd208b14263d86931b02de60063476a",
+    "line" : 43,
+    "diffHunk" : "@@ -4,34 +4,40 @@ import scala.scalanative.native._\n import scala.scalanative.runtime\n \n class _Object {\n-  def _equals(that: _Object): scala.Boolean =\n-    this.cast[Word] == that.cast[Word]\n+  @inline def __equals(that: _Object): scala.Boolean =\n+    this eq that\n \n-  def _hashCode(): scala.Int =\n+  @inline def __hashCode(): scala.Int =\n     this.cast[Word].hashCode\n \n-  def _toString(): String =\n+  @inline def __toString(): String =\n     getClass.getName + \"@\" + Integer.toHexString(hashCode)\n \n-  def _getClass(): _Class[_] =\n+  @inline def __getClass(): _Class[_] =\n     new _Class(runtime.getType(this))\n \n-  def _notify(): Unit =\n+  @inline def __notify(): Unit =\n     runtime.getMonitor(this)._notify\n \n-  def _notifyAll(): Unit =\n+  @inline def __notifyAll(): Unit =\n     runtime.getMonitor(this)._notifyAll\n \n-  def _wait(): Unit =\n+  @inline def __wait(): Unit =\n     runtime.getMonitor(this)._wait\n \n-  def _wait(timeout: scala.Long): Unit =\n+  @inline def __wait(timeout: scala.Long): Unit =\n     runtime.getMonitor(this)._wait(timeout)\n \n-  def _wait(timeout: scala.Long, nanos: Int): Unit =\n+  @inline def __wait(timeout: scala.Long, nanos: Int): Unit =\n     runtime.getMonitor(this)._wait(timeout, nanos)\n \n-  protected def _clone(): _Object = ???\n+  @inline def __scala_==(other: _Object): scala.Boolean =\n+    if (this eq null) other eq null else __equals(other)"
+  },
+  {
+    "id" : "14c30080-730a-4676-975f-b6eb046eddf9",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "ccd472e5-a2a0-42b6-8e34-fc25b1864b01",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `GC.malloc`, not `GC.malloc_atomic`. Atomic means that object stores no pointers to other objects. ",
+        "createdAt" : "2017-02-22T16:00:05Z",
+        "updatedAt" : "2017-02-22T16:54:14Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -37,7 +39,17 @@ class _Object {\n   @inline def __scala_## : scala.Int =\n     __hashCode\n \n-  protected def __clone(): _Object = ???\n+  protected def __clone(): _Object = {\n+    val typePtr: Ptr[Type] = getType(this)\n+    val size               = (!typePtr).size\n+    val clone              = GC.malloc_atomic(size)"
+  },
+  {
+    "id" : "2fbd92b6-ffae-49a1-a1ff-4420b93977b0",
+    "prId" : 982,
+    "comments" : [
+      {
+        "id" : "6d933290-6df4-4031-b0fa-d7edd8d4cb21",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "typo: implementation",
+        "createdAt" : "2017-08-30T12:42:19Z",
+        "updatedAt" : "2017-08-30T13:33:44Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6bbd9c92-6cf4-4fef-9508-adca9af8e86a",
+        "parentId" : "6d933290-6df4-4031-b0fa-d7edd8d4cb21",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-08-30T12:46:43Z",
+        "updatedAt" : "2017-08-30T13:33:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b20589449d25434f7ceec34f4f381756a86b9166",
+    "line" : null,
+    "diffHunk" : "@@ -32,11 +32,19 @@ class _Object {\n   @inline def __wait(timeout: scala.Long, nanos: Int): Unit =\n     runtime.getMonitor(this)._wait(timeout, nanos)\n \n-  @inline def __scala_==(other: _Object): scala.Boolean =\n+  @inline def __scala_==(other: _Object): scala.Boolean = {\n+    // This impelementation is never called as we short-circuit"
+  },
+  {
+    "id" : "bf703270-9982-4d63-9342-29fe8fd9bb43",
+    "prId" : 982,
+    "comments" : [
+      {
+        "id" : "4795b540-62a5-47ad-ade1-b0ae4864b41d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "typo: implementation",
+        "createdAt" : "2017-08-30T12:42:38Z",
+        "updatedAt" : "2017-08-30T13:33:44Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5ffca9ad-9e1c-40e6-898c-294f097a636d",
+        "parentId" : "4795b540-62a5-47ad-ade1-b0ae4864b41d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-08-30T12:46:48Z",
+        "updatedAt" : "2017-08-30T13:33:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b20589449d25434f7ceec34f4f381756a86b9166",
+    "line" : null,
+    "diffHunk" : "@@ -32,11 +32,19 @@ class _Object {\n   @inline def __wait(timeout: scala.Long, nanos: Int): Unit =\n     runtime.getMonitor(this)._wait(timeout, nanos)\n \n-  @inline def __scala_==(other: _Object): scala.Boolean =\n+  @inline def __scala_==(other: _Object): scala.Boolean = {\n+    // This impelementation is never called as we short-circuit\n+    // the virtual dispatch to go directly to equals for the reference\n+    // types in the optimizer. We provide it here for clarity.\n     __equals(other)\n+  }\n \n-  @inline def __scala_## : scala.Int =\n+  @inline def __scala_## : scala.Int = {\n+    // This impelementation is never called as we short-circuit"
+  },
+  {
+    "id" : "6fdc802d-9db7-454d-9d1c-792b43d2e54d",
+    "prId" : 982,
+    "comments" : [
+      {
+        "id" : "7eb84c67-0e85-47f8-bfe1-44409e499625",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "typo: ~equals~ hashcode",
+        "createdAt" : "2017-08-30T12:42:59Z",
+        "updatedAt" : "2017-08-30T13:33:44Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0aa400b1-9e55-4214-86d7-8a241f5b9462",
+        "parentId" : "7eb84c67-0e85-47f8-bfe1-44409e499625",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-08-30T12:47:08Z",
+        "updatedAt" : "2017-08-30T13:33:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b20589449d25434f7ceec34f4f381756a86b9166",
+    "line" : null,
+    "diffHunk" : "@@ -32,11 +32,19 @@ class _Object {\n   @inline def __wait(timeout: scala.Long, nanos: Int): Unit =\n     runtime.getMonitor(this)._wait(timeout, nanos)\n \n-  @inline def __scala_==(other: _Object): scala.Boolean =\n+  @inline def __scala_==(other: _Object): scala.Boolean = {\n+    // This impelementation is never called as we short-circuit\n+    // the virtual dispatch to go directly to equals for the reference\n+    // types in the optimizer. We provide it here for clarity.\n     __equals(other)\n+  }\n \n-  @inline def __scala_## : scala.Int =\n+  @inline def __scala_## : scala.Int = {\n+    // This impelementation is never called as we short-circuit\n+    // the virtual dispatch to go directly to equals for the reference"
+  }
+]

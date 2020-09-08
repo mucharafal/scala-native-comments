@@ -1,0 +1,248 @@
+[
+  {
+    "id" : "1a83c62f-fe31-477f-9b4e-8c11336c8cc4",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "fd5467bd-c0fe-4bff-8976-353cbf25627c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can we make sure that large and small objects heaps are adjacent in memory? This way we'll need just two bounds checks here instead of 4. ",
+        "createdAt" : "2017-05-22T11:03:41Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "93b6ca81-9752-448f-8bfe-2ed73cdd548b",
+        "parentId" : "fd5467bd-c0fe-4bff-8976-353cbf25627c",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Yes and no. We can do it but it will not help. The problem being that we can map memory only once for both heaps and grow up and down. But we can have a value from the stack pointing to \"unallocated heap\" meaning part of memory that has been mapped but where the heaps have not grown to yet.",
+        "createdAt" : "2017-05-22T11:30:08Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c2a13ab1-ecc6-46d7-b198-b356406bc10d",
+        "parentId" : "fd5467bd-c0fe-4bff-8976-353cbf25627c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You're right, with growing heap this isn't going to work at all. ",
+        "createdAt" : "2017-05-22T12:07:28Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+#ifndef IMMIX_HEAP_H\n+#define IMMIX_HEAP_H\n+\n+#include \"GCTypes.h\"\n+#include \"Allocator.h\"\n+#include \"LargeAllocator.h\"\n+#include \"datastructures/Stack.h\"\n+\n+typedef struct {\n+    word_t *heapStart;\n+    word_t *heapEnd;\n+    size_t smallHeapSize;\n+    word_t *largeHeapStart;\n+    word_t *largeHeapEnd;\n+    word_t *largeHeapSize;\n+    Allocator *allocator;\n+    LargeAllocator *largeAllocator;\n+} Heap;\n+\n+static inline bool heap_isWordInLargeHeap(Heap *heap, word_t *word) {\n+    return word != NULL && word >= heap->largeHeapStart &&\n+           word < heap->largeHeapEnd;\n+}\n+\n+static inline bool heap_isWordInSmallHeap(Heap *heap, word_t *word) {\n+    return word != NULL && word >= heap->heapStart && word < heap->heapEnd;\n+}\n+\n+static inline bool heap_isWordInHeap(Heap *heap, word_t *word) {\n+    return heap_isWordInSmallHeap(heap, word) ||\n+           heap_isWordInLargeHeap(heap, word);\n+}"
+  },
+  {
+    "id" : "1bf4618f-0962-4c49-914d-840d732f997b",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "4a614358-f07f-4670-9c77-a07b9cd6be2e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Capital `Heap` in the function name.",
+        "createdAt" : "2017-05-26T12:52:41Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+#ifndef IMMIX_HEAP_H\n+#define IMMIX_HEAP_H\n+\n+#include \"GCTypes.h\"\n+#include \"Allocator.h\"\n+#include \"LargeAllocator.h\"\n+#include \"datastructures/Stack.h\"\n+\n+typedef struct {\n+    word_t *heapStart;\n+    word_t *heapEnd;\n+    size_t smallHeapSize;\n+    word_t *largeHeapStart;\n+    word_t *largeHeapEnd;\n+    size_t largeHeapSize;\n+    Allocator *allocator;\n+    LargeAllocator *largeAllocator;\n+} Heap;\n+\n+static inline bool heap_isWordInLargeHeap(Heap *heap, word_t *word) {"
+  },
+  {
+    "id" : "f9a268e2-838b-49bb-b7ec-aaa96b3a775d",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "378fb794-8c25-48fc-83b1-06b1aa7ef092",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Capital `Heap` in the function name.",
+        "createdAt" : "2017-05-26T12:52:54Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+#ifndef IMMIX_HEAP_H\n+#define IMMIX_HEAP_H\n+\n+#include \"GCTypes.h\"\n+#include \"Allocator.h\"\n+#include \"LargeAllocator.h\"\n+#include \"datastructures/Stack.h\"\n+\n+typedef struct {\n+    word_t *heapStart;\n+    word_t *heapEnd;\n+    size_t smallHeapSize;\n+    word_t *largeHeapStart;\n+    word_t *largeHeapEnd;\n+    size_t largeHeapSize;\n+    Allocator *allocator;\n+    LargeAllocator *largeAllocator;\n+} Heap;\n+\n+static inline bool heap_isWordInLargeHeap(Heap *heap, word_t *word) {\n+    return word != NULL && word >= heap->largeHeapStart &&\n+           word < heap->largeHeapEnd;\n+}\n+\n+static inline bool heap_isWordInSmallHeap(Heap *heap, word_t *word) {"
+  },
+  {
+    "id" : "59995dfa-223e-400c-b317-8193659f87c6",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "0b379424-e7fc-49e6-b5f5-fca1a84c5f8c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Capital `Heap` in the function name.",
+        "createdAt" : "2017-05-26T12:52:59Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+#ifndef IMMIX_HEAP_H\n+#define IMMIX_HEAP_H\n+\n+#include \"GCTypes.h\"\n+#include \"Allocator.h\"\n+#include \"LargeAllocator.h\"\n+#include \"datastructures/Stack.h\"\n+\n+typedef struct {\n+    word_t *heapStart;\n+    word_t *heapEnd;\n+    size_t smallHeapSize;\n+    word_t *largeHeapStart;\n+    word_t *largeHeapEnd;\n+    size_t largeHeapSize;\n+    Allocator *allocator;\n+    LargeAllocator *largeAllocator;\n+} Heap;\n+\n+static inline bool heap_isWordInLargeHeap(Heap *heap, word_t *word) {\n+    return word != NULL && word >= heap->largeHeapStart &&\n+           word < heap->largeHeapEnd;\n+}\n+\n+static inline bool heap_isWordInSmallHeap(Heap *heap, word_t *word) {\n+    return word != NULL && word >= heap->heapStart && word < heap->heapEnd;\n+}\n+\n+static inline bool heap_isWordInHeap(Heap *heap, word_t *word) {"
+  },
+  {
+    "id" : "b51939ee-77b7-4c84-b9a9-a2215f14cb9d",
+    "prId" : 1357,
+    "comments" : [
+      {
+        "id" : "c49ef18c-40df-4749-941f-0ba54a5a6297",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "There is a problem with large heap size not being a part of the min/max heap size limits. It's not easy to fix though, but it's something we need to in one of the next PRs, opened an issue here: #1358",
+        "createdAt" : "2018-09-21T12:11:36Z",
+        "updatedAt" : "2018-09-21T12:20:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "46afb041-3589-4cdf-b052-0559c75ac3b6",
+        "parentId" : "c49ef18c-40df-4749-941f-0ba54a5a6297",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is actually pretty bad. Imagine someone doing -Xms1G -Xmx1G expecting a constant heap size of 1G, but it's not going to work at all because large object space will default to 1M and it won't able to grow if a 2M allocation is requested. ",
+        "createdAt" : "2018-09-21T12:19:37Z",
+        "updatedAt" : "2018-09-21T12:23:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c3bdaf638cf19e000789418f5de2df2f1c2c6d9f",
+    "line" : 7,
+    "diffHunk" : "@@ -33,8 +33,8 @@ static inline bool heap_isObjectInHeap(Heap *heap, Object *object) {\n     return Heap_IsWordInHeap(heap, (word_t *)object);\n }\n \n-void Heap_Init(Heap *heap, size_t initialSmallHeapSize,\n-               size_t initialLargeHeapSize);\n+void Heap_Init(Heap *heap, size_t minSmallHeapSize,\n+               size_t initialLargeHeapSize, size_t maxHeapSize);"
+  },
+  {
+    "id" : "03fb452d-6e34-47b1-bbc6-35cc3b2e3d43",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "c09a1ec9-1c4d-49a4-a7ca-4b7bf8deccd4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `Stats` in its own module.",
+        "createdAt" : "2018-10-17T11:30:36Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -5,6 +5,15 @@\n #include \"Allocator.h\"\n #include \"LargeAllocator.h\"\n #include \"datastructures/Stack.h\"\n+#include <stdio.h>\n+\n+typedef struct {\n+    FILE *outFile;\n+    uint64_t collections;\n+    uint64_t timestamp_us[GC_STATS_MEASUREMENTS];\n+    uint64_t mark_time_us[GC_STATS_MEASUREMENTS];\n+    uint64_t sweep_time_us[GC_STATS_MEASUREMENTS];\n+} HeapStats;"
+  }
+]

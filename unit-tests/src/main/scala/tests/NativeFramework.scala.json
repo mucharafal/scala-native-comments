@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "a1e436e2-94c3-4481-a02d-4527c96df39e",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "5952afd0-b842-4c72-b7c2-55265727be3f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should not be necessary. `NativeFramework` extends `sbt.testing.Framework`, and the latter has `@EnableReflectiveInstantiation`. `NativeFramework` therefore receives this by inheritance.",
+        "createdAt" : "2020-05-19T12:45:35Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "95c36d71-a05c-40f6-bee2-1815c1524e31",
+        "parentId" : "5952afd0-b842-4c72-b7c2-55265727be3f",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "I thought so too, but for some reason this is not the case. Removing this annotation results in an InstantiationError at `FrameworkLoader`.\r\n\r\nFollowing the `sbt.testing.Interface` import in this file gives two options in IntelliJ: the one from `test-interface-sbt-defs` of Scala Native and one from `org.scala-sbt:test-interface`. It seems that `unit-tests` project depends on both. Maybe it resolves to the second one, which does not have the annotation?",
+        "createdAt" : "2020-05-19T22:10:13Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7e403890-45f0-46e6-b153-1e0813312608",
+        "parentId" : "5952afd0-b842-4c72-b7c2-55265727be3f",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Could you check `show unit-tests/test:dependencyClasspath`? Does it have an entry for the JVM version of sbt-testing-interface? If yes, the build needs to be fixed so that that doesn't happen.",
+        "createdAt" : "2020-05-20T01:36:17Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -1,8 +1,10 @@\n package tests\n \n import sbt.testing.{Fingerprint, Framework, Runner}\n-import scala.scalanative.testinterface.PreloadedClassLoader\n \n+import scala.scalanative.reflect.annotation.EnableReflectiveInstantiation\n+\n+@EnableReflectiveInstantiation"
+  },
+  {
+    "id" : "780856b6-fa1c-42ed-9319-b3839ea2df2e",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "e92b764b-9251-49a5-a499-594521a174c9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Here we can also remove the big comment, and inherit it from `sbt.testing.Framework` instead.",
+        "createdAt" : "2020-08-07T18:44:52Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -10,6 +10,30 @@ class NativeFramework extends Framework {\n \n   override def runner(args: Array[String],\n                       remoteArgs: Array[String],\n-                      testClassLoader: ClassLoader): Runner =\n+                      testClassLoader: ClassLoader): Runner = {\n     new NativeRunner(args, remoteArgs)\n+  }\n+\n+  /** Scala Native specific: Creates a worker for a given run."
+  }
+]

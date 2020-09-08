@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "ea7805fa-1672-4ee3-9cea-5bbbc8dd09e8",
+    "prId" : 447,
+    "comments" : [
+      {
+        "id" : "d03648b8-c46b-448d-9742-9dd778cda23c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should probably use variable-size encoding like https://source.android.com/devices/tech/dalvik/dex-format.html for ints. ",
+        "createdAt" : "2016-12-20T12:30:11Z",
+        "updatedAt" : "2016-12-20T12:34:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c00eb5ea38fff29cfb80cb703b62ff651752005b",
+    "line" : 120,
+    "diffHunk" : "@@ -0,0 +1,220 @@\n+#include <stdio.h>\n+#include <stdlib.h>\n+#include <string.h>\n+#include \"gc.h\"\n+\n+#define CHUNK_SIZE (1024 * 1024 * 128) // 128 MB\n+\n+#define TAG_CALL       1\n+#define TAG_LOAD       2\n+#define TAG_STORE      3\n+#define TAG_CLASSALLOC 4\n+#define TAG_METHOD     5\n+#define TAG_AS         6\n+#define TAG_IS         7\n+#define TAG_BOX        8\n+#define TAG_UNBOX      9\n+\n+typedef struct chararray\n+{\n+    void* u;\n+    int length;\n+    int unused;\n+    short chars[];\n+} chararray;\n+\n+typedef struct jstring\n+{\n+    void* u;\n+    int cachedHashCode;\n+    int count;\n+    int offset;\n+    chararray* value;\n+} jstring;\n+\n+char* to_string(jstring* str) {\n+    size_t length = str->count;\n+    char* cs = (char*) scalanative_alloc(NULL, (length + 1) * sizeof(char));\n+\n+    for (int i = 0; i < length; ++i) {\n+        cs[i] = (char) str->value->chars[i];\n+    }\n+    cs[length] = '\\0';\n+\n+    return cs;\n+}\n+\n+/** Defines a block that holds events */\n+typedef struct profiling_block {\n+    /** First address of the block. */\n+    char* start;\n+\n+    /** Last untouched address of the block. */\n+    char* last;\n+\n+    /** Pointer to the next block, if any. */\n+    struct profiling_block* next;\n+} profiling_block;\n+\n+/** First block that holds events. */\n+profiling_block* start;\n+\n+/** The block we're currently writing to. */\n+profiling_block* current_block;\n+\n+/** Create a new block */\n+profiling_block* profiling_get_block() {\n+    char* buffer = (char*) calloc(CHUNK_SIZE, sizeof(char));\n+    profiling_block* block = (profiling_block*) malloc(sizeof(profiling_block));\n+\n+    block->start = buffer;\n+    block->last  = buffer;\n+    block->next  = NULL;\n+\n+    return block;\n+}\n+\n+/** Init the profiling data structures. */\n+void profiling_init() {\n+    profiling_block* block = profiling_get_block();\n+    start         = block;\n+    current_block = block;\n+}\n+\n+/** Adds `value` to the current block. */\n+void block_push(char value) {\n+\n+    if (start == NULL) {\n+        profiling_init();\n+    }\n+\n+    if (current_block->last == current_block->start + CHUNK_SIZE) {\n+        profiling_block* new_block = profiling_get_block();\n+        current_block->next = new_block;\n+        current_block = new_block;\n+    }\n+\n+    *current_block->last = value;\n+    current_block->last += 1;\n+}\n+\n+/** Adds `count` elements from `values` to the current block. */\n+void block_push_many(char* values, int count) {\n+    for (int i = 0; i < count; ++i) {\n+        block_push(values[i]);\n+    }\n+}\n+\n+void block_push_long(long value) {\n+    char bytes[8];\n+    bytes[0] = (value >> 56) & 0xFF;\n+    bytes[1] = (value >> 48) & 0xFF;\n+    bytes[2] = (value >> 40) & 0xFF;\n+    bytes[3] = (value >> 32) & 0xFF;\n+    bytes[4] = (value >> 24) & 0xFF;\n+    bytes[5] = (value >> 16) & 0xFF;\n+    bytes[6] = (value >>  8) & 0xFF;\n+    bytes[7] =  value        & 0xFF;\n+\n+    block_push_many(bytes, 8);\n+}"
+  }
+]

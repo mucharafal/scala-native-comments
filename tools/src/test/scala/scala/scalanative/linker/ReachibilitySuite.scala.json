@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "95287f0c-f75b-48cf-971f-6594335a06ba",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "51d2c62f-7269-493a-a554-b8e1c52f5ad9",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Just noticed the typo here: the file should be renamed to `ReachabilitySuite .scala`",
+        "createdAt" : "2018-10-24T14:38:41Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b8f3d040-d861-41bd-a1d6-857883716def",
+        "parentId" : "51d2c62f-7269-493a-a554-b8e1c52f5ad9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2018-10-29T09:43:37Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : 8,
+    "diffHunk" : "@@ -5,13 +5,16 @@ import org.scalatest._\n import java.io.File\n import java.nio.file.{Files, Path, Paths}\n import scalanative.util.Scope\n-import scalanative.nir.Global\n+import scalanative.nir.{Sig, Global}\n import scalanative.build.ScalaNative\n \n trait ReachabilitySuite extends FunSuite {"
+  }
+]

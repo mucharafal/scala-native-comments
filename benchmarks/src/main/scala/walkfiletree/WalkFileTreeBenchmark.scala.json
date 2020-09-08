@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "69fd74c6-4881-4e1f-b1e2-7b9831b5142f",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "ce49976a-eea4-4535-ae62-d69256e241dd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We tend to always use curly braces whenever if is not single-line.",
+        "createdAt" : "2018-07-07T12:30:29Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9b66db3d-e8cc-4b7a-871c-28e6a8c2b662",
+        "parentId" : "ce49976a-eea4-4535-ae62-d69256e241dd",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also `()` for unit value.",
+        "createdAt" : "2018-07-07T12:30:50Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,53 @@\n+package walkfiletree\n+\n+import benchmarks.{BenchmarkRunningTime, LongRunningTime}\n+import java.io.File\n+import java.nio.file._\n+import java.nio.file.attribute._\n+\n+class WalkFileTreeBenchmark extends benchmarks.Benchmark[Unit] {\n+  val tmpFileTreePath = Paths.get(\"/tmp/scala-native-walkfiletree\")\n+  val maxLevels       = 6\n+\n+  override val runningTime: BenchmarkRunningTime = LongRunningTime\n+\n+  override def check(a: Unit): Boolean = true\n+\n+  override def preRun(): Unit = {\n+    def createFilesAndDirs(currentPath: Path, currentLevel: Int): Unit = {\n+      if (currentLevel + 1 > maxLevels) Unit"
+  },
+  {
+    "id" : "9c2b7833-52aa-47a0-bea5-89dd3a18a362",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "4a729178-1215-48b3-8b9d-0ee8dc43da73",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please use `java.nio.file.Files.createTempDirectory` here.",
+        "createdAt" : "2018-07-07T14:23:13Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,53 @@\n+package walkfiletree\n+\n+import benchmarks.{BenchmarkRunningTime, LongRunningTime}\n+import java.io.File\n+import java.nio.file._\n+import java.nio.file.attribute._\n+\n+class WalkFileTreeBenchmark extends benchmarks.Benchmark[Unit] {\n+  val tmpFileTreePath = Paths.get(\"/tmp/scala-native-walkfiletree\")"
+  }
+]

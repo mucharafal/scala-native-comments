@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "5c417fec-95ab-4fdc-8ef5-f4592fd2cb86",
+    "prId" : 1145,
+    "comments" : [
+      {
+        "id" : "95e5996d-672c-4a10-a338-111ca1dfd62d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please add `// Ported from Scala.js` here.",
+        "createdAt" : "2018-01-18T15:26:58Z",
+        "updatedAt" : "2018-01-19T00:55:58Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "274b0422215e69ff42ee00ea4b5de0500f81ce99",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,611 @@\n+package java.util"
+  }
+]

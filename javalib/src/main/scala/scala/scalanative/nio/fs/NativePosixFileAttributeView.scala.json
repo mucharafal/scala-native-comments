@@ -1,0 +1,262 @@
+[
+  {
+    "id" : "16374133-eac2-4606-b30a-d16393ffd592",
+    "prId" : 733,
+    "comments" : [
+      {
+        "id" : "67c75471-b1bd-43d1-be0a-11fe203aeb42",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Any reason why you want to re-retrieve the `stat` struct for each query on an attribute?",
+        "createdAt" : "2017-05-25T08:55:45Z",
+        "updatedAt" : "2017-05-25T08:55:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "9f48e876-0d25-4159-a8af-5990e3273215",
+        "parentId" : "67c75471-b1bd-43d1-be0a-11fe203aeb42",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If you cache unmanaged pointer in a managed object, then you'll need to clean it up only when object itself is unreachable (i.e. garbaged collected.) On JVM you can use finalizers for that, but we don't support them at the moment, hence no caching.",
+        "createdAt" : "2017-05-25T08:58:04Z",
+        "updatedAt" : "2017-05-25T08:58:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f1ebaf33-8e33-40a0-a9c8-1ba02b5ec7a9",
+        "parentId" : "67c75471-b1bd-43d1-be0a-11fe203aeb42",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Thanks for the clarifications!",
+        "createdAt" : "2017-05-25T09:13:04Z",
+        "updatedAt" : "2017-05-25T09:13:04Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9fefd28ad484aac63a3e7739f3f816aad0de8820",
+    "line" : 100,
+    "diffHunk" : "@@ -34,71 +33,120 @@ final class NativePosixFileAttributeView(path: Path,\n       throw new IOException()\n   }\n \n-  override def setOwner(owner: UserPrincipal): Unit = {\n-    val passwd = getPasswd(toCString(owner.getName))\n-    if (unistd.chown(toCString(path.toString), !(passwd._2), -1.toUInt) != 0)\n-      throw new IOException()\n-  }\n+  override def setOwner(owner: UserPrincipal): Unit =\n+    Zone { implicit z =>\n+      val passwd = getPasswd(toCString(owner.getName))\n+      if (unistd.chown(toCString(path.toString), !(passwd._2), -1.toUInt) != 0)\n+        throw new IOException()\n+    }\n \n-  override def setPermissions(perms: Set[PosixFilePermission]): Unit = {\n-    var mask = 0.toUInt\n-    NativePosixFileAttributeView.permMap.foreach {\n-      case (flag, value) => if (perms.contains(value)) mask = mask | flag\n+  override def setPermissions(perms: Set[PosixFilePermission]): Unit =\n+    Zone { implicit z =>\n+      var mask = 0.toUInt\n+      NativePosixFileAttributeView.permMap.foreach {\n+        case (flag, value) => if (perms.contains(value)) mask = mask | flag\n+      }\n+      if (stat.chmod(toCString(path.toString), mask) != 0) {\n+        throw new IOException()\n+      }\n     }\n-    if (stat.chmod(toCString(path.toString), mask) != 0)\n-      throw new IOException()\n-  }\n \n   override def getOwner(): UserPrincipal =\n     attributes.owner\n \n-  override def setGroup(group: GroupPrincipal): Unit = {\n-    val _group = getGroup(toCString(group.getName))\n-    val err    = unistd.chown(toCString(path.toString), -1.toUInt, !(_group._2))\n+  override def setGroup(group: GroupPrincipal): Unit =\n+    Zone { implicit z =>\n+      val _group = getGroup(toCString(group.getName))\n+      val err    = unistd.chown(toCString(path.toString), -1.toUInt, !(_group._2))\n \n-    if (err != 0) {\n-      throw new IOException()\n+      if (err != 0) {\n+        throw new IOException()\n+      }\n     }\n-  }\n \n   override def readAttributes(): BasicFileAttributes =\n     attributes\n \n   private lazy val attributes =\n     new PosixFileAttributes {\n-      private val sb       = getStat()\n-      private val mode     = !(sb._13)\n-      private val _passwd  = getPasswd(!(sb._4))\n-      private val _group   = getGroup(!(sb._5))\n-      override val fileKey = (!(sb._3)).asInstanceOf[Object]\n-\n-      override val isDirectory    = stat.S_ISDIR(mode) == 1\n-      override val isRegularFile  = stat.S_ISREG(mode) == 1\n-      override val isSymbolicLink = stat.S_ISLNK(mode) == 1\n-      override val isOther        = !isDirectory && !isRegularFile && !isSymbolicLink\n-\n-      override val lastAccessTime =\n-        FileTime.from(!(sb._7), TimeUnit.SECONDS)\n-      override val lastModifiedTime =\n-        FileTime.from(!(sb._8), TimeUnit.SECONDS)\n-      override val creationTime =\n-        FileTime.from(!(sb._9), TimeUnit.SECONDS)\n-\n-      override val group = new GroupPrincipal {\n-        override val getName = fromCString(!(_group._1))\n+      private def fileStat()(implicit z: Zone) =\n+        getStat()"
+  },
+  {
+    "id" : "249f169d-f3fa-4e69-8d58-40af1733a077",
+    "prId" : 1216,
+    "comments" : [
+      {
+        "id" : "9f903a17-f1cd-4d94-b269-3e821e07f55e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Do these cached values play well with file attributes changing? i.e. what happens if file changes after the attributes where read and then the attribute info is requested later? ",
+        "createdAt" : "2018-07-10T14:56:38Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "84bcf20f-6347-47ad-801a-939c27b31d0f",
+        "parentId" : "9f903a17-f1cd-4d94-b269-3e821e07f55e",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "The updated semantics should be the same as on the jvm. It isn't clear from the javadoc, but when you call `Files.readAttributes`, you get a snapshot of the file attributes at the moment that the sys call to stat is invoked. For example, I ran this in the console:\r\n```\r\nscala> import java.nio.file._\r\nimport java.nio.file._\r\n\r\nscala> val dir = Files.createTempDirectory(\"foo\")\r\ndir: java.nio.file.Path = /var/folders/7q/s3vq91lx3zv9fw4l5l5c43nr0000gn/T/foo5386655488881479548\r\n\r\nscala> val dirAttrs = Files.readAttributes(dir, classOf[attribute.BasicFileAttributes])\r\ndirAttrs: java.nio.file.attribute.BasicFileAttributes = sun.nio.fs.UnixFileAttributes$UnixAsBasicFileAttributes@1856eae9\r\n\r\nscala> Files.delete(dir)\r\n\r\nscala> Files.createFile(dir)\r\nres1: java.nio.file.Path = /var/folders/7q/s3vq91lx3zv9fw4l5l5c43nr0000gn/T/foo5386655488881479548\r\n\r\nscala> val attrs = Files.readAttributes(dir, classOf[attribute.BasicFileAttributes])\r\nattrs: java.nio.file.attribute.BasicFileAttributes = sun.nio.fs.UnixFileAttributes$UnixAsBasicFileAttributes@285bb22a\r\n\r\nscala> attrs.isRegularFile\r\nres2: Boolean = true\r\n\r\nscala> attrs.isDirectory\r\nres3: Boolean = false\r\n\r\nscala> dirAttrs.isRegularFile\r\nres4: Boolean = false\r\n\r\nscala> dirAttrs.isDirectory\r\nres5: Boolean = true\r\n```",
+        "createdAt" : "2018-07-10T23:20:50Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1263eb9f-09a3-4ff7-b54c-a94d7ef4e6a8",
+        "parentId" : "9f903a17-f1cd-4d94-b269-3e821e07f55e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good point, it's all good then.",
+        "createdAt" : "2018-07-11T09:17:24Z",
+        "updatedAt" : "2018-07-11T09:17:24Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d48d6c1ac16cc6f8fcae6346a3df87725038b6e9",
+    "line" : 82,
+    "diffHunk" : "@@ -47,77 +48,85 @@ final class NativePosixFileAttributeView(path: Path, options: Array[LinkOption])\n         case (flag, value) => if (perms.contains(value)) mask = mask | flag\n       }\n       if (stat.chmod(toCString(path.toString), mask) != 0) {\n-        throw new IOException()\n+        throwIOException()\n       }\n     }\n \n-  override def getOwner(): UserPrincipal =\n-    attributes.owner\n+  override def getOwner(): UserPrincipal = attributes.owner\n \n   override def setGroup(group: GroupPrincipal): Unit =\n     Zone { implicit z =>\n       val _group = getGroup(toCString(group.getName))\n       val err    = unistd.chown(toCString(path.toString), -1.toUInt, !(_group._2))\n \n       if (err != 0) {\n-        throw new IOException()\n+        throwIOException()\n       }\n     }\n \n-  override def readAttributes(): BasicFileAttributes =\n-    attributes\n+  override def readAttributes(): BasicFileAttributes = attributes\n \n-  private lazy val attributes =\n+  private def attributes =\n     new PosixFileAttributes {\n-      private def fileStat()(implicit z: Zone) =\n-        getStat()\n-\n-      private def fileMode()(implicit z: Zone) =\n-        !(fileStat()._13)\n+      private[this] var st_dev: stat.dev_t         = _\n+      private[this] var st_rdev: stat.dev_t        = _\n+      private[this] var st_ino: stat.ino_t         = _\n+      private[this] var st_uid: stat.uid_t         = _\n+      private[this] var st_gid: stat.gid_t         = _\n+      private[this] var st_size: unistd.off_t      = _\n+      private[this] var st_atime: time.time_t      = _\n+      private[this] var st_mtime: time.time_t      = _\n+      private[this] var st_ctime: time.time_t      = _\n+      private[this] var st_blocks: stat.blkcnt_t   = _\n+      private[this] var st_blksize: stat.blksize_t = _\n+      private[this] var st_nlink: stat.nlink_t     = _\n+      private[this] var st_mode: stat.mode_t       = _"
+  },
+  {
+    "id" : "8205e21d-7417-4d03-b827-98c4eea7cb0c",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "4abd1552-4a75-4697-8edc-aacec6fd29c3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We put curlies around multi-line control-flow expressions.",
+        "createdAt" : "2018-10-29T09:42:14Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -25,10 +26,14 @@ final class NativePosixFileAttributeView(path: Path, options: Array[LinkOption])\n \n     val buf = alloc[utime.utimbuf]\n     !(buf._1) =\n-      if (lastAccessTime != null) lastAccessTime.to(TimeUnit.SECONDS)\n+      if (lastAccessTime != null)\n+        Platform.cross3264(lastAccessTime.to(TimeUnit.SECONDS).toInt,\n+                           lastAccessTime.to(TimeUnit.SECONDS))"
+  },
+  {
+    "id" : "af68c2d4-5384-40b0-84a5-82d25593dc3e",
+    "prId" : 1609,
+    "comments" : [
+      {
+        "id" : "ef0d7e27-419b-4815-8dda-fb32e54c89a8",
+        "parentId" : null,
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "We could also support \"normal\" principals, with only a name by doing a lookup here.",
+        "createdAt" : "2019-06-16T11:34:00Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5ed7069b-28c2-488b-8775-4d7a455d8b84",
+        "parentId" : "ef0d7e27-419b-4815-8dda-fb32e54c89a8",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Claudio,\r\nPlease let me test my understanding.  Looks to me like GroupPrinciple is at the\r\nbottom of the type hierarchy and that NativeGroupPrinciple is the only\r\nconcrete implementer of GroupPrinciple.\r\n\r\nWhat do you mean by \"normal\". Normal in the type hierarchy or normal as\r\nmeant by anyone actually trying to use the method?   Seems to me that the\r\ncode you quoted is correct for the former, and that the latter is the concern\r\nof the caller of the method.   Seems like the routine in its JVM defined scope\r\nis correct as is.\r\n\r\nAm I off the rails here?  You have been exercising this area and know it.",
+        "createdAt" : "2019-06-16T18:58:25Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bce7c0f4-058b-40d9-81a1-2f00d327a57f",
+        "parentId" : "ef0d7e27-419b-4815-8dda-fb32e54c89a8",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "Hi Lee, \r\n\r\nyes, with \"normal\" I was meaning anyone else calling the method with some sort of custom `GroupPrincipal`.\r\n\r\nI thought it should be safe to assume that a caller of the method got the GroupPrincipal by either calling the lookup method of the UserPrincipalLookupService or from other functions of the javalib module which all return a concrete `NativeGroupPrincipal`. (same goes for the UserPrincipal)\r\n\r\nSorry for the confusion!",
+        "createdAt" : "2019-06-16T21:17:25Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a58ccfd1-8e9c-4e49-a2c6-cdf21768eef2",
+        "parentId" : "ef0d7e27-419b-4815-8dda-fb32e54c89a8",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I thought about this a lot and wrote out a long complicated answer describing a\r\ntime consuming solution.  \r\n\r\nThen it dawned on me that the code in question is part of java.nio and the only\r\npeople potentially going to be creating implementations of GroupPrincipal and UserPrincipal\r\nare going to be SN devos.  \r\n\r\nSeem to be that the code you quoted is a good sanity check for devos & corruption \r\nand that we do not need to restrict access to the Principal trait to thwart actively hostile users.",
+        "createdAt" : "2019-06-17T01:28:47Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "29477f86dd95b0556d50984e2501250ea3c88017",
+    "line" : null,
+    "diffHunk" : "@@ -58,10 +64,13 @@ final class NativePosixFileAttributeView(path: Path, options: Array[LinkOption])\n \n   override def setGroup(group: GroupPrincipal): Unit =\n     Zone { implicit z =>\n-      val _group = getGroup(toCString(group.getName))\n-      val err    = unistd.chown(toCString(path.toString), -1.toUInt, _group._2)\n+      val gid = group match {\n+        case g: NativeGroupPrincipal => g.gid\n+\n+        case _ => throw new IllegalArgumentException(\"unsupported GroupPrincipal\")"
+  }
+]

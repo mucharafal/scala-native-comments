@@ -1,0 +1,192 @@
+[
+  {
+    "id" : "d8b76585-0f30-428a-a30b-3a9a91f1cf11",
+    "prId" : 373,
+    "comments" : [
+      {
+        "id" : "d2421f72-3ffc-47a2-a4e8-d32b988475f7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I've just filed an issue for this: #375 \n\nCan you please change the message to `Workaround for #375` ?\n",
+        "createdAt" : "2016-11-08T10:35:45Z",
+        "updatedAt" : "2016-11-11T20:56:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b45ac808ee880d0ab120bd9ad3e969bbf6ec49a9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,185 @@\n+package java.util\n+\n+class ArrayList[E] private (private[ArrayList] var values: Array[AnyRef])\n+    extends AbstractList[E]\n+    with RandomAccess\n+    with Cloneable\n+    with Serializable { self =>\n+\n+  def this(initialCapacity: Int) = this(new Array[AnyRef](initialCapacity))\n+\n+  def this() = this(new Array[AnyRef](16))\n+\n+  def this(c: Collection[_ <: E]) = {\n+    this(new Array[AnyRef](c.size))\n+    addAll(c)\n+  }\n+\n+  var _size: Int = 0\n+  def size: Int  = _size\n+\n+  override def isEmpty: Boolean = _size == 0\n+\n+  override def iterator(): Iterator[E] = super.iterator()\n+\n+  override def contains(that: Any): Boolean = {\n+    indexOf(that) >= 0\n+  }\n+\n+  override def indexOf(that: Any): Int = {\n+    var i = 0\n+    while (i < _size) {\n+      val value = values(i)\n+      if (value != null) {\n+        if (value equals that)\n+          return i\n+      } else if (that == null)\n+        return i\n+      i += 1\n+    }\n+    -1\n+  }\n+\n+  override def lastIndexOf(that: Any): Int = {\n+    var i = _size - 1\n+    while (i > 0) {\n+      val value = values(i)\n+      if (value != null) {\n+        if (value equals that)\n+          return i\n+      } else if (that == null)\n+        return i\n+      i -= 1\n+    }\n+    -1\n+  }\n+\n+  def trimToSize(): Unit =\n+    if (values.length > _size)\n+      values = Arrays.copyOf(values, _size)\n+\n+  def ensureCapacity(minCapacity: Int): Unit =\n+    if (minCapacity > values.length)\n+      values = Arrays.copyOf(values, minCapacity)\n+\n+  override def clone(): AnyRef = new ArrayList(Arrays.copyOf(values, _size))\n+\n+  override def toArray: Array[AnyRef] = Arrays.copyOf(values, _size)\n+\n+  override def toArray[F <: AnyRef](array: Array[F]): Array[F] =\n+    if (_size > array.length) {\n+      Arrays.copyOf(values.asInstanceOf[Array[E with AnyRef]],\n+                    _size,\n+                    array.getClass.asInstanceOf[Class[_ <: Array[F]]])\n+    } else {\n+      System.arraycopy(values, 0, array, 0, _size)\n+      if (array.length > _size)\n+        array(_size) = null.asInstanceOf[F] // see tests\n+      array\n+    }\n+\n+  def get(index: Int): E = {\n+    checkIndexInBounds(index)\n+    values(index).asInstanceOf[E]\n+  }\n+\n+  override def set(index: Int, element: E): E = {\n+    val e = get(index)\n+    values(index) = element.asInstanceOf[AnyRef]\n+    e\n+  }\n+\n+  override def add(e: E): Boolean = {\n+    values(_size) = e.asInstanceOf[AnyRef]\n+    _size += 1\n+    true\n+  }\n+\n+  override def add(index: Int, element: E): Unit = {\n+    checkIndexOnBounds(index)\n+    System.arraycopy(values, index, values, index + 1, size - index)\n+    values(index) = element.asInstanceOf[AnyRef]\n+    _size += 1\n+  }\n+\n+  override def remove(index: Int): E = {\n+    checkIndexInBounds(index)\n+    val elem = values(index)\n+    remove0(index)\n+    elem.asInstanceOf[E]\n+  }\n+\n+  override def remove(that: Any): Boolean = {\n+    var i     = 0\n+    var found = false\n+    while (i < _size && !found) {\n+      if (values(i) equals that) {\n+        found = true\n+        remove0(i)\n+      }\n+      i += 1\n+    }\n+    found\n+  }\n+\n+  // Shared code between different removes.\n+  private def remove0(index: Int): Unit = {\n+    // if it is the last element, we don't need to move any elements behind it!\n+    if (index - 1 != _size)\n+      System.arraycopy(values, index + 1, values, index, _size - index)\n+    _size -= 1\n+    values(_size) = null\n+  }\n+\n+  // Removes all values, but doesn't reallocate or resize the underlying array.\n+  override def clear(): Unit = {\n+    var i = 0\n+    while (i < _size) {\n+      values(i) = null\n+      i += 1\n+    }\n+    _size = 0\n+  }\n+\n+  override def addAll(c: Collection[_ <: E]): Boolean = {\n+    c match {\n+      case other: ArrayList[_] =>\n+        val otherSize = other.size\n+        if (otherSize > 0) {\n+          ensureCapacity(_size + otherSize)\n+          System.arraycopy(other.values, 0, values, _size, otherSize)\n+          true\n+        } else {\n+          false\n+        }\n+      case _ => super.addAll(c)\n+    }\n+  }\n+\n+  override def addAll(index: Int, c: Collection[_ <: E]): Boolean = {\n+    c match {\n+      case other: ArrayList[_] =>\n+        val otherSize = other.size\n+        if (otherSize > 0) {\n+          ensureCapacity(_size + otherSize)\n+          System\n+            .arraycopy(values, index, values, otherSize + index, _size - index)\n+          System.arraycopy(other.values, 0, values, index, otherSize)\n+          true\n+        } else {\n+          false\n+        }\n+      case _ => super.addAll(index, c)\n+    }\n+  }\n+\n+  // Needed to avoid linking error"
+  },
+  {
+    "id" : "c04c6eff-5c0d-4555-b90f-3f42358b9c21",
+    "prId" : 796,
+    "comments" : [
+      {
+        "id" : "caaf1b0c-9fac-4094-b5b4-22a32235c730",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't do doc comments for the java library code. The only docs are the reference docs from the JDK.",
+        "createdAt" : "2017-06-08T11:23:32Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "80ea68c2-40e6-4f5c-84fa-a3bf70dc109b",
+        "parentId" : "caaf1b0c-9fac-4094-b5b4-22a32235c730",
+        "author" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "body" : "Do you mean that it should be written in `//` format, or the entire comment (including L. 5-8) be removed? I think I'm not getting your point, but the documented constructor is a glue code added by me and there is no corresponding one in JDK.",
+        "createdAt" : "2017-06-08T11:45:41Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "390eacb2-5205-405a-b878-4aeae7eaac27",
+        "parentId" : "caaf1b0c-9fac-4094-b5b4-22a32235c730",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Doc comments in `/** ... */` format should be avoided for java library code. Regular `//` comments are fine as long as they clarify the code.",
+        "createdAt" : "2017-06-08T12:56:38Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "788946e4-f97f-4e65-9c97-1180cf25eeb7",
+        "parentId" : "caaf1b0c-9fac-4094-b5b4-22a32235c730",
+        "author" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "body" : "All right. Thank you for explanation!",
+        "createdAt" : "2017-06-08T13:03:40Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "08ebb9d1280630cd5470d374d8e4748fde22094e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,164 @@\n+package java.util\n+\n+import java.io.Serializable\n+\n+// Added extra private constructors to handle all of the overloads.\n+// To preserve method signatures, we cannot take ClassTag via implicit parameters.\n+// We use an Array[AnyRef] for underlying storage and box/unbox AnyVals where needed as the JDK class would do.\n+/**\n+ * @param inner The underlying array\n+ * @param _size The effective size of the underlying array. a.k.a. end index exclusive\n+ */"
+  },
+  {
+    "id" : "0e119f74-1689-4110-98cb-8ecfa79b5d1a",
+    "prId" : 796,
+    "comments" : [
+      {
+        "id" : "d239a057-3341-4f50-b999-635bad367156",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`// TODO: define ...`",
+        "createdAt" : "2017-06-08T11:28:57Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "08ebb9d1280630cd5470d374d8e4748fde22094e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,164 @@\n+package java.util\n+\n+import java.io.Serializable\n+\n+// Added extra private constructors to handle all of the overloads.\n+// To preserve method signatures, we cannot take ClassTag via implicit parameters.\n+// We use an Array[AnyRef] for underlying storage and box/unbox AnyVals where needed as the JDK class would do.\n+/**\n+ * @param inner The underlying array\n+ * @param _size The effective size of the underlying array. a.k.a. end index exclusive\n+ */\n+class ArrayList[E] private (private[this] var inner: Array[AnyRef],\n+                            private[this] var _size: Int)\n+    extends AbstractList[E]\n+    with List[E]\n+    with RandomAccess\n+    with Cloneable\n+    with Serializable {\n+  private def this(initialCollection: Collection[E], initialCapacity: Int) =\n+    this(\n+      {\n+        val initialArr =\n+          Array.ofDim[AnyRef](initialCollection.size() max initialCapacity)\n+        import scala.collection.JavaConverters._\n+        initialCollection.asScala\n+          .map(_.asInstanceOf[AnyRef])\n+          .copyToArray(initialArr)\n+        initialArr\n+      },\n+      initialCollection.size()\n+    )\n+\n+  def this(c: Collection[E]) = this(c, c.size())\n+\n+  def this(initialCapacity: Int) =\n+    this(Collections.emptyList(): Collection[E], initialCapacity)\n+\n+  def this() = this(10)\n+\n+  // by default, doubles the capacity. this mimicks C++ <vector> compiled by clang++-4.0.0\n+  private[this] def expand(): Unit = expand(inner.length * 2 max 1)\n+\n+  private[this] def expand(newCapacity: Int): Unit = {\n+    val newArr = Array.ofDim[AnyRef](newCapacity)\n+    inner.copyToArray(newArr, 0, size())\n+    inner = newArr\n+  }\n+\n+  private[this] def capacity(): Int = inner.length\n+\n+  def trimToSize(): Unit = expand(size())\n+\n+  def ensureCapacity(minCapacity: Int): Unit =\n+    if (capacity() < minCapacity)\n+      expand(minCapacity)\n+\n+  def size(): Int = _size\n+\n+  // tests/compile:nativeLinkNIR fails without this override for some reason\n+  // cannot link: @java.util.ArrayList::isEmpty_bool\n+  override def isEmpty(): Boolean = _size == 0\n+\n+  override def indexOf(o: Any): Int = inner.indexOf(o)\n+\n+  override def lastIndexOf(o: Any): Int = inner.lastIndexOf(o)\n+\n+  // shallow-copy\n+  override def clone(): AnyRef = new ArrayList(inner, _size)\n+\n+  override def toArray(): Array[AnyRef] = {\n+    val result = Array.ofDim[AnyRef](size())\n+    inner.copyToArray(result, 0, size())\n+    result\n+  }\n+\n+  override def toArray[T <: AnyRef](a: Array[T]): Array[T] =\n+    if (a.length < size())\n+      toArray().asInstanceOf[Array[T]]\n+    else {\n+      inner.asInstanceOf[Array[T]].copyToArray(a, 0, size())\n+      // fill the rest of the elements in a by null as explained in JDK Javadoc\n+      for (i <- size() until a.length) {\n+        a(i) = null.asInstanceOf[T]\n+      }\n+      a\n+    }\n+\n+  def get(index: Int): E = {\n+    checkIndexInBounds(index)\n+    inner(index).asInstanceOf[E]\n+  }\n+\n+  override def set(index: Int, element: E): E = {\n+    val original = get(index)\n+    inner(index) = element.asInstanceOf[AnyRef]\n+    original\n+  }\n+\n+  override def add(element: E): Boolean = {\n+    add(size(), element)\n+    true\n+  }\n+\n+  override def add(index: Int, element: E): Unit = {\n+    checkIndexOnBounds(index)\n+\n+    if (size() >= capacity())\n+      expand()\n+    // shift each element\n+    for (i <- _size to (index + 1) by -1) {\n+      inner(i) = inner(i - 1)\n+    }\n+    inner(index) = element.asInstanceOf[AnyRef]\n+    _size += 1\n+  }\n+\n+  override def remove(index: Int): E = {\n+    val removed = get(index)\n+\n+    // shift each element, overwriting inner(index)\n+    for (i <- index until (_size - 1)) {\n+      inner(i) = inner(i + 1)\n+    }\n+    inner(_size - 1) = null\n+    _size -= 1\n+\n+    removed\n+  }\n+\n+  override def remove(o: Any): Boolean =\n+    inner.indexOf(o) match {\n+      case -1 => false\n+      case idx =>\n+        remove(idx)\n+        true\n+    }\n+\n+  override def clear(): Unit = {\n+    // fill the content of inner by null so that the elements can be garbage collected\n+    for (i <- (0 until _size)) {\n+      inner(i) = null\n+    }\n+    _size = 0\n+  }\n+\n+  // define for better performance"
+  },
+  {
+    "id" : "e871217e-1bb9-4d39-92e7-c9c00a1dc2a7",
+    "prId" : 796,
+    "comments" : [
+      {
+        "id" : "2216fac0-7762-4ed8-9e40-2201a4c34682",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`// TODO: JDK 1.8`\r\n\r\n",
+        "createdAt" : "2017-06-08T11:29:06Z",
+        "updatedAt" : "2017-06-08T13:05:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "08ebb9d1280630cd5470d374d8e4748fde22094e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,164 @@\n+package java.util\n+\n+import java.io.Serializable\n+\n+// Added extra private constructors to handle all of the overloads.\n+// To preserve method signatures, we cannot take ClassTag via implicit parameters.\n+// We use an Array[AnyRef] for underlying storage and box/unbox AnyVals where needed as the JDK class would do.\n+/**\n+ * @param inner The underlying array\n+ * @param _size The effective size of the underlying array. a.k.a. end index exclusive\n+ */\n+class ArrayList[E] private (private[this] var inner: Array[AnyRef],\n+                            private[this] var _size: Int)\n+    extends AbstractList[E]\n+    with List[E]\n+    with RandomAccess\n+    with Cloneable\n+    with Serializable {\n+  private def this(initialCollection: Collection[E], initialCapacity: Int) =\n+    this(\n+      {\n+        val initialArr =\n+          Array.ofDim[AnyRef](initialCollection.size() max initialCapacity)\n+        import scala.collection.JavaConverters._\n+        initialCollection.asScala\n+          .map(_.asInstanceOf[AnyRef])\n+          .copyToArray(initialArr)\n+        initialArr\n+      },\n+      initialCollection.size()\n+    )\n+\n+  def this(c: Collection[E]) = this(c, c.size())\n+\n+  def this(initialCapacity: Int) =\n+    this(Collections.emptyList(): Collection[E], initialCapacity)\n+\n+  def this() = this(10)\n+\n+  // by default, doubles the capacity. this mimicks C++ <vector> compiled by clang++-4.0.0\n+  private[this] def expand(): Unit = expand(inner.length * 2 max 1)\n+\n+  private[this] def expand(newCapacity: Int): Unit = {\n+    val newArr = Array.ofDim[AnyRef](newCapacity)\n+    inner.copyToArray(newArr, 0, size())\n+    inner = newArr\n+  }\n+\n+  private[this] def capacity(): Int = inner.length\n+\n+  def trimToSize(): Unit = expand(size())\n+\n+  def ensureCapacity(minCapacity: Int): Unit =\n+    if (capacity() < minCapacity)\n+      expand(minCapacity)\n+\n+  def size(): Int = _size\n+\n+  // tests/compile:nativeLinkNIR fails without this override for some reason\n+  // cannot link: @java.util.ArrayList::isEmpty_bool\n+  override def isEmpty(): Boolean = _size == 0\n+\n+  override def indexOf(o: Any): Int = inner.indexOf(o)\n+\n+  override def lastIndexOf(o: Any): Int = inner.lastIndexOf(o)\n+\n+  // shallow-copy\n+  override def clone(): AnyRef = new ArrayList(inner, _size)\n+\n+  override def toArray(): Array[AnyRef] = {\n+    val result = Array.ofDim[AnyRef](size())\n+    inner.copyToArray(result, 0, size())\n+    result\n+  }\n+\n+  override def toArray[T <: AnyRef](a: Array[T]): Array[T] =\n+    if (a.length < size())\n+      toArray().asInstanceOf[Array[T]]\n+    else {\n+      inner.asInstanceOf[Array[T]].copyToArray(a, 0, size())\n+      // fill the rest of the elements in a by null as explained in JDK Javadoc\n+      for (i <- size() until a.length) {\n+        a(i) = null.asInstanceOf[T]\n+      }\n+      a\n+    }\n+\n+  def get(index: Int): E = {\n+    checkIndexInBounds(index)\n+    inner(index).asInstanceOf[E]\n+  }\n+\n+  override def set(index: Int, element: E): E = {\n+    val original = get(index)\n+    inner(index) = element.asInstanceOf[AnyRef]\n+    original\n+  }\n+\n+  override def add(element: E): Boolean = {\n+    add(size(), element)\n+    true\n+  }\n+\n+  override def add(index: Int, element: E): Unit = {\n+    checkIndexOnBounds(index)\n+\n+    if (size() >= capacity())\n+      expand()\n+    // shift each element\n+    for (i <- _size to (index + 1) by -1) {\n+      inner(i) = inner(i - 1)\n+    }\n+    inner(index) = element.asInstanceOf[AnyRef]\n+    _size += 1\n+  }\n+\n+  override def remove(index: Int): E = {\n+    val removed = get(index)\n+\n+    // shift each element, overwriting inner(index)\n+    for (i <- index until (_size - 1)) {\n+      inner(i) = inner(i + 1)\n+    }\n+    inner(_size - 1) = null\n+    _size -= 1\n+\n+    removed\n+  }\n+\n+  override def remove(o: Any): Boolean =\n+    inner.indexOf(o) match {\n+      case -1 => false\n+      case idx =>\n+        remove(idx)\n+        true\n+    }\n+\n+  override def clear(): Unit = {\n+    // fill the content of inner by null so that the elements can be garbage collected\n+    for (i <- (0 until _size)) {\n+      inner(i) = null\n+    }\n+    _size = 0\n+  }\n+\n+  // define for better performance\n+  //override def contains(o: Any): Boolean =\n+  //override def addAll(c: Collection[_ <: E]): Boolean =\n+  //override def addAll(index: Index, c: Collection[_ <: E]): Boolean =\n+  //override def removeRange(fromIndex: Int, toIndex: Int): Boolean =\n+  //override def removeAll(c: Collection[_ <: AnyRef]): Boolean =\n+  //override def retainAll(c: Collection[_ <: AnyRef]): Boolean =\n+  //override def listIterator(index: Int): ListIterator[E] =\n+  //override def listIterator(): ListIterator[E] =\n+  //override def iterator(): Iterator[E] =\n+  //override def subList(fromIndex: Int, toIndex: Int): List[E] =\n+\n+  // JDK 1.8"
+  }
+]

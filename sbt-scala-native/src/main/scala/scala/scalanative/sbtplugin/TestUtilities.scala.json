@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "2e389227-d104-4853-8c18-645fc139117c",
+    "prId" : 412,
+    "comments" : [
+      {
+        "id" : "09bb06ba-537b-48af-955e-0c633da2f22d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Will this work for other frameworks in the future like ScalaTest/ScalaCheck/etc? ",
+        "createdAt" : "2016-11-29T15:23:49Z",
+        "updatedAt" : "2016-11-30T15:17:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fbbab6949946b1c51a2be92737adc6b0a62273f3",
+    "line" : 32,
+    "diffHunk" : "@@ -0,0 +1,63 @@\n+package scala.scalanative\n+package sbtplugin\n+\n+import scala.scalanative.test.{FakeFingerprint, NativeFingerprint}\n+\n+import sbt._\n+import sbt.testing._\n+\n+object TestUtilities {\n+\n+  def remapTestDefinition(test: TestDefinition): TestDefinition = {\n+    val newFingerprint = new FakeFingerprint(test.fingerprint)\n+    new TestDefinition(test.name,\n+                       newFingerprint,\n+                       test.explicitlySpecified,\n+                       test.selectors)\n+  }\n+\n+  def createTestMain(tests: Seq[TestDefinition]): String = {\n+    val cases  = tests.map(createTestCase)\n+    val indent = \"    \"\n+\n+    s\"\"\"|object TestMain {\n+        |  def main(args: Array[String]): Unit = args match {\n+        |    ${cases.mkString(System.lineSeparator + indent)}\n+        |    case Array() =>\n+        |      ()\n+        |  }\n+        |}\"\"\".stripMargin\n+  }\n+\n+  private def createTestCase(test: TestDefinition): String = {\n+    val body =\n+      test.fingerprint match {"
+  },
+  {
+    "id" : "02b4719d-8725-4c89-9406-0b6d7d2e42a7",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "c0f0507b-391a-4853-8551-faf960f80d71",
+        "parentId" : null,
+        "author" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "body" : "```scala\r\nval inst = if (isModule) s\"_root_.${t.name}\" else s\"new _root_.${t.name}\"\r\ns\"\"\"\"${t.name}\" -> $inst\"\"\"\r\n```\r\n\r\nhttps://github.com/rickynils/scalacheck/pull/337#issuecomment-308925196\r\n",
+        "createdAt" : "2017-06-16T03:48:01Z",
+        "updatedAt" : "2017-06-16T03:48:11Z",
+        "lastEditedBy" : {
+          "login" : "xuwei-k",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/389787?u=22e5eca939aaa26cb191c9ec03b328945f97c8ac&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : 34,
+    "diffHunk" : "@@ -0,0 +1,38 @@\n+package scala.scalanative\n+package sbtplugin\n+\n+import sbt._\n+import sbt.testing._\n+\n+object TestUtilities {\n+\n+  def makeTestMain(frameworks: Seq[Framework],\n+                   tests: Seq[TestDefinition]): String = {\n+    val frameworksList =\n+      frameworks\n+        .map(_.getClass.getName)\n+        .mkString(\"new _root_.\", \", new _root_.\", \"\")\n+    val testsMap = makeTestsMap(tests)\n+\n+    s\"\"\"package scala.scalanative.testinterface\n+       |object TestMain extends TestMainBase {\n+       |  override val frameworks = List($frameworksList)\n+       |  override val tests = Map($testsMap)\n+       |  def main(args: Array[String]): Unit =\n+       |    testMain(args)\n+       |}\"\"\".stripMargin\n+  }\n+\n+  private def makeTestsMap(tests: Seq[TestDefinition]): String =\n+    tests\n+      .map { t =>\n+        val isModule = t.fingerprint match {\n+          case af: AnnotatedFingerprint => af.isModule\n+          case sf: SubclassFingerprint  => sf.isModule\n+        }\n+\n+        val inst = if (isModule) t.name else s\"new ${t.name}\""
+  }
+]

@@ -1,0 +1,361 @@
+[
+  {
+    "id" : "daa05da1-ac07-4106-8890-e99af2463a43",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "d89fcf8e-d079-4e4c-bfa0-d182eb07cf75",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring.",
+        "createdAt" : "2018-03-12T10:22:47Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,215 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Files, Path, Paths}\n+\n+import scala.collection.JavaConverters._\n+import scala.util.Try\n+import scala.sys.process._\n+\n+import IO.RichPath\n+\n+object LLVM {\n+\n+  /** Discover concrete binary path using command name and\n+   *  a sequence of potential supported versions.\n+   */\n+  def discover(binaryName: String,\n+               binaryVersions: Seq[(String, String)]): Path = {\n+    val docSetup =\n+      \"http://www.scala-native.org/en/latest/user/setup.html\"\n+\n+    val envName =\n+      if (binaryName == \"clang\") \"CLANG\"\n+      else if (binaryName == \"clang++\") \"CLANGPP\"\n+      else binaryName\n+\n+    sys.env.get(s\"${envName}_PATH\") match {\n+      case Some(path) => Paths.get(path)\n+      case None => {\n+        val binaryNames = binaryVersions.flatMap {\n+          case (major, minor) =>\n+            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n+        } :+ binaryName\n+\n+        Process(\"which\" +: binaryNames)\n+          .lines_!(SilentLogger)\n+          .map(Paths.get(_))\n+          .headOption\n+          .getOrElse {\n+            throw new Exception(\n+              s\"no ${binaryNames.mkString(\", \")} found in $$PATH. Install clang ($docSetup)\")\n+          }\n+      }\n+    }\n+  }\n+\n+  /** Versions of clang which are known to work with Scala Native. */\n+  val clangVersions =\n+    Seq((\"6\", \"0\"), (\"5\", \"0\"), (\"4\", \"0\"), (\"3\", \"9\"), (\"3\", \"8\"), (\"3\", \"7\"))\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p/>\n+   * This is determined through looking up a built-in #define which is\n+   * more reliable than testing for a specific version.\n+   * <p/>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  def checkThatClangIsRecentEnough(pathToClangBinary: Path): Unit = {\n+    def maybePath(p: Path) = p match {\n+      case path if Files.exists(path) => Some(path.abs)\n+      case none                       => None\n+    }\n+\n+    def definesBuiltIn(\n+        pathToClangBinary: Option[String]): Option[Seq[String]] = {\n+      def commandLineToListBuiltInDefines(clang: String) =\n+        Process(Seq(\"echo\", \"\")) #| Process(Seq(clang, \"-dM\", \"-E\", \"-\"))\n+      def splitIntoLines(s: String): Array[String] =\n+        s.split(f\"%n\")\n+      def removeLeadingDefine(s: String): String =\n+        s.substring(s.indexOf(' ') + 1)\n+\n+      for {\n+        clang <- pathToClangBinary\n+        output = commandLineToListBuiltInDefines(clang).!!\n+        lines  = splitIntoLines(output)\n+      } yield lines map removeLeadingDefine\n+    }\n+\n+    val clang                = maybePath(pathToClangBinary)\n+    val defines: Seq[String] = definesBuiltIn(clang).to[Seq].flatten\n+    val clangIsRecentEnough =\n+      defines.contains(\"__DECIMAL_DIG__ __LDBL_DECIMAL_DIG__\")\n+\n+    if (!clangIsRecentEnough) {\n+      throw new Exception(\n+        s\"No recent installation of clang found \" +\n+          s\"at $pathToClangBinary.\\nSee http://scala-native.readthedocs.io\" +\n+          s\"/en/latest/user/setup.html for details.\")\n+    }\n+  }\n+\n+  /** Default compilation options passed to LLVM. */\n+  lazy val defaultCompileOptions: Seq[String] = {\n+    val includes = {\n+      val includedir =\n+        Try(Process(\"llvm-config --includedir\").lines_!.toSeq)\n+          .getOrElse(Seq.empty)\n+      (\"/usr/local/include\" +: includedir).map(s => s\"-I$s\")\n+    }\n+    includes :+ \"-Qunused-arguments\"\n+  }\n+\n+  /** Default options passed to LLVM's linker. */\n+  lazy val defaultLinkingOptions: Seq[String] = {\n+    val libs = {\n+      val libdir =\n+        Try(Process(\"llvm-config --libdir\").lines_!.toSeq)\n+          .getOrElse(Seq.empty)\n+      (\"/usr/local/lib\" +: libdir).map(s => s\"-L$s\")\n+    }\n+    libs\n+  }\n+\n+  /**\n+   * Detect the target architecture.\n+   *\n+   * @param clang   A path to the executable `clang`.\n+   * @param workdir A working directory where the compilation will take place.\n+   * @param logger  A logger that will receive messages about the execution.\n+   * @return The detected target triple describing the target architecture.\n+   */\n+  def detectTarget(clang: Path, workdir: Path, logger: Logger): String = {\n+    // Use non-standard extension to not include the ll file when linking (#639)\n+    val targetc  = workdir.resolve(\"target\").resolve(\"c.probe\")\n+    val targetll = workdir.resolve(\"target\").resolve(\"ll.probe\")\n+    val compilec =\n+      Seq(clang.abs, \"-S\", \"-xc\", \"-emit-llvm\", \"-o\", targetll.abs, targetc.abs)\n+    def fail =\n+      throw new Exception(\"Failed to detect native target.\")\n+\n+    IO.write(targetc, \"int probe;\".getBytes(\"UTF-8\"))\n+    logger.running(compilec)\n+    val exit = Process(compilec, workdir.toFile) ! Logger.toProcessLogger(\n+      logger)\n+    if (exit != 0) fail\n+    Files\n+      .readAllLines(targetll)\n+      .asScala\n+      .collectFirst {\n+        case line if line.startsWith(\"target triple\") =>\n+          line.split(\"\\\"\").apply(1)\n+      }\n+      .getOrElse(fail)\n+  }\n+\n+  /** Compile the given LL files to object files */\n+  def compileLL(config: Config, llPaths: Seq[Path]): Seq[Path] = {\n+    val optimizationOpt =\n+      config.driver.mode match {\n+        case Mode.Debug   => \"-O0\"\n+        case Mode.Release => \"-O2\"\n+      }\n+    val opts = optimizationOpt +: config.compileOptions\n+\n+    config.logger.time(\"Compiling to native code\") {\n+      llPaths.par\n+        .map { ll =>\n+          val apppath = ll.abs\n+          val outpath = apppath + \".o\"\n+          val compile = Seq(config.clang.abs, \"-c\", apppath, \"-o\", outpath) ++ opts\n+          config.logger.running(compile)\n+          Process(compile, config.workdir.toFile) ! Logger.toProcessLogger(\n+            config.logger)\n+          Paths.get(outpath)\n+        }\n+        .seq\n+        .toSeq\n+    }\n+  }\n+\n+  def linkLL(config: Config,"
+  },
+  {
+    "id" : "eded870c-80a4-4466-86dd-ea3d394fbb8a",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "56115008-5b3c-42ca-b759-a9ef651fa91b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd say `clang` instead of LLVM here.",
+        "createdAt" : "2018-03-12T10:23:32Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,215 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Files, Path, Paths}\n+\n+import scala.collection.JavaConverters._\n+import scala.util.Try\n+import scala.sys.process._\n+\n+import IO.RichPath\n+\n+object LLVM {\n+\n+  /** Discover concrete binary path using command name and\n+   *  a sequence of potential supported versions.\n+   */\n+  def discover(binaryName: String,\n+               binaryVersions: Seq[(String, String)]): Path = {\n+    val docSetup =\n+      \"http://www.scala-native.org/en/latest/user/setup.html\"\n+\n+    val envName =\n+      if (binaryName == \"clang\") \"CLANG\"\n+      else if (binaryName == \"clang++\") \"CLANGPP\"\n+      else binaryName\n+\n+    sys.env.get(s\"${envName}_PATH\") match {\n+      case Some(path) => Paths.get(path)\n+      case None => {\n+        val binaryNames = binaryVersions.flatMap {\n+          case (major, minor) =>\n+            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n+        } :+ binaryName\n+\n+        Process(\"which\" +: binaryNames)\n+          .lines_!(SilentLogger)\n+          .map(Paths.get(_))\n+          .headOption\n+          .getOrElse {\n+            throw new Exception(\n+              s\"no ${binaryNames.mkString(\", \")} found in $$PATH. Install clang ($docSetup)\")\n+          }\n+      }\n+    }\n+  }\n+\n+  /** Versions of clang which are known to work with Scala Native. */\n+  val clangVersions =\n+    Seq((\"6\", \"0\"), (\"5\", \"0\"), (\"4\", \"0\"), (\"3\", \"9\"), (\"3\", \"8\"), (\"3\", \"7\"))\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p/>\n+   * This is determined through looking up a built-in #define which is\n+   * more reliable than testing for a specific version.\n+   * <p/>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  def checkThatClangIsRecentEnough(pathToClangBinary: Path): Unit = {\n+    def maybePath(p: Path) = p match {\n+      case path if Files.exists(path) => Some(path.abs)\n+      case none                       => None\n+    }\n+\n+    def definesBuiltIn(\n+        pathToClangBinary: Option[String]): Option[Seq[String]] = {\n+      def commandLineToListBuiltInDefines(clang: String) =\n+        Process(Seq(\"echo\", \"\")) #| Process(Seq(clang, \"-dM\", \"-E\", \"-\"))\n+      def splitIntoLines(s: String): Array[String] =\n+        s.split(f\"%n\")\n+      def removeLeadingDefine(s: String): String =\n+        s.substring(s.indexOf(' ') + 1)\n+\n+      for {\n+        clang <- pathToClangBinary\n+        output = commandLineToListBuiltInDefines(clang).!!\n+        lines  = splitIntoLines(output)\n+      } yield lines map removeLeadingDefine\n+    }\n+\n+    val clang                = maybePath(pathToClangBinary)\n+    val defines: Seq[String] = definesBuiltIn(clang).to[Seq].flatten\n+    val clangIsRecentEnough =\n+      defines.contains(\"__DECIMAL_DIG__ __LDBL_DECIMAL_DIG__\")\n+\n+    if (!clangIsRecentEnough) {\n+      throw new Exception(\n+        s\"No recent installation of clang found \" +\n+          s\"at $pathToClangBinary.\\nSee http://scala-native.readthedocs.io\" +\n+          s\"/en/latest/user/setup.html for details.\")\n+    }\n+  }\n+\n+  /** Default compilation options passed to LLVM. */"
+  },
+  {
+    "id" : "c56c5089-9857-48d9-bf54-ee555dad8d2e",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "5ff5c2c6-2115-4ab8-b861-b03e715dedeb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`system linker` instead of `LLVM's linker`. ",
+        "createdAt" : "2018-03-12T10:23:49Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,215 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Files, Path, Paths}\n+\n+import scala.collection.JavaConverters._\n+import scala.util.Try\n+import scala.sys.process._\n+\n+import IO.RichPath\n+\n+object LLVM {\n+\n+  /** Discover concrete binary path using command name and\n+   *  a sequence of potential supported versions.\n+   */\n+  def discover(binaryName: String,\n+               binaryVersions: Seq[(String, String)]): Path = {\n+    val docSetup =\n+      \"http://www.scala-native.org/en/latest/user/setup.html\"\n+\n+    val envName =\n+      if (binaryName == \"clang\") \"CLANG\"\n+      else if (binaryName == \"clang++\") \"CLANGPP\"\n+      else binaryName\n+\n+    sys.env.get(s\"${envName}_PATH\") match {\n+      case Some(path) => Paths.get(path)\n+      case None => {\n+        val binaryNames = binaryVersions.flatMap {\n+          case (major, minor) =>\n+            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n+        } :+ binaryName\n+\n+        Process(\"which\" +: binaryNames)\n+          .lines_!(SilentLogger)\n+          .map(Paths.get(_))\n+          .headOption\n+          .getOrElse {\n+            throw new Exception(\n+              s\"no ${binaryNames.mkString(\", \")} found in $$PATH. Install clang ($docSetup)\")\n+          }\n+      }\n+    }\n+  }\n+\n+  /** Versions of clang which are known to work with Scala Native. */\n+  val clangVersions =\n+    Seq((\"6\", \"0\"), (\"5\", \"0\"), (\"4\", \"0\"), (\"3\", \"9\"), (\"3\", \"8\"), (\"3\", \"7\"))\n+\n+  /**\n+   * Tests whether the clang compiler is recent enough.\n+   * <p/>\n+   * This is determined through looking up a built-in #define which is\n+   * more reliable than testing for a specific version.\n+   * <p/>\n+   * It might be better to use feature checking macros:\n+   * http://clang.llvm.org/docs/LanguageExtensions.html#feature-checking-macros\n+   */\n+  def checkThatClangIsRecentEnough(pathToClangBinary: Path): Unit = {\n+    def maybePath(p: Path) = p match {\n+      case path if Files.exists(path) => Some(path.abs)\n+      case none                       => None\n+    }\n+\n+    def definesBuiltIn(\n+        pathToClangBinary: Option[String]): Option[Seq[String]] = {\n+      def commandLineToListBuiltInDefines(clang: String) =\n+        Process(Seq(\"echo\", \"\")) #| Process(Seq(clang, \"-dM\", \"-E\", \"-\"))\n+      def splitIntoLines(s: String): Array[String] =\n+        s.split(f\"%n\")\n+      def removeLeadingDefine(s: String): String =\n+        s.substring(s.indexOf(' ') + 1)\n+\n+      for {\n+        clang <- pathToClangBinary\n+        output = commandLineToListBuiltInDefines(clang).!!\n+        lines  = splitIntoLines(output)\n+      } yield lines map removeLeadingDefine\n+    }\n+\n+    val clang                = maybePath(pathToClangBinary)\n+    val defines: Seq[String] = definesBuiltIn(clang).to[Seq].flatten\n+    val clangIsRecentEnough =\n+      defines.contains(\"__DECIMAL_DIG__ __LDBL_DECIMAL_DIG__\")\n+\n+    if (!clangIsRecentEnough) {\n+      throw new Exception(\n+        s\"No recent installation of clang found \" +\n+          s\"at $pathToClangBinary.\\nSee http://scala-native.readthedocs.io\" +\n+          s\"/en/latest/user/setup.html for details.\")\n+    }\n+  }\n+\n+  /** Default compilation options passed to LLVM. */\n+  lazy val defaultCompileOptions: Seq[String] = {\n+    val includes = {\n+      val includedir =\n+        Try(Process(\"llvm-config --includedir\").lines_!.toSeq)\n+          .getOrElse(Seq.empty)\n+      (\"/usr/local/include\" +: includedir).map(s => s\"-I$s\")\n+    }\n+    includes :+ \"-Qunused-arguments\"\n+  }\n+\n+  /** Default options passed to LLVM's linker. */"
+  },
+  {
+    "id" : "feb35bdb-0a1c-4189-9528-58fa537b9ac0",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "c2ec0a49-6791-4428-bfaf-8cfe895dcfed",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should have a dedicated exception type for exceptions thrown within build api. Something along the lines of `sealed class BuildException(...) extends Exception(...)`.",
+        "createdAt" : "2018-03-12T13:24:25Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,215 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Files, Path, Paths}\n+\n+import scala.collection.JavaConverters._\n+import scala.util.Try\n+import scala.sys.process._\n+\n+import IO.RichPath\n+\n+object LLVM {\n+\n+  /** Discover concrete binary path using command name and\n+   *  a sequence of potential supported versions.\n+   */\n+  def discover(binaryName: String,\n+               binaryVersions: Seq[(String, String)]): Path = {\n+    val docSetup =\n+      \"http://www.scala-native.org/en/latest/user/setup.html\"\n+\n+    val envName =\n+      if (binaryName == \"clang\") \"CLANG\"\n+      else if (binaryName == \"clang++\") \"CLANGPP\"\n+      else binaryName\n+\n+    sys.env.get(s\"${envName}_PATH\") match {\n+      case Some(path) => Paths.get(path)\n+      case None => {\n+        val binaryNames = binaryVersions.flatMap {\n+          case (major, minor) =>\n+            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n+        } :+ binaryName\n+\n+        Process(\"which\" +: binaryNames)\n+          .lines_!(SilentLogger)\n+          .map(Paths.get(_))\n+          .headOption\n+          .getOrElse {\n+            throw new Exception("
+  },
+  {
+    "id" : "5786d622-cfd9-4b94-89c0-c22347d6049e",
+    "prId" : 1218,
+    "comments" : [
+      {
+        "id" : "ace2baf4-b78e-4bef-844a-7c2d728b94ee",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It looks like we go from two dynamic dependencies for hello world:\r\n```\r\n# otool -L sandbox/target/scala-2.11/sandbox-out \r\nsandbox/target/scala-2.11/sandbox-out:\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.60.2)\r\n\t/usr/local/opt/llvm/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1.0.0)\r\n```\r\nTo four after this change:\r\n```\r\n# otool -L sandbox/target/scala-2.11/sandbox-out \r\nsandbox/target/scala-2.11/sandbox-out:\r\n\t/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation (compatibility version 300.0.0, current version 1349.91.0)\r\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1238.60.2)\r\n\t/usr/local/opt/llvm/lib/libc++.1.dylib (compatibility version 1.0.0, current version 1.0.0)\r\n\t/usr/lib/libobjc.A.dylib (compatibility version 1.0.0, current version 228.0.0)\r\n```\r\nGiven our long-term strive to minimize number of dynamic dependencies (#1139), I don't think supporting macOS version string justifies the added cost. \r\n\r\nI believe that reporting empty string for version on macOS is a better alternative. ",
+        "createdAt" : "2018-07-12T10:44:02Z",
+        "updatedAt" : "2018-07-13T17:49:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3ea124f3-8314-41ae-ba43-f8ae737944db",
+        "parentId" : "ace2baf4-b78e-4bef-844a-7c2d728b94ee",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "I agree that minimizing dynamic dependencies is a great idea. That being said, the two new libraries are not really external dependencies. They are system built-ins that as far as I can tell are guaranteed to be present on any apple platform: https://developer.apple.com/documentation/foundation?changes=_5&language=objc.\r\n\r\nAlso, I didn't really make this clear in the commit, but I was actually more concerned with the temp directory location than the os version string. I don't think there is any way other than using the framework api to get the correct user temp directory location. Of course, this is probably not a huge deal, `/tmp` still works, but it is not where Files.createTempDirectory puts the new temp directories on the jvm.",
+        "createdAt" : "2018-07-12T20:23:45Z",
+        "updatedAt" : "2018-07-13T17:49:29Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3267429f45ef375cebbc7db837dc98f4f9c2ce82",
+    "line" : null,
+    "diffHunk" : "@@ -162,7 +165,8 @@ private[scalanative] object LLVM {\n       }\n       linkerResult.links.map(_.name) ++ librt ++ libunwind ++ config.gc.links\n     }\n-    val linkopts = config.linkingOptions ++ links.map(\"-l\" + _) ++ Seq(\n+    val osxOpts = if (Properties.isMac) Seq(\"-framework\", \"Foundation\") else Nil\n+    val linkopts = config.linkingOptions ++ links.map(\"-l\" + _) ++ osxOpts ++ Seq("
+  },
+  {
+    "id" : "cfbc82e6-d65a-4383-ac7b-768840967e2c",
+    "prId" : 1281,
+    "comments" : [
+      {
+        "id" : "d77bfabd-be3f-40f4-9a07-4336edcb5a76",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "In order for this flag to automatically be picked up by projects that require compiling C/C++ code it would be better to make the LTO flag part of `config.compileOptions` and `compile.linkingOptions` and thus automatically exposing it in sbt and other build tools.\r\n\r\nCoincidentally it would probably also make the PR simpler.",
+        "createdAt" : "2018-07-20T12:52:55Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "bc85caec-b2e4-4ee9-91ab-8afce2b34f42",
+        "parentId" : "d77bfabd-be3f-40f4-9a07-4336edcb5a76",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This also coincides with some of the ideas here about some of the hardcoded values for debug and release as well. https://github.com/scala-native/scala-native/issues/1205",
+        "createdAt" : "2018-07-20T13:07:07Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "69386a73-7966-4511-ba0f-fdd5a3d6c641",
+        "parentId" : "d77bfabd-be3f-40f4-9a07-4336edcb5a76",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`nativeCompileOptions` has semantics of \"additional options passed to clang\", not \"all the options passed to clang\". Otherwise doing `set nativeCompileOptions := Seq(\"-O2\")` would disable every single default option which is extremely surprising. This semantics works well in practice because clang supports the same option being passed multiple times and the last one wins. So user-defined options come last they always override the defaults.",
+        "createdAt" : "2018-07-23T11:24:48Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "00ddef17-f3f4-480c-a3c6-ec4f5ba036b1",
+        "parentId" : "d77bfabd-be3f-40f4-9a07-4336edcb5a76",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Okay, makes sense. Then ideally this will be handled by #657.",
+        "createdAt" : "2018-07-24T13:08:32Z",
+        "updatedAt" : "2018-07-25T11:35:42Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b52c74fafdca052eb9aab25182a22c3a892b3af7",
+    "line" : 5,
+    "diffHunk" : "@@ -94,7 +94,10 @@ private[scalanative] object LLVM {\n         val compiler = if (isCpp) config.clangPP.abs else config.clang.abs\n         val flags = (if (isCpp) Seq(\"-std=c++11\")\n                      else Seq(\"-std=gnu11\")) ++ config.compileOptions\n-        val compilec = Seq(compiler) ++ flags ++ Seq(\"-c\", path, \"-o\", opath)\n+        val compilec = Seq(compiler) ++ flto(config) ++ flags ++ Seq(\"-c\","
+  },
+  {
+    "id" : "10f26bd4-1814-461c-a3b3-cd66b99e484d",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "7c1dbe53-aee1-42ce-a97c-28af69162e38",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The `def` returns a `Path`, not an option. This comment seems obsolete.",
+        "createdAt" : "2020-07-08T15:18:30Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "da8259d3-e328-42de-bc7e-a86a1c2b8666",
+        "parentId" : "7c1dbe53-aee1-42ce-a97c-28af69162e38",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Moreover, this is *always* `nativelib.dest`, and it's the same in `unpackNativeJar`. It would be better to return `Unit` from both, and from `unpackNativeCode` as well, then directly use `nativelib.dest` at call site.",
+        "createdAt" : "2020-07-08T15:19:49Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d90d15dc-6b6e-4ea4-aa10-42b0583f323e",
+        "parentId" : "7c1dbe53-aee1-42ce-a97c-28af69162e38",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This documentation has been fixed. The returned value from the function is used downstream. I need to look at this closer.",
+        "createdAt" : "2020-07-10T02:18:50Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "32e12634-ca43-491c-adab-33e574b25c8f",
+        "parentId" : "7c1dbe53-aee1-42ce-a97c-28af69162e38",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I looked this closer and in `Build.build` the unpacking process returns the `NativeLib.dest` which is the generated destination path which is passed on later in the processing. From a functional programming point of view it is doing a side-effect and returning a value.",
+        "createdAt" : "2020-07-10T20:15:00Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -1,51 +1,89 @@\n package scala.scalanative\n package build\n \n-import java.nio.file.{Files, Path, Paths}\n+import java.nio.file.{Files, Path, Paths, StandardCopyOption}\n import java.util.Arrays\n import scala.collection.JavaConverters._\n import scala.util.Try\n import scala.sys.process._\n import scalanative.build.IO.RichPath\n+import scalanative.build.Discover._\n \n /** Internal utilities to interact with LLVM command-line tools. */\n private[scalanative] object LLVM {\n \n+  def unpackNativeCode(nativelib: NativeLib): Path =\n+    if (NativeLib.isJar(nativelib)) unpackNativeJar(nativelib)\n+    else copyNativeDir(nativelib)\n+\n   /**\n-   * Unpack the `nativelib` to `workdir/lib`.\n+   * Unpack the `nativelib` to `workdir/nativelib` where\n+   * `nativelib` is the Scala Native lib or the name of\n+   * a third party library that includes native code.\n    *\n    * If the same archive has already been unpacked to this location, this\n    * call has no effects.\n    *\n    * @param nativelib The JAR to unpack.\n    * @param workdir   The working directory. The nativelib will be unpacked\n-   *                  to `workdir/lib`.\n-   * @return The location where the nativelib has been unpacked, `workdir/lib`.\n+   *                  to `workdir/nativelib`.\n+   * @return The location where the nativelib has been unpacked, `workdir/nativelib`.\n    */\n-  def unpackNativelib(nativelib: Path, workdir: Path): Path = {\n-    val lib         = workdir.resolve(\"lib\")\n-    val jarhash     = IO.sha1(nativelib)\n-    val jarhashPath = lib.resolve(\"jarhash\")\n+  private def unpackNativeJar(nativelib: NativeLib): Path = {\n+    val target      = nativelib.dest\n+    val source      = nativelib.src\n+    val jarhash     = IO.sha1(source)\n+    val jarhashPath = target.resolve(\"jarhash\")\n     def unpacked =\n-      Files.exists(lib) &&\n+      Files.exists(target) &&\n         Files.exists(jarhashPath) &&\n         Arrays.equals(jarhash, Files.readAllBytes(jarhashPath))\n \n     if (!unpacked) {\n-      IO.deleteRecursive(lib)\n-      IO.unzip(nativelib, lib)\n+      IO.deleteRecursive(target)\n+      IO.unzip(source, target)\n       IO.write(jarhashPath, jarhash)\n     }\n \n-    lib\n+    target\n+  }\n+\n+  /**\n+   * Copy project code from project `myproj` to `workdir/myproj`\n+   * where is can be compiled and linked.\n+   * Not used. Saved here in case non jar based is desired.\n+   *\n+   * @param nativelib    The native lib directory with native code.\n+   * @param workdir   The working directory as described above.\n+   * @return An Option with a Path to the `nativeCodeProject` work dir\n+   *         or None if there is `NativeCodeProject is not configured."
+  }
+]

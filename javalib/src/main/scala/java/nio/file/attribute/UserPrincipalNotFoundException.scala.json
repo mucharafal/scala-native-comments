@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "5081bfe8-8b68-4d42-9318-e93bf59ac840",
+    "prId" : 1609,
+    "comments" : [
+      {
+        "id" : "a366e004-9852-432c-9fa8-834da57dcb8d",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "This line should be deleted.  SN javalib code attempts to emulate Java 8 JVM as closely as\r\nfeasible.  I checked the JVM and its getMessage() does a simple pass through. \r\nSuch an override would be a best-practice in other areas of SN, say posixlib.",
+        "createdAt" : "2019-06-26T22:31:19Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6c1d26cc-be24-4784-93d1-86282498828d",
+        "parentId" : "a366e004-9852-432c-9fa8-834da57dcb8d",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2019-06-30T13:06:55Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "29477f86dd95b0556d50984e2501250ea3c88017",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,9 @@\n+package java.nio.file.attribute\n+\n+import java.io.IOException\n+\n+class UserPrincipalNotFoundException(name: String) extends IOException {\n+  def getName(): String = name\n+\n+  override def getMessage(): String = s\"Lookup for $name failed\""
+  }
+]

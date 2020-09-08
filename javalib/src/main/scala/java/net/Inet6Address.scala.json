@@ -1,0 +1,102 @@
+[
+  {
+    "id" : "ecb206ee-b373-4d6e-908f-c46878eca7ff",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "4dd07461-514c-4dbb-834d-21c654c7e397",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It's missing this function: https://docs.oracle.com/javase/8/docs/api/java/net/Inet6Address.html#getByAddress-java.lang.String-byte:A-java.net.NetworkInterface- \r\n\r\nCould you either add it or add its signature, commented out? Like we did for instance here: https://github.com/scala-native/scala-native/blob/master/javalib/src/main/scala/java/io/FileInputStream.scala#L79",
+        "createdAt" : "2017-06-15T07:29:01Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "94b5ae12-771c-4da7-9d02-1f17d5174aec",
+        "parentId" : "4dd07461-514c-4dbb-834d-21c654c7e397",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-06-28T13:09:13Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : 64,
+    "diffHunk" : "@@ -0,0 +1,65 @@\n+package java.net\n+\n+final class Inet6Address private[net] (ipAddress: Array[Byte],\n+                                       host: String,\n+                                       scopeId: Int)\n+    extends InetAddress(ipAddress, host) {\n+\n+  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null, 0)\n+\n+  private[net] def this(ipAddress: Array[Byte], host: String) =\n+    this(ipAddress, host, 0)\n+\n+  def getScopeId(): Int = scopeId\n+\n+  def isLinkLocalAddress(): Boolean =\n+    (ipAddress(0) == -2) && ((ipAddress(1) & 255) >>> 6) == 2\n+\n+  def isAnyLocalAddress(): Boolean = ipAddress.forall(_ == 0)\n+\n+  def isLoopbackAddress(): Boolean = {\n+    if (ipAddress(15) != 1)\n+      return false\n+\n+    ipAddress.dropRight(1).forall(_ == 0)\n+  }\n+\n+  def isMCGlobal(): Boolean =\n+    (ipAddress(0) == -1) && (ipAddress(1) & 15) == 14\n+\n+  def isMCLinkLocal(): Boolean =\n+    (ipAddress(0) == -1) && (ipAddress(1) & 15) == 2\n+\n+  def isMCNodeLocal(): Boolean =\n+    (ipAddress(0) == -1) && (ipAddress(1) & 15) == 1\n+\n+  def isMCOrgLocal(): Boolean =\n+    (ipAddress(0) == -1) && (ipAddress(1) & 15) == 8\n+\n+  def isMCSiteLocal(): Boolean =\n+    (ipAddress(0) == -1) && (ipAddress(1) & 15) == 5\n+\n+  def isMulticastAddress(): Boolean = ipAddress(0) == -1\n+\n+  def isSiteLocalAddress(): Boolean =\n+    (ipAddress(0) == -2) && ((ipAddress(1) & 255) >>> 6) == 3\n+\n+  def isIPv4CompatibleAddress(): Boolean = ipAddress.take(12).forall(_ == 0)\n+\n+}\n+\n+object Inet6Address {\n+  import InetAddress._\n+\n+  def getByAddress(host: String,\n+                   addr: Array[Byte],\n+                   scope_id: Int): Inet6Address = {\n+    if (addr == null || addr.length != 16) {\n+      throw new UnknownHostException(\"Illegal IPv6 address\")\n+    }\n+    if (scope_id < 0)\n+      return new Inet6Address(addr, host, 0)\n+    else\n+      return new Inet6Address(addr, host, scope_id)\n+  }"
+  },
+  {
+    "id" : "76dd4f60-4ab0-46b5-ae34-bef378e56e69",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "c4847f1c-eaeb-4932-ad82-b7e35150af5c",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Is this `// Ported from Apache Harmony` ?",
+        "createdAt" : "2017-06-15T07:29:24Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d902710f-4282-43fa-8ffc-58f7aa8cbe47",
+        "parentId" : "c4847f1c-eaeb-4932-ad82-b7e35150af5c",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Yup, forgot about that, will be fixed next commit.",
+        "createdAt" : "2017-06-15T12:57:44Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,65 @@\n+package java.net\n+\n+final class Inet6Address private[net] (ipAddress: Array[Byte],"
+  }
+]

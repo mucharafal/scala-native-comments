@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "b5c61376-e9a8-4c28-9137-906f9186233e",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "4be018f9-5607-4411-ba78-086b8635cbe5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This seems to be really small, is this sufficient not to overflow on our benchmarks?",
+        "createdAt" : "2017-05-26T11:25:17Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -4,9 +4,7 @@\n #include \"../GCTypes.h\"\n #include \"../headers/ObjectHeader.h\"\n \n-#define PRINT_STACK_OVERFLOW\n-\n-#define INITIAL_STACK_SIZE (8)\n+#define INITIAL_STACK_SIZE (128 * 1024)"
+  }
+]

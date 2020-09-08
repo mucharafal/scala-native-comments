@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a30690f8-948d-4934-9b37-bf0d372af3d2",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "bf474ad5-a04d-494f-a2d5-8e2bf65285c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Is this change intended?   Seems like a change with no distinction.\r\nIf intended, I believe this line needs an additional blank to line up \"A function\"\r\nwith those above.  It also needs a change from f to fn in the line below.\r\n\r\nIn many other places in the world fn is used as shorthand for function.\r\nDoes changing to f add value here? especially when there are no explicit \r\nparameters?\r\n\r\nAgreed, that in the overall scheme of things this is in the atto-cosm.\r\nIt just jumped out at me as I was trying to understand the changes which are the\r\nintent of this PR.",
+        "createdAt" : "2020-08-04T16:25:50Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d26bc572-652d-4827-9cfe-72a36fd46335",
+        "parentId" : "bf474ad5-a04d-494f-a2d5-8e2bf65285c7",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Looks like this `fix` was added by mistake, I'll remove this. Only thing to which it would give some additional value might be using scaladoc - I'm not sure about this one, but I think scaladoc might throw some errors as there is no `fn` param, but `f` instead. Anyway such changes (targeting scaladoc) should go to seperate PR, e.g fixing #1121 ",
+        "createdAt" : "2020-08-04T16:49:16Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -22,7 +21,7 @@ abstract class LinkerSpec extends AnyFlatSpec {\n    * @param sources Map from file name to file content representing all the code\n    *                to compile and link.\n    * @param driver  Optional custom driver that defines the pipeline.\n-   * @param fn      A function to apply to the products of the compilation.\n+   * @param f      A function to apply to the products of the compilation."
+  }
+]

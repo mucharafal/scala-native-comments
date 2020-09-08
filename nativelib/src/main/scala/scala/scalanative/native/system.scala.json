@@ -1,0 +1,87 @@
+[
+  {
+    "id" : "0f71bf57-ce7b-48f8-9e8e-8d22db3e6766",
+    "prId" : 1059,
+    "comments" : [
+      {
+        "id" : "b2fea417-0376-4f7d-ab5b-bc346d7da507",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We already have C API for setenv/getenv and Java API, I don't think that adding yet another one is a good idea here. ",
+        "createdAt" : "2018-01-19T11:58:53Z",
+        "updatedAt" : "2018-01-19T11:59:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "faf08740-25ab-4512-a2c4-0303ba4d749b",
+        "parentId" : "b2fea417-0376-4f7d-ab5b-bc346d7da507",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "The idea here was to provide some wrapper so we could setenv without a Zone etc. I know this may be a bigger issue but I think at some point we may need to support common functions via easy to use Scala interfaces. ",
+        "createdAt" : "2018-01-22T16:15:18Z",
+        "updatedAt" : "2018-01-22T16:15:18Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "11202022-17c3-49ca-839e-b64f526588ed",
+        "parentId" : "b2fea417-0376-4f7d-ab5b-bc346d7da507",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's not pulling it's weight unfortunately, especially given that there is a Java API for this. ",
+        "createdAt" : "2018-01-22T16:40:23Z",
+        "updatedAt" : "2018-01-22T16:40:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d9234946-ff72-401b-a197-472d76781e41",
+        "parentId" : "b2fea417-0376-4f7d-ab5b-bc346d7da507",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, this is not the best code and creating an API is a big deal - it was just added to eliminate using `Zone` in the test. Not sure to which Java API you are referring.",
+        "createdAt" : "2018-01-26T15:24:33Z",
+        "updatedAt" : "2018-01-26T15:24:33Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "547806e90aab6f8410d31e4de4b46b81692868b6",
+    "line" : 3,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+package scala.scalanative.native\n+\n+object system {"
+  }
+]

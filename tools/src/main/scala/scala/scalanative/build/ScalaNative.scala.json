@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "53d88b71-e616-4f70-b0ba-60ee460b3e7a",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "7d13abe7-3c72-4207-827b-ef496841224f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Spurious change?",
+        "createdAt" : "2020-07-08T15:20:47Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cc36296f-56aa-4e64-94a5-7a30c9347c49",
+        "parentId" : "7d13abe7-3c72-4207-827b-ef496841224f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Spelling fix.",
+        "createdAt" : "2020-07-09T16:03:55Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : 5,
+    "diffHunk" : "@@ -11,7 +11,7 @@ import scalanative.codegen.CodeGen\n import scalanative.interflow.Interflow\n import scalanative.checker.Check\n \n-/** Internal utilities to instrument Scala Native linker, otimizer and codegen. */\n+/** Internal utilities to instrument Scala Native linker, optimizer and codegen. */"
+  }
+]

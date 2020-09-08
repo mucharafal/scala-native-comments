@@ -1,0 +1,139 @@
+[
+  {
+    "id" : "8143accd-2684-4072-a1a4-7e6c8dd63c4a",
+    "prId" : 137,
+    "comments" : [
+      {
+        "id" : "b084f848-434f-4b5b-b75d-40aa91b90472",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Best to rename to `allocAtomic` for consistency with Boehm GC terminology. \n",
+        "createdAt" : "2016-06-02T13:35:13Z",
+        "updatedAt" : "2016-06-08T00:34:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "56ec2e1a1d55e28898f0ac7a2bde0b9303cef2c9",
+    "line" : null,
+    "diffHunk" : "@@ -14,6 +14,19 @@ package object runtime {\n     ptr\n   }\n \n+  /** \n+   * Allocate memory in gc heap using given info pointer.\n+   *\n+   * The allocated memory cannot be used to store pointers.\n+   */\n+  def allocPointerFree(info: Ptr[_], size: CSize): Ptr[_] = {"
+  },
+  {
+    "id" : "9b7cf331-6b0c-4f4a-893a-08c48b28cbea",
+    "prId" : 184,
+    "comments" : [
+      {
+        "id" : "f84ccd9b-abbf-4f30-96ab-6a52d24abf9c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those two helpers are trivial and don't add any value. Just use `GC.malloc` and `GC.malloc_atomic` directly. \n",
+        "createdAt" : "2016-06-20T16:15:23Z",
+        "updatedAt" : "2016-06-26T21:08:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df99ebe472ae0f53b4650183e0d5a3b255014916",
+    "line" : null,
+    "diffHunk" : "@@ -55,5 +55,15 @@ package object runtime {\n     GC.init()\n     null\n   }\n+  \n+  /** Useful for method like clone() */\n+  private[runtime] def alloc(size: CSize): Ptr[_] = {\n+    GC.malloc(size)\n+  }\n+  \n+  /** Useful for method like clone() */\n+  private[runtime] def allocAtomic(size: CSize): Ptr[_] = {\n+    GC.malloc_atomic(size)\n+  } "
+  },
+  {
+    "id" : "b75667d4-c303-4b68-b1ee-1dd18b71dd7b",
+    "prId" : 184,
+    "comments" : [
+      {
+        "id" : "ce97a551-d308-4e43-a690-6c01cca8341e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg Any idea why scalafmtTest doesn't complain about this trailing whitespace? \n",
+        "createdAt" : "2016-06-25T10:06:08Z",
+        "updatedAt" : "2016-06-26T21:08:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bed141f3-a047-422f-8231-0c1e59e704e9",
+        "parentId" : "ce97a551-d308-4e43-a690-6c01cca8341e",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "I can't see the full outdated diff. Scalafmt should complain about trailing whitespace so I am curious to know what caused this.\n",
+        "createdAt" : "2016-06-27T09:59:04Z",
+        "updatedAt" : "2016-06-27T09:59:04Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ba2e1e80-54ad-474f-8222-8b54bbb407ed",
+        "parentId" : "ce97a551-d308-4e43-a690-6c01cca8341e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Damn history rewriting... I'll try to reproduce and open an issue later on if it's still a problem. \n",
+        "createdAt" : "2016-06-27T11:21:05Z",
+        "updatedAt" : "2016-06-27T11:21:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df99ebe472ae0f53b4650183e0d5a3b255014916",
+    "line" : null,
+    "diffHunk" : "@@ -54,6 +54,6 @@ package object runtime {\n   def init(argc: Int, argv: Ptr[Ptr[Byte]]): ObjectArray = {\n     GC.init()\n     null\n-  }\n+  }  "
+  }
+]

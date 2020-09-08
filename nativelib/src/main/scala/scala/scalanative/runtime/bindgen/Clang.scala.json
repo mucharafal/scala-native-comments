@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "81473450-cba6-4c07-a76f-cb6f643c8aef",
+    "prId" : 642,
+    "comments" : [
+      {
+        "id" : "b0283fd9-b074-4c69-b731-bff96768dbba",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "hum this `*cursor` looks suspicious.",
+        "createdAt" : "2017-04-18T13:11:22Z",
+        "updatedAt" : "2017-06-01T20:47:30Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7e259e14-5c70-4db4-939b-9569a3c4d240",
+        "parentId" : "b0283fd9-b074-4c69-b731-bff96768dbba",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Yes, this is a relic of using C preprocessor to generate the Scala code.",
+        "createdAt" : "2017-04-18T18:07:19Z",
+        "updatedAt" : "2017-06-01T20:47:30Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df75fa01abb765be7ec3f642c3e9381c7937ef16",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,173 @@\n+package scala.scalanative\n+package runtime\n+package bindgen\n+\n+import scalanative.native._\n+@extern\n+@link(\"clang\")\n+object ClangAPI {\n+  type Data              = Ptr[Byte]\n+  type CXIndex           = Ptr[Byte]\n+  type CXCursor          = Ptr[Byte]\n+  type CXType            = Ptr[Byte]\n+  type CXTranslationUnit = Ptr[Byte]\n+  type CXUnsavedFile     = Ptr[Byte]\n+  type Visitor           = CFunctionPtr3[CXCursor, CXCursor, Data, UInt]\n+\n+  type CXCursorKind            = UInt\n+  type CXTypeKind              = UInt\n+  type CXTranslationUnit_Flags = UInt\n+  type CXChildVisitResult      = UInt\n+  @name(\"scalanative_clang_CXCursor_StructDecl\")\n+  def CXCursor_StructDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXCursor_UnionDecl\")\n+  def CXCursor_UnionDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXCursor_EnumDecl\")\n+  def CXCursor_EnumDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXCursor_EnumConstantDecl\")\n+  def CXCursor_EnumConstantDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXCursor_FunctionDecl\")\n+  def CXCursor_FunctionDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXCursor_VarDecl\")\n+  def CXCursor_VarDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXCursor_TypedefDecl\")\n+  def CXCursor_TypedefDecl(): CXCursorKind = extern;\n+  @name(\"scalanative_clang_CXTranslationUnit_None\")\n+  def CXTranslationUnit_None(): CXTranslationUnit_Flags = extern;\n+  @name(\"scalanative_clang_CXTranslationUnit_SkipFunctionBodies\")\n+  def CXTranslationUnit_SkipFunctionBodies(): CXTranslationUnit_Flags = extern;\n+  @name(\"scalanative_clang_CXChildVisit_Break\")\n+  def CXChildVisit_Break(): CXChildVisitResult = extern;\n+  @name(\"scalanative_clang_CXChildVisit_Continue\")\n+  def CXChildVisit_Continue(): CXChildVisitResult = extern;\n+  @name(\"scalanative_clang_CXChildVisit_Recurse\")\n+  def CXChildVisit_Recurse(): CXChildVisitResult = extern;\n+  @name(\"scalanative_clang_CXType_Invalid\") def CXType_Invalid(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Unexposed\")\n+  def CXType_Unexposed(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Void\") def CXType_Void(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Bool\")\n+  def CXType_Bool(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Char_U\") def CXType_Char_U(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_UChar\")\n+  def CXType_UChar(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Char16\") def CXType_Char16(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Char32\")\n+  def CXType_Char32(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_UShort\") def CXType_UShort(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_UInt\")\n+  def CXType_UInt(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_ULong\") def CXType_ULong(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_ULongLong\")\n+  def CXType_ULongLong(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_UInt128\") def CXType_UInt128(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Char_S\")\n+  def CXType_Char_S(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_SChar\") def CXType_SChar(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_WChar\")\n+  def CXType_WChar(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Short\") def CXType_Short(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Int\")\n+  def CXType_Int(): CXTypeKind  = extern; @name(\"scalanative_clang_CXType_Long\")\n+  def CXType_Long(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_LongLong\")\n+  def CXType_LongLong(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Int128\") def CXType_Int128(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Float\")\n+  def CXType_Float(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Double\") def CXType_Double(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_LongDouble\")\n+  def CXType_LongDouble(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_NullPtr\") def CXType_NullPtr(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Overload\")\n+  def CXType_Overload(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Dependent\")\n+  def CXType_Dependent(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_ObjCId\") def CXType_ObjCId(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_ObjCClass\")\n+  def CXType_ObjCClass(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_ObjCSel\") def CXType_ObjCSel(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Complex\")\n+  def CXType_Complex(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Pointer\") def CXType_Pointer(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_BlockPointer\")\n+  def CXType_BlockPointer(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_LValueReference\")\n+  def CXType_LValueReference(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_RValueReference\")\n+  def CXType_RValueReference(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Record\") def CXType_Record(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_Enum\")\n+  def CXType_Enum(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Typedef\") def CXType_Typedef(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_ObjCInterface\")\n+  def CXType_ObjCInterface(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_ObjCObjectPointer\")\n+  def CXType_ObjCObjectPointer(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_FunctionNoProto\")\n+  def CXType_FunctionNoProto(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_FunctionProto\")\n+  def CXType_FunctionProto(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_ConstantArray\")\n+  def CXType_ConstantArray(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Vector\") def CXType_Vector(): CXTypeKind =\n+    extern; @name(\"scalanative_clang_CXType_IncompleteArray\")\n+  def CXType_IncompleteArray(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_VariableArray\")\n+  def CXType_VariableArray(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_DependentSizedArray\")\n+  def CXType_DependentSizedArray(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_MemberPointer\")\n+  def CXType_MemberPointer(): CXTypeKind = extern;\n+  @name(\"scalanative_clang_CXType_Auto\") def CXType_Auto(): CXTypeKind =\n+    extern;\n+\n+  @name(\"scalanative_clang_getCursorKind\")\n+  def getCursorKind(`*cursor`: CXCursor): CXCursorKind = extern;"
+  }
+]

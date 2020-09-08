@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "783b0e03-f2c0-4749-be84-4b97f3df88d9",
+    "prId" : 751,
+    "comments" : [
+      {
+        "id" : "e996ad18-3a87-474c-b0a3-08cb499c61ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Link tests don't run LLVM part of the toolchain. For this test it's better to just put that code into `IssuesSuite.scala`.",
+        "createdAt" : "2017-06-05T18:08:19Z",
+        "updatedAt" : "2017-06-05T19:52:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8956eebaa4068ddfa05fcee3eb45ce311dcffa92",
+    "line" : null,
+    "diffHunk" : "@@ -33,4 +33,19 @@ class FrameworkTest extends CodeGenSpec with Matchers {\n         defNames should contain(Global.Top(\"B$\"))\n     }\n   }\n+\n+  \"The test framework\" should \"be able to compile double quotes in names\" in {\n+    link(\n+      \"A$\",\n+      \"\"\"object A {\n+        |  val `\"` = 42\n+        |  def main(args: Array[String]): Unit =\n+        |    println(\"Hello, world! \" + `\"`)\n+        |}\"\"\".stripMargin\n+    ) {\n+      case (_, res) =>\n+        val defNames = res.defns map (_.name)\n+        defNames should contain(Global.Top(\"A$\"))\n+    }\n+  }"
+  }
+]

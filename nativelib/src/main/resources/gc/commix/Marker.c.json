@@ -1,0 +1,301 @@
+[
+  {
+    "id" : "9b561dc2-602a-47da-a89a-aaee9a969d3a",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "73cf39e6-e89f-41c6-905e-cd42fb69be78",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a comment somewhere around here to explain the gray packets and how they are managed. ",
+        "createdAt" : "2019-02-01T10:22:31Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : 11,
+    "diffHunk" : "@@ -0,0 +1,367 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+"
+  },
+  {
+    "id" : "9e546b6d-f3c3-453e-91b6-7a24258b5b72",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "37d96fcb-134a-46fe-874b-46034683010c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd move the two branches of this if into two helper methods `Marker_markArrayObject` and `Marker_markRegularObject`. ",
+        "createdAt" : "2019-02-01T10:24:17Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : 249,
+    "diffHunk" : "@@ -0,0 +1,367 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+static inline GreyPacket *Marker_takeEmptyPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.empty, heap->greyPacketsStart);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+    if (packet != NULL) {\n+        // Another thread setting size = 0 might not arrived, just write it now.\n+        // Avoiding a memfence.\n+        packet->size = 0;\n+        packet->type = grey_packet_reflist;\n+    }\n+    assert(packet != NULL);\n+    return packet;\n+}\n+\n+static inline GreyPacket *Marker_takeFullPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.full, heap->greyPacketsStart);\n+    if (packet != NULL) {\n+        atomic_thread_fence(memory_order_release);\n+    }\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+        if (packet == NULL) {\n+            if (stats->mark_waiting_start_ns == 0) {\n+                stats->mark_waiting_start_ns = start_ns;\n+            }\n+            stats->mark_waiting_end_ns = end_ns;\n+        } else {\n+            if (stats->mark_waiting_start_ns != 0) {\n+                Stats_RecordEvent(stats, mark_waiting, stats->mark_waiting_start_ns, end_ns);\n+                stats->mark_waiting_start_ns = 0;\n+            }\n+        }\n+    }\n+#endif\n+    assert(packet == NULL || packet->type == grey_packet_refrange || packet->size > 0);\n+    return packet;\n+}\n+\n+static inline void Marker_giveEmptyPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->size == 0);\n+    // no memfence needed see Marker_takeEmptyPacket\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.empty, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+static inline void Marker_giveFullPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->type == grey_packet_refrange || packet->size > 0);\n+    // make all the contents visible to other threads\n+    atomic_thread_fence(memory_order_acquire);\n+    assert(GreyList_Size(&heap->mark.full) <= heap->mark.total);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.full, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+void Marker_markObject(Heap *heap, Stats *stats, GreyPacket **outHolder, Bytemap *bytemap,\n+                       Object *object, ObjectMeta *objectMeta) {\n+    assert(ObjectMeta_IsAllocated(objectMeta) || ObjectMeta_IsMarked(objectMeta));\n+\n+    assert(Object_Size(object) != 0);\n+    Object_Mark(heap, object, objectMeta);\n+\n+    GreyPacket *out = *outHolder;\n+    if (!GreyPacket_Push(out, object)) {\n+        Marker_giveFullPacket(heap, stats, out);\n+        *outHolder = out = Marker_takeEmptyPacket(heap, stats);\n+        GreyPacket_Push(out, object);\n+    }\n+}\n+\n+void Marker_markConservative(Heap *heap, Stats *stats, GreyPacket **outHolder, word_t *address) {\n+    assert(Heap_IsWordInHeap(heap, address));\n+    Object *object = Object_GetUnmarkedObject(heap, address);\n+    Bytemap *bytemap = heap->bytemap;\n+    if (object != NULL) {\n+        ObjectMeta *objectMeta = Bytemap_Get(bytemap, (word_t *)object);\n+        assert(ObjectMeta_IsAllocated(objectMeta));\n+        if (ObjectMeta_IsAllocated(objectMeta)) {\n+            Marker_markObject(heap, stats, outHolder, bytemap, object, objectMeta);\n+        }\n+    }\n+}\n+\n+void Marker_markRange(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder, Bytemap *bytemap,\n+                      word_t **fields, size_t length) {\n+    for (int i = 0; i < length; i++) {\n+        word_t *field = fields[i];\n+        if (Heap_IsWordInHeap(heap, field)) {\n+            ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+            if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                Marker_markObject(heap, stats, outHolder, bytemap,\n+                                  (Object *)field, fieldMeta);\n+            }\n+        }\n+    }\n+}\n+\n+void Marker_markPacket(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder) {\n+    Bytemap *bytemap = heap->bytemap;\n+    if (*outHolder == NULL) {\n+        GreyPacket *fresh = Marker_takeEmptyPacket(heap, stats);\n+        assert(fresh != NULL);\n+        *outHolder = fresh;\n+    }\n+    while (!GreyPacket_IsEmpty(in)) {\n+        Object *object = GreyPacket_Pop(in);\n+\n+        if (Object_IsArray(object)) {"
+  },
+  {
+    "id" : "8ccadc36-ec05-4d49-bf36-465b35745e00",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "dc645808-f8f8-4a89-bc06-c95ad7d8318f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You can remove the need for this index via pointer arithmetics on a var that points to `ptr_map`, this is idiomatic in C:\r\n```\r\nint64_t *cursor = ptr_map;\r\nfor (*cursor != LAST_FIELD_OFFSET) {\r\n   word_t *field = object->fields[*cursor];\r\n   ...\r\n   cursor++;\r\n}\r\n```",
+        "createdAt" : "2019-02-01T10:27:41Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,367 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+static inline GreyPacket *Marker_takeEmptyPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.empty, heap->greyPacketsStart);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+    if (packet != NULL) {\n+        // Another thread setting size = 0 might not arrived, just write it now.\n+        // Avoiding a memfence.\n+        packet->size = 0;\n+        packet->type = grey_packet_reflist;\n+    }\n+    assert(packet != NULL);\n+    return packet;\n+}\n+\n+static inline GreyPacket *Marker_takeFullPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.full, heap->greyPacketsStart);\n+    if (packet != NULL) {\n+        atomic_thread_fence(memory_order_release);\n+    }\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+        if (packet == NULL) {\n+            if (stats->mark_waiting_start_ns == 0) {\n+                stats->mark_waiting_start_ns = start_ns;\n+            }\n+            stats->mark_waiting_end_ns = end_ns;\n+        } else {\n+            if (stats->mark_waiting_start_ns != 0) {\n+                Stats_RecordEvent(stats, mark_waiting, stats->mark_waiting_start_ns, end_ns);\n+                stats->mark_waiting_start_ns = 0;\n+            }\n+        }\n+    }\n+#endif\n+    assert(packet == NULL || packet->type == grey_packet_refrange || packet->size > 0);\n+    return packet;\n+}\n+\n+static inline void Marker_giveEmptyPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->size == 0);\n+    // no memfence needed see Marker_takeEmptyPacket\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.empty, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+static inline void Marker_giveFullPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->type == grey_packet_refrange || packet->size > 0);\n+    // make all the contents visible to other threads\n+    atomic_thread_fence(memory_order_acquire);\n+    assert(GreyList_Size(&heap->mark.full) <= heap->mark.total);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.full, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+void Marker_markObject(Heap *heap, Stats *stats, GreyPacket **outHolder, Bytemap *bytemap,\n+                       Object *object, ObjectMeta *objectMeta) {\n+    assert(ObjectMeta_IsAllocated(objectMeta) || ObjectMeta_IsMarked(objectMeta));\n+\n+    assert(Object_Size(object) != 0);\n+    Object_Mark(heap, object, objectMeta);\n+\n+    GreyPacket *out = *outHolder;\n+    if (!GreyPacket_Push(out, object)) {\n+        Marker_giveFullPacket(heap, stats, out);\n+        *outHolder = out = Marker_takeEmptyPacket(heap, stats);\n+        GreyPacket_Push(out, object);\n+    }\n+}\n+\n+void Marker_markConservative(Heap *heap, Stats *stats, GreyPacket **outHolder, word_t *address) {\n+    assert(Heap_IsWordInHeap(heap, address));\n+    Object *object = Object_GetUnmarkedObject(heap, address);\n+    Bytemap *bytemap = heap->bytemap;\n+    if (object != NULL) {\n+        ObjectMeta *objectMeta = Bytemap_Get(bytemap, (word_t *)object);\n+        assert(ObjectMeta_IsAllocated(objectMeta));\n+        if (ObjectMeta_IsAllocated(objectMeta)) {\n+            Marker_markObject(heap, stats, outHolder, bytemap, object, objectMeta);\n+        }\n+    }\n+}\n+\n+void Marker_markRange(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder, Bytemap *bytemap,\n+                      word_t **fields, size_t length) {\n+    for (int i = 0; i < length; i++) {\n+        word_t *field = fields[i];\n+        if (Heap_IsWordInHeap(heap, field)) {\n+            ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+            if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                Marker_markObject(heap, stats, outHolder, bytemap,\n+                                  (Object *)field, fieldMeta);\n+            }\n+        }\n+    }\n+}\n+\n+void Marker_markPacket(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder) {\n+    Bytemap *bytemap = heap->bytemap;\n+    if (*outHolder == NULL) {\n+        GreyPacket *fresh = Marker_takeEmptyPacket(heap, stats);\n+        assert(fresh != NULL);\n+        *outHolder = fresh;\n+    }\n+    while (!GreyPacket_IsEmpty(in)) {\n+        Object *object = GreyPacket_Pop(in);\n+\n+        if (Object_IsArray(object)) {\n+            if (object->rtti->rt.id == __object_array_id) {\n+                ArrayHeader *arrayHeader = (ArrayHeader *)object;\n+                size_t length = arrayHeader->length;\n+                word_t **fields = (word_t **)(arrayHeader + 1);\n+                if (length <= ARRAY_SPLIT_THRESHOLD) {\n+                    Marker_markRange(heap, stats, in, outHolder, bytemap, fields, length);\n+                } else {\n+                    if (GreyPacket_IsEmpty(in)) {\n+                        // last item - deal with it now\n+\n+                        // leave the last batch for the current thread\n+                        word_t **limit = fields + length;\n+                        word_t **lastBatch = fields + (length / ARRAY_SPLIT_BATCH) * ARRAY_SPLIT_BATCH;\n+\n+                        assert(lastBatch <= limit);\n+                        for (word_t **batchFields = fields; batchFields < limit; batchFields += ARRAY_SPLIT_BATCH) {\n+                            GreyPacket *slice = Marker_takeEmptyPacket(heap, stats);\n+                            assert(slice != NULL);\n+                            slice->type = grey_packet_refrange;\n+                            slice->items[0] = (Stack_Type) batchFields;\n+                            // no point writing the size, because it is constant\n+                            Marker_giveFullPacket(heap, stats, slice);\n+                        }\n+\n+                        size_t lastBatchSize = limit - lastBatch;\n+                        if (lastBatchSize > 0) {\n+                            Marker_markRange(heap, stats , in, outHolder, bytemap, lastBatch, lastBatchSize);\n+                        }\n+                    } else {\n+                        // pass it on to someone else\n+                        GreyPacket *slice = Marker_takeEmptyPacket(heap, stats);\n+                        assert(slice != NULL);\n+                        GreyPacket_Push(slice, object);\n+                        Marker_giveFullPacket(heap, stats, slice);\n+                    }\n+                }\n+            }\n+            // non-object arrays do not contain pointers\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;"
+  },
+  {
+    "id" : "5134582e-14bf-4e29-b8d3-b2eb8d940ddb",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "c7aaf2a3-28ac-4b46-9981-97e50017fb92",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Array splitting needs helper methods with clear names and comments on how array splitting works. ",
+        "createdAt" : "2019-02-01T10:28:21Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,367 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+static inline GreyPacket *Marker_takeEmptyPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.empty, heap->greyPacketsStart);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+    if (packet != NULL) {\n+        // Another thread setting size = 0 might not arrived, just write it now.\n+        // Avoiding a memfence.\n+        packet->size = 0;\n+        packet->type = grey_packet_reflist;\n+    }\n+    assert(packet != NULL);\n+    return packet;\n+}\n+\n+static inline GreyPacket *Marker_takeFullPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.full, heap->greyPacketsStart);\n+    if (packet != NULL) {\n+        atomic_thread_fence(memory_order_release);\n+    }\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+        if (packet == NULL) {\n+            if (stats->mark_waiting_start_ns == 0) {\n+                stats->mark_waiting_start_ns = start_ns;\n+            }\n+            stats->mark_waiting_end_ns = end_ns;\n+        } else {\n+            if (stats->mark_waiting_start_ns != 0) {\n+                Stats_RecordEvent(stats, mark_waiting, stats->mark_waiting_start_ns, end_ns);\n+                stats->mark_waiting_start_ns = 0;\n+            }\n+        }\n+    }\n+#endif\n+    assert(packet == NULL || packet->type == grey_packet_refrange || packet->size > 0);\n+    return packet;\n+}\n+\n+static inline void Marker_giveEmptyPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->size == 0);\n+    // no memfence needed see Marker_takeEmptyPacket\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.empty, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+static inline void Marker_giveFullPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->type == grey_packet_refrange || packet->size > 0);\n+    // make all the contents visible to other threads\n+    atomic_thread_fence(memory_order_acquire);\n+    assert(GreyList_Size(&heap->mark.full) <= heap->mark.total);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.full, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+void Marker_markObject(Heap *heap, Stats *stats, GreyPacket **outHolder, Bytemap *bytemap,\n+                       Object *object, ObjectMeta *objectMeta) {\n+    assert(ObjectMeta_IsAllocated(objectMeta) || ObjectMeta_IsMarked(objectMeta));\n+\n+    assert(Object_Size(object) != 0);\n+    Object_Mark(heap, object, objectMeta);\n+\n+    GreyPacket *out = *outHolder;\n+    if (!GreyPacket_Push(out, object)) {\n+        Marker_giveFullPacket(heap, stats, out);\n+        *outHolder = out = Marker_takeEmptyPacket(heap, stats);\n+        GreyPacket_Push(out, object);\n+    }\n+}\n+\n+void Marker_markConservative(Heap *heap, Stats *stats, GreyPacket **outHolder, word_t *address) {\n+    assert(Heap_IsWordInHeap(heap, address));\n+    Object *object = Object_GetUnmarkedObject(heap, address);\n+    Bytemap *bytemap = heap->bytemap;\n+    if (object != NULL) {\n+        ObjectMeta *objectMeta = Bytemap_Get(bytemap, (word_t *)object);\n+        assert(ObjectMeta_IsAllocated(objectMeta));\n+        if (ObjectMeta_IsAllocated(objectMeta)) {\n+            Marker_markObject(heap, stats, outHolder, bytemap, object, objectMeta);\n+        }\n+    }\n+}\n+\n+void Marker_markRange(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder, Bytemap *bytemap,\n+                      word_t **fields, size_t length) {\n+    for (int i = 0; i < length; i++) {\n+        word_t *field = fields[i];\n+        if (Heap_IsWordInHeap(heap, field)) {\n+            ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+            if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                Marker_markObject(heap, stats, outHolder, bytemap,\n+                                  (Object *)field, fieldMeta);\n+            }\n+        }\n+    }\n+}\n+\n+void Marker_markPacket(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder) {\n+    Bytemap *bytemap = heap->bytemap;\n+    if (*outHolder == NULL) {\n+        GreyPacket *fresh = Marker_takeEmptyPacket(heap, stats);\n+        assert(fresh != NULL);\n+        *outHolder = fresh;\n+    }\n+    while (!GreyPacket_IsEmpty(in)) {\n+        Object *object = GreyPacket_Pop(in);\n+\n+        if (Object_IsArray(object)) {\n+            if (object->rtti->rt.id == __object_array_id) {\n+                ArrayHeader *arrayHeader = (ArrayHeader *)object;\n+                size_t length = arrayHeader->length;\n+                word_t **fields = (word_t **)(arrayHeader + 1);\n+                if (length <= ARRAY_SPLIT_THRESHOLD) {"
+  },
+  {
+    "id" : "3a70030b-0c65-442a-be05-0b751ef594e6",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "25fcbc10-c469-4ebe-9b88-f7063e1967fe",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Needs a comment with motivation for not using all threads at once. \r\n2. Some of thread management boilerplate probably belongs to non-marker module (i.e. gcthread module).",
+        "createdAt" : "2019-02-01T10:30:44Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : 323,
+    "diffHunk" : "@@ -0,0 +1,367 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+static inline GreyPacket *Marker_takeEmptyPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.empty, heap->greyPacketsStart);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+    if (packet != NULL) {\n+        // Another thread setting size = 0 might not arrived, just write it now.\n+        // Avoiding a memfence.\n+        packet->size = 0;\n+        packet->type = grey_packet_reflist;\n+    }\n+    assert(packet != NULL);\n+    return packet;\n+}\n+\n+static inline GreyPacket *Marker_takeFullPacket(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.full, heap->greyPacketsStart);\n+    if (packet != NULL) {\n+        atomic_thread_fence(memory_order_release);\n+    }\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+        if (packet == NULL) {\n+            if (stats->mark_waiting_start_ns == 0) {\n+                stats->mark_waiting_start_ns = start_ns;\n+            }\n+            stats->mark_waiting_end_ns = end_ns;\n+        } else {\n+            if (stats->mark_waiting_start_ns != 0) {\n+                Stats_RecordEvent(stats, mark_waiting, stats->mark_waiting_start_ns, end_ns);\n+                stats->mark_waiting_start_ns = 0;\n+            }\n+        }\n+    }\n+#endif\n+    assert(packet == NULL || packet->type == grey_packet_refrange || packet->size > 0);\n+    return packet;\n+}\n+\n+static inline void Marker_giveEmptyPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->size == 0);\n+    // no memfence needed see Marker_takeEmptyPacket\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.empty, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+static inline void Marker_giveFullPacket(Heap *heap, Stats *stats, GreyPacket *packet) {\n+    assert(packet->type == grey_packet_refrange || packet->size > 0);\n+    // make all the contents visible to other threads\n+    atomic_thread_fence(memory_order_acquire);\n+    assert(GreyList_Size(&heap->mark.full) <= heap->mark.total);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    GreyList_Push(&heap->mark.full, heap->greyPacketsStart, packet);\n+#ifdef ENABLE_GC_STATS_SYNC\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_sync, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+void Marker_markObject(Heap *heap, Stats *stats, GreyPacket **outHolder, Bytemap *bytemap,\n+                       Object *object, ObjectMeta *objectMeta) {\n+    assert(ObjectMeta_IsAllocated(objectMeta) || ObjectMeta_IsMarked(objectMeta));\n+\n+    assert(Object_Size(object) != 0);\n+    Object_Mark(heap, object, objectMeta);\n+\n+    GreyPacket *out = *outHolder;\n+    if (!GreyPacket_Push(out, object)) {\n+        Marker_giveFullPacket(heap, stats, out);\n+        *outHolder = out = Marker_takeEmptyPacket(heap, stats);\n+        GreyPacket_Push(out, object);\n+    }\n+}\n+\n+void Marker_markConservative(Heap *heap, Stats *stats, GreyPacket **outHolder, word_t *address) {\n+    assert(Heap_IsWordInHeap(heap, address));\n+    Object *object = Object_GetUnmarkedObject(heap, address);\n+    Bytemap *bytemap = heap->bytemap;\n+    if (object != NULL) {\n+        ObjectMeta *objectMeta = Bytemap_Get(bytemap, (word_t *)object);\n+        assert(ObjectMeta_IsAllocated(objectMeta));\n+        if (ObjectMeta_IsAllocated(objectMeta)) {\n+            Marker_markObject(heap, stats, outHolder, bytemap, object, objectMeta);\n+        }\n+    }\n+}\n+\n+void Marker_markRange(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder, Bytemap *bytemap,\n+                      word_t **fields, size_t length) {\n+    for (int i = 0; i < length; i++) {\n+        word_t *field = fields[i];\n+        if (Heap_IsWordInHeap(heap, field)) {\n+            ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+            if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                Marker_markObject(heap, stats, outHolder, bytemap,\n+                                  (Object *)field, fieldMeta);\n+            }\n+        }\n+    }\n+}\n+\n+void Marker_markPacket(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder) {\n+    Bytemap *bytemap = heap->bytemap;\n+    if (*outHolder == NULL) {\n+        GreyPacket *fresh = Marker_takeEmptyPacket(heap, stats);\n+        assert(fresh != NULL);\n+        *outHolder = fresh;\n+    }\n+    while (!GreyPacket_IsEmpty(in)) {\n+        Object *object = GreyPacket_Pop(in);\n+\n+        if (Object_IsArray(object)) {\n+            if (object->rtti->rt.id == __object_array_id) {\n+                ArrayHeader *arrayHeader = (ArrayHeader *)object;\n+                size_t length = arrayHeader->length;\n+                word_t **fields = (word_t **)(arrayHeader + 1);\n+                if (length <= ARRAY_SPLIT_THRESHOLD) {\n+                    Marker_markRange(heap, stats, in, outHolder, bytemap, fields, length);\n+                } else {\n+                    if (GreyPacket_IsEmpty(in)) {\n+                        // last item - deal with it now\n+\n+                        // leave the last batch for the current thread\n+                        word_t **limit = fields + length;\n+                        word_t **lastBatch = fields + (length / ARRAY_SPLIT_BATCH) * ARRAY_SPLIT_BATCH;\n+\n+                        assert(lastBatch <= limit);\n+                        for (word_t **batchFields = fields; batchFields < limit; batchFields += ARRAY_SPLIT_BATCH) {\n+                            GreyPacket *slice = Marker_takeEmptyPacket(heap, stats);\n+                            assert(slice != NULL);\n+                            slice->type = grey_packet_refrange;\n+                            slice->items[0] = (Stack_Type) batchFields;\n+                            // no point writing the size, because it is constant\n+                            Marker_giveFullPacket(heap, stats, slice);\n+                        }\n+\n+                        size_t lastBatchSize = limit - lastBatch;\n+                        if (lastBatchSize > 0) {\n+                            Marker_markRange(heap, stats , in, outHolder, bytemap, lastBatch, lastBatchSize);\n+                        }\n+                    } else {\n+                        // pass it on to someone else\n+                        GreyPacket *slice = Marker_takeEmptyPacket(heap, stats);\n+                        assert(slice != NULL);\n+                        GreyPacket_Push(slice, object);\n+                        Marker_giveFullPacket(heap, stats, slice);\n+                    }\n+                }\n+            }\n+            // non-object arrays do not contain pointers\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != LAST_FIELD_OFFSET) {\n+                word_t *field = object->fields[ptr_map[i]];\n+                if (Heap_IsWordInHeap(heap, field)) {\n+                    ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+                    if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                        Marker_markObject(heap, stats, outHolder, bytemap, (Object *)field,\n+                                          fieldMeta);\n+                    }\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+}\n+\n+void Marker_markRangePacket(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder) {\n+    Bytemap *bytemap = heap->bytemap;\n+    if (*outHolder == NULL) {\n+        GreyPacket *fresh = Marker_takeEmptyPacket(heap, stats);\n+        assert(fresh != NULL);\n+        *outHolder = fresh;\n+    }\n+    word_t **fields = (word_t **) in->items[0];\n+    Marker_markRange(heap, stats, in, outHolder, bytemap, fields, ARRAY_SPLIT_BATCH);\n+    in->type = grey_packet_reflist;\n+    in->size = 0;\n+}\n+\n+static inline void Marker_markBatch(Heap *heap, Stats *stats, GreyPacket* in, GreyPacket **outHolder) {\n+#ifdef ENABLE_GC_STATS_BATCHES\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+#endif\n+    switch (in->type) {\n+        case grey_packet_reflist:\n+            Marker_markPacket(heap, stats, in, outHolder);\n+            break;\n+        case grey_packet_refrange:\n+            Marker_markRangePacket(heap, stats, in, outHolder);\n+            break;\n+    }\n+#ifdef ENABLE_GC_STATS_BATCHES\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordEvent(stats, event_mark_batch, start_ns, end_ns);\n+    }\n+#endif\n+}\n+\n+void Marker_Mark(Heap *heap, Stats *stats) {\n+    GreyPacket* in = Marker_takeFullPacket(heap, stats);\n+    GreyPacket *out = NULL;\n+    while (in != NULL) {\n+        Marker_markBatch(heap, stats, in, &out);\n+\n+        assert(out != NULL);\n+        assert(GreyPacket_IsEmpty(in));\n+        GreyPacket *next = Marker_takeFullPacket(heap, stats);\n+        if (next != NULL) {\n+            Marker_giveEmptyPacket(heap, stats, in);\n+        } else {\n+            if (!GreyPacket_IsEmpty(out)) {\n+                // use the out packet as source\n+                next = out;\n+                out = in;\n+            } else {\n+                // next == NULL, exits\n+                Marker_giveEmptyPacket(heap, stats, in);\n+                Marker_giveEmptyPacket(heap, stats, out);\n+            }\n+        }\n+        in = next;\n+    }\n+}\n+\n+void Marker_MarkAndScale(Heap *heap, Stats *stats) {"
+  },
+  {
+    "id" : "b359aa9b-3bbf-471c-a75d-5082469013a9",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "5bd51135-f384-4168-9ff4-879a6e24414c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs more details. Especially around:\r\n1. Work balancing: array splitting, packet splitting (including explanation of the constants).\r\n2. Synchronization: only on taking/returning packets from the pool, but need to mention that marking naturally doesn't require fine-grain synchronization. ",
+        "createdAt" : "2019-02-08T11:34:45Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ed4c3070-4ae0-464f-86ae-8d8b028db6ce",
+        "parentId" : "5bd51135-f384-4168-9ff4-879a6e24414c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also just a brief mention of how roots are handled and how/when are threads spin up/down would be good as well.",
+        "createdAt" : "2019-02-08T11:35:32Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : 37,
+    "diffHunk" : "@@ -0,0 +1,380 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+// Marking is done using grey packets. A grey packet is a fixes size list that\n+// contains pointers to objects for marking.\n+//\n+// Each marker has a grey packet with references to check (\"in\" packet).\n+// When it finds a new unmarked object the marker puts a pointer to\n+// it in the \"out\" packet. When the \"in\" packet is empty it gets\n+// another from the full packet list and returns the empty one to the empty\n+// packet list. Similarly, when the \"out\" packet get full, marker gets another\n+// empty packet and pushes the full one on the full packet list.\n+//\n+// Marking is done when all the packets are empty and in the empty packet list."
+  },
+  {
+    "id" : "2bfc271c-7c81-47b0-b3c0-3c236bf6d920",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "74483fc6-0e6f-4317-a078-99beb6f3c7bb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Are packets actual linked lists? ",
+        "createdAt" : "2019-02-08T11:37:19Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "eab20461-a82e-4c5d-8e59-f46611f65a90",
+        "parentId" : "74483fc6-0e6f-4317-a078-99beb6f3c7bb",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "No, the packets are lists not linked lists. It says that in the comment.",
+        "createdAt" : "2019-02-27T10:29:37Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,380 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+// Marking is done using grey packets. A grey packet is a fixes size list that"
+  },
+  {
+    "id" : "7c605037-573a-4f38-9644-e606bb191133",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "328447ce-7fef-4f63-a233-12601d56e20c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is an extremely uninformative comment. Either remove it or make it more clear.",
+        "createdAt" : "2019-02-08T11:38:02Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9668fed1-5ac3-491b-b42e-baff496bc8ce",
+        "parentId" : "328447ce-7fef-4f63-a233-12601d56e20c",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Removed",
+        "createdAt" : "2019-02-27T10:31:27Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,380 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"datastructures/GreyPacket.h\"\n+#include \"GCThread.h\"\n+#include <sched.h>\n+\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+#define LAST_FIELD_OFFSET -1\n+\n+// Marking is done using grey packets. A grey packet is a fixes size list that\n+// contains pointers to objects for marking.\n+//\n+// Each marker has a grey packet with references to check (\"in\" packet).\n+// When it finds a new unmarked object the marker puts a pointer to\n+// it in the \"out\" packet. When the \"in\" packet is empty it gets\n+// another from the full packet list and returns the empty one to the empty\n+// packet list. Similarly, when the \"out\" packet get full, marker gets another\n+// empty packet and pushes the full one on the full packet list.\n+//\n+// Marking is done when all the packets are empty and in the empty packet list.\n+\n+static inline GreyPacket *Marker_takeEmptyPacket(Heap *heap, Stats *stats) {\n+    Stats_RecordTimeSync(stats, start_ns);\n+    GreyPacket *packet =\n+        GreyList_Pop(&heap->mark.empty, heap->greyPacketsStart);\n+    Stats_RecordTimeSync(stats, end_ns);\n+    Stats_RecordEventSync(stats, event_sync, start_ns, end_ns);\n+    if (packet != NULL) {\n+        // Another thread setting size = 0 might not arrived, just write it now.\n+        // Avoiding a memfence.\n+        packet->size = 0;\n+        packet->type = grey_packet_reflist;\n+    }\n+    assert(packet != NULL);\n+    return packet;\n+}\n+\n+static inline GreyPacket *Marker_takeFullPacket(Heap *heap, Stats *stats) {\n+    Stats_RecordTimeSync(stats, start_ns);\n+    GreyPacket *packet = GreyList_Pop(&heap->mark.full, heap->greyPacketsStart);\n+    if (packet != NULL) {\n+        atomic_thread_fence(memory_order_release);\n+    }\n+    Stats_RecordTimeSync(stats, end_ns);\n+    Stats_RecordEventSync(stats, event_sync, stats->mark_waiting_start_ns,\n+                          end_ns);\n+    if (packet == NULL) {\n+        Stats_MarkerNoFullPacket(stats, start_ns, end_ns);\n+    } else {\n+        Stats_MarkerGotFullPacket(stats, end_ns);\n+    }\n+    assert(packet == NULL || packet->type == grey_packet_refrange ||\n+           packet->size > 0);\n+    return packet;\n+}\n+\n+static inline void Marker_giveEmptyPacket(Heap *heap, Stats *stats,\n+                                          GreyPacket *packet) {\n+    assert(packet->size == 0);\n+    // no memfence needed see Marker_takeEmptyPacket\n+    Stats_RecordTimeSync(stats, start_ns);\n+    GreyList_Push(&heap->mark.empty, heap->greyPacketsStart, packet);\n+    Stats_RecordTimeSync(stats, end_ns);\n+    Stats_RecordEventSync(stats, event_sync, start_ns, end_ns);\n+}\n+\n+static inline void Marker_giveFullPacket(Heap *heap, Stats *stats,\n+                                         GreyPacket *packet) {\n+    assert(packet->type == grey_packet_refrange || packet->size > 0);\n+    // make all the contents visible to other threads\n+    atomic_thread_fence(memory_order_acquire);\n+    assert(GreyList_Size(&heap->mark.full) <= heap->mark.total);\n+    Stats_RecordTimeSync(stats, start_ns);\n+    GreyList_Push(&heap->mark.full, heap->greyPacketsStart, packet);\n+    Stats_RecordTimeSync(stats, end_ns);\n+    Stats_RecordEventSync(stats, event_sync, start_ns, end_ns);\n+}\n+\n+void Marker_markObject(Heap *heap, Stats *stats, GreyPacket **outHolder,\n+                       Bytemap *bytemap, Object *object,\n+                       ObjectMeta *objectMeta) {\n+    assert(ObjectMeta_IsAllocated(objectMeta) ||\n+           ObjectMeta_IsMarked(objectMeta));\n+\n+    assert(Object_Size(object) != 0);\n+    Object_Mark(heap, object, objectMeta);\n+\n+    GreyPacket *out = *outHolder;\n+    if (!GreyPacket_Push(out, object)) {\n+        Marker_giveFullPacket(heap, stats, out);\n+        *outHolder = out = Marker_takeEmptyPacket(heap, stats);\n+        GreyPacket_Push(out, object);\n+    }\n+}\n+\n+void Marker_markConservative(Heap *heap, Stats *stats, GreyPacket **outHolder,\n+                             word_t *address) {\n+    assert(Heap_IsWordInHeap(heap, address));\n+    Object *object = Object_GetUnmarkedObject(heap, address);\n+    Bytemap *bytemap = heap->bytemap;\n+    if (object != NULL) {\n+        ObjectMeta *objectMeta = Bytemap_Get(bytemap, (word_t *)object);\n+        assert(ObjectMeta_IsAllocated(objectMeta));\n+        if (ObjectMeta_IsAllocated(objectMeta)) {\n+            Marker_markObject(heap, stats, outHolder, bytemap, object,\n+                              objectMeta);\n+        }\n+    }\n+}\n+\n+int Marker_markRange(Heap *heap, Stats *stats, GreyPacket **outHolder,\n+                     Bytemap *bytemap, word_t **fields, size_t length) {\n+    int objectsTraced = 0;\n+    word_t **limit = fields + length;\n+    for (word_t **current = fields; current < limit; current++) {\n+        word_t *field = *current;\n+        if (Heap_IsWordInHeap(heap, field)) {\n+            ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+            if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                Marker_markObject(heap, stats, outHolder, bytemap,\n+                                  (Object *)field, fieldMeta);\n+            }\n+            objectsTraced += 1;\n+        }\n+    }\n+    return objectsTraced;\n+}\n+\n+int Marker_markRegularObject(Heap *heap, Stats *stats, Object *object,\n+                             GreyPacket **outHolder, Bytemap *bytemap) {\n+    int objectsTraced = 0;\n+    int64_t *ptr_map = object->rtti->refMapStruct;\n+    for (int64_t *current = ptr_map; *current != LAST_FIELD_OFFSET; current++) {\n+        word_t *field = object->fields[*current];\n+        if (Heap_IsWordInHeap(heap, field)) {\n+            ObjectMeta *fieldMeta = Bytemap_Get(bytemap, field);\n+            if (ObjectMeta_IsAllocated(fieldMeta)) {\n+                Marker_markObject(heap, stats, outHolder, bytemap,\n+                                  (Object *)field, fieldMeta);\n+            }\n+            objectsTraced += 1;\n+        }\n+    }\n+    return objectsTraced;\n+}\n+\n+int Marker_splitObjectArray(Heap *heap, Stats *stats, GreyPacket **outHolder,\n+                            Bytemap *bytemap, word_t **fields, size_t length) {\n+    word_t **limit = fields + length;\n+    word_t **lastBatch =\n+        fields + (length / ARRAY_SPLIT_BATCH) * ARRAY_SPLIT_BATCH;\n+\n+    assert(lastBatch <= limit);\n+    // first"
+  }
+]

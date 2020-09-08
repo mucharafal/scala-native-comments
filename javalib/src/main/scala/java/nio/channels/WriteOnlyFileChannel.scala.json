@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "8b351fd6-f9ef-47a2-ab3f-c6eba539604a",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "76f4338e-ca62-43c5-8092-1b736f061aea",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We generally don't accept commented out code. ",
+        "createdAt" : "2017-04-10T17:46:54Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3ca53586-2628-4011-881d-bb4d480fe31c",
+        "parentId" : "76f4338e-ca62-43c5-8092-1b736f061aea",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I removed the stubs for `FileChannel` altogether. I started from scratch in `java.nio` IIRC. I'll cherry-pick them back in `java.nio` if necessary.",
+        "createdAt" : "2017-04-11T08:50:00Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,19 @@\n+package java.nio.channels\n+\n+//implements part of FileChannelImpl actually\n+\n+final class WriteOnlyFileChannel(val stream: Object, val handle: Long)\n+    extends FileChannel /*Impl*/ {\n+\n+  private var append: Boolean = false;\n+\n+  def this(stream: Object, handle: Long, isAppend: Boolean) = {\n+    this(stream, handle)\n+    append = isAppend\n+  }\n+\n+  def implCloseChannel(): Unit = ???\n+  /*if (stream.isInstanceOf[Closeable]){\n+            (stream.asInstanceOf[Closeable]).close()\n+        }*/"
+  }
+]

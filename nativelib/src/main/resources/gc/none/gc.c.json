@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "14b56c3e-ee2e-49bd-9fa5-9cfabfbcc748",
+    "prId" : 583,
+    "comments" : [
+      {
+        "id" : "e299389f-5505-4280-b413-f00270870996",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This comment is not true any longer.",
+        "createdAt" : "2017-04-04T11:34:54Z",
+        "updatedAt" : "2017-04-05T12:15:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e0ba817997e18702df4b2b71e306a06b7648808d",
+    "line" : null,
+    "diffHunk" : "@@ -1,27 +1,34 @@\n-#include <gc.h>\n-#include \"gc.h\"\n-#include <stdio.h>\n #include <stdlib.h>\n+#include <sys/mman.h>\n+// Dummy GC that maps chunks of 4GB and allocates but never frees.\n \n-// Dummy GC that allocates memory in 4M chunks and never frees.\n \n-void* start = 0;\n-void* last = 0;\n+// Map 4GB\n+#define CHUNK (4*1024*1024*1024L)\n+// Allow read and write\n+#define DUMMY_GC_PROT (PROT_READ | PROT_WRITE)\n+// Map private anonymous memory, and prevent from reserving swap\n+#define DUMMY_GC_FLAGS (MAP_NORESERVE | MAP_PRIVATE | MAP_ANONYMOUS)\n+// Map anonymous memory (not a file)\n+#define DUMMY_GC_FD -1\n+#define DUMMY_GC_FD_OFFSET 0\n+\n+\n+void* current = 0;\n+void* end = 0;\n \n-#define CHUNK 4*1024*1024\n \n void scalanative_init() {\n-    start = malloc(CHUNK);\n-    last = start;\n+    current = mmap(NULL, CHUNK, DUMMY_GC_PROT, DUMMY_GC_FLAGS, DUMMY_GC_FD, DUMMY_GC_FD_OFFSET);\n+    end = current + CHUNK;\n }\n \n+// Allocates without bound checks, fails once it runs out of memory"
+  }
+]

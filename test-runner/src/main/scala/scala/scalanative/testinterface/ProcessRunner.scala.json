@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "7b9a265b-1253-4057-9a20-0ec83e43a28d",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "18f23cfa-6e21-4029-9e67-27daece8e0af",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here: `executableFile`?",
+        "createdAt" : "2020-08-06T17:59:57Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,46 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.File\n+import scala.concurrent.{Future, Promise}\n+import scala.scalanative.build.Logger\n+\n+class ProcessRunner(bin: File,"
+  },
+  {
+    "id" : "85b82b4a-c6f8-4d81-ae38-ca84e7cb0902",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "9970d90d-891e-49c2-aa91-203372327124",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider moving this log line to the \"main\" thread, before `builder.start()`, as it seems to be more applicable there.",
+        "createdAt" : "2020-08-07T18:41:55Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+package scala.scalanative.testinterface\n+\n+import java.io.File\n+import scala.concurrent.{Future, Promise}\n+import scala.scalanative.build.Logger\n+\n+private[testinterface] class ProcessRunner(executableFile: File,\n+                                           envVars: Map[String, String],\n+                                           args: Seq[String],\n+                                           logger: Logger,\n+                                           port: Int)\n+    extends AutoCloseable {\n+\n+  private[this] val process = {\n+    val builder =\n+      new ProcessBuilder(executableFile.toString +: port.toString +: args: _*)\n+        .inheritIO()\n+\n+    envVars.foreach {\n+      case (k, v) =>\n+        builder.environment().put(k, v)\n+    }\n+\n+    builder.start()\n+  }\n+\n+  private[this] val runnerPromise: Promise[Unit] = Promise[Unit]()\n+  private[this] val runner = new Thread {\n+    setName(\"TestRunner\")\n+    override def run(): Unit = {\n+      logger.info(s\"Starting process '$executableFile' on port '$port'.\")"
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "b936d2db-27c5-451f-9f72-5594b9d41db3",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "505100fd-02a7-4158-a13b-0db7089be2a3",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "How about `Inet4AddressTest`? Could you port that too?",
+        "createdAt" : "2017-06-15T08:03:25Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9f6e2910-9e89-4497-859a-46db153ba853",
+        "parentId" : "505100fd-02a7-4158-a13b-0db7089be2a3",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Most of the tests are really similar to the ones in InetAddressTest, I will see how much of them don't overlap.",
+        "createdAt" : "2017-06-15T13:01:05Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,158 @@\n+package java.net\n+\n+// Ported from Apache Harmony\n+object InetAddressSuite extends tests.Suite {\n+\n+  test(\"equals should work on localhosts from getByName\") {\n+    val ia1 = InetAddress.getByName(\"127.1\")\n+    val ia2 = InetAddress.getByName(\"127.0.0.1\")\n+    assertEquals(ia1, ia2)\n+  }\n+\n+  test(\"getAddress\") {\n+    try {\n+      val ia    = InetAddress.getByName(\"127.0.0.1\")\n+      val caddr = Array[Byte](127.toByte, 0.toByte, 0.toByte, 1.toByte)\n+      val addr  = ia.getAddress()\n+      for (i <- addr.indices)\n+        assertEquals(caddr(i), addr(i))\n+    } catch {\n+      case e: UnknownHostException => {}\n+    }\n+\n+    val origBytes = Array[Byte](0.toByte, 1.toByte, 2.toByte, 3.toByte)\n+    val address   = InetAddress.getByAddress(origBytes)\n+    origBytes(0) = -1\n+    val newBytes = address.getAddress()\n+    assertEquals(newBytes(0), 0.toByte)\n+  }\n+\n+  test(\"getAllByName\") {\n+    val all = InetAddress.getAllByName(\"localhost\")\n+    assertNot(all == null)\n+    assert(all.length >= 1)\n+\n+    for (alias <- all)\n+      assert(alias.getHostName().startsWith(\"localhost\"))\n+\n+    val ias = InetAddress.getAllByName(null)\n+    for (ia <- ias)\n+      assert(ia.isLoopbackAddress())\n+\n+    val ias2 = InetAddress.getAllByName(\"\")\n+    for (ia <- ias2)\n+      assert(ia.isLoopbackAddress())\n+\n+    // Check that getting addresses by dotted string distingush IPv4 and IPv6 subtypes\n+    val list = InetAddress.getAllByName(\"192.168.0.1\")\n+    for (addr <- list)\n+      assertNot(addr.getClass == classOf[InetAddress])\n+\n+  }\n+\n+  test(\"getByName\") {\n+    val ia = InetAddress.getByName(\"127.0.0.1\")\n+\n+    val i1 = InetAddress.getByName(\"1.2.3\")\n+    assertEquals(\"1.2.0.3\", i1.getHostAddress())\n+\n+    val i2 = InetAddress.getByName(\"1.2\")\n+    assertEquals(\"1.0.0.2\", i2.getHostAddress())\n+\n+    val i3 = InetAddress.getByName(String.valueOf(0xffffffffL))\n+    assertEquals(\"255.255.255.255\", i3.getHostAddress())\n+  }\n+\n+  test(\"getHostAddress\") {\n+    assertEquals(\"1.3.0.4\", InetAddress.getByName(\"1.3.4\").getHostAddress())\n+    assertEquals(\"0:0:0:0:0:0:0:1\",\n+                 InetAddress.getByName(\"::1\").getHostAddress())\n+  }\n+\n+  test(\"isReachable\") {\n+    // Linux disables ICMP requests by default and most of the addresses\n+    // don't have echo servers running on port 7, so it's quite difficult\n+    // to test this method here\n+\n+    val addr2 = InetAddress.getByName(\"127.0.0.1\")\n+    assertThrows[IllegalArgumentException] { addr2.isReachable(-1) }\n+  }\n+\n+  test(\"isMulticastAddress\") {\n+    val ia1 = InetAddress.getByName(\"239.255.255.255\")\n+    assert(ia1.isMulticastAddress())\n+    val ia2 = InetAddress.getByName(\"localhost\")\n+    assertNot(ia2.isMulticastAddress())\n+  }\n+\n+  test(\"isAnyLocalAddress\") {\n+    val ia1 = InetAddress.getByName(\"239.255.255.255\")\n+    assertNot(ia1.isAnyLocalAddress())\n+    val ia2 = InetAddress.getByName(\"localhost\")\n+    assertNot(ia2.isAnyLocalAddress())\n+  }\n+\n+  test(\"isLinkLocalAddress\") {\n+    val ia1 = InetAddress.getByName(\"239.255.255.255\")\n+    assertNot(ia1.isLinkLocalAddress())\n+    val ia2 = InetAddress.getByName(\"localhost\")\n+    assertNot(ia2.isLinkLocalAddress())\n+  }\n+\n+  test(\"isLoopbackAddress\") {\n+    val ia1 = InetAddress.getByName(\"239.255.255.255\")\n+    assertNot(ia1.isLoopbackAddress())\n+    val ia2 = InetAddress.getByName(\"localhost\")\n+    assert(ia2.isLoopbackAddress())\n+    val ia3 = InetAddress.getByName(\"127.0.0.2\")\n+    assert(ia3.isLoopbackAddress())\n+  }\n+\n+  test(\"isSiteLocalAddress\") {\n+    val ia1 = InetAddress.getByName(\"239.255.255.255\")\n+    assertNot(ia1.isSiteLocalAddress())\n+    val ia2 = InetAddress.getByName(\"localhost\")\n+    assertNot(ia2.isSiteLocalAddress())\n+    val ia3 = InetAddress.getByName(\"127.0.0.2\")\n+    assertNot(ia3.isSiteLocalAddress())\n+    val ia4 = InetAddress.getByName(\"243.243.45.3\")\n+    assertNot(ia4.isSiteLocalAddress())\n+    val ia5 = InetAddress.getByName(\"10.0.0.2\")\n+    assert(ia5.isSiteLocalAddress())\n+  }\n+\n+  test(\"MC methods\") {\n+    val ia1 = InetAddress.getByName(\"239.255.255.255\")\n+    assertNot(ia1.isMCGlobal())\n+    assertNot(ia1.isMCLinkLocal())\n+    assertNot(ia1.isMCNodeLocal())\n+    assertNot(ia1.isMCOrgLocal())\n+    assert(ia1.isMCSiteLocal())\n+\n+    val ia2 = InetAddress.getByName(\"243.243.45.3\")\n+    assertNot(ia2.isMCGlobal())\n+    assertNot(ia2.isMCLinkLocal())\n+    assertNot(ia2.isMCNodeLocal())\n+    assertNot(ia2.isMCOrgLocal())\n+    assertNot(ia2.isMCSiteLocal())\n+\n+    val ia3 = InetAddress.getByName(\"250.255.255.254\")\n+    assertNot(ia3.isMCGlobal())\n+    assertNot(ia3.isMCLinkLocal())\n+    assertNot(ia3.isMCNodeLocal())\n+    assertNot(ia3.isMCOrgLocal())\n+    assertNot(ia3.isMCSiteLocal())\n+\n+    val ia4 = InetAddress.getByName(\"10.0.0.2\")\n+    assertNot(ia4.isMCGlobal())\n+    assertNot(ia4.isMCLinkLocal())\n+    assertNot(ia4.isMCNodeLocal())\n+    assertNot(ia4.isMCOrgLocal())\n+    assertNot(ia4.isMCSiteLocal())\n+  }\n+\n+  test(\"toString\") {\n+    assertEquals(\"/127.0.0.1\", InetAddress.getByName(\"127.0.0.1\").toString)\n+  }\n+\n+}"
+  }
+]

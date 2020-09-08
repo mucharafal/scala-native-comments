@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "56ec04dc-e503-41c7-b5d3-2d2bb05055df",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "e2fa51f5-8296-49dc-a363-4a62c7224732",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "I think we should cross compile test if we do [oracle testing](https://en.wikipedia.org/wiki/Oracle_(software_testing)). We could share the test and validate the test on the jvm then run them on native.",
+        "createdAt" : "2017-03-21T12:35:38Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,27 @@\n+import java.io.File"
+  }
+]

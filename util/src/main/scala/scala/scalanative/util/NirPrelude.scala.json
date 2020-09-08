@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "4dca515c-7e37-47b9-8f2c-8b7e775420c7",
+    "prId" : 1764,
+    "comments" : [
+      {
+        "id" : "c36ccf5b-2360-4ea7-8b74-9f50b6aadd8d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Once the assertions on `magic` and `compat` are moved above this point, this test simply becomes\r\n```scala\r\nif (revision < 7)\r\n```",
+        "createdAt" : "2020-04-28T08:51:22Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e10c524f2af5ddf1af3e3ad56070a717fc426a6e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+package scala.scalanative\n+package util\n+\n+import java.nio.ByteBuffer\n+\n+case class NirPrelude(magic: Int,\n+                      compat: Int,\n+                      revision: Int,\n+                      hasEntryPoints: Boolean)\n+\n+object NirPrelude {\n+  def readFrom(buffer: ByteBuffer): NirPrelude = {\n+    val magic    = buffer.getInt()\n+    val compat   = buffer.getInt()\n+    val revision = buffer.getInt()\n+\n+    // indicates whether this NIR file has entry points\n+    // and thus should be made reachable, no matter\n+    // what the reachability algorithm does\n+    // example: reflectively instantiatable classes\n+    // since: compat = 4, revision = 7\n+    val hasEntryPoints = {\n+      import scala.math.Ordering.Implicits._\n+      if ((compat, revision) < (4, 7))"
+  }
+]

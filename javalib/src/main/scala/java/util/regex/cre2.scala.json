@@ -1,0 +1,87 @@
+[
+  {
+    "id" : "960a18c2-46a0-4d9f-8adf-4cde147906a2",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "13f52d77-f128-4365-b1d6-dc269566842d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please also delete `nativelib/src/main/resources/optional/re2.{h, cpp}`. ",
+        "createdAt" : "2019-04-15T12:25:54Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "32522c1c-bf6a-43bb-89cb-5ffb53620e70",
+        "parentId" : "13f52d77-f128-4365-b1d6-dc269566842d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A few more places where c-based re2 is referenced:\r\n1. scripts/scala-native.nix needs to drop `re2` line.\r\n2. scripts/travis_setup.sh we **can't** drop it there as this script used by 0.3.x users as well.\r\n3. docs/lib/javalib.rst needs to drop all lines that contain `cre2`.\r\n4. docs/user/setup.rst needs to drop `re2` in all setup instructions.",
+        "createdAt" : "2019-04-15T12:55:48Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a6fe132b-d3b2-41e3-83bd-5d7b833dd5c0",
+        "parentId" : "13f52d77-f128-4365-b1d6-dc269566842d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. travis_setup.sh not touched.  Sorry I missed so many places. ",
+        "createdAt" : "2019-04-17T00:44:35Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3e2e5cf4-bdaa-40ce-8d30-15069fdca1b9",
+        "parentId" : "13f52d77-f128-4365-b1d6-dc269566842d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I have no way to test scala-native.nix. Will Travis CI do that or can you suggest a way?\r\nI would  rest easier knowing I did not inflict breakage on someone else.  \r\n\r\nI will test the  *.rst changes on my machine so they get exercised before the\r\nramp up to release.",
+        "createdAt" : "2019-04-17T00:47:49Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : 12,
+    "diffHunk" : "@@ -1,167 +0,0 @@\n-package java.util.regex\n-\n-import scalanative.native._\n-import scalanative.libc.stdlib._\n-\n-import java.nio.charset.Charset\n-\n-// Syntax guide: https://github.com/google/re2/wiki/Syntax\n-// re2 c wrapper: https://github.com/marcomaggi/cre2\n-@link(\"re2\")\n-@extern\n-object cre2 {"
+  }
+]

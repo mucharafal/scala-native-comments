@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "1854a4f9-3c4b-479c-b610-a4e87c414e0b",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "025f2be7-49ef-4eaf-ae94-3ef252048b83",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Make these `final val`s so that scalac can constant-fold them.\n",
+        "createdAt" : "2016-06-22T09:17:48Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,229 @@\n+package java.lang\n+\n+import java.util.regex.Pattern\n+\n+private object HexStringParser {\n+  private val DOUBLE_EXPONENT_WIDTH  = 11\n+  private val DOUBLE_MANTISSA_WIDTH  = 52\n+  private val FLOAT_EXPONENT_WIDTH   = 8\n+  private val FLOAT_MANTISSA_WIDTH   = 23\n+  private val HEX_RADIX              = 16\n+  private val MAX_SIGNIFICANT_LENGTH = 15"
+  },
+  {
+    "id" : "82320f29-1c11-4641-83c2-db625566a461",
+    "prId" : 212,
+    "comments" : [
+      {
+        "id" : "1fb510ce-32ac-42ca-b67d-3f6435f5ee6a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Unfortunately we don't have `java.util.regex` and therefore can't use regular expressions yet. All regular expressions here need to be rewritten into handwritten parsers or recognisers. \n",
+        "createdAt" : "2016-07-13T13:40:15Z",
+        "updatedAt" : "2016-07-13T13:40:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fde256b043f37f07d62ae5867c2845a877d78287",
+    "line" : 3,
+    "diffHunk" : "@@ -0,0 +1,228 @@\n+package java.lang\n+\n+import java.util.regex.Pattern"
+  }
+]

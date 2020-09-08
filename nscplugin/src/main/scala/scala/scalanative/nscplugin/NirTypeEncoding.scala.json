@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "76a61cf4-35f9-466d-a27d-c8501d2edb04",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "4857928f-60a5-40e2-99cd-cb965c81eac5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Mix between aligned and unaligned arrows looks pretty bad for this match. Lets add newline after every `=>` in match cases. Unfortunately, scalafmt can't figure this out on its own yet.",
+        "createdAt" : "2016-12-04T10:59:33Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c555744b-5ed1-412d-a142-1f9065b1ece7",
+        "parentId" : "4857928f-60a5-40e2-99cd-cb965c81eac5",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Should I add a newline even if `scalafmt --test` fails ?\r\nEDIT: never mind it does not fail. But I have a problem with [BoxingLowering.scala](https://github.com/scala-native/scala-native/pull/422/files#diff-129ef512752e6af62645ed082e33683bR61)",
+        "createdAt" : "2016-12-04T13:37:47Z",
+        "updatedAt" : "2016-12-04T14:11:58Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -117,6 +117,30 @@ trait NirTypeEncoding { self: NirCodeGen =>\n     case _            => 'O'\n   }\n \n+  def genBoxType(tpe: Type): nir.Type = {\n+    val (sym, _) = decomposeType(tpe)\n+\n+    sym match {\n+      case BooleanClass => nir.Type.Class(nir.Global.Top(\"java.lang.Boolean\"))\n+      case CharClass    => nir.Type.Class(nir.Global.Top(\"java.lang.Character\"))\n+      case UByteClass =>\n+        nir.Type.Class(nir.Global.Top(\"scala.scalanative.native.UByte\"))\n+      case ByteClass => nir.Type.Class(nir.Global.Top(\"java.lang.Byte\"))\n+      case UShortClass =>\n+        nir.Type.Class(nir.Global.Top(\"scala.scalanative.native.UShort\"))\n+      case ShortClass => nir.Type.Class(nir.Global.Top(\"java.lang.Short\"))\n+      case UIntClass =>\n+        nir.Type.Class(nir.Global.Top(\"scala.scalanative.native.UInt\"))\n+      case IntClass => nir.Type.Class(nir.Global.Top(\"java.lang.Integer\"))\n+      case ULongClass =>\n+        nir.Type.Class(nir.Global.Top(\"scala.scalanative.native.ULong\"))\n+      case LongClass   => nir.Type.Class(nir.Global.Top(\"java.lang.Long\"))\n+      case FloatClass  => nir.Type.Class(nir.Global.Top(\"java.lang.Float\"))\n+      case DoubleClass => nir.Type.Class(nir.Global.Top(\"java.lang.Double\"))\n+      case _           => unsupported(\"Box type must be primitive type.\")\n+    }"
+  }
+]

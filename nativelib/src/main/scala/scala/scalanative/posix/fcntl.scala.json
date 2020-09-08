@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "b9e48203-1269-4d78-b1fa-83ba623d74ba",
+    "prId" : 698,
+    "comments" : [
+      {
+        "id" : "4095e8c8-0453-4877-92ed-853ea451f87c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is not mentioned in posix docs.",
+        "createdAt" : "2017-05-18T10:42:12Z",
+        "updatedAt" : "2017-05-18T10:46:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d130f2c92a51c5ae61c2edea2b0876254b5552cc",
+    "line" : 22,
+    "diffHunk" : "@@ -2,16 +2,124 @@ package scala.scalanative\n package posix\n \n import scala.scalanative.native._\n-\n+import scala.scalanative.posix.sys.types.{off_t, pid_t}\n import stat.mode_t\n \n+// http://pubs.opengroup.org/onlinepubs/9699919799/\n+\n @extern\n object fcntl {\n \n+  def creat(pathname: CString, mode: mode_t): CInt = extern\n+\n+  def fcntl(fd: CInt, cmd: CInt, args: CVararg*): CInt = extern\n+\n   def open(pathname: CString, flags: CInt, mode: CVararg*): CInt = extern\n \n+  def openat(dirfd: CInt,\n+             pathname: CString,\n+             flags: CInt,\n+             args: CVararg*): CInt = extern"
+  }
+]

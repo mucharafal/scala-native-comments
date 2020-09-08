@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "a68c9e88-74f5-49cf-a467-2b92fff207da",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "42eb7d9d-7106-4c78-a790-767817a94dc3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "For naming consistency: `BoxOp`, `UnboxOp`",
+        "createdAt" : "2016-12-02T13:44:35Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -154,6 +154,8 @@ object Tags {\n   final val CopyOp       = 1 + IsOp\n   final val SizeofOp     = 1 + CopyOp\n   final val ClosureOp    = 1 + SizeofOp\n+  final val Box          = 1 + ClosureOp\n+  final val Unbox        = 1 + Box"
+  }
+]

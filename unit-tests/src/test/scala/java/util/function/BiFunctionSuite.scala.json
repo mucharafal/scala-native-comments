@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "4d906bf1-2744-4f67-9d4e-d3d927e3fad0",
+    "prId" : 1237,
+    "comments" : [
+      {
+        "id" : "8d05b30d-402a-4518-82f5-ba49a855e4dd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs another simple test for `andThen`.",
+        "createdAt" : "2018-07-03T15:55:53Z",
+        "updatedAt" : "2018-07-09T13:05:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fb169147117b0d2852e8a95ef04cb3a93887de20",
+    "line" : 12,
+    "diffHunk" : "@@ -0,0 +1,13 @@\n+package java.util.function\n+\n+object BiFunctionSuite extends tests.Suite {\n+  val f = new BiFunction[Integer, Integer, Integer] {\n+    override def apply(x: Integer, y: Integer): Integer = {\n+      x + y\n+    }\n+  }\n+\n+  test(\"BiFunction.apply(Integer, Integer)\") {\n+    assertEquals(f(1, 2), 3)\n+  }"
+  }
+]

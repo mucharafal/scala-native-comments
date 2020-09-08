@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "10591918-6a7d-48df-a68f-b0a47c6c38be",
+    "prId" : 1549,
+    "comments" : [
+      {
+        "id" : "28b12847-2211-4d17-b98c-18ff838b2651",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "After #1536 I was hoping to make `Sig` a value class so that it doesn't require an extra box when stored in `Global.Member`. Adding fields to it would go against this unfortunately. Can you try changing it to value class and checking if it's a win performance wise? Otherwise we can keep it as is in the PR atm.",
+        "createdAt" : "2019-04-22T10:20:00Z",
+        "updatedAt" : "2019-04-22T10:20:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5989bea166abf78a489e7789731be4db98ef9885",
+    "line" : 5,
+    "diffHunk" : "@@ -4,7 +4,7 @@ package nir\n import scala.language.implicitConversions\n \n final class Sig(val mangle: String) {\n-  final def toProxy: Sig =\n+  final lazy val toProxy: Sig ="
+  }
+]

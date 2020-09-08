@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "ebfb59df-93b4-4833-9b3b-38dd8423473f",
+    "prId" : 181,
+    "comments" : [
+      {
+        "id" : "2f46db86-348a-4aad-8494-cf3dfe7f9efd",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider reusing `artifactPath in nativeLink`.\n",
+        "createdAt" : "2016-06-14T16:24:35Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e112bbf9-7e1d-44e5-b77c-e761727d34c5",
+        "parentId" : "2f46db86-348a-4aad-8494-cf3dfe7f9efd",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed.\n",
+        "createdAt" : "2016-06-14T16:31:28Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "401b17f52d4035252a771649ce175df82578fd0b",
+    "line" : null,
+    "diffHunk" : "@@ -21,9 +21,15 @@ object ScalaNativePlugin extends AutoPlugin {\n     val nativeEmitDependencyGraphPath = settingKey[Option[File]](\n       \"If non-empty, emit linker graph to the given file path.\")\n \n-    val nativeLinkAs = settingKey[Map[String, String]](\n+    val nativeLibraryLinkage = settingKey[Map[String, String]](\n       \"Given a native library, provide the linkage kind (static or dynamic). \" +\n       \"If key is not present in the map, dynamic is picked as a default.\")\n+\n+    val nativeLink = inputKey[Unit](\n+      \"Generates native binary without running it.\")\n+\n+    val nativeBinary = settingKey[File](\n+      \"Final target of the native compilation.\")"
+  },
+  {
+    "id" : "9f26524d-b9ad-463e-8e57-4255f5d4a6b7",
+    "prId" : 181,
+    "comments" : [
+      {
+        "id" : "c5366c26-36e2-4e4f-bd2f-72a611aec71e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It would be more idiomatic for `nativeLink` to return the `File` it produced. So basically it should be a `taskKey[File]`. Then `run` should actually _use_ `nativeLink.value` as the path to the executable, rather than asking separately for `nativeBinary`.\n\nTo be even more idiomatic, it should be `taskKey[Attributed[Filed]]`. You might not realize yet, but eventually you'll need the attributes for one reason or another (we did).\n",
+        "createdAt" : "2016-06-14T16:27:11Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e4716d7e-9d2d-403f-a9c4-cfc44635a0a8",
+        "parentId" : "c5366c26-36e2-4e4f-bd2f-72a611aec71e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds good! I guess I'll start with non-attributed file for now and change it later on if that becomes a problem.\n",
+        "createdAt" : "2016-06-14T16:33:42Z",
+        "updatedAt" : "2016-06-14T16:34:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "401b17f52d4035252a771649ce175df82578fd0b",
+    "line" : null,
+    "diffHunk" : "@@ -21,9 +21,15 @@ object ScalaNativePlugin extends AutoPlugin {\n     val nativeEmitDependencyGraphPath = settingKey[Option[File]](\n       \"If non-empty, emit linker graph to the given file path.\")\n \n-    val nativeLinkAs = settingKey[Map[String, String]](\n+    val nativeLibraryLinkage = settingKey[Map[String, String]](\n       \"Given a native library, provide the linkage kind (static or dynamic). \" +\n       \"If key is not present in the map, dynamic is picked as a default.\")\n+\n+    val nativeLink = inputKey[Unit](\n+      \"Generates native binary without running it.\")"
+  }
+]

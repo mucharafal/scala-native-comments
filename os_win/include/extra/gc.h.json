@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "1264ce3d-d1f8-40db-b27c-38721266bd19",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "b483e284-2d7e-4abf-beaa-c2d7a726a845",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Copy-pasting the source of Boehm GC doesn't look like a good idea at all maintenance-wise. We need to figure out a way to automatically download the latest source from the official repo in the build instead.",
+        "createdAt" : "2017-08-07T11:43:27Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b05fe97b-8c75-43ad-aa5f-121294e4a2e6",
+        "parentId" : "b483e284-2d7e-4abf-beaa-c2d7a726a845",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "see above",
+        "createdAt" : "2017-08-08T11:06:46Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : 2,
+    "diffHunk" : "@@ -0,0 +1,2 @@\n+/* This file is installed for backward compatibility. */\n+#include <gc/gc.h>"
+  }
+]

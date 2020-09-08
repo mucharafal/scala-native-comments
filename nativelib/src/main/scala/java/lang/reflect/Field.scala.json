@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "27be97e1-7afc-4971-9f5d-716a4cafaee8",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "f7ad6e23-fa5f-4ea9-ac0e-b5fe1b5ce07b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same problem as for `Class::getField`, it should throw via `???` given that it's not implemented.",
+        "createdAt" : "2017-06-12T10:00:26Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,5 @@\n+package java.lang.reflect\n+\n+class Field {\n+  def get(obj: Object): Object = null"
+  }
+]

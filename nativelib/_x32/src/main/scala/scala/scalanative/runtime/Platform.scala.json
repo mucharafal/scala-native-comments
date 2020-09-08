@@ -1,0 +1,106 @@
+[
+  {
+    "id" : "720fe56a-e41f-49cd-abeb-4f41bf095b9f",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "114e4d8d-0a0d-4d20-aea8-9c9f439f71f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should just be a method that returns a boolean. Then all callers instead of:\r\n```\r\ncross3264(f1, f2)\r\n```\r\nBecome:\r\n```\r\nif (Platforms.isCross32) { f1() } else { f2() }\r\n```\r\nSecond snippet is going to be optimized by LLVM, but not the first one. Interflow can inline and remove the closures but it's likely to be a release-only feature. ",
+        "createdAt" : "2018-10-17T09:11:04Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f20bbcb3-4c9e-48b4-b311-53f3ebf78b5e",
+        "parentId" : "114e4d8d-0a0d-4d20-aea8-9c9f439f71f6",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "The reason I defined the method like this was to handle different types across 32/64 bit platforms, such as returning an Int vs Long if a `CLong` is expected. Is there a way to allow this to be optimized without losing the type safety?",
+        "createdAt" : "2018-10-17T16:46:56Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "63101574-c08d-4bd3-bc86-f20f6a9727c9",
+        "parentId" : "114e4d8d-0a0d-4d20-aea8-9c9f439f71f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Indeed, there are benefits in terms of type safety. But from a pragmatic point of view, you can't afford having the default implementation of equals and hashCode to allocate closures. A compromise where those kind of cases use a `if (isCross32) ... else ...` and the others (non-performance-sensitive) parts use the type safe version would be fine with me.",
+        "createdAt" : "2018-10-18T08:48:25Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "65a5f44c-34b2-4f9d-b41f-a3cea58609b1",
+        "parentId" : "114e4d8d-0a0d-4d20-aea8-9c9f439f71f6",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "That makes sense. Is there a reason there would still be closures allocated even after `cross3264` is inlined? I thought `@inline` based inline takes place in both debug and release mode.",
+        "createdAt" : "2018-10-20T19:51:03Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ceaf5c72-5a5e-40f7-b927-acb9a4f1af81",
+        "parentId" : "114e4d8d-0a0d-4d20-aea8-9c9f439f71f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "LLVM's IR is around C level's of abstraction (structs, arrays and pointers). So even after inlining of the `cross3264` it would still keep the allocation and virtual dispatch as it doesn't really know how to deal with those. ",
+        "createdAt" : "2018-10-29T09:27:37Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 16,
+    "diffHunk" : "@@ -0,0 +1,21 @@\n+package scala.scalanative\n+package runtime\n+\n+import scala.scalanative.native.{CFunctionPtr2, CString}\n+\n+object Platform {\n+  def isMac(): Boolean                 = ExternPlatform.isMac()\n+  def isWindows(): Boolean             = ExternPlatform.isWindows()\n+  def windowsGetUserLang(): CString    = ExternPlatform.windowsGetUserLang()\n+  def windowsGetUserCountry(): CString = ExternPlatform.windowsGetUserCountry()\n+  def littleEndian(): Boolean          = ExternPlatform.littleEndian()\n+  def setOSProps(addProp: CFunctionPtr2[CString, CString, Unit]): Unit =\n+    ExternPlatform.setOSProps(addProp)\n+\n+  @inline final def cross3264[A, B](thirtyTwo: => A,"
+  }
+]

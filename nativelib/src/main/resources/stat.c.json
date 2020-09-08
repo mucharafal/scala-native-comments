@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "e923545c-02a0-417c-8e4d-64c210ec6780",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "f60cec32-96b3-4e02-b397-86235a0a82f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Bindings and wrappers around standard C APIs should *never* GC allocate. In fact, unmanaged pointers (i.e. `Ptr[_]`) to the GC heap are completely implementation-specific and should never be used anywhere outside `scalanative.runtime`. Instead, the standard way to do it in C way is to take an extra \"out\" argument where you write the result. Then the caller has to take care of allocation and deallocation, the way he likes. ",
+        "createdAt" : "2017-04-12T11:07:21Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6183735f-1857-4cf8-98b8-6856ccb95cd2",
+        "parentId" : "f60cec32-96b3-4e02-b397-86235a0a82f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Moreover, even if one needs to sidestep this, one has to call `scalanative_alloc` instead. `GC_malloc` only works when gc is set to boehm, which is not always true any longer due to `nativeGC` setting. ",
+        "createdAt" : "2017-04-12T11:08:41Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e45ac5a0-5896-45d4-9762-3ad0f9627a48",
+        "parentId" : "f60cec32-96b3-4e02-b397-86235a0a82f6",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "That makes sense. Done!",
+        "createdAt" : "2017-04-13T07:37:44Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,168 @@\n+#include <sys/stat.h>\n+#include <gc.h>\n+#include \"types.h\"\n+\n+// We don't use the \"standard\" types such as `dev_t` for instance\n+// because these have different sizes on eg. Linux and OSX. We use the\n+// smallest type that can hold all the possible values for the different systems.\n+struct scalanative_stat {\n+    scalanative_dev_t st_dev;         /** Device ID of device containing file. */\n+    scalanative_dev_t st_rdev;        /** Device ID (if file is character or block special). */\n+    scalanative_ino_t st_ino;         /** File serial number. */\n+    scalanative_uid_t st_uid;         /** User ID of file. */\n+    scalanative_gid_t st_gid;         /** Group ID of file. */\n+    scalanative_off_t st_size;        /** For regular files, the file size in bytes.\n+\t\t\t                  For symbolic links, the length in bytes of the\n+\t\t\t                  pathname contained in the symbolic link.\n+\t\t\t                  For a shared memory object, the length in bytes.\n+\t\t\t                  For a typed memory object, the length in bytes.\n+\t\t\t                  For other file types, the use of this field is\n+\t\t\t                  unspecified. */\n+    scalanative_time_t _st_atime;     /** Time of last access. */\n+    scalanative_time_t _st_mtime;     /** Time of last data modification. */\n+    scalanative_time_t _st_ctime;     /** Time of last status change. */\n+    scalanative_blkcnt_t st_blocks;   /** Number of blocks allocated for this object. */\n+    scalanative_blksize_t st_blksize; /** A file system-specific preferred I/O block size for\n+\t\t\t                  this object. In some file system types, this may\n+\t\t\t                  vary from file to file. */\n+    scalanative_nlink_t st_nlink;     /** Number of hard links to the file. */\n+    scalanative_mode_t st_mode;       /** Mode of file (see below). */\n+};\n+\n+void scalanative_stat_init(struct stat *stat, struct scalanative_stat * my_stat) {\n+    my_stat->st_dev     = stat->st_dev;\n+    my_stat->st_rdev    = stat->st_rdev;\n+    my_stat->st_ino     = stat->st_ino;\n+    my_stat->st_uid     = stat->st_uid;\n+    my_stat->st_gid     = stat->st_gid;\n+    my_stat->st_size    = stat->st_size;\n+    my_stat->_st_atime  = stat->st_atime;\n+    my_stat->_st_mtime  = stat->st_mtime;\n+    my_stat->_st_ctime  = stat->st_ctime;\n+    my_stat->st_blksize = stat->st_blksize;\n+    my_stat->st_blocks  = stat->st_blocks;\n+    my_stat->st_nlink   = stat->st_nlink;\n+    my_stat->st_mode    = stat->st_mode;\n+}\n+\n+struct scalanative_stat *scalanative_stat_copy(struct stat *stat) {\n+    struct scalanative_stat *my_stat =\n+        (struct scalanative_stat *) GC_malloc(sizeof(struct scalanative_stat));"
+  },
+  {
+    "id" : "a7eb3b92-2375-430e-b7f0-c670260de302",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "d7e47a54-29b0-477a-924a-cda45afc8ce7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is acceptable solution, as long as we consistently copy original C's `stat` to our stat in all of our bindings. ",
+        "createdAt" : "2017-04-12T11:15:13Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,168 @@\n+#include <sys/stat.h>\n+#include <gc.h>\n+#include \"types.h\"\n+\n+// We don't use the \"standard\" types such as `dev_t` for instance\n+// because these have different sizes on eg. Linux and OSX. We use the\n+// smallest type that can hold all the possible values for the different systems."
+  }
+]

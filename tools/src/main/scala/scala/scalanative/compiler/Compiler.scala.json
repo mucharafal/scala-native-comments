@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "75c6dbed-a2d0-4389-9349-8bff1af2d222",
+    "prId" : 239,
+    "comments" : [
+      {
+        "id" : "a3582375-10a0-451f-a102-e179fecb2f00",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This would probably read a bit better if you do \n\n```\nSeq(\n  Seq(...),\n  maybeInjectMain,\n  Seq(...)\n).flatten\n```\n",
+        "createdAt" : "2016-07-15T08:48:08Z",
+        "updatedAt" : "2016-09-08T11:11:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "43d7366945fe414f2cffdee737597e20a8a80359",
+    "line" : null,
+    "diffHunk" : "@@ -13,23 +13,25 @@ final class Compiler(opts: Opts) {\n     Global.Member(Global.Top(opts.entry), \"main_class.ssnr.ObjectArray_unit\")\n \n   private lazy val passCompanions: Seq[PassCompanion] = Seq(\n-      pass.LocalBoxingElimination,\n-      pass.DeadCodeElimination,\n-      pass.MainInjection,\n-      pass.ExternHoisting,\n-      pass.ModuleLowering,\n-      pass.RuntimeTypeInfoInjection,\n-      pass.AsLowering,\n-      pass.TraitLowering,\n-      pass.ClassLowering,\n-      pass.StringLowering,\n-      pass.ConstLowering,\n-      pass.SizeofLowering,\n-      pass.UnitLowering,\n-      pass.NothingLowering,\n-      pass.ExceptionLowering,\n-      pass.StackallocHoisting,\n-      pass.CopyPropagation)\n+        pass.LocalBoxingElimination,\n+        pass.DeadCodeElimination) ++\n+      maybeInjectMain ++ Seq(pass.ExternHoisting,\n+                             pass.ModuleLowering,\n+                             pass.RuntimeTypeInfoInjection,\n+                             pass.AsLowering,\n+                             pass.TraitLowering,\n+                             pass.ClassLowering,\n+                             pass.StringLowering,\n+                             pass.ConstLowering,\n+                             pass.SizeofLowering,\n+                             pass.UnitLowering,\n+                             pass.NothingLowering,\n+                             pass.ExceptionLowering,\n+                             pass.StackallocHoisting,\n+                             pass.CopyPropagation)"
+  },
+  {
+    "id" : "137c91db-28bf-4319-90f2-9484f297def7",
+    "prId" : 239,
+    "comments" : [
+      {
+        "id" : "df0da16d-b4ac-4848-b733-7baaf4ac32b7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You forgot to remove `MainInjection` from the non-maybe list of passes here. It's run twice now which causes the build to fail.\n",
+        "createdAt" : "2016-09-05T08:49:45Z",
+        "updatedAt" : "2016-09-08T11:11:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "43d7366945fe414f2cffdee737597e20a8a80359",
+    "line" : null,
+    "diffHunk" : "@@ -13,23 +13,26 @@ final class Compiler(opts: Opts) {\n     Global.Member(Global.Top(opts.entry), \"main_class.ssnr.ObjectArray_unit\")\n \n   private lazy val passCompanions: Seq[PassCompanion] = Seq(\n-      pass.LocalBoxingElimination,\n-      pass.DeadCodeElimination,\n-      pass.MainInjection,\n-      pass.ExternHoisting,\n-      pass.ModuleLowering,\n-      pass.RuntimeTypeInfoInjection,\n-      pass.AsLowering,\n-      pass.TraitLowering,\n-      pass.ClassLowering,\n-      pass.StringLowering,\n-      pass.ConstLowering,\n-      pass.SizeofLowering,\n-      pass.UnitLowering,\n-      pass.NothingLowering,\n-      pass.ExceptionLowering,\n-      pass.StackallocHoisting,\n-      pass.CopyPropagation)\n+      Seq(pass.LocalBoxingElimination, pass.DeadCodeElimination),\n+      maybeInjectMain,\n+      Seq(pass.MainInjection,"
+  }
+]

@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "51548544-1ca4-4e2d-a982-f81da773e692",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "f1ef80ad-863f-4e25-b6fe-138647f07b8c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is API is a bit too rough to be exposed publicly just like this, lets start small and put in `scala.scalanative.runtime` first before it matures a little bit. ",
+        "createdAt" : "2017-04-10T17:39:45Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9d7d4dcc-faae-4db0-b28e-2f64921d57a5",
+        "parentId" : "f1ef80ad-863f-4e25-b6fe-138647f07b8c",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:01:55Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,11 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object Platform {\n+  @name(\"scalanative_platform_is_windows\")\n+  def isWindows(): Boolean = extern\n+\n+  @name(\"scalanative_litle_endian\")\n+  def littleEndian(): Boolean = extern\n+}"
+  },
+  {
+    "id" : "315694f7-8ca7-44cd-87cb-388241dd341e",
+    "prId" : 591,
+    "comments" : [
+      {
+        "id" : "e98a0b89-7019-4e5f-a8bd-c7ef4d214e2f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not yet polished enough to be in public API namespace yet. Lets include it in `scala.scalanative.runtime` for now.",
+        "createdAt" : "2017-04-05T10:48:51Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dae1f685-e5ac-44bd-a7b6-f8529a041cc9",
+        "parentId" : "e98a0b89-7019-4e5f-a8bd-c7ef4d214e2f",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "I'll fix all that tomorrow.",
+        "createdAt" : "2017-04-07T16:52:32Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "22a738e8b340af2978ddc4409dc335585fd05dcf",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,14 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object Platform {\n+  @name(\"scalanative_platform_is_windows\")\n+  def isWindows(): Boolean = extern\n+\n+  @name(\"scalanative_windows_get_user_lang\")\n+  def windowsGetUserLang(): CString = extern\n+\n+  @name(\"scalanative_windows_get_user_country\")\n+  def windowsGetUserCountry(): CString = extern\n+}"
+  }
+]

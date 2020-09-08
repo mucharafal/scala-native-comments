@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "2e39941c-d4d0-4dcf-aeb7-b8a4d3a97831",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "0dbda78f-185b-49e3-b30e-736ab2dd7c55",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that serialization here isn't meant to be extensible, it's better to go for lower-level abstraction-free approach here. Current implementation is probably rather slow as it relies on virtual dispatch heavily.\r\n\r\nFirst of all type-classes are an overkill here due to the fact that all instances are statically known and we don't expect any extensibility beyond that point.\r\n\r\nSecond, for serialization it's best to have a mutable builder-like code to minimize I/O overhead. Please have a look at [NIR serialization](https://github.com/scala-native/scala-native/tree/master/nir/src/main/scala/scala/scalanative/nir/serialization) and [Show builder](https://github.com/scala-native/scala-native/blob/master/util/src/main/scala/scala/scalanative/util/Show.scala) for examples. We used to do high-level type-class like code and it was very expensive, even on the JVM (2-3x performance overhead.)",
+        "createdAt" : "2017-06-12T09:53:44Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,189 @@\n+package scala.scalanative\n+package testinterface\n+package serialization\n+\n+import scala.compat.Platform.EOL\n+import sbt.testing._\n+\n+import scala.collection.mutable.ListBuffer\n+\n+object Serializer {\n+  def serialize[T: Serializable](v: T): Iterator[String] =\n+    implicitly[Serializable[T]].serialize(v)\n+  def deserialize[T: Serializable](in: Iterator[String]): T =\n+    implicitly[Serializable[T]].deserialize(in)"
+  }
+]

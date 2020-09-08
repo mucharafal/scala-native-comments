@@ -1,0 +1,226 @@
+[
+  {
+    "id" : "01924a49-b356-40e3-a677-5e4025b8ef13",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "8544e548-f10d-424e-a454-6d771ce11f09",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "``` scala\n@inline def floatToRawIntBits(value: scala.Float): scala.Int = \n  value.cast[scala.Int]\n```\n",
+        "createdAt" : "2016-06-21T11:26:14Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,25 +59,132 @@ object Float {\n   final val MIN_EXPONENT      = -126\n   final val SIZE              = 32\n \n-  @inline def valueOf(floatValue: scala.Float): Float = new Float(floatValue)\n+  @inline def compare(x: scala.Float, y: scala.Float): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0f != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val f1 = floatToRawIntBits(x)\n+        val f2 = floatToRawIntBits(y)\n+        (f1 >> 31) - (f2 >> 31)\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Float = valueOf(parseFloat(s))\n+  @inline def floatToIntBits(value: scala.Float): scala.Int =\n+    if (value != value) 0x7fc00000\n+    else floatToRawIntBits(value)\n \n-  @inline def parseFloat(s: String): scala.Float = ???\n+  @native def floatToRawIntBits(value: scala.Float): scala.Int"
+  },
+  {
+    "id" : "d875f682-091b-4bd0-9af2-d545f3d08331",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "052682f2-d296-41fb-8cda-2e1873cad680",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "``` scala\n@inline def intBitsToFloat(value: scala.Int): scala.Float = \n  value.cast[scala.Float]\n```\n",
+        "createdAt" : "2016-06-21T11:27:09Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,25 +59,132 @@ object Float {\n   final val MIN_EXPONENT      = -126\n   final val SIZE              = 32\n \n-  @inline def valueOf(floatValue: scala.Float): Float = new Float(floatValue)\n+  @inline def compare(x: scala.Float, y: scala.Float): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1\n+    else if (x == y && 0.0f != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val f1 = floatToRawIntBits(x)\n+        val f2 = floatToRawIntBits(y)\n+        (f1 >> 31) - (f2 >> 31)\n+      }\n+    }\n \n-  @inline def valueOf(s: String): Float = valueOf(parseFloat(s))\n+  @inline def floatToIntBits(value: scala.Float): scala.Int =\n+    if (value != value) 0x7fc00000\n+    else floatToRawIntBits(value)\n \n-  @inline def parseFloat(s: String): scala.Float = ???\n+  @native def floatToRawIntBits(value: scala.Float): scala.Int\n \n-  @inline def toString(f: scala.Float): String = String.valueOf(f)\n+  @inline def hashCode(value: scala.Float): scala.Int =\n+    floatToIntBits(value)\n \n-  @inline def compare(a: scala.Float, b: scala.Float): scala.Int = ???\n+  @native def intBitsToFloat(bits: scala.Int): scala.Float"
+  },
+  {
+    "id" : "10782989-3008-4756-8eeb-c3b7ebaa8d64",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "00435608-d664-42df-8f61-38f0879a7939",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`x < y`\n",
+        "createdAt" : "2016-06-22T09:15:12Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -48,25 +59,132 @@ object Float {\n   final val MIN_EXPONENT      = -126\n   final val SIZE              = 32\n \n-  @inline def valueOf(floatValue: scala.Float): Float = new Float(floatValue)\n+  @inline def compare(x: scala.Float, y: scala.Float): scala.Int =\n+    if (x > y) 1\n+    else if (x > y) -1"
+  },
+  {
+    "id" : "5c982498-46b0-41ee-8ce1-eb924503c46e",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "0d2c5bf1-5cdc-4267-8ed6-76a0f4f3a436",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You need to use `value.cast[scala.Int]`, not `asInstanceOf` here. You need to add `import scalanative.native._` to get that method available. \n",
+        "createdAt" : "2016-06-25T10:17:41Z",
+        "updatedAt" : "2016-06-25T10:18:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "630d9646-4604-4017-a925-93995b2ce6f0",
+        "parentId" : "0d2c5bf1-5cdc-4267-8ed6-76a0f4f3a436",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This also applies to all other bits conversions. \n",
+        "createdAt" : "2016-06-25T10:18:42Z",
+        "updatedAt" : "2016-06-25T10:18:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : 87,
+    "diffHunk" : "@@ -48,25 +59,135 @@ object Float {\n   final val MIN_EXPONENT      = -126\n   final val SIZE              = 32\n \n-  @inline def valueOf(floatValue: scala.Float): Float = new Float(floatValue)\n-\n-  @inline def valueOf(s: String): Float = valueOf(parseFloat(s))\n-\n-  @inline def parseFloat(s: String): scala.Float = ???\n-\n-  @inline def toString(f: scala.Float): String = String.valueOf(f)\n-\n-  @inline def compare(a: scala.Float, b: scala.Float): scala.Int = ???\n-\n-  @inline def isNaN(v: scala.Float): scala.Boolean =\n-    v != v\n+  @inline def compare(x: scala.Float, y: scala.Float): scala.Int =\n+    if (x > y) 1\n+    else if (x < y) -1\n+    else if (x == y && 0.0f != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val f1 = floatToRawIntBits(x)\n+        val f2 = floatToRawIntBits(y)\n+        (f1 >> 31) - (f2 >> 31)\n+      }\n+    }\n+\n+  @inline def floatToIntBits(value: scala.Float): scala.Int =\n+    if (value != value) 0x7fc00000\n+    else floatToRawIntBits(value)\n+\n+  @inline def floatToRawIntBits(value: scala.Float): scala.Int =\n+    value.asInstanceOf[scala.Int]"
+  },
+  {
+    "id" : "b70223e8-55a8-42ea-8170-541876dc4ea1",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "aa8b612b-81f1-4e53-8c27-eaa9b7e2b1e1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-06-25T10:47:30Z",
+        "updatedAt" : "2016-06-25T10:47:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : 95,
+    "diffHunk" : "@@ -48,25 +59,135 @@ object Float {\n   final val MIN_EXPONENT      = -126\n   final val SIZE              = 32\n \n-  @inline def valueOf(floatValue: scala.Float): Float = new Float(floatValue)\n-\n-  @inline def valueOf(s: String): Float = valueOf(parseFloat(s))\n-\n-  @inline def parseFloat(s: String): scala.Float = ???\n-\n-  @inline def toString(f: scala.Float): String = String.valueOf(f)\n-\n-  @inline def compare(a: scala.Float, b: scala.Float): scala.Int = ???\n-\n-  @inline def isNaN(v: scala.Float): scala.Boolean =\n-    v != v\n+  @inline def compare(x: scala.Float, y: scala.Float): scala.Int =\n+    if (x > y) 1\n+    else if (x < y) -1\n+    else if (x == y && 0.0f != x) 0\n+    else {\n+      if (isNaN(x)) {\n+        if (isNaN(y)) 0\n+        else 1\n+      } else if (isNaN(y)) {\n+        -1\n+      } else {\n+        val f1 = floatToRawIntBits(x)\n+        val f2 = floatToRawIntBits(y)\n+        (f1 >> 31) - (f2 >> 31)\n+      }\n+    }\n+\n+  @inline def floatToIntBits(value: scala.Float): scala.Int =\n+    if (value != value) 0x7fc00000\n+    else floatToRawIntBits(value)\n+\n+  @inline def floatToRawIntBits(value: scala.Float): scala.Int =\n+    value.asInstanceOf[scala.Int]\n+\n+  @inline def hashCode(value: scala.Float): scala.Int =\n+    floatToIntBits(value)\n+\n+  @inline def intBitsToFloat(value: scala.Int): scala.Float =\n+    value.asInstanceOf[scala.Float]\n+\n+  def isFinite(f: scala.Float): scala.Boolean ="
+  },
+  {
+    "id" : "c8e4e271-5624-4701-b73a-0d8d7c9e5192",
+    "prId" : 212,
+    "comments" : [
+      {
+        "id" : "adb5702a-cb4f-4185-b65f-d06d8ccb6008",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-07-13T13:37:52Z",
+        "updatedAt" : "2016-07-13T13:37:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fde256b043f37f07d62ae5867c2845a877d78287",
+    "line" : 9,
+    "diffHunk" : "@@ -1,25 +1,38 @@\n package java.lang\n \n+import scalanative.native._\n+\n final class Float(val floatValue: scala.Float)\n     extends Number\n     with Comparable[Float] {\n-  def this(s: String) = this(Float.parseFloat(s))\n+  def this(s: String) ="
+  },
+  {
+    "id" : "09434ad9-e9a4-4bbb-bfa2-b9f40c956d82",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "5653471a-1b06-4ffd-99d2-3728e05ec250",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs curlies around then and else cases. ",
+        "createdAt" : "2019-05-28T09:11:38Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 7,
+    "diffHunk" : "@@ -242,7 +242,8 @@ object Float {\n       errno.errno = 0\n       val res = stdlib.strtof(cstr, end)\n \n-      if (errno.errno == 0 && cstr != !end && string.strlen(!end) == 0) res\n+      if (errno.errno == 0 && cstr != !end && string.strlen(!end).toInt == 0)\n+        res"
+  }
+]

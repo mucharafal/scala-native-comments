@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "0d4c3832-7241-4bfe-8ae6-1a0d2ea2d3b4",
+    "prId" : 1570,
+    "comments" : [
+      {
+        "id" : "0082d13a-07b8-4756-a218-b0262906b877",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No date here as well.",
+        "createdAt" : "2019-04-26T12:30:39Z",
+        "updatedAt" : "2019-04-26T18:03:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d72e561c-4379-48ad-83e6-1f89e0c2b9eb",
+        "parentId" : "0082d13a-07b8-4756-a218-b0262906b877",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Changed as requested.  All green.",
+        "createdAt" : "2019-04-26T15:31:27Z",
+        "updatedAt" : "2019-04-26T18:03:28Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "278ad8485c5384377cc51f4b31bc8faeb8e2be77",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,72 @@\n+package java.util\n+package concurrent\n+package atomic\n+\n+import java.util.function.UnaryOperator\n+\n+object AtomicReferenceSuite extends tests.Suite {\n+\n+  // This test suite is INCOMPLETE (obviously!).\n+  // It tests the get() method used by the two methods added\n+  // today 2019-04-25: getAndUpdate() and updateAndGet()"
+  },
+  {
+    "id" : "f8c6219d-fa9c-4c41-8db4-1fa76afb5b73",
+    "prId" : 1570,
+    "comments" : [
+      {
+        "id" : "777d34f1-4286-4c2c-8467-258d171059e8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`today` needs to go as well.",
+        "createdAt" : "2019-04-26T15:01:21Z",
+        "updatedAt" : "2019-04-26T18:03:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "415b5486-62a8-4dcf-9137-842b36220387",
+        "parentId" : "777d34f1-4286-4c2c-8467-258d171059e8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@LeeTibbert I think you missed the comment about `today` in the review above. Also, if you are going to change the comment maybe it is better if you just reference the file like follows:\r\nWarning: This class relies on Scala Native being single threaded ...",
+        "createdAt" : "2019-04-26T16:00:17Z",
+        "updatedAt" : "2019-04-26T18:03:28Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8d5e09c6-d288-4cb5-804b-24c93f621639",
+        "parentId" : "777d34f1-4286-4c2c-8467-258d171059e8",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Changed as requested.  Travis is all green.\r\n\r\nI simplified the comment and toned down the editorial snark.  \r\nThe fewer lines of comment, the fewer places I can get it wrong.\r\n\r\nSome comment is necessary to indicate that the code is\r\nscaffolding so that any one with concurrency training & experience\r\nreading the code does not waste time.  Appropriate precision.\r\n\r\n@ekrich  I built on your suggestion and made the comment in the source file \r\nminimal.  Thank you.",
+        "createdAt" : "2019-04-26T19:20:52Z",
+        "updatedAt" : "2019-04-26T19:20:52Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "278ad8485c5384377cc51f4b31bc8faeb8e2be77",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,72 @@\n+package java.util\n+package concurrent\n+package atomic\n+\n+import java.util.function.UnaryOperator\n+\n+object AtomicReferenceSuite extends tests.Suite {\n+\n+  // This test suite is INCOMPLETE (obviously!).\n+  // It tests the get() method used by the two methods added\n+  // today: getAndUpdate() and updateAndGet()"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "ff3a98a0-d010-4de6-a9dd-e177ad4b258e",
+    "prId" : 1218,
+    "comments" : [
+      {
+        "id" : "701fa104-553e-4c54-984e-4284af80f0b6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets make those to be `scalanative_os_version` and `scalanative_os_tmp_dir` with platform-specific dispatch logic inside. The platform-dependant code is better left on the C side (with ifdefs where appropriate), so that Scala side remains portable.",
+        "createdAt" : "2018-07-10T11:37:01Z",
+        "updatedAt" : "2018-07-13T17:49:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3267429f45ef375cebbc7db837dc98f4f9c2ce82",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,20 @@\n+#ifdef __APPLE__\n+#include <Foundation/Foundation.h>\n+typedef const char *CString;\n+\n+extern \"C\" {\n+void scalanative_mac_osx_version(int *major, int *minor, int *patch) {"
+  }
+]

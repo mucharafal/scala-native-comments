@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "f3b66df8-305b-4b76-80d2-56c7899af1f7",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "e57f9d90-df34-4034-a682-20937c928509",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "See my other comment about `suseconds_t`",
+        "createdAt" : "2017-06-28T09:49:09Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,49 @@\n+package scala.scalanative.posix.sys\n+\n+import scalanative.native._, Nat._\n+import scalanative.posix.inttypes._\n+\n+@extern\n+object select {\n+  type time_t      = CLongInt\n+  type suseconds_t = CLongInt"
+  }
+]

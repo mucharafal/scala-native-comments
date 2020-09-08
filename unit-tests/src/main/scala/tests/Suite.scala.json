@@ -1,0 +1,214 @@
+[
+  {
+    "id" : "32d33bb9-c230-4611-8862-fd8f8d983a6c",
+    "prId" : 263,
+    "comments" : [
+      {
+        "id" : "606eff95-d92f-4b32-b747-3069cc1edfc4",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "You might want to be more specific about which type of exception you expected.\n",
+        "createdAt" : "2016-08-04T13:02:57Z",
+        "updatedAt" : "2016-09-06T12:00:54Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2362ec11-7037-4bcd-91e5-64a50dfb2cc3",
+        "parentId" : "606eff95-d92f-4b32-b747-3069cc1edfc4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good point.\n",
+        "createdAt" : "2016-08-04T13:04:23Z",
+        "updatedAt" : "2016-09-06T12:00:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7cf00601a07e47639a33f6be9ebcdf9aa12857a",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,44 @@\n+package tests\n+\n+import scala.collection.mutable\n+\n+final case object AssertionFailed extends Exception\n+\n+final case class Test(name: String, run: () => Boolean)\n+\n+abstract class Suite {\n+  private val tests = new mutable.UnrolledBuffer[Test]\n+\n+  def assert(cond: Boolean): Unit =\n+    if (!cond) throw AssertionFailed else ()\n+\n+  def assertNot(cond: Boolean): Unit =\n+    if (cond) throw AssertionFailed else ()\n+\n+  def assertThrows(f: => Unit): Unit ="
+  },
+  {
+    "id" : "963b4ed0-75e4-4510-9dd1-808c627378ae",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "24a10ee6-1ee0-4a01-89a1-3ef2cc0460ef",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another absolutely incomprehensible method name. `assertThrowsAnd[...](f)(fe)` would be better. We typically put closures in their own parameter list. This makes it easier use them as pseudo-control-flow structures. ",
+        "createdAt" : "2017-04-10T12:55:29Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "eef8a7a0-f0b9-4ad0-9b12-dadee0282a9b",
+        "parentId" : "24a10ee6-1ee0-4a01-89a1-3ef2cc0460ef",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "I did that but it clash with other assertThrows calls.",
+        "createdAt" : "2017-04-10T13:08:57Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fdaae5b2-2fe7-4113-9fe3-d6781ac74a56",
+        "parentId" : "24a10ee6-1ee0-4a01-89a1-3ef2cc0460ef",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`assertThrowsAnd` has a different method name, how is it clashing with `assertThrows`? ",
+        "createdAt" : "2017-04-10T13:10:18Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "be862b81-2505-4c69-995e-3334f0c28976",
+        "parentId" : "24a10ee6-1ee0-4a01-89a1-3ef2cc0460ef",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : ":+1: oh I did not see you suggested another name",
+        "createdAt" : "2017-04-10T13:58:51Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -16,12 +16,16 @@ abstract class Suite {\n   def assertNot(cond: Boolean): Unit =\n     if (cond) throw AssertionFailed else ()\n \n-  def assertThrows[T: ClassTag](f: => Unit): Unit = {\n+  def assertThrows[T: ClassTag](f: => Unit): Unit =\n+    assertThrows2[T](f, _ => true)\n+\n+  def assertThrows2[T: ClassTag](f: => Unit, fe: T => Boolean): Unit = {"
+  },
+  {
+    "id" : "7dcb2d66-0fa2-4a84-a544-069f7c25bdd7",
+    "prId" : 1306,
+    "comments" : [
+      {
+        "id" : "9c1b2cfe-dcdf-4c02-bac1-f74e556934fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should keep this PR dedicate to the round only. Can you please rebase it to exclude the test infra changes?",
+        "createdAt" : "2018-08-28T09:51:39Z",
+        "updatedAt" : "2019-03-09T22:45:19Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "31e209ed623a6c54d10b141513e59f96624b1b8b",
+    "line" : null,
+    "diffHunk" : "@@ -5,16 +5,23 @@ import sbt.testing.{EventHandler, Logger, Status}\n import scala.collection.mutable\n import scala.reflect.ClassTag\n \n+final case class AssertionFailed(msg: String) extends Exception(msg)\n+"
+  },
+  {
+    "id" : "4565fdad-41ec-41cc-be05-64bf08ec84a3",
+    "prId" : 1866,
+    "comments" : [
+      {
+        "id" : "2a4a2faf-9890-459d-85ae-32c4adc14050",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider explicitly writing the braces for this long if branch:\r\n```suggestion\r\n    if (cond) {\r\n```",
+        "createdAt" : "2020-07-29T16:23:40Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "7c1262208078829fb371c8c62305ad0cf4bbb6ec",
+    "line" : null,
+    "diffHunk" : "@@ -88,15 +88,16 @@ abstract class Suite {\n     throw AssertionFailed(s\"expected to throw ${expected.getName} but didn't\")\n   }\n \n-  def test(name: String)(body: => Unit): Unit =\n-    tests += Test(name, { () =>\n-      try {\n-        body\n-        TestResult(true, None)\n-      } catch {\n-        case thrown: Throwable => TestResult(false, Option(thrown))\n-      }\n-    })\n+  def test(name: String, cond: Boolean = true)(body: => Unit): Unit =\n+    if (cond)"
+  }
+]

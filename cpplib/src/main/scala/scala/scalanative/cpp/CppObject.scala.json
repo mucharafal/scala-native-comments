@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "92e6ac4f-077f-4748-ac87-8a26aadb6a55",
+    "prId" : 1676,
+    "comments" : [
+      {
+        "id" : "009bd8ae-e86e-4282-94cc-6e29a4f30820",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "At the moment we have no plans in supporting C++ interoperability as a feature in SN. It's fine to use C++ to implement SN internals, but it should always remain in `scalanative.runtime` or be otherwise private and don't provide any APIs that users might rely on. ",
+        "createdAt" : "2019-08-02T08:41:02Z",
+        "updatedAt" : "2019-08-02T08:46:24Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3a33b099-ce9b-4456-98a7-91c8fd09a994",
+        "parentId" : "009bd8ae-e86e-4282-94cc-6e29a4f30820",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "No problem!",
+        "createdAt" : "2019-08-02T11:01:02Z",
+        "updatedAt" : "2019-08-02T11:01:03Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "85c60b798e4e9c52ff082fad991619883731cf08",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,18 @@\n+package scala.scalanative.cpp"
+  }
+]

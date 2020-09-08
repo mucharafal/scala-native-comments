@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "24cd2ef7-325d-4e17-939b-938d5ca18fad",
+    "prId" : 754,
+    "comments" : [
+      {
+        "id" : "3858c770-8a2c-4e14-8a33-7668c90eb4f9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a bit more tests and the tests can be templated too.",
+        "createdAt" : "2017-06-07T13:10:34Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5b6b0c092be2475ad4aa23e540f57a88bec3768c",
+    "line" : 1637,
+    "diffHunk" : "@@ -0,0 +1,78 @@\n+package scala.scalanative\n+package native\n+\n+import runtime.Atomic._\n+import runtime.{\n+  CAtomicInt,\n+  CAtomicUnsignedInt,\n+  CAtomicChar,\n+  CAtomicLong,\n+  CAtomicShort\n+}\n+import stdlib._\n+\n+object AtomicSuite extends tests.Suite {\n+\n+  test(\"compare and swap int\") {\n+    val a = CAtomicInt(1)\n+\n+    assertNot(a.compareAndSwapStrong(2, 3)._1)\n+\n+    assert(a.compareAndSwapStrong(1, 3)._2 == 3)\n+\n+    a.free()\n+  }\n+\n+  test(\"atomic char\") {\n+    val a = CAtomicChar()\n+\n+    assert(a.load() == 'a')\n+    assert(a.addFetch(1) == 'b')\n+\n+    a.free()\n+  }\n+\n+  test(\"compare and swap unsigned int uninitialized\") {\n+    val a = CAtomicUnsignedInt()\n+\n+    assertNot(\n+      a.compareAndSwapStrong(2.asInstanceOf[CUnsignedInt],\n+                              3.asInstanceOf[CUnsignedInt])\n+        ._1)\n+\n+    assert(\n+      a.compareAndSwapStrong(0.asInstanceOf[CUnsignedInt],\n+                              3.asInstanceOf[CUnsignedInt])\n+        ._2 == 3.asInstanceOf[CUnsignedInt])\n+\n+    a.free()\n+  }\n+\n+  test(\"atomic {add, sub}_fetch on long\") {\n+    val a = CAtomicLong(1.toLong)\n+\n+    assert(a.addFetch(1) == 2.toLong)\n+    assert(a.subFetch(1) == 1.toLong)\n+\n+    a.free()\n+  }\n+\n+  test(\"atomic fetch_{add, sub} on short + load\") {\n+    val a = CAtomicShort(1.toShort)\n+\n+    assert(a.fetchAdd(1) == 1.toShort)\n+    assert(a.load() == 2.toShort)\n+\n+    a.free()\n+  }\n+\n+  test(\"atomic {or/and}_fetch on boolean\") {\n+    val a = CAtomicInt(1)\n+\n+    assert(a.andFetch(0) == 0)\n+    assert(a.orFetch(1) == 1)\n+\n+    a.free()\n+  }\n+\n+}"
+  }
+]

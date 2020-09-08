@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "26e08d3b-c0fd-4111-9873-74613d900f01",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "b866cc34-2d5a-4e29-9338-6f655c193774",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This seems unused.",
+        "createdAt" : "2020-08-20T15:57:14Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,7 @@\n package java.util\n \n+import java.util"
+  },
+  {
+    "id" : "a766eb9e-69db-47fd-aa48-5230e569ee56",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "ef68069b-d0cb-470a-89df-a1d74bbde982",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why is this change needed?",
+        "createdAt" : "2020-08-20T15:57:21Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4e80e7ea-53cc-4f29-bd0f-c653d9441d48",
+        "parentId" : "ef68069b-d0cb-470a-89df-a1d74bbde982",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "The assertions below `assertThrows[NullPointerException]` fail when a primitive type is provided in 2.12. In Scala 2.11 they seem to succeed, but to be honest, I don't understand why, as e.g. `null.asInstanceOf[Float]` is `0.0` and does not throw a `NullPointerException`, both in 2.11 and 2.12.\r\n\r\nWe could also use `AnyVal` here or `Number`.",
+        "createdAt" : "2020-08-20T22:30:10Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d97be528-352d-477e-8318-0125e574ccaf",
+        "parentId" : "ef68069b-d0cb-470a-89df-a1d74bbde982",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah yes, I see. Yes, in that case changing it `AnyRef` is good.",
+        "createdAt" : "2020-08-21T09:40:50Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 5,
+    "diffHunk" : "@@ -109,7 +111,7 @@ object ArrayDequeSuite extends tests.Suite {\n \n   test(s\"addFirst(e)\") {\n     locally {\n-      type E = Float\n+      type E = AnyRef"
+  }
+]

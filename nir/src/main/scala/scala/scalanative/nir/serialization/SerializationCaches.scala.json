@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "693eea18-fcc2-4f3d-8ee6-964744cfd566",
+    "prId" : 1549,
+    "comments" : [
+      {
+        "id" : "605b5597-3f37-4e14-97ed-ef0a1d4551b2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A few more things to consider here:\r\n\r\n1. Cache `Global`.\r\n2. Cache `Sig`.\r\n\r\nThose are often used as keys in hash maps.",
+        "createdAt" : "2019-04-22T10:55:29Z",
+        "updatedAt" : "2019-04-22T10:55:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5989bea166abf78a489e7789731be4db98ef9885",
+    "line" : 13,
+    "diffHunk" : "@@ -0,0 +1,26 @@\n+package scala.scalanative\n+package nir\n+package serialization\n+\n+import java.{util => ju}\n+import java.lang.ref.WeakReference\n+\n+private[scalanative] class SerializationCaches(\n+    val sharedArr128: Array[Byte],\n+    val sharedArr256: Array[Byte],\n+    val sharedArr512: Array[Byte],\n+    val sharedArr4096: Array[Byte],\n+    val internedStrings: ju.WeakHashMap[String, WeakReference[String]]"
+  }
+]

@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "753a18a6-1789-403c-b888-afd967763094",
+    "prId" : 231,
+    "comments" : [
+      {
+        "id" : "68bb71b9-cf8b-4e01-82e9-e68895866702",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg Is this intentional? \n",
+        "createdAt" : "2016-07-07T13:13:30Z",
+        "updatedAt" : "2016-07-07T13:13:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "21459e57-2d06-460b-8259-b90b42008bb6",
+        "parentId" : "68bb71b9-cf8b-4e01-82e9-e68895866702",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I hope not ^^\n",
+        "createdAt" : "2016-07-07T13:15:07Z",
+        "updatedAt" : "2016-07-07T13:15:07Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3ad2d03b-8d82-4338-9847-fbc026db6318",
+        "parentId" : "68bb71b9-cf8b-4e01-82e9-e68895866702",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Not intentional. Will try to fix asap. \n",
+        "createdAt" : "2016-07-07T13:34:04Z",
+        "updatedAt" : "2016-07-07T13:34:05Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0fa3a883a770b3510e5d8d864db71d3a0a5b5967",
+    "line" : 17,
+    "diffHunk" : "@@ -262,7 +262,7 @@ class GenTextualLLVM(assembly: Seq[Defn]) extends GenShow(assembly) {\n         }\n \n         buf +=\n-          sh\"${bind}invoke $ty @$pointee(${r(args, sep = \", \")}) to $succ unwind $fail\"\n+        sh\"${bind}invoke $ty @$pointee(${r(args, sep = \", \")}) to $succ unwind $fail\""
+  },
+  {
+    "id" : "ab9fe807-07c5-470a-9fe4-4bd8aacd5c57",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "a74d8f9f-db92-4ab0-88ff-fd3252dab870",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that only a single annotation may be present, it might make sense to have a single field in the `Arg` class of type `PassConv` (i.e. passing convention) that has `sret` and `byval` variants. It will also make it impossible to accidentally have two at the same time by construction.\n",
+        "createdAt" : "2016-10-05T13:57:36Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : null,
+    "diffHunk" : "@@ -84,9 +84,36 @@ class GenTextualLLVM(assembly: Seq[Defn]) extends GenShow(assembly) {\n \n     val isDecl  = blocks.isEmpty\n     val keyword = if (isDecl) \"declare\" else \"define\"\n-    val params =\n-      if (isDecl) r(argtys, sep = \", \")\n-      else r(blocks.head.params: Seq[Val], sep = \", \")\n+\n+    def showDefnArg(arg: Arg,\n+                    value: Val.Local): (Show.Result, Seq[Show.Result]) =\n+      arg match {\n+        case Arg(_, ArgAttrs.empty) => (sh\"${value: Val}\", Seq.empty)\n+        case Arg(Type.Ptr, ArgAttrs(Some(pointee), None)) =>\n+          val pointer = fresh()\n+          (sh\"$pointee* byval %$pointer\",\n+           Seq(sh\"%${value.name} = bitcast $pointee* %$pointer to i8*\"))\n+        case Arg(Type.Ptr, ArgAttrs(None, Some(pointee))) =>\n+          val pointer = fresh()\n+          (sh\"$pointee* sret %$pointer\",\n+           Seq(sh\"%${value.name} = bitcast $pointee* %$pointer to i8*\"))\n+        case x => unsupported(x)"
+  },
+  {
+    "id" : "ba21bac8-080f-4e84-a45c-972a98eb1b91",
+    "prId" : 322,
+    "comments" : [
+      {
+        "id" : "f720646e-28ed-4c84-bd66-e851e1e75122",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Using Scala's built-in `Stream` is hardly ever a good idea. It has very non-deterministic performance characteristics and we should avoid it. \n",
+        "createdAt" : "2016-10-11T15:17:55Z",
+        "updatedAt" : "2016-10-12T11:36:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4812341f44f3935a9572ed14af22dd13cb8d063c",
+    "line" : null,
+    "diffHunk" : "@@ -271,7 +271,8 @@ class GenTextualLLVM(assembly: Seq[Defn]) extends GenShow(assembly) {\n \n     def showCallArgs(args: Seq[Arg],\n                      vals: Seq[Val]): (Seq[Show.Result], Seq[Show.Result]) = {\n-      val res = (args zip vals) map {\n+      val res = (args.toStream #::: Stream.continually(Arg(Type.Vararg)))\n+          .zip(vals) map {"
+  }
+]

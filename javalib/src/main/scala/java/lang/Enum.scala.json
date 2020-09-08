@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "b0f499f7-1b88-44cb-b38d-3646b590dc03",
+    "prId" : 1246,
+    "comments" : [
+      {
+        "id" : "4ae25762-f743-4081-842f-0fcb93c7fa7b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that implementation here is trivial, lets drop this comment. ",
+        "createdAt" : "2018-07-03T15:47:53Z",
+        "updatedAt" : "2018-07-04T19:49:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a90e6da4-eba7-49af-97df-ede71de50428",
+        "parentId" : "4ae25762-f743-4081-842f-0fcb93c7fa7b",
+        "author" : {
+          "login" : "cquiroz",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/3615303?u=4f8908ca530e79d2da27aa9fb58e557c85452a14&v=4"
+        },
+        "body" : "Removed the comment and rebased onto master",
+        "createdAt" : "2018-07-04T19:50:09Z",
+        "updatedAt" : "2018-07-04T19:50:09Z",
+        "lastEditedBy" : {
+          "login" : "cquiroz",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/3615303?u=4f8908ca530e79d2da27aa9fb58e557c85452a14&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d41975f192659c9b33f898a032ab00c70337b829",
+    "line" : null,
+    "diffHunk" : "@@ -7,4 +7,9 @@ abstract class Enum[E <: Enum[E]] protected (_name: String, _ordinal: Int)\n   def ordinal(): Int              = _ordinal\n   override def toString(): String = _name\n   final def compareTo(o: E): Int  = _ordinal.compareTo(o.ordinal)\n+  // equals and hashCode copied from scala.js"
+  }
+]

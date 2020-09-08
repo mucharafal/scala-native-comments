@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "bd9b9966-a646-4c8f-b486-a7353ee131a5",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "535b7693-1de5-49d5-a19d-eb419da02995",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That's correct. Porting java GUI frameworks is out of scope for Scala Native. Lets change this comment to something less vague and more affirmative. ",
+        "createdAt" : "2016-11-29T16:35:53Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,66 @@\n+import java.awt.event.MouseListener\n+import java.awt.event.MouseEvent\n+import java.applet.Applet\n+import java.awt.Graphics\n+\n+// We need linking errors, I assume we will never port java.applet._"
+  }
+]

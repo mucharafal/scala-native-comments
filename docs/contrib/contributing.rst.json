@@ -1,0 +1,243 @@
+[
+  {
+    "id" : "51776ea9-82ab-4c91-bceb-1bd5ffc41099",
+    "prId" : 560,
+    "comments" : [
+      {
+        "id" : "f3897130-3d34-46b8-acf2-2a929384e265",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Saying \"Java\" is probably a much graver violation of the terms of the Java trademark. Oracle is very picky about what things can be called \"Java\". Scala Native and Scala.js are not \"Java\", and do not reimplement \"Java\". They reimplement a part of the JDK API.",
+        "createdAt" : "2017-03-17T12:33:25Z",
+        "updatedAt" : "2017-03-17T13:15:07Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fd450e34-48b9-402b-8b74-ecd6954d6ad7",
+        "parentId" : "f3897130-3d34-46b8-acf2-2a929384e265",
+        "author" : {
+          "login" : "fommil",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1914041?u=bd96315dd5fa039f8b0cf69428ac03181d002b57&v=4"
+        },
+        "body" : "ok, I can update that.",
+        "createdAt" : "2017-03-17T13:14:42Z",
+        "updatedAt" : "2017-03-17T13:15:07Z",
+        "lastEditedBy" : {
+          "login" : "fommil",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1914041?u=bd96315dd5fa039f8b0cf69428ac03181d002b57&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "85fa672d89d80b4dcfe65bec3815162ac6ad3a7e",
+    "line" : null,
+    "diffHunk" : "@@ -3,26 +3,27 @@\n Contributing guidelines\n =======================\n \n-Very important notice about the Javalib\n----------------------------------------\n+Very important notice about Javalib\n+-----------------------------------\n \n-Scala Native contains a reimplementation of part of the JDK in Scala.\n+Scala Native contains a re-implementation of part of Java."
+  },
+  {
+    "id" : "7d72825c-5570-4e18-ac08-4163e17dd957",
+    "prId" : 1862,
+    "comments" : [
+      {
+        "id" : "c8fc2289-b854-4d3e-ba7e-d7bc1f4348e5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This does not seem right ;)",
+        "createdAt" : "2020-07-23T17:39:11Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4a09b8c8-67d6-4372-ab18-0c1590bad817",
+        "parentId" : "c8fc2289-b854-4d3e-ba7e-d7bc1f4348e5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Good catch! Thank you.\r\n\r\nRan \"make linkcheck\" again and it passed.\r\nManually followed the link in the generated html output.",
+        "createdAt" : "2020-07-23T18:50:49Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9ea46e55b33c2a3626955c9169a0a1929715a1b8",
+    "line" : 76,
+    "diffHunk" : "@@ -149,10 +163,10 @@ followed by details of the commit, in the form of free text, or bulleted list.\n \n .. _Scala.js: https://github.com/scala-js/scala-js/tree/master/javalib/src/main/scala/java\n .. _Apache Harmony project: https://github.com/apache/harmony\n-.. _Scala CLA: http://typesafe.com/contribute/cla/scala\n-.. _Pull Request: https://help.github.com/articles/using-pull-requests\n-.. _DRY: http://programmer.97things.oreilly.com/wiki/index.php/Don%27t_Repeat_Yourself\n-.. _Boy Scout Rule: http://programmer.97things.oreilly.com/wiki/index.php/The_Boy_Scout_Rule\n-.. _Git Workflow: http://sandofsky.com/blog/git-workflow.html\n+.. _Scala CLA: https"
+  },
+  {
+    "id" : "4b21477b-acc5-4ae5-b236-32a32cda6e2e",
+    "prId" : 1862,
+    "comments" : [
+      {
+        "id" : "ba8accec-1c49-4b85-8b23-ecfc1e49e5cf",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Suggestion:\r\n```suggestion\r\nPull requests without documentation will not be accepted,\r\nunless they are trivial. Imagine yourself as the person merging trying\r\n```",
+        "createdAt" : "2020-07-23T17:41:55Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4ea7537b-5eb6-43f4-a943-ca3f5ca3e976",
+        "parentId" : "ba8accec-1c49-4b85-8b23-ecfc1e49e5cf",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Fixed. Suggested wording is much better.",
+        "createdAt" : "2020-07-23T18:52:34Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9ea46e55b33c2a3626955c9169a0a1929715a1b8",
+    "line" : 54,
+    "diffHunk" : "@@ -89,18 +89,32 @@ In order for a Pull Request to be considered, it has to meet these requirements:\n \n 2.  Be accompanied by appropriate tests.\n \n-3.  Be issued from a branch *other than master* (PRs coming from master will not\n+3.  Be accompanied by appropriate documentation\n+    :ref:`documentation <project-documentation>`.\n+\n+4.  Be issued from a branch *other than master* (PRs coming from master will not\n     be accepted.)\n \n If not *all* of these requirements are met then the code should **not** be\n merged into the distribution, and need not even be reviewed.\n \n+\n+.. _project-documentation:\n+\n Documentation\n -------------\n \n-All code contributed to the user-facing standard library (the `nativelib/`\n-directory) should come accompanied with documentation.\n-Pull requests containing undocumented code will not be accepted.\n+Pull requests, other than the most trivial, without documentation\n+will not be accepted. Imagine yourself as the person merging trying"
+  },
+  {
+    "id" : "c2d2d872-3d9e-4e2b-9450-fbe1dd185c75",
+    "prId" : 1862,
+    "comments" : [
+      {
+        "id" : "c315d242-e9f7-44fa-9c53-0fb9d1c8b611",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Changes to the javalib don't require documentation, and typically should *not* have documentation, because there is no better doc for them than the JavaDoc, and we can't copy the JavaDoc text.",
+        "createdAt" : "2020-07-23T17:44:08Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "92f6ad81-c533-4955-aab1-564792337aab",
+        "parentId" : "c315d242-e9f7-44fa-9c53-0fb9d1c8b611",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I concur about the value of the official JavaDoc.\r\n\r\nFor the reasons you describe, javalib.rst has no JavaDoc. It does have two major sections:\r\n\"Supported classes\" and \"Regular expressions (java.util.regex)\". Suggesting that \r\nsubmitted PRs keep those, and other quirks, up to date is likely to lead to greater\r\nuser & developer satisfaction and decreased support effort.\r\n\r\nThat was my intention/goal.  Should I re-phrase, clarify, or do something otherwise?",
+        "createdAt" : "2020-07-23T19:01:57Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9ea46e55b33c2a3626955c9169a0a1929715a1b8",
+    "line" : 59,
+    "diffHunk" : "@@ -89,18 +89,32 @@ In order for a Pull Request to be considered, it has to meet these requirements:\n \n 2.  Be accompanied by appropriate tests.\n \n-3.  Be issued from a branch *other than master* (PRs coming from master will not\n+3.  Be accompanied by appropriate documentation\n+    :ref:`documentation <project-documentation>`.\n+\n+4.  Be issued from a branch *other than master* (PRs coming from master will not\n     be accepted.)\n \n If not *all* of these requirements are met then the code should **not** be\n merged into the distribution, and need not even be reviewed.\n \n+\n+.. _project-documentation:\n+\n Documentation\n -------------\n \n-All code contributed to the user-facing standard library (the `nativelib/`\n-directory) should come accompanied with documentation.\n-Pull requests containing undocumented code will not be accepted.\n+Pull requests, other than the most trivial, without documentation\n+will not be accepted. Imagine yourself as the person merging trying\n+to understand, use, merge, or maintain the contribution.\n+\n+All code containing changes\n+potentially visible to end users or developers contributed to user-facing\n+standard libraries (nativelib, clib, javalib, etc.) should come accompanied"
+  },
+  {
+    "id" : "6ceaffe7-decd-4abe-a61e-9e9f6c479f3a",
+    "prId" : 1862,
+    "comments" : [
+      {
+        "id" : "af595ae1-877d-4367-9321-d6649eb0634f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\nAll code containing changes to user-facing\r\n```\r\nif they are user-facing, they are necessarily visible to end users or developers.",
+        "createdAt" : "2020-07-23T17:44:50Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5ffeea20-44e7-4bf1-9f12-a3f7281c9033",
+        "parentId" : "af595ae1-877d-4367-9321-d6649eb0634f",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Fixed & less stumbling-on-itself verbose.",
+        "createdAt" : "2020-07-23T19:04:02Z",
+        "updatedAt" : "2020-07-23T19:10:35Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9ea46e55b33c2a3626955c9169a0a1929715a1b8",
+    "line" : 58,
+    "diffHunk" : "@@ -89,18 +89,32 @@ In order for a Pull Request to be considered, it has to meet these requirements:\n \n 2.  Be accompanied by appropriate tests.\n \n-3.  Be issued from a branch *other than master* (PRs coming from master will not\n+3.  Be accompanied by appropriate documentation\n+    :ref:`documentation <project-documentation>`.\n+\n+4.  Be issued from a branch *other than master* (PRs coming from master will not\n     be accepted.)\n \n If not *all* of these requirements are met then the code should **not** be\n merged into the distribution, and need not even be reviewed.\n \n+\n+.. _project-documentation:\n+\n Documentation\n -------------\n \n-All code contributed to the user-facing standard library (the `nativelib/`\n-directory) should come accompanied with documentation.\n-Pull requests containing undocumented code will not be accepted.\n+Pull requests, other than the most trivial, without documentation\n+will not be accepted. Imagine yourself as the person merging trying\n+to understand, use, merge, or maintain the contribution.\n+\n+All code containing changes\n+potentially visible to end users or developers contributed to user-facing"
+  }
+]

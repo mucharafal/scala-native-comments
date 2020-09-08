@@ -1,0 +1,87 @@
+[
+  {
+    "id" : "7384eab1-d7f3-4b61-a137-c5603698397b",
+    "prId" : 690,
+    "comments" : [
+      {
+        "id" : "5754d9c9-61ac-4915-8df1-e140fd377875",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Actually, this one is `unsigned int sleep(unsigned int);` in C, therefore it should return `CUnsignedInt`. ",
+        "createdAt" : "2017-05-03T11:45:37Z",
+        "updatedAt" : "2017-05-03T18:35:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8de72d57-c9bd-4904-b23a-ebbb817c3d23",
+        "parentId" : "5754d9c9-61ac-4915-8df1-e140fd377875",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Depends on https://github.com/scala-native/scala-native/issues/693",
+        "createdAt" : "2017-05-03T15:15:43Z",
+        "updatedAt" : "2017-05-03T18:35:21Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d50da291-eb7d-4350-bdb5-4784467d68a3",
+        "parentId" : "5754d9c9-61ac-4915-8df1-e140fd377875",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I see, lets use `CInt` for now. And as soon as #693 is fixed we'll update the bindings.",
+        "createdAt" : "2017-05-03T15:20:15Z",
+        "updatedAt" : "2017-05-03T18:35:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5c560d7c-98bb-4a35-b9ae-823a80eb555b",
+        "parentId" : "5754d9c9-61ac-4915-8df1-e140fd377875",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, should be good to go now.",
+        "createdAt" : "2017-05-03T18:59:42Z",
+        "updatedAt" : "2017-05-03T18:59:42Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dec4ed5f69e0e8b5d6ed6068fa0bf6e7a7d8786f",
+    "line" : 6,
+    "diffHunk" : "@@ -16,8 +16,8 @@ object unistd {\n \n   type off_t = CLongLong\n \n-  def sleep(seconds: CUnsignedInt): Int                           = extern\n-  def usleep(usecs: CUnsignedInt): Int                            = extern\n+  def sleep(seconds: CUnsignedInt): CInt                          = extern"
+  }
+]

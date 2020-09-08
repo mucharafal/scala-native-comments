@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "319e37a0-d1f0-409d-809b-24c972e449e9",
+    "prId" : 324,
+    "comments" : [
+      {
+        "id" : "ede3e452-390d-4d7e-bd78-78fd75532915",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "I haven't touched any `asInstanceOf` code and just wrote couple a tests for it.\nNow `(new AnyRef).asInstanceOf[String]` succeeds\nWhat should be the result here?\nIs it success in case of prod mode and failure in case of dev mode?\n",
+        "createdAt" : "2016-10-19T22:55:53Z",
+        "updatedAt" : "2016-10-19T22:57:04Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ee35735d-9f89-4370-ac5e-fd1a82d2f54f",
+        "parentId" : "ede3e452-390d-4d7e-bd78-78fd75532915",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That's good, `asInstanceOf` has a bunch of other corner cases we don't fully handle right now, apart from null. I'm going to look at this today. This definitely should go into a separate PR. \n",
+        "createdAt" : "2016-10-20T09:00:19Z",
+        "updatedAt" : "2016-10-20T09:00:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e84419c6a80596fe63013ec84e115f0bbe2eb5d7",
+    "line" : 7,
+    "diffHunk" : "@@ -0,0 +1,79 @@\n+package scala.scalanative.native\n+\n+object InstanceOfSuite extends tests.Suite {\n+\n+  // asInstanceOf\n+\n+//  test(\"expects anyRef.asInstanceOf[String] fail\") {"
+  }
+]

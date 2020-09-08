@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "c5a345e0-d428-47b9-b16d-58dc5ed3e6a3",
+    "prId" : 597,
+    "comments" : [
+      {
+        "id" : "3d52700c-c739-416c-ba05-c0efded91bc9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not safe. Stack-allocated memory would not be available when you exit constructor of this class.",
+        "createdAt" : "2017-05-03T14:47:18Z",
+        "updatedAt" : "2017-05-03T15:09:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "23d478c7-f71b-4195-8037-a7c942fc9bde",
+        "parentId" : "3d52700c-c739-416c-ba05-c0efded91bc9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The correct solution to this would be to have a private field `lock` and then synchronize on it (by using address of the field). Unfortunately, we don't have APIs to support this use case at the moment. ",
+        "createdAt" : "2017-05-03T15:09:28Z",
+        "updatedAt" : "2017-05-03T15:09:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e960ea83-55d5-4b72-b9ee-9c48ebc4a5e9",
+        "parentId" : "3d52700c-c739-416c-ba05-c0efded91bc9",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Would it make sense to either use the C atomic API, or go the route of implementing sun.misc.Unsafe using LLVMs atomic primitives and using as a base uthe JVM atomic API?",
+        "createdAt" : "2017-05-05T12:39:14Z",
+        "updatedAt" : "2017-05-05T12:39:14Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6452abc32bb3d8e851859887c3e0ed271f82b1d6",
+    "line" : 9,
+    "diffHunk" : "@@ -1,16 +1,34 @@\n package java.util.concurrent.atomic\n \n+import scala.scalanative.native\n+import scala.scalanative.native.Atomic\n+\n class AtomicBoolean(private[this] var value: Boolean) extends Serializable {\n   def this() = this(false)\n \n+  private val lock: native.Ptr[native.CInt] = native.stackalloc[native.CInt]"
+  }
+]

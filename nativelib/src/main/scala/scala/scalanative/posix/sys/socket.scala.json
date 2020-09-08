@@ -1,0 +1,296 @@
+[
+  {
+    "id" : "595ddd3b-adae-42b6-bb05-2f46a49926e7",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "85907d2e-1169-44a6-b5e6-5863bd1ae6da",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "@densh Do we have a special construct for flags variables?\r\n\r\nIt would be useful to type this with value classes.\r\n\r\n```scala\r\nclass SendToFlags(val underlying: CInt) extends AnyVal {\r\n  def +(other: SendToFlags) = new SendToFlags(underlying | other.underlying)\r\n  def -(other: SendToFlags) = new SendToFlags(underlying & other.underlying)\r\n}\r\n\r\nabstract class FlagValues[T] {\r\n  private var current = 1\r\n  def next() = {\r\n    val t = current\r\n    current = current << 1\r\n    t\r\n  }\r\n}\r\n\r\nobject SendToFlags extends FlagValues[SendToFlags] {\r\n  val MSG_CONFIRM = next()\r\n  val MSG_DONTROUTE = next()\r\n  val MSG_DONTWAIT = next()\r\n  val MSG_EOR = next()\r\n  val MSG_MORE = next()\r\n  val MSG_NOSIGNAL = next()\r\n  val MSG_OOB = next()\r\n}\r\n\r\ndef sendto(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: SendToFlag, dest_addr: Ptr[sockaddr], addrlen: socklen_t): ssize_t = extern\r\n```\r\n\r\nDoes this works?\r\n\r\n```scala\r\nimport SendToFlags._\r\nsendto(..., flags = MSG_NOSIGNAL + MSG_MORE, ...)\r\n```\r\n",
+        "createdAt" : "2017-03-02T14:07:16Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5723637b-5c23-4894-bf6b-b2a7ef1c31f1",
+        "parentId" : "85907d2e-1169-44a6-b5e6-5863bd1ae6da",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Denys said it should work :-)",
+        "createdAt" : "2017-03-02T14:43:57Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7191d70f-915b-4a08-b4bd-8ec89abe9194",
+        "parentId" : "85907d2e-1169-44a6-b5e6-5863bd1ae6da",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should not alias `+` to mean `|` and `-` to mean `&`. Those options are bitflags and using them should look like bitflags. `+` on bitflags means something completely different and would be extremely confusing for people who are used to posix APIs in other native languages. ",
+        "createdAt" : "2017-03-02T14:48:22Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e52b1fbd-8d5f-4599-8a6f-b63cdb1e8f25",
+        "parentId" : "85907d2e-1169-44a6-b5e6-5863bd1ae6da",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "sure the question was more can we pass a `class SendToFlags(val underlying: CInt) extends AnyVal` to a facade expecting a `CInt`",
+        "createdAt" : "2017-03-02T14:55:44Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a93ddb1d-cdd3-4a1b-bc9b-8aa5f8fc68a3",
+        "parentId" : "85907d2e-1169-44a6-b5e6-5863bd1ae6da",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "Should I try to implement this flag handling then ? If so, I should delete the @name macros for flags as well right ?",
+        "createdAt" : "2017-03-02T18:30:45Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e7f3c762-bec4-4e69-b178-6cb6059b4b6a",
+        "parentId" : "85907d2e-1169-44a6-b5e6-5863bd1ae6da",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "@Korf74 It's up to you. It can be in a separate PR too.\r\n\r\nI think the `@name` macro is to make it available in C. Since it's already available via the header file I think it's redundant and can be removed.",
+        "createdAt" : "2017-03-02T18:34:41Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 35,
+    "diffHunk" : "@@ -0,0 +1,162 @@\n+package scala.scalanative.posix.sys\n+\n+import scala.scalanative.native.Nat._\n+import scala.scalanative.native._\n+import scala.scalanative.posix.sys.types.ssize_t\n+import scala.scalanative.posix.sys.uio.iovec\n+import scala.scalanative.runtime.time.timespec\n+\n+// http://man7.org/linux/man-pages/man7/socket.7.html\n+\n+/**\n+ * Created by remi on 01/03/17.\n+ */\n+@extern\n+object socket {\n+\n+  def socket(domain: CInt, _type: CInt, protocol: CInt): CInt = extern\n+  def socketpair(domain: CInt,\n+                 _type: CInt,\n+                 protocol: CInt,\n+                 sv: CArray[CInt, _2]): CInt = extern\n+  def bind(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getsockname(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def connect(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getpeername(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def send(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def sendto(sockfd: CInt,\n+             buf: Ptr[Byte],\n+             len: CSize,\n+             flags: CInt,"
+  },
+  {
+    "id" : "73612225-7718-4255-bb75-974d02187bba",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "f9d48c4b-594c-4f6b-9e5b-6aa8be2d62a8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "http://pubs.opengroup.org/onlinepubs/9699919799/",
+        "createdAt" : "2017-05-03T09:55:28Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 10,
+    "diffHunk" : "@@ -0,0 +1,160 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.Nat._\n+import native._\n+import native.time.timespec\n+import types.ssize_t\n+import uio.iovec\n+\n+// http://man7.org/linux/man-pages/man7/socket.7.html"
+  },
+  {
+    "id" : "1e90f17e-37ed-4cb6-b5c6-a3ad822adc1a",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "96fae506-74bb-43b5-bbab-54ca0c17080d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not listed in POSIX APIs. ",
+        "createdAt" : "2017-05-03T09:56:15Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 42,
+    "diffHunk" : "@@ -0,0 +1,160 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.Nat._\n+import native._\n+import native.time.timespec\n+import types.ssize_t\n+import uio.iovec\n+\n+// http://man7.org/linux/man-pages/man7/socket.7.html\n+\n+@extern\n+object socket {\n+\n+  def socket(domain: CInt, _type: CInt, protocol: CInt): CInt = extern\n+  def socketpair(domain: CInt,\n+                 _type: CInt,\n+                 protocol: CInt,\n+                 sv: CArray[CInt, _2]): CInt = extern\n+  def bind(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getsockname(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def connect(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getpeername(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def send(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def sendto(sockfd: CInt,\n+             buf: Ptr[Byte],\n+             len: CSize,\n+             flags: CInt,\n+             dest_addr: Ptr[sockaddr],\n+             addrlen: socklen_t): ssize_t                           = extern\n+  def sendmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def sendmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt): CInt = extern"
+  },
+  {
+    "id" : "b8185448-1cde-4fe5-bcde-601e50b9414f",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "1bdd387d-52c0-4852-a8c8-c7574e477006",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not listed in POSIX APIs.",
+        "createdAt" : "2017-05-03T09:56:30Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 56,
+    "diffHunk" : "@@ -0,0 +1,160 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.Nat._\n+import native._\n+import native.time.timespec\n+import types.ssize_t\n+import uio.iovec\n+\n+// http://man7.org/linux/man-pages/man7/socket.7.html\n+\n+@extern\n+object socket {\n+\n+  def socket(domain: CInt, _type: CInt, protocol: CInt): CInt = extern\n+  def socketpair(domain: CInt,\n+                 _type: CInt,\n+                 protocol: CInt,\n+                 sv: CArray[CInt, _2]): CInt = extern\n+  def bind(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getsockname(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def connect(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getpeername(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def send(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def sendto(sockfd: CInt,\n+             buf: Ptr[Byte],\n+             len: CSize,\n+             flags: CInt,\n+             dest_addr: Ptr[sockaddr],\n+             addrlen: socklen_t): ssize_t                           = extern\n+  def sendmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def sendmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt): CInt = extern\n+  def recv(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def recvfrom(sockfd: CInt,\n+               buf: Ptr[Byte],\n+               len: CSize,\n+               flags: CInt,\n+               src_addr: Ptr[sockaddr],\n+               addrlen: socklen_t): ssize_t                         = extern\n+  def recvmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def recvmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt,\n+               timeout: Ptr[timespec]): CInt = extern"
+  },
+  {
+    "id" : "23675449-8fc0-46b8-a119-c179118e25cb",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "3af20402-56a3-4762-ac21-6797af594f90",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not listed in POSIX APIs.",
+        "createdAt" : "2017-05-03T09:57:13Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 73,
+    "diffHunk" : "@@ -0,0 +1,160 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.Nat._\n+import native._\n+import native.time.timespec\n+import types.ssize_t\n+import uio.iovec\n+\n+// http://man7.org/linux/man-pages/man7/socket.7.html\n+\n+@extern\n+object socket {\n+\n+  def socket(domain: CInt, _type: CInt, protocol: CInt): CInt = extern\n+  def socketpair(domain: CInt,\n+                 _type: CInt,\n+                 protocol: CInt,\n+                 sv: CArray[CInt, _2]): CInt = extern\n+  def bind(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getsockname(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def connect(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getpeername(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def send(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def sendto(sockfd: CInt,\n+             buf: Ptr[Byte],\n+             len: CSize,\n+             flags: CInt,\n+             dest_addr: Ptr[sockaddr],\n+             addrlen: socklen_t): ssize_t                           = extern\n+  def sendmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def sendmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt): CInt = extern\n+  def recv(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def recvfrom(sockfd: CInt,\n+               buf: Ptr[Byte],\n+               len: CSize,\n+               flags: CInt,\n+               src_addr: Ptr[sockaddr],\n+               addrlen: socklen_t): ssize_t                         = extern\n+  def recvmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def recvmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt,\n+               timeout: Ptr[timespec]): CInt = extern\n+  def getsockopt(sockfd: CInt,\n+                 level: CInt,\n+                 optname: CInt,\n+                 optval: Ptr[Byte],\n+                 optlen: Ptr[socklen_t]): CInt = extern\n+  def setsockopt(sockfd: CInt,\n+                 level: CInt,\n+                 optname: CInt,\n+                 optval: Ptr[Byte],\n+                 optlen: socklen_t): CInt       = extern\n+  def listen(sockfd: CInt, backlog: CInt): CInt = extern\n+  def accept(sockfd: CInt, addr: Ptr[sockaddr], addlen: Ptr[socklen_t]): CInt =\n+    extern\n+  def accept4(sockfd: CInt,\n+              addr: Ptr[sockaddr],\n+              addlen: Ptr[socklen_t],\n+              flags: CInt): CInt              = extern"
+  },
+  {
+    "id" : "bbdcd442-efd5-42dc-ae4d-ea19e28bb284",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "c41261f5-6c29-4458-8d5c-77c27cd69c91",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please double check that none of the above include linux-specific things.",
+        "createdAt" : "2017-05-03T09:58:21Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 159,
+    "diffHunk" : "@@ -0,0 +1,160 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.Nat._\n+import native._\n+import native.time.timespec\n+import types.ssize_t\n+import uio.iovec\n+\n+// http://man7.org/linux/man-pages/man7/socket.7.html\n+\n+@extern\n+object socket {\n+\n+  def socket(domain: CInt, _type: CInt, protocol: CInt): CInt = extern\n+  def socketpair(domain: CInt,\n+                 _type: CInt,\n+                 protocol: CInt,\n+                 sv: CArray[CInt, _2]): CInt = extern\n+  def bind(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getsockname(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def connect(sockfd: CInt, addr: Ptr[sockaddr], addrlen: socklen_t): CInt =\n+    extern\n+  def getpeername(sockfd: CInt,\n+                  addr: Ptr[sockaddr],\n+                  addrlen: Ptr[socklen_t]): CInt = extern\n+  def send(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def sendto(sockfd: CInt,\n+             buf: Ptr[Byte],\n+             len: CSize,\n+             flags: CInt,\n+             dest_addr: Ptr[sockaddr],\n+             addrlen: socklen_t): ssize_t                           = extern\n+  def sendmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def sendmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt): CInt = extern\n+  def recv(sockfd: CInt, buf: Ptr[Byte], len: CSize, flags: CInt): ssize_t =\n+    extern\n+  def recvfrom(sockfd: CInt,\n+               buf: Ptr[Byte],\n+               len: CSize,\n+               flags: CInt,\n+               src_addr: Ptr[sockaddr],\n+               addrlen: socklen_t): ssize_t                         = extern\n+  def recvmsg(sockfd: CInt, msg: Ptr[msghdr], flags: CInt): ssize_t = extern\n+  def recvmmsg(sockfd: CInt,\n+               msgvec: Ptr[mmsghdr],\n+               vlen: CUnsignedInt,\n+               flags: CUnsignedInt,\n+               timeout: Ptr[timespec]): CInt = extern\n+  def getsockopt(sockfd: CInt,\n+                 level: CInt,\n+                 optname: CInt,\n+                 optval: Ptr[Byte],\n+                 optlen: Ptr[socklen_t]): CInt = extern\n+  def setsockopt(sockfd: CInt,\n+                 level: CInt,\n+                 optname: CInt,\n+                 optval: Ptr[Byte],\n+                 optlen: socklen_t): CInt       = extern\n+  def listen(sockfd: CInt, backlog: CInt): CInt = extern\n+  def accept(sockfd: CInt, addr: Ptr[sockaddr], addlen: Ptr[socklen_t]): CInt =\n+    extern\n+  def accept4(sockfd: CInt,\n+              addr: Ptr[sockaddr],\n+              addlen: Ptr[socklen_t],\n+              flags: CInt): CInt              = extern\n+  def shutdown(sockfd: CInt, how: CInt): CInt = extern\n+\n+  // Types\n+  type socklen_t   = CInt\n+  type sa_family_t = CUnsignedInt\n+  type sockaddr    = CStruct2[sa_family_t, CArray[CChar, Digit[_1, _4]]]\n+  type msghdr = CStruct7[Ptr[Byte],\n+                         socklen_t,\n+                         Ptr[iovec],\n+                         CInt,\n+                         Ptr[Byte],\n+                         socklen_t,\n+                         CInt]\n+  type mmsghdr = CStruct2[msghdr, CUnsignedInt]\n+\n+  //Macros\n+  @name(\"scalanative_af_unix\")\n+  def AF_UNIX: CInt = extern\n+  @name(\"scalanative_af_local\")\n+  def AF_LOCAL: CInt = extern\n+  @name(\"scalanative_af_inet\")\n+  def AF_INET: CInt = extern\n+  @name(\"scalanative_af_inet6\")\n+  def AF_INET6: CInt = extern\n+  @name(\"scalanative_af_ipx\")\n+  def AF_IPX: CInt = extern\n+  @name(\"scalanative_af_netlink\")\n+  def AF_NETLINK: CInt = extern\n+  @name(\"scalanative_af_x25\")\n+  def AF_X25: CInt = extern\n+  @name(\"scalanative_af_ax25\")\n+  def AF_AX25: CInt = extern\n+  @name(\"scalanative_af_atmpvc\")\n+  def AF_ATMPVC: CInt = extern\n+  @name(\"scalanative_af_appletalk\")\n+  def AF_APPLETALK: CInt = extern\n+  @name(\"scalanative_af_packet\")\n+  def AF_PACKET: CInt = extern\n+  @name(\"scalanative_af_alg\")\n+  def AF_ALG: CInt = extern\n+  @name(\"scalanative_sock_stream\")\n+  def SOCK_STREAM: CInt = extern\n+  @name(\"scalanative_sock_dgram\")\n+  def SOCK_DGRAM: CInt = extern\n+  @name(\"scalanative_sock_seqpacket\")\n+  def SOCK_SEQPACKET: CInt = extern\n+  @name(\"scalanative_sock_raw\")\n+  def SOCK_RAW: CInt = extern\n+  @name(\"scalanative_sock_rdm\")\n+  def SOCK_RDM: CInt = extern\n+  @name(\"scalanative_sock_packet\")\n+  def SOCK_PACKET: CInt = extern\n+  @name(\"scalanative_sock_nonblock\")\n+  def SOCK_NONBLOCK: CInt = extern\n+  @name(\"scalanative_sock_cloexec\")\n+  def SOCK_CLOEXEC: CInt = extern\n+  @name(\"scalanative_sock_sock_ee_offender\")\n+  def SOCK_EE_OFFENDER: CInt = extern\n+  @name(\"scalanative_msg_confirm\")\n+  def MSG_CONFIRM: CInt = extern\n+  @name(\"scalanative_msg_dontroute\")\n+  def MSG_DONTROUTE: CInt = extern\n+  @name(\"scalanative_msg_dontwait\")\n+  def MSG_DONTWAIT: CInt = extern\n+  @name(\"scalanative_msg_eor\")\n+  def MSG_EOR: CInt = extern\n+  @name(\"scalanative_msg_more\")\n+  def MSG_MORE: CInt = extern\n+  @name(\"scalanative_msg_nosignal\")\n+  def MSG_NOSIGNAL: CInt = extern\n+  @name(\"scalanative_msg_oob\")\n+  def MSG_OOB: CInt = extern\n+  @name(\"scalanative_msg_cmsg_cloexec\")\n+  def MSG_CMSG_CLOEXEC: CInt = extern\n+  @name(\"scalanative_msg_errqueue\")\n+  def MSG_ERRQUEUE: CInt = extern\n+  @name(\"scalanative_msg_peek\")\n+  def MSG_PEEK: CInt = extern\n+  @name(\"scalanative_msg_trunc\")\n+  def MSG_TRUNC: CInt = extern\n+  @name(\"scalanative_msg_waitall\")\n+  def MSG_WAITALL: CInt = extern\n+  @name(\"scalanative_msg_ctrunc\")\n+  def MSG_CTRUNC: CInt = extern\n+  @name(\"scalanative_msg_waitforone\")\n+  def MSG_WAITFORONE: CInt = extern"
+  },
+  {
+    "id" : "de3a94ae-2818-4ad4-a016-a935d64ff84f",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "dde9af25-0da2-4b58-8f09-61979c11bee4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same as above: `socketOps`",
+        "createdAt" : "2017-06-14T10:09:55Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -168,3 +168,16 @@ object socket {\n            length: CSize,\n            flags: CInt): CSSize = extern\n }\n+\n+object socketh {"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "3320c60c-14a0-4391-9cb9-4197096d8ef8",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "b5f0c324-7547-4c5e-b3b8-58789957862f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Similarly to case class definitions for ops we group cases into low-level and high-level. Those two should go in the end of this match.",
+        "createdAt" : "2016-12-04T11:01:54Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -135,6 +135,11 @@ trait Pass {\n     case Op.Select(v1, v2, v3) =>\n       Op.Select(txVal(v1), txVal(v2), txVal(v3))\n \n+    case Op.Box(code, obj) =>\n+      Op.Box(code, txVal(obj))\n+    case Op.Unbox(code, obj) =>\n+      Op.Unbox(code, txVal(obj))\n+"
+  }
+]

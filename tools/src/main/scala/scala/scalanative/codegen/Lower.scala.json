@@ -1,0 +1,80 @@
+[
+  {
+    "id" : "2065ed5d-dfac-4b5b-aa65-4bc0cd1cb8ea",
+    "prId" : 1398,
+    "comments" : [
+      {
+        "id" : "5e1a6a4a-d7d1-484d-ae3d-b09c4799bcd0",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Do you think it might be better then to just pass in the `GC` only rather than `build.Config` to the `Impl` class and later to the lower function? I should have been a little more clear why I was asking.",
+        "createdAt" : "2018-11-28T15:46:27Z",
+        "updatedAt" : "2019-04-26T12:18:03Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a9e4c9a6-033a-46b9-9044-dcb53742f1a2",
+        "parentId" : "5e1a6a4a-d7d1-484d-ae3d-b09c4799bcd0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's possible we might need to rely on more things from config in the future, so might as well pass the whole thing. ",
+        "createdAt" : "2019-04-12T12:19:57Z",
+        "updatedAt" : "2019-04-26T12:18:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1842e4339e0becd2f12269af51db900bdc784ece",
+    "line" : 11,
+    "diffHunk" : "@@ -17,10 +17,12 @@ import scalanative.linker.{\n \n object Lower {\n \n-  def apply(defns: Seq[Defn])(implicit meta: Metadata): Seq[Defn] =\n-    (new Impl).onDefns(defns)\n+  def apply(config: build.Config, defns: Seq[Defn])(\n+      implicit meta: Metadata): Seq[Defn] =\n+    (new Impl(config)).onDefns(defns)\n \n-  private final class Impl(implicit meta: Metadata) extends Transform {\n+  private final class Impl(config: build.Config)(implicit meta: Metadata)"
+  },
+  {
+    "id" : "782660c6-1cbf-468b-89e1-6e283f9da361",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "e2aba709-dc0d-4fb0-a12c-33fe5037d8f1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "In this case here as well, never use a generated position for code that is the product of transforming a tree. You should carry the position that you receive from above.",
+        "createdAt" : "2020-08-20T13:28:59Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -269,92 +270,97 @@ object Lower {\n       }\n     }\n \n-    def genLet(buf: Buffer, n: Local, op: Op): Unit = op.resty match {\n-      case Type.Unit =>\n-        genOp(buf, fresh(), op)\n-        buf.let(n, Op.Copy(unit), unwind)\n-      case Type.Nothing =>\n-        genOp(buf, fresh(), op)\n-        genUnreachable(buf)\n-        buf.label(fresh(), Seq(Val.Local(n, op.resty)))\n-      case _ =>\n-        genOp(buf, n, op)\n-    }\n+    def genLet(buf: Buffer, n: Local, op: Op)(implicit pos: Position): Unit =\n+      op.resty match {\n+        case Type.Unit =>\n+          genOp(buf, fresh(), op)\n+          buf.let(n, Op.Copy(unit), unwind)(Position.generated)"
+  }
+]

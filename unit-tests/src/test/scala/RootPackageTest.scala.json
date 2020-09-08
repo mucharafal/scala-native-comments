@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "04251300-7cbb-41f7-bb0e-ef1b350ee7e5",
+    "prId" : 1727,
+    "comments" : [
+      {
+        "id" : "ee5eb0c2-fcb9-49eb-8ecd-09b64ef060b0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\nobject EmptyPackageTest extends tests.Suite {\r\n```\r\nThis whole issue is actually cause by the JVM *empty* package. It's not the root package. If it were the root package, the previous implementation would be correct. Let's use the correct terminology.",
+        "createdAt" : "2020-02-20T16:29:45Z",
+        "updatedAt" : "2020-02-20T16:41:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8641252d-d9c1-4c69-ba26-4fb00cdb431f",
+        "parentId" : "ee5eb0c2-fcb9-49eb-8ecd-09b64ef060b0",
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Done ✅",
+        "createdAt" : "2020-02-20T16:41:35Z",
+        "updatedAt" : "2020-02-20T16:41:36Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "717f3afeb50a83727b39d92e4e159cb4bcecf303",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,3 @@\n+object RootPackageTest extends tests.Suite {"
+  }
+]

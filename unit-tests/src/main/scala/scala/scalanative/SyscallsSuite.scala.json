@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "e185e0c2-c640-4515-a105-6065777932e7",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "3049016a-a88a-4044-8763-2596e0b2fc2a",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "https://github.com/MasseGuillaume/scala-native/commit/6ac1e65792334742b7dfe7cdb2672570b3a0a214#diff-83f5d0987d152f874b82a614f4b2b9c5R22",
+        "createdAt" : "2017-03-06T08:55:48Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,35 @@\n+package scala.scalanative\n+\n+import scala.scalanative.native.{CInt, CArray}\n+import scala.scalanative.native.Nat.{_2}\n+import scala.scalanative.posix.unistd\n+import unistd._\n+\n+/**\n+  * Created by remi on 02/03/17.\n+  */\n+object SyscallsSuite extends tests.Suite {"
+  },
+  {
+    "id" : "84f6683c-455c-43cf-ba8c-228e7eba73b9",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "3845e8cc-a7e6-4cdd-b1bd-c1d289826145",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Tests should be more finer-grain, please split into smaller ones that isolate minimum number of calls at a time.",
+        "createdAt" : "2017-05-03T09:59:29Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 9,
+    "diffHunk" : "@@ -0,0 +1,63 @@\n+package scala.scalanative\n+\n+import native._\n+import posix.unistd\n+import scala.scalanative.native.Nat._2\n+\n+object SyscallsSuite extends tests.Suite {\n+\n+  test(\"pipe + dup + getpid + getppid + fork + read + write\") {"
+  }
+]

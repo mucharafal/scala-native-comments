@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "817a47dc-0a85-4193-b5ed-ddc1dd20d8ae",
+    "prId" : 373,
+    "comments" : [
+      {
+        "id" : "ae894d5a-232a-4601-9efa-cedc943bbcfc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I assume that those are also `Workaround for #375`. \n",
+        "createdAt" : "2016-11-08T10:36:22Z",
+        "updatedAt" : "2016-11-11T20:56:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b45ac808ee880d0ab120bd9ad3e969bbf6ec49a9",
+    "line" : null,
+    "diffHunk" : "@@ -1,8 +1,13 @@\n package java.util\n \n trait List[E] extends Collection[E] {\n+  def size(): Int\n+  def isEmpty(): Boolean\n+  def clear(): Unit\n+  def iterator(): Iterator[E]"
+  }
+]

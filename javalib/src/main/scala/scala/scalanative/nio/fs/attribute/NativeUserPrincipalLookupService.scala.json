@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "7e2eb30f-5837-452f-ae73-8be98ea24a32",
+    "prId" : 1609,
+    "comments" : [
+      {
+        "id" : "d8bad9f7-c5d8-4e4f-9e0a-c2446a6687c4",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "This class and the one immediately below should have  `private` between the class name and the opening\r\nparenthesis for the arguments.  As they are now, the arguments are visible to the public, which does not\r\nmatch the Java 8 description. \r\n",
+        "createdAt" : "2019-06-26T22:39:07Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7cc16749-6d0d-435b-b84a-688e6d42d061",
+        "parentId" : "d8bad9f7-c5d8-4e4f-9e0a-c2446a6687c4",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2019-06-30T13:06:42Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "29477f86dd95b0556d50984e2501250ea3c88017",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,108 @@\n+package scala.scalanative.nio.fs.attribute\n+\n+import java.nio.file.attribute._\n+\n+import scalanative.unsigned._\n+import scalanative.unsafe._\n+import scalanative.libc._\n+import scalanative.posix.{errno => e, grp, pwd, unistd, time, utime}, e._\n+import scalanative.posix.sys.stat\n+import scala.scalanative.nio.fs.UnixException\n+\n+final case class NativeUserPrincipal(uid: stat.uid_t)(name: Option[String]) extends UserPrincipal {"
+  }
+]

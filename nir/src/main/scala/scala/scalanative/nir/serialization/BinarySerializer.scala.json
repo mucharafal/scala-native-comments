@@ -1,0 +1,263 @@
+[
+  {
+    "id" : "a4410c65-847c-48bb-b9de-c324fe3a8470",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "dcff0e1d-eadf-41ec-aa34-b128486e61cf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Once `Arg` is a single-level wrapper, you'll be able to use `putOpt` to serialize its fields. \n",
+        "createdAt" : "2016-10-05T13:50:34Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : null,
+    "diffHunk" : "@@ -387,6 +387,16 @@ final class BinarySerializer(buffer: ByteBuffer) {\n     case Type.Module(n) => putInt(T.ModuleType); putGlobal(n)\n   }\n \n+  private def putArgs(args: Seq[Arg]): Unit = putSeq(args)(putArg)\n+  private def putArg(arg: Arg): Unit = {\n+    putType(arg.ty)\n+    putSeq(arg.attrs.toSeq)(putArgAttr)"
+  },
+  {
+    "id" : "9cf04ec5-95c1-4ef9-842c-f19c0a439e55",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "339ca258-d69d-4133-9760-145da9dad369",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets put it in the same group as `Dyn`.",
+        "createdAt" : "2017-08-30T13:39:55Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : null,
+    "diffHunk" : "@@ -72,6 +72,8 @@ final class BinarySerializer(buffer: ByteBuffer) {\n \n     case Attr.Dyn => putInt(T.DynAttr)\n \n+    case Attr.Stub => putInt(T.StubAttr)"
+  },
+  {
+    "id" : "40897be8-ff44-4ef1-a1c7-6963c9199df7",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "d4e4d3b3-3d0b-45ab-b4f2-c673d745f460",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Since you chose to walk all the definitions and statements first to fill this in, the `fileToIndex` used by `putPosition` should not be allowed to add files to the list. If it doesn't exist already, it should crash, instead of producing a corrupted nir file.\r\n\r\nThe `getOrElseUpdate` should be done only inside `initFile` below.",
+        "createdAt" : "2020-08-20T12:53:04Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -2,24 +2,47 @@ package scala.scalanative\n package nir\n package serialization\n \n+import java.io.{ByteArrayOutputStream, DataOutputStream}\n+import java.net.URI\n import java.nio.ByteBuffer\n-\n+import java.nio.charset.StandardCharsets\n import scala.collection.mutable\n import scala.scalanative.nir.serialization.{Tags => T}\n \n final class BinarySerializer(buffer: ByteBuffer) {\n   import buffer._\n \n+  private[this] var lastPosition: Position = Position.NoPosition\n+\n+  private[this] val files        = mutable.ListBuffer.empty[URI]\n+  private[this] val fileIndexMap = mutable.Map.empty[URI, Int]\n+  private def fileToIndex(file: URI): Int =\n+    fileIndexMap.getOrElseUpdate(file, (files += file).size - 1)"
+  },
+  {
+    "id" : "3d492dee-f602-4ba4-8419-de7e699e838a",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "62a661c3-b0fe-414b-a8f4-6305cca86a38",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I'm not sure the `locally { }` block is warranted here. Consider removing it.",
+        "createdAt" : "2020-08-20T12:53:45Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -2,24 +2,47 @@ package scala.scalanative\n package nir\n package serialization\n \n+import java.io.{ByteArrayOutputStream, DataOutputStream}\n+import java.net.URI\n import java.nio.ByteBuffer\n-\n+import java.nio.charset.StandardCharsets\n import scala.collection.mutable\n import scala.scalanative.nir.serialization.{Tags => T}\n \n final class BinarySerializer(buffer: ByteBuffer) {\n   import buffer._\n \n+  private[this] var lastPosition: Position = Position.NoPosition\n+\n+  private[this] val files        = mutable.ListBuffer.empty[URI]\n+  private[this] val fileIndexMap = mutable.Map.empty[URI, Int]\n+  private def fileToIndex(file: URI): Int =\n+    fileIndexMap.getOrElseUpdate(file, (files += file).size - 1)\n+\n   final def serialize(defns: Seq[Defn]): Unit = {\n     val names     = defns.map(_.name)\n     val positions = mutable.UnrolledBuffer.empty[Int]\n \n+    // Init map with all possible filenames as they must be serialized before other definitions\n+    locally {"
+  },
+  {
+    "id" : "1dc1f2ba-518d-4533-9473-372c1b24607c",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "986a0e72-80b6-4ed4-9214-5c57b8f232c2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If you move the walk here, you won't even need `files` as a temporary list. You'll be able to directly write down the URIs to the buffer as you discover them (in `initFile`, in the \"or else\" part of the `getOrElse`).",
+        "createdAt" : "2020-08-20T12:55:12Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "59a76790-2063-4689-bf85-3ac057c08b06",
+        "parentId" : "986a0e72-80b6-4ed4-9214-5c57b8f232c2",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Hmm, I'm not sure did I understood you correctly.\r\nIn order to serialize array of strings (files) I'd need to know elements count upfront (current solution) or put some dummy int value, remember it's position, put into buffer and count elements of array, and finally replace dummy value with counted number array elements. In this case I think that would create redundant complexity.   ",
+        "createdAt" : "2020-08-21T09:03:14Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "18ef55ad-b300-4134-bfdf-d137fb632f69",
+        "parentId" : "986a0e72-80b6-4ed4-9214-5c57b8f232c2",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah yes, you're right. I had not thought about the element count. That said, you could keep `files` as a local val in `def serialize`, rather than a field in `BinarySerializer`.",
+        "createdAt" : "2020-08-21T09:32:41Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -2,24 +2,47 @@ package scala.scalanative\n package nir\n package serialization\n \n+import java.io.{ByteArrayOutputStream, DataOutputStream}\n+import java.net.URI\n import java.nio.ByteBuffer\n-\n+import java.nio.charset.StandardCharsets\n import scala.collection.mutable\n import scala.scalanative.nir.serialization.{Tags => T}\n \n final class BinarySerializer(buffer: ByteBuffer) {\n   import buffer._\n \n+  private[this] var lastPosition: Position = Position.NoPosition\n+\n+  private[this] val files        = mutable.ListBuffer.empty[URI]\n+  private[this] val fileIndexMap = mutable.Map.empty[URI, Int]\n+  private def fileToIndex(file: URI): Int =\n+    fileIndexMap.getOrElseUpdate(file, (files += file).size - 1)\n+\n   final def serialize(defns: Seq[Defn]): Unit = {\n     val names     = defns.map(_.name)\n     val positions = mutable.UnrolledBuffer.empty[Int]\n \n+    // Init map with all possible filenames as they must be serialized before other definitions\n+    locally {\n+      def initFile(pos: Position): Unit =\n+        if (pos.isDefined) fileToIndex(pos.source)\n+      defns.foreach {\n+        case defn @ Defn.Define(_, _, _, insts) =>\n+          initFile(defn.pos)\n+          insts.foreach(inst => initFile(inst.pos))\n+        case defn => initFile(defn.pos)\n+      }\n+    }\n+\n     Prelude.writeTo(buffer,\n                     Prelude(Versions.magic,\n                             Versions.compat,\n                             Versions.revision,\n                             Defn.existsEntryPoint(defns)))\n \n+    putSeq(files)(f => putString(f.toString))"
+  },
+  {
+    "id" : "075926ed-93a9-444d-8412-beb1e4c1d202",
+    "prId" : 1883,
+    "comments" : [
+      {
+        "id" : "d0cd9d9d-07c3-43f6-844f-cbeef30a3e1c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Likewise, this method should be called `putUTF8String`",
+        "createdAt" : "2020-08-26T10:06:47Z",
+        "updatedAt" : "2020-08-26T12:10:17Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df597a2fe53d6ff77b0dbb2746a329faed216494",
+    "line" : null,
+    "diffHunk" : "@@ -53,9 +53,12 @@ final class BinarySerializer(buffer: ByteBuffer) {\n \n   private def putInts(ints: Seq[Int]) = putSeq[Int](ints)(putInt(_))\n \n-  private def putStrings(vs: Seq[String]) = putSeq(vs)(putString)\n-  private def putString(v: String) = putBytes {\n-    v.getBytes(\"UTF-8\")\n+  private def putASCIIString(v: String) = putBytes {"
+  },
+  {
+    "id" : "d3eaa1cf-20f3-49df-9d6b-7224ed1c8085",
+    "prId" : 1883,
+    "comments" : [
+      {
+        "id" : "3d9698f7-3d10-4ff0-a6ee-ba9c1c89e89c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "And likewise, this can be inlined in the `case Val.String`.",
+        "createdAt" : "2020-08-26T10:07:28Z",
+        "updatedAt" : "2020-08-26T12:10:17Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df597a2fe53d6ff77b0dbb2746a329faed216494",
+    "line" : null,
+    "diffHunk" : "@@ -53,9 +53,12 @@ final class BinarySerializer(buffer: ByteBuffer) {\n \n   private def putInts(ints: Seq[Int]) = putSeq[Int](ints)(putInt(_))\n \n-  private def putStrings(vs: Seq[String]) = putSeq(vs)(putString)\n-  private def putString(v: String) = putBytes {\n-    v.getBytes(\"UTF-8\")\n+  private def putASCIIString(v: String) = putBytes {\n+    v.getBytes(StandardCharsets.UTF_8)\n+  }\n+  private def putString(v: String) = {"
+  }
+]

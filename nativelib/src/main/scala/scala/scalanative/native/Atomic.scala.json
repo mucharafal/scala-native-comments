@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "f9f5786a-b1a2-4f4b-856b-1c881b94853a",
+    "prId" : 754,
+    "comments" : [
+      {
+        "id" : "8a65a5d4-323c-43fc-8d5b-a82106b72803",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should be put in `scala.scalanative.runtime` package, it's not a public api, just an implementation detail for atomic in `java.util.concurrent`.",
+        "createdAt" : "2017-05-29T11:27:10Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5b6b0c092be2475ad4aa23e540f57a88bec3768c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,34 @@\n+package scala.scalanative\n+package native"
+  }
+]

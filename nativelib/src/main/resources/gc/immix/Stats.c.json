@@ -1,0 +1,199 @@
+[
+  {
+    "id" : "49862ec9-6261-41ca-bb6c-e2244e607c98",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "c9b9845b-853d-43bb-8fb7-f724528aff25",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think we need timestamp_ns at all, mark and sweep times and collection # are more than sufficient on their own.",
+        "createdAt" : "2018-10-17T14:19:32Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "006c8c52-6e2e-4a14-88ab-908542a6b358",
+        "parentId" : "c9b9845b-853d-43bb-8fb7-f724528aff25",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "In fact collection # is redundant as well, it can be trivially recomputed as line number in the output file.",
+        "createdAt" : "2018-10-17T14:30:33Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8b80ff81-e143-4226-a3fe-7bf5523ef8ac",
+        "parentId" : "c9b9845b-853d-43bb-8fb7-f724528aff25",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "I would rather keep these two.\r\n\r\nYes, when calculating aggregates for benchmarks, `collection #` and `timestamp` are redundant. However, I wanted to see/show the difference between a few large collections and many smaller ones by using the timestamps.\r\n\r\nI also considered how useful it may be for diagnostics. Timestamps are important as they allow correlating other events. `collection #` allows getting a piece of the file and still making sense what's happening. The output file is append mode, so getting the `collection #` from the line number can be not so straight forward.",
+        "createdAt" : "2018-10-17T15:35:33Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a3f69c79-f83d-44b5-bd99-9e6a74a9722f",
+        "parentId" : "c9b9845b-853d-43bb-8fb7-f724528aff25",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Timestamp is a poor substitute for this as you'd want to correlate measurements with the iterations of the benchmark for it to be meaningful. Mutator time can be different as well, making the relative comparisons based on timestamps to be completely off. ",
+        "createdAt" : "2018-10-17T15:56:20Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8323ab58-1dec-44af-bca6-be55544c731c",
+        "parentId" : "c9b9845b-853d-43bb-8fb7-f724528aff25",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's also safe to assume that append case effectively never happens. If someone cares about more separation of data they can pass a different file on every invocation.",
+        "createdAt" : "2018-10-17T15:57:33Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,45 @@\n+#include \"Stats.h\"\n+#include <stdio.h>\n+\n+void Stats_writeStatsToFile(Stats *stats);\n+\n+void Stats_Init(Stats *stats, const char *statsFile) {\n+    stats->outFile = fopen(statsFile, \"a\");\n+    fprintf(stats->outFile, \"timestamp_ns,collection,mark_time_ns,sweep_time_ns\\n\");\n+    stats->collections = 0;\n+}\n+\n+void Stats_RecordCollection(Stats *stats, uint64_t start_ns, uint64_t sweep_start_ns, uint64_t end_ns) {\n+    uint64_t index = stats->collections % GC_STATS_MEASUREMENTS;\n+    stats->timestamp_ns[index] = start_ns;\n+    stats->mark_time_ns[index] = sweep_start_ns - start_ns;\n+    stats->sweep_time_ns[index] = end_ns - sweep_start_ns;"
+  },
+  {
+    "id" : "e67066f9-2f3e-4213-af35-210822578218",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "8f4c7417-df34-4bb4-897e-716886950abf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `Stats_writeToFile`.",
+        "createdAt" : "2018-10-25T14:59:44Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,42 @@\n+#include \"Stats.h\"\n+#include <stdio.h>\n+\n+void Stats_writeStatsToFile(Stats *stats);\n+\n+void Stats_Init(Stats *stats, const char *statsFile) {\n+    stats->outFile = fopen(statsFile, \"w\");\n+    fprintf(stats->outFile, \"mark_time_ns,sweep_time_ns\\n\");\n+    stats->collections = 0;\n+}\n+\n+void Stats_RecordCollection(Stats *stats, uint64_t start_ns, uint64_t sweep_start_ns, uint64_t end_ns) {\n+    uint64_t index = stats->collections % GC_STATS_MEASUREMENTS;\n+    stats->mark_time_ns[index] = sweep_start_ns - start_ns;\n+    stats->sweep_time_ns[index] = end_ns - sweep_start_ns;\n+    stats->collections += 1;\n+    if (stats->collections % GC_STATS_MEASUREMENTS == 0) {\n+        Stats_writeStatsToFile(stats);\n+    }\n+}\n+\n+void Stats_writeStatsToFile(Stats *stats) {"
+  },
+  {
+    "id" : "24359782-9c74-4b3a-9a42-3f010e43d15f",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "527082b0-f225-43bf-897f-5334fba1bc63",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Stats_OnExit`.",
+        "createdAt" : "2018-10-25T15:00:09Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,42 @@\n+#include \"Stats.h\"\n+#include <stdio.h>\n+\n+void Stats_writeStatsToFile(Stats *stats);\n+\n+void Stats_Init(Stats *stats, const char *statsFile) {\n+    stats->outFile = fopen(statsFile, \"w\");\n+    fprintf(stats->outFile, \"mark_time_ns,sweep_time_ns\\n\");\n+    stats->collections = 0;\n+}\n+\n+void Stats_RecordCollection(Stats *stats, uint64_t start_ns, uint64_t sweep_start_ns, uint64_t end_ns) {\n+    uint64_t index = stats->collections % GC_STATS_MEASUREMENTS;\n+    stats->mark_time_ns[index] = sweep_start_ns - start_ns;\n+    stats->sweep_time_ns[index] = end_ns - sweep_start_ns;\n+    stats->collections += 1;\n+    if (stats->collections % GC_STATS_MEASUREMENTS == 0) {\n+        Stats_writeStatsToFile(stats);\n+    }\n+}\n+\n+void Stats_writeStatsToFile(Stats *stats) {\n+    uint64_t collections = stats->collections;\n+    uint64_t remainder = collections % GC_STATS_MEASUREMENTS;\n+    if (remainder == 0) {\n+        remainder = GC_STATS_MEASUREMENTS;\n+    }\n+    FILE *outFile = stats->outFile;\n+    for (uint64_t i = 0; i < remainder; i++) {\n+        fprintf(outFile, \"%lu,%lu\\n\", stats->mark_time_ns[i], stats->sweep_time_ns[i]);\n+    }\n+    fflush(outFile);\n+}\n+\n+void Stats_Close(Stats *stats) {"
+  },
+  {
+    "id" : "d704719b-d71b-4166-9b80-fd78107fb9b6",
+    "prId" : 1378,
+    "comments" : [
+      {
+        "id" : "915fb7cc-e9f2-467a-84e8-a1dfd4ce380a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think aggregating here is appropriate. With real lazy sweeping we now have two types of pauses: one to mark and one to sweep a little. So pause time distribution should shift to the right with 'happy path' pause time being a cost of sweeping a few blocks. \r\n\r\nTo get this info we need to log events like 'mark' and 'sweep' separately as they happen. So instead of:\r\n```scala\r\nmark_time,sweep_time\r\n123,456\r\n```\r\nWe should log events (m for mark and s for sweep):\r\n```scala\r\nm, 123\r\ns, 5\r\ns, 6\r\n...\r\ns, 4\r\n```\r\nWhere all sweeps ad up to 456 for example.",
+        "createdAt" : "2018-11-02T11:31:40Z",
+        "updatedAt" : "2018-11-07T15:33:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "420decd41b54f2da03bbd928a479d0068d5d8310",
+    "line" : null,
+    "diffHunk" : "@@ -10,10 +10,18 @@ void Stats_Init(Stats *stats, const char *statsFile) {\n     stats->collections = 0;\n }\n \n-void Stats_RecordCollection(Stats *stats, uint64_t start_ns, uint64_t sweep_start_ns, uint64_t end_ns) {\n+void Stats_RecordMark(Stats *stats, uint64_t start_ns,  uint64_t end_ns) {\n     uint64_t index = stats->collections % STATS_MEASUREMENTS;\n-    stats->mark_time_ns[index] = sweep_start_ns - start_ns;\n-    stats->sweep_time_ns[index] = end_ns - sweep_start_ns;\n+    stats->mark_time_ns[index] = end_ns - start_ns;\n+    stats->sweep_time_ns[index] = 0L;\n+}\n+\n+void Stats_RecordLazySweep(Stats *stats, uint64_t start_ns,  uint64_t end_ns) {\n+    uint64_t index = stats->collections % STATS_MEASUREMENTS;\n+    stats->sweep_time_ns[index] += end_ns - start_ns;\n+}\n+\n+void Stats_RecordCollectionDone(Stats *stats) {"
+  }
+]

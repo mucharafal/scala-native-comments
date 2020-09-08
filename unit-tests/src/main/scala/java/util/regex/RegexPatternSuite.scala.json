@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "8e4d55fe-f69c-417e-aa9d-2667914cc0a3",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "ee31838c-0f1f-4f7e-9b69-3b954aeeeb75",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "More tests would be really welcome here. Perhaps have a look at https://github.com/scala-js/scala-js/blob/master/test-suite/shared/src/test/scala/org/scalajs/testsuite/javalib/util/regex/RegexPatternTest.scala",
+        "createdAt" : "2017-02-03T10:58:48Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 16,
+    "diffHunk" : "@@ -0,0 +1,16 @@\n+package java.util.regex\n+\n+object RegexPatternSuite extends tests.Suite {\n+  test(\"Expects abc to match abc\") {\n+    assert(Pattern.matches(\"abc\", \"abc\"))\n+  }\n+  test(\"Expects [[:digit:]] to match 123\") {\n+    assert(Pattern.matches(\"[[:digit:]]\", \"123\"))\n+  }\n+  test(\"Expects [[:digit:]] to match 1\") {\n+    assert(Pattern.matches(\"[[:digit:]]\", \"1\")) // This is segfaulting!\n+  }\n+  test(\"Expects Scal.-Native to match Scala-Native\") {\n+    assert(Pattern.matches(\"Scal.-Native\", \"Scala-Native\"))\n+  }\n+}"
+  }
+]

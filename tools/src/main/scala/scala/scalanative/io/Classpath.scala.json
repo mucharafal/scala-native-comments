@@ -1,0 +1,307 @@
+[
+  {
+    "id" : "8fe683aa-4e15-45df-b196-748e66811ff4",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "2c79bf33-db5b-4ea9-86e4-4fb9c99da57e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that `Classpath` & friends is only used by linker, it should just stay in `linker` package for now. \n",
+        "createdAt" : "2016-05-21T09:41:25Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2c39d8cc-e632-48ec-adc3-9becec6a78df",
+        "parentId" : "2c79bf33-db5b-4ea9-86e4-4fb9c99da57e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also, do we really need to know a precise type `T` here? It seems that coarce `VirtualFile` should be enough.\n",
+        "createdAt" : "2016-05-21T09:50:14Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "71837ca4-ded5-416f-a9bf-53c61fe56f81",
+        "parentId" : "2c79bf33-db5b-4ea9-86e4-4fb9c99da57e",
+        "author" : {
+          "login" : "Milyardo",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/99996?v=4"
+        },
+        "body" : "Sorry about that, noise left over from an approach where classpath was a typeclass.\n",
+        "createdAt" : "2016-05-21T16:10:09Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "Milyardo",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/99996?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath.\n+  */\n+sealed abstract class Classpath[T <: VFile] {"
+  },
+  {
+    "id" : "1c4b3bf3-53aa-41c4-b8b6-2a4ebfebe660",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "b3dfd035-6285-4e11-8a52-2043127152c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "s/classPath/classpath/g\n",
+        "createdAt" : "2016-05-21T09:42:56Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath."
+  },
+  {
+    "id" : "2a211f14-5edc-4bed-ab92-a8c43935e7cd",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "18ba4660-3145-4bfc-af3a-86359fba7427",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "s/VFile/VirtualFile/g\n",
+        "createdAt" : "2016-05-21T09:43:20Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath.\n+  */\n+sealed abstract class Classpath[T <: VFile] {\n+  def contents: Stream[T]\n+  def close(): Unit\n+}\n+\n+/**\n+  * A trait for abstracting memory cached file-like object contained in some member of a classpath.\n+  */\n+trait VFile {"
+  },
+  {
+    "id" : "7f525e43-69a2-4e67-ab8e-051872e3c522",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "8b6a1d57-196b-4c86-8e54-e1f9ed98d2ec",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "s/LazyVFile/LazyVirtualFile/g\n",
+        "createdAt" : "2016-05-21T09:43:36Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0e0894cc-0d00-4e74-b795-5683c38834f0",
+        "parentId" : "8b6a1d57-196b-4c86-8e54-e1f9ed98d2ec",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that we only have LazyVirtualFiles, why even bother VirtualFile/LazyVirtualFile distinction. We don't want to prematurely abstract things. \n",
+        "createdAt" : "2016-05-21T09:58:35Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ff065d46-53d7-45ad-9d09-d195779d7cc0",
+        "parentId" : "8b6a1d57-196b-4c86-8e54-e1f9ed98d2ec",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lastly, value of type parameter here is not clear. \n",
+        "createdAt" : "2016-05-21T09:59:48Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath.\n+  */\n+sealed abstract class Classpath[T <: VFile] {\n+  def contents: Stream[T]\n+  def close(): Unit\n+}\n+\n+/**\n+  * A trait for abstracting memory cached file-like object contained in some member of a classpath.\n+  */\n+trait VFile {\n+  def relativePath: Path\n+  def bytes: ByteBuffer\n+  def uri: URI\n+}\n+\n+final case class LocalClasspath(path: Path) extends Classpath[LazyVFile[LocalClasspath]] {\n+  override def close(): Unit = ()\n+\n+  override def contents: Stream[LazyVFile[LocalClasspath]] = Files.walk(path,Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)\n+    .iterator()\n+    .asScala.toStream\n+    .map(filePath => LazyVFile[LocalClasspath](filePath, this))\n+}\n+\n+final case class JarClasspath(path: Path) extends Classpath[LazyVFile[JarClasspath]] {\n+  val fsUri = URI.create(s\"jar:${path.toUri}\")\n+  val options = Map(\"create\" -> \"false\")\n+  val fs: FileSystem = FileSystems.newFileSystem(fsUri, options.asJava)\n+  val roots: Stream[Path] = fs.getRootDirectories.asScala.toStream\n+\n+  override def contents: Stream[LazyVFile[JarClasspath]] = {\n+    roots\n+      .flatMap(path => Files.walk(path, Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS).iterator().asScala)\n+      .map(path => LazyVFile[JarClasspath](path, this))\n+  }\n+\n+  override def close(): Unit = fs.close()\n+}\n+\n+final case class LazyVFile[T <: Classpath[LazyVFile[T]]](relativePath: Path, fs: T) extends VFile {"
+  },
+  {
+    "id" : "c9f54c25-159e-40e5-a789-40c87c79cfcf",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "f38293c1-c608-461e-a616-8181ee54dcfe",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "All of the vals above should be private.\n",
+        "createdAt" : "2016-05-21T09:45:49Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath.\n+  */\n+sealed abstract class Classpath[T <: VFile] {\n+  def contents: Stream[T]\n+  def close(): Unit\n+}\n+\n+/**\n+  * A trait for abstracting memory cached file-like object contained in some member of a classpath.\n+  */\n+trait VFile {\n+  def relativePath: Path\n+  def bytes: ByteBuffer\n+  def uri: URI\n+}\n+\n+final case class LocalClasspath(path: Path) extends Classpath[LazyVFile[LocalClasspath]] {\n+  override def close(): Unit = ()\n+\n+  override def contents: Stream[LazyVFile[LocalClasspath]] = Files.walk(path,Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)\n+    .iterator()\n+    .asScala.toStream\n+    .map(filePath => LazyVFile[LocalClasspath](filePath, this))\n+}\n+\n+final case class JarClasspath(path: Path) extends Classpath[LazyVFile[JarClasspath]] {\n+  val fsUri = URI.create(s\"jar:${path.toUri}\")\n+  val options = Map(\"create\" -> \"false\")\n+  val fs: FileSystem = FileSystems.newFileSystem(fsUri, options.asJava)\n+  val roots: Stream[Path] = fs.getRootDirectories.asScala.toStream"
+  },
+  {
+    "id" : "00cca67c-313d-4461-82b7-2797496cb435",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "5a77a270-d83e-4f0f-90fb-0e80eba163aa",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If you don't intend to pattern match on this, it shouldn't be a case class. Case classes cause serious difficulties when trying to evolve the API in compatible ways. \n",
+        "createdAt" : "2016-05-21T09:49:08Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath.\n+  */\n+sealed abstract class Classpath[T <: VFile] {\n+  def contents: Stream[T]\n+  def close(): Unit\n+}\n+\n+/**\n+  * A trait for abstracting memory cached file-like object contained in some member of a classpath.\n+  */\n+trait VFile {\n+  def relativePath: Path\n+  def bytes: ByteBuffer\n+  def uri: URI\n+}\n+\n+final case class LocalClasspath(path: Path) extends Classpath[LazyVFile[LocalClasspath]] {"
+  },
+  {
+    "id" : "fa74fdb9-aaee-419b-acd5-c689547539fa",
+    "prId" : 85,
+    "comments" : [
+      {
+        "id" : "db57d3b0-c37f-45a8-adbe-908334730281",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The very first classpath traversal will force this. We should just use a `Seq` and compute this eagerly. Scala's `Stream` is very unpredictable performance-wise.\n",
+        "createdAt" : "2016-05-21T09:53:30Z",
+        "updatedAt" : "2016-05-21T19:42:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a0dd936cefccc95afc3e1be5b2252825cb922f76",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package scala.scalanative.io\n+\n+import java.net.URI\n+import java.nio.ByteBuffer\n+import java.nio.file._\n+\n+import scala.collection.JavaConverters._\n+\n+/**\n+  * A values which represents a member of a classPath.\n+  */\n+sealed abstract class Classpath[T <: VFile] {\n+  def contents: Stream[T]\n+  def close(): Unit\n+}\n+\n+/**\n+  * A trait for abstracting memory cached file-like object contained in some member of a classpath.\n+  */\n+trait VFile {\n+  def relativePath: Path\n+  def bytes: ByteBuffer\n+  def uri: URI\n+}\n+\n+final case class LocalClasspath(path: Path) extends Classpath[LazyVFile[LocalClasspath]] {\n+  override def close(): Unit = ()\n+\n+  override def contents: Stream[LazyVFile[LocalClasspath]] = Files.walk(path,Integer.MAX_VALUE, FileVisitOption.FOLLOW_LINKS)\n+    .iterator()\n+    .asScala.toStream\n+    .map(filePath => LazyVFile[LocalClasspath](filePath, this))"
+  }
+]

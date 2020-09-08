@@ -1,0 +1,254 @@
+[
+  {
+    "id" : "e1d36ee7-f82d-4e9b-a618-2e7215da715a",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "fb87246a-d496-4f6b-bb69-f0b066b35606",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It belongs to `scala.scalanative.optimizer.analysis`. ",
+        "createdAt" : "2017-02-22T16:06:39Z",
+        "updatedAt" : "2017-02-22T16:54:14Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+package scala.scalanative.nir"
+  },
+  {
+    "id" : "4d90b12f-cebd-4e25-9006-e3f20b444b86",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "fedfb857-fec9-487c-ba30-07faab4a35d0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`final case class`",
+        "createdAt" : "2017-02-22T16:07:15Z",
+        "updatedAt" : "2017-02-22T16:54:14Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+package scala.scalanative.nir\n+\n+import MemoryLayout.PositionedType\n+\n+object MemoryLayout {\n+\n+  sealed abstract class PositionedType {\n+    def size: Long\n+    def offset: Long\n+  }\n+  case class Tpe(size: Long, offset: Long, ty: Type) extends PositionedType\n+  case class Padding(size: Long, offset: Long)       extends PositionedType\n+\n+  def apply(tys: Seq[Type]): MemoryLayout = {\n+    val (size, potys) = helper(tys, 0)\n+\n+    MemoryLayout(size, potys.reverse)\n+  }\n+  private def helper(tys: Seq[Type],\n+                     offset: Long): (Long, List[PositionedType]) = {\n+    if (tys.isEmpty) {\n+      return (0, List())\n+    }\n+\n+    val sizes = tys.map(_.size)\n+\n+    def findMax(tys: Seq[Type]): Long = tys.foldLeft(0L) {\n+      case (acc, Type.Struct(_, innerTy)) => math.max(acc, findMax(innerTy))\n+      case (acc, ty)                      => math.max(acc, ty.size)\n+    }\n+\n+    val maxSize = findMax(tys)\n+\n+    val (size, positionedTypes) =\n+      (tys zip sizes).foldLeft((offset, List[PositionedType]())) {\n+        case ((index, potys), (ty, size)) if size > 0 =>\n+          ty match {\n+            case Type.Struct(_, stys) =>\n+              val innerAlignment = findMax(stys)\n+              val pad =\n+                if (index                    % innerAlignment == 0) 0\n+                else innerAlignment - (index % innerAlignment)\n+              val (innerSize, innerTys) = helper(stys, index + pad)\n+\n+              (index + pad + innerSize,\n+               innerTys ::: Padding(pad, index) :: potys)\n+\n+            case _ =>\n+              val pad = if (index % size == 0) 0 else size - (index % size)\n+              (index + pad + size,\n+               Tpe(size, index + pad, ty) :: Padding(pad, index) :: potys)\n+\n+          }\n+        case ((index, potys), _) => (index, potys)\n+\n+      }\n+\n+    val finalPad = if (size % maxSize == 0) 0 else maxSize - (size % maxSize)\n+    val potys =\n+      if (finalPad > 0) {\n+        Padding(finalPad, size) :: positionedTypes\n+      } else {\n+        positionedTypes\n+      }\n+\n+    (potys.foldLeft(0L) { case (acc, poty) => acc + poty.size }, potys)\n+  }\n+}\n+\n+case class MemoryLayout(size: Long, tys: List[PositionedType])"
+  },
+  {
+    "id" : "7b7e6e2f-d60a-4beb-bcac-f976ae495893",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "a382ebb0-3639-4812-b992-d3148d1272fe",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We put companion objects after the classes. ",
+        "createdAt" : "2017-02-22T16:07:36Z",
+        "updatedAt" : "2017-02-22T16:54:14Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+package scala.scalanative.nir\n+\n+import MemoryLayout.PositionedType\n+\n+object MemoryLayout {"
+  },
+  {
+    "id" : "7cf36fa4-8114-4b2b-b4c9-e0c8d5fe585f",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "949cb021-57f1-4602-8ee7-e33f3b7e4f0e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`final case class`",
+        "createdAt" : "2017-02-22T16:07:51Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+package scala.scalanative.nir\n+\n+import MemoryLayout.PositionedType\n+\n+object MemoryLayout {\n+\n+  sealed abstract class PositionedType {\n+    def size: Long\n+    def offset: Long\n+  }\n+  case class Tpe(size: Long, offset: Long, ty: Type) extends PositionedType\n+  case class Padding(size: Long, offset: Long)       extends PositionedType"
+  },
+  {
+    "id" : "c58059ea-7a79-4801-9339-4a484aa415ce",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "7f951c02-db75-4d57-91a0-563ea5260ba0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`final case class`",
+        "createdAt" : "2017-02-22T16:07:53Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+package scala.scalanative.nir\n+\n+import MemoryLayout.PositionedType\n+\n+object MemoryLayout {\n+\n+  sealed abstract class PositionedType {\n+    def size: Long\n+    def offset: Long\n+  }\n+  case class Tpe(size: Long, offset: Long, ty: Type) extends PositionedType"
+  },
+  {
+    "id" : "36d67b1b-7846-40a9-8518-ab37c055639a",
+    "prId" : 520,
+    "comments" : [
+      {
+        "id" : "69f5773d-981d-4620-987d-253da2b6c1d2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`def impl`",
+        "createdAt" : "2017-02-22T16:08:25Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5cd1a5e9-a762-48bc-a058-751592cc8488",
+        "parentId" : "69f5773d-981d-4620-987d-253da2b6c1d2",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Should I remove `private` ?",
+        "createdAt" : "2017-02-22T16:16:25Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "11507784-b633-4615-aa6b-dd3e586b81c0",
+        "parentId" : "69f5773d-981d-4620-987d-253da2b6c1d2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sorry, it wasn't clear. `private` is fine, it's just that typically those kind of methods are called `impl`. ",
+        "createdAt" : "2017-02-22T16:18:24Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "81fccab7-ee4e-449b-8943-c7321880b83d",
+        "parentId" : "69f5773d-981d-4620-987d-253da2b6c1d2",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Ok",
+        "createdAt" : "2017-02-22T16:18:56Z",
+        "updatedAt" : "2017-02-22T16:54:15Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b9d82cf22081709a8ceb53fe1dad4db64c9e5f3",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,70 @@\n+package scala.scalanative.nir\n+\n+import MemoryLayout.PositionedType\n+\n+object MemoryLayout {\n+\n+  sealed abstract class PositionedType {\n+    def size: Long\n+    def offset: Long\n+  }\n+  case class Tpe(size: Long, offset: Long, ty: Type) extends PositionedType\n+  case class Padding(size: Long, offset: Long)       extends PositionedType\n+\n+  def apply(tys: Seq[Type]): MemoryLayout = {\n+    val (size, potys) = helper(tys, 0)\n+\n+    MemoryLayout(size, potys.reverse)\n+  }\n+  private def helper(tys: Seq[Type],"
+  }
+]

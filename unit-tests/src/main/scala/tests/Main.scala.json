@@ -1,0 +1,92 @@
+[
+  {
+    "id" : "6fa4191a-d0d2-4003-a106-2a0a04eb6cc1",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "e093c61a-28e8-4659-9307-442e06c601c6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This change is not necessary, it doesn't have any effect. Test suites are resolved automatically.",
+        "createdAt" : "2017-05-03T09:23:38Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 4,
+    "diffHunk" : "@@ -2,6 +2,8 @@ package tests\n \n import java.lang.System.exit\n \n+import scala.scalanative.SyscallsSuite"
+  },
+  {
+    "id" : "2881410c-c28d-46a8-8441-54934a1a6564",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "389a0da0-cf0f-450f-b5b6-ae98490b342a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "There is a similar change in @Duhemm's PR that uses contains instead:\r\n\r\nhttps://github.com/scala-native/scala-native/pull/574/files#diff-597e95ecf4ef0aabcb0550163f9588baR9\r\n\r\nThat's probably a better way to do it.",
+        "createdAt" : "2017-04-10T16:51:39Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -5,7 +5,13 @@ import java.lang.System.exit\n object Main {\n   def main(args: Array[String]): Unit = {\n     // tests.Discover object is code-generated in the sbt build\n-    val suites  = tests.Discover.suites\n+    val allSuites = tests.Discover.suites\n+\n+    val suites =\n+      if (args.size == 1)\n+        allSuites.filter(_.getClass.getSimpleName == args.head)\n+      else allSuites"
+  },
+  {
+    "id" : "8f18ec58-dbee-4dab-8c34-ee91916581b0",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "0df0f871-ebbc-461a-a262-a77dc4ea51d0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This file is not necessary any longer. ",
+        "createdAt" : "2017-06-14T15:56:59Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -1,24 +1,24 @@\n-package tests\n-\n-import java.lang.System.exit\n-\n-object Main {\n-  def main(args: Array[String]): Unit = {\n-    // tests.Discover object is code-generated in the sbt build\n-    val suites = tests.Discover.suites\n-      .filter(_.getClass.getName.contains(args.lift(0).getOrElse(\"\")))\n-\n-    var success = true\n-\n-    suites.foreach { suite =>\n-      val suiteSuccess = suite.run()\n-      success = success && suiteSuccess\n-    }\n-\n-    if (!success) {\n-      println(\"Some tests failed. See above for details.\")\n-    }\n-\n-    exit(if (success) 0 else 1)\n-  }\n-}\n+//package tests\n+//\n+//import java.lang.System.exit\n+//\n+//object Main {\n+//  def main(args: Array[String]): Unit = {\n+//    // tests.Discover object is code-generated in the sbt build\n+//    val suites = tests.Discover.suites\n+//      .filter(_.getClass.getName.contains(args.lift(0).getOrElse(\"\")))\n+//\n+//    var success = true\n+//\n+//    suites.foreach { suite =>\n+//      val suiteSuccess = suite.run()\n+//      success = success && suiteSuccess\n+//    }\n+//\n+//    if (!success) {\n+//      println(\"Some tests failed. See above for details.\")\n+//    }\n+//\n+//    exit(if (success) 0 else 1)\n+//  }\n+//}"
+  }
+]

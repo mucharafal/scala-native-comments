@@ -1,0 +1,332 @@
+[
+  {
+    "id" : "8467a420-3570-4d43-a96e-898c7a1b7882",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "797914ba-2992-41dd-a6bc-542bb1ca7511",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I don't see where `wget` is used explicitly, so it looks like it can be removed.",
+        "createdAt" : "2018-09-21T01:49:05Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+ARG TARGET_DOCKER_PLATFORM\n+\n+FROM library/debian:stretch\n+\n+RUN apt-get update && apt-get install -y qemu-user-static\n+\n+FROM $TARGET_DOCKER_PLATFORM/debian:stretch\n+\n+ARG HOST_DEBIAN_PLATFORM\n+\n+COPY --from=0 /usr/bin/qemu-* /usr/bin/\n+\n+RUN dpkg --add-architecture $HOST_DEBIAN_PLATFORM\n+\n+RUN apt-get update && apt-get install -y openjdk-8-jdk-headless:$HOST_DEBIAN_PLATFORM\n+\n+ENV PATH \"/usr/lib/jvm/java-8-openjdk-$HOST_DEBIAN_PLATFORM/bin:$PATH\"\n+\n+ENV SBT_LAUNCHER_VERSION 1.2.0\n+\n+RUN apt-get install -y wget curl"
+  },
+  {
+    "id" : "dbaebd22-eb82-4532-9486-7d147c889bf4",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "c3534031-94e5-47df-9795-ce3f91b5944e",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Which library needs this? In my experience setting `LD_LIBRARY_PATH` has always come back to haunt me.",
+        "createdAt" : "2018-09-21T01:50:48Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+ARG TARGET_DOCKER_PLATFORM\n+\n+FROM library/debian:stretch\n+\n+RUN apt-get update && apt-get install -y qemu-user-static\n+\n+FROM $TARGET_DOCKER_PLATFORM/debian:stretch\n+\n+ARG HOST_DEBIAN_PLATFORM\n+\n+COPY --from=0 /usr/bin/qemu-* /usr/bin/\n+\n+RUN dpkg --add-architecture $HOST_DEBIAN_PLATFORM\n+\n+RUN apt-get update && apt-get install -y openjdk-8-jdk-headless:$HOST_DEBIAN_PLATFORM\n+\n+ENV PATH \"/usr/lib/jvm/java-8-openjdk-$HOST_DEBIAN_PLATFORM/bin:$PATH\"\n+\n+ENV SBT_LAUNCHER_VERSION 1.2.0\n+\n+RUN apt-get install -y wget curl\n+\n+# Install sbt\n+RUN \\\n+  curl -L -o sbt-$SBT_LAUNCHER_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  dpkg -i sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  rm sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  apt-get update && \\\n+  apt-get install -y sbt\n+\n+RUN echo \"deb http://deb.debian.org/debian stretch-backports main contrib non-free\" >> /etc/apt/sources.list\n+\n+RUN apt-get update && apt-get install -y clang-5.0 zlib1g-dev libgc-dev libre2-dev\n+\n+ENV LD_LIBRARY_PATH \"/usr/local/lib\""
+  },
+  {
+    "id" : "9ed86997-acfd-474d-b5c5-fe7af0016c1b",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "9adcabab-7358-4e9a-ac8d-cd5b05f2e5fd",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "What's the motivation for using Debian over Ubuntu? The `ubuntu:18.04` image looks smaller (84.1MB vs 101MB for `debian:stretch`) and supports more Clang versions in the default repositories, including 6.0 which I think it was the plan to switch to soon.",
+        "createdAt" : "2018-09-21T01:59:54Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "163752e9-6d21-4737-af92-62c6fa97681b",
+        "parentId" : "9adcabab-7358-4e9a-ac8d-cd5b05f2e5fd",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I second the suggestion to use ubuntu 18.04 given that's it's a more popular environment. ",
+        "createdAt" : "2018-09-21T10:56:11Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+ARG TARGET_DOCKER_PLATFORM\n+\n+FROM library/debian:stretch\n+\n+RUN apt-get update && apt-get install -y qemu-user-static\n+\n+FROM $TARGET_DOCKER_PLATFORM/debian:stretch"
+  },
+  {
+    "id" : "a698069a-eaf2-437c-830d-58ab73c0788e",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "160e5bb9-52ee-4943-9e74-5cebfbb4c6db",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Would make sense to keep this in sync with the version in `project/build.properties`, i.e. 0.13.17?",
+        "createdAt" : "2018-09-21T02:04:15Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+ARG TARGET_DOCKER_PLATFORM\n+\n+FROM library/debian:stretch\n+\n+RUN apt-get update && apt-get install -y qemu-user-static\n+\n+FROM $TARGET_DOCKER_PLATFORM/debian:stretch\n+\n+ARG HOST_DEBIAN_PLATFORM\n+\n+COPY --from=0 /usr/bin/qemu-* /usr/bin/\n+\n+RUN dpkg --add-architecture $HOST_DEBIAN_PLATFORM\n+\n+RUN apt-get update && apt-get install -y openjdk-8-jdk-headless:$HOST_DEBIAN_PLATFORM\n+\n+ENV PATH \"/usr/lib/jvm/java-8-openjdk-$HOST_DEBIAN_PLATFORM/bin:$PATH\"\n+\n+ENV SBT_LAUNCHER_VERSION 1.2.0"
+  },
+  {
+    "id" : "40c540c5-5d56-49d5-9c8a-ee292949d4d7",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "3b33eb91-a620-4b7a-aa3b-da20b717f87f",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Will this ensure that the owner of files created inside Docker match the Travis CI user?",
+        "createdAt" : "2018-09-21T02:08:59Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "489eb515-2dc8-49c1-a05a-cca26ccab36c",
+        "parentId" : "3b33eb91-a620-4b7a-aa3b-da20b717f87f",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "Some file unit tests check read/write permissions, which fail if the user is not set because the root user can do whatever it wants.",
+        "createdAt" : "2018-09-25T18:45:07Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : 46,
+    "diffHunk" : "@@ -0,0 +1,47 @@\n+ARG TARGET_DOCKER_PLATFORM\n+\n+FROM library/debian:stretch\n+\n+RUN apt-get update && apt-get install -y qemu-user-static\n+\n+FROM $TARGET_DOCKER_PLATFORM/debian:stretch\n+\n+ARG HOST_DEBIAN_PLATFORM\n+\n+COPY --from=0 /usr/bin/qemu-* /usr/bin/\n+\n+RUN dpkg --add-architecture $HOST_DEBIAN_PLATFORM\n+\n+RUN apt-get update && apt-get install -y openjdk-8-jdk-headless:$HOST_DEBIAN_PLATFORM\n+\n+ENV PATH \"/usr/lib/jvm/java-8-openjdk-$HOST_DEBIAN_PLATFORM/bin:$PATH\"\n+\n+ENV SBT_LAUNCHER_VERSION 1.2.0\n+\n+RUN apt-get install -y wget curl\n+\n+# Install sbt\n+RUN \\\n+  curl -L -o sbt-$SBT_LAUNCHER_VERSION.deb https://dl.bintray.com/sbt/debian/sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  dpkg -i sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  rm sbt-$SBT_LAUNCHER_VERSION.deb && \\\n+  apt-get update && \\\n+  apt-get install -y sbt\n+\n+RUN echo \"deb http://deb.debian.org/debian stretch-backports main contrib non-free\" >> /etc/apt/sources.list\n+\n+RUN apt-get update && apt-get install -y clang-5.0 zlib1g-dev libgc-dev libre2-dev\n+\n+ENV LD_LIBRARY_PATH \"/usr/local/lib\"\n+\n+ENV LC_ALL \"C.UTF-8\"\n+\n+ENV LANG \"C.UTF-8\"\n+\n+RUN useradd -ms /bin/bash scala-native\n+\n+USER scala-native"
+  },
+  {
+    "id" : "145be253-0d2c-4bba-965f-ba8f81cf188e",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "392afc8b-ed9c-46c9-9caf-59a41cf84f13",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Any reason to use newer Ubuntu image? I think we should stick to 18.04 as it's latest LTS release atm. ",
+        "createdAt" : "2018-10-29T09:18:49Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -1,13 +1,15 @@\n ARG TARGET_DOCKER_PLATFORM\n \n-FROM ubuntu:18.04\n+FROM ubuntu:18.10"
+  },
+  {
+    "id" : "a62399a9-9cba-44e4-9782-96e860b91163",
+    "prId" : 1475,
+    "comments" : [
+      {
+        "id" : "9cb76272-cb3f-489d-9852-f8781afe5999",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@shadaj Do we need to manually republish the docker image every time we change the dockerfile? ",
+        "createdAt" : "2019-03-20T11:55:54Z",
+        "updatedAt" : "2019-05-08T11:09:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "70aedb5e-e638-42fe-a472-29650cfd16e3",
+        "parentId" : "9cb76272-cb3f-489d-9852-f8781afe5999",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "Nope, the images are built from source during each Travis run!",
+        "createdAt" : "2019-04-04T15:02:40Z",
+        "updatedAt" : "2019-05-08T11:09:11Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cfec3227a50a16745b9a38578b25c7726f59da7c",
+    "line" : null,
+    "diffHunk" : "@@ -47,4 +47,4 @@ USER scala-native\n \n WORKDIR /home/scala-native/scala-native\n \n-CMD sbt -no-colors -J-Xmx3G \"^^ $SBT_VERSION\" rebuild \"set scriptedBufferLog in sbtScalaNative := false\" \"$TEST_COMMAND\"\n+CMD sbt -no-colors -J-Xmx${SBT_HEAP} \"^^ $SBT_VERSION\" rebuild \"set scriptedBufferLog in sbtScalaNative := false\" \"$TEST_COMMAND\""
+  },
+  {
+    "id" : "83093b8d-3d84-4d10-b680-fc4fd6771ab2",
+    "prId" : 1712,
+    "comments" : [
+      {
+        "id" : "8761c35d-8d74-4375-b7cd-cc00e3912a92",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\nENV SBT_LAUNCHER_VERSION 1.3.7\r\n```",
+        "createdAt" : "2020-01-29T10:09:28Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "909d4ef3-7bad-4438-b967-460746dc7316",
+        "parentId" : "8761c35d-8d74-4375-b7cd-cc00e3912a92",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Good catch - forgot this one.",
+        "createdAt" : "2020-01-29T16:40:11Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "40082bed724604807bc88ddf064ee16e47cb4ec1",
+    "line" : null,
+    "diffHunk" : "@@ -23,7 +23,7 @@ RUN sed -i -e \"s/deb http/deb [arch=$HOST_ARCHITECTURE] http/g\" /etc/apt/host-so\n RUN apt-get update && apt-get install -y openjdk-8-jdk-headless:$HOST_ARCHITECTURE\n ENV PATH \"/usr/lib/jvm/java-8-openjdk-$HOST_ARCHITECTURE/bin:$PATH\"\n \n-ENV SBT_LAUNCHER_VERSION 0.13.7\n+ENV SBT_LAUNCHER_VERSION 1.3.3"
+  }
+]

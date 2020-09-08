@@ -1,0 +1,118 @@
+[
+  {
+    "id" : "373de667-c4eb-4992-8dc8-767544cf6fdc",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "34e5e1b7-010d-482f-852a-59d2f2681cd2",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "`fork()` should return `pid_t` for readability.",
+        "createdAt" : "2019-07-11T00:23:24Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : null,
+    "diffHunk" : "@@ -17,6 +17,7 @@ object unistd {\n   def dup2(fildes: CInt, fildesnew: CInt): CInt   = extern\n   def execve(path: CString, argv: Ptr[CString], envp: Ptr[CString]): CInt =\n     extern\n+  def execvp(path: CString, args: Ptr[CString]): CInt             = extern\n   def fork(): CInt                                                = extern"
+  },
+  {
+    "id" : "1e523bd5-a192-4838-b464-2062abd2841e",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "9575a645-8381-42a6-9817-d0d75e2a6c2c",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I have an outstanding PR #1622 \"WIP Fix #1621: supply complete POSIX unistd definitions\" which\r\naddresses some of these issues. We may need to manage merge conflicts.  No problem. \r\n\r\nI noticed that execv() seems to be missing in this edit.  The GNU execvpe() is an open question. Do we\r\nbe useful & non-Posix or strictly Posix?  \r\n\r\nIn checking the Open Group 2018 specification for this comment, I discovered that unistd.h should\r\ndeclare `fexecve(int, char *const [], char *const []);`.  ",
+        "createdAt" : "2019-07-13T09:11:09Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f597f8d5-c2bf-45f5-a860-bcef7521084e",
+        "parentId" : "9575a645-8381-42a6-9817-d0d75e2a6c2c",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "@LeeTibbert the feedback I got from Denys is that only standardized POSIX functions belong in posixlib.  \r\n\r\nI'll add `execv()` in this PR - less eager to implement `fexecve` since I've never used it, and wouldn't really know how to test it.",
+        "createdAt" : "2019-07-20T21:12:36Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f28da344-0dbf-4951-ab8c-3c91db0e5b9d",
+        "parentId" : "9575a645-8381-42a6-9817-d0d75e2a6c2c",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "re: execvpe Understood and agreed.   A GNUism.\r\n\r\nre: fexecve.  I believe that unit tests for straight \"passthre\" methods are encouraged but\r\nnot strictly required.  I think the bar is a bit higher for those where the scala \"glue\" layer\r\ndoes something, like handling impedance between SN and C structures.\r\n\r\nI could not find an existing UnistdSuite.scala, so I think the lack of a fexecve() (or others\r\nfrom this PR) is fine.  One voice, others may differ.\r\n\r\n",
+        "createdAt" : "2019-07-21T11:06:02Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "39a39aba-6970-413b-a371-2708db42b5a8",
+        "parentId" : "9575a645-8381-42a6-9817-d0d75e2a6c2c",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "OK by me if fexecve() is delayed until my PR.  May motivate me.\r\nI was just wearing my PR review hat and pointing out inconsistencies.\r\nCan't fix the whole world at once.",
+        "createdAt" : "2019-07-21T11:38:39Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : 27,
+    "diffHunk" : "@@ -17,6 +17,7 @@ object unistd {\n   def dup2(fildes: CInt, fildesnew: CInt): CInt   = extern\n   def execve(path: CString, argv: Ptr[CString], envp: Ptr[CString]): CInt =\n     extern\n+  def execvp(path: CString, args: Ptr[CString]): CInt             = extern"
+  }
+]

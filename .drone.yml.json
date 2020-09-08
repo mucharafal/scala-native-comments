@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "1091d19a-650e-49ac-8957-1f26ac1c91aa",
+    "prId" : 576,
+    "comments" : [
+      {
+        "id" : "1b2a8e0a-247a-44d8-94f9-19b6d4dc6bf7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Unfortunately, testing using nix gives me zero information if the code will work in the typical end-user environment like Ubuntu, given how special things are in that environment. \r\n\r\nConsidering that it fails tests for reasons we don't know yet, I do not think it's a good time investment to use it for CI in the first place. We don't have time budget to spend on debugging things in peculiar environments while something as common as Windows is still not supported. ",
+        "createdAt" : "2017-03-21T10:16:54Z",
+        "updatedAt" : "2017-04-18T15:50:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cf1d9e00-9dfe-4aaf-958f-7b67ba328d85",
+        "parentId" : "1b2a8e0a-247a-44d8-94f9-19b6d4dc6bf7",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "I understand. Ye will need the revive the old docker container.",
+        "createdAt" : "2017-03-21T12:02:44Z",
+        "updatedAt" : "2017-04-18T15:50:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6f7996a2d8c7e20de820168075aeac76af9343e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,16 @@\n+pipeline:\n+  test:\n+    image: scalacenter/scala-native:0.1.0\n+    commands:\n+      - export SBT_OPTS=\"-Xmx8G -Djline.terminal=jline.UnsupportedTerminal -Dsbt.log.noformat=true\"\n+      - time nix-shell bin/scala-native.nix -A clangEnv --run \"sbt rebuild test-all\""
+  }
+]

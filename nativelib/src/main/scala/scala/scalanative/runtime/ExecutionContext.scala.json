@@ -1,0 +1,114 @@
+[
+  {
+    "id" : "850f0bb9-dc9d-4e2f-8532-55b6cc15457a",
+    "prId" : 1852,
+    "comments" : [
+      {
+        "id" : "b2b4c2e4-5a85-4e77-82dc-b9ff5f59e0c6",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I have a concern about duplication of loop() here.\r\n\r\nI propose to the discussion that a good way to deal with it is to \r\nmark/comment this method as experimental, acknowledge the code duplication\r\nwith loop(), and say that that duplication\r\nshould be eliminated before the method is promoted to supported.\r\n\r\nThis approach would also explain why the method is, I believe, otherwise undocumented.\r\n\r\nI agree that such an approach lets some cruft sneak in. I think the value\r\nof allowing easing pseudo-async leading edge experiments is worth\r\nasking for a small, focused dispensation.\r\n\r\nI think it makes no sense to disturb the tranquility of the known-to-work loop() \r\nimplementation until the larger picture sorts out.\r\n\r\nThe classic problem/issue is that loop() wants to be as fast as possible and\r\ndoes not wanting to be checking all the time if it is one-shot.",
+        "createdAt" : "2020-07-15T12:13:47Z",
+        "updatedAt" : "2020-07-15T17:55:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "121b8ac6fa8ea50d6e8ecdc6c8a82dd6ae644af8",
+    "line" : 28,
+    "diffHunk" : "@@ -25,4 +25,17 @@ object ExecutionContext {\n       }\n     }\n   }\n+\n+  private[runtime] def loopRunOnce(): Int = {"
+  },
+  {
+    "id" : "a5a949b8-3e94-4de7-b771-f5f1d8a5bb5d",
+    "prId" : 1852,
+    "comments" : [
+      {
+        "id" : "8e4717ec-0c56-4988-ad1e-86edd55e226c",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "What do you think about a one line comment suggesting that `queue.size`\r\nhas a limited duration of validity? Anyone thinking about it will understand\r\nthat it is valid only until the next Future is created but who is creating Futures\r\nand when can be quite opaque. \r\n\r\nThe `queue.size` is known valid just after the method return but can go invalid\r\nat the next method call. I believe the Scala substitution principle is designed\r\nto make it opaque how a given statement is implemented.\r\n\r\nAnother way of stating this, perhaps clearer, is that a non-zero return will  remain\r\ntrue until the next loop() or loopRunOnce() but that a zero return becomes more\r\nunreliable the older it gets.",
+        "createdAt" : "2020-07-15T12:26:59Z",
+        "updatedAt" : "2020-07-15T17:55:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "121b8ac6fa8ea50d6e8ecdc6c8a82dd6ae644af8",
+    "line" : 32,
+    "diffHunk" : "@@ -25,4 +25,17 @@ object ExecutionContext {\n       }\n     }\n   }\n+\n+  private[runtime] def loopRunOnce(): Int = {\n+    if (queue.nonEmpty) {\n+      val runnable = queue.remove(0)\n+      try {\n+        runnable.run()\n+      } catch {\n+        case t: Throwable =>\n+          QueueExecutionContext.reportFailure(t)\n+      }\n+    }\n+    queue.size"
+  },
+  {
+    "id" : "c07b86bf-fb4e-4f62-b204-58911b8e6205",
+    "prId" : 1852,
+    "comments" : [
+      {
+        "id" : "a85335a2-65f8-4f95-a635-366ed218b89f",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I understand & support your concerns for reasonably proper names.\r\n\r\nI, for one, think the name is fine for this stage of the game, especially if the method\r\nis marked Experimental.  \r\n\r\nI think that a wide range of names are appropriate while we gain some experience.\r\nThe names here fall well within that range. It is certainly better than the `cycle()`\r\nI came up with during rapid development of one of my similar design studies.\r\n\r\n\r\n",
+        "createdAt" : "2020-07-15T12:35:18Z",
+        "updatedAt" : "2020-07-15T17:55:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "121b8ac6fa8ea50d6e8ecdc6c8a82dd6ae644af8",
+    "line" : 28,
+    "diffHunk" : "@@ -25,4 +25,17 @@ object ExecutionContext {\n       }\n     }\n   }\n+\n+  private[runtime] def loopRunOnce(): Int = {"
+  },
+  {
+    "id" : "f259087d-3cf6-490b-9860-8bed68b68532",
+    "prId" : 1852,
+    "comments" : [
+      {
+        "id" : "65c1453d-ad0e-47eb-860d-776d8a54c701",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I like refactor.",
+        "createdAt" : "2020-07-15T23:39:53Z",
+        "updatedAt" : "2020-07-15T23:39:54Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "121b8ac6fa8ea50d6e8ecdc6c8a82dd6ae644af8",
+    "line" : 24,
+    "diffHunk" : "@@ -14,15 +14,27 @@ object ExecutionContext {\n \n   private val queue: ListBuffer[Runnable] = new ListBuffer\n \n+  @inline\n+  private def loopRunOnceUnsafe(): Unit = {\n+    val runnable = queue.remove(0)\n+    try {\n+      runnable.run()\n+    } catch {\n+      case t: Throwable =>\n+        QueueExecutionContext.reportFailure(t)\n+    }\n+  }\n+\n   private[runtime] def loop(): Unit = {\n     while (queue.nonEmpty) {\n-      val runnable = queue.remove(0)\n-      try {\n-        runnable.run()\n-      } catch {\n-        case t: Throwable =>\n-          QueueExecutionContext.reportFailure(t)\n-      }\n+      loopRunOnceUnsafe()"
+  }
+]

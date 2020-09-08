@@ -1,0 +1,157 @@
+[
+  {
+    "id" : "6421a6b5-9399-48db-b3de-848fccd388d8",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "7d8a170b-4519-4d34-9cbd-fc42a4fcf3c9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`StackOverflowHandler_smallHeapOverflowHeapScan`",
+        "createdAt" : "2017-05-26T12:56:31Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,170 @@\n+#include <stdio.h>\n+#include \"StackoverflowHandler.h\"\n+#include \"State.h\"\n+#include \"Block.h\"\n+#include \"Object.h\"\n+#include \"Marker.h\"\n+\n+extern int __object_array_id;\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool overflowBlockScan(BlockHeader *block, Heap *heap, Stack *stack,\n+                       word_t **currentOverflowAddress);\n+\n+void StackOverflowHandler_checkForOverflow() {\n+    if (overflow) {\n+        // Set overflow address to the first word of the heap\n+        currentOverflowAddress = heap->heapStart;\n+        overflow = false;\n+        Stack_doubleSize(stack);\n+\n+#ifdef PRINT_STACK_OVERFLOW\n+        printf(\"Stack grew to %zu bytes\\n\",\n+               stack->nb_words * sizeof(Stack_Type));\n+        fflush(stdout);\n+#endif\n+\n+        word_t *largeHeapEnd = heap->largeHeapEnd;\n+        // Continue while we don' hit the end of the large heap.\n+        while (currentOverflowAddress != largeHeapEnd) {\n+\n+            // If the current overflow address is in the small heap, scan the\n+            // small heap.\n+            if (heap_isWordInSmallHeap(heap, currentOverflowAddress)) {\n+                // If no object was found in the small heap, move on to large\n+                // heap\n+                if (!smallHeapOverflowHeapScan(heap, stack)) {\n+                    currentOverflowAddress = heap->largeHeapStart;\n+                }\n+            } else {\n+                largeHeapOverflowHeapScan(heap, stack);\n+            }\n+\n+            // At every iteration when a object is found, trace it\n+            Marker_mark(heap, stack);\n+        }\n+    }\n+}\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack) {"
+  },
+  {
+    "id" : "569d4dde-5e8d-49e6-ba2e-73e759c20e33",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "fd0296cf-f078-4fdc-baf1-a7a6e0f42e4c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`StackOverflowHandler_overflowMark `",
+        "createdAt" : "2017-05-26T12:56:41Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,170 @@\n+#include <stdio.h>\n+#include \"StackoverflowHandler.h\"\n+#include \"State.h\"\n+#include \"Block.h\"\n+#include \"Object.h\"\n+#include \"Marker.h\"\n+\n+extern int __object_array_id;\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool overflowBlockScan(BlockHeader *block, Heap *heap, Stack *stack,\n+                       word_t **currentOverflowAddress);\n+\n+void StackOverflowHandler_checkForOverflow() {\n+    if (overflow) {\n+        // Set overflow address to the first word of the heap\n+        currentOverflowAddress = heap->heapStart;\n+        overflow = false;\n+        Stack_doubleSize(stack);\n+\n+#ifdef PRINT_STACK_OVERFLOW\n+        printf(\"Stack grew to %zu bytes\\n\",\n+               stack->nb_words * sizeof(Stack_Type));\n+        fflush(stdout);\n+#endif\n+\n+        word_t *largeHeapEnd = heap->largeHeapEnd;\n+        // Continue while we don' hit the end of the large heap.\n+        while (currentOverflowAddress != largeHeapEnd) {\n+\n+            // If the current overflow address is in the small heap, scan the\n+            // small heap.\n+            if (heap_isWordInSmallHeap(heap, currentOverflowAddress)) {\n+                // If no object was found in the small heap, move on to large\n+                // heap\n+                if (!smallHeapOverflowHeapScan(heap, stack)) {\n+                    currentOverflowAddress = heap->largeHeapStart;\n+                }\n+            } else {\n+                largeHeapOverflowHeapScan(heap, stack);\n+            }\n+\n+            // At every iteration when a object is found, trace it\n+            Marker_mark(heap, stack);\n+        }\n+    }\n+}\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack) {\n+    assert(heap_isWordInSmallHeap(heap, currentOverflowAddress));\n+    BlockHeader *currentBlock = Block_getBlockHeader(currentOverflowAddress);\n+    word_t *heapEnd = heap->heapEnd;\n+\n+    while ((word_t *)currentBlock != heapEnd) {\n+        if (overflowBlockScan(currentBlock, heap, stack,\n+                              &currentOverflowAddress)) {\n+            return true;\n+        }\n+        currentBlock = (BlockHeader *)((word_t *)currentBlock + WORDS_IN_BLOCK);\n+        currentOverflowAddress = (word_t *)currentBlock;\n+    }\n+    return false;\n+}\n+\n+bool overflowMark(Heap *heap, Stack *stack, Object *object) {"
+  },
+  {
+    "id" : "b1c61167-33cf-4496-93b0-de5e52f41e11",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "7bb935ba-b2d0-4ef7-9aae-a2b1ae4dee24",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`StackOverflowHandler_largeHeapOverflowHeapScan `",
+        "createdAt" : "2017-05-26T12:56:54Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,170 @@\n+#include <stdio.h>\n+#include \"StackoverflowHandler.h\"\n+#include \"State.h\"\n+#include \"Block.h\"\n+#include \"Object.h\"\n+#include \"Marker.h\"\n+\n+extern int __object_array_id;\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool overflowBlockScan(BlockHeader *block, Heap *heap, Stack *stack,\n+                       word_t **currentOverflowAddress);\n+\n+void StackOverflowHandler_checkForOverflow() {\n+    if (overflow) {\n+        // Set overflow address to the first word of the heap\n+        currentOverflowAddress = heap->heapStart;\n+        overflow = false;\n+        Stack_doubleSize(stack);\n+\n+#ifdef PRINT_STACK_OVERFLOW\n+        printf(\"Stack grew to %zu bytes\\n\",\n+               stack->nb_words * sizeof(Stack_Type));\n+        fflush(stdout);\n+#endif\n+\n+        word_t *largeHeapEnd = heap->largeHeapEnd;\n+        // Continue while we don' hit the end of the large heap.\n+        while (currentOverflowAddress != largeHeapEnd) {\n+\n+            // If the current overflow address is in the small heap, scan the\n+            // small heap.\n+            if (heap_isWordInSmallHeap(heap, currentOverflowAddress)) {\n+                // If no object was found in the small heap, move on to large\n+                // heap\n+                if (!smallHeapOverflowHeapScan(heap, stack)) {\n+                    currentOverflowAddress = heap->largeHeapStart;\n+                }\n+            } else {\n+                largeHeapOverflowHeapScan(heap, stack);\n+            }\n+\n+            // At every iteration when a object is found, trace it\n+            Marker_mark(heap, stack);\n+        }\n+    }\n+}\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack) {\n+    assert(heap_isWordInSmallHeap(heap, currentOverflowAddress));\n+    BlockHeader *currentBlock = Block_getBlockHeader(currentOverflowAddress);\n+    word_t *heapEnd = heap->heapEnd;\n+\n+    while ((word_t *)currentBlock != heapEnd) {\n+        if (overflowBlockScan(currentBlock, heap, stack,\n+                              &currentOverflowAddress)) {\n+            return true;\n+        }\n+        currentBlock = (BlockHeader *)((word_t *)currentBlock + WORDS_IN_BLOCK);\n+        currentOverflowAddress = (word_t *)currentBlock;\n+    }\n+    return false;\n+}\n+\n+bool overflowMark(Heap *heap, Stack *stack, Object *object) {\n+    ObjectHeader *objectHeader = &object->header;\n+    if (Object_isMarked(objectHeader)) {\n+        if (object->rtti->rt.id == __object_array_id) {\n+            size_t size =\n+                Object_size(&object->header) - OBJECT_HEADER_SIZE - WORD_SIZE;\n+            size_t nbWords = size / WORD_SIZE;\n+            for (int i = 0; i < nbWords; i++) {\n+                word_t *field = object->fields[i];\n+                Object *fieldObject = (Object *)(field - 1);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    Stack_push(stack, object);\n+                    return true;\n+                }\n+            }\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != -1) {\n+                word_t *field = object->fields[ptr_map[i]];\n+                Object *fieldObject = (Object *)(field - 1);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    Stack_push(stack, object);\n+                    return true;\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+    return false;\n+}\n+\n+/**\n+ * Scans through the large heap to find marked blocks with unmarked children.\n+ * Updates `currentOverflowAddress` while doing so.\n+ */\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack) {"
+  },
+  {
+    "id" : "b2785ed3-901f-4def-97ee-0508b5f62a30",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "2ea0867b-4b4c-47d4-bae7-6e89e7960d8b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`StackOverflowHandler_overflowScanLine`",
+        "createdAt" : "2017-05-26T12:57:10Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,170 @@\n+#include <stdio.h>\n+#include \"StackoverflowHandler.h\"\n+#include \"State.h\"\n+#include \"Block.h\"\n+#include \"Object.h\"\n+#include \"Marker.h\"\n+\n+extern int __object_array_id;\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool overflowBlockScan(BlockHeader *block, Heap *heap, Stack *stack,\n+                       word_t **currentOverflowAddress);\n+\n+void StackOverflowHandler_checkForOverflow() {\n+    if (overflow) {\n+        // Set overflow address to the first word of the heap\n+        currentOverflowAddress = heap->heapStart;\n+        overflow = false;\n+        Stack_doubleSize(stack);\n+\n+#ifdef PRINT_STACK_OVERFLOW\n+        printf(\"Stack grew to %zu bytes\\n\",\n+               stack->nb_words * sizeof(Stack_Type));\n+        fflush(stdout);\n+#endif\n+\n+        word_t *largeHeapEnd = heap->largeHeapEnd;\n+        // Continue while we don' hit the end of the large heap.\n+        while (currentOverflowAddress != largeHeapEnd) {\n+\n+            // If the current overflow address is in the small heap, scan the\n+            // small heap.\n+            if (heap_isWordInSmallHeap(heap, currentOverflowAddress)) {\n+                // If no object was found in the small heap, move on to large\n+                // heap\n+                if (!smallHeapOverflowHeapScan(heap, stack)) {\n+                    currentOverflowAddress = heap->largeHeapStart;\n+                }\n+            } else {\n+                largeHeapOverflowHeapScan(heap, stack);\n+            }\n+\n+            // At every iteration when a object is found, trace it\n+            Marker_mark(heap, stack);\n+        }\n+    }\n+}\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack) {\n+    assert(heap_isWordInSmallHeap(heap, currentOverflowAddress));\n+    BlockHeader *currentBlock = Block_getBlockHeader(currentOverflowAddress);\n+    word_t *heapEnd = heap->heapEnd;\n+\n+    while ((word_t *)currentBlock != heapEnd) {\n+        if (overflowBlockScan(currentBlock, heap, stack,\n+                              &currentOverflowAddress)) {\n+            return true;\n+        }\n+        currentBlock = (BlockHeader *)((word_t *)currentBlock + WORDS_IN_BLOCK);\n+        currentOverflowAddress = (word_t *)currentBlock;\n+    }\n+    return false;\n+}\n+\n+bool overflowMark(Heap *heap, Stack *stack, Object *object) {\n+    ObjectHeader *objectHeader = &object->header;\n+    if (Object_isMarked(objectHeader)) {\n+        if (object->rtti->rt.id == __object_array_id) {\n+            size_t size =\n+                Object_size(&object->header) - OBJECT_HEADER_SIZE - WORD_SIZE;\n+            size_t nbWords = size / WORD_SIZE;\n+            for (int i = 0; i < nbWords; i++) {\n+                word_t *field = object->fields[i];\n+                Object *fieldObject = (Object *)(field - 1);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    Stack_push(stack, object);\n+                    return true;\n+                }\n+            }\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != -1) {\n+                word_t *field = object->fields[ptr_map[i]];\n+                Object *fieldObject = (Object *)(field - 1);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    Stack_push(stack, object);\n+                    return true;\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+    return false;\n+}\n+\n+/**\n+ * Scans through the large heap to find marked blocks with unmarked children.\n+ * Updates `currentOverflowAddress` while doing so.\n+ */\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack) {\n+    assert(heap_isWordInLargeHeap(heap, currentOverflowAddress));\n+    void *heapEnd = heap->largeHeapEnd;\n+\n+    while (currentOverflowAddress != heapEnd) {\n+        Object *object = (Object *)currentOverflowAddress;\n+        if (overflowMark(heap, stack, object)) {\n+            return;\n+        }\n+        currentOverflowAddress = (word_t *)Object_nextLargeObject(object);\n+    }\n+}\n+\n+bool overflowScanLine(Heap *heap, Stack *stack, BlockHeader *block,"
+  },
+  {
+    "id" : "d7b848dd-c090-4d93-a2c5-905ef462c037",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "a87dc7b7-4e1b-450f-b435-6b582e935b16",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`StackOverflowHandler_overflowBlockScan`",
+        "createdAt" : "2017-05-26T12:57:25Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,170 @@\n+#include <stdio.h>\n+#include \"StackoverflowHandler.h\"\n+#include \"State.h\"\n+#include \"Block.h\"\n+#include \"Object.h\"\n+#include \"Marker.h\"\n+\n+extern int __object_array_id;\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool overflowBlockScan(BlockHeader *block, Heap *heap, Stack *stack,\n+                       word_t **currentOverflowAddress);\n+\n+void StackOverflowHandler_checkForOverflow() {\n+    if (overflow) {\n+        // Set overflow address to the first word of the heap\n+        currentOverflowAddress = heap->heapStart;\n+        overflow = false;\n+        Stack_doubleSize(stack);\n+\n+#ifdef PRINT_STACK_OVERFLOW\n+        printf(\"Stack grew to %zu bytes\\n\",\n+               stack->nb_words * sizeof(Stack_Type));\n+        fflush(stdout);\n+#endif\n+\n+        word_t *largeHeapEnd = heap->largeHeapEnd;\n+        // Continue while we don' hit the end of the large heap.\n+        while (currentOverflowAddress != largeHeapEnd) {\n+\n+            // If the current overflow address is in the small heap, scan the\n+            // small heap.\n+            if (heap_isWordInSmallHeap(heap, currentOverflowAddress)) {\n+                // If no object was found in the small heap, move on to large\n+                // heap\n+                if (!smallHeapOverflowHeapScan(heap, stack)) {\n+                    currentOverflowAddress = heap->largeHeapStart;\n+                }\n+            } else {\n+                largeHeapOverflowHeapScan(heap, stack);\n+            }\n+\n+            // At every iteration when a object is found, trace it\n+            Marker_mark(heap, stack);\n+        }\n+    }\n+}\n+\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack) {\n+    assert(heap_isWordInSmallHeap(heap, currentOverflowAddress));\n+    BlockHeader *currentBlock = Block_getBlockHeader(currentOverflowAddress);\n+    word_t *heapEnd = heap->heapEnd;\n+\n+    while ((word_t *)currentBlock != heapEnd) {\n+        if (overflowBlockScan(currentBlock, heap, stack,\n+                              &currentOverflowAddress)) {\n+            return true;\n+        }\n+        currentBlock = (BlockHeader *)((word_t *)currentBlock + WORDS_IN_BLOCK);\n+        currentOverflowAddress = (word_t *)currentBlock;\n+    }\n+    return false;\n+}\n+\n+bool overflowMark(Heap *heap, Stack *stack, Object *object) {\n+    ObjectHeader *objectHeader = &object->header;\n+    if (Object_isMarked(objectHeader)) {\n+        if (object->rtti->rt.id == __object_array_id) {\n+            size_t size =\n+                Object_size(&object->header) - OBJECT_HEADER_SIZE - WORD_SIZE;\n+            size_t nbWords = size / WORD_SIZE;\n+            for (int i = 0; i < nbWords; i++) {\n+                word_t *field = object->fields[i];\n+                Object *fieldObject = (Object *)(field - 1);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    Stack_push(stack, object);\n+                    return true;\n+                }\n+            }\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != -1) {\n+                word_t *field = object->fields[ptr_map[i]];\n+                Object *fieldObject = (Object *)(field - 1);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    Stack_push(stack, object);\n+                    return true;\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+    return false;\n+}\n+\n+/**\n+ * Scans through the large heap to find marked blocks with unmarked children.\n+ * Updates `currentOverflowAddress` while doing so.\n+ */\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack) {\n+    assert(heap_isWordInLargeHeap(heap, currentOverflowAddress));\n+    void *heapEnd = heap->largeHeapEnd;\n+\n+    while (currentOverflowAddress != heapEnd) {\n+        Object *object = (Object *)currentOverflowAddress;\n+        if (overflowMark(heap, stack, object)) {\n+            return;\n+        }\n+        currentOverflowAddress = (word_t *)Object_nextLargeObject(object);\n+    }\n+}\n+\n+bool overflowScanLine(Heap *heap, Stack *stack, BlockHeader *block,\n+                      int lineIndex) {\n+    LineHeader *lineHeader = Block_getLineHeader(block, lineIndex);\n+\n+    if (Line_isMarked(lineHeader) && Line_containsObject(lineHeader)) {\n+        Object *object = Line_getFirstObject(lineHeader);\n+        word_t *lineEnd =\n+            Block_getLineAddress(block, lineIndex) + WORDS_IN_LINE;\n+        while (object != NULL && (word_t *)object < lineEnd) {\n+            if (overflowMark(heap, stack, object)) {\n+                return true;\n+            }\n+            object = Object_nextObject(object);\n+        }\n+    }\n+    return false;\n+}\n+\n+/**\n+ *\n+ * This method is used in case of overflow during the marking phase.\n+ * It sweeps through the block starting at `currentOverflowAddress` until it\n+ * finds a marked block with unmarked children.\n+ * It updates the value of `currentOverflowAddress` while sweeping through the\n+ * block\n+ * Once an object is found it adds it to the stack and returns `true`. If no\n+ * object is found it returns `false`.\n+ *\n+ */\n+bool overflowBlockScan(BlockHeader *block, Heap *heap, Stack *stack,"
+  }
+]

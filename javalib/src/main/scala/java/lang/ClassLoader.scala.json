@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "c74252c1-1ca4-41d6-8f7c-8114c34d9867",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "2c668e60-d939-43ba-b3eb-cbcf8999575f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We typically omit `scala.` from the imports as `scalanative` is already specific enough. ",
+        "createdAt" : "2017-09-04T09:08:57Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : null,
+    "diffHunk" : "@@ -1,9 +1,15 @@\n package java.lang\n \n+import scala.scalanative.native.stub"
+  }
+]

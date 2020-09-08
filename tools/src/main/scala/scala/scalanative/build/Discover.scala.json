@@ -1,0 +1,668 @@
+[
+  {
+    "id" : "94ca2726-b4fe-47c0-9560-8c366739e512",
+    "prId" : 1316,
+    "comments" : [
+      {
+        "id" : "4d152377-48f6-4cb2-802d-d93fb6509c65",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If you want to support `clang8` and `clang-8` being discovered, you should add more potential binary names here instead of dropping support for `clang-8.0` which is for example used on ubuntu. ",
+        "createdAt" : "2019-03-11T12:08:17Z",
+        "updatedAt" : "2019-03-11T16:30:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b9007f1c-9270-45a1-b19f-7f070edf0bfc",
+        "parentId" : "4d152377-48f6-4cb2-802d-d93fb6509c65",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I believe that with the change to the clangVersions data structure in the latest commit\r\nany of clangN, clang-N, or clang-N.0 will be found, if extant, by the code you highlighted , where N  either 7 or 8.\r\n\r\nTo my eyes, changing the data structure makes the intent of supporting/testing both  \"\" and \"0\" as minor\r\nversions clearer than hiding some tricky manipulation in a line of code.\r\n\r\nIf you like, I can revert the current commit and handle the complexities in the line you indicated.",
+        "createdAt" : "2019-03-11T16:25:23Z",
+        "updatedAt" : "2019-03-11T16:30:21Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "17b62d00-b27c-43b8-ba43-d93e16b01574",
+        "parentId" : "4d152377-48f6-4cb2-802d-d93fb6509c65",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It doesn't hurt to support more potential names here. After all this is auto discovery implementation, it should do its best effort at finding a clang binary name. ",
+        "createdAt" : "2019-03-11T16:29:26Z",
+        "updatedAt" : "2019-03-11T16:30:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e23ce511ce9193ab09837938c13c8ee222f724b7",
+    "line" : 24,
+    "diffHunk" : "@@ -153,7 +160,8 @@ object Discover {\n       case None => {\n         val binaryNames = binaryVersions.flatMap {\n           case (major, minor) =>\n-            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major.$minor\")\n+            val sep = if (minor == \"\") \"\" else \".\"\n+            Seq(s\"$binaryName$major$minor\", s\"$binaryName-$major${sep}$minor\")"
+  },
+  {
+    "id" : "3c48ae31-80dc-436a-b6e9-5fec931fa6c8",
+    "prId" : 1316,
+    "comments" : [
+      {
+        "id" : "169b2b9b-1b54-4ee3-9701-e0929dc9c960",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`(\"8\", \"0\")` and `(\"7\", \"0\")`.",
+        "createdAt" : "2019-03-11T12:08:39Z",
+        "updatedAt" : "2019-03-11T16:30:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1fe61866-340e-4de4-9bba-64b1fdc4e0c2",
+        "parentId" : "169b2b9b-1b54-4ee3-9701-e0929dc9c960",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done (\"8\", \"0\") and (\"7\", \"0\") added to previous variant with empty string second member of tuple.\r\nBelts & suspenders engineering which does not affect binary size of end user images.\r\n\r\nRe-tested with clang-7 (test-all) and passed.  \r\n\r\nClang-8 just went to rc5. I am glad they are taking the time to remove some nasty bugs\r\nbut that makes it slide another week. I do not foresee problems with clang-8 but will\r\ninstall it and run test-all in both debug & release modes. ",
+        "createdAt" : "2019-03-11T16:09:46Z",
+        "updatedAt" : "2019-03-11T16:30:21Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6f1c4df5-396b-4c14-b1d1-050daaf35fcd",
+        "parentId" : "169b2b9b-1b54-4ee3-9701-e0929dc9c960",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Yes, the clangVersions data structure is getting large, particularly now that there are two entries per\r\nclang/llvm version.   I tried to be respectful of prior art.  \r\n\r\nDo you know the Swiss child psychologist Jean Piaget's accommodation/assimilation model of\r\nchild development?  Basically he describes a situation where changes to a child's mental\r\nschema pile up (accommodation) until the complexities force a re-organization (assimilation) or a\r\nsimpler schema is found.\r\n\r\nIf I were writing this section from a blank sheet of paper, I would probably just use the default `clang`\r\nverb. Much as I hate environmental variables, I would probably have a environment variables to\r\nset LLVM version and set clang, clang++, and anything else off of it, superceeding anything set up\r\nby llvm-config.  There are also a number of ways to set up alternatives in the OS.  \r\n\r\nThe existing 'add a version to clangVersions' works and fits available time, mine for development\r\nand yours for review, but  it should probably be changed for clang-9 or clang-10.  Other\r\nfish to fry (well, broil) now.",
+        "createdAt" : "2019-03-11T16:20:22Z",
+        "updatedAt" : "2019-03-11T16:30:21Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e23ce511ce9193ab09837938c13c8ee222f724b7",
+    "line" : 7,
+    "diffHunk" : "@@ -132,7 +132,14 @@ object Discover {\n \n   /** Versions of clang which are known to work with Scala Native. */\n   private[scalanative] val clangVersions =\n-    Seq((\"6\", \"0\"), (\"5\", \"0\"), (\"4\", \"0\"), (\"3\", \"9\"), (\"3\", \"8\"), (\"3\", \"7\"))\n+    Seq((\"8\", \"\"),\n+        (\"7\", \"\"),"
+  },
+  {
+    "id" : "a1ea5211-4d5f-431e-8617-a16c0c82d6cc",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "65c45de1-9a47-4d6a-8c1e-1b17f6a0fc2d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If we're using LLVM target architecture names, it's probably best to keep them as-is (i.e. `armv7l` on the right here). Otherwise there is a chance of confusing name clashes. ",
+        "createdAt" : "2018-10-29T09:37:04Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -90,6 +90,25 @@ object Discover {\n     }\n   }\n \n+  /** Detect the target architecture as a Scala Native build structure\n+   * @param triple the LLVM target triple, see Discover.targetTriple\n+   * @return the detected target architecture\n+   */\n+  def targetArchitecture(triple: String): TargetArchitecture = {\n+    import TargetArchitecture._\n+    triple.split('-').head match {\n+      case \"x86_64\"  => x86_64\n+      case \"i386\"    => i386\n+      case \"i686\"    => i686\n+      case \"armv7l\"  => arm"
+  },
+  {
+    "id" : "61b0d2cb-8b7b-4cd5-ac70-651e55278834",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "7aa91271-4713-4900-92e6-98299a3a0123",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These should probably be `private`, and I think other things below should also be private.",
+        "createdAt" : "2020-07-08T14:47:13Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4643827e-0b69-4357-b95f-df20ffffc01f",
+        "parentId" : "7aa91271-4713-4900-92e6-98299a3a0123",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I moved the NativeLib code to a new file and made it package private since Discovery was getting messy.",
+        "createdAt" : "2020-07-10T14:15:38Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")"
+  },
+  {
+    "id" : "eb7cd2f3-e149-4074-ade3-db0439b73cad",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "13e73c45-8167-47d9-b3ae-0e8a75280147",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I don't think this is the right place to throw this exception. There's nothing about `findNativeLibs` that is intrinsically wrong if there is no native library at all. In fact there should be no need to check for this condition at all. The only required thing is that `findNativeLib` needs to find the core native lib, but it will *already* throw a `BuildException` if `nativeLibs` is empty.",
+        "createdAt" : "2020-07-08T14:53:23Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fec35471-8283-4a56-ad93-43038a39c87b",
+        "parentId" : "13e73c45-8167-47d9-b3ae-0e8a75280147",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I think it makes sense as the message will print the classpath. There does have to be a minimum of one - the `nativelib` itself. The next call `findNativeLib` will just be searching an empty list and their will be no context in the `BuildException` as the list is empty.\r\nhttps://github.com/scala-native/scala-native/pull/1637/files#diff-cec470ec94d2401cc4e1360e1d09c1ecR62-R63",
+        "createdAt" : "2020-07-10T01:48:27Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1c60462c-841e-4349-b640-ea2a5c87593c",
+        "parentId" : "13e73c45-8167-47d9-b3ae-0e8a75280147",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "We also have Mill and coursier and other tools that could use the Build API.",
+        "createdAt" : "2020-07-10T16:38:37Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+\n+  /** Original jar or dir path and generated dir path for native code */\n+  case class NativeLib(src: Path, dest: Path)\n+\n+  /** To positively identify nativelib */\n+  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+\n+  private lazy val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile\n+\n+  def isJar(path: Path): Boolean = path.toString().endsWith(jarExtension)\n+\n+  object NativeLib {\n+    def isJar(nativelib: NativeLib): Boolean = Discover.isJar(nativelib.src)\n+  }\n+\n+  /** Compilation mode name from SCALANATIVE_MODE env var or default. */\n   def mode(): String =\n     getenv(\"SCALANATIVE_MODE\").getOrElse(build.Mode.default.name)\n \n-  /** LTO variant used for release mode. */\n+  /** LTO variant used for release mode from SCALANATIVE_LTO env var or default. */\n   def LTO(): String =\n     getenv(\"SCALANATIVE_LTO\").getOrElse(\"none\")\n \n+  /** GC variant used from SCALANATIVE_GC env var or default. */\n+  def GC(): String =\n+    getenv(\"SCALANATIVE_GC\").getOrElse(build.GC.default.name)\n+\n+  private[build] def findNativeLibs(classpath: Seq[Path],\n+                                    workdir: Path): Seq[NativeLib] = {\n+    val nativeLibPaths = classpath.flatMap { path =>\n+      if (isJar(path)) readJar(path)\n+      else readDir(path)\n+    }\n+\n+    val extractPaths =\n+      for ((path, index) <- nativeLibPaths.zipWithIndex) yield {\n+        val name =\n+          path\n+            .getName(path.getNameCount() - 1)\n+            .toString()\n+            .stripSuffix(jarExtension)\n+        NativeLib(src = path,\n+                  dest = workdir.resolve(s\"native-code-$name-$index\"))\n+      }\n+\n+    if (extractPaths.isEmpty)\n+      throw new BuildException(s\"No Native Libraries found: $classpath\")"
+  },
+  {
+    "id" : "ccbef7f7-74ce-4167-be60-1b3c18057ba7",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "fdb89d96-5a37-407c-ad51-af8b0ef726d1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why does this need `glob:**`? There should be no need to go look everywhere in the directory. The file should be at the top of the directory that is listed on the classpath.",
+        "createdAt" : "2020-07-08T14:56:45Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e5a11699-90d0-443d-b272-f25a1f70b5b1",
+        "parentId" : "fdb89d96-5a37-407c-ad51-af8b0ef726d1",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "It is a path matcher: https://docs.oracle.com/javase/8/docs/api/java/nio/file/FileSystem.html#getPathMatcher-java.lang.String-\r\n\r\nI tried removing it but I guess it needs a glob or a regex to match the end of the path. I could write special code but I was reusing the `IO.existInDir` function.\r\n```\r\n[error] java.lang.IllegalArgumentException\r\n[error] \tat sun.nio.fs.UnixFileSystem.getPathMatcher(UnixFileSystem.java:288)\r\n[error] \tat scala.scalanative.build.IO$.existsInDir(IO.scala:67)\r\n```",
+        "createdAt" : "2020-07-10T14:51:51Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0e07adc2-4155-4638-86c3-a8013778ea1f",
+        "parentId" : "fdb89d96-5a37-407c-ad51-af8b0ef726d1",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I looked at this again. It looks for the following for example which is across directory boundaries.\r\n```\r\n/Users/eric/workspace/scala-native/nativelib/target/scala-2.11/classes/org_scala-native_nativelib.txt\r\n```",
+        "createdAt" : "2020-07-17T15:54:18Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+\n+  /** Original jar or dir path and generated dir path for native code */\n+  case class NativeLib(src: Path, dest: Path)\n+\n+  /** To positively identify nativelib */\n+  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+\n+  private lazy val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile"
+  },
+  {
+    "id" : "adbbf64c-ac3b-44a9-a738-59acdbd51c4f",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "7cb2fff6-4f9d-4c15-a68d-85f6f02ce05d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same thing here: the name should be exactly `nativeLibMarkerFile`. We shouldn't accept files with the same name that are somewhere deep inside the jar rather than at the top level.",
+        "createdAt" : "2020-07-08T14:57:42Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bae5de90-da4f-4846-94d0-a2fc0d53a700",
+        "parentId" : "7cb2fff6-4f9d-4c15-a68d-85f6f02ce05d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, you are correct. Fixed.",
+        "createdAt" : "2020-07-10T14:16:22Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+\n+  /** Original jar or dir path and generated dir path for native code */\n+  case class NativeLib(src: Path, dest: Path)\n+\n+  /** To positively identify nativelib */\n+  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+\n+  private lazy val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile\n+\n+  def isJar(path: Path): Boolean = path.toString().endsWith(jarExtension)\n+\n+  object NativeLib {\n+    def isJar(nativelib: NativeLib): Boolean = Discover.isJar(nativelib.src)\n+  }\n+\n+  /** Compilation mode name from SCALANATIVE_MODE env var or default. */\n   def mode(): String =\n     getenv(\"SCALANATIVE_MODE\").getOrElse(build.Mode.default.name)\n \n-  /** LTO variant used for release mode. */\n+  /** LTO variant used for release mode from SCALANATIVE_LTO env var or default. */\n   def LTO(): String =\n     getenv(\"SCALANATIVE_LTO\").getOrElse(\"none\")\n \n+  /** GC variant used from SCALANATIVE_GC env var or default. */\n+  def GC(): String =\n+    getenv(\"SCALANATIVE_GC\").getOrElse(build.GC.default.name)\n+\n+  private[build] def findNativeLibs(classpath: Seq[Path],\n+                                    workdir: Path): Seq[NativeLib] = {\n+    val nativeLibPaths = classpath.flatMap { path =>\n+      if (isJar(path)) readJar(path)\n+      else readDir(path)\n+    }\n+\n+    val extractPaths =\n+      for ((path, index) <- nativeLibPaths.zipWithIndex) yield {\n+        val name =\n+          path\n+            .getName(path.getNameCount() - 1)\n+            .toString()\n+            .stripSuffix(jarExtension)\n+        NativeLib(src = path,\n+                  dest = workdir.resolve(s\"native-code-$name-$index\"))\n+      }\n+\n+    if (extractPaths.isEmpty)\n+      throw new BuildException(s\"No Native Libraries found: $classpath\")\n+    else\n+      extractPaths\n+  }\n+\n+  private[build] def findNativeLib(nativeLibs: Seq[NativeLib]): Path = {\n+    val nativeLib = nativeLibs.find { nl =>\n+      val srcPath = nl.src\n+      if (isJar(srcPath))\n+        IO.existsInJar(srcPath, hasMarkerFileInJar)\n+      else\n+        IO.existsInDir(srcPath, dirMarkerFilePattern)\n+    }\n+    nativeLib match {\n+      case Some(nl) => nl.dest\n+      case None =>\n+        throw new BuildException(s\"Native Library not found: $nativeLibs\")\n+    }\n+  }\n+\n+  private def isNativeFile(name: String): Boolean =\n+    srcExtensions.map(name.endsWith(_)).exists(identity)\n+\n+  private def hasMarkerFileInJar(name: String): Boolean =\n+    name.endsWith(nativeLibMarkerFile)"
+  },
+  {
+    "id" : "e7276f3d-92a7-4af0-9b98-e9bf1874ebdd",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "70c6f7ff-ff53-4ee9-bb98-185981cdafbc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    srcExtensions.exists(name.endsWith(_))\r\n```",
+        "createdAt" : "2020-07-08T14:58:09Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2dfd5ceb-bb56-4330-a1d9-e8f122c01876",
+        "parentId" : "70c6f7ff-ff53-4ee9-bb98-185981cdafbc",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Good suggestion. Not sure what I was thinking 😄 ",
+        "createdAt" : "2020-07-09T15:11:14Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+\n+  /** Original jar or dir path and generated dir path for native code */\n+  case class NativeLib(src: Path, dest: Path)\n+\n+  /** To positively identify nativelib */\n+  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+\n+  private lazy val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile\n+\n+  def isJar(path: Path): Boolean = path.toString().endsWith(jarExtension)\n+\n+  object NativeLib {\n+    def isJar(nativelib: NativeLib): Boolean = Discover.isJar(nativelib.src)\n+  }\n+\n+  /** Compilation mode name from SCALANATIVE_MODE env var or default. */\n   def mode(): String =\n     getenv(\"SCALANATIVE_MODE\").getOrElse(build.Mode.default.name)\n \n-  /** LTO variant used for release mode. */\n+  /** LTO variant used for release mode from SCALANATIVE_LTO env var or default. */\n   def LTO(): String =\n     getenv(\"SCALANATIVE_LTO\").getOrElse(\"none\")\n \n+  /** GC variant used from SCALANATIVE_GC env var or default. */\n+  def GC(): String =\n+    getenv(\"SCALANATIVE_GC\").getOrElse(build.GC.default.name)\n+\n+  private[build] def findNativeLibs(classpath: Seq[Path],\n+                                    workdir: Path): Seq[NativeLib] = {\n+    val nativeLibPaths = classpath.flatMap { path =>\n+      if (isJar(path)) readJar(path)\n+      else readDir(path)\n+    }\n+\n+    val extractPaths =\n+      for ((path, index) <- nativeLibPaths.zipWithIndex) yield {\n+        val name =\n+          path\n+            .getName(path.getNameCount() - 1)\n+            .toString()\n+            .stripSuffix(jarExtension)\n+        NativeLib(src = path,\n+                  dest = workdir.resolve(s\"native-code-$name-$index\"))\n+      }\n+\n+    if (extractPaths.isEmpty)\n+      throw new BuildException(s\"No Native Libraries found: $classpath\")\n+    else\n+      extractPaths\n+  }\n+\n+  private[build] def findNativeLib(nativeLibs: Seq[NativeLib]): Path = {\n+    val nativeLib = nativeLibs.find { nl =>\n+      val srcPath = nl.src\n+      if (isJar(srcPath))\n+        IO.existsInJar(srcPath, hasMarkerFileInJar)\n+      else\n+        IO.existsInDir(srcPath, dirMarkerFilePattern)\n+    }\n+    nativeLib match {\n+      case Some(nl) => nl.dest\n+      case None =>\n+        throw new BuildException(s\"Native Library not found: $nativeLibs\")\n+    }\n+  }\n+\n+  private def isNativeFile(name: String): Boolean =\n+    srcExtensions.map(name.endsWith(_)).exists(identity)"
+  },
+  {
+    "id" : "45527c0d-f9fc-4283-94fc-0f7476013c23",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "5fa72fd8-59fa-46c7-b521-ceb808ae501e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Thinking more about this, I think we should restrict the search for native code in a specific directory within the Dir/Jar. For example inside `META-INF/scala-native-native-libs/`.\r\n\r\nOtherwise, codebases will never be able to put `.c`, `.cpp` or `.S` files in their `resources` without them being considered by the Scala Native linker as native libs that it should necessarily try to compile and link. That's not a great user experience.",
+        "createdAt" : "2020-07-08T15:01:41Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "70b32c17-24b3-49dd-bdbf-aca2fbfbac3a",
+        "parentId" : "5fa72fd8-59fa-46c7-b521-ceb808ae501e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I am not super excited about that idea after reading online about how `META-INF` is used.\r\n\r\nA couple of thoughts.\r\n\r\n1. Our only customers are Scala library authors wishing to make their library work with Scala Native.\r\n2. What are the chances that they are putting these files in the resource directory and for what purpose?\r\n\r\nWe could decide on a special directory inside resources but then we would have change the current code. Nothing we could come up with is 100% foolproof and would restrict library authors so I am not sure it is worth the effort for a hypothetical. \r\n\r\nThat said, we could internally migrate code to `resources/native` and recommend that to library authors so that if we ever have a conflict we could change the code to use that directory only. It looks to me like it would take another PR to make the Scala Native `nativelib` compile if the code was moved into `resources/native`. Any other library with native code shouldn't matter. I have tested this with the scripted test and have documentation prepared if you agree.",
+        "createdAt" : "2020-07-10T15:58:18Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "318ce5f2-449b-4ba1-852d-0e9eb843265c",
+        "parentId" : "5fa72fd8-59fa-46c7-b521-ceb808ae501e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I decided to search Github `\"src/main/resources/native\" in:path language:c`\r\nIt is used but very little and no source code matches I could find. Maybe others know how to search Github better.\r\n\r\nIf we wanted to be super safe we could go with `scala-native` which is more specific but not too ugly.\r\n\r\nAny opinions?",
+        "createdAt" : "2020-07-10T17:37:32Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f7e807c-3cd4-4082-b483-9bf22de604aa",
+        "parentId" : "5fa72fd8-59fa-46c7-b521-ceb808ae501e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "If we went with `resources/scala-native` we could do a followup PR to enforce it.",
+        "createdAt" : "2020-07-17T15:56:24Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d2462b37-df89-4c3f-a60f-6cfca0282865",
+        "parentId" : "5fa72fd8-59fa-46c7-b521-ceb808ae501e",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "> What are the chances that they are putting these files in the resource directory and for what purpose?\r\n\r\nIt's not a question of \"chances\". If there is a chance, we need to take it into account. In language design, you have to account for *all* possible cases, otherwise you will block *some*one, somewhere.\r\n\r\n> If we wanted to be super safe we could go with scala-native which is more specific but not too ugly.\r\n\r\n`scala-native` sounds good since it cannot clash with a package name.",
+        "createdAt" : "2020-08-08T14:30:11Z",
+        "updatedAt" : "2020-08-08T14:30:36Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+\n+  /** Original jar or dir path and generated dir path for native code */\n+  case class NativeLib(src: Path, dest: Path)\n+\n+  /** To positively identify nativelib */\n+  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+\n+  private lazy val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile\n+\n+  def isJar(path: Path): Boolean = path.toString().endsWith(jarExtension)\n+\n+  object NativeLib {\n+    def isJar(nativelib: NativeLib): Boolean = Discover.isJar(nativelib.src)\n+  }\n+\n+  /** Compilation mode name from SCALANATIVE_MODE env var or default. */\n   def mode(): String =\n     getenv(\"SCALANATIVE_MODE\").getOrElse(build.Mode.default.name)\n \n-  /** LTO variant used for release mode. */\n+  /** LTO variant used for release mode from SCALANATIVE_LTO env var or default. */\n   def LTO(): String =\n     getenv(\"SCALANATIVE_LTO\").getOrElse(\"none\")\n \n+  /** GC variant used from SCALANATIVE_GC env var or default. */\n+  def GC(): String =\n+    getenv(\"SCALANATIVE_GC\").getOrElse(build.GC.default.name)\n+\n+  private[build] def findNativeLibs(classpath: Seq[Path],\n+                                    workdir: Path): Seq[NativeLib] = {\n+    val nativeLibPaths = classpath.flatMap { path =>\n+      if (isJar(path)) readJar(path)\n+      else readDir(path)\n+    }\n+\n+    val extractPaths =\n+      for ((path, index) <- nativeLibPaths.zipWithIndex) yield {\n+        val name =\n+          path\n+            .getName(path.getNameCount() - 1)\n+            .toString()\n+            .stripSuffix(jarExtension)\n+        NativeLib(src = path,\n+                  dest = workdir.resolve(s\"native-code-$name-$index\"))\n+      }\n+\n+    if (extractPaths.isEmpty)\n+      throw new BuildException(s\"No Native Libraries found: $classpath\")\n+    else\n+      extractPaths\n+  }\n+\n+  private[build] def findNativeLib(nativeLibs: Seq[NativeLib]): Path = {\n+    val nativeLib = nativeLibs.find { nl =>\n+      val srcPath = nl.src\n+      if (isJar(srcPath))\n+        IO.existsInJar(srcPath, hasMarkerFileInJar)\n+      else\n+        IO.existsInDir(srcPath, dirMarkerFilePattern)\n+    }\n+    nativeLib match {\n+      case Some(nl) => nl.dest\n+      case None =>\n+        throw new BuildException(s\"Native Library not found: $nativeLibs\")\n+    }\n+  }\n+\n+  private def isNativeFile(name: String): Boolean =\n+    srcExtensions.map(name.endsWith(_)).exists(identity)\n+\n+  private def hasMarkerFileInJar(name: String): Boolean =\n+    name.endsWith(nativeLibMarkerFile)\n+\n+  private def readDir(path: Path): Option[Path] =\n+    IO.existsInDir(path, srcPatterns) match {\n+      case true  => Some(path)\n+      case false => None\n+    }\n+\n+  private def readJar(path: Path): Option[Path] =\n+    IO.existsInJar(path, isNativeFile) match {\n+      case true  => Some(path)\n+      case false => None\n+    }"
+  },
+  {
+    "id" : "7c898359-a1c0-45bc-a19f-1dc7eecacbee",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "7e8f9c34-a540-4a81-9951-40eb953e0da9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is this early filter even necessary? Later, `unpackNativeCode` will anyway copy only relevant files, ending up being a no-op if there is no relevant file. The early filter has a cost, since we must walk through all the files.",
+        "createdAt" : "2020-07-08T15:16:09Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4c0b7d5a-17d5-4a34-84ad-277086c7e922",
+        "parentId" : "7e8f9c34-a540-4a81-9951-40eb953e0da9",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This filter reduces the search space down to only the classpath entries that need native processing. This native group then gets named/numbered according to your scheme. This list has to have at least one entry for the `nativelib` otherwise there is a problem. This much smaller list is then searched to find the `nativelib`.\r\n\r\nWe could also cache this if desired. The only downside would be if you decided to add a C file to a project that was not already in the list you would have to reload `sbt`. This is not too much different that if you add or change a dependency you must restart `sbt`. In this case the dependency would be changing from one that has no native code to one that does. I did not time or benchmark but I can't detect any slow down for searching.",
+        "createdAt" : "2020-07-10T01:26:45Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c927ae1e-0d61-4f1f-9bb8-72049c2ab1b3",
+        "parentId" : "7e8f9c34-a540-4a81-9951-40eb953e0da9",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "We only want `unpackNativeCode` to work on libraries with native code. This blindly unpacks jars and copies directories and hashes the jars and directory contents. Later on in the process the code is found to be compiled. On a previous commit I combined the search into one operation using one glob for every file extension.",
+        "createdAt" : "2020-08-05T16:40:54Z",
+        "updatedAt" : "2020-08-05T16:41:20Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -12,14 +12,94 @@ import scalanative.build.IO.RichPath\n  */\n object Discover {\n \n-  /** Compilation mode name that takes SCALANATIVE_MODE into account or default otherwise. */\n+  /** List of source patterns used */\n+  val jarExtension  = \".jar\"\n+  val srcExtensions = Seq(\".c\", \".cpp\", \".S\")\n+  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+\n+  /** Original jar or dir path and generated dir path for native code */\n+  case class NativeLib(src: Path, dest: Path)\n+\n+  /** To positively identify nativelib */\n+  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+\n+  private lazy val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile\n+\n+  def isJar(path: Path): Boolean = path.toString().endsWith(jarExtension)\n+\n+  object NativeLib {\n+    def isJar(nativelib: NativeLib): Boolean = Discover.isJar(nativelib.src)\n+  }\n+\n+  /** Compilation mode name from SCALANATIVE_MODE env var or default. */\n   def mode(): String =\n     getenv(\"SCALANATIVE_MODE\").getOrElse(build.Mode.default.name)\n \n-  /** LTO variant used for release mode. */\n+  /** LTO variant used for release mode from SCALANATIVE_LTO env var or default. */\n   def LTO(): String =\n     getenv(\"SCALANATIVE_LTO\").getOrElse(\"none\")\n \n+  /** GC variant used from SCALANATIVE_GC env var or default. */\n+  def GC(): String =\n+    getenv(\"SCALANATIVE_GC\").getOrElse(build.GC.default.name)\n+\n+  private[build] def findNativeLibs(classpath: Seq[Path],\n+                                    workdir: Path): Seq[NativeLib] = {\n+    val nativeLibPaths = classpath.flatMap { path =>\n+      if (isJar(path)) readJar(path)\n+      else readDir(path)\n+    }"
+  }
+]

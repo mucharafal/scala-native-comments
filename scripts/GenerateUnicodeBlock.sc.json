@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "54c11abb-5257-4d97-a464-2b8e52d64996",
+    "prId" : 1887,
+    "comments" : [
+      {
+        "id" : "7d42c324-9205-473f-a289-8a85d4efe5df",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "It is good to get the generating script into Git.  Please consider giving a few\r\nmore clues the the poor suffering <expletive deleted> who comes after you\r\nand tries to run this.\r\n\r\nFor example, WT? is amm? yes, I know it is ammonite, but clues such as a URL \r\nto ammonite and ammonite scripts, would\r\nimprove, IMO, the software engineering. ",
+        "createdAt" : "2020-09-06T21:18:55Z",
+        "updatedAt" : "2020-09-06T21:18:55Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "928ccc96-824c-46d7-9251-ce462291a815",
+        "parentId" : "7d42c324-9205-473f-a289-8a85d4efe5df",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I believe the software engineering would also be improved if there were a short, one paragraph description of how this script fits into the general build process. That it is\r\nnot automagically executed in build.sbt, but rather is manually run and the output\r\nmanually edited into j.l.Character.scala.\r\n\r\nThat is, could a bright middle-school pupil, or the less capable engineer-in-a-hurry of English common law,  follow in your footsteps?",
+        "createdAt" : "2020-09-06T21:24:01Z",
+        "updatedAt" : "2020-09-06T21:24:01Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a671ed7bfed473495e748bfe526e2ed310d0c3f4",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,415 @@\n+// Run with $ amm scripts/GenerateUnicodeBlock.sc"
+  },
+  {
+    "id" : "0d8ba0a7-c0e3-4c1a-a569-7fd6d01188c7",
+    "prId" : 1887,
+    "comments" : [
+      {
+        "id" : "bd3674de-f427-46aa-9281-962bab0adb37",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Please see comments in Character.scala, which I will review next.  IMO, the software engineering would be improved if this script printed out some, actually quite a bit of audit\r\ntrail information:  Who ran it, when, which version of Unicode used as input files.",
+        "createdAt" : "2020-09-06T21:21:07Z",
+        "updatedAt" : "2020-09-06T21:21:07Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a671ed7bfed473495e748bfe526e2ed310d0c3f4",
+    "line" : 2,
+    "diffHunk" : "@@ -0,0 +1,415 @@\n+// Run with $ amm scripts/GenerateUnicodeBlock.sc\n+//   Replace code in ./javalanglib/src/main/scala/java/lang/Character.scala"
+  }
+]

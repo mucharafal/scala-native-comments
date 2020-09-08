@@ -1,0 +1,143 @@
+[
+  {
+    "id" : "f836b4ff-49d1-4bbc-a78e-1eef2e67ba03",
+    "prId" : 1515,
+    "comments" : [
+      {
+        "id" : "8fd9df98-a821-4ec4-8fe6-ecf87079eeb9",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Minor suggestion: maybe add the following:\r\n```scala\r\nprivate implicit class ProcessOs(val process: Process) extends AnyVal {\r\n  def block(): Unit = assert(proc.waitFor(5, TimeUnit.SECONDS), \"Process took more than 5 seconds to exit\")\r\n}\r\n```\r\nthen you could replace all of the calls to `proc.waitFor` with `proc.block()`. It also allows the time duration to be easily changed in one place. None of the these tests should take more than a few hundred milliseconds so I think 5 seconds is plenty of time to wait.",
+        "createdAt" : "2019-03-27T19:37:12Z",
+        "updatedAt" : "2019-04-02T06:12:47Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c5eca2f3-2add-46b7-9285-71703ba55daf",
+        "parentId" : "8fd9df98-a821-4ec4-8fe6-ecf87079eeb9",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@eatkins Thank you for the review & suggestion. The PR got better as a result.\r\n\r\nI implemented the shorter timeout and a common, central routine.\r\n\r\n I kept the new routine within the ProcessSuite object, rather than your suggested ProcessOs, \r\nbecause I think the block or suspend is more closely logically related to the test being\r\nsuspended rather than the underlying process.\r\n\r\nPlease let me know, if possible, if this adequately resolves your concern.  Thank you.\r\n",
+        "createdAt" : "2019-03-30T23:07:24Z",
+        "updatedAt" : "2019-04-02T06:12:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7e6cae55-38db-4065-837b-d34d4ce8a868",
+        "parentId" : "8fd9df98-a821-4ec4-8fe6-ecf87079eeb9",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@eatkins Thank you, again, for the timely rview.",
+        "createdAt" : "2019-03-31T15:16:08Z",
+        "updatedAt" : "2019-04-02T06:12:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "07786602361e08e5cfdc137ca945b0942136333c",
+    "line" : 27,
+    "diffHunk" : "@@ -8,6 +8,20 @@ import scala.scalanative.native.{Zone, toCString}\n import scala.scalanative.posix.{fcntl, unistd}\n import scala.io.Source\n \n+// Design Note:\n+//     In a number of places waitFor() is called to prevent zombie\n+//     processes. These calls have been converted to a timed waitfor.\n+//     A timed waitfor means the test will eventually complete, even\n+//     if there is a problem with the underlying process.\n+//\n+//     One minute is an order of magnitude guess for a \"reasonable\"\n+//     completion time.  If a process expected to exit in milliseconds\n+//     takes over a minute, it should be reported.\n+//\n+//     In the expected normal case, the process will exit within seconds\n+//     or less, so the 1 minute timeout will not increase the expected\n+//     execution time of the test.\n+\n object ProcessSuite extends tests.Suite {\n   def readInputStream(s: InputStream) = Source.fromInputStream(s).mkString"
+  },
+  {
+    "id" : "5d860e10-6d24-4abe-9689-d812310eb52b",
+    "prId" : 1515,
+    "comments" : [
+      {
+        "id" : "5ff6523a-2beb-470d-8e6e-2dc680414942",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The name of this method should start with `assert`. For example: `assertTerminates` or `assertExits`.",
+        "createdAt" : "2019-04-01T10:38:05Z",
+        "updatedAt" : "2019-04-02T06:12:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0a89bf05-9498-4a89-8967-438ca95683a1",
+        "parentId" : "5ff6523a-2beb-470d-8e6e-2dc680414942",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I will change the name as recommended.  Probably to assertProcessExitOrTimeout().\r\nThank you for the review.",
+        "createdAt" : "2019-04-02T05:47:01Z",
+        "updatedAt" : "2019-04-02T06:12:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a1c04d2d-b3f3-46d5-96cd-e4cd82594dfd",
+        "parentId" : "5ff6523a-2beb-470d-8e6e-2dc680414942",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. If the new name is not suitable, I can change it again.",
+        "createdAt" : "2019-04-02T06:48:01Z",
+        "updatedAt" : "2019-04-02T06:48:01Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "07786602361e08e5cfdc137ca945b0942136333c",
+    "line" : null,
+    "diffHunk" : "@@ -9,18 +9,47 @@ import scala.scalanative.posix.{fcntl, unistd}\n import scala.io.Source\n \n object ProcessSuite extends tests.Suite {\n+\n+  private def blockTestOnConditions(process: Process): Unit = {"
+  }
+]

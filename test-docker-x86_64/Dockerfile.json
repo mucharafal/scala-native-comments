@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "9ee7137f-a54b-4af2-b3ed-60a51d20b194",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "80284f6e-dfca-45a7-9872-93104ad0b1c5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please open a separate PR for using docker for CI. I'm looking forward to using newer version of Ubuntu for once, the Travis' 14.04 is getting really long in the tooth.",
+        "createdAt" : "2018-07-19T08:47:28Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,50 @@\n+FROM ubuntu:16.04"
+  }
+]

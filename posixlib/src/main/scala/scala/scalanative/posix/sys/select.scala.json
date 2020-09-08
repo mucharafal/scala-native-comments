@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "bcfbe978-ad0d-4a58-9b34-2927f56303e5",
+    "prId" : 1473,
+    "comments" : [
+      {
+        "id" : "94da3531-f642-4a25-ad96-4e6389742c4d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "What's the purpose of this method? It looks like exactly the same thing as just calling the `alloc[fd_set]`.",
+        "createdAt" : "2019-04-02T09:35:40Z",
+        "updatedAt" : "2019-04-02T18:09:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6c5477313995e244fa4ebe2d1d5c72dc5773ccd1",
+    "line" : null,
+    "diffHunk" : "@@ -34,15 +70,17 @@ object select {\n \n }\n \n-object selectOps {\n-  import select._\n+object selectFdSet {\n+  import select.fd_set\n \n-  implicit class timevalOps(val ptr: Ptr[time.timeval]) extends AnyVal {\n-    def tv_sec: time_t       = !(ptr._1)\n-    def tv_usec: suseconds_t = !(ptr._2)\n+  // createZeroed method _must_ be used within a Zone\n \n-    def tv_sec_=(v: time_t): Unit       = !ptr._1 = v\n-    def tv_usec_=(v: suseconds_t): Unit = !ptr._2 = v\n-  }\n+  def createZeroed()(implicit z: Zone): Ptr[fd_set] = {\n+    // Be type pure and return pointer to fixed size buffer fd_set.\n+    // One _could_ detect FD_SETSIZE at runtime and adapt allocated size,\n+    // but the method would then be lying about the return type.\n \n+    // Zone.alloc is documented as returning zeroed memory.\n+    z.alloc(sizeof[fd_set]).cast[Ptr[fd_set]]\n+  }"
+  }
+]

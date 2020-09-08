@@ -1,0 +1,264 @@
+[
+  {
+    "id" : "052f371b-7290-457c-8c80-a80874798081",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "869d6e40-eb50-4724-94a4-f3d41d2b8016",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`signature`\n",
+        "createdAt" : "2016-11-11T14:14:41Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "eb488fb6-bcc7-416c-8d42-1ed4471cae1f",
+        "parentId" : "869d6e40-eb50-4724-94a4-f3d41d2b8016",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Dynmethod`\n",
+        "createdAt" : "2016-11-11T14:16:09Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -50,6 +51,7 @@ object Op {\n   final case class Classalloc(name: Global)                        extends Op\n   final case class Field(ty: Type, obj: Val, name: Global)         extends Op\n   final case class Method(ty: Type, obj: Val, name: Global)        extends Op\n+  final case class DynMethod(obj: Val, sign: String)               extends Op"
+  },
+  {
+    "id" : "936ef147-80f6-4ab8-b4b4-e164ac6f8195",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "f793525f-8bfa-49d8-acb4-360380e05e08",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Those ops belong to the high-level group of ops below.\r\n2. They should take a box type, and not a character code. ",
+        "createdAt" : "2016-12-02T13:46:08Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "35096e1f-bfbd-4857-96c5-c45f10e3b278",
+        "parentId" : "f793525f-8bfa-49d8-acb4-360380e05e08",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "> They should take a box type\r\n\r\nDo you mean boxed type in both cases ? Because otherwise as we don't have specific types for all primitive types we might loose information.",
+        "createdAt" : "2016-12-02T14:44:57Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f93a851e-1d3a-4dae-8101-b3a8c06aff35",
+        "parentId" : "f793525f-8bfa-49d8-acb4-360380e05e08",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, the boxed type in both cases. ",
+        "createdAt" : "2016-12-02T14:53:33Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -46,6 +49,9 @@ object Op {\n   final case class Conv(conv: nir.Conv, ty: Type, value: Val)     extends Pure\n   final case class Select(cond: Val, thenv: Val, elsev: Val)      extends Pure\n \n+  final case class Box(code: Char, obj: Val)   extends Op\n+  final case class Unbox(code: Char, obj: Val) extends Op"
+  },
+  {
+    "id" : "68c49ee2-0b8b-4234-a538-04c95962344e",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "8832d813-070b-451c-93f2-08f5de893833",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs newline in the end of file.",
+        "createdAt" : "2016-12-04T10:57:39Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -56,4 +59,7 @@ object Op {\n   final case class Copy(value: Val)                                extends Op\n   final case class Sizeof(ty: Type)                                extends Op\n   final case class Closure(ty: Type, fun: Val, captures: Seq[Val]) extends Op\n-}\n+  final case class Box(ty: Type, obj: Val)                         extends Op\n+  final case class Unbox(ty: Type, obj: Val)                       extends Op\n+\n+}"
+  },
+  {
+    "id" : "1c9394ec-6e1a-4a5c-b5b4-4032b109bd4e",
+    "prId" : 934,
+    "comments" : [
+      {
+        "id" : "019a8425-aee6-4e10-8797-e71b7a401119",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Enjoy that extra free character 😄 ",
+        "createdAt" : "2017-08-14T14:27:46Z",
+        "updatedAt" : "2017-08-14T20:34:18Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5bed0a8ada68ff573e2e6f384a240c5116d17346",
+    "line" : 13,
+    "diffHunk" : "@@ -46,15 +46,14 @@ object Op {\n   final case class Load(ty: Type, ptr: Val, isVolatile: Boolean) extends Op\n   final case class Store(ty: Type, ptr: Val, value: Val, isVolatile: Boolean)\n       extends Op\n-  final case class Elem(ty: Type, ptr: Val, indexes: Seq[Val]) extends Pure\n-  final case class Extract(aggr: Val, indexes: Seq[Int])       extends Pure\n-  final case class Insert(aggr: Val, value: Val, indexes: Seq[Int])\n-      extends Pure\n-  final case class Stackalloc(ty: Type, n: Val)                   extends Op\n-  final case class Bin(bin: nir.Bin, ty: Type, l: Val, r: Val)    extends Pure\n-  final case class Comp(comp: nir.Comp, ty: Type, l: Val, r: Val) extends Pure\n-  final case class Conv(conv: nir.Conv, ty: Type, value: Val)     extends Pure\n-  final case class Select(cond: Val, thenv: Val, elsev: Val)      extends Pure\n+  final case class Elem(ty: Type, ptr: Val, indexes: Seq[Val])      extends Pure"
+  },
+  {
+    "id" : "5503afe3-e352-4358-93d2-453ac589f968",
+    "prId" : 1442,
+    "comments" : [
+      {
+        "id" : "1b42a39b-aefd-4eef-adc7-fdeed19cdd8c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If `Fmul` represents floating-point multiplication, it's commutative. (It's not associative, though.)",
+        "createdAt" : "2019-02-28T13:55:11Z",
+        "updatedAt" : "2019-03-01T11:36:01Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "df85278a-6971-4f6e-ab13-6ba6c8cfc35a",
+        "parentId" : "1b42a39b-aefd-4eef-adc7-fdeed19cdd8c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2019-02-28T15:42:19Z",
+        "updatedAt" : "2019-03-01T11:36:01Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fe65e6cd-5009-4358-8aef-203aeac3baf3",
+        "parentId" : "1b42a39b-aefd-4eef-adc7-fdeed19cdd8c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Fadd` is commutative as well it seems.",
+        "createdAt" : "2019-03-01T11:30:03Z",
+        "updatedAt" : "2019-03-01T11:36:01Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a29aef2e289e8a7bfdccc1535db3e0f7fd2bcdec",
+    "line" : null,
+    "diffHunk" : "@@ -84,6 +84,26 @@ sealed abstract class Op {\n     case _ =>\n       false\n   }\n+\n+  final def isCommutative: Boolean = this match {\n+    case Op.Bin(bin, _, _, _) =>\n+      import Bin._\n+      bin match {\n+        case Iadd | Imul | And | Or | Xor =>\n+          true\n+        case Fadd | Isub | Fsub | Fmul | Sdiv | Udiv | Fdiv | Srem | Urem | Frem |"
+  }
+]

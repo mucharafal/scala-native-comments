@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "1326108a-438a-41e7-ba44-ce3e65cfcded",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "a00c9814-a19c-4f4e-b63f-6c2ab97f1e5c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Usually, it's best to avoid hierarchical packages like that. They tend to bring more into scope than intended.\r\n```suggestion\r\npackage scala.scalanative.junit.plugin\r\n```",
+        "createdAt" : "2020-07-09T10:38:07Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "62bc1db4-db9c-4980-bd03-54563ac43257",
+        "parentId" : "a00c9814-a19c-4f4e-b63f-6c2ab97f1e5c",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Also, this file should have a license header. If the CI let this through, there's probably a missing call to `headerCheck` for this project.",
+        "createdAt" : "2020-07-09T10:48:28Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "860a8076-d5e4-4487-b45b-cb979f807bb5",
+        "parentId" : "a00c9814-a19c-4f4e-b63f-6c2ab97f1e5c",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Hmm, do we have a standard header in Scala Native?",
+        "createdAt" : "2020-07-09T13:10:45Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "27ec74f6-38de-4a1c-8a49-32fc477909b6",
+        "parentId" : "a00c9814-a19c-4f4e-b63f-6c2ab97f1e5c",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "No, apparently not.",
+        "createdAt" : "2020-07-09T14:07:21Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,283 @@\n+package scala.scalanative\n+package junit.plugin"
+  },
+  {
+    "id" : "39e932fa-bfdc-4fd0-bd1d-f877ef667ce2",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "251c5608-c5f6-4415-9900-37ac5bfdc83b",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This import is dead code.",
+        "createdAt" : "2020-07-09T10:49:45Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,283 @@\n+package scala.scalanative\n+package junit.plugin\n+\n+// Ported from Scala.js\n+\n+import scala.annotation.tailrec\n+import scala.language.reflectiveCalls"
+  }
+]

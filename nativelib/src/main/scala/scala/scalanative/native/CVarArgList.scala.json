@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "4739b17d-f2fb-4493-9995-2d0c448318f4",
+    "prId" : 1426,
+    "comments" : [
+      {
+        "id" : "20814bb8-4293-431b-af28-3b59f555348f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "/cc @shadaj ",
+        "createdAt" : "2019-05-22T16:36:18Z",
+        "updatedAt" : "2019-05-22T17:42:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4cd430b21f9fbfe7d479810cd38e29534a9a17f5",
+    "line" : 14,
+    "diffHunk" : "@@ -0,0 +1,110 @@\n+package scala.scalanative\n+package native\n+\n+import scala.language.implicitConversions\n+import scalanative.runtime.{intrinsic, RawPtr, toRawPtr, libc, LongArray}\n+\n+/** Type of a C-style vararg list (va_list in C). */\n+final class CVarArgList private[scalanative] (\n+    private[scalanative] val rawptr: RawPtr)\n+\n+object CVarArgList {\n+  // Implementation below is based on VarArgs.swift from apple/swift repo.\n+  // Currently we only support X86_64, we'll need to revisit the code below\n+  // if and when we add any more officially supported architectures."
+  }
+]

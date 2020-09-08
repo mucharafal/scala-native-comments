@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "8c3c435e-94e9-411c-be81-7e48ba395c68",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "7375f1d0-3428-4ca0-b455-b092e04ba839",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`import scala.sys.process._`",
+        "createdAt" : "2017-10-24T11:40:06Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f21ed84e-8b0a-432b-b149-31bf1df82c66",
+        "parentId" : "7375f1d0-3428-4ca0-b455-b092e04ba839",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "This clashes on 0.13 with sbt imports.",
+        "createdAt" : "2017-10-24T14:50:45Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : 4,
+    "diffHunk" : "@@ -2,16 +2,13 @@ package scala.scalanative\n package sbtplugin\n \n import java.lang.System.{lineSeparator => nl}\n+import scala.sys.process.{Process, _}"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "ec5083d4-7db6-408b-b648-41b68d01ac7b",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "e3276a09-8a33-4124-9811-86557a653741",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`scalanative_target_architecture`",
+        "createdAt" : "2018-07-19T08:51:49Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 6,
+    "diffHunk" : "@@ -33,3 +33,8 @@ int scalanative_little_endian() {\n     int n = 1;\n     return (*(char *)&n);\n }\n+\n+extern int __targetArchitecture;\n+int scalanative_targetArchitecture() {"
+  },
+  {
+    "id" : "81a418a7-6d2a-49a5-b2ef-5877df413ecd",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "0b279793-c35a-40db-bd69-4ef3ecf2d214",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`__target_architecture`",
+        "createdAt" : "2018-07-19T08:52:06Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 5,
+    "diffHunk" : "@@ -33,3 +33,8 @@ int scalanative_little_endian() {\n     int n = 1;\n     return (*(char *)&n);\n }\n+\n+extern int __targetArchitecture;"
+  }
+]

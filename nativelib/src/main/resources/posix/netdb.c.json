@@ -1,0 +1,567 @@
+[
+  {
+    "id" : "88ec9811-9cbb-430c-9b6b-ced7de700342",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "86dcb993-becb-4b35-bc33-dc5449469d77",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Where do you free the memory allocated by those 2 `malloc`s?",
+        "createdAt" : "2017-06-28T09:06:32Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bb0010dc-f9a4-445c-b90b-fa94e8f4d54f",
+        "parentId" : "86dcb993-becb-4b35-bc33-dc5449469d77",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Yeah, I've got to free `len`. `converted_addr` though is a part of struct returned from the function, so I guess it should be freed in `freeaddrinfo`?",
+        "createdAt" : "2017-06-28T12:10:45Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,86 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+\t\t\t\t  struct addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));"
+  },
+  {
+    "id" : "01bc2268-93ee-4125-8870-f033219ac9a1",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "782d5b68-af4f-4e99-8337-48a26cbbf33e",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "How about this one? Is there an associated `free`?",
+        "createdAt" : "2017-06-28T09:07:07Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2781a78c-90a2-4da1-84b7-363920e575e9",
+        "parentId" : "782d5b68-af4f-4e99-8337-48a26cbbf33e",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-10T00:04:15Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,86 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+\t\t\t\t  struct addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));\n+\t\t*len = in->ai_addrlen;\n+\t\tscalanative_convert_sockaddr(in->ai_addr, &converted_addr, len);\n+\t\tout->ai_addr = converted_addr;\n+\t\tout->ai_addrlen = *len;\n+\t}\n+\tif(in->ai_next != NULL) {\n+\t\tstruct addrinfo *converted = malloc(sizeof(struct addrinfo)); "
+  },
+  {
+    "id" : "a96535e5-d832-45b5-8cdf-5136184a59ec",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "47f1d1d3-e847-4b74-a1c6-091ad006743a",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Those two are never freed too, are they?",
+        "createdAt" : "2017-06-28T09:08:14Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "edc047f4-6161-4c4c-91d8-c6c09bfc4f98",
+        "parentId" : "47f1d1d3-e847-4b74-a1c6-091ad006743a",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-10T00:04:10Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,86 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+\t\t\t\t  struct addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));\n+\t\t*len = in->ai_addrlen;\n+\t\tscalanative_convert_sockaddr(in->ai_addr, &converted_addr, len);\n+\t\tout->ai_addr = converted_addr;\n+\t\tout->ai_addrlen = *len;\n+\t}\n+\tif(in->ai_next != NULL) {\n+\t\tstruct addrinfo *converted = malloc(sizeof(struct addrinfo)); \n+\t\tscalanative_convert_scalanative_addrinfo(\n+\t\t\t\t(struct scalanative_addrinfo *)in->ai_next, converted);\n+\t\tout->ai_next = converted;\n+\t}\n+\telse {\n+\t\tout->ai_next = NULL;\n+\t}\n+}\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in, struct scalanative_addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_addrlen = in->ai_addrlen;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct scalanative_sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));"
+  },
+  {
+    "id" : "89d89094-0c02-439c-86e5-2ce242435e18",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "2af24648-2e99-4e8a-9850-36446d25d1bd",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This one too is not `free`d",
+        "createdAt" : "2017-06-28T09:08:39Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6402bbb1-f8b4-435d-862e-16a308219a9b",
+        "parentId" : "2af24648-2e99-4e8a-9850-36446d25d1bd",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-10T00:04:05Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,86 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+\t\t\t\t  struct addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));\n+\t\t*len = in->ai_addrlen;\n+\t\tscalanative_convert_sockaddr(in->ai_addr, &converted_addr, len);\n+\t\tout->ai_addr = converted_addr;\n+\t\tout->ai_addrlen = *len;\n+\t}\n+\tif(in->ai_next != NULL) {\n+\t\tstruct addrinfo *converted = malloc(sizeof(struct addrinfo)); \n+\t\tscalanative_convert_scalanative_addrinfo(\n+\t\t\t\t(struct scalanative_addrinfo *)in->ai_next, converted);\n+\t\tout->ai_next = converted;\n+\t}\n+\telse {\n+\t\tout->ai_next = NULL;\n+\t}\n+}\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in, struct scalanative_addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_addrlen = in->ai_addrlen;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct scalanative_sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));\n+\t\t*len = in->ai_addrlen;\n+\t\tscalanative_convert_scalanative_sockaddr(in->ai_addr, converted_addr, len);\n+\t\tout->ai_addr = converted_addr;\n+\t\tout->ai_addrlen = *len;\n+\t}\n+\tif(in->ai_next != NULL) {\n+\t\tstruct scalanative_addrinfo *converted = malloc("
+  },
+  {
+    "id" : "3797a493-427b-4d8c-9156-8e256b376cd7",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "3ca9e657-e305-43de-8908-657d12fad091",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You should use `freeaddrinfo` to free memory allocated by `getaddrinfo`.",
+        "createdAt" : "2017-06-28T09:12:19Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f348e38e-2716-4b87-8997-1d2baa88fcbd",
+        "parentId" : "3ca9e657-e305-43de-8908-657d12fad091",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-06-28T13:21:26Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,86 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+\t\t\t\t  struct addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));\n+\t\t*len = in->ai_addrlen;\n+\t\tscalanative_convert_sockaddr(in->ai_addr, &converted_addr, len);\n+\t\tout->ai_addr = converted_addr;\n+\t\tout->ai_addrlen = *len;\n+\t}\n+\tif(in->ai_next != NULL) {\n+\t\tstruct addrinfo *converted = malloc(sizeof(struct addrinfo)); \n+\t\tscalanative_convert_scalanative_addrinfo(\n+\t\t\t\t(struct scalanative_addrinfo *)in->ai_next, converted);\n+\t\tout->ai_next = converted;\n+\t}\n+\telse {\n+\t\tout->ai_next = NULL;\n+\t}\n+}\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in, struct scalanative_addrinfo *out) {\n+\tout->ai_flags = in->ai_flags;\n+\tout->ai_family = in->ai_family;\n+\tout->ai_socktype = in->ai_socktype;\n+\tout->ai_protocol = in->ai_protocol;\n+\tout->ai_addrlen = in->ai_addrlen;\n+\tout->ai_canonname = in->ai_canonname;\n+\tif(in->ai_addr == NULL) {\n+\t\tout->ai_addr = NULL;\n+\t\tout->ai_addrlen = in->ai_addrlen;\n+\t} else {\n+\t\tstruct scalanative_sockaddr *converted_addr = malloc(in->ai_addrlen);\n+\t\tsocklen_t *len = malloc(sizeof(socklen_t));\n+\t\t*len = in->ai_addrlen;\n+\t\tscalanative_convert_scalanative_sockaddr(in->ai_addr, converted_addr, len);\n+\t\tout->ai_addr = converted_addr;\n+\t\tout->ai_addrlen = *len;\n+\t}\n+\tif(in->ai_next != NULL) {\n+\t\tstruct scalanative_addrinfo *converted = malloc(\n+\t\t\t\tsizeof(struct scalanative_addrinfo));\n+\t\tscalanative_convert_addrinfo(in->ai_next, converted);\n+\t\tout->ai_next = converted;\n+\t}\n+\telse {\n+\t\tout->ai_next = NULL;\n+\t}\n+}\n+\n+\n+int scalanative_getaddrinfo(char *name, char *service,\n+\t\t\t    struct scalanative_addrinfo *hints,\n+\t\t\t    struct scalanative_addrinfo *res) {\n+\tstruct addrinfo hints_converted;\n+\tstruct addrinfo *res_c;\n+\tscalanative_convert_scalanative_addrinfo(hints, &hints_converted);\n+\tint status = getaddrinfo(name, service, &hints_converted, &res_c);\n+\tscalanative_convert_addrinfo(res_c, res); \n+\tfree(res_c);"
+  },
+  {
+    "id" : "aa480e91-9506-4474-b701-61f3302f7cc8",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "90499772-eb5f-4382-9774-6730cb05b995",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Are you sure that `addr->ai_canonname` cannot be `NULL` at this point?",
+        "createdAt" : "2017-07-10T08:30:24Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "80b80c93-ae2f-4837-97d2-ddcfc40d8e08",
+        "parentId" : "90499772-eb5f-4382-9774-6730cb05b995",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "`free` is null-safe, isn't it?",
+        "createdAt" : "2017-07-10T09:03:33Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c7ad9af2-ef69-4bf0-88e2-ce925752e2ba",
+        "parentId" : "90499772-eb5f-4382-9774-6730cb05b995",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It is, you're right",
+        "createdAt" : "2017-07-10T09:35:58Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : 81,
+    "diffHunk" : "@@ -0,0 +1,100 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+#include <string.h>\n+\n+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,\n+                            socklen_t addrlen, char *host, socklen_t hostlen,\n+                            char *serv, socklen_t servlen, int flags) {\n+    struct sockaddr *converted_addr;\n+    scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);\n+    int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,\n+                             servlen, flags);\n+    free(converted_addr);\n+    return status;\n+}\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+                                              struct addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    out->ai_addrlen = in->ai_addrlen;\n+    out->ai_addr = NULL; // TODO\n+    if (in->ai_canonname == NULL) {\n+        out->ai_canonname = NULL;\n+    } else {\n+        out->ai_canonname = strdup(in->ai_canonname);\n+    }\n+    out->ai_next = NULL;\n+}\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in,\n+                                  struct scalanative_addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    if (in->ai_addr == NULL) {\n+        out->ai_addr = NULL;\n+        out->ai_addrlen = in->ai_addrlen;\n+    } else {\n+        socklen_t *size = malloc(sizeof(socklen_t));\n+        if (in->ai_addr->sa_family == AF_INET) {\n+            struct scalanative_sockaddr_in *addr =\n+                malloc(sizeof(struct scalanative_sockaddr_in));\n+            scalanative_convert_scalanative_sockaddr_in(\n+                (struct sockaddr_in *)in->ai_addr, addr, size);\n+            out->ai_addr = (struct scalanative_sockaddr *)addr;\n+        } else {\n+            struct scalanative_sockaddr_in6 *addr =\n+                malloc(sizeof(struct scalanative_sockaddr_in6));\n+            scalanative_convert_scalanative_sockaddr_in6(\n+                (struct sockaddr_in6 *)in->ai_addr, addr, size);\n+            out->ai_addr = (struct scalanative_sockaddr *)addr;\n+        }\n+        out->ai_addrlen = *size;\n+        free(size);\n+    }\n+    if (in->ai_canonname == NULL) {\n+        out->ai_canonname = NULL;\n+    } else {\n+        out->ai_canonname = strdup(in->ai_canonname);\n+    }\n+    if (in->ai_next == NULL) {\n+        out->ai_next = NULL;\n+    } else {\n+        struct scalanative_addrinfo *next_native =\n+            malloc(sizeof(struct scalanative_addrinfo));\n+        scalanative_convert_addrinfo(in->ai_next, next_native);\n+        out->ai_next = next_native;\n+    }\n+}\n+\n+void scalanative_freeaddrinfo(struct scalanative_addrinfo *addr) {\n+    if (addr != NULL) {\n+        free(addr->ai_canonname);"
+  },
+  {
+    "id" : "42ac8a57-0a6b-42bd-a07c-7e97594353c6",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "1ec3444c-431b-4202-9ccd-6f06a135d01f",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Is this still `// TODO`?",
+        "createdAt" : "2017-07-10T08:30:58Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6fef1f9d-140b-44f3-b1c7-ac5ee81c7960",
+        "parentId" : "1ec3444c-431b-4202-9ccd-6f06a135d01f",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-13T12:48:08Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,100 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+#include <string.h>\n+\n+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,\n+                            socklen_t addrlen, char *host, socklen_t hostlen,\n+                            char *serv, socklen_t servlen, int flags) {\n+    struct sockaddr *converted_addr;\n+    scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);\n+    int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,\n+                             servlen, flags);\n+    free(converted_addr);\n+    return status;\n+}\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+                                              struct addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    out->ai_addrlen = in->ai_addrlen;\n+    out->ai_addr = NULL; // TODO"
+  },
+  {
+    "id" : "79641df6-0fa4-483e-8bf9-cb1225278040",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "64af27ca-46df-4308-ab4d-9b0b18245b91",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "What if `in->at_next` is not `NULL`?",
+        "createdAt" : "2017-07-10T08:32:06Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "88badc0b-c9e1-4600-84d5-406c0a837625",
+        "parentId" : "64af27ca-46df-4308-ab4d-9b0b18245b91",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "This function is only used for converting the `hints` parameter and `getaddrinfo` doesn't care about `ai_next` there. Should we convert it anyway?",
+        "createdAt" : "2017-07-10T09:06:46Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3c18dd8c-6b4c-49c8-a40a-dae4ab103c2e",
+        "parentId" : "64af27ca-46df-4308-ab4d-9b0b18245b91",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Maybe add a comment that says it won't do convert `ai_next`.",
+        "createdAt" : "2017-07-10T09:39:01Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "79403d29-87ca-4e66-a98b-1fd7473ac7dc",
+        "parentId" : "64af27ca-46df-4308-ab4d-9b0b18245b91",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-13T12:48:00Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,100 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+#include <string.h>\n+\n+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,\n+                            socklen_t addrlen, char *host, socklen_t hostlen,\n+                            char *serv, socklen_t servlen, int flags) {\n+    struct sockaddr *converted_addr;\n+    scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);\n+    int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,\n+                             servlen, flags);\n+    free(converted_addr);\n+    return status;\n+}\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+                                              struct addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    out->ai_addrlen = in->ai_addrlen;\n+    out->ai_addr = NULL; // TODO\n+    if (in->ai_canonname == NULL) {\n+        out->ai_canonname = NULL;\n+    } else {\n+        out->ai_canonname = strdup(in->ai_canonname);\n+    }\n+    out->ai_next = NULL;"
+  },
+  {
+    "id" : "7c5a21da-24ce-4a29-8bf1-1e9890b45e0c",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "134f693f-08c1-4e00-a7b4-e6b75dde0c3a",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Do you really need the `malloc` / `free` here? Can't you just put that on the stack?",
+        "createdAt" : "2017-07-10T08:33:39Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7007caf4-3ff2-4a09-863a-c43ae319f1b6",
+        "parentId" : "134f693f-08c1-4e00-a7b4-e6b75dde0c3a",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-13T12:47:52Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,100 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+#include <string.h>\n+\n+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,\n+                            socklen_t addrlen, char *host, socklen_t hostlen,\n+                            char *serv, socklen_t servlen, int flags) {\n+    struct sockaddr *converted_addr;\n+    scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);\n+    int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,\n+                             servlen, flags);\n+    free(converted_addr);\n+    return status;\n+}\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+                                              struct addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    out->ai_addrlen = in->ai_addrlen;\n+    out->ai_addr = NULL; // TODO\n+    if (in->ai_canonname == NULL) {\n+        out->ai_canonname = NULL;\n+    } else {\n+        out->ai_canonname = strdup(in->ai_canonname);\n+    }\n+    out->ai_next = NULL;\n+}\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in,\n+                                  struct scalanative_addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    if (in->ai_addr == NULL) {\n+        out->ai_addr = NULL;\n+        out->ai_addrlen = in->ai_addrlen;\n+    } else {\n+        socklen_t *size = malloc(sizeof(socklen_t));"
+  },
+  {
+    "id" : "ac7d676f-7387-485e-b33e-5740aee5821e",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "03b51750-740d-4155-b2df-bb3f727e72cb",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You allocate memory in `scalanative_convert_scalanative_addrinfo`. If `status != 0`, you'll never `free` it.",
+        "createdAt" : "2017-07-10T08:36:46Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,100 @@\n+#include \"netdb.h\"\n+#include \"sys/socket_conversions.h\"\n+#include <stddef.h>\n+#include <stdlib.h>\n+#include <string.h>\n+\n+int scalanative_getnameinfo(struct scalanative_sockaddr *addr,\n+                            socklen_t addrlen, char *host, socklen_t hostlen,\n+                            char *serv, socklen_t servlen, int flags) {\n+    struct sockaddr *converted_addr;\n+    scalanative_convert_sockaddr(addr, &converted_addr, &addrlen);\n+    int status = getnameinfo(converted_addr, addrlen, host, hostlen, serv,\n+                             servlen, flags);\n+    free(converted_addr);\n+    return status;\n+}\n+\n+void scalanative_convert_scalanative_addrinfo(struct scalanative_addrinfo *in,\n+                                              struct addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    out->ai_addrlen = in->ai_addrlen;\n+    out->ai_addr = NULL; // TODO\n+    if (in->ai_canonname == NULL) {\n+        out->ai_canonname = NULL;\n+    } else {\n+        out->ai_canonname = strdup(in->ai_canonname);\n+    }\n+    out->ai_next = NULL;\n+}\n+\n+void scalanative_convert_addrinfo(struct addrinfo *in,\n+                                  struct scalanative_addrinfo *out) {\n+    out->ai_flags = in->ai_flags;\n+    out->ai_family = in->ai_family;\n+    out->ai_socktype = in->ai_socktype;\n+    out->ai_protocol = in->ai_protocol;\n+    if (in->ai_addr == NULL) {\n+        out->ai_addr = NULL;\n+        out->ai_addrlen = in->ai_addrlen;\n+    } else {\n+        socklen_t *size = malloc(sizeof(socklen_t));\n+        if (in->ai_addr->sa_family == AF_INET) {\n+            struct scalanative_sockaddr_in *addr =\n+                malloc(sizeof(struct scalanative_sockaddr_in));\n+            scalanative_convert_scalanative_sockaddr_in(\n+                (struct sockaddr_in *)in->ai_addr, addr, size);\n+            out->ai_addr = (struct scalanative_sockaddr *)addr;\n+        } else {\n+            struct scalanative_sockaddr_in6 *addr =\n+                malloc(sizeof(struct scalanative_sockaddr_in6));\n+            scalanative_convert_scalanative_sockaddr_in6(\n+                (struct sockaddr_in6 *)in->ai_addr, addr, size);\n+            out->ai_addr = (struct scalanative_sockaddr *)addr;\n+        }\n+        out->ai_addrlen = *size;\n+        free(size);\n+    }\n+    if (in->ai_canonname == NULL) {\n+        out->ai_canonname = NULL;\n+    } else {\n+        out->ai_canonname = strdup(in->ai_canonname);\n+    }\n+    if (in->ai_next == NULL) {\n+        out->ai_next = NULL;\n+    } else {\n+        struct scalanative_addrinfo *next_native =\n+            malloc(sizeof(struct scalanative_addrinfo));\n+        scalanative_convert_addrinfo(in->ai_next, next_native);\n+        out->ai_next = next_native;\n+    }\n+}\n+\n+void scalanative_freeaddrinfo(struct scalanative_addrinfo *addr) {\n+    if (addr != NULL) {\n+        free(addr->ai_canonname);\n+        free(addr->ai_addr);\n+        scalanative_freeaddrinfo((struct scalanative_addrinfo *)addr->ai_next);\n+        free(addr);\n+    }\n+}\n+\n+int scalanative_getaddrinfo(char *name, char *service,\n+                            struct scalanative_addrinfo *hints,\n+                            struct scalanative_addrinfo **res) {\n+    struct addrinfo hints_c;\n+    struct addrinfo *res_c;\n+    scalanative_convert_scalanative_addrinfo(hints, &hints_c);\n+    int status = getaddrinfo(name, service, &hints_c, &res_c);\n+    if (status != 0)\n+        return status;"
+  }
+]

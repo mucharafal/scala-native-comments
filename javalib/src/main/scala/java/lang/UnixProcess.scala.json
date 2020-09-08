@@ -1,0 +1,174 @@
+[
+  {
+    "id" : "46a84f42-e150-4758-a62b-77d871d747d6",
+    "prId" : 1082,
+    "comments" : [
+      {
+        "id" : "4f05accb-67d8-482c-b0ad-ab198701e5d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The methods that just bind to posix should go to `scala.scalanative.posix.pthread`. The others which are \"runtime\" code for process implementation needs to go to `scala.scalanative.runtime.ProcessMonitor`.",
+        "createdAt" : "2018-02-13T16:34:14Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "81b22186-ea52-4f1f-b718-c6b2b8962421",
+        "parentId" : "4f05accb-67d8-482c-b0ad-ab198701e5d4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also needs `@link(\"pthread\")`. ",
+        "createdAt" : "2018-02-13T16:34:32Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3de3b068-32b4-4cd0-96fa-acd45c590ff1",
+        "parentId" : "4f05accb-67d8-482c-b0ad-ab198701e5d4",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Part of the reason that I didn't put things in scala.scalanative.posix.pthread was because I knew that https://github.com/scala-native/scala-native/pull/1068/ was in flight. I didn't want to create conflicts for that PR since its so big. Also, I figured that after thread support was merged, the implementation could be redone in scala native which would remove the need for these bindings and process_monitor.c. At any rate, the pthread.scala file is not on the master branch, so I'd have to add it. I can see three options:\r\n\r\n1) Create a new file with the specific bindings I need\r\n2) Copy the file from 1068\r\n3) Leave things as is\r\n\r\nI'm happy to do any of the 3. ",
+        "createdAt" : "2018-02-20T19:04:00Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cbfb15b6-d6c6-4d5c-829c-0614b95bae15",
+        "parentId" : "4f05accb-67d8-482c-b0ad-ab198701e5d4",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Denys is on vacation this week but I would go with option 2. If your change goes first #1068 can rebase on top of your changes or visa versa. That also helps makes review fixes easier.",
+        "createdAt" : "2018-02-20T21:14:03Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fa8e08ce-edc5-4ccf-9f68-2c4b1504f865",
+        "parentId" : "4f05accb-67d8-482c-b0ad-ab198701e5d4",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Ok. I did option 2.",
+        "createdAt" : "2018-02-22T00:28:21Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ecd37e5909a957621cdeef446c0e6c59b77bd151",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,296 @@\n+package java\n+package lang\n+\n+import java.io.{File, InputStream, IOException, OutputStream}\n+import java.util.concurrent.TimeUnit\n+\n+import scala.annotation.tailrec\n+import scala.scalanative.native.{signal => sig, errno => err, _}, sig._,\n+err.errno\n+import scala.scalanative.posix.{fcntl, sys, unistd, errno => e}, sys.time._,\n+e.ETIMEDOUT\n+\n+import UnixProcess._\n+\n+private[lang] class UnixProcess private (\n+    pid: CInt,\n+    _inputStream: PipeIO.Stream,\n+    _errorStream: PipeIO.Stream,\n+    _outputStream: OutputStream\n+) extends Process {\n+  override def destroy(): Unit = kill(pid, 9)\n+\n+  override def destroyForcibly(): Process = {\n+    destroy()\n+    this\n+  }\n+\n+  override def exitValue(): scala.Int = locked { _ =>\n+    _exitValue match {\n+      case -1 =>\n+        throw new IllegalThreadStateException(\n+          s\"Process $pid has not exited yet\")\n+      case v => v\n+    }\n+  }\n+\n+  override def getErrorStream(): InputStream = _errorStream\n+\n+  override def getInputStream(): InputStream = _inputStream\n+\n+  override def getOutputStream(): OutputStream = _outputStream\n+\n+  override def isAlive(): scala.Boolean = locked(_ => _exitValue == -1)\n+\n+  override def toString = s\"UnixProcess($pid)\"\n+\n+  override def waitFor(): scala.Int = locked { m =>\n+    _exitValue match {\n+      case -1 =>\n+        waitImpl(() => UnixProcess.waitFor(m, this, null))\n+        _exitValue\n+      case v => v\n+    }\n+  }\n+\n+  override def waitFor(timeout: scala.Long, unit: TimeUnit): scala.Boolean =\n+    locked {\n+      case m =>\n+        _exitValue match {\n+          case -1 =>\n+            val ts = stackalloc[timespec]\n+            val tv = stackalloc[timeval]\n+            throwOnError(gettimeofday(tv, null), \"Failed to set time of day.\")\n+            val nsec = unit.toNanos(timeout) + TimeUnit.MICROSECONDS.toNanos(\n+              !tv._2.cast[Ptr[CInt]])\n+            val sec = TimeUnit.NANOSECONDS.toSeconds(nsec)\n+            !ts._1 = !tv._1 + sec\n+            !ts._2 = if (sec > 0) nsec - TimeUnit.SECONDS.toNanos(sec) else nsec\n+            waitImpl(() => UnixProcess.waitFor(m, this, ts)) == 0\n+          case _ => true\n+        }\n+    }\n+\n+  @inline private def waitImpl(f: () => Int) = {\n+    var res = 1\n+    do res = f() while (if (res == 0) _exitValue == -1 else res != ETIMEDOUT)\n+    res\n+  }\n+\n+  private[this] var _exitValue                  = -1\n+  private[this] var _cond: Ptr[Ptr[scala.Byte]] = null\n+  private def allocCond() = {\n+    if (_cond == null)\n+      _cond = stdlib.malloc(sizeof[Ptr[scala.Byte]]).cast[Ptr[Ptr[scala.Byte]]]\n+    _cond\n+  }\n+  private def freeCond() = _cond = {\n+    stdlib.free(_cond.cast[Ptr[scala.Byte]]); null\n+  }\n+  private def signalCond() = if (_cond != null) {\n+    UnixProcess.signalCond(!_cond)\n+    freeCond()\n+  }\n+  private def setExitValue(value: CInt) = {\n+    _exitValue = value\n+    _inputStream.drain()\n+    _errorStream.drain()\n+    _outputStream.close()\n+  }\n+}\n+\n+object UnixProcess {\n+  @extern\n+  private[this] object ProcessMonitor {"
+  },
+  {
+    "id" : "6dc55672-2df8-417d-9619-4826e20c23b8",
+    "prId" : 1190,
+    "comments" : [
+      {
+        "id" : "0e7e90f9-3bd0-4906-9806-ea58c0f25c50",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This doesn't look like a real solution, but just a workaround for the symptom of the problem. ",
+        "createdAt" : "2018-03-08T10:03:27Z",
+        "updatedAt" : "2018-03-28T00:44:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b0f409b3-6153-4d88-b909-da50cf724b2b",
+        "parentId" : "0e7e90f9-3bd0-4906-9806-ea58c0f25c50",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "I agree that it is a workaround rather than a solution. At the same time, the entire monitoring implementation is a workaround not having threads. Since nothing is thread safe in scala native code, the monitor thread must communicate with the native thread using only data that isn't allocated by the gc. There is cleanup work on the process that must happen when the process exits that cannot be done on the monitor thread because it must modify scala native objects to set the exit value and cleanup the io streams. The existing hack is to interrupt the main thread to perform this work. This works well, except when GC is running.\r\n\r\nAs ugly as it is, I have found that this change does reliably make the processes work. I wrote a simple scala native project that more or less just called git status (and did some other work to help trigger garbage collection). Prior to this change, the script would crash roughly O(5%) of the time. After this change, the script ran 100000+ times without a crash.\r\n\r\nI know that multithreading is still a ways out so I'm not relying on that at all. I'm just saying that whenever that is merged in, the process monitoring code should be re-implemented with scala native threads.",
+        "createdAt" : "2018-03-09T16:57:16Z",
+        "updatedAt" : "2018-03-28T00:44:21Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89739ca5cc250308639f28aebc01f52e23762526",
+    "line" : null,
+    "diffHunk" : "@@ -211,17 +218,21 @@ object UnixProcess {\n   private val processes =\n     scala.collection.mutable.HashMap.empty[CInt, UnixProcess]\n   private def signalHandler(sig: CInt): Unit = {\n-    val procInfo = stackalloc[ProcessMonitor.proc_info]\n-    ProcessMonitor.lastProcInfo(procInfo)\n-    val pid = !procInfo._1\n-    processes get pid match {\n-      case Some(process) =>\n-        process.setExitValue(!procInfo._2)\n-        processes -= pid\n-        process.alertWaitingThreads()\n-      case _ =>\n+    if (ProcessMonitor.inGC != 0) {"
+  }
+]

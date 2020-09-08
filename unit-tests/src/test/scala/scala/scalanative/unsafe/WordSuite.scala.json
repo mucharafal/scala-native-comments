@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "96b86312-87cb-4f4e-b7bb-94b4b642c2a8",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "43a5df1c-a47c-49d1-9fea-b3b36bbc73db",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If my math is correct, there are more new intrinsics in this PR than new unit tests. Please add more tests to cover them all.",
+        "createdAt" : "2019-05-28T09:13:36Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 82,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+package scala.scalanative\n+package unsafe\n+\n+object WordSuite extends tests.Suite {\n+  test(\"Bitwise negation\") {\n+    assertEquals(~(5.toWord).toInt, -6)\n+  }\n+\n+  test(\"Decimal negation\") {\n+    assertEquals(-(5.toWord).toInt, -5)\n+  }\n+\n+  test(\"Shift left\") {\n+    assertEquals((5.toWord << 2).toInt, 20)\n+  }\n+\n+  test(\"Bitwise and\") {\n+    assertEquals((123.toWord & 456.toWord).toInt, 72)\n+  }\n+\n+  test(\"Bitwise or\") {\n+    assertEquals((123.toWord | 456.toWord).toInt, 507)\n+  }\n+\n+  test(\"Bitwise xor\") {\n+    assertEquals((123.toWord ^ 456.toWord).toInt, 435)\n+  }\n+\n+  test(\"Decimal addition\") {\n+    assertEquals((123.toWord + 456.toWord).toInt, 579)\n+  }\n+\n+  test(\"Decimal subtraction\") {\n+    assertEquals((123.toWord - 456.toWord).toInt, -333)\n+  }\n+\n+  test(\"Decimal multiplication\") {\n+    assertEquals((123.toWord * 3.toWord).toInt, 369)\n+  }\n+\n+  test(\"Decimal division\") {\n+    assertEquals((123.toWord / 2.toWord).toInt, 61)\n+  }\n+\n+  test(\"Modulo\") {\n+    assertEquals((123.toWord % 13.toWord).toInt, 6)\n+  }"
+  }
+]

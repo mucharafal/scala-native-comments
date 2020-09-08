@@ -1,0 +1,95 @@
+[
+  {
+    "id" : "f9208a62-ccbc-4741-8f97-44809d500a0f",
+    "prId" : 295,
+    "comments" : [
+      {
+        "id" : "8ab908d3-6aa9-459b-833f-207e8594fc63",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "these two `0`s next to each other, \nwhat about having sentinel values different from the other values?\n",
+        "createdAt" : "2016-09-20T22:31:24Z",
+        "updatedAt" : "2016-09-22T17:19:35Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e61f5a1e758cdf104b4d8e8360bc6b0446ac4bb8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,435 @@\n+package scala\r\n+\n+/*\r\n+ * tests with Array[Int]\r\n+ */\r\n+object ArrayIntCopySuite extends tests.Suite {\n+  def init(arr: Array[Int]) = {\n+    var c = 0\r\n+    while (c < arr.length) {\n+      arr(c) = c\r\n+      c += 1\r\n+    }\n+  }\n+\n+  val len = 10\r\n+  val arr = new Array[Int](len)\n+  val arr2 = new Array[Int](len + 2)\n+  val arrEmpty = new Array[Int](0)\n+\n+  test(\"array[Int]: init\") {\n+    init(arr)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 &&\r\n+          arr(3) == 3 && arr(4) == 4 && arr(5) == 5 &&\r\n+          arr(6) == 6 && arr(7) == 7 && arr(8) == 8 &&\r\n+          arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to another array\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr2, 1, 10)\n+    assert(\n+        arr2(0) == 0 && arr2(1) == 0 && arr2(2) == 1 &&\r"
+  },
+  {
+    "id" : "86d80111-6cd0-4f0f-b136-dfc2d3f14cb0",
+    "prId" : 295,
+    "comments" : [
+      {
+        "id" : "faeedf6f-bb6b-49d8-a1ae-8ff962e1ba8c",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "I think length should be positive  here\n",
+        "createdAt" : "2016-09-20T22:35:28Z",
+        "updatedAt" : "2016-09-22T17:19:35Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e61f5a1e758cdf104b4d8e8360bc6b0446ac4bb8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,435 @@\n+package scala\r\n+\n+/*\r\n+ * tests with Array[Int]\r\n+ */\r\n+object ArrayIntCopySuite extends tests.Suite {\n+  def init(arr: Array[Int]) = {\n+    var c = 0\r\n+    while (c < arr.length) {\n+      arr(c) = c\r\n+      c += 1\r\n+    }\n+  }\n+\n+  val len = 10\r\n+  val arr = new Array[Int](len)\n+  val arr2 = new Array[Int](len + 2)\n+  val arrEmpty = new Array[Int](0)\n+\n+  test(\"array[Int]: init\") {\n+    init(arr)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 &&\r\n+          arr(3) == 3 && arr(4) == 4 && arr(5) == 5 &&\r\n+          arr(6) == 6 && arr(7) == 7 && arr(8) == 8 &&\r\n+          arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to another array\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr2, 1, 10)\n+    assert(\n+        arr2(0) == 0 && arr2(1) == 0 && arr2(2) == 1 &&\r\n+          arr2(3) == 2 && arr2(4) == 3 && arr2(5) == 4 &&\r\n+          arr2(6) == 5 && arr2(7) == 6 && arr2(8) == 7 &&\r\n+          arr2(9) == 8 && arr2(10) == 9 && arr2(11) == 0\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy zero elements from empty array\") {\n+    init(arr2)\n+    scala.Array.copy(arrEmpty, 0, arr2, 5, 0)\n+    assert(\n+        arr2(0) == 0 && arr2(1) == 1 && arr2(2) == 2 &&\r\n+          arr2(3) == 3 && arr2(4) == 4 && arr2(5) == 5 &&\r\n+          arr2(6) == 6 && arr2(7) == 7 && arr2(8) == 8 &&\r\n+          arr2(9) == 9 && arr2(10) == 10 && arr2(11) == 11\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self without overlap (1/2)\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr, 5, 5)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 && arr(3) == 3 &&\r\n+          arr(4) == 4 && arr(5) == 0 && arr(6) == 1 && arr(7) == 2 &&\r\n+          arr(8) == 3 && arr(9) == 4\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self without overlap (2/2)\") {\n+    init(arr)\n+    scala.Array.copy(arr, 6, arr, 4, 2)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 && arr(3) == 3 &&\r\n+          arr(4) == 6 && arr(5) == 7 && arr(6) == 6 && arr(7) == 7 &&\r\n+          arr(8) == 8 && arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self with overlap and backward copy\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr, 2, 6)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 0 && arr(3) == 1 &&\r\n+          arr(4) == 2 && arr(5) == 3 && arr(6) == 4 && arr(7) == 5 &&\r\n+          arr(8) == 8 && arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self with overlap and forward copy\") {\n+    init(arr)\n+    scala.Array.copy(arr, 2, arr, 0, 6)\n+    assert(\n+        arr(0) == 2 && arr(1) == 3 && arr(2) == 4 && arr(3) == 5 &&\r\n+          arr(4) == 6 && arr(5) == 7 && arr(6) == 6 && arr(7) == 7 &&\r\n+          arr(8) == 8 && arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: from is null\") {\n+    assertThrows[java.lang.NullPointerException] {\n+      scala.Array.copy(null, 0, arr2, 5, 2)\n+    }\n+  }\n+\n+  test(\"array[Int]: to is null\") {\n+    assertThrows[java.lang.NullPointerException] {\n+      scala.Array.copy(arr, 0, null, 5, -2)"
+  },
+  {
+    "id" : "564e43a1-1e25-401b-ab13-926a2773eb77",
+    "prId" : 295,
+    "comments" : [
+      {
+        "id" : "344c6170-cd9a-4220-87af-86f19c5ae5d1",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "I think `toPos + len` should be `< arr2.length`\nsimilarly in `\"array[Int]: fromPos is negative\"` test case\n",
+        "createdAt" : "2016-09-20T22:37:41Z",
+        "updatedAt" : "2016-09-22T17:19:35Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e61f5a1e758cdf104b4d8e8360bc6b0446ac4bb8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,435 @@\n+package scala\r\n+\n+/*\r\n+ * tests with Array[Int]\r\n+ */\r\n+object ArrayIntCopySuite extends tests.Suite {\n+  def init(arr: Array[Int]) = {\n+    var c = 0\r\n+    while (c < arr.length) {\n+      arr(c) = c\r\n+      c += 1\r\n+    }\n+  }\n+\n+  val len = 10\r\n+  val arr = new Array[Int](len)\n+  val arr2 = new Array[Int](len + 2)\n+  val arrEmpty = new Array[Int](0)\n+\n+  test(\"array[Int]: init\") {\n+    init(arr)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 &&\r\n+          arr(3) == 3 && arr(4) == 4 && arr(5) == 5 &&\r\n+          arr(6) == 6 && arr(7) == 7 && arr(8) == 8 &&\r\n+          arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to another array\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr2, 1, 10)\n+    assert(\n+        arr2(0) == 0 && arr2(1) == 0 && arr2(2) == 1 &&\r\n+          arr2(3) == 2 && arr2(4) == 3 && arr2(5) == 4 &&\r\n+          arr2(6) == 5 && arr2(7) == 6 && arr2(8) == 7 &&\r\n+          arr2(9) == 8 && arr2(10) == 9 && arr2(11) == 0\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy zero elements from empty array\") {\n+    init(arr2)\n+    scala.Array.copy(arrEmpty, 0, arr2, 5, 0)\n+    assert(\n+        arr2(0) == 0 && arr2(1) == 1 && arr2(2) == 2 &&\r\n+          arr2(3) == 3 && arr2(4) == 4 && arr2(5) == 5 &&\r\n+          arr2(6) == 6 && arr2(7) == 7 && arr2(8) == 8 &&\r\n+          arr2(9) == 9 && arr2(10) == 10 && arr2(11) == 11\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self without overlap (1/2)\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr, 5, 5)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 && arr(3) == 3 &&\r\n+          arr(4) == 4 && arr(5) == 0 && arr(6) == 1 && arr(7) == 2 &&\r\n+          arr(8) == 3 && arr(9) == 4\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self without overlap (2/2)\") {\n+    init(arr)\n+    scala.Array.copy(arr, 6, arr, 4, 2)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 2 && arr(3) == 3 &&\r\n+          arr(4) == 6 && arr(5) == 7 && arr(6) == 6 && arr(7) == 7 &&\r\n+          arr(8) == 8 && arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self with overlap and backward copy\") {\n+    init(arr)\n+    scala.Array.copy(arr, 0, arr, 2, 6)\n+    assert(\n+        arr(0) == 0 && arr(1) == 1 && arr(2) == 0 && arr(3) == 1 &&\r\n+          arr(4) == 2 && arr(5) == 3 && arr(6) == 4 && arr(7) == 5 &&\r\n+          arr(8) == 8 && arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: copy to self with overlap and forward copy\") {\n+    init(arr)\n+    scala.Array.copy(arr, 2, arr, 0, 6)\n+    assert(\n+        arr(0) == 2 && arr(1) == 3 && arr(2) == 4 && arr(3) == 5 &&\r\n+          arr(4) == 6 && arr(5) == 7 && arr(6) == 6 && arr(7) == 7 &&\r\n+          arr(8) == 8 && arr(9) == 9\r\n+    )\n+  }\n+\n+  test(\"array[Int]: from is null\") {\n+    assertThrows[java.lang.NullPointerException] {\n+      scala.Array.copy(null, 0, arr2, 5, 2)\n+    }\n+  }\n+\n+  test(\"array[Int]: to is null\") {\n+    assertThrows[java.lang.NullPointerException] {\n+      scala.Array.copy(arr, 0, null, 5, -2)\n+    }\n+  }\n+\n+  test(\"array[Int]: length is negative\") {\n+    assertThrows[java.lang.IndexOutOfBoundsException] {\n+      scala.Array.copy(arr, 0, arr2, 5, -1)\n+    }\n+  }\n+\n+  test(\"array[Int]: toPos + len > to.length\") {\n+    assertThrows[java.lang.IndexOutOfBoundsException] {\n+      scala.Array.copy(arr, 0, arr2, 5, 10)\n+    }\n+  }\n+\n+  test(\"array[Int]: fromPos + len > from.length\") {\n+    assertThrows[java.lang.IndexOutOfBoundsException] {\n+      scala.Array.copy(arr, 5, arr2, 5, 10)"
+  }
+]

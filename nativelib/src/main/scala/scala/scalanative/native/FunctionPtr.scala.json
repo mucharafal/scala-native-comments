@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "d4c3e432-87dd-4a25-8127-31bf78bc8f47",
+    "prId" : 166,
+    "comments" : [
+      {
+        "id" : "23176b5b-5e99-4bed-b708-ccbd22ae3c65",
+        "parentId" : null,
+        "author" : {
+          "login" : "kmizu",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/97326?v=4"
+        },
+        "body" : "> ```\n> ###sourceLocation(file: \"/Users/Denys/.src/native/nativelib/src/main/scala/scala/scalanative/native/FunctionPtr.scala.gyb\", line: 14)\n> ```\n\nI think it's not good that line comments include user specific information such as `/Users/Denys/`.  Such information should be removed.\n",
+        "createdAt" : "2016-06-10T01:48:50Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "kmizu",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/97326?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "122b3fd5-742b-4936-9d1f-d357a29dd6e6",
+        "parentId" : "23176b5b-5e99-4bed-b708-ccbd22ae3c65",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That's an artifact of our current code generation tool that we borrowed from Swift (called gyb.) There is an issue to replace it with something better (https://github.com/scala-native/scala-native/issues/135) but that's out-of-scope for M3. \n",
+        "createdAt" : "2016-06-10T11:43:25Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f7a9a185cff15a9615ce0d96806c7349c4bed703",
+    "line" : 14,
+    "diffHunk" : "@@ -0,0 +1,1279 @@\n+// ###sourceLocation(file: \"/Users/Denys/.src/native/nativelib/src/main/scala/scala/scalanative/native/FunctionPtr.scala.gyb\", line: 1)\n+package scala.scalanative\n+package native\n+\n+import scalanative.runtime.undefined\n+import scala.reflect.ClassTag\n+\n+/** C-style function pointer. */\n+sealed abstract class FunctionPtr\n+\n+object FunctionPtr {\n+\n+// ###sourceLocation(file: \"/Users/Denys/.src/native/nativelib/src/main/scala/scala/scalanative/native/FunctionPtr.scala.gyb\", line: 14)\n+"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "6e6f1efb-710c-4707-8c44-89fc247a0006",
+    "prId" : 1842,
+    "comments" : [
+      {
+        "id" : "1a736adb-b1f3-4385-867f-ceb7dbbcd5b8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Coding style nitpick: IMO it's better to always put statements and exceptions (with type `Unit` and `Nothing`) as separate lines in `if`s and `while`s. That makes them more visible.\r\n```suggestion\r\n    if (res == null)\r\n      throw UnixException(\"Could not determine current working directory\", errno.errno)\r\n```",
+        "createdAt" : "2020-07-09T13:45:40Z",
+        "updatedAt" : "2020-07-09T13:58:19Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "22828640b9426a13954741245e4f1fda1739d66c",
+    "line" : null,
+    "diffHunk" : "@@ -137,7 +138,8 @@ class UnixFileSystemProvider extends FileSystemProvider {\n \n   private def getUserDir(): String = {\n     val buff = stackalloc[CChar](4096)\n-    val res  = unistd.getcwd(buff, 4095)\n+    val res = unistd.getcwd(buff, 4095)\n+    if (res == null) throw UnixException(\"Could not determine current working directory\", errno.errno)"
+  }
+]

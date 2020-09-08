@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "6885db39-c22e-46b4-898f-526439011de2",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "f60d8805-0298-414c-8011-774828d4f67e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not needed any longer.",
+        "createdAt" : "2016-12-02T15:48:18Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -68,6 +68,7 @@ object Show {\n \n   implicit def showResult[R <: Result]: Show[R] = apply(identity)\n   implicit def showString[T <: String]: Show[T] = apply(Show.Str(_))\n+  implicit def showChar[T <: Char]: Show[T]     = apply(c => Show.Str(c.toString))"
+  }
+]

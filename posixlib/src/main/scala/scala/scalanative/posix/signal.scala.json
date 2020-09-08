@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "dab101ed-9e1a-4ec4-99d0-6436186a92ba",
+    "prId" : 1362,
+    "comments" : [
+      {
+        "id" : "5d9c616d-7643-430a-b8fc-be17414e12b0",
+        "parentId" : null,
+        "author" : {
+          "login" : "coreyoconnor",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/34317?u=655fed444f9766dbaadf3df43039f67c54d87ddb&v=4"
+        },
+        "body" : "Is the reference to \"macros\" here a TODO? Looks like this code does not currently use macros. But could be replaced with a macro?",
+        "createdAt" : "2019-05-19T17:48:10Z",
+        "updatedAt" : "2020-06-27T00:26:56Z",
+        "lastEditedBy" : {
+          "login" : "coreyoconnor",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/34317?u=655fed444f9766dbaadf3df43039f67c54d87ddb&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "49aae357-1040-403a-ae7e-9b66c9d2c804",
+        "parentId" : "5d9c616d-7643-430a-b8fc-be17414e12b0",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "We have to have helper functions in C to support macros currently. The comment is from the standard and that portion is complete.\r\nhttp://pubs.opengroup.org/onlinepubs/9699919799/basedefs/signal.h.html\r\n\r\n",
+        "createdAt" : "2019-05-19T21:21:10Z",
+        "updatedAt" : "2020-06-27T00:26:56Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ee5f99dd-a27c-4b6f-a2d7-27ca277ce6ab",
+        "parentId" : "5d9c616d-7643-430a-b8fc-be17414e12b0",
+        "author" : {
+          "login" : "coreyoconnor",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/34317?u=655fed444f9766dbaadf3df43039f67c54d87ddb&v=4"
+        },
+        "body" : "Ah! Makes sense. I see now the reference is to the C preprocessor macros used to define the constant. I was stucking thinking only about Scala macros. LGTM!",
+        "createdAt" : "2019-05-19T21:59:20Z",
+        "updatedAt" : "2020-06-27T00:26:56Z",
+        "lastEditedBy" : {
+          "login" : "coreyoconnor",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/34317?u=655fed444f9766dbaadf3df43039f67c54d87ddb&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6474ff85c12542c6e0237ae9a9e7914cbef55f97",
+    "line" : 16,
+    "diffHunk" : "@@ -0,0 +1,468 @@\n+package scala.scalanative\n+package posix\n+\n+import scala.scalanative.native._\n+\n+/**\n+ * Some of the functionality described on this reference page extends the ISO C standard.\n+ * Applications shall define the appropriate feature test macro (see XSH The Compilation Environment )\n+ * to enable the visibility of these symbols in this header.\n+ *\n+ * Note 1: The functionality described may be removed in a future version of this volume of POSIX.1-2017\n+ * Note 2: The functionality is an option marked as XSI (X/Open System Interfaces)\n+ */\n+@extern\n+object signal {\n+  // define the following macros, which shall expand to constant expressions with distinct values"
+  }
+]

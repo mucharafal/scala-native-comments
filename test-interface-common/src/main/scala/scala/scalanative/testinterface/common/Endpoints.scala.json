@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "c259d073-bba3-4f38-a158-343ae6f508d6",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "1a1d0274-d6cb-4777-bdcb-8c8a7aa0b069",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n// Ported from Scala.js\r\n```",
+        "createdAt" : "2020-08-06T17:11:50Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,56 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.JS"
+  }
+]

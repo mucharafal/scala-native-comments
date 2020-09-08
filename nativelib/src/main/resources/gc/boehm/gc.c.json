@@ -1,0 +1,165 @@
+[
+  {
+    "id" : "a89f8ce2-81d0-462b-aa20-e60635e0d710",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "99041269-45b6-4ca3-a240-b9ed36e1efba",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You should use `GC_malloc_atomic` here. ",
+        "createdAt" : "2017-03-16T12:42:27Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -12,3 +12,11 @@ void* scalanative_alloc(void* info, size_t size) {\n     *alloc = info;\n     return (void*) alloc;\n }\n+\n+void* scalanative_alloc_raw(size_t size) {\n+    return GC_malloc(size);\n+}\n+\n+void* scalanative_alloc_raw_atomic(size_t size) {\n+    return scalanative_alloc_raw(size);"
+  },
+  {
+    "id" : "7252b6c5-689a-4d04-b8bc-0baf289cb860",
+    "prId" : 737,
+    "comments" : [
+      {
+        "id" : "d661f001-606e-495d-9d8b-1ff02fd6e784",
+        "parentId" : null,
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Why do we need `memset` here ? Does `GC_malloc_atomic` not guarantee zeroed memory ?",
+        "createdAt" : "2017-05-25T09:40:40Z",
+        "updatedAt" : "2017-05-25T13:42:41Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6ab312e1-fb00-46a0-beff-2dc15e9869ca",
+        "parentId" : "d661f001-606e-495d-9d8b-1ff02fd6e784",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It doesn't! From [the docs](http://www.hboehm.info/gc/gcinterface.html):\r\n```\r\nvoid * GC_MALLOC_ATOMIC(size_t nbytes)\r\n\r\nAllocates nbytes of storage. Requires (amortized) time proportional to nbytes. \r\nThe resulting object will be automatically deallocated when unreferenced. \r\nThe client promises that the resulting object will never contain any pointers. \r\nThe memory is not cleared. ...\r\n```",
+        "createdAt" : "2017-05-25T09:48:49Z",
+        "updatedAt" : "2017-05-25T13:42:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6a3fbd73-ad22-4a1b-8a9e-f13df29f5a85",
+        "parentId" : "d661f001-606e-495d-9d8b-1ff02fd6e784",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Interesting ! This means that we were using it wrong until now...",
+        "createdAt" : "2017-05-25T09:52:23Z",
+        "updatedAt" : "2017-05-25T13:42:41Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c400f66b-6f53-46fd-abe8-43f7a3af2c7a",
+        "parentId" : "d661f001-606e-495d-9d8b-1ff02fd6e784",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Previously it was zeroed in https://github.com/scala-native/scala-native/pull/737/files#diff-738f06a13eea511f93ea2f7c590e0320L81. The only difference is that logic has moved to C code now.",
+        "createdAt" : "2017-05-25T09:53:51Z",
+        "updatedAt" : "2017-05-25T13:42:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "09fcd4a3-2bd6-413c-9de0-7e9e8909a429",
+        "parentId" : "d661f001-606e-495d-9d8b-1ff02fd6e784",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "I see. Makes more sense the way it's done now.",
+        "createdAt" : "2017-05-25T09:58:28Z",
+        "updatedAt" : "2017-05-25T13:42:41Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "130119fd6534e6e85143517880b921518343626a",
+    "line" : 18,
+    "diffHunk" : "@@ -13,12 +14,12 @@ void *scalanative_alloc(void *info, size_t size) {\n     return (void *)alloc;\n }\n \n-void *scalanative_alloc_raw(size_t size) { return GC_malloc(size); }\n-\n-void *scalanative_alloc_raw_atomic(size_t size) {\n-    return GC_malloc_atomic(size);\n+void *scalanative_alloc_atomic(void *info, size_t size) {\n+    void **alloc = (void **)GC_malloc_atomic(size);\n+    memset(alloc, 0, size);"
+  },
+  {
+    "id" : "87147b56-4ccf-4459-a237-58e7974217af",
+    "prId" : 737,
+    "comments" : [
+      {
+        "id" : "512f11e9-721c-42aa-818e-95c1423f1b1c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`alloc_atomic` is still here, left purely not to regress performance with Boehm GC. ",
+        "createdAt" : "2017-05-25T09:42:22Z",
+        "updatedAt" : "2017-05-25T13:42:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "130119fd6534e6e85143517880b921518343626a",
+    "line" : 21,
+    "diffHunk" : "@@ -13,12 +14,12 @@ void *scalanative_alloc(void *info, size_t size) {\n     return (void *)alloc;\n }\n \n-void *scalanative_alloc_raw(size_t size) { return GC_malloc(size); }\n-\n-void *scalanative_alloc_raw_atomic(size_t size) {\n-    return GC_malloc_atomic(size);\n+void *scalanative_alloc_atomic(void *info, size_t size) {\n+    void **alloc = (void **)GC_malloc_atomic(size);\n+    memset(alloc, 0, size);\n+    *alloc = info;\n+    return (void *)alloc;\n }"
+  }
+]

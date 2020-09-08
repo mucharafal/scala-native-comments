@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "151d2357-78e3-429d-86fa-88cb81170c09",
+    "prId" : 767,
+    "comments" : [
+      {
+        "id" : "109bbba4-10c3-4360-bb3b-3811a25d1858",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You don't need this line. On the JVM, it will throw a `FileNotFoundException` in the constructor:\r\n\r\n```\r\nscala> val fis = new FileInputStream(\"/the/path/does/not/exist/for/sure\")\r\njava.io.FileNotFoundException: /the/path/does/not/exist/for/sure (No such file or directory)\r\n  at java.io.FileInputStream.open0(Native Method)\r\n  at java.io.FileInputStream.open(FileInputStream.java:195)\r\n  at java.io.FileInputStream.<init>(FileInputStream.java:138)\r\n  at java.io.FileInputStream.<init>(FileInputStream.java:93)\r\n  ... 29 elided\r\n```",
+        "createdAt" : "2017-05-31T12:56:42Z",
+        "updatedAt" : "2017-05-31T19:46:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0acc5eeb-a037-4a77-96f2-f1e9524f997a",
+        "parentId" : "109bbba4-10c3-4360-bb3b-3811a25d1858",
+        "author" : {
+          "login" : "mccartney",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/762437?u=10c22bb072b3a47c2a11ae2a844aa6736708f40b&v=4"
+        },
+        "body" : "You're right. I have removed the line and amended the test name.",
+        "createdAt" : "2017-05-31T13:03:12Z",
+        "updatedAt" : "2017-05-31T19:46:57Z",
+        "lastEditedBy" : {
+          "login" : "mccartney",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/762437?u=10c22bb072b3a47c2a11ae2a844aa6736708f40b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b36ffb7ed6c31e21aeac0ed949f8e6f0dabb07b2",
+    "line" : null,
+    "diffHunk" : "@@ -62,4 +62,12 @@ object FileInputStreamSuite extends tests.Suite {\n     assert(fis.read() == 0xFF)\n     assert(fis.read() == -1)\n   }\n+\n+  testFails(\"throws proper FileNotFoundException on invalid file names\", 765) {\n+    assertThrows[FileNotFoundException] { \n+      val fis = new FileInputStream(\"/the/path/does/not/exist/for/sure\")\n+      fis.read"
+  },
+  {
+    "id" : "82ca5165-3b39-4850-b042-ed89f3ee56c1",
+    "prId" : 767,
+    "comments" : [
+      {
+        "id" : "67808b61-74e1-4faa-a295-5a9dc4d4ccd7",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Could you change the name of the test to say that it should throw if the file doesn't exist? Currently it's not very clear why it should throw an exception by reading the name of the test.",
+        "createdAt" : "2017-05-31T13:09:21Z",
+        "updatedAt" : "2017-05-31T19:46:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "221c8a1f-44a1-4728-92bc-cac8a2392d9f",
+        "parentId" : "67808b61-74e1-4faa-a295-5a9dc4d4ccd7",
+        "author" : {
+          "login" : "mccartney",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/762437?u=10c22bb072b3a47c2a11ae2a844aa6736708f40b&v=4"
+        },
+        "body" : "Sure. Amended.",
+        "createdAt" : "2017-05-31T13:13:59Z",
+        "updatedAt" : "2017-05-31T19:46:57Z",
+        "lastEditedBy" : {
+          "login" : "mccartney",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/762437?u=10c22bb072b3a47c2a11ae2a844aa6736708f40b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b36ffb7ed6c31e21aeac0ed949f8e6f0dabb07b2",
+    "line" : null,
+    "diffHunk" : "@@ -62,4 +62,10 @@ object FileInputStreamSuite extends tests.Suite {\n     assert(fis.read() == 0xFF)\n     assert(fis.read() == -1)\n   }\n+\n+  testFails(\"throws FileNotFoundException already on creating new FileInputStream\", 765) {"
+  }
+]

@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "c1a8e008-37b9-4cd0-8a2a-1fd657e01922",
+    "prId" : 1582,
+    "comments" : [
+      {
+        "id" : "53331809-f179-4f87-8583-6c5486d06c97",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think this is correct. `off` argument gives and offset potentially in the middle of the array, `len` is not necessarily the length of the array but number of the bytes to read. So for example in an array with 20 elements, you can give offset 10 and length 2. This would mean that the while loop is not going to run even a single iteration. ",
+        "createdAt" : "2019-05-06T12:16:29Z",
+        "updatedAt" : "2019-05-07T17:41:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "07f5d61b-1823-462f-9fce-481cfde323e0",
+        "parentId" : "53331809-f179-4f87-8583-6c5486d06c97",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A better version of the same code would be:\r\n```\r\n  override final def readFully(b: Array[Byte], off: Int, len: Int): Unit = {\r\n    if ((off < 0) || (len < 0) || (len > b.length - off)) {\r\n      throw new IndexOutOfBoundsException()\r\n    }\r\n\r\n    var offset = off\r\n    var length = len\r\n\r\n    while (length > 0) {\r\n      val nread = in.read(b, offset, length)\r\n\r\n      if (nread == -1) {\r\n        throw new EOFException()\r\n      } else {\r\n        offset += nread\r\n        length -= nread\r\n      }\r\n    }\r\n  }\r\n```",
+        "createdAt" : "2019-05-06T12:16:42Z",
+        "updatedAt" : "2019-05-07T17:41:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8dc7a10c-8137-45ab-a411-0a077e2e04f2",
+        "parentId" : "53331809-f179-4f87-8583-6c5486d06c97",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "You are absolutely correct! Space shot on my part, sorry.\r\n\r\nI will make the suggested correction this evening (Eastern Daylight Time).",
+        "createdAt" : "2019-05-06T16:12:08Z",
+        "updatedAt" : "2019-05-07T17:41:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e82885f6-445b-4281-9a04-90910e7227a7",
+        "parentId" : "53331809-f179-4f87-8583-6c5486d06c97",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you for the correction.",
+        "createdAt" : "2019-05-06T16:12:28Z",
+        "updatedAt" : "2019-05-07T17:41:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8a1e0030283abd463b18a5fb925307e4511b2878",
+    "line" : null,
+    "diffHunk" : "@@ -35,14 +35,21 @@ class DataInputStream(in: InputStream)\n     readFully(b, 0, b.length)\n \n   override final def readFully(b: Array[Byte], off: Int, len: Int): Unit = {\n-    if (off < 0 || len < 0 || len > b.length - off)\n+    if ((off < 0) || (len < 0) || (len > b.length - off)) {\n       throw new IndexOutOfBoundsException()\n-    var i = 0\n-    while (i < len) {\n-      val value = readByte()\n-      if (value == -1) throw new EOFException()\n-      b(i + off) = value\n-      i += 1\n+    }\n+\n+    var offset = off\n+\n+    while (offset < len) {"
+  }
+]

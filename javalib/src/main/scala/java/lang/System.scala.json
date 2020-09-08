@@ -1,0 +1,999 @@
+[
+  {
+    "id" : "2769d307-7c32-429f-a01e-b3e0ddc0c6e5",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "1a7fd398-f078-48f0-9b9a-c1f6ff08e8fc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`def nanoTime(): Long = ...`\n",
+        "createdAt" : "2016-11-11T14:56:23Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0a1a7788-33bc-47e0-911b-1f3e6cef25e4",
+        "parentId" : "1a7fd398-f078-48f0-9b9a-c1f6ff08e8fc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Implementation of `nanoTime` deserves a separate commit.\n",
+        "createdAt" : "2016-11-11T14:56:42Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : null,
+    "diffHunk" : "@@ -29,6 +30,8 @@ object System {\n   def getProperty(key: String, default: String): String = ???\n   def setProperty(key: String, value: String): String   = ???\n \n+  def nanoTime: CLong = time.scalanative_nano_time"
+  },
+  {
+    "id" : "a6b957f9-8321-48dc-8344-649f144e4ccd",
+    "prId" : 549,
+    "comments" : [
+      {
+        "id" : "97bf803d-e5ab-4e18-a0a1-b3bdc6e3e25f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is a JDK API, so it should unconditionally return `scala.Long` on all platforms. ",
+        "createdAt" : "2017-03-15T10:47:46Z",
+        "updatedAt" : "2017-03-15T11:51:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bafc5e1b-875b-4f69-8170-833b0a040f00",
+        "parentId" : "97bf803d-e5ab-4e18-a0a1-b3bdc6e3e25f",
+        "author" : {
+          "login" : "brad-rathke",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/9727591?v=4"
+        },
+        "body" : "Good catch, I've made the change just now.",
+        "createdAt" : "2017-03-15T11:52:33Z",
+        "updatedAt" : "2017-03-15T11:52:33Z",
+        "lastEditedBy" : {
+          "login" : "brad-rathke",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/9727591?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3c2ae2425e8b0ccda8ea5af90f1105befdd4c5f6",
+    "line" : null,
+    "diffHunk" : "@@ -30,7 +30,7 @@ object System {\n   def getProperty(key: String, default: String): String = ???\n   def setProperty(key: String, value: String): String   = ???\n \n-  def nanoTime(): CLong = time.scalanative_nano_time\n+  def nanoTime(): CLongLong = time.scalanative_nano_time"
+  },
+  {
+    "id" : "45f81452-44d6-4c8c-92f9-a5f76e92a53e",
+    "prId" : 556,
+    "comments" : [
+      {
+        "id" : "a27936da-c281-41b8-8228-85a232f0f39d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "What happens if the property you're looking up doesn't exist? I think this code will segfault, but in Java you're supposed to return `null`.",
+        "createdAt" : "2017-03-16T12:57:14Z",
+        "updatedAt" : "2017-03-17T10:18:09Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5cae5de1-ef25-42a1-a787-fc62f00869de",
+        "parentId" : "a27936da-c281-41b8-8228-85a232f0f39d",
+        "author" : {
+          "login" : "brad-rathke",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/9727591?v=4"
+        },
+        "body" : "I think you're correct. I've been spoiled by Rust lately and wasn't thinking about null.",
+        "createdAt" : "2017-03-16T13:17:19Z",
+        "updatedAt" : "2017-03-17T10:18:09Z",
+        "lastEditedBy" : {
+          "login" : "brad-rathke",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/9727591?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "faa7d42aa46e4361c9401f9f24cc4c9399947015",
+    "line" : null,
+    "diffHunk" : "@@ -23,7 +23,12 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n+  def getenv(name: String): String = {\n+    val cResult = stdlib.getenv(toCString(name))\n+    fromCString(cResult)"
+  },
+  {
+    "id" : "4e8bb7a2-a59d-45cb-bd1a-566549a8786c",
+    "prId" : 556,
+    "comments" : [
+      {
+        "id" : "7623d2a0-b5d0-4f48-a80d-0b75163c817e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. It should throw a `NullPointerException` if name is null.\r\n2. If you're using `Option`, it's preferable to use `fold` over pattern matching. Otherwise this would also work with simple if-null check. ",
+        "createdAt" : "2017-03-31T12:07:59Z",
+        "updatedAt" : "2017-03-31T12:08:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "faa7d42aa46e4361c9401f9f24cc4c9399947015",
+    "line" : 11,
+    "diffHunk" : "@@ -23,7 +23,15 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n+  def getenv(name: String): String = {\n+    val cResult = Option(stdlib.getenv(toCString(name)))\n+    cResult match {\n+      case None    => null\n+      case Some(x) => fromCString(x)\n+    }\n+  }"
+  },
+  {
+    "id" : "504b4b16-2a8f-4ef2-a3e6-fcb3fcbcd749",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "345171b1-bd8c-4600-923c-23f1ee547080",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is coming soon in #602. ",
+        "createdAt" : "2017-04-10T17:48:27Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5d28264e-a5ea-4496-8a74-1fb5ab15dc70",
+        "parentId" : "345171b1-bd8c-4600-923c-23f1ee547080",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:05:38Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -30,6 +30,7 @@ object System {\n   def getProperty(key: String): String                  = ???\n   def getProperty(key: String, default: String): String = ???\n   def setProperty(key: String, value: String): String   = ???\n+  def currentTimeMillis(): Long                         = ???"
+  },
+  {
+    "id" : "8075a260-6530-4349-a774-3af7e8cabe75",
+    "prId" : 591,
+    "comments" : [
+      {
+        "id" : "f9742f32-09c5-42d6-8e7d-13b09083a17e",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Scala Native",
+        "createdAt" : "2017-03-28T17:44:54Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8a59892a-a00d-4758-a979-a4e8f3540e4f",
+        "parentId" : "f9742f32-09c5-42d6-8e7d-13b09083a17e",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "sysProps.setProperty(\"java.vm.specification.vendor\", \"Scala Native\")",
+        "createdAt" : "2017-03-29T15:14:08Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7fef02a9-9b0f-42a8-995e-3af52afb0120",
+        "parentId" : "f9742f32-09c5-42d6-8e7d-13b09083a17e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We do not strictly adhere to JVM requirements, only to Scala requirements. But at the same time seeing different values there might confuse the apps that previously were never run outside the reference environment. We should keep it to be \"Oracle Corporation\", given that we strive for reasonable source compatibility wrt JDK 8.",
+        "createdAt" : "2017-04-05T10:48:20Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "22a738e8b340af2978ddc4409dc335585fd05dcf",
+    "line" : 21,
+    "diffHunk" : "@@ -24,12 +24,68 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n-  def clearProperty(key: String): String                = ???\n-  def getProperties(): Properties                       = ???\n-  def getProperty(key: String): String                  = ???\n-  def getProperty(key: String, default: String): String = ???\n-  def setProperty(key: String, value: String): String   = ???\n+  private def loadProperties() = {\n+    val sysProps = new Properties()\n+    sysProps.setProperty(\"java.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.vendor\", \"Oracle Corporation\")"
+  },
+  {
+    "id" : "30a2dcf7-58b0-44bf-ad15-6fdbf8addd3f",
+    "prId" : 591,
+    "comments" : [
+      {
+        "id" : "a06c175c-0dee-46ee-96c3-673e2ffe5991",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Ibid",
+        "createdAt" : "2017-03-28T17:45:16Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "df01ccf5-877e-4a66-b7b4-652524a7f717",
+        "parentId" : "a06c175c-0dee-46ee-96c3-673e2ffe5991",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "What do you mean by that?",
+        "createdAt" : "2017-03-29T09:57:24Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "140ed9b8-7c94-49a5-9632-a013cec0eb14",
+        "parentId" : "a06c175c-0dee-46ee-96c3-673e2ffe5991",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "sysProps.setProperty(\"java.vm.specification.vendor\", \"Scala Native\")\r\nibid:  (Latin, short for ibidem, meaning \"in the same place\") ",
+        "createdAt" : "2017-03-29T15:15:02Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "22a738e8b340af2978ddc4409dc335585fd05dcf",
+    "line" : null,
+    "diffHunk" : "@@ -24,12 +24,68 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n-  def clearProperty(key: String): String                = ???\n-  def getProperties(): Properties                       = ???\n-  def getProperty(key: String): String                  = ???\n-  def getProperty(key: String, default: String): String = ???\n-  def setProperty(key: String, value: String): String   = ???\n+  private def loadProperties() = {\n+    val sysProps = new Properties()\n+    sysProps.setProperty(\"java.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.vendor\", \"Oracle Corporation\")\n+    sysProps.setProperty(\"java.vm.specification.name\",\n+                         \"Java Virtual Machine Specification\")\n+    sysProps.setProperty(\"java.vm.name\", \"Scala-Native\")\n+    sysProps.setProperty(\"java.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.specification.vendor\", \"Oracle Corporation\")"
+  },
+  {
+    "id" : "a60e0a36-0097-4846-9f1b-cf15c446a9eb",
+    "prId" : 591,
+    "comments" : [
+      {
+        "id" : "2dc851cb-0e5e-4e2a-829c-860a57588cce",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Does Windows provide a way to override this via an environment variable? Not having the same behavior of parsing LANG by default feels wrong.",
+        "createdAt" : "2017-04-03T12:45:41Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cc67b19f-98e1-4e3e-9500-0e23ed32c022",
+        "parentId" : "2dc851cb-0e5e-4e2a-829c-860a57588cce",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Windows doesn't provide locale through any environment variables. User language can be changed in the \"Control Panel\" and we can fetch it using WinAPI.",
+        "createdAt" : "2017-04-03T12:49:14Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "22a738e8b340af2978ddc4409dc335585fd05dcf",
+    "line" : 34,
+    "diffHunk" : "@@ -24,12 +24,75 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n-  def clearProperty(key: String): String                = ???\n-  def getProperties(): Properties                       = ???\n-  def getProperty(key: String): String                  = ???\n-  def getProperty(key: String, default: String): String = ???\n-  def setProperty(key: String, value: String): String   = ???\n+  private def loadProperties() = {\n+    val sysProps = new Properties()\n+    sysProps.setProperty(\"java.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.vendor\", \"Oracle Corporation\")\n+    sysProps.setProperty(\"java.vm.specification.name\",\n+                         \"Java Virtual Machine Specification\")\n+    sysProps.setProperty(\"java.vm.name\", \"Scala Native\")\n+    sysProps.setProperty(\"java.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.specification.vendor\", \"Oracle Corporation\")\n+    sysProps.setProperty(\"java.specification.name\",\n+                         \"Java Platform API Specification\")\n+    sysProps.setProperty(\"line.separator\", lineSeparator())\n+\n+    if (Platform.isWindows) {\n+      sysProps.setProperty(\"file.separator\", \"\\\\\")\n+      sysProps.setProperty(\"path.separator\", \";\")\n+      val userLang    = fromCString(Platform.windowsGetUserLang())"
+  },
+  {
+    "id" : "c00bfe7e-032a-4d1c-85dc-977cbec159a0",
+    "prId" : 591,
+    "comments" : [
+      {
+        "id" : "c5786cce-49e6-4929-8738-65559d83a100",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Ideally this locale parsing code should live in Locale.fromLanguageTag, should we create a ticket for that?",
+        "createdAt" : "2017-04-03T12:47:31Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "39dc7fc0-0ee9-4c7d-8739-0060421beec0",
+        "parentId" : "c5786cce-49e6-4929-8738-65559d83a100",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "That is a nice idea, would make the code easier to read.",
+        "createdAt" : "2017-04-03T12:50:19Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6a030b8b-3d39-482f-9359-5fde85a2a411",
+        "parentId" : "c5786cce-49e6-4929-8738-65559d83a100",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "There is some parsing code in Apache Harmony - I guess I should have added that method implementation in the previous PR. There is a test setup and it is pretty much the reverse of toString.",
+        "createdAt" : "2017-04-03T18:35:40Z",
+        "updatedAt" : "2017-04-10T21:46:57Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "22a738e8b340af2978ddc4409dc335585fd05dcf",
+    "line" : 44,
+    "diffHunk" : "@@ -24,12 +24,75 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n-  def clearProperty(key: String): String                = ???\n-  def getProperties(): Properties                       = ???\n-  def getProperty(key: String): String                  = ???\n-  def getProperty(key: String, default: String): String = ???\n-  def setProperty(key: String, value: String): String   = ???\n+  private def loadProperties() = {\n+    val sysProps = new Properties()\n+    sysProps.setProperty(\"java.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.vm.specification.vendor\", \"Oracle Corporation\")\n+    sysProps.setProperty(\"java.vm.specification.name\",\n+                         \"Java Virtual Machine Specification\")\n+    sysProps.setProperty(\"java.vm.name\", \"Scala Native\")\n+    sysProps.setProperty(\"java.specification.version\", \"1.8\")\n+    sysProps.setProperty(\"java.specification.vendor\", \"Oracle Corporation\")\n+    sysProps.setProperty(\"java.specification.name\",\n+                         \"Java Platform API Specification\")\n+    sysProps.setProperty(\"line.separator\", lineSeparator())\n+\n+    if (Platform.isWindows) {\n+      sysProps.setProperty(\"file.separator\", \"\\\\\")\n+      sysProps.setProperty(\"path.separator\", \";\")\n+      val userLang    = fromCString(Platform.windowsGetUserLang())\n+      val userCountry = fromCString(Platform.windowsGetUserCountry())\n+      sysProps.setProperty(\"user.language\", userLang)\n+      sysProps.setProperty(\"user.country\", userCountry)\n+\n+    } else {\n+      sysProps.setProperty(\"file.separator\", \"/\")\n+      sysProps.setProperty(\"path.separator\", \":\")\n+      val userLocale = getenv(\"LANG\")\n+      if (userLocale != null) {\n+        val userLang = userLocale.takeWhile(_ != '_')"
+  },
+  {
+    "id" : "9b46c5b5-58e1-4d6b-9603-e8e652eb4045",
+    "prId" : 606,
+    "comments" : [
+      {
+        "id" : "58303294-f664-40de-805c-bdcd9d35a653",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Not sure if using `stdlib.getenv` here is better. It would avoid allocation of the map in most cases.",
+        "createdAt" : "2017-04-03T16:19:41Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cef9a177-ec2e-4c08-abdb-98a4048e5c5b",
+        "parentId" : "58303294-f664-40de-805c-bdcd9d35a653",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Found this in Harmony - maybe useful for MacOS?\r\n```\r\n#if defined(MACOSX)\r\n#include <crt_externs.h>\r\n#define environ (*_NSGetEnviron())\r\n#else\r\nextern char **environ;\r\n#endif\r\n```",
+        "createdAt" : "2017-04-03T22:02:26Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "def28945-3e70-4f8a-940f-a6b1dbac152b",
+        "parentId" : "58303294-f664-40de-805c-bdcd9d35a653",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "So far it seems to work fine on Mac. But I'd be happy to add the additional setup code",
+        "createdAt" : "2017-04-04T02:28:25Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "826da25b-71d5-4294-bad1-b4137510d6d5",
+        "parentId" : "58303294-f664-40de-805c-bdcd9d35a653",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "No need to add extra code if it is not needed.",
+        "createdAt" : "2017-04-04T12:19:13Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a6b9d1e0-608f-4799-a01e-bd42ac8951c1",
+        "parentId" : "58303294-f664-40de-805c-bdcd9d35a653",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd say `envVars.get` is fine the way it is. Micro-optimising things is usually not a good idea. ",
+        "createdAt" : "2017-04-05T10:53:27Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0ca3f6f11b41a94de3bda710911218863225b8d3",
+    "line" : 23,
+    "diffHunk" : "@@ -24,13 +24,15 @@ object System {\n   def identityHashCode(x: Object): scala.Int =\n     x.cast[Word].hashCode\n \n-  def getenv(name: String): String                      = ???\n   def clearProperty(key: String): String                = ???\n   def getProperties(): Properties                       = ???\n   def getProperty(key: String): String                  = ???\n   def getProperty(key: String, default: String): String = ???\n   def setProperty(key: String, value: String): String   = ???\n \n+  def getenv(): Map[String, String] = envVars\n+  def getenv(key: String): String   = envVars.get(key)"
+  },
+  {
+    "id" : "16736acb-7ef0-4d8c-a248-9388823fd6c0",
+    "prId" : 606,
+    "comments" : [
+      {
+        "id" : "4a6b8f6d-002e-4590-8126-2a331064f545",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Made a comment on #367 since it looks like the reason this workaround is needed.",
+        "createdAt" : "2017-04-03T16:24:21Z",
+        "updatedAt" : "2017-04-05T20:47:40Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0ca3f6f11b41a94de3bda710911218863225b8d3",
+    "line" : 34,
+    "diffHunk" : "@@ -39,6 +41,38 @@ object System {\n \n   def gc(): Unit = GC.collect()\n \n+  private lazy val envVars: Map[String, String] = {\n+    // workaround since `while(ptr(0) != null)` causes segfault\n+    def isDefined(ptr: Ptr[CString]): Boolean = {"
+  },
+  {
+    "id" : "783e8f30-f5a9-40bc-af48-fcd32be936f7",
+    "prId" : 622,
+    "comments" : [
+      {
+        "id" : "e59cc5cc-0a94-4293-bb7e-9382ea62c469",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I suggest to add a macro for\r\n\r\n```\r\n/usr/include/unistd.h:#define\t STDIN_FILENO\t0\t/* standard input file descriptor */\r\n```\r\n\r\nand use `unistd.STDIN_FILENO` here.",
+        "createdAt" : "2017-04-06T20:31:51Z",
+        "updatedAt" : "2017-04-22T06:49:38Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1f0bfbc15595ca1c85ef15af31ab77c4128f4db5",
+    "line" : null,
+    "diffHunk" : "@@ -82,4 +82,31 @@ object System {\n       stdio.fwrite(buf, 1, 1, stream)\n     }\n   }\n+\n+  private class CStdinStream() extends java.io.InputStream {\n+    def read(): CInt = {\n+      val buffer = stackalloc[scala.Byte](1)\n+      var nread  = unistd.read(0, buffer, 1)"
+  },
+  {
+    "id" : "a19bfe42-dfa3-48b2-b786-5d5d2fa9cc85",
+    "prId" : 622,
+    "comments" : [
+      {
+        "id" : "cc01ca64-752f-4699-828b-1a498574f80e",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "If `nread == -1` the value of `errno` should be checked. In case it is `EAGAIN` or `EINTR` it is safe to retry the read, else an error should probably be thrown.\r\n\r\nOnly in case `nread == 0` you can assume EOF in which case `-1` should be returned.\r\n\r\nA good reference is https://github.com/git/git/blob/625568cd8813bf32b2172eaf59e45e9da5978ce3/wrapper.c#L248-L268 which even calls `poll(2)` in case `EAGAIN` or `EWOULDBLOCK`",
+        "createdAt" : "2017-04-06T20:34:53Z",
+        "updatedAt" : "2017-04-22T06:49:38Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6cb13997-4817-4b78-84ac-b1e90a2e4fb1",
+        "parentId" : "cc01ca64-752f-4699-828b-1a498574f80e",
+        "author" : {
+          "login" : "fduraffourg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/220489?u=6690c5987c29a18ac2a6c67fec5ecd58452a001c&v=4"
+        },
+        "body" : "That's right.\r\nI think that because we read stdin we don't have to handle `EAGAIN` and `EWOULDBLOCK` errors. We would only get them if we set stdin non_blocking, which we don't. Don't you think so?",
+        "createdAt" : "2017-04-07T19:21:50Z",
+        "updatedAt" : "2017-04-22T06:49:38Z",
+        "lastEditedBy" : {
+          "login" : "fduraffourg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/220489?u=6690c5987c29a18ac2a6c67fec5ecd58452a001c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "36447a2c-cdf0-47a5-a80e-dad244f66734",
+        "parentId" : "cc01ca64-752f-4699-828b-1a498574f80e",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Yes, you are probably right. Maybe something to consider for the nio package.",
+        "createdAt" : "2017-04-08T00:52:14Z",
+        "updatedAt" : "2017-04-22T06:49:38Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1f0bfbc15595ca1c85ef15af31ab77c4128f4db5",
+    "line" : null,
+    "diffHunk" : "@@ -82,4 +82,31 @@ object System {\n       stdio.fwrite(buf, 1, 1, stream)\n     }\n   }\n+\n+  private class CStdinStream() extends java.io.InputStream {\n+    def read(): CInt = {\n+      val buffer = stackalloc[scala.Byte](1)\n+      var nread  = unistd.read(0, buffer, 1)\n+      if (nread < 1)\n+        -1"
+  },
+  {
+    "id" : "233068ad-4d46-4ec2-b6b9-751cbd025d29",
+    "prId" : 659,
+    "comments" : [
+      {
+        "id" : "00d48bab-3483-4c37-8bab-940e927358df",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I suggest to port the error checking and retry logic to FileInputStream. Right now it simply ignore errors.",
+        "createdAt" : "2017-04-22T11:21:25Z",
+        "updatedAt" : "2017-04-24T11:30:13Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "13eb68ae-ffba-4c3d-b969-afd77a7179f6",
+        "parentId" : "00d48bab-3483-4c37-8bab-940e927358df",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good catch! /cc @Duhemm ",
+        "createdAt" : "2017-04-22T15:16:17Z",
+        "updatedAt" : "2017-04-24T11:30:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0b721ede-d71b-4822-a420-d1bbcf3c952a",
+        "parentId" : "00d48bab-3483-4c37-8bab-940e927358df",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Improved in second commit of this pr.",
+        "createdAt" : "2017-04-24T10:23:57Z",
+        "updatedAt" : "2017-04-24T11:30:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1da523f26ff8d1d6617b49a940f4c620debd1772",
+    "line" : 53,
+    "diffHunk" : "@@ -132,50 +135,4 @@ object System {\n \n     Collections.unmodifiableMap(map)\n   }\n-\n-  private class CFileOutputStream(stream: Ptr[stdio.FILE])\n-      extends java.io.OutputStream {\n-    private val buf = stdlib.malloc(1)\n-    def write(b: Int): Unit = {\n-      !buf = b.toUByte.toByte\n-      stdio.fwrite(buf, 1, 1, stream)\n-    }\n-  }\n-\n-  private class CStdinStream() extends java.io.InputStream {\n-    private def readAndRetry(fd: CInt,\n-                             buf: Ptr[scala.Byte],\n-                             count: CSize): CSize = {\n-      var nread: CSize = -1\n-      do {\n-        nread = unistd.read(unistd.STDIN_FILENO, buf, count)\n-        if (nread == -1 && errno.errno != EINTR)\n-          throw new IOException(\"Error on reading stdin\")\n-      } while (nread == -1)\n-      nread\n-    }\n-\n-    def read(): CInt = {\n-      val buffer = stackalloc[scala.Byte](1)\n-      var nread  = readAndRetry(unistd.STDIN_FILENO, buffer, 1)"
+  },
+  {
+    "id" : "7f834f01-01fa-473d-abe7-15ee77ff4b9f",
+    "prId" : 1026,
+    "comments" : [
+      {
+        "id" : "f96bfeb1-c076-44fd-a057-8cd31cdd6e01",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't do doc comments for JDK APIs as they are never published.",
+        "createdAt" : "2017-09-27T13:28:31Z",
+        "updatedAt" : "2017-09-27T14:02:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4c9865e9670d3ca481456fe53fb6919d5da2a4ac",
+    "line" : null,
+    "diffHunk" : "@@ -91,6 +92,10 @@ object System {\n   def nanoTime(): scala.Long          = time.scalanative_nano_time\n   def currentTimeMillis(): scala.Long = time.scalanative_current_time_millis\n \n+  /**\n+   * POSIX environment variables\n+   * http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html\n+   */"
+  },
+  {
+    "id" : "90a1a2ad-90c7-457a-bf5e-832e16d83d8c",
+    "prId" : 1082,
+    "comments" : [
+      {
+        "id" : "e6043746-197b-4ee5-8b66-3d282cc361f4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "4096 Seems to be an overkill, lets use `1024` instead.",
+        "createdAt" : "2018-02-13T16:01:08Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ecd37e5909a957621cdeef446c0e6c59b77bd151",
+    "line" : null,
+    "diffHunk" : "@@ -63,6 +63,11 @@ object System {\n         sysProps.setProperty(\"user.country\", userCountry)\n       }\n       sysProps.setProperty(\"user.home\", getenv(\"HOME\"))\n+      val buf = stackalloc[scala.Byte](4096)"
+  },
+  {
+    "id" : "eae1bb83-8c87-40cb-9496-02f0d9302c87",
+    "prId" : 1082,
+    "comments" : [
+      {
+        "id" : "6f34f8c1-fdcf-40c4-a08e-fdc43081bedd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The size argument should be the same as the size given to `stackalloc` above.",
+        "createdAt" : "2018-02-13T16:01:29Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ecd37e5909a957621cdeef446c0e6c59b77bd151",
+    "line" : null,
+    "diffHunk" : "@@ -63,6 +63,11 @@ object System {\n         sysProps.setProperty(\"user.country\", userCountry)\n       }\n       sysProps.setProperty(\"user.home\", getenv(\"HOME\"))\n+      val buf = stackalloc[scala.Byte](4096)\n+      unistd.getcwd(buf, 4095) match {"
+  },
+  {
+    "id" : "b46862ac-4afc-44c4-a767-26173ceb8470",
+    "prId" : 1218,
+    "comments" : [
+      {
+        "id" : "f1fc998c-27e4-4fcf-8818-56d435ccbdb8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I was not very clear on the previous comment, but I think this branch specifically should rather be in the C code. So that on Scala side we're left with something along the lines of:\r\n\r\n```\r\n        val name, tmpdir, version = ...\r\n        Platform.osVersion(major, minor, patch)\r\n        Platform.osName(name)\r\n        Platform.osTmpDir(tmpdir)\r\n        sysProps.setProperty(\"os.name\", ...)\r\n        sysProps.setProperty(\"os.version\", ...)\r\n        sysProps.setProperty(\"java.io.tmpdir\", ...)\r\n```\r\nWe should try avoiding platform-dependant branching in Scala code as much as possible.",
+        "createdAt" : "2018-07-11T09:28:56Z",
+        "updatedAt" : "2018-07-13T17:49:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "682fee7b-2a03-4861-b1ee-3971081c1e7f",
+        "parentId" : "f1fc998c-27e4-4fcf-8818-56d435ccbdb8",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, we started that platform branching early on and with only a couple of items and platforms it looked reasonable. Now, I agree that we should hide the platform details in the main code line.",
+        "createdAt" : "2018-07-11T12:31:50Z",
+        "updatedAt" : "2018-07-13T17:49:29Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3267429f45ef375cebbc7db837dc98f4f9c2ce82",
+    "line" : null,
+    "diffHunk" : "@@ -49,6 +51,26 @@ object System {\n       sysProps.setProperty(\"user.country\", userCountry)\n \n     } else {\n+      if (Platform.isMac) {"
+  },
+  {
+    "id" : "4ee352ac-82fe-4581-a4a7-fe6bb7935cae",
+    "prId" : 1738,
+    "comments" : [
+      {
+        "id" : "28395222-c308-4a50-87ed-74f96a381d7a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider using\r\n```suggestion\r\n      locally {\r\n```\r\nto make this more readable.\r\n\r\nAlso, consider wrapping the following code for `user.dir` in a similar `locally {}` block, since it also has a `val buf`.",
+        "createdAt" : "2020-05-15T09:52:05Z",
+        "updatedAt" : "2020-05-16T15:38:05Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a592cad0-b779-4821-a989-f4bf018b6ac1",
+        "parentId" : "28395222-c308-4a50-87ed-74f96a381d7a",
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Did not know about `locally` existence! Thank you :-) I'll implement the suggested changes!",
+        "createdAt" : "2020-05-15T10:59:30Z",
+        "updatedAt" : "2020-05-16T15:38:05Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "91a85cdac8e976f2998a234179aeb032f7a6f665",
+    "line" : null,
+    "diffHunk" : "@@ -61,7 +63,14 @@ object System {\n         sysProps.setProperty(\"user.language\", userLang)\n         sysProps.setProperty(\"user.country\", userCountry)\n       }\n-      sysProps.setProperty(\"user.home\", getenv(\"HOME\"))\n+      {"
+  }
+]

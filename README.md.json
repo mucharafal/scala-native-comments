@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "0aa2cc75-fc99-402f-9541-bbfd31094be5",
+    "prId" : 53,
+    "comments" : [
+      {
+        "id" : "6e9b4e84-f226-4907-9d8f-3b94223aad2d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "All the docs should go in `docs/` subfolder. E.g. this one can be `/docs/develop.md`\n",
+        "createdAt" : "2016-05-13T03:01:26Z",
+        "updatedAt" : "2016-05-16T13:55:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4229e248f26c1ee4a1ce0aacc5b73aae23f6c288",
+    "line" : null,
+    "diffHunk" : "@@ -5,6 +5,18 @@ designed specifically for Scala. Project is currently in pre-release stage.\n [Follow us on twitter to be first to know about upcoming\n updates.](http://twitter.com/scala_native)\n \n+## How to build?\n+\n+This requires SBT to be installed on your machine. Refer to [this link](http://www.scala-sbt.org/release/docs/Setup.html) for instructions.\n+\n+```\n+$ git clone https://github.com/scala-native/scala-native.git --recursive\n+$ sbt rtlib/publishLocal nscplugin/publishLocal\n+$ sbt package\n+```\n+\n+If you face any issues with your development environment setup, refer to [developer guide](DEVELOP.md)"
+  },
+  {
+    "id" : "fea791b5-93c9-491d-a080-e204f5d1579d",
+    "prId" : 290,
+    "comments" : [
+      {
+        "id" : "e96096d7-28b6-4f16-9820-44e74f591853",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You should surround code snippets with backticks (`) for proper formatting.\n",
+        "createdAt" : "2016-09-15T08:17:16Z",
+        "updatedAt" : "2016-09-15T08:36:52Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6d1a33cf-0abb-4393-b753-3b834da994c8",
+        "parentId" : "e96096d7-28b6-4f16-9820-44e74f591853",
+        "author" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "body" : "Sure. Better now?\n",
+        "createdAt" : "2016-09-15T08:37:40Z",
+        "updatedAt" : "2016-09-15T08:37:40Z",
+        "lastEditedBy" : {
+          "login" : "mkotsbak",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/296523?u=5c28ca0c7c123121fb39329aa35cc0d5a3bc0bae&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3335912f-8abb-41ad-a34d-75c04826249f",
+        "parentId" : "e96096d7-28b6-4f16-9820-44e74f591853",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Yep. I'll leave the final call to @densh, though.\n",
+        "createdAt" : "2016-09-15T08:53:44Z",
+        "updatedAt" : "2016-09-15T08:53:44Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a857b7a21ecf8f2df9b04427cc0a7a7347961d56",
+    "line" : null,
+    "diffHunk" : "@@ -38,6 +38,9 @@ updates.](http://twitter.com/scala_native)\n \n   val ptr = stdlib.malloc(32)\n   ```\n+  \n+  Use the @link(\"libraryname\") annotation to automatically link with\n+  a native library whenever an annotated extern object is used. (e.g. @link(\"png\") to link with \"libpng\")"
+  }
+]

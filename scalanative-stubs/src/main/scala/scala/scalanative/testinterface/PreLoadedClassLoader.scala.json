@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "9135ba9d-066b-484a-8990-0d1e94bbcf70",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "6d2738c9-73a4-4759-9952-ab9827180f64",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that `preload` is a single word, the name should be `PreloadedClassLoader`. ",
+        "createdAt" : "2017-06-12T09:47:06Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,9 @@\n+package scala.scalanative.testinterface\n+\n+/** A `ClassLoader` that returns pre-instanciated objects.\n+ *  We use it to bypass uses of reflection in the test interface.\n+ */\n+class PreLoadedClassLoader(map: Map[String, AnyRef]) extends ClassLoader {"
+  }
+]

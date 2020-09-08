@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "770a2c4d-ac36-4444-9f0a-ae48ee61bb21",
+    "prId" : 1426,
+    "comments" : [
+      {
+        "id" : "44282f27-3e99-4fe9-bd1c-6d1c38de1382",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "/cc @rwhaling This is the new Nat encoding that I mentioned at some point. IMO it looks nicer actually. 😄",
+        "createdAt" : "2019-04-03T10:16:02Z",
+        "updatedAt" : "2019-05-22T17:42:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7189f12c-7cc6-4e06-9aa9-12489cb53d9d",
+        "parentId" : "44282f27-3e99-4fe9-bd1c-6d1c38de1382",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "With this change, sizeof is always constant folded away and is zero cost despite being completely implemented in the library code.",
+        "createdAt" : "2019-04-03T10:17:03Z",
+        "updatedAt" : "2019-05-22T17:42:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4cd430b21f9fbfe7d479810cd38e29534a9a17f5",
+    "line" : 16,
+    "diffHunk" : "@@ -75,9 +75,9 @@ object SizeofSuite extends tests.Suite {\n                  CStruct3[Int, Int, CStruct4[Byte, Int, Short, Byte]]]] == 40)\n   }\n \n-  type _32   = Nat.Digit[Nat._3, Nat._2]\n-  type _128  = Nat.Digit[Nat._1, Nat.Digit[Nat._2, Nat._8]]\n-  type _1024 = Nat.Digit[Nat._1, Nat.Digit[Nat._0, Nat.Digit[Nat._2, Nat._4]]]\n+  type _32   = Nat.Digit2[Nat._3, Nat._2]\n+  type _128  = Nat.Digit3[Nat._1, Nat._2, Nat._8]\n+  type _1024 = Nat.Digit4[Nat._1, Nat._0, Nat._2, Nat._4]"
+  }
+]

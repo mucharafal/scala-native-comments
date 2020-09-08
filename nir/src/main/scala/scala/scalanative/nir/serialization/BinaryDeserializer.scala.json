@@ -1,0 +1,620 @@
+[
+  {
+    "id" : "37fb62b2-fd70-477e-a5f3-547d4c86d3f0",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "881fdec3-7abe-4c7b-8697-a68f2fee0a7f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Need to merge `deps` and `weaks` into just `deps`.\n",
+        "createdAt" : "2016-11-11T14:19:16Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -21,33 +22,43 @@ final class BinaryDeserializer(_buffer: => ByteBuffer) {\n     assert(compat == Versions.compat && revision <= Versions.revision,\n            \"Can't read binary-incompatible version of NIR.\")\n \n-    val (_, _, pairs) = scoped(getSeq((getGlobal, getInt)))\n+    val (_, _, _, _, pairs) = scoped(getSeq((getGlobal, getInt)))\n     val map           = pairs.toMap\n     this.deps = null\n     map\n   }\n \n-  private var deps: mutable.Set[Dep]        = _\n-  private var links: mutable.Set[Attr.Link] = _\n+  private var deps:  mutable.Set[Dep]           = _\n+  private var links: mutable.Set[Attr.Link]     = _\n+  private var weaks: mutable.Set[Attr.WeakPin]  = _\n+  private var dyns:   mutable.Set[String]       = _"
+  },
+  {
+    "id" : "c7592fe1-6833-49f0-b959-fe2ee3762856",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "c712944a-87fb-442b-9ec7-7610d8906326",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets use `globals` rather than `all`. It's a bit more descriptive. ",
+        "createdAt" : "2016-11-29T16:33:10Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -41,6 +41,8 @@ final class BinaryDeserializer(_buffer: => ByteBuffer) {\n     (deps, links, res)\n   }\n \n+  final def all: Set[Global] = header.keySet"
+  },
+  {
+    "id" : "f5956508-295d-4a51-a99d-eb0445208b8d",
+    "prId" : 683,
+    "comments" : [
+      {
+        "id" : "087068d6-70dc-4b6a-b834-b265c0c7fe21",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Binary compatibility hacks are the best. ",
+        "createdAt" : "2017-04-28T13:44:18Z",
+        "updatedAt" : "2017-04-28T13:44:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9422ff09967705366edb3d8d12a8dbd03a1aab84",
+    "line" : 19,
+    "diffHunk" : "@@ -311,4 +311,11 @@ final class BinaryDeserializer(_buffer: => ByteBuffer) {\n     case T.ConstVal  => Val.Const(getVal)\n     case T.StringVal => Val.String(getString)\n   }\n+  private def getZero(): Val = {\n+    val ty = getType\n+    ty match {\n+      case Type.Ptr | _: Type.RefKind => Val.Null\n+      case _                          => Val.Zero(ty)\n+    }\n+  }"
+  },
+  {
+    "id" : "5f4caec3-00c6-4033-b3e5-12abfa598736",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "4789afff-bac4-4eb6-bacc-2803d5f5d365",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is this change necessary?",
+        "createdAt" : "2017-10-03T12:27:42Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "42454570-1a4b-441d-811b-b38a83cdb33a",
+        "parentId" : "4789afff-bac4-4eb6-bacc-2803d5f5d365",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Yes it does not compile in Scala 2.12",
+        "createdAt" : "2017-10-03T12:28:32Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : 4,
+    "diffHunk" : "@@ -100,6 +100,7 @@ final class BinaryDeserializer(_buffer: => ByteBuffer) {\n         case T.PinIfAttr =>\n           deps += Dep.Conditional(getGlobalNoDep, getGlobalNoDep)\n       }\n+      ()"
+  },
+  {
+    "id" : "cc4b2722-4fbb-4aae-b7c4-709c383e28d5",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "56ba9e10-fae4-4234-a13a-7044966ad9e2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think it's best to literally add a new type called `Type.Size` and then lower it to either Int or Long in codegen. ",
+        "createdAt" : "2018-10-17T09:15:29Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b7c1d321-4a5f-4251-af8f-20976d9ae8ab",
+        "parentId" : "56ba9e10-fae4-4234-a13a-7044966ad9e2",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "I was considering that, but would that cause issues with link-time evaluation of math expressions where `Type.Size` would not be available for calculations? And also I feel it would bring in a lot more complications in places like `MemoryLayout` where we would have to handle `Type.Size` specially.",
+        "createdAt" : "2018-10-17T16:48:32Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "583b517a-a551-47e0-9e19-e272ebb085bc",
+        "parentId" : "56ba9e10-fae4-4234-a13a-7044966ad9e2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Type.Size is special because it's effectively a type alias that we need to resolve at link time (rather than compile-time like in scalac). There is no machinery to dealias those kind of things atm, but I don't think putting platform-dependant logic into the deserializer is a good idea. Currently it's just 1-to-1 mapping without any logic whatsoever, it should rather stay this way. ",
+        "createdAt" : "2018-10-18T08:54:22Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "79c0227f-1e58-4193-9f0c-fc0431837f0b",
+        "parentId" : "56ba9e10-fae4-4234-a13a-7044966ad9e2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Actually if we had a way to dealias at link-time we wouldn't need separate artifacts for 32-bit and 64-bit platforms. We could have one NIR copy of everything that's automagically become 32-bit or 64-bit based on the requested target architecture.  ",
+        "createdAt" : "2018-10-18T08:56:01Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c7c4f872-2b3b-4db3-9b52-d6c24a691d59",
+        "parentId" : "56ba9e10-fae4-4234-a13a-7044966ad9e2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "But I think it's better left for next PR(s), it's likely not trivial and needs some design discussion as well. ",
+        "createdAt" : "2018-10-18T08:57:19Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3a38885d-0c66-487d-98ce-7ffd50e1aaf4",
+        "parentId" : "56ba9e10-fae4-4234-a13a-7044966ad9e2",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "I ended up being able to eliminate `Type.Size` altogether, actually, by figuring out what the `Word` type is in the compiler plugin. Especially since native libraries sometimes use types that differ across 32/64bit systems, I think link-time switching won't work since it wouldn't be possible to express these differing APIs.",
+        "createdAt" : "2018-10-20T19:48:51Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -234,6 +234,7 @@ final class BinaryDeserializer(buffer: ByteBuffer) {\n     case T.VoidType        => Type.Void\n     case T.VarargType      => Type.Vararg\n     case T.PtrType         => Type.Ptr\n+    case T.SizeType        => sizeType"
+  },
+  {
+    "id" : "e293898c-66ac-4093-8f67-49a5a11c7aa3",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "6ecb91fa-84cb-414b-9859-71c0fce4a6fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I believe the meaning of this byte should be generalized from\r\n\r\n> there is a static initializer in this file\r\n\r\nto\r\n\r\n> there is at least one reason to fully load this file even if it's not referenced elsewhere\r\n\r\n*At the moment*, this would be equivalent to \"there is a clinit\", because nothing else could justify having to load the file. But if we add another feature in the IR in the future that would also require the file to be loaded, we would be able to do so without breaking backward binary compatibility. If we stick to \"this file has a clinit\", then we would have to add *another* byte for the new feature, breaking everything.",
+        "createdAt" : "2020-02-20T14:02:31Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "44db3ed7-287b-4d04-9a13-fb0fc2876a3a",
+        "parentId" : "6ecb91fa-84cb-414b-9859-71c0fce4a6fb",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "From the following commit, I believe you already have ta name for this concept: `classesWithEntryPoint`. So this could simply be renamed to `hasEntryPoint`.",
+        "createdAt" : "2020-02-20T14:05:25Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -12,6 +12,8 @@ final class BinaryDeserializer(buffer: ByteBuffer) {\n   private val header: Map[Global, Int] = {\n     buffer.position(0)\n \n+    val hasClInit = getBool"
+  },
+  {
+    "id" : "324fcca6-7575-492e-a1d4-b1f267feb537",
+    "prId" : 1764,
+    "comments" : [
+      {
+        "id" : "eb77cd06-ec8b-4fe2-a016-c8778dfd8c47",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These two assertions should be moved to `NirPrelude.readFrom`, *before* trying to read the byte for `existsEntryPoint`.",
+        "createdAt" : "2020-04-28T08:48:46Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2e9c49de-b549-4b61-a583-3998b2543c4b",
+        "parentId" : "eb77cd06-ec8b-4fe2-a016-c8778dfd8c47",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "The problem with this is that we don't have access to the `Versions` object in `util` and I am not very keen in making `util` depend on anything. I believe it should be dependency-free.\r\n\r\nWe could move `Versions` to `util` (as in `NirVersions`), but I don't really like that either. `Versions` should stay in `nir`, since they indicate NIR versions. On the other hand, since NIR is core to the project, there is no harm in its version being visible from the outside (for the modules that depend on `util`).\r\n\r\nIf I were to choose between the two above, I think that the second solution is preferable.",
+        "createdAt" : "2020-04-28T12:25:04Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "420e381a-b01e-4c20-a296-490efe950250",
+        "parentId" : "eb77cd06-ec8b-4fe2-a016-c8778dfd8c47",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Of course, we could provide the versions in the `NirPrelude.readFrom` call...\r\n\r\nI am leaning towards moving `Versions` to `util` as `NirVersions` and put it together with `NirPrelude` to a `nir` dedicated package in `util`.",
+        "createdAt" : "2020-04-28T12:29:47Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a269acdf-265e-4cdb-bc28-a58cfc72c9c3",
+        "parentId" : "eb77cd06-ec8b-4fe2-a016-c8778dfd8c47",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "What about moving `NirPrelude` to `nir/` instead? That seems like the obvious solution to me.",
+        "createdAt" : "2020-04-28T13:06:41Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "01acb263-afca-4eb6-b413-f3d120627b0c",
+        "parentId" : "eb77cd06-ec8b-4fe2-a016-c8778dfd8c47",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "True. I totally missed that `tools` depends on `nir`.",
+        "createdAt" : "2020-04-28T13:19:55Z",
+        "updatedAt" : "2020-04-28T13:47:50Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e10c524f2af5ddf1af3e3ad56070a717fc426a6e",
+    "line" : null,
+    "diffHunk" : "@@ -12,11 +14,7 @@ final class BinaryDeserializer(buffer: ByteBuffer) {\n   private val header: Map[Global, Int] = {\n     buffer.position(0)\n \n-    val hasEntryPoint = getBool\n-\n-    val magic    = getInt\n-    val compat   = getInt\n-    val revision = getInt\n+    val NirPrelude(magic, compat, revision, _) = NirPrelude.readFrom(buffer)\n \n     assert(magic == Versions.magic, \"Can't read non-NIR file.\")\n     assert(compat == Versions.compat && revision <= Versions.revision,"
+  },
+  {
+    "id" : "480801f6-76a6-4c31-af39-7575e504030a",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "7933fe3c-a669-42da-9756-4ff1d088c253",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Here we'll need a deserialization hack to be able to read previous versions or the NIR. The idea is that, if we read an .nir file produced by a previous version, we'll do `getString`, and then process the escapes of that string like the previous linker used to do, to produce bytes. And otherwise we just call `getBytes()`.\r\n\r\nHow do we know whether we're reading a previous version? It's stored in the `Prelude`. Inside `val header = ...`, we call `Prelude.readFrom(), which returns a value of type `Prelude` that contains this information. Currently we throw it away because we don't need it, but now we'll have to store it.",
+        "createdAt" : "2020-07-23T15:11:05Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5b5cb2b9-fe8f-4a3d-ae00-552ea8a9b545",
+        "parentId" : "7933fe3c-a669-42da-9756-4ff1d088c253",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Hey, \r\nI'm not really sure is it needed in this place, previously this new `getBytes` method is simply extracted logic from previous version of `getString`. Currently getString is defined as \r\n```  \r\nprivate def getString(): String = {\r\n    new String(getBytes(), \"UTF-8\")\r\n  }\r\n```\r\n\r\naltough as I understand inside `CodeGen` we should change current logic to \r\n```\r\n...\r\n      case v :Val.Chars =>\r\n        if(v.revision < 7) legacyGenChars(v.stringValue) //here we're using previous logic\r\n        else genChars(v.bytes) // we're using new logic which assumes string is escaped\r\n```\r\nAm i correct?",
+        "createdAt" : "2020-07-27T08:14:05Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a075e6d1-c01f-4218-b808-42a28bcff4a2",
+        "parentId" : "7933fe3c-a669-42da-9756-4ff1d088c253",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We cannot have version-dependent behavior in CodeGen. The problem is that things can get inlined from one place to another, so a `Val.Chars` may be copied over to a `Def` that was originally with a different `revision`.\r\n\r\nThe last and only moment we can use version-dependent logic is in the deserializer. After that, all the NIR must be assumed to be in the latest version, and be handled as such.",
+        "createdAt" : "2020-07-27T09:24:38Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -265,7 +268,7 @@ final class BinaryDeserializer(buffer: ByteBuffer) {\n     case T.DoubleVal      => Val.Double(getDouble)\n     case T.StructValueVal => Val.StructValue(getVals)\n     case T.ArrayValueVal  => Val.ArrayValue(getType, getVals)\n-    case T.CharsVal       => Val.Chars(getString)\n+    case T.CharsVal       => Val.Chars(getBytes())"
+  },
+  {
+    "id" : "748a739a-f92f-421a-a85f-82742f295ed6",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "f013738e-b10f-427b-91a9-783268c44406",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    val files =\r\n      if (prelude.revision < 7) Array.empty[java.net.URI]\r\n      else Array.fill(getInt())(new URI(getString()))\r\n```",
+        "createdAt" : "2020-08-20T12:41:41Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -2,29 +2,32 @@ package scala.scalanative\n package nir\n package serialization\n \n+import java.net.URI\n import java.nio.ByteBuffer\n-\n import scala.collection.mutable\n import scala.scalanative.nir.serialization.{Tags => T}\n \n final class BinaryDeserializer(buffer: ByteBuffer) {\n   import buffer._\n \n-  private val header: Map[Global, Int] = {\n+  private[this] var lastPosition: Position = Position.NoPosition\n+\n+  private val (prelude, header, files): (Prelude,\n+                                         Seq[(Global, Int)],\n+                                         Array[URI]) = {\n     buffer.position(0)\n \n-    Prelude.readFrom(buffer)\n+    val prelude = Prelude.readFrom(buffer)\n+\n+    val files = Array.fill(getInt())(new URI(getString()))"
+  },
+  {
+    "id" : "cd05fdbc-625a-4da5-8c55-06172e53134c",
+    "prId" : 1883,
+    "comments" : [
+      {
+        "id" : "c5088730-d2a8-403e-b40b-737af6c662cb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should definitely be called `getUTF8String()` if it reads in UTF-8. ASCII is another charset.",
+        "createdAt" : "2020-08-26T10:03:42Z",
+        "updatedAt" : "2020-08-26T12:10:17Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df597a2fe53d6ff77b0dbb2746a329faed216494",
+    "line" : null,
+    "diffHunk" : "@@ -40,10 +41,18 @@ final class BinaryDeserializer(buffer: ByteBuffer) {\n \n   private def getInts(): Seq[Int] = getSeq(getInt)\n \n-  private def getStrings(): Seq[String] = getSeq(getString)\n   private def getString(): String = {\n-    new String(getBytes(), \"UTF-8\")\n+    if (prelude.revision < 7) getASCIIString()\n+    else {\n+      val chars = Array.fill(getInt)(getChar)\n+      new String(chars)\n+    }\n+  }\n+\n+  private def getASCIIString(): String = {"
+  },
+  {
+    "id" : "259b132b-5c94-4081-9e12-008d152d192a",
+    "prId" : 1883,
+    "comments" : [
+      {
+        "id" : "8b805434-5e74-43d1-8307-95e088e54282",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It seems that this method is now only used in one place, namely the `case T.StringVal` at the end of the file. I suggest inlining it there, so that it's obvious that its logic is only relevant for string literals, and nothing else.",
+        "createdAt" : "2020-08-26T10:06:02Z",
+        "updatedAt" : "2020-08-26T12:10:17Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "df597a2fe53d6ff77b0dbb2746a329faed216494",
+    "line" : null,
+    "diffHunk" : "@@ -40,10 +41,18 @@ final class BinaryDeserializer(buffer: ByteBuffer) {\n \n   private def getInts(): Seq[Int] = getSeq(getInt)\n \n-  private def getStrings(): Seq[String] = getSeq(getString)\n   private def getString(): String = {"
+  }
+]

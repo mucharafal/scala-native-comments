@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "e3c5d50a-7806-4c71-b8aa-3ddf7a7b7549",
+    "prId" : 369,
+    "comments" : [
+      {
+        "id" : "c4199b75-7d8a-4124-be2a-b9d3ad9980d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Similarly to splitting parsers apart, lets have one test suite per parser/hierarchy. \n",
+        "createdAt" : "2016-10-31T10:53:33Z",
+        "updatedAt" : "2016-11-02T13:39:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b703f09b0f683b7640d918969c40af4fc563c300",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,708 @@\n+package scala.scalanative\n+package nir\n+package parser\n+\n+import util.sh\n+import Shows._\n+\n+import scala.io.Source\n+import fastparse.all.Parsed\n+import org.scalatest._\n+\n+class NirParserTest extends FlatSpec with Matchers {"
+  }
+]

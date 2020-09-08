@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "87b05b4f-b71c-4096-9d72-69f404eee989",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "a5b32d25-217a-4d18-8d0e-b62a8f82c56d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Out of those only `MSG_NOERROR` is listed in http://pubs.opengroup.org/onlinepubs/9699919799/",
+        "createdAt" : "2017-05-03T09:54:13Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 47,
+    "diffHunk" : "@@ -0,0 +1,49 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import native.time.time_t\n+import types._\n+\n+@extern\n+object msg {\n+\n+  // msgctl\n+  def msgctl(msqid: CInt, cmd: CInt, buf: Ptr[msqid_ds]): CInt = extern\n+  def msgget(key: key_t, msgflg: CInt): CInt                   = extern\n+  def msgsnd(msqid: CInt, msgp: Ptr[Byte], msgz: CSize, msgflg: CInt): CInt =\n+    extern\n+  def msgrcv(msqid: CInt,\n+             msgp: Ptr[Byte],\n+             msgz: CSize,\n+             msgtyp: CLong,\n+             msgflg: CInt): ssize_t = extern\n+\n+  // Types\n+  type msgqnum_t = CUnsignedInt\n+  type msglen_t  = CUnsignedInt\n+  type ipc_perm =\n+    CStruct7[key_t, uid_t, gid_t, uid_t, gid_t, CUnsignedShort, CUnsignedShort]\n+  type msqid_ds = CStruct9[ipc_perm,\n+                           time_t,\n+                           time_t,\n+                           time_t,\n+                           CUnsignedLong,\n+                           msgqnum_t,\n+                           msglen_t,\n+                           pid_t,\n+                           pid_t]\n+\n+  // Macros\n+  @name(\"scalanative_msg_info\")\n+  def MSG_INFO: CInt = extern\n+  @name(\"scalanative_msg_stat\")\n+  def MSG_STAT: CInt = extern\n+  @name(\"scalanative_msg_noerror\")\n+  def MSG_NOERROR: CInt = extern\n+  @name(\"scalanative_msg_copy\")\n+  def MSG_COPY: CInt = extern\n+  @name(\"scalanative_msg_except\")\n+  def MSG_EXCEPT: CInt = extern"
+  },
+  {
+    "id" : "050078b1-e0a9-467d-a940-bf3a74266f39",
+    "prId" : 698,
+    "comments" : [
+      {
+        "id" : "69125eca-b948-439b-83ee-e358cff32d52",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "That's an unsigned long in Mac OS and Linux",
+        "createdAt" : "2017-05-11T20:42:30Z",
+        "updatedAt" : "2017-05-30T15:49:43Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d130f2c92a51c5ae61c2edea2b0876254b5552cc",
+    "line" : 27,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import scala.scalanative.posix.time.time_t\n+import types._\n+\n+// http://pubs.opengroup.org/onlinepubs/9699919799/\n+\n+@extern\n+object msg {\n+\n+  def msgctl(msqid: CInt, cmd: CInt, buf: Ptr[msqid_ds]): CInt = extern\n+\n+  def msgget(key: key_t, msgflg: CInt): CInt = extern\n+\n+  def msgsnd(msqid: CInt, msgp: Ptr[Byte], msgz: CSize, msgflg: CInt): CInt =\n+    extern\n+\n+  def msgrcv(msqid: CInt,\n+             msgp: Ptr[Byte],\n+             msgz: CSize,\n+             msgtyp: CLong,\n+             msgflg: CInt): ssize_t = extern\n+\n+  // Types\n+  type msgqnum_t = CUnsignedInt"
+  },
+  {
+    "id" : "5f273235-3644-47f3-9c54-48b4c7721151",
+    "prId" : 698,
+    "comments" : [
+      {
+        "id" : "d1916e0a-15ee-4407-865d-3470cef781a5",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "That's an unsigned long in Mac OS and Linux",
+        "createdAt" : "2017-05-11T20:44:26Z",
+        "updatedAt" : "2017-05-30T15:49:43Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d130f2c92a51c5ae61c2edea2b0876254b5552cc",
+    "line" : 28,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native._\n+import scala.scalanative.posix.time.time_t\n+import types._\n+\n+// http://pubs.opengroup.org/onlinepubs/9699919799/\n+\n+@extern\n+object msg {\n+\n+  def msgctl(msqid: CInt, cmd: CInt, buf: Ptr[msqid_ds]): CInt = extern\n+\n+  def msgget(key: key_t, msgflg: CInt): CInt = extern\n+\n+  def msgsnd(msqid: CInt, msgp: Ptr[Byte], msgz: CSize, msgflg: CInt): CInt =\n+    extern\n+\n+  def msgrcv(msqid: CInt,\n+             msgp: Ptr[Byte],\n+             msgz: CSize,\n+             msgtyp: CLong,\n+             msgflg: CInt): ssize_t = extern\n+\n+  // Types\n+  type msgqnum_t = CUnsignedInt\n+  type msglen_t  = CUnsignedInt"
+  }
+]

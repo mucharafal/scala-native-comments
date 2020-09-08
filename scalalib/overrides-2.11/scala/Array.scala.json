@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "d381d207-985f-4966-9553-1b6bb6f705e6",
+    "prId" : 184,
+    "comments" : [
+      {
+        "id" : "7bbd5efa-71ea-4f90-a3bb-5b8886183d9d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "What has been overriden in this file? Is it possible to make it work without the overrides? We should avoid overrides as much as possible.\n",
+        "createdAt" : "2016-06-20T16:16:56Z",
+        "updatedAt" : "2016-06-26T21:08:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f2df4183-17c6-431e-8404-38457b05c038",
+        "parentId" : "7bbd5efa-71ea-4f90-a3bb-5b8886183d9d",
+        "author" : {
+          "login" : "fbertra",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/18035?v=4"
+        },
+        "body" : "The Array::copy method was replaced.  \n\nOriginal:\n\n``` scala\n  def copy(src: AnyRef, srcPos: Int, dest: AnyRef, destPos: Int, length: Int) {\n    val srcClass = src.getClass\n    if (srcClass.isArray && dest.getClass.isAssignableFrom(srcClass))\n      arraycopy(src, srcPos, dest, destPos, length)\n    else\n      slowcopy(src, srcPos, dest, destPos, length)\n  }\n```\n\nNew\n\n``` scala\n  def copy(src: AnyRef, srcPos: Int, dest: AnyRef, destPos: Int, length: Int) {\n    arraycopy(src, srcPos, dest, destPos, length)\n  }\n```\n\nIt is necessary, because `java.lang.Class` isn't implemented yet. \n\nBut even when `java.lang.Class` will be implemented, the whole `slowcopy` logic seems to solve a JVM problem.  So, IMO, the `scala.Array::copy` method should always call `scala.compat.Platform::arraycopy` and platforms specific details should be resolved in the latter method.\n",
+        "createdAt" : "2016-06-20T16:51:15Z",
+        "updatedAt" : "2016-06-26T21:08:47Z",
+        "lastEditedBy" : {
+          "login" : "fbertra",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/18035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4f9526d2-d90f-44d9-84c4-a2bb67302df7",
+        "parentId" : "7bbd5efa-71ea-4f90-a3bb-5b8886183d9d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Makes sense. Lets keep this override for now. \n",
+        "createdAt" : "2016-06-25T10:11:13Z",
+        "updatedAt" : "2016-06-26T21:08:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "df99ebe472ae0f53b4650183e0d5a3b255014916",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,531 @@\n+/*                     __                                               *\\"
+  }
+]

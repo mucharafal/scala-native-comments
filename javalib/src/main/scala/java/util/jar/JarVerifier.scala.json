@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "ed24b44b-48cd-471e-bd53-bbf8ec57c8bf",
+    "prId" : 942,
+    "comments" : [
+      {
+        "id" : "895039f3-aeff-42bc-be5e-8a80f963f7c8",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This is mentioned in #932.",
+        "createdAt" : "2017-08-17T12:15:27Z",
+        "updatedAt" : "2017-08-21T10:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b866654b8210cd95d2a141b17dcd3491686c7677",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,396 @@\n+package java.util.jar\n+\n+// Ported from Apache Harmony\n+\n+import java.io.{\n+  ByteArrayInputStream,\n+  InputStream,\n+  IOException,\n+  OutputStream,\n+  UnsupportedEncodingException\n+}\n+import java.security.{\n+  GeneralSecurityException,\n+  MessageDigest,\n+  NoSuchAlgorithmException\n+}\n+import java.security.cert.Certificate\n+import java.util.{Map, HashMap, Iterator, StringTokenizer}\n+\n+import scala.collection.mutable.ArrayBuffer\n+\n+private[jar] class JarVerifier(jarName: String) {\n+  private var man: Manifest                                    = null\n+  private var metaEntries: Map[String, Array[Byte]]            = new HashMap\n+  private val signatures: Map[String, Map[String, Attributes]] = new HashMap\n+  private val certificates: Map[String, Array[Certificate]]    = new HashMap\n+  private val verifiedEntries: Map[String, Array[Certificate]] = new HashMap\n+  private[jar] var mainAttributesEnd: Int                      = 0\n+\n+  private[jar] class VerifierEntry(private var name: String,\n+                                   private var digest: MessageDigest,\n+                                   private var hash: Array[Byte],\n+                                   private var certificates: Array[Certificate])\n+      extends OutputStream {\n+    override def write(value: Int): Unit =\n+      digest.update(value.toByte)\n+\n+    override def write(buf: Array[Byte], off: Int, nbytes: Int): Unit =\n+      digest.update(buf, off, nbytes)\n+\n+    private[jar] def verify(): Unit = {\n+      val d = digest.digest()\n+      if (!MessageDigest.isEqual(d, JarVerifier.base64Decode(hash))) {\n+        throw new SecurityException(\n+          s\"${JarFile.MANIFEST_NAME} has invalid digest for $name in $jarName\")\n+      } else {\n+        verifiedEntries.put(name, certificates)\n+      }\n+    }\n+  }\n+\n+  private[jar] def initEntry(name: String): VerifierEntry =\n+    if (man == null || signatures.size == 0) {\n+      null\n+    } else {\n+      val attributes = man.getAttributes(name)\n+      if (attributes == null) {\n+        null\n+      } else {\n+        val certs = ArrayBuffer.empty[Certificate]\n+        val it    = signatures.entrySet().iterator()\n+        while (it.hasNext()) {\n+          val entry         = it.next()\n+          val signatureFile = entry.getKey()\n+          val hm            = entry.getValue()\n+          if (hm.get(name) != null) {\n+            // Found an entry for entry name in .SF file\n+            val newCerts =\n+              JarVerifier.getSignerCertificates(signatureFile, certificates)\n+            newCerts.foreach(certs += _)\n+          }\n+        }\n+\n+        // entry is not signed\n+        if (certs.size == 0) {\n+          null\n+        } else {\n+          var algorithms = attributes.getValue(\"Digest-Algorithms\")\n+          if (algorithms == null) {\n+            algorithms = \"SHA SHA1\"\n+          }\n+          val tokens                = new StringTokenizer(algorithms)\n+          var result: VerifierEntry = null\n+          while (result == null && tokens.hasMoreTokens()) {\n+            val algorithm = tokens.nextToken()\n+            val hash      = attributes.getValue(algorithm + \"-Digest\")\n+            if (hash != null) {\n+              val hashBytes = hash.getBytes(\"ISO-8859-1\")\n+              try result = new VerifierEntry(\n+                name,\n+                MessageDigest.getInstance(algorithm),\n+                hashBytes,\n+                certs.toArray)\n+              catch {\n+                case _: NoSuchAlgorithmException => // ignored\n+              }\n+            }\n+          }\n+          result\n+        }\n+      }\n+    }\n+\n+  private[jar] def addMetaEntry(name: String, buf: Array[Byte]): Unit =\n+    metaEntries.put(name.map(JarFile.toASCIIUpperCase), buf)\n+\n+  private[jar] def readCertificates(): Boolean = {\n+    if (metaEntries == null) {\n+      false\n+    } else {\n+      var result = true\n+      val it     = metaEntries.keySet().iterator()\n+      while (result && it.hasNext) {\n+        val key = it.next()\n+        if (key.endsWith(\".DSA\") || key.endsWith(\".RSA\")) {\n+          verifyCertificate(key)\n+          // Check for recursive class load\n+          if (metaEntries == null) {\n+            result = false\n+          }\n+          metaEntries.remove(key)\n+        }\n+      }\n+      result\n+    }\n+  }\n+\n+  private def verifyCertificate(certFile: String): Unit = {\n+    val signatureFile = certFile.substring(0, certFile.lastIndexOf('.')) + \".SF\"\n+    (metaEntries.get(signatureFile), metaEntries.get(JarFile.MANIFEST_NAME)) match {\n+      case (null, _) | (_, null) =>\n+        ()\n+      case (sfBytes, manifest) =>\n+        val sBlockBytes = metaEntries.get(certFile)\n+        try {\n+          // TODO: Port JarUtils from Apache Harmony.\n+          // val signerCertChain = JarUtils.verifySignature(\n+          //   new ByteArrayInputStream(sfBytes),\n+          //   new ByteArrayInputStream(sBlockBytes))"
+  }
+]

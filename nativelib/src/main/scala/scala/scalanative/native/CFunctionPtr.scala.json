@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "63fb9f27-6732-4ea1-942b-af9d3345405a",
+    "prId" : 934,
+    "comments" : [
+      {
+        "id" : "3072cabf-8f51-4a44-9dcc-7f5b68041fc1",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "🙈 ",
+        "createdAt" : "2017-08-14T14:27:24Z",
+        "updatedAt" : "2017-08-14T20:34:18Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5bed0a8ada68ff573e2e6f384a240c5116d17346",
+    "line" : 43,
+    "diffHunk" : "@@ -111,33 +111,22 @@ object CFunctionPtr {\n                               T11,\n                               T12,\n                               T13,\n-                              R](f: Function13[T1,\n-                                               T2,\n-                                               T3,\n-                                               T4,\n-                                               T5,\n-                                               T6,\n-                                               T7,\n-                                               T8,\n-                                               T9,\n-                                               T10,\n-                                               T11,\n-                                               T12,\n-                                               T13,\n-                                               R]): CFunctionPtr13[T1,\n-                                                                   T2,\n-                                                                   T3,\n-                                                                   T4,\n-                                                                   T5,\n-                                                                   T6,\n-                                                                   T7,\n-                                                                   T8,\n-                                                                   T9,\n-                                                                   T10,\n-                                                                   T11,\n-                                                                   T12,\n-                                                                   T13,\n-                                                                   R] =\n+                              R](\n+      f: Function13[T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, R])"
+  }
+]

@@ -1,0 +1,183 @@
+[
+  {
+    "id" : "b50f0a89-d6d5-4666-952d-4e9c50478d9b",
+    "prId" : 372,
+    "comments" : [
+      {
+        "id" : "391a4e11-5817-4f79-b3ce-60ecbc049a18",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Naming intermediate steps for this would make it much more readable.",
+        "createdAt" : "2016-12-04T11:12:17Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "89eb2ad5-b1ff-421a-8008-da7ce7c1d747",
+        "parentId" : "391a4e11-5817-4f79-b3ce-60ecbc049a18",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2016-12-06T15:29:47Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "79210c5df7fb7920e1e1bdd7b5050f711c48bf56",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,158 @@\n+package scala.scalanative\n+package llvm\n+\n+import java.io.File\n+\n+import scala.sys.process.{Process, ProcessLogger}\n+import scala.util.Try\n+\n+import System.{lineSeparator => nl}\n+\n+object LLVM {\n+\n+  private def abs(file: File): String =\n+    file.getAbsolutePath\n+\n+  private def running(command: Seq[String]): String =\n+    \"running\" + nl + command.mkString(nl + \"\\t\")\n+\n+  private def getFiles(base: File, filter: File => Boolean): Seq[File] =\n+    (if (filter(base)) Seq(base) else Seq()) ++\n+      (Option(base.listFiles()) getOrElse Array.empty flatMap (getFiles(\n+        _,\n+        filter)))"
+  },
+  {
+    "id" : "42a1b3a3-1011-4b78-8f4d-a6ce6c48d6d7",
+    "prId" : 372,
+    "comments" : [
+      {
+        "id" : "223651af-6876-477b-89f2-65c25d91f6d7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "What's the vision behind this refactoring? What should go to `LLVM` rather than sbt plugin and why? This needs to be explained in doc comment. \r\n\r\n",
+        "createdAt" : "2016-12-04T11:13:33Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3a65dffe-d3d1-4ca9-ac5c-1f060798a9a8",
+        "parentId" : "223651af-6876-477b-89f2-65c25d91f6d7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Currently the separation seems to be quite awkward, given that some parts like `unpackNativelib` are still part of the sbt plugin. ",
+        "createdAt" : "2016-12-04T11:17:48Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a433bde6-dcdf-44c1-a8d4-e86a7d37eab4",
+        "parentId" : "223651af-6876-477b-89f2-65c25d91f6d7",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The goal is to extract all the code that is purely to call LLVM from the sbt plugin. This will allow us to reuse it from our tests, for instance. In the end, we should be able to run the complete compilation pipeline and observe the runtime behavior of the compiled program from the tests. For instance, one could compile the same code with 2 different drivers and verify that the second driver leads to less `Load`s executed at runtime.\r\n\r\nI don't agree with your comment regarding the separation. For me, `unpackNativelib` happens to use LLVM, but it's not LLVM's responsibility to extract the `nativelib`. What are the other parts that seem out of place?",
+        "createdAt" : "2016-12-06T15:11:40Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "79210c5df7fb7920e1e1bdd7b5050f711c48bf56",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,158 @@\n+package scala.scalanative\n+package llvm\n+\n+import java.io.File\n+\n+import scala.sys.process.{Process, ProcessLogger}\n+import scala.util.Try\n+\n+import System.{lineSeparator => nl}\n+\n+object LLVM {"
+  },
+  {
+    "id" : "2d0c9c20-5f0f-4817-8dd1-64ddae10c7f3",
+    "prId" : 372,
+    "comments" : [
+      {
+        "id" : "2e0e196e-7fa6-4bf4-843b-955a5ed96463",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is there a value in marking some things `private[scalanative]` and not the others? All of the `LLVM` seems to be quite an internal thing for the time being. ",
+        "createdAt" : "2016-12-04T11:15:45Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "22310645-b388-4c7c-808d-a7feee04cdba",
+        "parentId" : "2e0e196e-7fa6-4bf4-843b-955a5ed96463",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I would prefer to have the object `private[scalanative]`, but we use `compileCSources` as part of scale-native's build to verify that `nativelib` compiles before publishing. Should I put the object as `private[scalanative]` and add a forwarder for `compileCSources` in `ScalaNativePluginInternal`?",
+        "createdAt" : "2016-12-06T15:15:16Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "79210c5df7fb7920e1e1bdd7b5050f711c48bf56",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,158 @@\n+package scala.scalanative\n+package llvm\n+\n+import java.io.File\n+\n+import scala.sys.process.{Process, ProcessLogger}\n+import scala.util.Try\n+\n+import System.{lineSeparator => nl}\n+\n+object LLVM {\n+\n+  private def abs(file: File): String =\n+    file.getAbsolutePath\n+\n+  private def running(command: Seq[String]): String =\n+    \"running\" + nl + command.mkString(nl + \"\\t\")\n+\n+  private def getFiles(base: File, filter: File => Boolean): Seq[File] =\n+    (if (filter(base)) Seq(base) else Seq()) ++\n+      (Option(base.listFiles()) getOrElse Array.empty flatMap (getFiles(\n+        _,\n+        filter)))\n+\n+  private[scalanative] def discover("
+  }
+]

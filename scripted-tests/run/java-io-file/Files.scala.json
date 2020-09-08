@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "2f86d42d-7a94-425f-a355-8ce034335a23",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "e18e28d2-3439-4a7e-b45d-48ee0e3e333c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please mention this on the windows-related issue discussion, instead of leaving comment in the code. Comments are getting outdated too quickly, and typically noone is going to see them until it's too late.",
+        "createdAt" : "2017-04-12T11:12:51Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,112 @@\n+import java.io.File\n+\n+object Files {\n+\n+  val emptyNameFile = new File(\"\")\n+\n+  val executableFile        = new File(\"executableFile.txt\")\n+  val unexecutableFile      = new File(\"unexecutableFile.txt\")\n+  val executableDirectory   = new File(\"executableDirectory\")\n+  val unexecutableDirectory = new File(\"unexecutableDirectory\")\n+\n+  val readableFile        = new File(\"readableFile.txt\")\n+  val unreadableFile      = new File(\"unreadableFile.txt\")\n+  val readableDirectory   = new File(\"readableDirectory\")\n+  val unreadableDirectory = new File(\"readableleDirectory\")\n+\n+  val writableFile        = new File(\"writableFile.txt\")\n+  val unwritableFile      = new File(\"unwritableFile.txt\")\n+  val writableDirectory   = new File(\"writableDirectory\")\n+  val unwritableDirectory = new File(\"unwritableDirectory\")\n+\n+  // Used to test `File.compareTo`\n+  val fileA = new File(\"A\")\n+  val fileB = new File(\"B\")\n+\n+  val willBeCreatedFile                = new File(\"willBeCreatedFile.txt\")\n+  val willBeCreatedDirectory           = new File(\"willBeCreatedDirectory\")\n+  val nestedWillBeCreatedDirectoryBase = new File(\"d0\")\n+  val nestedWillBeCreatedDirectory = new File(\n+    nestedWillBeCreatedDirectoryBase,\n+    \"d1/nestedwillBeCreatedDirectory\")\n+  val willBeDeletedFile      = new File(\"willBeDeletedFile.txt\")\n+  val willBeDeletedDirectory = new File(\"willBeDeletedDirectory\")\n+\n+  val nonexistentFile      = new File(\"nonexistentFile.txt\")\n+  val nonexistentDirectory = new File(\"nonexistentDirectory\")\n+\n+  // TODO: This will stop working once we support Windows"
+  }
+]

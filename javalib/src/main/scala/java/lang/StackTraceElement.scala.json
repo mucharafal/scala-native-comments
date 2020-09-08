@@ -1,0 +1,192 @@
+[
+  {
+    "id" : "afe68ca2-b667-491e-a471-bd6ffc5bad77",
+    "prId" : 477,
+    "comments" : [
+      {
+        "id" : "3e75e3e6-2a9a-4bbe-9c62-c5a15bc9712b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "These APIs are not really sufficient for typical usage. We'd at least want to also support:\r\n```\r\n@java.lang.StackTraceElement::getClassName_class.java.lang.String\r\n@java.lang.StackTraceElement::getMethodName_class.java.lang.String\r\n@java.lang.StackTraceElement::isNativeMethod_bool\r\n```",
+        "createdAt" : "2017-01-10T22:44:48Z",
+        "updatedAt" : "2017-01-13T13:35:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8cdcea31-b903-45f2-ae6a-8aaa2f42027e",
+        "parentId" : "3e75e3e6-2a9a-4bbe-9c62-c5a15bc9712b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-01-13T13:23:08Z",
+        "updatedAt" : "2017-01-13T13:35:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4676d2da934189e1643fdfed11d84c007f82275a",
+    "line" : 28,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+package java.lang\n+\n+final class StackTraceElement private[lang] (private val symbol: String) {\n+  override def toString: String =\n+    symbol\n+\n+  override def hashCode: scala.Int =\n+    symbol.hashCode\n+\n+  override def equals(that: Any): scala.Boolean =\n+    that match {\n+      case that: StackTraceElement =>\n+        symbol == that.symbol\n+      case _ =>\n+        false\n+    }\n+}"
+  },
+  {
+    "id" : "507c6ed1-387f-4dfc-b8ea-58615544ecdb",
+    "prId" : 963,
+    "comments" : [
+      {
+        "id" : "621baa4d-9692-4076-9581-7e30990733a9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`private[lang]`",
+        "createdAt" : "2017-08-21T11:26:52Z",
+        "updatedAt" : "2017-08-21T13:54:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c18d36749e7b7332233c824acf657bc7f1b3e8fb",
+    "line" : null,
+    "diffHunk" : "@@ -37,21 +113,18 @@ final class StackTraceElement(val getClassName: String,\n }\n \n private[lang] object StackTraceElement {\n-  // symbol is \"classname::methodName_T1_..._TN\"\n-  // where classname doesn't include colons and method name underscores.\n-  def fromSymbol(symbol: String): StackTraceElement = {\n-    val (className, methodName) =\n-      symbol.indexOf(\"::\") match {\n-        case -1 =>\n-          (\"<none>\", symbol)\n-        case sep =>\n-          symbol.indexOf(\"_\", sep) match {\n-            case -1 =>\n-              (symbol.substring(0, sep), symbol.substring(sep + 2))\n-            case end =>\n-              (symbol.substring(0, sep), symbol.substring(sep + 2, end))\n-          }\n-      }\n-    new StackTraceElement(className, methodName, null, 0)\n+  private val cache =\n+    collection.mutable.HashMap.empty[CUnsignedLong, StackTraceElement]\n+  private def makeStackTraceElement(\n+      cursor: Ptr[scala.Byte]): StackTraceElement = {\n+    val name   = stackalloc[CChar](256)\n+    val offset = stackalloc[scala.Byte](8)\n+\n+    unwind.get_proc_name(cursor, name, 256, offset)\n+    new StackTraceElement(name)\n   }\n+  def cached(cursor: Ptr[scala.Byte],"
+  },
+  {
+    "id" : "65619072-45ea-4d54-b39a-12b79527005c",
+    "prId" : 963,
+    "comments" : [
+      {
+        "id" : "12fc9b1b-f985-43ac-9bc3-be18c0a9b5a2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "As soon as you complete the initialization you can set `symbol` field to null as it's never going to be used again.",
+        "createdAt" : "2017-08-21T11:30:03Z",
+        "updatedAt" : "2017-08-21T13:54:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c18d36749e7b7332233c824acf657bc7f1b3e8fb",
+    "line" : 95,
+    "diffHunk" : "@@ -1,15 +1,91 @@\n package java.lang\n \n-final class StackTraceElement(val getClassName: String,\n-                              val getMethodName: String,\n-                              val getFileName: String,\n-                              val getLineNumber: Int) {\n+import scala.scalanative.native.{\n+  fromCString,\n+  stackalloc,\n+  string,\n+  CChar,\n+  CString,\n+  CUnsignedLong,\n+  Ptr\n+}\n+import scala.scalanative.runtime.{ByteArray, unwind}\n+\n+final class StackTraceElement private (_symbol: CString) {\n+  var symbol: Array[Byte] = _\n+\n+  if (_symbol != null) {\n+    symbol = new Array[Byte](256)\n+    string.memcpy(symbol.asInstanceOf[ByteArray].at(0), _symbol, 256)\n+  }\n+\n+  def this(className: String,\n+           methodName: String,\n+           fileName: String,\n+           lineNumber: Int) = {\n+    this(null)\n+    if (className == null)\n+      throw new NullPointerException(\"Declaring class is null\")\n \n-  if (getClassName == null)\n-    throw new NullPointerException(\"Declaring class is null\")\n+    if (methodName == null)\n+      throw new NullPointerException(\"Method name is null\")\n+\n+    initDone = true\n+    _className = className\n+    _methodName = methodName\n+    _fileName = fileName\n+    _lineNumber = lineNumber\n+  }\n+\n+  private var initDone: Boolean   = false\n+  private var _className: String  = _\n+  private var _methodName: String = _\n+  private var _fileName: String   = _\n+  private var _lineNumber: Int    = _\n+\n+  def getClassName: String = {\n+    if (!initDone) initMembers()\n+    _className\n+  }\n+\n+  def getMethodName: String = {\n+    if (!initDone) initMembers()\n+    _methodName\n+  }\n+\n+  def getFileName: String = {\n+    if (!initDone) initMembers()\n+    _fileName\n+  }\n+\n+  def getLineNumber: Int = {\n+    if (!initDone) initMembers()\n+    _lineNumber\n+  }\n+\n+  // symbol is \"classname::methodName_T1_..._TN\"\n+  // where classname doesn't include colons and method name underscores.\n+  private def initMembers(): Unit = {\n+    val sym = fromCString(symbol.asInstanceOf[ByteArray].at(0))\n+    val (className, methodName) =\n+      sym.indexOf(\"::\") match {\n+        case -1 =>\n+          (\"<none>\", sym)\n+        case sep =>\n+          sym.indexOf(\"_\", sep) match {\n+            case -1 =>\n+              (sym.substring(0, sep), sym.substring(sep + 2))\n+            case end =>\n+              (sym.substring(0, sep), sym.substring(sep + 2, end))\n+          }\n+      }\n \n-  if (getMethodName == null)\n-    throw new NullPointerException(\"Method name is null\")\n+    initDone = true\n+    _className = className\n+    _methodName = methodName\n+    _fileName = null\n+    _lineNumber = 0"
+  },
+  {
+    "id" : "3d178da6-9faf-489b-beb1-30989b87d582",
+    "prId" : 963,
+    "comments" : [
+      {
+        "id" : "78ba86d2-6971-4711-83a3-5df9b911a104",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets also add a detailed comment that explains why and how are stack trace elements cached. ",
+        "createdAt" : "2017-08-21T11:54:57Z",
+        "updatedAt" : "2017-08-21T13:54:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c18d36749e7b7332233c824acf657bc7f1b3e8fb",
+    "line" : null,
+    "diffHunk" : "@@ -37,21 +113,18 @@ final class StackTraceElement(val getClassName: String,\n }\n \n private[lang] object StackTraceElement {\n-  // symbol is \"classname::methodName_T1_..._TN\"\n-  // where classname doesn't include colons and method name underscores.\n-  def fromSymbol(symbol: String): StackTraceElement = {\n-    val (className, methodName) =\n-      symbol.indexOf(\"::\") match {\n-        case -1 =>\n-          (\"<none>\", symbol)\n-        case sep =>\n-          symbol.indexOf(\"_\", sep) match {\n-            case -1 =>\n-              (symbol.substring(0, sep), symbol.substring(sep + 2))\n-            case end =>\n-              (symbol.substring(0, sep), symbol.substring(sep + 2, end))\n-          }\n-      }\n-    new StackTraceElement(className, methodName, null, 0)\n+  private val cache =\n+    collection.mutable.HashMap.empty[CUnsignedLong, StackTraceElement]\n+  private def makeStackTraceElement(\n+      cursor: Ptr[scala.Byte]): StackTraceElement = {\n+    val name   = stackalloc[CChar](256)\n+    val offset = stackalloc[scala.Byte](8)\n+\n+    unwind.get_proc_name(cursor, name, 256, offset)\n+    new StackTraceElement(name)\n   }\n+  def cached(cursor: Ptr[scala.Byte],"
+  },
+  {
+    "id" : "deab750d-9560-44c4-859a-d2d3809ac902",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "ac1828c3-365a-4530-b486-655483cee278",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "It might be shorter and more efficient to parse the integer inline.\r\n```suggestion\r\n      val start = pos\r\n      var number: Int = 0\r\n      while ('0' <= chars(pos) && chars(pos) <= '9') {\r\n        number = number * 10 + (chars(pos) - '0').toInt\r\n        pos += 1\r\n      }\r\n      if (start == pos) fail\r\n      number\r\n```",
+        "createdAt" : "2018-10-22T18:55:04Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f51c7689-f388-4820-a198-6ae4fe9d586b",
+        "parentId" : "ac1828c3-365a-4530-b486-655483cee278",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Agreed!",
+        "createdAt" : "2018-10-24T11:19:12Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : null,
+    "diffHunk" : "@@ -37,21 +38,71 @@ final class StackTraceElement(val getClassName: String,\n }\n \n private[lang] object StackTraceElement {\n-  // symbol is \"classname::methodName_T1_..._TN\"\n-  // where classname doesn't include colons and method name underscores.\n-  def fromSymbol(symbol: String): StackTraceElement = {\n-    val (className, methodName) =\n-      symbol.indexOf(\"::\") match {\n-        case -1 =>\n-          (\"<none>\", symbol)\n-        case sep =>\n-          symbol.indexOf(\"_\", sep) match {\n-            case -1 =>\n-              (symbol.substring(0, sep), symbol.substring(sep + 2))\n-            case end =>\n-              (symbol.substring(0, sep), symbol.substring(sep + 2, end))\n-          }\n+  object Fail extends scala.util.control.NoStackTrace\n+\n+  def fromSymbol(sym: String): StackTraceElement = {\n+    val chars      = sym.toArray\n+    var pos        = 0\n+    var className  = \"\"\n+    var methodName = \"\"\n+\n+    def readSymbol(): Unit = {\n+      if (read != '_') fail\n+      if (read != 'S') fail\n+      readGlobal()\n+    }\n+\n+    def readGlobal(): Unit = read() match {\n+      case 'M' =>\n+        className = readIdent()\n+        readSig()\n+      case ch =>\n+        fail\n+    }\n+\n+    def readSig(): Unit = read() match {\n+      case 'R' =>\n+        methodName = \"<init>\"\n+      case 'D' | 'P' | 'C' | 'G' =>\n+        methodName = readIdent()\n+      case ch =>\n+        fail\n+    }\n+\n+    def readIdent(): String = {\n+      val len   = readNumber()\n+      val start = pos\n+      pos += len\n+      sym.substring(start, pos)\n+    }\n+\n+    def readNumber(): Int = {\n+      val start = pos\n+      var char  = chars(pos)\n+      while ('0' <= char && char <= '9') {\n+        pos += 1\n+        char = chars(pos)\n       }\n+      java.lang.Integer.parseInt(sym.substring(start, pos))"
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "6cf58ba4-1d0b-405b-89ec-eda36cc54e5a",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "8fa00fde-8330-4c3d-9221-c582686c703a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`\"dyn\"`\n",
+        "createdAt" : "2016-11-11T14:14:49Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -32,13 +32,16 @@ object Shows {\n     case Attr.NoInline     => \"noinline\"\n     case Attr.AlwaysInline => \"alwaysinline\"\n \n+    case Attr.StructDisp   => \"structdisp\""
+  },
+  {
+    "id" : "700ac18b-d40a-4db7-b171-864a81abcded",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "9d7a2159-c0f5-4da4-8de7-51cce59b03ae",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Move them below to the high-level group.\r\n2. `box[$ty] $value` and `unbox[$ty] $obj`",
+        "createdAt" : "2016-12-02T13:46:52Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -120,6 +120,11 @@ object Shows {\n     case Op.Select(cond, thenv, elsev) =>\n       sh\"select $cond, $thenv, $elsev\"\n \n+    case Op.Box(code, obj) =>\n+      sh\"box $code $obj\"\n+    case Op.Unbox(code, obj) =>\n+      sh\"unbox $code $obj\""
+  }
+]

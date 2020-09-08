@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "692ef3a9-356c-409d-9677-bf8ea65aa348",
+    "prId" : 927,
+    "comments" : [
+      {
+        "id" : "d3ed36c6-6cac-492d-8863-cb7e0ba9b73e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg 82 column line with 80 column limit.",
+        "createdAt" : "2017-08-09T11:13:55Z",
+        "updatedAt" : "2017-08-09T12:50:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6b6a4959468b2913685c807b59caa6a043a7421a",
+    "line" : 6,
+    "diffHunk" : "@@ -213,8 +213,7 @@ class PrintStream private (_out: OutputStream,\n     }\n   }\n \n-  @inline private[this] def ensureOpenAndTrapIOExceptions(\n-      body: => Unit): Unit = {\n+  @inline private[this] def ensureOpenAndTrapIOExceptions(body: => Unit): Unit = {"
+  }
+]

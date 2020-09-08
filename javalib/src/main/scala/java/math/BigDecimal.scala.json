@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "0dd926f8-8f7b-4adf-8810-1d7092c6cc4f",
+    "prId" : 1805,
+    "comments" : [
+      {
+        "id" : "5bfe5c9d-cbf9-430d-931e-3e0782aef479",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should not be here. The codegen is supposed to automatically add this in the vtable because `BigDecimal` overrides `equals`, as explained by the comment at\r\nhttps://github.com/scala-native/scala-native/blob/b49e74efe7079bdf415b5724da4acb87c5567210/nativelib/src/main/scala/java/lang/Object.scala#L39-L44\r\nIf that's not the case, that's a problem in the codegen; not in the library.\r\n\r\nIn general, user space classes should *never* implement `__scala_==`, since that is an implementation detail of Scala Native.",
+        "createdAt" : "2020-05-19T13:40:08Z",
+        "updatedAt" : "2020-05-24T22:48:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "74e6a5ec-2276-48b2-92d6-b2e1095865c4",
+        "parentId" : "5bfe5c9d-cbf9-430d-931e-3e0782aef479",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Removed",
+        "createdAt" : "2020-05-24T22:52:38Z",
+        "updatedAt" : "2020-05-24T22:52:39Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2456c8333efb20366c5b22bb8022daf06e1b19a0",
+    "line" : null,
+    "diffHunk" : "@@ -1284,6 +1284,10 @@ class BigDecimal() extends Number with Comparable[BigDecimal] {\n     }\n   }\n \n+  @inline override def __scala_==(other: _Object): scala.Boolean = {\n+    this.equals(other)\n+  }"
+  }
+]

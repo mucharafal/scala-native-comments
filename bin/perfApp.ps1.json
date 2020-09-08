@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "4119c87e-0e26-493e-8eb7-a162d35dccb2",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "28e8955b-512a-4a2e-8519-a9772da4e7a1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It doesn't seem like we need this script to be included in master of SN. ",
+        "createdAt" : "2017-08-07T11:23:23Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "33b7d4fa-ae41-4bd1-9e83-7dc613a0a3c3",
+        "parentId" : "28e8955b-512a-4a2e-8519-a9772da4e7a1",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I agree",
+        "createdAt" : "2017-08-08T10:28:57Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,16 @@\n+#\n+# Records performance data for the command (could be application executable).\n+#\n+# Params:\n+# -command <Command to run, or path to executable>\n+# -etl <path for output etl file, default \"out.etl\">\n+#\n+# Usage: perfApp c:\\myprogram.exe myprogram.etl\n+#\n+param (\n+    [Parameter(Mandatory=$true)][string]$command = \"\",\n+    [string]$etl = \"out.etl\"\n+ )\n+&wpr -start CPU\n+Measure-Command { &$command }\n+&wpr -stop $etl"
+  }
+]

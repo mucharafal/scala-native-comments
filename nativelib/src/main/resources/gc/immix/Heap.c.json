@@ -1,0 +1,272 @@
+[
+  {
+    "id" : "46b053c5-de52-4f82-8145-1ff04b180c58",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "c31835a5-c9d3-4146-ba5d-3f44e8d14874",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Heap_allocSmallSlow`",
+        "createdAt" : "2017-05-26T12:52:26Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,253 @@\n+#include <stdlib.h>\n+#include <sys/mman.h>\n+#include <stdio.h>\n+#include \"Heap.h\"\n+#include \"Block.h\"\n+#include \"Log.h\"\n+#include \"Allocator.h\"\n+#include \"Marker.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define MAX_SIZE 64 * 1024 * 1024 * 1024L\n+// Allow read and write\n+#define HEAP_MEM_PROT (PROT_READ | PROT_WRITE)\n+// Map private anonymous memory, and prevent from reserving swap\n+#define HEAP_MEM_FLAGS (MAP_NORESERVE | MAP_PRIVATE | MAP_ANONYMOUS)\n+// Map anonymous memory (not a file)\n+#define HEAP_MEM_FD -1\n+#define HEAP_MEM_FD_OFFSET 0\n+\n+/**\n+ * Maps `MAX_SIZE` of memory and returns the first address aligned on\n+ * `alignement` mask\n+ */\n+word_t *mapAndAlign(int alignmentMask) {\n+    word_t *heapStart = mmap(NULL, MAX_SIZE, HEAP_MEM_PROT, HEAP_MEM_FLAGS,\n+                             HEAP_MEM_FD, HEAP_MEM_FD_OFFSET);\n+\n+    // Heap start not aligned on\n+    if (((word_t)heapStart & alignmentMask) != (word_t)heapStart) {\n+        word_t *previousBlock =\n+            (word_t *)((word_t)heapStart & BLOCK_SIZE_IN_BYTES_INVERSE_MASK);\n+        heapStart = previousBlock + WORDS_IN_BLOCK;\n+    }\n+    return heapStart;\n+}\n+\n+/**\n+ * Allocates the heap struct and initializes it\n+ */\n+Heap *Heap_create(size_t initialSize) {\n+    assert(initialSize >= 2 * BLOCK_TOTAL_SIZE);\n+    assert(initialSize % BLOCK_TOTAL_SIZE == 0);\n+\n+    Heap *heap = malloc(sizeof(Heap));\n+\n+    word_t *smallHeapStart = mapAndAlign(BLOCK_SIZE_IN_BYTES_INVERSE_MASK);\n+\n+    // Init heap for small objects\n+    heap->smallHeapSize = initialSize;\n+    heap->heapStart = smallHeapStart;\n+    heap->heapEnd = smallHeapStart + initialSize / WORD_SIZE;\n+    heap->allocator =\n+        Allocator_create(smallHeapStart, initialSize / BLOCK_TOTAL_SIZE);\n+\n+    // Init heap for large objects\n+    word_t *largeHeapStart = mapAndAlign(LARGE_BLOCK_MASK);\n+    heap->largeHeapSize = initialSize;\n+    heap->largeAllocator = LargeAllocator_create(largeHeapStart, initialSize);\n+    heap->largeHeapStart = largeHeapStart;\n+    heap->largeHeapEnd = (word_t *)((ubyte_t *)largeHeapStart + initialSize);\n+\n+    return heap;\n+}\n+/**\n+ * Allocates large objects using the `LargeAllocator`.\n+ * If allocation fails, because there is not enough memory available, it will\n+ * trigger a collection of both the small and the large heap.\n+ */\n+word_t *Heap_allocLarge(Heap *heap, uint32_t objectSize) {\n+\n+    // Add header\n+    uint32_t size = objectSize + OBJECT_HEADER_SIZE;\n+\n+    assert(objectSize % WORD_SIZE == 0);\n+    assert(size >= MIN_BLOCK_SIZE);\n+\n+    // Request an object from the `LargeAllocator`\n+    Object *object = LargeAllocator_getBlock(heap->largeAllocator, size);\n+    // If the object is not NULL, update it's metadata and return it\n+    if (object != NULL) {\n+        ObjectHeader *objectHeader = &object->header;\n+\n+        Object_setObjectType(objectHeader, object_large);\n+        Object_setSize(objectHeader, size);\n+        return Object_toMutatorAddress(object);\n+    } else {\n+        // Otherwise collect\n+        Heap_collect(heap, stack);\n+\n+        // After collection, try to alloc again, if it fails, grow the heap by\n+        // at least the size of the object we want to alloc\n+        object = LargeAllocator_getBlock(heap->largeAllocator, size);\n+        if (object != NULL) {\n+            Object_setObjectType(&object->header, object_large);\n+            Object_setSize(&object->header, size);\n+            return Object_toMutatorAddress(object);\n+        } else {\n+            Heap_growLarge(heap, size);\n+\n+            object = LargeAllocator_getBlock(heap->largeAllocator, size);\n+            ObjectHeader *objectHeader = &object->header;\n+\n+            Object_setObjectType(objectHeader, object_large);\n+            Object_setSize(objectHeader, size);\n+            return Object_toMutatorAddress(object);\n+        }\n+    }\n+}\n+\n+word_t *allocSmallSlow(Heap *heap, uint32_t size) {"
+  },
+  {
+    "id" : "db5d09a7-9e07-4343-b17d-18b1eaba3133",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "b758d864-c4c4-4d21-bc95-b24d4b76b079",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We need to do something more sensible here. For example limiting it to the amount of physical memory would be a start. ",
+        "createdAt" : "2017-05-26T15:43:21Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,253 @@\n+#include <stdlib.h>\n+#include <sys/mman.h>\n+#include <stdio.h>\n+#include \"Heap.h\"\n+#include \"Block.h\"\n+#include \"Log.h\"\n+#include \"Allocator.h\"\n+#include \"Marker.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define MAX_SIZE 64 * 1024 * 1024 * 1024L"
+  },
+  {
+    "id" : "7d8ca0e2-7caa-41b9-bb96-52f0131bc2fc",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "75eebcb2-93dd-4372-9258-85539718ea25",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We need to gracefully fail if we reach the limit of available heap memory, e.g. throw OutOfMemoryError. ",
+        "createdAt" : "2017-05-26T15:46:38Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,253 @@\n+#include <stdlib.h>\n+#include <sys/mman.h>\n+#include <stdio.h>\n+#include \"Heap.h\"\n+#include \"Block.h\"\n+#include \"Log.h\"\n+#include \"Allocator.h\"\n+#include \"Marker.h\"\n+#include \"State.h\"\n+#include \"utils/MathUtils.h\"\n+\n+#define MAX_SIZE 64 * 1024 * 1024 * 1024L\n+// Allow read and write\n+#define HEAP_MEM_PROT (PROT_READ | PROT_WRITE)\n+// Map private anonymous memory, and prevent from reserving swap\n+#define HEAP_MEM_FLAGS (MAP_NORESERVE | MAP_PRIVATE | MAP_ANONYMOUS)\n+// Map anonymous memory (not a file)\n+#define HEAP_MEM_FD -1\n+#define HEAP_MEM_FD_OFFSET 0\n+\n+/**\n+ * Maps `MAX_SIZE` of memory and returns the first address aligned on\n+ * `alignement` mask\n+ */\n+word_t *mapAndAlign(int alignmentMask) {\n+    word_t *heapStart = mmap(NULL, MAX_SIZE, HEAP_MEM_PROT, HEAP_MEM_FLAGS,\n+                             HEAP_MEM_FD, HEAP_MEM_FD_OFFSET);\n+\n+    // Heap start not aligned on\n+    if (((word_t)heapStart & alignmentMask) != (word_t)heapStart) {\n+        word_t *previousBlock =\n+            (word_t *)((word_t)heapStart & BLOCK_SIZE_IN_BYTES_INVERSE_MASK);\n+        heapStart = previousBlock + WORDS_IN_BLOCK;\n+    }\n+    return heapStart;\n+}\n+\n+/**\n+ * Allocates the heap struct and initializes it\n+ */\n+Heap *Heap_create(size_t initialSize) {\n+    assert(initialSize >= 2 * BLOCK_TOTAL_SIZE);\n+    assert(initialSize % BLOCK_TOTAL_SIZE == 0);\n+\n+    Heap *heap = malloc(sizeof(Heap));\n+\n+    word_t *smallHeapStart = mapAndAlign(BLOCK_SIZE_IN_BYTES_INVERSE_MASK);\n+\n+    // Init heap for small objects\n+    heap->smallHeapSize = initialSize;\n+    heap->heapStart = smallHeapStart;\n+    heap->heapEnd = smallHeapStart + initialSize / WORD_SIZE;\n+    heap->allocator =\n+        Allocator_create(smallHeapStart, initialSize / BLOCK_TOTAL_SIZE);\n+\n+    // Init heap for large objects\n+    word_t *largeHeapStart = mapAndAlign(LARGE_BLOCK_MASK);\n+    heap->largeHeapSize = initialSize;\n+    heap->largeAllocator = LargeAllocator_create(largeHeapStart, initialSize);\n+    heap->largeHeapStart = largeHeapStart;\n+    heap->largeHeapEnd = (word_t *)((ubyte_t *)largeHeapStart + initialSize);\n+\n+    return heap;\n+}\n+/**\n+ * Allocates large objects using the `LargeAllocator`.\n+ * If allocation fails, because there is not enough memory available, it will\n+ * trigger a collection of both the small and the large heap.\n+ */\n+word_t *Heap_allocLarge(Heap *heap, uint32_t objectSize) {\n+\n+    // Add header\n+    uint32_t size = objectSize + OBJECT_HEADER_SIZE;\n+\n+    assert(objectSize % WORD_SIZE == 0);\n+    assert(size >= MIN_BLOCK_SIZE);\n+\n+    // Request an object from the `LargeAllocator`\n+    Object *object = LargeAllocator_getBlock(heap->largeAllocator, size);\n+    // If the object is not NULL, update it's metadata and return it\n+    if (object != NULL) {\n+        ObjectHeader *objectHeader = &object->header;\n+\n+        Object_setObjectType(objectHeader, object_large);\n+        Object_setSize(objectHeader, size);\n+        return Object_toMutatorAddress(object);\n+    } else {\n+        // Otherwise collect\n+        Heap_collect(heap, stack);\n+\n+        // After collection, try to alloc again, if it fails, grow the heap by\n+        // at least the size of the object we want to alloc\n+        object = LargeAllocator_getBlock(heap->largeAllocator, size);\n+        if (object != NULL) {\n+            Object_setObjectType(&object->header, object_large);\n+            Object_setSize(&object->header, size);\n+            return Object_toMutatorAddress(object);\n+        } else {\n+            Heap_growLarge(heap, size);\n+\n+            object = LargeAllocator_getBlock(heap->largeAllocator, size);\n+            ObjectHeader *objectHeader = &object->header;\n+\n+            Object_setObjectType(objectHeader, object_large);\n+            Object_setSize(objectHeader, size);\n+            return Object_toMutatorAddress(object);\n+        }\n+    }\n+}\n+\n+word_t *allocSmallSlow(Heap *heap, uint32_t size) {\n+\n+    Heap_collect(heap, stack);\n+\n+    Object *object = (Object *)Allocator_alloc(heap->allocator, size);\n+    if (object != NULL) {\n+        ObjectHeader *objectHeader = &object->header;\n+\n+        Object_setObjectType(objectHeader, object_standard);\n+        Object_setSize(objectHeader, size);\n+        Object_setAllocated(objectHeader);\n+    }\n+\n+    if (object == NULL) {\n+        Heap_grow(heap, size);\n+\n+        object = (Object *)Allocator_alloc(heap->allocator, size);\n+        assert(object != NULL);\n+\n+        ObjectHeader *objectHeader = &object->header;\n+\n+        Object_setObjectType(objectHeader, object_standard);\n+        Object_setSize(objectHeader, size);\n+        Object_setAllocated(objectHeader);\n+    }\n+\n+    return Object_toMutatorAddress(object);\n+}\n+\n+INLINE word_t *Heap_allocSmall(Heap *heap, uint32_t objectSize) {\n+    // Add header\n+    uint32_t size = objectSize + OBJECT_HEADER_SIZE;\n+\n+    assert(objectSize % WORD_SIZE == 0);\n+    assert(size < MIN_BLOCK_SIZE);\n+\n+    Object *object = (Object *)Allocator_alloc(heap->allocator, size);\n+    if (object != NULL) {\n+        ObjectHeader *objectHeader = &object->header;\n+        Object_setObjectType(objectHeader, object_standard);\n+        Object_setSize(objectHeader, size);\n+        Object_setAllocated(objectHeader);\n+\n+        return Object_toMutatorAddress(object);\n+    } else {\n+        return allocSmallSlow(heap, size);\n+    }\n+}\n+\n+word_t *Heap_alloc(Heap *heap, uint32_t objectSize) {\n+    assert(objectSize % WORD_SIZE == 0);\n+\n+    if (objectSize + OBJECT_HEADER_SIZE >= LARGE_BLOCK_SIZE) {\n+        return Heap_allocLarge(heap, objectSize);\n+    } else {\n+        return Heap_allocSmall(heap, objectSize);\n+    }\n+}\n+\n+void Heap_collect(Heap *heap, Stack *stack) {\n+#ifdef DEBUG_PRINT\n+    printf(\"\\nCollect\\n\");\n+    fflush(stdout);\n+#endif\n+    Marker_markRoots(heap, stack);\n+    Heap_recycle(heap);\n+\n+#ifdef DEBUG_PRINT\n+    printf(\"End collect\\n\");\n+    fflush(stdout);\n+#endif\n+}\n+\n+void Heap_recycle(Heap *heap) {\n+    BlockList_clear(&heap->allocator->recycledBlocks);\n+    BlockList_clear(&heap->allocator->freeBlocks);\n+\n+    heap->allocator->freeBlockCount = 0;\n+    heap->allocator->recycledBlockCount = 0;\n+\n+    heap->allocator->freeMemoryAfterCollection = 0;\n+\n+    word_t *current = heap->heapStart;\n+    while (current != heap->heapEnd) {\n+        BlockHeader *blockHeader = (BlockHeader *)current;\n+        Block_recycle(heap->allocator, blockHeader);\n+        // block_print(blockHeader);\n+        current += WORDS_IN_BLOCK;\n+    }\n+    LargeAllocator_sweep(heap->largeAllocator);\n+\n+    if (!Allocator_canInitCursors(heap->allocator) ||\n+        Allocator_shouldGrow(heap->allocator)) {\n+        size_t increment = heap->smallHeapSize / WORD_SIZE * GROWTH_RATE / 100;\n+        increment =\n+            (increment - 1 + WORDS_IN_BLOCK) / WORDS_IN_BLOCK * WORDS_IN_BLOCK;\n+        Heap_grow(heap, increment);\n+    }\n+    Allocator_initCursors(heap->allocator);\n+}"
+  },
+  {
+    "id" : "b7b450ce-fda9-41d2-9643-f530c8603ca2",
+    "prId" : 1355,
+    "comments" : [
+      {
+        "id" : "5ea02101-4f09-45de-b198-ec2df59dbb94",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a comment to indicate that size is always less than WORDS_IN_BLOCK because small allocations are always lss than 8K whereas blocks are 32K. ",
+        "createdAt" : "2018-09-21T13:19:50Z",
+        "updatedAt" : "2018-09-21T13:59:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4f10a61ac9c17ea83d4afeb4f80818bbdf72fae0",
+    "line" : null,
+    "diffHunk" : "@@ -129,7 +129,7 @@ NOINLINE word_t *Heap_allocSmallSlow(Heap *heap, uint32_t size) {\n     if (object != NULL)\n         goto done;\n \n-    Heap_Grow(heap, size);\n+    Heap_Grow(heap, WORDS_IN_BLOCK);"
+  },
+  {
+    "id" : "8f85cac4-1376-408c-a470-79ea36de7dbb",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "a6004e14-9405-4eac-9764-2e7ec8a2ff28",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please move all statistics-related logic to a new `Stats` module. ",
+        "createdAt" : "2018-10-17T11:30:19Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -184,19 +195,68 @@ word_t *Heap_Alloc(Heap *heap, uint32_t objectSize) {\n }\n \n void Heap_Collect(Heap *heap, Stack *stack) {\n+    struct timespec start, sweep_start, end;\n #ifdef DEBUG_PRINT\n     printf(\"\\nCollect\\n\");\n     fflush(stdout);\n #endif\n+    if (heap->stats != NULL) {\n+        clock_gettime(CLOCK_REALTIME, &start);\n+    }\n     Marker_MarkRoots(heap, stack);\n+    if (heap->stats != NULL) {\n+        clock_gettime(CLOCK_REALTIME, &sweep_start);\n+    }\n     Heap_Recycle(heap);\n-\n+    if (heap->stats != NULL) {\n+        clock_gettime(CLOCK_REALTIME, &end);\n+\n+        uint64_t start_us = start.tv_sec * 1000000 + start.tv_nsec / 1000;\n+        uint64_t sweep_start_us = sweep_start.tv_sec * 1000000 + sweep_start.tv_nsec / 1000;\n+        uint64_t end_us = end.tv_sec * 1000000 + end.tv_nsec / 1000;\n+\n+        uint64_t index = heap->stats->collections % GC_STATS_MEASUREMENTS;\n+        heap->stats->timestamp_us[index] = start_us;\n+        heap->stats->mark_time_us[index] = sweep_start_us - start_us;\n+        heap->stats->sweep_time_us[index] = end_us - sweep_start_us;\n+        heap->stats->collections += 1;\n+        if (heap->stats->collections % GC_STATS_MEASUREMENTS == 0) {\n+            Heap_writeStatsToFile(heap->stats);\n+        }\n+    }\n #ifdef DEBUG_PRINT\n     printf(\"End collect\\n\");\n     fflush(stdout);\n #endif\n }\n \n+void Heap_writeStatsToFile(HeapStats *stats) {\n+    uint64_t collections = stats->collections;\n+    uint64_t remainder = collections % GC_STATS_MEASUREMENTS;\n+    if (remainder == 0) {\n+        remainder = GC_STATS_MEASUREMENTS;\n+    }\n+    uint64_t base = collections - remainder;\n+    FILE *outFile = stats->outFile;\n+    for (uint64_t i = 0; i < remainder; i++) {\n+        fprintf(outFile, \"%lu,%lu,%lu,%lu\\n\",\n+                stats->timestamp_us[i], base + i, stats->mark_time_us[i], stats->sweep_time_us[i]);\n+    }\n+    fflush(outFile);\n+}\n+\n+void Heap_AfterExit(Heap *heap) {\n+    HeapStats* stats = heap->stats;\n+    if (stats != NULL) {\n+        uint64_t remainder = heap->stats->collections % GC_STATS_MEASUREMENTS;\n+        if (remainder > 0) {\n+            // there were some measurements not written in the last full batch.\n+            Heap_writeStatsToFile(stats);\n+        }\n+        fclose(stats->outFile);\n+    }\n+}"
+  },
+  {
+    "id" : "75f0d9d2-1674-4f95-aec4-e45c1f3d089b",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "9ae1d963-2e7b-4628-ac78-768caabed46a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should be `Stats_writeToFile`.",
+        "createdAt" : "2018-10-25T14:58:22Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -22,6 +23,7 @@\n #define HEAP_MEM_FD_OFFSET 0\n \n size_t Heap_getMemoryLimit() { return getMemorySize(); }\n+void Heap_writeStatsToFile(Stats * stats);"
+  },
+  {
+    "id" : "aabb2d68-54b2-48cc-851b-0f3a9b0f701c",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "63439d02-ca0f-471a-af0d-7991215de959",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Stats_OnExit`.",
+        "createdAt" : "2018-10-25T14:59:19Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -208,18 +216,37 @@ word_t *Heap_Alloc(Heap *heap, uint32_t objectSize) {\n }\n \n void Heap_Collect(Heap *heap, Stack *stack) {\n+    uint64_t start_ns, sweep_start_ns, end_ns;\n+    Stats *stats = heap->stats;\n #ifdef DEBUG_PRINT\n     printf(\"\\nCollect\\n\");\n     fflush(stdout);\n #endif\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n     Marker_MarkRoots(heap, stack);\n+    if (stats != NULL) {\n+        sweep_start_ns = scalanative_nano_time();\n+    }\n     Heap_Recycle(heap);\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordCollection(stats, start_ns, sweep_start_ns, end_ns);\n+    }\n #ifdef DEBUG_PRINT\n     printf(\"End collect\\n\");\n     fflush(stdout);\n #endif\n }\n \n+void Heap_AfterExit(Heap *heap) {"
+  },
+  {
+    "id" : "e7baeb52-fc07-4886-884e-36f124ebca8f",
+    "prId" : 1378,
+    "comments" : [
+      {
+        "id" : "1cf2bca6-6ab0-4833-9f98-4fab0455e85b",
+        "parentId" : null,
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "This is actually NOT lazy sweeping.  The line here sweeps the entire heap. The performance improvement probably comes from changes to `BlockList` and `BlockAllocator` that were needed to enable lazy sweeping.",
+        "createdAt" : "2018-11-02T08:20:50Z",
+        "updatedAt" : "2018-11-07T15:33:11Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fbc6d954-8e24-4c3a-a346-f8c60cf27b6b",
+        "parentId" : "1cf2bca6-6ab0-4833-9f98-4fab0455e85b",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "I will remove this line and run the benchmarks again.",
+        "createdAt" : "2018-11-02T08:21:25Z",
+        "updatedAt" : "2018-11-07T15:33:11Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "420decd41b54f2da03bbd928a479d0068d5d8310",
+    "line" : null,
+    "diffHunk" : "@@ -290,33 +315,63 @@ bool Heap_shouldGrow(Heap *heap) {\n            4 * unavailableBlockCount > blockCount;\n }\n \n-void Heap_Recycle(Heap *heap) {\n-    Allocator_Clear(&allocator);\n-    LargeAllocator_Clear(&largeAllocator);\n-    BlockAllocator_Clear(&blockAllocator);\n+void Heap_sweep(Heap *heap, uint32_t maxCount) {\n+    uint64_t start_ns, end_ns;\n+    Stats *stats = heap->stats;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+    }\n+\n+    uint32_t startIdx = heap->sweep.cursor;\n+    uint32_t limitIdx = startIdx + maxCount;\n+    heap->sweep.cursor = limitIdx;\n+    uint32_t blockCount = heap->blockCount;\n+    if (limitIdx > blockCount) {\n+        limitIdx = blockCount;\n+    }\n \n-    BlockMeta *current = (BlockMeta *)heap->blockMetaStart;\n-    word_t *currentBlockStart = heap->heapStart;\n-    LineMeta *lineMetas = (LineMeta *)heap->lineMetaStart;\n-    word_t *end = heap->blockMetaEnd;\n-    while ((word_t *)current < end) {\n+    BlockMeta *current = BlockMeta_GetFromIndex(heap->blockMetaStart, startIdx);\n+    BlockMeta *limit = BlockMeta_GetFromIndex(heap->blockMetaStart, limitIdx);\n+    word_t *currentBlockStart = Block_GetStartFromIndex(heap->heapStart, startIdx);\n+    LineMeta *lineMetas = Line_getFromBlockIndex(heap->lineMetaStart, startIdx);\n+    while (current < limit) {\n         int size = 1;\n-        assert(!BlockMeta_IsSuperblockMiddle(current));\n         if (BlockMeta_IsSimpleBlock(current)) {\n             Block_Recycle(&allocator, current, currentBlockStart, lineMetas);\n         } else if (BlockMeta_IsSuperblockStart(current)) {\n             size = BlockMeta_SuperblockSize(current);\n             LargeAllocator_Sweep(&largeAllocator, current, currentBlockStart);\n-        } else {\n-            assert(BlockMeta_IsFree(current));\n+        } else if (BlockMeta_IsFree(current)) {\n             BlockAllocator_AddFreeBlocks(&blockAllocator, current, 1);\n         }\n+        // ignore superblock middle blocks, that superblock will be swept by someone else\n         assert(size > 0);\n         current += size;\n         currentBlockStart += WORDS_IN_BLOCK * size;\n         lineMetas += LINE_COUNT * size;\n     }\n+    heap->sweep.cursorDone = limitIdx;\n+\n+    if (stats != NULL) {\n+        end_ns = scalanative_nano_time();\n+        Stats_RecordLazySweep(stats, start_ns, end_ns);\n+    }\n+\n+    if (Heap_IsSweepDone(heap)) {\n+        Heap_sweepDone(heap);\n+    }\n+}\n+\n+void Heap_Recycle(Heap *heap) {\n+    Allocator_Clear(&allocator);\n+    LargeAllocator_Clear(&largeAllocator);\n+    BlockAllocator_Clear(&blockAllocator);\n \n+    heap->sweep.cursor = 0;\n+    Heap_sweep(heap, heap->blockCount);"
+  }
+]

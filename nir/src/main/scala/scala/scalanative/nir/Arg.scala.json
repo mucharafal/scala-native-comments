@@ -1,0 +1,148 @@
+[
+  {
+    "id" : "b7a36d85-0e13-4c86-b2b9-ef0bcb727547",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "b9f3f7f6-e50d-4f06-8b5a-e0d758c28542",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets just inline those fields into `Arg` itself. Having an alternative seq-based representation seems to be an overkill here. Similarly, current design for `nir.Attrs` is quite an overkill and we'll probably simplify it in the future, but that's a problem for another PR. \n",
+        "createdAt" : "2016-10-05T13:48:00Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+package scala.scalanative.nir\n+\n+/**\n+ * Created by Kamil on 23.07.2016.\n+ */\n+case class Arg(ty: Type, attrs: ArgAttrs = ArgAttrs.empty)\n+\n+case class ArgAttrs(byval: Option[Type] = None, sret: Option[Type] = None) {"
+  },
+  {
+    "id" : "75b255fc-d85c-4bc1-b87b-b6204a625dc0",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "52b09d52-0347-4cba-8f4f-28e14c22e83c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We generally don't use authorship comments in Scala Native. `git blame` is quite good at it anyway. \n",
+        "createdAt" : "2016-10-05T13:48:59Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+package scala.scalanative.nir\n+\n+/**\n+ * Created by Kamil on 23.07.2016.\n+ */"
+  },
+  {
+    "id" : "868843f1-f027-4c22-ac48-a8ba8c5e6a91",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "3a6cb70c-1220-4a0c-ac89-791853d343e2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Should probably go to a separate file. We generally try to stick to one hierarchy per file. \n",
+        "createdAt" : "2016-10-06T11:50:48Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9ab7e288-0fbe-4c25-b5e5-ac3b910ec21d",
+        "parentId" : "3a6cb70c-1220-4a0c-ac89-791853d343e2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also `PassConv` is clear enough and lets one have reasonably short default type name without having to use renaming imports.\n",
+        "createdAt" : "2016-10-06T11:54:04Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,13 @@\n+package scala.scalanative.nir\n+\n+case class Arg(ty: Type, passConvention: Option[PassConvention] = None)\n+\n+sealed abstract class PassConvention"
+  },
+  {
+    "id" : "89d12e5b-f8db-4981-8ee2-bd2e00f4fe94",
+    "prId" : 299,
+    "comments" : [
+      {
+        "id" : "9d4d2e5f-4b65-49c3-8c1b-5db4201b8c92",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those three blank lines above are not really necessary. See other NIR hierarchies for code style hint.\n",
+        "createdAt" : "2016-10-06T11:52:07Z",
+        "updatedAt" : "2016-10-07T15:13:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5e51aaa66d4adda5a01656b8098d0a84be3b2ccb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,13 @@\n+package scala.scalanative.nir\n+\n+case class Arg(ty: Type, passConvention: Option[PassConvention] = None)\n+\n+sealed abstract class PassConvention\n+\n+object PassConvention {\n+\n+  case class Byval(ty: Type) extends PassConvention\n+\n+  case class Sret(ty: Type) extends PassConvention\n+\n+}"
+  }
+]

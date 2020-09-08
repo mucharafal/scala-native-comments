@@ -1,0 +1,157 @@
+[
+  {
+    "id" : "bc16fb15-5ee1-4ee5-b078-53f803b9e746",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "0be6009d-3e9b-4270-9744-3d1e6dd4db01",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This file has quite a few naming convention violations. ",
+        "createdAt" : "2017-05-22T11:02:23Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,141 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"Heap.h\"\n+#include \"Allocator.h\"\n+#include \"stats/AllocatorStats.h\"\n+\n+#define UNW_LOCAL_ONLY\n+#include <libunwind.h>\n+\n+extern int __object_array_id;\n+extern word_t *__modules;\n+extern int __modules_size;\n+\n+void markObject(Heap *heap, Stack *stack, ObjectHeader *object) {\n+    assert(!Object_isMarked(object));\n+    assert(Object_size(object) != 0);\n+    Object_mark(object);\n+    Stack_push(stack, object);\n+#ifdef ALLOCATOR_STATS\n+    heap->allocator->stats->liveObjectCount++;\n+#endif\n+}\n+\n+void markConservative(Heap *heap, Stack *stack, word_t *address) {\n+    assert(heap_isWordInHeap(heap, address));\n+    ObjectHeader *object = NULL;\n+    if (heap_isWordInSmallHeap(heap, address)) {\n+        object = Object_getObject(address);\n+        assert(\n+            object == NULL ||\n+            Line_containsObject(&Block_getBlockHeader((word_t *)object)\n+                                     ->lineHeaders[Block_getLineIndexFromWord(\n+                                         Block_getBlockHeader((word_t *)object),\n+                                         (word_t *)object)]));\n+#ifdef DEBUG_PRINT\n+        if (object == NULL) {\n+            printf(\"Not found: %p\\n\", address);\n+        }\n+#endif\n+    } else {\n+        object = Object_getLargeObject(heap->largeAllocator, address);\n+    }\n+\n+    if (object != NULL && !Object_isMarked(object)) {\n+        markObject(heap, stack, object);\n+    }\n+}\n+\n+void mark(Heap *heap, Stack *stack) {\n+    while (!Stack_isEmpty(stack)) {\n+        ObjectHeader *object = Stack_pop(stack);\n+\n+        if (object->rtti->rt.id == __object_array_id) {\n+            // remove header and rtti from size\n+            size_t size = Object_size(object) - OBJECT_HEADER_SIZE - WORD_SIZE;\n+            size_t nbWords = size / WORD_SIZE;\n+            for (int i = 0; i < nbWords; i++) {\n+\n+                word_t *field = object->fields[i];\n+                ObjectHeader *fieldObject = Object_fromMutatorAddress(field);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(fieldObject)) {\n+                    markObject(heap, stack, fieldObject);\n+                }\n+            }\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != -1) {\n+                word_t *field = object->fields[ptr_map[i] / WORD_SIZE - 1];\n+                ObjectHeader *fieldObject = Object_fromMutatorAddress(field);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(fieldObject)) {\n+                    markObject(heap, stack, fieldObject);\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+}\n+\n+void markProgramStack(Heap *heap, Stack *stack) {\n+    unw_cursor_t cursor;\n+    unw_context_t context;\n+    unw_getcontext(&context);\n+    unw_init_local(&cursor, &context);\n+    unw_word_t top = LONG_MAX, bottom = 0;\n+    unw_word_t rsp;\n+\n+    while (unw_step(&cursor) > 0) {\n+        unw_get_reg(&cursor, UNW_X86_64_RSP, &rsp);\n+\n+        if (rsp < top) {\n+            top = rsp;\n+        }\n+        if (rsp > bottom) {\n+            bottom = rsp;\n+        }\n+    }\n+    unw_word_t p = top;\n+\n+    while (p < bottom) {\n+\n+        word_t *pp = (*(word_t **)p) - WORDS_IN_OBJECT_HEADER;\n+        if (heap_isWordInHeap(heap, pp)) {\n+            markConservative(heap, stack, pp);\n+        }\n+        p += 8;\n+    }\n+}\n+\n+void markModules(Heap *heap, Stack *stack) {\n+    word_t **modules = &__modules;\n+    int nb_modules = __modules_size;\n+\n+    for (int i = 0; i < nb_modules; i++) {\n+        ObjectHeader *object = Object_fromMutatorAddress(modules[i]);\n+        if (heap_isObjectInHeap(heap, object) && !Object_isMarked(object)) {\n+            markObject(heap, stack, object);\n+        }\n+    }\n+}\n+\n+void Mark_roots(Heap *heap, Stack *stack) {\n+#ifdef ALLOCATOR_STATS\n+    heap->allocator->stats->liveObjectCount = 0;\n+#endif\n+\n+    // Dumps registers into 'regs' which is on stack\n+    jmp_buf regs;\n+    setjmp(regs);\n+\n+    markProgramStack(heap, stack);\n+\n+    markModules(heap, stack);\n+\n+    mark(heap, stack);\n+}"
+  },
+  {
+    "id" : "9c3086fe-17cb-49f1-b841-1413899edf77",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "ee22f2a6-f53b-4f47-ae4f-3e8679ca7e79",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Marker_markObject`",
+        "createdAt" : "2017-05-26T12:54:38Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,129 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"Block.h\"\n+#include \"StackoverflowHandler.h\"\n+\n+extern int __object_array_id;\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+void Marker_mark(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+\n+void markObject(Heap *heap, Stack *stack, Object *object) {"
+  },
+  {
+    "id" : "966ad507-92c1-43fc-8df5-8f218fe31929",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "93c431c2-6368-4248-812b-a6d5ec29b7f2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Marker_markConservative`",
+        "createdAt" : "2017-05-26T12:54:46Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,129 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"Block.h\"\n+#include \"StackoverflowHandler.h\"\n+\n+extern int __object_array_id;\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+void Marker_mark(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+\n+void markObject(Heap *heap, Stack *stack, Object *object) {\n+    assert(!Object_isMarked(&object->header));\n+    assert(Object_size(&object->header) != 0);\n+    Object_mark(object);\n+    if (!overflow) {\n+        overflow = Stack_push(stack, object);\n+    }\n+}\n+\n+void markConservative(Heap *heap, Stack *stack, word_t *address) {"
+  },
+  {
+    "id" : "4d0f1005-47ba-4cee-8fa4-bcdc33b949af",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "e17b6f87-c55b-4141-bcbd-f44092d25dfe",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Marker_markStackRoots`",
+        "createdAt" : "2017-05-26T12:55:09Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,129 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"Block.h\"\n+#include \"StackoverflowHandler.h\"\n+\n+extern int __object_array_id;\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+void Marker_mark(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+\n+void markObject(Heap *heap, Stack *stack, Object *object) {\n+    assert(!Object_isMarked(&object->header));\n+    assert(Object_size(&object->header) != 0);\n+    Object_mark(object);\n+    if (!overflow) {\n+        overflow = Stack_push(stack, object);\n+    }\n+}\n+\n+void markConservative(Heap *heap, Stack *stack, word_t *address) {\n+    assert(heap_isWordInHeap(heap, address));\n+    Object *object = NULL;\n+    if (heap_isWordInSmallHeap(heap, address)) {\n+        object = Object_getObject(address);\n+        assert(\n+            object == NULL ||\n+            Line_containsObject(&Block_getBlockHeader((word_t *)object)\n+                                     ->lineHeaders[Block_getLineIndexFromWord(\n+                                         Block_getBlockHeader((word_t *)object),\n+                                         (word_t *)object)]));\n+#ifdef DEBUG_PRINT\n+        if (object == NULL) {\n+            printf(\"Not found: %p\\n\", address);\n+        }\n+#endif\n+    } else {\n+        object = Object_getLargeObject(heap->largeAllocator, address);\n+    }\n+\n+    if (object != NULL && !Object_isMarked(&object->header)) {\n+        markObject(heap, stack, object);\n+    }\n+}\n+\n+void Marker_mark(Heap *heap, Stack *stack) {\n+    while (!Stack_isEmpty(stack)) {\n+        Object *object = Stack_pop(stack);\n+\n+        if (object->rtti->rt.id == __object_array_id) {\n+            // remove header and rtti from size\n+            size_t size =\n+                Object_size(&object->header) - OBJECT_HEADER_SIZE - WORD_SIZE;\n+            size_t nbWords = size / WORD_SIZE;\n+            for (int i = 0; i < nbWords; i++) {\n+\n+                word_t *field = object->fields[i];\n+                Object *fieldObject = Object_fromMutatorAddress(field);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    markObject(heap, stack, fieldObject);\n+                }\n+            }\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != -1) {\n+                word_t *field = object->fields[ptr_map[i]];\n+                Object *fieldObject = Object_fromMutatorAddress(field);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    markObject(heap, stack, fieldObject);\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+    StackOverflowHandler_checkForOverflow();\n+}\n+\n+void markProgramStack(Heap *heap, Stack *stack) {"
+  },
+  {
+    "id" : "a7fff4a5-ebcb-4b42-9e29-6fec0d577cb4",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "abcfc887-0fbb-4fbb-8f38-99fb6b9e88e6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Marker_markModuleRoots`",
+        "createdAt" : "2017-05-26T12:55:17Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,129 @@\n+#include <stdio.h>\n+#include <setjmp.h>\n+#include \"Marker.h\"\n+#include \"Object.h\"\n+#include \"Log.h\"\n+#include \"State.h\"\n+#include \"datastructures/Stack.h\"\n+#include \"headers/ObjectHeader.h\"\n+#include \"Block.h\"\n+#include \"StackoverflowHandler.h\"\n+\n+extern int __object_array_id;\n+extern word_t *__modules;\n+extern int __modules_size;\n+extern word_t **__stack_bottom;\n+\n+void Marker_mark(Heap *heap, Stack *stack);\n+void largeHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+bool smallHeapOverflowHeapScan(Heap *heap, Stack *stack);\n+\n+void markObject(Heap *heap, Stack *stack, Object *object) {\n+    assert(!Object_isMarked(&object->header));\n+    assert(Object_size(&object->header) != 0);\n+    Object_mark(object);\n+    if (!overflow) {\n+        overflow = Stack_push(stack, object);\n+    }\n+}\n+\n+void markConservative(Heap *heap, Stack *stack, word_t *address) {\n+    assert(heap_isWordInHeap(heap, address));\n+    Object *object = NULL;\n+    if (heap_isWordInSmallHeap(heap, address)) {\n+        object = Object_getObject(address);\n+        assert(\n+            object == NULL ||\n+            Line_containsObject(&Block_getBlockHeader((word_t *)object)\n+                                     ->lineHeaders[Block_getLineIndexFromWord(\n+                                         Block_getBlockHeader((word_t *)object),\n+                                         (word_t *)object)]));\n+#ifdef DEBUG_PRINT\n+        if (object == NULL) {\n+            printf(\"Not found: %p\\n\", address);\n+        }\n+#endif\n+    } else {\n+        object = Object_getLargeObject(heap->largeAllocator, address);\n+    }\n+\n+    if (object != NULL && !Object_isMarked(&object->header)) {\n+        markObject(heap, stack, object);\n+    }\n+}\n+\n+void Marker_mark(Heap *heap, Stack *stack) {\n+    while (!Stack_isEmpty(stack)) {\n+        Object *object = Stack_pop(stack);\n+\n+        if (object->rtti->rt.id == __object_array_id) {\n+            // remove header and rtti from size\n+            size_t size =\n+                Object_size(&object->header) - OBJECT_HEADER_SIZE - WORD_SIZE;\n+            size_t nbWords = size / WORD_SIZE;\n+            for (int i = 0; i < nbWords; i++) {\n+\n+                word_t *field = object->fields[i];\n+                Object *fieldObject = Object_fromMutatorAddress(field);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    markObject(heap, stack, fieldObject);\n+                }\n+            }\n+        } else {\n+            int64_t *ptr_map = object->rtti->refMapStruct;\n+            int i = 0;\n+            while (ptr_map[i] != -1) {\n+                word_t *field = object->fields[ptr_map[i]];\n+                Object *fieldObject = Object_fromMutatorAddress(field);\n+                if (heap_isObjectInHeap(heap, fieldObject) &&\n+                    !Object_isMarked(&fieldObject->header)) {\n+                    markObject(heap, stack, fieldObject);\n+                }\n+                ++i;\n+            }\n+        }\n+    }\n+    StackOverflowHandler_checkForOverflow();\n+}\n+\n+void markProgramStack(Heap *heap, Stack *stack) {\n+    // Dumps registers into 'regs' which is on stack\n+    jmp_buf regs;\n+    setjmp(regs);\n+    word_t *dummy;\n+\n+    word_t **current = &dummy;\n+    word_t **stackBottom = __stack_bottom;\n+\n+    while (current <= stackBottom) {\n+\n+        word_t *stackObject = (*current) - WORDS_IN_OBJECT_HEADER;\n+        if (heap_isWordInHeap(heap, stackObject)) {\n+            markConservative(heap, stack, stackObject);\n+        }\n+        current += 1;\n+    }\n+}\n+\n+void markModules(Heap *heap, Stack *stack) {"
+  }
+]

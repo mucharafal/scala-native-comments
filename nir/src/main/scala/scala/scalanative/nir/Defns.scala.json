@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "f90942cd-db32-4307-98af-0015125e2e4c",
+    "prId" : 1372,
+    "comments" : [
+      {
+        "id" : "d01dc254-7770-4e93-b882-b15dd78935db",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Is this removing an already deprecated feature, like `@struct`?",
+        "createdAt" : "2018-10-23T21:14:08Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "dcfee4f7-c4ab-4959-9aa2-648438301619",
+        "parentId" : "d01dc254-7770-4e93-b882-b15dd78935db",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yes, but they are going to come back in one of the next PRs before 0.4.0 is released. ",
+        "createdAt" : "2018-10-24T12:57:30Z",
+        "updatedAt" : "2018-10-29T09:48:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "dfad1486a8fbc86bf304215f73fa5cd2c25df52d",
+    "line" : 5,
+    "diffHunk" : "@@ -20,8 +20,6 @@ object Defn {\n                           ty: Type,\n                           insts: Seq[Inst])\n       extends Defn\n-  final case class Struct(attrs: Attrs, name: Global, tys: Seq[Type])\n-      extends Defn"
+  }
+]

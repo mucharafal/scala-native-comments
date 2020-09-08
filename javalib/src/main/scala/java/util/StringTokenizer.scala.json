@@ -1,0 +1,217 @@
+[
+  {
+    "id" : "5b97553b-a8b7-4674-9c24-9d8780739f94",
+    "prId" : 759,
+    "comments" : [
+      {
+        "id" : "e2a99fd6-7528-4b4e-8435-a24fe3a8b61c",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I have an implementation of `StringTokenizer` coming from Apache Harmony as well, including tests. You may want to cherry pick it or just the tests from: https://github.com/Duhemm/scala-native/commit/922caa8e58dd8b82eb3b65809b53365bebdb886e",
+        "createdAt" : "2017-05-30T23:49:49Z",
+        "updatedAt" : "2017-06-01T18:50:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7f27f906-a039-4984-b136-b7d0547883ad",
+        "parentId" : "e2a99fd6-7528-4b4e-8435-a24fe3a8b61c",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Thanks, I will get the tests ;)",
+        "createdAt" : "2017-05-31T11:56:27Z",
+        "updatedAt" : "2017-06-01T18:50:57Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e5c33328fce67383bf601a0b10c7f4e6576fecbb",
+    "line" : 103,
+    "diffHunk" : "@@ -0,0 +1,100 @@\n+package java.util\n+\n+class StringTokenizer(private var string: String,\n+                      private var delimiters: String = \" \\t\\n\\r\\f\",\n+                      private val returnDelimiters: Boolean = false)\n+    extends java.util.Enumeration[Object] {\n+\n+  if (string == null) {\n+    throw new NullPointerException()\n+  }\n+\n+  private var position = 0\n+\n+  def countTokens(): Int = {\n+    var count   = 0\n+    var inToken = false\n+    val length  = string.length\n+    for (i <- position until length) {\n+      if (delimiters.indexOf(string.charAt(i), 0) >= 0) {\n+        if (returnDelimiters)\n+          count += 1\n+        if (inToken) {\n+          count += 1\n+          inToken = false\n+        }\n+      } else {\n+        inToken = true\n+      }\n+    }\n+    if (inToken)\n+      count += 1\n+    count\n+  }\n+\n+  def hasMoreElements(): Boolean = hasMoreTokens()\n+\n+  def hasMoreTokens(): Boolean = {\n+    if (delimiters == null) {\n+      throw new NullPointerException()\n+    }\n+    val length = string.length\n+    if (position < length) {\n+      if (returnDelimiters)\n+        return true\n+\n+      for (i <- position until length) {\n+        if (delimiters.indexOf(string.charAt(i), 0) == -1)\n+          return true\n+      }\n+    }\n+    false\n+  }\n+\n+  def nextElement(): Object = nextToken()\n+\n+  def nextToken(): String = {\n+    if (delimiters == null) {\n+      throw new NullPointerException()\n+    }\n+    var i      = position\n+    val length = string.length\n+\n+    if (i < length) {\n+      if (returnDelimiters) {\n+        if (delimiters.indexOf(string.charAt(i), 0) >= 0) {\n+          position += 1\n+          return String.valueOf(string.charAt(position))\n+        }\n+        position += 1\n+        while (position < length) {\n+          if (delimiters.indexOf(string.charAt(position), 0) >= 0)\n+            return string.substring(i, position)\n+          position += 1\n+        }\n+        return string.substring(i)\n+      }\n+\n+      while (i < length && delimiters.indexOf(string.charAt(i), 0) >= 0) i += 1\n+\n+      position = i\n+\n+      if (i < length) {\n+        position += 1\n+        while (position < length) {\n+          if (delimiters.indexOf(string.charAt(position), 0) >= 0)\n+            return string.substring(i, position)\n+          position += 1\n+        }\n+        return string.substring(i)\n+      }\n+    }\n+    throw new NoSuchElementException()\n+  }\n+\n+  def nextToken(delims: String): String = {\n+    delimiters = delims\n+    nextToken()\n+  }\n+\n+}"
+  },
+  {
+    "id" : "f3a9f613-f297-485f-8e35-f0207f328f1c",
+    "prId" : 1888,
+    "comments" : [
+      {
+        "id" : "93a11b0e-b31d-4498-9cfb-a3755f0c154e",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "It is a matter of style & of the scars, physical and mental, that one bears...\r\nWhen dealing with spaces/blanks, I usually prefer to use the Unicode  idiom \"\\u0020\",\r\nperhaps with a trailing //  \"\\u0020\" == space.    I find that text editors, formatters, etc. tend to ding spaces, even inside of strings, far too often than my patience will bear.\r\nOf course, decoding Unicode hex on the fly is an acquired taste.",
+        "createdAt" : "2020-09-06T22:59:33Z",
+        "updatedAt" : "2020-09-06T22:59:33Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "aa22265831b072b14909f3a7ed759d453c5e36d3",
+    "line" : 16,
+    "diffHunk" : "@@ -1,103 +1,93 @@\n package java.util\n \n-class StringTokenizer(string: String,\n-                      private var delimiters: String,\n-                      returnDelimiters: Boolean)\n-    extends java.util.Enumeration[Object] {\n+class StringTokenizer(\n+  str: String,\n+  private var delim: String,\n+  returnDelims: Boolean\n+) extends java.util.Enumeration[Object] {\n \n-  def this(string: String) = this(string, \" \\t\\n\\r\\f\", false)\n-  def this(string: String, delimeters: String) =\n-    this(string, delimeters, false)\n+  def this(str: String) = this(str, \" \\t\\n\\r\\f\", false)"
+  },
+  {
+    "id" : "04c127ea-4975-4124-9c7b-3e88880f9557",
+    "prId" : 1888,
+    "comments" : [
+      {
+        "id" : "3956c0e3-5358-476f-9a9d-ff470fb356aa",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "At the risk of passing on cargo cult programming & superstition, somewhere I was taught that the preferred style in Scala Native was to not give the type after val/var\r\ndeclarations unless they added some benefit.  This is the minimalist Haskell style, rather than the fully declarative Pascal style.\r\nDid someone in Scala.js land recommend giving the type as a matter of course?\r\nPerhaps my novice training was wrong or has been superseded.  I think declaring the type here makes no functional change.",
+        "createdAt" : "2020-09-06T23:03:24Z",
+        "updatedAt" : "2020-09-06T23:03:25Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "aa22265831b072b14909f3a7ed759d453c5e36d3",
+    "line" : 24,
+    "diffHunk" : "@@ -1,103 +1,93 @@\n package java.util\n \n-class StringTokenizer(string: String,\n-                      private var delimiters: String,\n-                      returnDelimiters: Boolean)\n-    extends java.util.Enumeration[Object] {\n+class StringTokenizer(\n+  str: String,\n+  private var delim: String,\n+  returnDelims: Boolean\n+) extends java.util.Enumeration[Object] {\n \n-  def this(string: String) = this(string, \" \\t\\n\\r\\f\", false)\n-  def this(string: String, delimeters: String) =\n-    this(string, delimeters, false)\n+  def this(str: String) = this(str, \" \\t\\n\\r\\f\", false)\n+  def this(str: String, delim: String) = this(str, delim, false)\n \n-  if (string == null) {\n-    throw new NullPointerException()\n-  }\n-\n-  private var position = 0\n+  private var position: Int = 0"
+  },
+  {
+    "id" : "55bdae45-3753-4d37-a676-a95ca2197052",
+    "prId" : 1888,
+    "comments" : [
+      {
+        "id" : "747c89d1-b2e9-4677-b1be-c946fa7a4a7c",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "So, Am I following along correctly that the major benefit of this PR is \r\nchanging known dog slow Scala for loops over to while loops?\r\n\r\nIt looks to me like this is one of the for-over-a-range loops that was optimized\r\nin Scala Native (0.4.0-M2 or earlier?).   If this is true, I would have to step back out to look at the entire file to see if changing to a while is still a simplification or uses\r\na better algorithm.",
+        "createdAt" : "2020-09-06T23:06:50Z",
+        "updatedAt" : "2020-09-06T23:06:50Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "aa22265831b072b14909f3a7ed759d453c5e36d3",
+    "line" : 38,
+    "diffHunk" : "@@ -1,103 +1,93 @@\n package java.util\n \n-class StringTokenizer(string: String,\n-                      private var delimiters: String,\n-                      returnDelimiters: Boolean)\n-    extends java.util.Enumeration[Object] {\n+class StringTokenizer(\n+  str: String,\n+  private var delim: String,\n+  returnDelims: Boolean\n+) extends java.util.Enumeration[Object] {\n \n-  def this(string: String) = this(string, \" \\t\\n\\r\\f\", false)\n-  def this(string: String, delimeters: String) =\n-    this(string, delimeters, false)\n+  def this(str: String) = this(str, \" \\t\\n\\r\\f\", false)\n+  def this(str: String, delim: String) = this(str, delim, false)\n \n-  if (string == null) {\n-    throw new NullPointerException()\n-  }\n-\n-  private var position = 0\n+  private var position: Int = 0\n+  private val length: Int = str.length\n \n   def countTokens(): Int = {\n-    var count   = 0\n-    var inToken = false\n-    val length  = string.length\n-    for (i <- position until length) {\n-      if (delimiters.indexOf(string.charAt(i), 0) >= 0) {\n-        if (returnDelimiters)\n+    var count: Int = 0\n+    var inToken: Boolean = false\n+    var i: Int = position\n+\n+    while(i < length) {"
+  },
+  {
+    "id" : "30a75125-ab93-4a12-82fe-d42f59ba8c74",
+    "prId" : 1888,
+    "comments" : [
+      {
+        "id" : "1758c2af-8737-48a7-836d-8592989dad91",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Is there a reason that nextIsDelim is not also @inline. That way, the predicate is inlined all the way down instead of being a method call to a one-liner.  The SN optimizer may be smart enough to do this already.\r\nI did not count the number of places where nextIsDelim is used, so perhaps there is a code size reason why it is not inlined.  Just makes an inquisitive Reader wonder.",
+        "createdAt" : "2020-09-06T23:11:40Z",
+        "updatedAt" : "2020-09-06T23:11:40Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "aa22265831b072b14909f3a7ed759d453c5e36d3",
+    "line" : 153,
+    "diffHunk" : "@@ -1,103 +1,93 @@\n package java.util\n \n-class StringTokenizer(string: String,\n-                      private var delimiters: String,\n-                      returnDelimiters: Boolean)\n-    extends java.util.Enumeration[Object] {\n+class StringTokenizer(\n+  str: String,\n+  private var delim: String,\n+  returnDelims: Boolean\n+) extends java.util.Enumeration[Object] {\n \n-  def this(string: String) = this(string, \" \\t\\n\\r\\f\", false)\n-  def this(string: String, delimeters: String) =\n-    this(string, delimeters, false)\n+  def this(str: String) = this(str, \" \\t\\n\\r\\f\", false)\n+  def this(str: String, delim: String) = this(str, delim, false)\n \n-  if (string == null) {\n-    throw new NullPointerException()\n-  }\n-\n-  private var position = 0\n+  private var position: Int = 0\n+  private val length: Int = str.length\n \n   def countTokens(): Int = {\n-    var count   = 0\n-    var inToken = false\n-    val length  = string.length\n-    for (i <- position until length) {\n-      if (delimiters.indexOf(string.charAt(i), 0) >= 0) {\n-        if (returnDelimiters)\n+    var count: Int = 0\n+    var inToken: Boolean = false\n+    var i: Int = position\n+\n+    while(i < length) {\n+      if (isDelim(str.charAt(i))) {\n+        if (returnDelims)\n           count += 1\n+\n         if (inToken) {\n           count += 1\n           inToken = false\n         }\n       } else {\n         inToken = true\n       }\n+\n+      i += 1\n     }\n+\n     if (inToken)\n       count += 1\n+\n     count\n   }\n \n   def hasMoreElements(): Boolean = hasMoreTokens()\n \n   def hasMoreTokens(): Boolean = {\n-    if (delimiters == null) {\n-      throw new NullPointerException()\n-    }\n-    val length = string.length\n-    if (position < length) {\n-      if (returnDelimiters)\n-        return true\n-\n-      for (i <- position until length) {\n-        if (delimiters.indexOf(string.charAt(i), 0) == -1)\n-          return true\n+    if (position >= length) false\n+    else if (returnDelims) true\n+    else {\n+      var hasDelim: Boolean = false\n+      var i: Int = position\n+      while (i < length && !hasDelim) {\n+        if (isDelim(str.charAt(i))) hasDelim = true\n+        i += 1\n       }\n+\n+      hasDelim\n     }\n-    false\n   }\n \n   def nextElement(): Object = nextToken()\n \n   def nextToken(): String = {\n-    if (delimiters == null) {\n-      throw new NullPointerException()\n-    }\n-    var i      = position\n-    val length = string.length\n-\n-    if (i < length) {\n-      if (returnDelimiters) {\n-        if (delimiters.indexOf(string.charAt(i), 0) >= 0) {\n-          return String.valueOf(string.charAt({ position += 1; position - 1 }))\n-        }\n-        position += 1\n-        while (position < length) {\n-          if (delimiters.indexOf(string.charAt(position), 0) >= 0)\n-            return string.substring(i, position)\n-          position += 1\n-        }\n-        return string.substring(i)\n-      }\n+    ensureAvailable()\n \n-      while (i < length && delimiters.indexOf(string.charAt(i), 0) >= 0) i += 1\n+    if (returnDelims && nextIsDelim) {\n+      val ret = String.valueOf(currentChar)\n+      position += 1\n+      ret\n+    } else {\n+      // Skip consecutive delims\n+      while (position < length && nextIsDelim) position += 1\n \n-      position = i\n+      ensureAvailable()\n \n-      if (i < length) {\n-        position += 1\n-        while (position < length) {\n-          if (delimiters.indexOf(string.charAt(position), 0) >= 0)\n-            return string.substring(i, position)\n-          position += 1\n-        }\n-        return string.substring(i)\n-      }\n+      val start: Int = position\n+      while (position < length && !nextIsDelim) position += 1\n+      str.substring(start, position)\n     }\n-    throw new NoSuchElementException()\n   }\n \n-  def nextToken(delims: String): String = {\n-    delimiters = delims\n+  def nextToken(delim: String): String = {\n+    this.delim = delim\n     nextToken()\n   }\n \n+  private def ensureAvailable(): Unit = {\n+    if (position >= length)\n+      throw new NoSuchElementException()\n+  }\n+\n+  private def nextIsDelim: Boolean = isDelim(currentChar)"
+  },
+  {
+    "id" : "dadb906f-6d45-411f-8a1c-bda113f861e1",
+    "prId" : 1888,
+    "comments" : [
+      {
+        "id" : "264ab84a-34f1-456a-8bdc-281f8421a68c",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Variable name changes to follow Java 8 documentation are useful & not\r\ngratuitous.",
+        "createdAt" : "2020-09-07T04:56:57Z",
+        "updatedAt" : "2020-09-07T04:56:57Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "aa22265831b072b14909f3a7ed759d453c5e36d3",
+    "line" : 8,
+    "diffHunk" : "@@ -1,103 +1,93 @@\n package java.util\n \n-class StringTokenizer(string: String,\n-                      private var delimiters: String,\n-                      returnDelimiters: Boolean)\n-    extends java.util.Enumeration[Object] {\n+class StringTokenizer(\n+  str: String,"
+  },
+  {
+    "id" : "68b94192-eff3-4b32-a23c-03012a093d4a",
+    "prId" : 1888,
+    "comments" : [
+      {
+        "id" : "abd5126b-8f91-441b-ac19-a7e1afb03820",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "\r\nI have seen and written lots of SN code which would have the if and assignment as a one liner.  I seem to remember even seeing such code in Scala.js (but I may be dreaming).\r\n\r\nThe Scala Center Style Guide  https://docs.scala-lang.org/style/ recommends:\r\n```if - Omit braces if you have an else clause. Otherwise, surround the contents with curly braces even if the contents are only a single line.\r\n\r\nif (foo) {\r\n  println(\"foo was true\")\r\n}\r\n```\r\n// They also recommend _dropping_ curlies around else statements, which seems whacked to me.\r\n// My brace style & comfort is probably whacked by having written too much C code.\r\n\r\n\r\nThe SN scalafmt config file seems to let the code in the PR  pass, so my comments are probably lore, which a more senior reviewer may override/reject.  I notice the same idiom a number of places in the file.\r\n\r\nThe format style does not affect correctness, but an appropriate level of project uniformity makes it easier to\r\nreview thousands of lines of code.",
+        "createdAt" : "2020-09-07T05:01:09Z",
+        "updatedAt" : "2020-09-07T05:11:49Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "aa22265831b072b14909f3a7ed759d453c5e36d3",
+    "line" : 55,
+    "diffHunk" : "@@ -1,103 +1,93 @@\n package java.util\n \n-class StringTokenizer(string: String,\n-                      private var delimiters: String,\n-                      returnDelimiters: Boolean)\n-    extends java.util.Enumeration[Object] {\n+class StringTokenizer(\n+  str: String,\n+  private var delim: String,\n+  returnDelims: Boolean\n+) extends java.util.Enumeration[Object] {\n \n-  def this(string: String) = this(string, \" \\t\\n\\r\\f\", false)\n-  def this(string: String, delimeters: String) =\n-    this(string, delimeters, false)\n+  def this(str: String) = this(str, \" \\t\\n\\r\\f\", false)\n+  def this(str: String, delim: String) = this(str, delim, false)\n \n-  if (string == null) {\n-    throw new NullPointerException()\n-  }\n-\n-  private var position = 0\n+  private var position: Int = 0\n+  private val length: Int = str.length\n \n   def countTokens(): Int = {\n-    var count   = 0\n-    var inToken = false\n-    val length  = string.length\n-    for (i <- position until length) {\n-      if (delimiters.indexOf(string.charAt(i), 0) >= 0) {\n-        if (returnDelimiters)\n+    var count: Int = 0\n+    var inToken: Boolean = false\n+    var i: Int = position\n+\n+    while(i < length) {\n+      if (isDelim(str.charAt(i))) {\n+        if (returnDelims)\n           count += 1\n+\n         if (inToken) {\n           count += 1\n           inToken = false\n         }\n       } else {\n         inToken = true\n       }\n+\n+      i += 1\n     }\n+\n     if (inToken)\n       count += 1"
+  }
+]

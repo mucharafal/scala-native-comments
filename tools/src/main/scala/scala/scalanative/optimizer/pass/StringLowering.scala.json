@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "7c2c56f1-d574-4b2d-a63a-d25125bb2a40",
+    "prId" : 1068,
+    "comments" : [
+      {
+        "id" : "55aea035-5953-407f-bcb1-55c329b8c909",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "The message should be updated too: \"[...] **5** fields\"",
+        "createdAt" : "2017-12-31T13:49:51Z",
+        "updatedAt" : "2019-08-11T15:07:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4e8271d6-aa42-46ea-99c9-343e355280d6",
+        "parentId" : "55aea035-5953-407f-bcb1-55c329b8c909",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "@tindzk Nice catch! I fixed it in the latest.",
+        "createdAt" : "2018-01-20T15:32:25Z",
+        "updatedAt" : "2019-08-11T15:07:12Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bcd780aafd7262361aefdf78b83649ac955482ff",
+    "line" : null,
+    "diffHunk" : "@@ -18,7 +18,7 @@ class StringLowering(implicit top: Top) extends Pass {\n   private val stringFieldNames = {\n     val node  = ClassRef.unapply(StringName).get\n     val names = node.layout.entries.map(_.name)\n-    assert(names.length == 4, \"java.lang.String is expected to have 4 fields\")\n+    assert(names.length == 5, \"java.lang.String is expected to have 4 fields\")"
+  }
+]

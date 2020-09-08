@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "ca0dc5cf-9281-4754-a8a3-c5a71154f30b",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "da215119-047c-46fa-bb3c-d78a1d2401ac",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I suggest removing it ;)",
+        "createdAt" : "2020-07-09T11:43:30Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,31 @@\n+/*\n+ * Ported from https://github.com/junit-team/junit\n+ */\n+package org.junit.internal\n+\n+object ArrayComparisonFailure\n+\n+class ArrayComparisonFailure(message: String, cause: AssertionError, index: Int)\n+    extends AssertionError(message, cause) {\n+\n+  private var fIndices: List[Int] = index :: Nil\n+\n+  @deprecated(\"This constructor is not used and will be removed\", \"0.6.21\")\n+  def this(fMessage: String) =\n+    this(fMessage, new AssertionError, 0)"
+  },
+  {
+    "id" : "1fbe9864-b1b6-4572-873d-30fd6cf5781b",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "1cc5e6f9-1c73-4f40-a9ce-af09aa6f7145",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n      if (fIndices == null) s\"[$index]\" // see scala-js/scala-js#3148\r\n```",
+        "createdAt" : "2020-07-09T11:44:19Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,31 @@\n+/*\n+ * Ported from https://github.com/junit-team/junit\n+ */\n+package org.junit.internal\n+\n+object ArrayComparisonFailure\n+\n+class ArrayComparisonFailure(message: String, cause: AssertionError, index: Int)\n+    extends AssertionError(message, cause) {\n+\n+  private var fIndices: List[Int] = index :: Nil\n+\n+  @deprecated(\"This constructor is not used and will be removed\", \"0.6.21\")\n+  def this(fMessage: String) =\n+    this(fMessage, new AssertionError, 0)\n+\n+  def addDimension(index: Int): Unit = {\n+    fIndices = index :: fIndices\n+  }\n+\n+  override def getMessage: String = {\n+    val msg = if (message != null) message else \"\"\n+    val indices =\n+      if (fIndices == null) s\"[$index]\" // see #3148"
+  }
+]

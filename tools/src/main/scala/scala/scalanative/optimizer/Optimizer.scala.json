@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a23913a2-1a5a-4678-abee-7f1425b585c0",
+    "prId" : 928,
+    "comments" : [
+      {
+        "id" : "eecc127b-a993-4dcd-bc7d-0020beda9238",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Is this an oversight?",
+        "createdAt" : "2017-08-11T12:32:34Z",
+        "updatedAt" : "2017-08-15T09:05:10Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "61a5ce7e-ad73-487d-9059-fe0837535b67",
+        "parentId" : "eecc127b-a993-4dcd-bc7d-0020beda9238",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, good catch! 👍 ",
+        "createdAt" : "2017-08-11T12:34:58Z",
+        "updatedAt" : "2017-08-15T09:05:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "daeba53d9223514b69603f286044a8af534834b6",
+    "line" : null,
+    "diffHunk" : "@@ -19,7 +19,7 @@ object Optimizer {\n   }\n \n   private def partition(defns: Seq[Defn]) = {\n-    val batches = java.lang.Runtime.getRuntime.availableProcessors * 4\n+    val batches = 1 //java.lang.Runtime.getRuntime.availableProcessors * 4"
+  }
+]

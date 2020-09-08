@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "84286b3c-b094-4667-a1bd-5aab61a98ea5",
+    "prId" : 92,
+    "comments" : [
+      {
+        "id" : "47d6328e-b017-42b8-8ad3-f142a2de6bc6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Don't use the `Project()` constructor. It mostly disappears in sbt 1.0. Especially it doesn't have the `settings` parameter anymore.\n",
+        "createdAt" : "2016-05-17T11:23:44Z",
+        "updatedAt" : "2016-05-17T11:23:44Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fe9fe4b11a028c98c70e3f429697ec8870b78d2e",
+    "line" : 38,
+    "diffHunk" : "@@ -0,0 +1,186 @@\n+import sbt._\n+import Keys._\n+import scala.io.Source\n+import scala.scalanative.sbtplugin._\n+import ScalaNativePlugin.autoImport._\n+import org.scalafmt.sbt.ScalaFmtPlugin.autoImport._\n+\n+object Build {\n+  val assembleScalaLibrary =\n+    taskKey[Unit](\n+      \"Clone scala standard library from the scala repo and then applies overrides.\")\n+\n+  val toolScalaVersion = \"2.10.6\"\n+\n+  val libScalaVersion = \"2.11.8\"\n+\n+  val baseSettings = Seq(\n+    organization := \"org.scala-native\",\n+    version := nativeVersion,\n+    scalafmtConfig := Some(file(\".scalafmt\"))\n+  )\n+\n+  val toolSettings =\n+    baseSettings ++\n+      Seq(\n+        scalaVersion := toolScalaVersion\n+      )\n+\n+  val libSettings =\n+    baseSettings ++\n+      ScalaNativePlugin.projectSettings ++\n+      Seq(\n+        scalaVersion := libScalaVersion,\n+        nativeEmitDependencyGraphPath := Some(file(\"out.dot\"))\n+      )\n+\n+  lazy val util: Project =\n+    Project("
+  }
+]

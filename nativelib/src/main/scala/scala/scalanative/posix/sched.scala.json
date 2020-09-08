@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "5b10bb55-e148-47bc-a93d-94de81933ddb",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "7010eb92-1613-4d6f-896a-14c39f27c032",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is not listed in POSIX docs.",
+        "createdAt" : "2017-05-03T09:46:36Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 43,
+    "diffHunk" : "@@ -0,0 +1,54 @@\n+package scala.scalanative\n+package posix\n+\n+import native._\n+import native.time.timespec\n+import sys.types.pid_t\n+\n+@extern\n+object sched {\n+\n+  // http://man7.org/linux/man-pages/man7/sched.7.html\n+\n+  /* Set scheduling parameters for a process.  */\n+  def sched_setparam(pid: pid_t, param: Ptr[sched_param]): CInt = extern\n+\n+  /* Retrieve scheduling parameters for a particular process.  */\n+  def sched_getparam(pid: pid_t, param: Ptr[sched_param]): CInt = extern\n+\n+  /* Set scheduling algorithm and/or parameters for a process.  */\n+  def sched_setscheduler(pid: pid_t,\n+                         policy: CInt,\n+                         param: Ptr[sched_param]): CInt =\n+    extern\n+\n+  /* Retrieve scheduling algorithm for a particular purpose.  */\n+  def sched_getscheduler(pid: pid_t): CInt = extern\n+\n+  /* Yield the processor.  */\n+  def sched_yield(): CInt = extern\n+\n+  /* Get maximum priority value for a scheduler.  */\n+  def sched_get_priority_max(algorithm: CInt): CInt = extern\n+\n+  /* Get minimum priority value for a scheduler.  */\n+  def sched_get_priority_min(algorithm: CInt): CInt = extern\n+\n+  /* Get the SCHED_RR interval for the named process.  */\n+  def sched_rr_get_interval(pid: pid_t, t: Ptr[timespec]): CInt = extern\n+\n+  /* Set the CPU affinity for a task */\n+  def sched_setaffinity(pid: pid_t,\n+                        cpusetsize: CSize,\n+                        cpuset: Ptr[cpu_set_t]): CInt = extern"
+  },
+  {
+    "id" : "9c8995e4-fe8c-4642-a97f-43131c7554ea",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "e923a106-571a-43aa-b38a-7289eca12210",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is not listed in POSIX docs.",
+        "createdAt" : "2017-05-03T09:46:45Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 48,
+    "diffHunk" : "@@ -0,0 +1,54 @@\n+package scala.scalanative\n+package posix\n+\n+import native._\n+import native.time.timespec\n+import sys.types.pid_t\n+\n+@extern\n+object sched {\n+\n+  // http://man7.org/linux/man-pages/man7/sched.7.html\n+\n+  /* Set scheduling parameters for a process.  */\n+  def sched_setparam(pid: pid_t, param: Ptr[sched_param]): CInt = extern\n+\n+  /* Retrieve scheduling parameters for a particular process.  */\n+  def sched_getparam(pid: pid_t, param: Ptr[sched_param]): CInt = extern\n+\n+  /* Set scheduling algorithm and/or parameters for a process.  */\n+  def sched_setscheduler(pid: pid_t,\n+                         policy: CInt,\n+                         param: Ptr[sched_param]): CInt =\n+    extern\n+\n+  /* Retrieve scheduling algorithm for a particular purpose.  */\n+  def sched_getscheduler(pid: pid_t): CInt = extern\n+\n+  /* Yield the processor.  */\n+  def sched_yield(): CInt = extern\n+\n+  /* Get maximum priority value for a scheduler.  */\n+  def sched_get_priority_max(algorithm: CInt): CInt = extern\n+\n+  /* Get minimum priority value for a scheduler.  */\n+  def sched_get_priority_min(algorithm: CInt): CInt = extern\n+\n+  /* Get the SCHED_RR interval for the named process.  */\n+  def sched_rr_get_interval(pid: pid_t, t: Ptr[timespec]): CInt = extern\n+\n+  /* Set the CPU affinity for a task */\n+  def sched_setaffinity(pid: pid_t,\n+                        cpusetsize: CSize,\n+                        cpuset: Ptr[cpu_set_t]): CInt = extern\n+\n+  /* Get the CPU affinity for a task */\n+  def sched_getaffinity(pid: pid_t,\n+                        cpusetsize: CSize,\n+                        cpuset: Ptr[cpu_set_t]): CInt = extern"
+  }
+]

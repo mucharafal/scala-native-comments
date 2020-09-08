@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "6ff4aa85-8987-49c5-8dfc-b6d2fd723474",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "52727145-41de-45ff-9ff4-baa501445a82",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "you can also break down the imports:\r\n\r\n```\r\npackage scala.scalanative\r\npackage posix.sys\r\n\r\nimport native.{CInt, extern}\r\n```",
+        "createdAt" : "2017-03-02T20:05:50Z",
+        "updatedAt" : "2017-05-02T20:28:20Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+package scala.scalanative.posix.sys\n+\n+import scala.scalanative.native.{CInt, extern}"
+  },
+  {
+    "id" : "1ab67aa7-295f-41d7-8ac7-8ad23b623928",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "2620c4d9-170f-4788-b184-f6214909e062",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This header is not listed in POSIX docs, we should not include it here. ",
+        "createdAt" : "2017-05-03T09:47:45Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,15 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.{CInt, extern}\n+import types.{gid_t, uid_t}\n+\n+// part of http://man7.org/linux/man-pages/man7/credentials.7.html\n+\n+@extern\n+object fsuid {\n+\n+  def setfsuid(fsuid: uid_t): CInt = extern\n+  def setfsgid(fsgid: gid_t): CInt = extern\n+\n+}"
+  }
+]

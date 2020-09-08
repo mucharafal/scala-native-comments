@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "f055b00f-b1b1-4ece-915d-de2da50c2141",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "49a21457-c579-4232-a0b9-3935a345ba22",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`scala.scalanative.re2s` is a better package name here. We can't jus tadd things to `scala` namespace.",
+        "createdAt" : "2019-04-02T10:04:24Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "298fd046-4aa1-4dd5-9018-4f5e24f5b095",
+        "parentId" : "49a21457-c579-4232-a0b9-3935a345ba22",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Changed as suggested. Builds in Travis. \r\nThank you.  By the light of day, \"What was I thinking?\"\r\n\r\nThis is _exactly_ the kind of thing I was trying to detect in this PR.",
+        "createdAt" : "2019-04-03T22:50:25Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,270 @@\n+// Copyright 2010 The Go Authors. All rights reserved.\n+// Use of this source code is governed by a BSD-style\n+// license that can be found in the LICENSE file.\n+\n+// Original Go source here:\n+// http://code.google.com/p/go/source/browse/src/pkg/regexp/syntax/compile.go\n+\n+package scala.re2s"
+  }
+]

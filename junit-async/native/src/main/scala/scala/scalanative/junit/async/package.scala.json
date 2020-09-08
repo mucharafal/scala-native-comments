@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "6c76c589-8b86-4bab-bee4-1ca294860b02",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "bd32f1c4-fd20-4bc3-8460-8b82baa5bcf5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be `Unit`, since that is the only result type supported by the JUnit plugin.\r\n```suggestion\r\n  type AsyncResult = Unit\r\n```\r\nCurrently `await` returns a `Try`, but `@Test` methods calling `await` are declared to return `Unit`. That means that the `Try` is discarded, hence any exception caught in the `Try` is discarded!",
+        "createdAt" : "2020-07-09T14:21:34Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative.junit\n+\n+import scala.concurrent.Future\n+import scala.util.Try\n+\n+package object async {\n+  type AsyncResult = Try[_]"
+  },
+  {
+    "id" : "961d7ef7-d5ae-4707-bf99-b904deba3d92",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "27a1eb8f-de2e-41bf-a2dc-1c6a6924f2bd",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Since `AsyncResult` will be `Unit`, this should have an extra `.get` to unwrap the `Try` and potentially throw its exception:\r\n```suggestion\r\n    future.value.get.get\r\n```",
+        "createdAt" : "2020-07-09T14:22:12Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative.junit\n+\n+import scala.concurrent.Future\n+import scala.util.Try\n+\n+package object async {\n+  type AsyncResult = Try[_]\n+  def await(future: Future[_]): AsyncResult = {\n+    scala.scalanative.runtime.loop()\n+    future.value.get"
+  }
+]

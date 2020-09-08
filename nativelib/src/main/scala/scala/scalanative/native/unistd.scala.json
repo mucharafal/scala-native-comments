@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "a1803507-d38f-454a-adf5-6816c6d39000",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "f1658644-c628-4f6e-9643-350c070eda04",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that this one is posix API and might not work on windows, lets put those in `scala.scalanative.runtime` package. We shouldn't expose it as part of our public API due to portability constraints. \n",
+        "createdAt" : "2016-10-21T09:37:39Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,8 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object unistd {\n+  def sleep(seconds: CUnsignedInt): Int = extern\n+  def usleep(usecs: Long): Int          = extern\n+}"
+  },
+  {
+    "id" : "1743f77e-b023-4a7d-a343-e63fa409501d",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "26b9b7f5-93f3-43fc-8006-d075ca8a541d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`posix` would probably be a better name for this.\n",
+        "createdAt" : "2016-10-21T09:38:42Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "399fe3d0-40ea-4e92-9727-719a73d604e8",
+        "parentId" : "26b9b7f5-93f3-43fc-8006-d075ca8a541d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "On the second thought, it's probably fine to stick to the convention of naming `@extern object`-s with the name of the header, but we still need to move it away from the main public API.\n",
+        "createdAt" : "2016-10-26T12:48:04Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,8 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object unistd {"
+  }
+]

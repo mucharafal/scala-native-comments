@@ -1,0 +1,479 @@
+[
+  {
+    "id" : "7088e554-596b-42f4-969d-6bb5f9ff5ba7",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "2a3cfd58-c584-49d5-b797-a314bb9f2a4f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`inner` is never reassigned. It could and should be a `val`.",
+        "createdAt" : "2020-05-19T14:24:40Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d8d354a7-7bfc-499d-a5ab-8fc1726e2b45",
+        "parentId" : "2a3cfd58-c584-49d5-b797-a314bb9f2a4f",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.  Good catch.",
+        "createdAt" : "2020-05-21T23:01:25Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality\n+///\n+///     * spliterator() is implemented but commented out because the\n+///       ArrayList.spliterator it delegates to is not yet implemented.\n+///\n+///     * The order of method declarations is not alphabetical to reduce\n+///       churn versus ScalaJs original.\n+\n+class ArrayDeque[E] private (private var inner: ArrayList[E])"
+  },
+  {
+    "id" : "2a1b05b4-d24e-49da-8d24-f20097a39076",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "62501830-fbbc-4c0d-aa8f-3854cbfd0fcf",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The `else` branch should also increase the `status`, like in `pollFirst()`.",
+        "createdAt" : "2020-05-19T14:33:07Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fec69d69-c2b0-4a5a-9b0a-5ed235c7d842",
+        "parentId" : "62501830-fbbc-4c0d-aa8f-3854cbfd0fcf",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. oops!",
+        "createdAt" : "2020-05-21T23:02:25Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality\n+///\n+///     * spliterator() is implemented but commented out because the\n+///       ArrayList.spliterator it delegates to is not yet implemented.\n+///\n+///     * The order of method declarations is not alphabetical to reduce\n+///       churn versus ScalaJs original.\n+\n+class ArrayDeque[E] private (private var inner: ArrayList[E])\n+    extends AbstractCollection[E]\n+    with Deque[E]\n+    with Cloneable\n+    with Serializable {\n+  self =>\n+\n+  private var status = 0\n+\n+  def this() =\n+    this(new ArrayList[E](16))\n+\n+  def this(initialCapacity: Int) = {\n+    // This is the JVM behavior for negative initialCapacity.\n+    this(new ArrayList[E](Math.max(0, initialCapacity)))\n+  }\n+\n+  def this(c: Collection[_ <: E]) = {\n+    this(c.size)\n+    addAll(c)\n+  }\n+\n+  override def add(e: E): Boolean = {\n+    offerLast(e)\n+    true\n+  }\n+\n+  def addFirst(e: E): Unit =\n+    offerFirst(e)\n+\n+  def addLast(e: E): Unit =\n+    offerLast(e)\n+\n+  // shallow-copy\n+  override def clone(): ArrayDeque[E] =\n+    new ArrayDeque[E](inner.clone.asInstanceOf[ArrayList[E]])\n+\n+  def offerFirst(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(0, e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def offerLast(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def removeFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollFirst()\n+  }\n+\n+  def removeLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollLast()\n+  }\n+\n+  def pollFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else {\n+      val res = inner.remove(0)\n+      status += 1\n+      res\n+    }\n+  }\n+\n+  def pollLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.remove(inner.size - 1)"
+  },
+  {
+    "id" : "3315034a-7785-40cf-acc4-4c6865f0971d",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "d4bbb271-8665-43fd-8da1-52202d6d189a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "A method body spanning several lines should be enclosed in `{}`.",
+        "createdAt" : "2020-05-19T14:35:19Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9d13b716-84eb-4439-8cbf-f9bbd4f44e1d",
+        "parentId" : "d4bbb271-8665-43fd-8da1-52202d6d189a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done, artifact of original code.",
+        "createdAt" : "2020-05-21T23:04:13Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality\n+///\n+///     * spliterator() is implemented but commented out because the\n+///       ArrayList.spliterator it delegates to is not yet implemented.\n+///\n+///     * The order of method declarations is not alphabetical to reduce\n+///       churn versus ScalaJs original.\n+\n+class ArrayDeque[E] private (private var inner: ArrayList[E])\n+    extends AbstractCollection[E]\n+    with Deque[E]\n+    with Cloneable\n+    with Serializable {\n+  self =>\n+\n+  private var status = 0\n+\n+  def this() =\n+    this(new ArrayList[E](16))\n+\n+  def this(initialCapacity: Int) = {\n+    // This is the JVM behavior for negative initialCapacity.\n+    this(new ArrayList[E](Math.max(0, initialCapacity)))\n+  }\n+\n+  def this(c: Collection[_ <: E]) = {\n+    this(c.size)\n+    addAll(c)\n+  }\n+\n+  override def add(e: E): Boolean = {\n+    offerLast(e)\n+    true\n+  }\n+\n+  def addFirst(e: E): Unit =\n+    offerFirst(e)\n+\n+  def addLast(e: E): Unit =\n+    offerLast(e)\n+\n+  // shallow-copy\n+  override def clone(): ArrayDeque[E] =\n+    new ArrayDeque[E](inner.clone.asInstanceOf[ArrayList[E]])\n+\n+  def offerFirst(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(0, e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def offerLast(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def removeFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollFirst()\n+  }\n+\n+  def removeLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollLast()\n+  }\n+\n+  def pollFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else {\n+      val res = inner.remove(0)\n+      status += 1\n+      res\n+    }\n+  }\n+\n+  def pollLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.remove(inner.size - 1)\n+  }\n+\n+  def getFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      peekFirst()\n+  }\n+\n+  def getLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      peekLast()\n+  }\n+\n+  def peekFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.get(0)\n+  }\n+\n+  def peekLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.get(inner.size - 1)\n+  }\n+\n+  def removeFirstOccurrence(o: Any): Boolean = {\n+    val index = inner.indexOf(o)\n+    if (index >= 0) {\n+      inner.remove(index)\n+      status += 1\n+      true\n+    } else\n+      false\n+  }\n+\n+  def removeLastOccurrence(o: Any): Boolean = {\n+    val index = inner.lastIndexOf(o)\n+    if (index >= 0) {\n+      inner.remove(index)\n+      status += 1\n+      true\n+    } else\n+      false\n+  }\n+\n+  def offer(e: E): Boolean = offerLast(e)\n+\n+  def remove(): E = removeFirst()\n+\n+  def poll(): E = pollFirst()\n+\n+  def element(): E = getFirst()\n+\n+  def peek(): E = peekFirst()\n+\n+  def push(e: E): Unit = addFirst(e)\n+\n+  def pop(): E = removeFirst()\n+\n+  def size(): Int = inner.size\n+\n+  private def failFastIterator(startIndex: Int, nex: (Int) => Int) = {\n+    new Iterator[E] {\n+      private def checkStatus() ="
+  },
+  {
+    "id" : "066db4d1-f63a-4c29-88fb-171047351a7d",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "b9595ed5-7b88-4e60-bbbe-9ea8377ee6a1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "In general, since spliterators are not implemented anywhere, I recommended not even mentioning it here, even commented. If we one day add spliterators, we'll have to implement them everywhere anyway, in a holistic fashion.",
+        "createdAt" : "2020-05-19T14:39:02Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c764cf22-db91-4df8-b4bf-1bed4f821b26",
+        "parentId" : "b9595ed5-7b88-4e60-bbbe-9ea8377ee6a1",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2020-05-21T23:04:36Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality\n+///\n+///     * spliterator() is implemented but commented out because the\n+///       ArrayList.spliterator it delegates to is not yet implemented.\n+///\n+///     * The order of method declarations is not alphabetical to reduce\n+///       churn versus ScalaJs original.\n+\n+class ArrayDeque[E] private (private var inner: ArrayList[E])\n+    extends AbstractCollection[E]\n+    with Deque[E]\n+    with Cloneable\n+    with Serializable {\n+  self =>\n+\n+  private var status = 0\n+\n+  def this() =\n+    this(new ArrayList[E](16))\n+\n+  def this(initialCapacity: Int) = {\n+    // This is the JVM behavior for negative initialCapacity.\n+    this(new ArrayList[E](Math.max(0, initialCapacity)))\n+  }\n+\n+  def this(c: Collection[_ <: E]) = {\n+    this(c.size)\n+    addAll(c)\n+  }\n+\n+  override def add(e: E): Boolean = {\n+    offerLast(e)\n+    true\n+  }\n+\n+  def addFirst(e: E): Unit =\n+    offerFirst(e)\n+\n+  def addLast(e: E): Unit =\n+    offerLast(e)\n+\n+  // shallow-copy\n+  override def clone(): ArrayDeque[E] =\n+    new ArrayDeque[E](inner.clone.asInstanceOf[ArrayList[E]])\n+\n+  def offerFirst(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(0, e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def offerLast(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def removeFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollFirst()\n+  }\n+\n+  def removeLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollLast()\n+  }\n+\n+  def pollFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else {\n+      val res = inner.remove(0)\n+      status += 1\n+      res\n+    }\n+  }\n+\n+  def pollLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.remove(inner.size - 1)\n+  }\n+\n+  def getFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      peekFirst()\n+  }\n+\n+  def getLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      peekLast()\n+  }\n+\n+  def peekFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.get(0)\n+  }\n+\n+  def peekLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.get(inner.size - 1)\n+  }\n+\n+  def removeFirstOccurrence(o: Any): Boolean = {\n+    val index = inner.indexOf(o)\n+    if (index >= 0) {\n+      inner.remove(index)\n+      status += 1\n+      true\n+    } else\n+      false\n+  }\n+\n+  def removeLastOccurrence(o: Any): Boolean = {\n+    val index = inner.lastIndexOf(o)\n+    if (index >= 0) {\n+      inner.remove(index)\n+      status += 1\n+      true\n+    } else\n+      false\n+  }\n+\n+  def offer(e: E): Boolean = offerLast(e)\n+\n+  def remove(): E = removeFirst()\n+\n+  def poll(): E = pollFirst()\n+\n+  def element(): E = getFirst()\n+\n+  def peek(): E = peekFirst()\n+\n+  def push(e: E): Unit = addFirst(e)\n+\n+  def pop(): E = removeFirst()\n+\n+  def size(): Int = inner.size\n+\n+  private def failFastIterator(startIndex: Int, nex: (Int) => Int) = {\n+    new Iterator[E] {\n+      private def checkStatus() =\n+        if (self.status != actualStatus)\n+          throw new ConcurrentModificationException()\n+\n+      private val actualStatus = self.status\n+\n+      private var index: Int = startIndex\n+\n+      def hasNext(): Boolean = {\n+        checkStatus()\n+        val n = nex(index)\n+        (n >= 0) && (n < inner.size)\n+      }\n+\n+      def next(): E = {\n+        checkStatus()\n+        index = nex(index)\n+        inner.get(index)\n+      }\n+\n+      def remove(): Unit = {\n+        checkStatus()\n+        if (index < 0 || index >= inner.size) {\n+          throw new IllegalStateException()\n+        } else {\n+          inner.remove(index)\n+        }\n+      }\n+    }\n+  }\n+\n+  def iterator(): Iterator[E] =\n+    failFastIterator(-1, x => (x + 1))\n+\n+  def descendingIterator(): Iterator[E] =\n+    failFastIterator(inner.size, x => (x - 1))\n+\n+  override def contains(o: Any): Boolean = inner.contains(o)\n+\n+  override def remove(o: Any): Boolean = removeFirstOccurrence(o)\n+\n+  override def clear(): Unit = {\n+    if (!inner.isEmpty) status += 1\n+    inner.clear()\n+  }\n+\n+  // ArrayList.spliterator is not yet implemented.\n+  // def spliterator(): Spliterator[E] = inner.spliterator()"
+  },
+  {
+    "id" : "eec6027b-3706-4999-b5c9-69117ee7d2f7",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "bf9ac6c6-e8af-40a5-a039-e6047c1add10",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    inner.toArray()\r\n```",
+        "createdAt" : "2020-05-19T14:39:43Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5d682193-755a-47b2-a4ad-b65711d4121d",
+        "parentId" : "bf9ac6c6-e8af-40a5-a039-e6047c1add10",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. The replacement is more focused and concise. Thank you.",
+        "createdAt" : "2020-05-21T23:05:23Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality\n+///\n+///     * spliterator() is implemented but commented out because the\n+///       ArrayList.spliterator it delegates to is not yet implemented.\n+///\n+///     * The order of method declarations is not alphabetical to reduce\n+///       churn versus ScalaJs original.\n+\n+class ArrayDeque[E] private (private var inner: ArrayList[E])\n+    extends AbstractCollection[E]\n+    with Deque[E]\n+    with Cloneable\n+    with Serializable {\n+  self =>\n+\n+  private var status = 0\n+\n+  def this() =\n+    this(new ArrayList[E](16))\n+\n+  def this(initialCapacity: Int) = {\n+    // This is the JVM behavior for negative initialCapacity.\n+    this(new ArrayList[E](Math.max(0, initialCapacity)))\n+  }\n+\n+  def this(c: Collection[_ <: E]) = {\n+    this(c.size)\n+    addAll(c)\n+  }\n+\n+  override def add(e: E): Boolean = {\n+    offerLast(e)\n+    true\n+  }\n+\n+  def addFirst(e: E): Unit =\n+    offerFirst(e)\n+\n+  def addLast(e: E): Unit =\n+    offerLast(e)\n+\n+  // shallow-copy\n+  override def clone(): ArrayDeque[E] =\n+    new ArrayDeque[E](inner.clone.asInstanceOf[ArrayList[E]])\n+\n+  def offerFirst(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(0, e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def offerLast(e: E): Boolean = {\n+    if (e == null) {\n+      throw new NullPointerException()\n+    } else {\n+      inner.add(e)\n+      status += 1\n+      true\n+    }\n+  }\n+\n+  def removeFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollFirst()\n+  }\n+\n+  def removeLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      pollLast()\n+  }\n+\n+  def pollFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else {\n+      val res = inner.remove(0)\n+      status += 1\n+      res\n+    }\n+  }\n+\n+  def pollLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.remove(inner.size - 1)\n+  }\n+\n+  def getFirst(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      peekFirst()\n+  }\n+\n+  def getLast(): E = {\n+    if (inner.isEmpty)\n+      throw new NoSuchElementException()\n+    else\n+      peekLast()\n+  }\n+\n+  def peekFirst(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.get(0)\n+  }\n+\n+  def peekLast(): E = {\n+    if (inner.isEmpty) null.asInstanceOf[E]\n+    else inner.get(inner.size - 1)\n+  }\n+\n+  def removeFirstOccurrence(o: Any): Boolean = {\n+    val index = inner.indexOf(o)\n+    if (index >= 0) {\n+      inner.remove(index)\n+      status += 1\n+      true\n+    } else\n+      false\n+  }\n+\n+  def removeLastOccurrence(o: Any): Boolean = {\n+    val index = inner.lastIndexOf(o)\n+    if (index >= 0) {\n+      inner.remove(index)\n+      status += 1\n+      true\n+    } else\n+      false\n+  }\n+\n+  def offer(e: E): Boolean = offerLast(e)\n+\n+  def remove(): E = removeFirst()\n+\n+  def poll(): E = pollFirst()\n+\n+  def element(): E = getFirst()\n+\n+  def peek(): E = peekFirst()\n+\n+  def push(e: E): Unit = addFirst(e)\n+\n+  def pop(): E = removeFirst()\n+\n+  def size(): Int = inner.size\n+\n+  private def failFastIterator(startIndex: Int, nex: (Int) => Int) = {\n+    new Iterator[E] {\n+      private def checkStatus() =\n+        if (self.status != actualStatus)\n+          throw new ConcurrentModificationException()\n+\n+      private val actualStatus = self.status\n+\n+      private var index: Int = startIndex\n+\n+      def hasNext(): Boolean = {\n+        checkStatus()\n+        val n = nex(index)\n+        (n >= 0) && (n < inner.size)\n+      }\n+\n+      def next(): E = {\n+        checkStatus()\n+        index = nex(index)\n+        inner.get(index)\n+      }\n+\n+      def remove(): Unit = {\n+        checkStatus()\n+        if (index < 0 || index >= inner.size) {\n+          throw new IllegalStateException()\n+        } else {\n+          inner.remove(index)\n+        }\n+      }\n+    }\n+  }\n+\n+  def iterator(): Iterator[E] =\n+    failFastIterator(-1, x => (x + 1))\n+\n+  def descendingIterator(): Iterator[E] =\n+    failFastIterator(inner.size, x => (x - 1))\n+\n+  override def contains(o: Any): Boolean = inner.contains(o)\n+\n+  override def remove(o: Any): Boolean = removeFirstOccurrence(o)\n+\n+  override def clear(): Unit = {\n+    if (!inner.isEmpty) status += 1\n+    inner.clear()\n+  }\n+\n+  // ArrayList.spliterator is not yet implemented.\n+  // def spliterator(): Spliterator[E] = inner.spliterator()\n+\n+  override def toArray(): Array[AnyRef] = {\n+    inner.toArray(new Array[AnyRef](size))"
+  },
+  {
+    "id" : "539bc1bb-f50c-4d8d-bdf8-c998591b7240",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "a54fcd5b-f87f-489d-bd13-63763e6ec707",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You can remove that header and just have a comment `// Ported from Scala.js`, like all the other files that have been ported from Scala.js.",
+        "createdAt" : "2020-05-19T14:40:50Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "31d930b2-27f6-4c12-883f-49f1c563d49f",
+        "parentId" : "a54fcd5b-f87f-489d-bd13-63763e6ec707",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2020-05-21T23:00:22Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */"
+  },
+  {
+    "id" : "19f74bd7-6bad-487e-841b-0dc4ba5945ea",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "0bad837d-2c2c-4b1d-9866-2c2f9b3e6c40",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`equals` and `hashCode` are inherited from `AbstractList`, which has a correct implementation. This comment is misleading and should be removed.",
+        "createdAt" : "2020-05-19T14:42:45Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2af64ca7-8331-47f2-b49d-cc218cf607e5",
+        "parentId" : "0bad837d-2c2c-4b1d-9866-2c2f9b3e6c40",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done, thank you for the insight & correction.",
+        "createdAt" : "2020-05-21T23:00:47Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality"
+  },
+  {
+    "id" : "db6592bd-81dc-435d-a781-16476ddcdebd",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "4f4b566a-7b75-42f0-be2d-57c91911e17b",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This can be removed together with the commented out definition.",
+        "createdAt" : "2020-05-19T14:43:07Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3d8d15e6-6d70-4621-b054-bb383393906a",
+        "parentId" : "4f4b566a-7b75-42f0-be2d-57c91911e17b",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2020-05-21T23:00:57Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,241 @@\n+/*\n+ * Scala.js (https://www.scala-js.org/)\n+ *\n+ * Copyright EPFL.\n+ *\n+ * Licensed under Apache License 2.0\n+ * (https://www.apache.org/licenses/LICENSE-2.0).\n+ *\n+ * See the NOTICE file distributed with this work for\n+ * additional information regarding copyright ownership.\n+ */\n+\n+// Contains original work for ScalaNative which falls under the Scala Native\n+// license.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from ScalaJS ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///\n+///     * ScalaNative ArrayList is the inner type, rather than js.Array.\n+///\n+///     * equals() & hashcode() are not implemented so comparing ArrayDeque\n+///       instances ad1 == ad2 is bit of a pain. It gives object equality\n+///       not the more useful contents equality. Someday...\n+///           https://alvinalexander.com/scala/ \\\n+///           how-to-define-equals-hashcode-methods-in-scala-object-equality\n+///\n+///     * spliterator() is implemented but commented out because the\n+///       ArrayList.spliterator it delegates to is not yet implemented."
+  },
+  {
+    "id" : "87352ecf-ce8a-45f4-8687-2cced5264565",
+    "prId" : 1696,
+    "comments" : [
+      {
+        "id" : "174c00a2-f6db-46a5-9f22-94a49eb74fe9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "No, `==` is not equivalent to `Object.equals()`. `==` uses `__scala_==` whereas `Object.equals()` uses `equals`. I'm sure by now you know the difference between those, since you've recently looked at `__scala_==`.\r\n\r\nHowever, here you don't need `Object.equals()` because the above methods are defined in terms of `inner.{contains,indexOf,lastIndexOf}`. And since `inner` is a `java.util.ArrayList`, its methods use the semantics of `Object.equals()`. This is not the case in the Scala.js variant, because there `inner` is a `js.Array`, whose methods are Scala collection methods, with the semantics of `==`.",
+        "createdAt" : "2020-05-22T10:17:02Z",
+        "updatedAt" : "2020-05-22T12:46:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0cccd71d-73fa-4ecc-b417-3492df5c122d",
+        "parentId" : "174c00a2-f6db-46a5-9f22-94a49eb74fe9",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "As always, thank you for the correction.   I hope my incorporation and slight paraphrase\r\nof you explanation is acceptable use. I think it provides at least a clue for the \r\nquestion in 6 months: OK, why is no change needed?\r\n\r\nAlternately, I can just drop everything after \"No corresponding change  is needed here\".",
+        "createdAt" : "2020-05-22T12:49:31Z",
+        "updatedAt" : "2020-05-22T12:49:31Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "20f39bd65c06fc38a5d9e96f0be2792bb2273a3b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,231 @@\n+// Ported from Scala.js.\n+// Also contains original work for Scala Native.\n+\n+package java.util\n+\n+/// ScalaNative Porting Note:\n+///\n+///     * Ported, with thanks & gratitude, from Scala.js ArrayDeque.scala\n+///       commit 9DC4D5b, dated 2018-10-12.\n+///       Also contains original work for Scala Native.\n+///\n+///     * Changes in Scala.js original commit E07F99D, dated 2019-07-30\n+///       were considered on 2020-05-19. The Scala.js change to\n+///       ArrayDeque.scala were to Objects.equals() in a 3 places,\n+///       contains(), removeFirstOccurrence(), removeLastOccurrence().\n+///       Existing unit-tests for those three methods show that no\n+///       corresponding change is needed here.  indexOf() and contains()\n+///       are documented as defined in terms of \"==\". That operator should\n+///       do and is doing a comparison equivalent to Object.equals()."
+  }
+]

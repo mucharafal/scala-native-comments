@@ -1,0 +1,547 @@
+[
+  {
+    "id" : "57f6c8eb-ee1f-452a-8967-5e5b74fa6a60",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "f0a4ef14-5ce9-4d91-9afc-84ad07d290b4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets also support `@stub` on classes and modules, this should be trivial by adding similar line to `genClassAttrs`. ",
+        "createdAt" : "2017-09-04T09:07:42Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : 13,
+    "diffHunk" : "@@ -258,6 +258,7 @@ trait NirGenStat { self: NirGenPhase =>\n             case ann if ann.symbol == NoInlineClass   => Attr.NoInline\n             case ann if ann.symbol == InlineHintClass => Attr.InlineHint\n             case ann if ann.symbol == InlineClass     => Attr.AlwaysInline\n+            case ann if ann.symbol == StubClass       => Attr.Stub"
+  },
+  {
+    "id" : "96cd9120-2cad-4542-a972-4df419df60f9",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "24578a28-d4a9-4b62-a6eb-38f5408e45fe",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I don't think we should generate reflective instantiation info for structs. Or at least we should very carefully consider the consequences of doing so.\r\n\r\nFTR, no reflective instantiation info are ever generated for JS classes in Scala.js, so there is precedent for ignoring that for interop-specific \"stuff\".",
+        "createdAt" : "2020-02-20T14:29:44Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -82,6 +82,7 @@ trait NirGenStat { self: NirGenPhase =>\n       val body   = cd.impl.body\n \n       buf += Defn.Class(attrs, name, None, Seq.empty)\n+      genReflectiveInstantiation(cd)"
+  },
+  {
+    "id" : "7d675102-f9e0-4529-a26d-f745a8f2df1d",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "fe50d3c4-5959-43cd-bbe9-abb1da57ca65",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Public methods should always have an explicit result type.",
+        "createdAt" : "2020-04-24T10:19:23Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -16,6 +16,9 @@ trait NirGenStat { self: NirGenPhase =>\n   import nirDefinitions._\n   import SimpleType.{fromType, fromSymbol}\n \n+  def isStaticModule(sym: Symbol) ="
+  },
+  {
+    "id" : "bc68bc64-19b0-4c0e-bc4f-f46b529aaa40",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "25e66736-9e43-4184-8372-5ccf69d4f11a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n      staticInitBody.foreach {\r\n```",
+        "createdAt" : "2020-04-24T12:33:09Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -218,6 +229,354 @@ trait NirGenStat { self: NirGenPhase =>\n       }\n     }\n \n+    def withFreshExprBuffer[R](f: ExprBuffer => R): R = {\n+      scoped(\n+        curFresh := Fresh()\n+      ) {\n+        val exprBuffer = new ExprBuffer()(curFresh)\n+        f(exprBuffer)\n+      }\n+    }\n+\n+    def genReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val sym = cd.symbol\n+      val enableReflectiveInstantiation = {\n+        (sym :: sym.ancestors).exists { ancestor =>\n+          ancestor.hasAnnotation(EnableReflectiveInstantiationAnnotation)\n+        }\n+      }\n+\n+      if (enableReflectiveInstantiation) {\n+        scoped(\n+          curClassSym := cd.symbol,\n+          curFresh := Fresh(),\n+          curUnwindHandler := None\n+        ) {\n+          genRegisterReflectiveInstantiation(cd)\n+        }\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val owner = genTypeName(curClassSym)\n+      val name  = owner.member(nir.Sig.Clinit())\n+\n+      val staticInitBody =\n+        if (isStaticModule(curClassSym))\n+          Some(genRegisterReflectiveInstantiationForModuleClass(cd))\n+        else if (curClassSym.isModuleClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3228\n+        else if (curClassSym.isLifted && !curClassSym.originalOwner.isClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3227\n+        else\n+          Some(genRegisterReflectiveInstantiationForNormalClass(cd))\n+\n+      staticInitBody.map {"
+  },
+  {
+    "id" : "b33790b5-34c6-4790-a7cb-b3ecf734af90",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "9d61240a-2a3c-421f-99df-6d5790083b8f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n        // the AbstractFunction0[Any] class, i.e. has an apply method, which loads the module.\r\n```",
+        "createdAt" : "2020-04-24T13:19:54Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -218,6 +229,354 @@ trait NirGenStat { self: NirGenPhase =>\n       }\n     }\n \n+    def withFreshExprBuffer[R](f: ExprBuffer => R): R = {\n+      scoped(\n+        curFresh := Fresh()\n+      ) {\n+        val exprBuffer = new ExprBuffer()(curFresh)\n+        f(exprBuffer)\n+      }\n+    }\n+\n+    def genReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val sym = cd.symbol\n+      val enableReflectiveInstantiation = {\n+        (sym :: sym.ancestors).exists { ancestor =>\n+          ancestor.hasAnnotation(EnableReflectiveInstantiationAnnotation)\n+        }\n+      }\n+\n+      if (enableReflectiveInstantiation) {\n+        scoped(\n+          curClassSym := cd.symbol,\n+          curFresh := Fresh(),\n+          curUnwindHandler := None\n+        ) {\n+          genRegisterReflectiveInstantiation(cd)\n+        }\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val owner = genTypeName(curClassSym)\n+      val name  = owner.member(nir.Sig.Clinit())\n+\n+      val staticInitBody =\n+        if (isStaticModule(curClassSym))\n+          Some(genRegisterReflectiveInstantiationForModuleClass(cd))\n+        else if (curClassSym.isModuleClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3228\n+        else if (curClassSym.isLifted && !curClassSym.originalOwner.isClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3227\n+        else\n+          Some(genRegisterReflectiveInstantiationForNormalClass(cd))\n+\n+      staticInitBody.map {\n+        case body if body.nonEmpty =>\n+          buf += Defn.Define(Attrs(),\n+                             name,\n+                             nir.Type.Function(Seq.empty[nir.Type], Type.Unit),\n+                             body)\n+        case _ => ()\n+      }\n+    }\n+\n+    // Generate the constructor for the class instantiator class,\n+    // which is expected to extend one of scala.runtime.AbstractFunctionX.\n+    private def genReflectiveInstantiationConstructor(\n+        reflInstBuffer: ReflectiveInstantiationBuffer,\n+        superClass: Global): Unit = {\n+      withFreshExprBuffer { exprBuf =>\n+        val body = {\n+          // first argument is this\n+          val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+          exprBuf.label(curFresh(), Seq(thisArg))\n+\n+          // call to super constructor\n+          exprBuf.call(\n+            Type.Function(Seq(Type.Ref(superClass)), Type.Unit),\n+            Val.Global(superClass.member(Sig.Ctor(Seq())), Type.Ptr),\n+            Seq(thisArg),\n+            unwind(curFresh)\n+          )\n+\n+          exprBuf.ret(Val.Unit)\n+          exprBuf.toSeq\n+        }\n+\n+        reflInstBuffer += Defn.Define(\n+          Attrs(),\n+          reflInstBuffer.name.member(Sig.Ctor(Seq())),\n+          nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), Type.Unit),\n+          body\n+        )\n+      }\n+    }\n+\n+    // Allocate and construct an object, using the provided ExprBuffer.\n+    private def allocAndConstruct(exprBuf: ExprBuffer,\n+                                  name: Global,\n+                                  argTypes: Seq[nir.Type],\n+                                  args: Seq[Val]): Val = {\n+      val alloc = exprBuf.classalloc(name, unwind(curFresh))\n+      exprBuf.call(\n+        Type.Function(Type.Ref(name) +: argTypes, Type.Unit),\n+        Val.Global(name.member(Sig.Ctor(argTypes)), Type.Ptr),\n+        alloc +: args,\n+        unwind(curFresh)\n+      )\n+      alloc\n+    }\n+\n+    def genRegisterReflectiveInstantiationForModuleClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName + \"$\"\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(fqSymId)\n+      val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+      def genLazyModuleLoaderMethod(exprBuf: ExprBuffer): Val = {\n+        val applyMethodSig =\n+          Sig.Method(\"apply\", Seq(jlObjectRef))\n+\n+        // Generate the module loader class. The generated class extends\n+        // the CFuncPtr0[Any] trait, i.e. has an apply method, which loads the module."
+  },
+  {
+    "id" : "ea28230f-ef0b-44a5-8253-2f43c46e1ac0",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "e54673ee-f9f6-4a29-b41b-e64833524668",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider calling this method `genModuleLoaderAnonFun`, since really it creates an anonymous function, not really a method.",
+        "createdAt" : "2020-04-24T13:29:54Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -218,6 +229,354 @@ trait NirGenStat { self: NirGenPhase =>\n       }\n     }\n \n+    def withFreshExprBuffer[R](f: ExprBuffer => R): R = {\n+      scoped(\n+        curFresh := Fresh()\n+      ) {\n+        val exprBuffer = new ExprBuffer()(curFresh)\n+        f(exprBuffer)\n+      }\n+    }\n+\n+    def genReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val sym = cd.symbol\n+      val enableReflectiveInstantiation = {\n+        (sym :: sym.ancestors).exists { ancestor =>\n+          ancestor.hasAnnotation(EnableReflectiveInstantiationAnnotation)\n+        }\n+      }\n+\n+      if (enableReflectiveInstantiation) {\n+        scoped(\n+          curClassSym := cd.symbol,\n+          curFresh := Fresh(),\n+          curUnwindHandler := None\n+        ) {\n+          genRegisterReflectiveInstantiation(cd)\n+        }\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val owner = genTypeName(curClassSym)\n+      val name  = owner.member(nir.Sig.Clinit())\n+\n+      val staticInitBody =\n+        if (isStaticModule(curClassSym))\n+          Some(genRegisterReflectiveInstantiationForModuleClass(cd))\n+        else if (curClassSym.isModuleClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3228\n+        else if (curClassSym.isLifted && !curClassSym.originalOwner.isClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3227\n+        else\n+          Some(genRegisterReflectiveInstantiationForNormalClass(cd))\n+\n+      staticInitBody.map {\n+        case body if body.nonEmpty =>\n+          buf += Defn.Define(Attrs(),\n+                             name,\n+                             nir.Type.Function(Seq.empty[nir.Type], Type.Unit),\n+                             body)\n+        case _ => ()\n+      }\n+    }\n+\n+    // Generate the constructor for the class instantiator class,\n+    // which is expected to extend one of scala.runtime.AbstractFunctionX.\n+    private def genReflectiveInstantiationConstructor(\n+        reflInstBuffer: ReflectiveInstantiationBuffer,\n+        superClass: Global): Unit = {\n+      withFreshExprBuffer { exprBuf =>\n+        val body = {\n+          // first argument is this\n+          val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+          exprBuf.label(curFresh(), Seq(thisArg))\n+\n+          // call to super constructor\n+          exprBuf.call(\n+            Type.Function(Seq(Type.Ref(superClass)), Type.Unit),\n+            Val.Global(superClass.member(Sig.Ctor(Seq())), Type.Ptr),\n+            Seq(thisArg),\n+            unwind(curFresh)\n+          )\n+\n+          exprBuf.ret(Val.Unit)\n+          exprBuf.toSeq\n+        }\n+\n+        reflInstBuffer += Defn.Define(\n+          Attrs(),\n+          reflInstBuffer.name.member(Sig.Ctor(Seq())),\n+          nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), Type.Unit),\n+          body\n+        )\n+      }\n+    }\n+\n+    // Allocate and construct an object, using the provided ExprBuffer.\n+    private def allocAndConstruct(exprBuf: ExprBuffer,\n+                                  name: Global,\n+                                  argTypes: Seq[nir.Type],\n+                                  args: Seq[Val]): Val = {\n+      val alloc = exprBuf.classalloc(name, unwind(curFresh))\n+      exprBuf.call(\n+        Type.Function(Type.Ref(name) +: argTypes, Type.Unit),\n+        Val.Global(name.member(Sig.Ctor(argTypes)), Type.Ptr),\n+        alloc +: args,\n+        unwind(curFresh)\n+      )\n+      alloc\n+    }\n+\n+    def genRegisterReflectiveInstantiationForModuleClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName + \"$\"\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(fqSymId)\n+      val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+      def genLazyModuleLoaderMethod(exprBuf: ExprBuffer): Val = {"
+  },
+  {
+    "id" : "d8f4a9d8-02d5-4d50-88ed-986d5dc2654a",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "8bdf64eb-2cb6-43aa-892b-7238b9582ddb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider calling this function `genClassConstructorsInfo`, since it really generates the array of constructors info, not a method.",
+        "createdAt" : "2020-04-24T13:30:31Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -218,6 +229,354 @@ trait NirGenStat { self: NirGenPhase =>\n       }\n     }\n \n+    def withFreshExprBuffer[R](f: ExprBuffer => R): R = {\n+      scoped(\n+        curFresh := Fresh()\n+      ) {\n+        val exprBuffer = new ExprBuffer()(curFresh)\n+        f(exprBuffer)\n+      }\n+    }\n+\n+    def genReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val sym = cd.symbol\n+      val enableReflectiveInstantiation = {\n+        (sym :: sym.ancestors).exists { ancestor =>\n+          ancestor.hasAnnotation(EnableReflectiveInstantiationAnnotation)\n+        }\n+      }\n+\n+      if (enableReflectiveInstantiation) {\n+        scoped(\n+          curClassSym := cd.symbol,\n+          curFresh := Fresh(),\n+          curUnwindHandler := None\n+        ) {\n+          genRegisterReflectiveInstantiation(cd)\n+        }\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val owner = genTypeName(curClassSym)\n+      val name  = owner.member(nir.Sig.Clinit())\n+\n+      val staticInitBody =\n+        if (isStaticModule(curClassSym))\n+          Some(genRegisterReflectiveInstantiationForModuleClass(cd))\n+        else if (curClassSym.isModuleClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3228\n+        else if (curClassSym.isLifted && !curClassSym.originalOwner.isClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3227\n+        else\n+          Some(genRegisterReflectiveInstantiationForNormalClass(cd))\n+\n+      staticInitBody.map {\n+        case body if body.nonEmpty =>\n+          buf += Defn.Define(Attrs(),\n+                             name,\n+                             nir.Type.Function(Seq.empty[nir.Type], Type.Unit),\n+                             body)\n+        case _ => ()\n+      }\n+    }\n+\n+    // Generate the constructor for the class instantiator class,\n+    // which is expected to extend one of scala.runtime.AbstractFunctionX.\n+    private def genReflectiveInstantiationConstructor(\n+        reflInstBuffer: ReflectiveInstantiationBuffer,\n+        superClass: Global): Unit = {\n+      withFreshExprBuffer { exprBuf =>\n+        val body = {\n+          // first argument is this\n+          val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+          exprBuf.label(curFresh(), Seq(thisArg))\n+\n+          // call to super constructor\n+          exprBuf.call(\n+            Type.Function(Seq(Type.Ref(superClass)), Type.Unit),\n+            Val.Global(superClass.member(Sig.Ctor(Seq())), Type.Ptr),\n+            Seq(thisArg),\n+            unwind(curFresh)\n+          )\n+\n+          exprBuf.ret(Val.Unit)\n+          exprBuf.toSeq\n+        }\n+\n+        reflInstBuffer += Defn.Define(\n+          Attrs(),\n+          reflInstBuffer.name.member(Sig.Ctor(Seq())),\n+          nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), Type.Unit),\n+          body\n+        )\n+      }\n+    }\n+\n+    // Allocate and construct an object, using the provided ExprBuffer.\n+    private def allocAndConstruct(exprBuf: ExprBuffer,\n+                                  name: Global,\n+                                  argTypes: Seq[nir.Type],\n+                                  args: Seq[Val]): Val = {\n+      val alloc = exprBuf.classalloc(name, unwind(curFresh))\n+      exprBuf.call(\n+        Type.Function(Type.Ref(name) +: argTypes, Type.Unit),\n+        Val.Global(name.member(Sig.Ctor(argTypes)), Type.Ptr),\n+        alloc +: args,\n+        unwind(curFresh)\n+      )\n+      alloc\n+    }\n+\n+    def genRegisterReflectiveInstantiationForModuleClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName + \"$\"\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(fqSymId)\n+      val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+      def genLazyModuleLoaderMethod(exprBuf: ExprBuffer): Val = {\n+        val applyMethodSig =\n+          Sig.Method(\"apply\", Seq(jlObjectRef))\n+\n+        // Generate the module loader class. The generated class extends\n+        // the CFuncPtr0[Any] trait, i.e. has an apply method, which loads the module.\n+        // We need a fresh ExprBuffer for this, since it is different scope.\n+        withFreshExprBuffer { exprBuf =>\n+          val body = {\n+            // first argument is this\n+            val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+            exprBuf.label(curFresh(), Seq(thisArg))\n+\n+            val m = exprBuf.module(fqSymName, unwind(curFresh))\n+            exprBuf.ret(m)\n+            exprBuf.toSeq\n+          }\n+\n+          reflInstBuffer += Defn.Define(\n+            Attrs(),\n+            reflInstBuffer.name.member(applyMethodSig),\n+            nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), jlObjectRef),\n+            body)\n+        }\n+\n+        // Generate the module loader class constructor.\n+        genReflectiveInstantiationConstructor(reflInstBuffer,\n+                                              srAbstractFunction0)\n+\n+        reflInstBuffer += Defn.Class(Attrs(),\n+                                     reflInstBuffer.name,\n+                                     Some(srAbstractFunction0),\n+                                     Seq(serializable))\n+\n+        // Allocate and return an instance of the generated class.\n+        allocAndConstruct(exprBuf, reflInstBuffer.name, Seq(), Seq())\n+      }\n+\n+      withFreshExprBuffer { exprBuf =>\n+        exprBuf.label(curFresh(), Seq())\n+\n+        val fqcnArg = Val.String(fqSymId)\n+        val runtimeClassArg =\n+          exprBuf.genBoxClass(Val.Global(Global.Top(fqSymId), Type.Ptr))\n+        val loadModuleFunArg = genLazyModuleLoaderMethod(exprBuf)\n+\n+        exprBuf.genApplyModuleMethod(\n+          ReflectModule,\n+          Reflect_registerLoadableModuleClass,\n+          Seq(fqcnArg, runtimeClassArg, loadModuleFunArg).map(ValTree(_)))\n+\n+        exprBuf.ret(Val.Unit)\n+        exprBuf.toSeq\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiationForNormalClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      // Create a new Tuple2 and initialise it with the provided values.\n+      def createTuple2(exprBuf: ExprBuffer, _1: Val, _2: Val): Val = {\n+        allocAndConstruct(exprBuf,\n+                          tuple2,\n+                          Seq(jlObjectRef, jlObjectRef),\n+                          Seq(_1, _2))\n+      }\n+\n+      def genLazyClassInstantiationMethod(exprBuf: ExprBuffer,\n+                                          ctors: Seq[global.Symbol]): Val = {"
+  },
+  {
+    "id" : "f58b4877-8456-457b-80c4-1194df15f8fb",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This won't work for booleans and characters.\r\n\r\nThinking more about this issue, I suggest to separate the handling in two separate things:\r\n* The codegen'ed lambda requires the *exact* boxed class as parameter (so it needs a `java.lang.Integer` if the parameter is an `int`; if it receives a `java.lang.Short` it will fail). That will allow the codegen to be simpler, and only do a straightforward unboxing operation for all primitive types.\r\n* Perform the necessary adaptations in the *library* code (i.e., in `Reflect.scala`).\r\n\r\nAccording to [the JavaDoc of `Constructor.newInstance`](https://docs.oracle.com/javase/8/docs/api/java/lang/reflect/Constructor.html#newInstance-java.lang.Object...-), the latter must deal with *method invocation conversions*, which are defined in [Section 5.3 of the JLS](https://docs.oracle.com/javase/specs/jls/se8/html/jls-5.html#jls-5.3). Since identity conversions and widening reference conversions will be taken care of by the lambda (through a straightforward unbox or cast), we only need to deal with widening primitive conversions. We can encode that as follows:\r\n```scala\r\nclass InvokableConstructor(...) {\r\n  def newInstance(args: Any*): Any = {\r\n    /* Check the number of actual arguments. We let the casts and unbox\r\n     * operations inside `newInstanceFun` take care of the rest.\r\n     */\r\n    require(\r\n      args.size == parameterTypes.size,\r\n      \"Reflect: wrong number of arguments for InvokableConstructor\"\r\n    )\r\n    val adaptedArgs = new Array[Any](parameterTypes.size)\r\n    for ((arg, idx) <- args)\r\n      adaptedArgs(idx) = wideningPrimConversionIfRequired(arg, parameterTypes(idx))\r\n    newInstanceFun.apply(adaptedArgs)\r\n  }\r\n\r\n  /** Perform a widening primitive conversion if required.\r\n   *\r\n   *  According to\r\n   *  https://docs.oracle.com/javase/specs/jls/se8/html/jls-5.html#jls-5.1.2\r\n   */\r\n  private def wideningPrimConversionIfRequired(arg: Any, paramType: Class[_]): Any = {\r\n    paramType match {\r\n      case java.lang.Short.TYPE =>\r\n        arg match {\r\n          case arg: Byte => arg.toShort\r\n          case _         => arg\r\n        }\r\n      case java.lang.Integer.TYPE =>\r\n        arg match {\r\n          case arg: Byte  => arg.toInt\r\n          case arg: Short => arg.toInt\r\n          case arg: Char  => arg.toInt\r\n          case _          => arg\r\n        }\r\n      case java.lang.Long.TYPE =>\r\n        arg match {\r\n          case arg: Byte  => arg.toLong\r\n          case arg: Short => arg.toLong\r\n          case arg: Int   => arg.toLong\r\n          case arg: Char  => arg.toLong\r\n          case _          => arg\r\n        }\r\n      case java.lang.Float.TYPE =>\r\n        arg match {\r\n          case arg: Byte  => arg.toFloat\r\n          case arg: Short => arg.toFloat\r\n          case arg: Int   => arg.toFloat\r\n          case arg: Long  => arg.toFloat\r\n          case arg: Char  => arg.toFloat\r\n          case _          => arg\r\n        }\r\n      case java.lang.Double.TYPE =>\r\n        arg match {\r\n          case arg: Byte  => arg.toDouble\r\n          case arg: Short => arg.toDouble\r\n          case arg: Int   => arg.toDouble\r\n          case arg: Long  => arg.toDouble\r\n          case arg: Float => arg.toDouble\r\n          case arg: Char  => arg.toDouble\r\n          case _          => arg\r\n        }\r\n      case _ =>\r\n        arg\r\n    }\r\n  }\r\n```",
+        "createdAt" : "2020-04-24T14:07:12Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3f28e338-d164-480c-bfe0-3975bbcef75e",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "I think that we also need to take care of shrinking conversions. If a constructor expects a `Short` and someone provides e.g. `42`, which is an `Int`, we still have a mismatch.\r\n\r\nI think that we need something more generic, like:\r\n\r\n```scala\r\n  private def primConversionIfRequired(arg: Any,\r\n                                       paramType: Class[_]): Any = {\r\n    paramType match {\r\n      case java.lang.Byte.TYPE =>\r\n        arg.asInstanceOf[Number].byteValue()\r\n      case java.lang.Short.TYPE =>\r\n        arg.asInstanceOf[Number].shortValue()\r\n      case java.lang.Integer.TYPE =>\r\n        arg.asInstanceOf[Number].intValue()\r\n      case java.lang.Long.TYPE =>\r\n        arg.asInstanceOf[Number].longValue()\r\n      case java.lang.Float.TYPE =>\r\n        arg.asInstanceOf[Number].floatValue()\r\n      case java.lang.Double.TYPE =>\r\n        arg.asInstanceOf[Number].doubleValue()\r\n      case _ => arg\r\n    }\r\n  }\r\n```\r\nIt is basically what I was doing in the codegen, moved to the library side.",
+        "createdAt" : "2020-04-24T17:51:46Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ddfe6dab-289e-4c60-a4e8-f972698c5b3d",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "> This won't work for booleans and characters.\r\n\r\nWhy do we need to convert `Boolean`s and `Character`s? They are not numeric types.",
+        "createdAt" : "2020-04-24T18:27:43Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8a6b503f-e45d-4be8-aa02-8787383b3cd5",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If you follow the link to the spec I gave, you'll see that narrowing conversions shouldn't be accepted, and that characters can be converted to `int` and bigger.\r\n\r\nAs validation, here is a transcript of a REPL on the JVM to show that this is indeed what happens:\r\n```scala\r\nscala> case class Foo(x: Int, y: java.lang.Long)\r\ndefined class Foo\r\n\r\nscala> val c = classOf[Foo].getDeclaredConstructors()(0)\r\nc: java.lang.reflect.Constructor[_] = public Foo(int,java.lang.Long)\r\n\r\nscala> c.newInstance(1, 2L)\r\nres4: Object = Foo(1,2)\r\n\r\nscala> c.newInstance(1, 2)\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance(1, 2.toShort)\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance(1L, 2L)\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance(1.toShort, 2L)\r\nres8: Object = Foo(1,2)\r\n\r\nscala> c.newInstance(1.4, 2L)\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance('A', 2L)\r\nres10: Object = Foo(65,2)\r\n\r\nscala> case class Foo(x: Int, y: java.lang.Long, z: Short, c: Char)\r\ndefined class Foo\r\n\r\nscala> val c = classOf[Foo].getDeclaredConstructors()(0)\r\nc: java.lang.reflect.Constructor[_] = public Foo(int,java.lang.Long,short,char)\r\n\r\nscala> c.newInstance('A', 2L, 'A', 'B')\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance('A', 2L, 5, 'B')\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance('A', 2L, 5.toByte, 'B')\r\nres13: Object = Foo(65,2,5,B)\r\n\r\nscala> c.newInstance('A', 2L, 5.toShort, 'B')\r\nres14: Object = Foo(65,2,5,B)\r\n\r\nscala> c.newInstance('A', 2L, 5.toShort, 5.toShort)\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n\r\nscala> c.newInstance('A', 2L, 5.toShort, 5.toByte)\r\njava.lang.IllegalArgumentException: argument type mismatch\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)\r\n  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)\r\n  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)\r\n  at java.lang.reflect.Constructor.newInstance(Constructor.java:423)\r\n  ... 34 elided\r\n```",
+        "createdAt" : "2020-04-24T20:20:18Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "969b2d5c-f35f-4d1c-a6cb-765074806fb0",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "> \r\n> \r\n> > This won't work for booleans and characters.\r\n> \r\n> Why do we need to convert `Boolean`s and `Character`s? They are not numeric types.\r\n\r\n`Boolean`s need not be converted, but the code that is currently in the PR would try to cast `Boolean`s to `Number`s anyway, even if the expected target type was `Boolean`. Or maybe I misunderstood the code. For `Char` we in fact need to convert them to numeric types, as I showed above.",
+        "createdAt" : "2020-04-24T20:22:58Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a1b9046f-47a5-4c24-9886-78fa196f1596",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Okay, thanks for the clarification.\r\n\r\nI got confused from a test case from Scala.js. In the `testClassCtorWithArgs` test, the `Short` constructor is requested and I thought it was \"converted\" from the `Int` one. However I now see the presence of the `VC` class. The current implementation does not support such a scenario.",
+        "createdAt" : "2020-04-24T20:48:39Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4531154b-dc76-4210-8bd6-c083217d0679",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The current implementation in Scala.js seems incomplete about the conversions. We'll need to fix that when I get the chance.",
+        "createdAt" : "2020-04-24T21:10:32Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8d1d3874-17bd-4a44-9af8-159aff7809b9",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Therefore, if I understand this correctly, calling a `Short` constructor with a value of `42` (which is an `Int`), which is [supported by Scala.js](https://github.com/scala-js/scala-js/blob/3534fda873127e5da1badbefa376ce0c7d951d03/test-suite/js/src/test/scala/org/scalajs/testsuite/library/ReflectTest.scala#L179), should not be supported by Native?\r\n\r\nI suppose that Scala.js treats numeric values differently, in a JS-specific way. I am a little confused as to which semantics we would like to \"follow\". In C for example, it is OK (to some extent) to do all kinds of conversions. Why not do the same in Native and why is the behaviour of Scala.js different in that aspect?\r\n\r\nOn the other hand, Scala seems to accept the above scenario:\r\n```scala\r\nscala> def foo(s: Short): Unit = {}\r\nfoo: (s: Short)Unit\r\n\r\nscala> foo(42) // OK\r\n\r\nscala> foo(424242)\r\n           ^\r\n       error: type mismatch;\r\n        found   : Int(424242)\r\n        required: Short\r\n```",
+        "createdAt" : "2020-04-24T22:27:46Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9da11293-0b11-473c-b0e9-c83e6f7727ec",
+        "parentId" : "32967575-9a38-4509-bb6e-c44e971ca223",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "> Therefore, if I understand this correctly, calling a Short constructor with a value of 42 (which is an Int), which is supported by Scala.js, should not be supported by Native?\r\n\r\nThat's right.\r\n\r\n> I suppose that Scala.js treats numeric values differently, in a JS-specific way. I am a little confused as to which semantics we would like to \"follow\". In C for example, it is OK (to some extent) to do all kinds of conversions. Why not do the same in Native and why is the behaviour of Scala.js different in that aspect?\r\n\r\nWe have to follow the JVM semantics first. Copying C or Scala.js is secondary.\r\n\r\nScala.js treats boxed primitive values differently than the JVM across the board (see https://www.scala-js.org/doc/semantics.html) for JS-specific reasons, and is therefore not a gold standard to follow if the JVM does not agree. Basically in Scala.js we *cannot* tell apart a `j.l.Integer` with value 42 from a `j.l.Integer` with value 42, so we're forced to accept it.\r\n\r\n> On the other hand, Scala seems to accept the above scenario:\r\n\r\nThat's with *compile-time* adaptation. Java does the same in that situation. But here we are concerned with *run-time* adaptation as performed by Java reflection, since that is the capability we are trying to emulate.",
+        "createdAt" : "2020-04-25T02:15:24Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -218,6 +229,354 @@ trait NirGenStat { self: NirGenPhase =>\n       }\n     }\n \n+    def withFreshExprBuffer[R](f: ExprBuffer => R): R = {\n+      scoped(\n+        curFresh := Fresh()\n+      ) {\n+        val exprBuffer = new ExprBuffer()(curFresh)\n+        f(exprBuffer)\n+      }\n+    }\n+\n+    def genReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val sym = cd.symbol\n+      val enableReflectiveInstantiation = {\n+        (sym :: sym.ancestors).exists { ancestor =>\n+          ancestor.hasAnnotation(EnableReflectiveInstantiationAnnotation)\n+        }\n+      }\n+\n+      if (enableReflectiveInstantiation) {\n+        scoped(\n+          curClassSym := cd.symbol,\n+          curFresh := Fresh(),\n+          curUnwindHandler := None\n+        ) {\n+          genRegisterReflectiveInstantiation(cd)\n+        }\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val owner = genTypeName(curClassSym)\n+      val name  = owner.member(nir.Sig.Clinit())\n+\n+      val staticInitBody =\n+        if (isStaticModule(curClassSym))\n+          Some(genRegisterReflectiveInstantiationForModuleClass(cd))\n+        else if (curClassSym.isModuleClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3228\n+        else if (curClassSym.isLifted && !curClassSym.originalOwner.isClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3227\n+        else\n+          Some(genRegisterReflectiveInstantiationForNormalClass(cd))\n+\n+      staticInitBody.map {\n+        case body if body.nonEmpty =>\n+          buf += Defn.Define(Attrs(),\n+                             name,\n+                             nir.Type.Function(Seq.empty[nir.Type], Type.Unit),\n+                             body)\n+        case _ => ()\n+      }\n+    }\n+\n+    // Generate the constructor for the class instantiator class,\n+    // which is expected to extend one of scala.runtime.AbstractFunctionX.\n+    private def genReflectiveInstantiationConstructor(\n+        reflInstBuffer: ReflectiveInstantiationBuffer,\n+        superClass: Global): Unit = {\n+      withFreshExprBuffer { exprBuf =>\n+        val body = {\n+          // first argument is this\n+          val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+          exprBuf.label(curFresh(), Seq(thisArg))\n+\n+          // call to super constructor\n+          exprBuf.call(\n+            Type.Function(Seq(Type.Ref(superClass)), Type.Unit),\n+            Val.Global(superClass.member(Sig.Ctor(Seq())), Type.Ptr),\n+            Seq(thisArg),\n+            unwind(curFresh)\n+          )\n+\n+          exprBuf.ret(Val.Unit)\n+          exprBuf.toSeq\n+        }\n+\n+        reflInstBuffer += Defn.Define(\n+          Attrs(),\n+          reflInstBuffer.name.member(Sig.Ctor(Seq())),\n+          nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), Type.Unit),\n+          body\n+        )\n+      }\n+    }\n+\n+    // Allocate and construct an object, using the provided ExprBuffer.\n+    private def allocAndConstruct(exprBuf: ExprBuffer,\n+                                  name: Global,\n+                                  argTypes: Seq[nir.Type],\n+                                  args: Seq[Val]): Val = {\n+      val alloc = exprBuf.classalloc(name, unwind(curFresh))\n+      exprBuf.call(\n+        Type.Function(Type.Ref(name) +: argTypes, Type.Unit),\n+        Val.Global(name.member(Sig.Ctor(argTypes)), Type.Ptr),\n+        alloc +: args,\n+        unwind(curFresh)\n+      )\n+      alloc\n+    }\n+\n+    def genRegisterReflectiveInstantiationForModuleClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName + \"$\"\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(fqSymId)\n+      val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+      def genLazyModuleLoaderMethod(exprBuf: ExprBuffer): Val = {\n+        val applyMethodSig =\n+          Sig.Method(\"apply\", Seq(jlObjectRef))\n+\n+        // Generate the module loader class. The generated class extends\n+        // the CFuncPtr0[Any] trait, i.e. has an apply method, which loads the module.\n+        // We need a fresh ExprBuffer for this, since it is different scope.\n+        withFreshExprBuffer { exprBuf =>\n+          val body = {\n+            // first argument is this\n+            val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+            exprBuf.label(curFresh(), Seq(thisArg))\n+\n+            val m = exprBuf.module(fqSymName, unwind(curFresh))\n+            exprBuf.ret(m)\n+            exprBuf.toSeq\n+          }\n+\n+          reflInstBuffer += Defn.Define(\n+            Attrs(),\n+            reflInstBuffer.name.member(applyMethodSig),\n+            nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), jlObjectRef),\n+            body)\n+        }\n+\n+        // Generate the module loader class constructor.\n+        genReflectiveInstantiationConstructor(reflInstBuffer,\n+                                              srAbstractFunction0)\n+\n+        reflInstBuffer += Defn.Class(Attrs(),\n+                                     reflInstBuffer.name,\n+                                     Some(srAbstractFunction0),\n+                                     Seq(serializable))\n+\n+        // Allocate and return an instance of the generated class.\n+        allocAndConstruct(exprBuf, reflInstBuffer.name, Seq(), Seq())\n+      }\n+\n+      withFreshExprBuffer { exprBuf =>\n+        exprBuf.label(curFresh(), Seq())\n+\n+        val fqcnArg = Val.String(fqSymId)\n+        val runtimeClassArg =\n+          exprBuf.genBoxClass(Val.Global(Global.Top(fqSymId), Type.Ptr))\n+        val loadModuleFunArg = genLazyModuleLoaderMethod(exprBuf)\n+\n+        exprBuf.genApplyModuleMethod(\n+          ReflectModule,\n+          Reflect_registerLoadableModuleClass,\n+          Seq(fqcnArg, runtimeClassArg, loadModuleFunArg).map(ValTree(_)))\n+\n+        exprBuf.ret(Val.Unit)\n+        exprBuf.toSeq\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiationForNormalClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      // Create a new Tuple2 and initialise it with the provided values.\n+      def createTuple2(exprBuf: ExprBuffer, _1: Val, _2: Val): Val = {\n+        allocAndConstruct(exprBuf,\n+                          tuple2,\n+                          Seq(jlObjectRef, jlObjectRef),\n+                          Seq(_1, _2))\n+      }\n+\n+      def genLazyClassInstantiationMethod(exprBuf: ExprBuffer,\n+                                          ctors: Seq[global.Symbol]): Val = {\n+        val applyMethodSig =\n+          Sig.Method(\"apply\", Seq(jlObjectRef, jlObjectRef))\n+\n+        // Constructors info is an array of Tuple2 (tpes, inst), where:\n+        // - tpes is an array with the runtime classes of the constructor arguments.\n+        // - inst is a function, which accepts an array with tpes and returns a new\n+        //   instance of the class.\n+        val ctorsInfo = exprBuf.arrayalloc(Type.Array(tuple2Ref),\n+                                           Val.Int(ctors.length),\n+                                           unwind(curFresh))\n+\n+        // For each (public) constructor C, generate a lambda responsible for\n+        // initialising and returning an instance of the class, using C.\n+        for ((ctor, ctorIdx) <- ctors.zipWithIndex) {\n+          val ctorSig     = genMethodSig(ctor)\n+          val ctorArgsSig = ctorSig.args.map(_.mangle).mkString\n+\n+          ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(\n+            fqSymId + ctorArgsSig)\n+          val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+          // Lambda generation consists of generating a class which extends\n+          // scala.runtime.AbstractFunction1, with an apply method that accepts\n+          // the list of arguments, instantiates an instance of the class by\n+          // forwarding the arguments to C, and returns the instance.\n+          withFreshExprBuffer { exprBuf =>\n+            val body = {\n+              // first argument is this\n+              val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+              // second argument is parameters sequence\n+              val argsArg = Val.Local(curFresh(), Type.Array(jlObjectRef))\n+              exprBuf.label(curFresh(), Seq(thisArg, argsArg))\n+\n+              // Extract and cast arguments to proper types.\n+              val argsVals =\n+                (for ((arg, argIdx) <- ctorSig.args.tail.zipWithIndex) yield {\n+                  val elem =\n+                    exprBuf.arrayload(jlObjectRef,\n+                                      argsArg,\n+                                      Val.Int(argIdx),\n+                                      unwind(curFresh))\n+                  // If the expected argument type can be boxed (i.e. is a primitive\n+                  // type), then we need to unbox it before passing it to C.\n+                  Type.box.get(arg) match {\n+                    case Some(_) =>\n+                      // first, cast the primitive type to java.lang.Number\n+                      val num = exprBuf.as(jlNumberRef, elem, unwind(curFresh))\n+                      // then, convert to the desired type\n+                      val conv = exprBuf.method(num,\n+                                                Type.primConvSig(arg),\n+                                                unwind(curFresh))"
+  },
+  {
+    "id" : "3c5d97c2-3a03-4e66-9856-bf449bb6db78",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "43bd17d8-bc3b-448c-b0a3-590c4849ef34",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is unused.",
+        "createdAt" : "2020-04-24T14:18:42Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -218,6 +229,354 @@ trait NirGenStat { self: NirGenPhase =>\n       }\n     }\n \n+    def withFreshExprBuffer[R](f: ExprBuffer => R): R = {\n+      scoped(\n+        curFresh := Fresh()\n+      ) {\n+        val exprBuffer = new ExprBuffer()(curFresh)\n+        f(exprBuffer)\n+      }\n+    }\n+\n+    def genReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val sym = cd.symbol\n+      val enableReflectiveInstantiation = {\n+        (sym :: sym.ancestors).exists { ancestor =>\n+          ancestor.hasAnnotation(EnableReflectiveInstantiationAnnotation)\n+        }\n+      }\n+\n+      if (enableReflectiveInstantiation) {\n+        scoped(\n+          curClassSym := cd.symbol,\n+          curFresh := Fresh(),\n+          curUnwindHandler := None\n+        ) {\n+          genRegisterReflectiveInstantiation(cd)\n+        }\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiation(cd: ClassDef): Unit = {\n+      val owner = genTypeName(curClassSym)\n+      val name  = owner.member(nir.Sig.Clinit())\n+\n+      val staticInitBody =\n+        if (isStaticModule(curClassSym))\n+          Some(genRegisterReflectiveInstantiationForModuleClass(cd))\n+        else if (curClassSym.isModuleClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3228\n+        else if (curClassSym.isLifted && !curClassSym.originalOwner.isClass)\n+          None // see: https://github.com/scala-js/scala-js/issues/3227\n+        else\n+          Some(genRegisterReflectiveInstantiationForNormalClass(cd))\n+\n+      staticInitBody.map {\n+        case body if body.nonEmpty =>\n+          buf += Defn.Define(Attrs(),\n+                             name,\n+                             nir.Type.Function(Seq.empty[nir.Type], Type.Unit),\n+                             body)\n+        case _ => ()\n+      }\n+    }\n+\n+    // Generate the constructor for the class instantiator class,\n+    // which is expected to extend one of scala.runtime.AbstractFunctionX.\n+    private def genReflectiveInstantiationConstructor(\n+        reflInstBuffer: ReflectiveInstantiationBuffer,\n+        superClass: Global): Unit = {\n+      withFreshExprBuffer { exprBuf =>\n+        val body = {\n+          // first argument is this\n+          val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+          exprBuf.label(curFresh(), Seq(thisArg))\n+\n+          // call to super constructor\n+          exprBuf.call(\n+            Type.Function(Seq(Type.Ref(superClass)), Type.Unit),\n+            Val.Global(superClass.member(Sig.Ctor(Seq())), Type.Ptr),\n+            Seq(thisArg),\n+            unwind(curFresh)\n+          )\n+\n+          exprBuf.ret(Val.Unit)\n+          exprBuf.toSeq\n+        }\n+\n+        reflInstBuffer += Defn.Define(\n+          Attrs(),\n+          reflInstBuffer.name.member(Sig.Ctor(Seq())),\n+          nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), Type.Unit),\n+          body\n+        )\n+      }\n+    }\n+\n+    // Allocate and construct an object, using the provided ExprBuffer.\n+    private def allocAndConstruct(exprBuf: ExprBuffer,\n+                                  name: Global,\n+                                  argTypes: Seq[nir.Type],\n+                                  args: Seq[Val]): Val = {\n+      val alloc = exprBuf.classalloc(name, unwind(curFresh))\n+      exprBuf.call(\n+        Type.Function(Type.Ref(name) +: argTypes, Type.Unit),\n+        Val.Global(name.member(Sig.Ctor(argTypes)), Type.Ptr),\n+        alloc +: args,\n+        unwind(curFresh)\n+      )\n+      alloc\n+    }\n+\n+    def genRegisterReflectiveInstantiationForModuleClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName + \"$\"\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(fqSymId)\n+      val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+      def genLazyModuleLoaderMethod(exprBuf: ExprBuffer): Val = {\n+        val applyMethodSig =\n+          Sig.Method(\"apply\", Seq(jlObjectRef))\n+\n+        // Generate the module loader class. The generated class extends\n+        // the CFuncPtr0[Any] trait, i.e. has an apply method, which loads the module.\n+        // We need a fresh ExprBuffer for this, since it is different scope.\n+        withFreshExprBuffer { exprBuf =>\n+          val body = {\n+            // first argument is this\n+            val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+            exprBuf.label(curFresh(), Seq(thisArg))\n+\n+            val m = exprBuf.module(fqSymName, unwind(curFresh))\n+            exprBuf.ret(m)\n+            exprBuf.toSeq\n+          }\n+\n+          reflInstBuffer += Defn.Define(\n+            Attrs(),\n+            reflInstBuffer.name.member(applyMethodSig),\n+            nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name)), jlObjectRef),\n+            body)\n+        }\n+\n+        // Generate the module loader class constructor.\n+        genReflectiveInstantiationConstructor(reflInstBuffer,\n+                                              srAbstractFunction0)\n+\n+        reflInstBuffer += Defn.Class(Attrs(),\n+                                     reflInstBuffer.name,\n+                                     Some(srAbstractFunction0),\n+                                     Seq(serializable))\n+\n+        // Allocate and return an instance of the generated class.\n+        allocAndConstruct(exprBuf, reflInstBuffer.name, Seq(), Seq())\n+      }\n+\n+      withFreshExprBuffer { exprBuf =>\n+        exprBuf.label(curFresh(), Seq())\n+\n+        val fqcnArg = Val.String(fqSymId)\n+        val runtimeClassArg =\n+          exprBuf.genBoxClass(Val.Global(Global.Top(fqSymId), Type.Ptr))\n+        val loadModuleFunArg = genLazyModuleLoaderMethod(exprBuf)\n+\n+        exprBuf.genApplyModuleMethod(\n+          ReflectModule,\n+          Reflect_registerLoadableModuleClass,\n+          Seq(fqcnArg, runtimeClassArg, loadModuleFunArg).map(ValTree(_)))\n+\n+        exprBuf.ret(Val.Unit)\n+        exprBuf.toSeq\n+      }\n+    }\n+\n+    def genRegisterReflectiveInstantiationForNormalClass(\n+        cd: ClassDef): Seq[Inst] = {\n+      import NirGenSymbols._\n+\n+      val fqSymId   = curClassSym.fullName\n+      val fqSymName = Global.Top(fqSymId)\n+\n+      // Create a new Tuple2 and initialise it with the provided values.\n+      def createTuple2(exprBuf: ExprBuffer, _1: Val, _2: Val): Val = {\n+        allocAndConstruct(exprBuf,\n+                          tuple2,\n+                          Seq(jlObjectRef, jlObjectRef),\n+                          Seq(_1, _2))\n+      }\n+\n+      def genLazyClassInstantiationMethod(exprBuf: ExprBuffer,\n+                                          ctors: Seq[global.Symbol]): Val = {\n+        val applyMethodSig =\n+          Sig.Method(\"apply\", Seq(jlObjectRef, jlObjectRef))\n+\n+        // Constructors info is an array of Tuple2 (tpes, inst), where:\n+        // - tpes is an array with the runtime classes of the constructor arguments.\n+        // - inst is a function, which accepts an array with tpes and returns a new\n+        //   instance of the class.\n+        val ctorsInfo = exprBuf.arrayalloc(Type.Array(tuple2Ref),\n+                                           Val.Int(ctors.length),\n+                                           unwind(curFresh))\n+\n+        // For each (public) constructor C, generate a lambda responsible for\n+        // initialising and returning an instance of the class, using C.\n+        for ((ctor, ctorIdx) <- ctors.zipWithIndex) {\n+          val ctorSig     = genMethodSig(ctor)\n+          val ctorArgsSig = ctorSig.args.map(_.mangle).mkString\n+\n+          ReflectiveInstantiationInfo += new ReflectiveInstantiationBuffer(\n+            fqSymId + ctorArgsSig)\n+          val reflInstBuffer = ReflectiveInstantiationInfo.last\n+\n+          // Lambda generation consists of generating a class which extends\n+          // scala.runtime.AbstractFunction1, with an apply method that accepts\n+          // the list of arguments, instantiates an instance of the class by\n+          // forwarding the arguments to C, and returns the instance.\n+          withFreshExprBuffer { exprBuf =>\n+            val body = {\n+              // first argument is this\n+              val thisArg = Val.Local(curFresh(), Type.Ref(reflInstBuffer.name))\n+              // second argument is parameters sequence\n+              val argsArg = Val.Local(curFresh(), Type.Array(jlObjectRef))\n+              exprBuf.label(curFresh(), Seq(thisArg, argsArg))\n+\n+              // Extract and cast arguments to proper types.\n+              val argsVals =\n+                (for ((arg, argIdx) <- ctorSig.args.tail.zipWithIndex) yield {\n+                  val elem =\n+                    exprBuf.arrayload(jlObjectRef,\n+                                      argsArg,\n+                                      Val.Int(argIdx),\n+                                      unwind(curFresh))\n+                  // If the expected argument type can be boxed (i.e. is a primitive\n+                  // type), then we need to unbox it before passing it to C.\n+                  Type.box.get(arg) match {\n+                    case Some(_) =>\n+                      // first, cast the primitive type to java.lang.Number\n+                      val num = exprBuf.as(jlNumberRef, elem, unwind(curFresh))\n+                      // then, convert to the desired type\n+                      val conv = exprBuf.method(num,\n+                                                Type.primConvSig(arg),\n+                                                unwind(curFresh))\n+                      exprBuf.call(Type.Function(Seq(jlNumberRef), arg),\n+                                   conv,\n+                                   Seq(num),\n+                                   unwind(curFresh))\n+                    // we need to do the above, because we cannot directly\n+                    // cast e.g. from Integer to Short\n+                    case None =>\n+                      exprBuf.as(arg, elem, unwind(curFresh))\n+                  }\n+                })\n+\n+              // Allocate a new instance and call C.\n+              val alloc = allocAndConstruct(exprBuf,\n+                                            fqSymName,\n+                                            ctorSig.args.tail,\n+                                            argsVals)\n+\n+              exprBuf.ret(alloc)\n+              exprBuf.toSeq\n+            }\n+\n+            reflInstBuffer += Defn.Define(\n+              Attrs(),\n+              reflInstBuffer.name.member(applyMethodSig),\n+              nir.Type.Function(Seq(Type.Ref(reflInstBuffer.name),\n+                                    Type.Array(jlObjectRef)),\n+                                jlObjectRef),\n+              body\n+            )\n+          }\n+\n+          // Generate the class instantiator constructor.\n+          genReflectiveInstantiationConstructor(reflInstBuffer,\n+                                                srAbstractFunction1)\n+\n+          reflInstBuffer += Defn.Class(Attrs(),\n+                                       reflInstBuffer.name,\n+                                       Some(srAbstractFunction1),\n+                                       Seq(serializable))\n+\n+          // Allocate an instance of the generated class.\n+          val instantiator =\n+            allocAndConstruct(exprBuf, reflInstBuffer.name, Seq(), Seq())\n+\n+          // Create the current constructor's info. We need:\n+          // - an array with the runtime classes of the ctor parameters.\n+          // - the instantiator function created above (instantiator).\n+          val getClassMethod = exprBuf.method("
+  },
+  {
+    "id" : "3f176285-1da4-4a19-9839-8e25fb58a15a",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "39083c8c-3121-44f4-acea-b4243aeb37ca",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why is this needed?",
+        "createdAt" : "2020-08-20T15:14:47Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -68,7 +68,7 @@ trait NirGenStat { self: NirGenPhase =>\n   }\n \n   class StatBuffer {\n-    private val buf          = mutable.UnrolledBuffer.empty[nir.Defn]\n+    val buf                  = mutable.UnrolledBuffer.empty[nir.Defn]"
+  },
+  {
+    "id" : "06886b84-2f7f-4938-8302-20d37d715755",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "86f4f2fe-76dd-4387-bf64-e277f40d94ac",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Use `cd.pos` instead.",
+        "createdAt" : "2020-08-20T13:15:48Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -94,20 +94,21 @@ trait NirGenStat { self: NirGenPhase =>\n       val fields = genStructFields(sym)\n       val body   = cd.impl.body\n \n-      buf += Defn.Class(attrs, name, None, Seq.empty)\n+      buf += Defn.Class(attrs, name, None, Seq.empty)(cd.pos)\n       genMethods(cd)\n     }\n \n     def genStructAttrs(sym: Symbol): Attrs = Attrs.None\n \n     def genFuncRawPtrExternForwarder(cd: ClassDef): Defn = {\n-      val attrs = Attrs(isExtern = true)\n-      val name  = genFuncPtrExternForwarderName(cd.symbol)\n-      val sig   = Type.Function(Seq.empty, Type.Unit)\n+      val attrs                      = Attrs(isExtern = true)\n+      val name                       = genFuncPtrExternForwarderName(cd.symbol)\n+      val sig                        = Type.Function(Seq.empty, Type.Unit)\n+      implicit val pos: nir.Position = Position.generated"
+  },
+  {
+    "id" : "a65d4249-9227-4fef-812a-10f4ab907ab1",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "e608a165-dc62-421b-9981-5208dfd43c75",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "To be removed.",
+        "createdAt" : "2020-08-20T13:25:19Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -687,6 +698,8 @@ trait NirGenStat { self: NirGenPhase =>\n       val fresh = curFresh.get\n       val buf   = new ExprBuffer()(fresh)\n \n+//      implicit val pos: nir.Position = dd.pos"
+  }
+]

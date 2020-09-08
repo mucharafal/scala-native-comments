@@ -1,0 +1,223 @@
+[
+  {
+    "id" : "871855b8-6855-4d5a-b1e3-c8390406a9be",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "d7b2f7d7-64d0-4f69-9170-6dbbe34b4207",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Dyn`\n",
+        "createdAt" : "2016-11-11T14:11:55Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5dca6849-8f9e-4c90-8a5a-e5ca58d01867",
+        "parentId" : "d7b2f7d7-64d0-4f69-9170-6dbbe34b4207",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Also needs update to NIR docs.\n",
+        "createdAt" : "2016-11-11T14:13:28Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -12,6 +12,8 @@ object Attr {\n   final case object NoInline     extends Inline // should never inline\n   final case object AlwaysInline extends Inline // should always inline\n \n+  final case object StructDisp   extends Attr //attr for defs that can be used for structural dispatch"
+  },
+  {
+    "id" : "ccb40999-981e-4843-bece-961c59581dba",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "7e3ff102-faff-465f-8018-18bc623ea7fc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`isDyn`\n",
+        "createdAt" : "2016-11-11T14:14:06Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -21,11 +23,13 @@ object Attr {\n   sealed abstract class Pin                         extends Attr\n   final case class PinAlways(dep: Global)           extends Pin\n   final case class PinIf(dep: Global, cond: Global) extends Pin\n+  final case class WeakPin(dep: Global)             extends Pin\n }\n \n final case class Attrs(inline: Inline = MayInline,\n                        isPure: Boolean = false,\n                        isExtern: Boolean = false,\n+                       usedForStructDisp: Boolean = false,"
+  },
+  {
+    "id" : "043f947d-bf39-4f1d-93c8-fb84b96f2a8c",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "c2eb1e91-8ecb-4e57-a43e-420f2e6999a1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Pin`, `CondPin`, `WeakPin`.\n",
+        "createdAt" : "2016-11-11T14:15:22Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -21,11 +23,13 @@ object Attr {\n   sealed abstract class Pin                         extends Attr\n   final case class PinAlways(dep: Global)           extends Pin\n   final case class PinIf(dep: Global, cond: Global) extends Pin\n+  final case class WeakPin(dep: Global)             extends Pin"
+  },
+  {
+    "id" : "ceb559e3-880c-4eae-86de-ae7343a6dabb",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "7de7bc88-75b2-4f72-910c-5422dd77d27a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one belongs next to Dyn in this file. ",
+        "createdAt" : "2017-08-30T13:38:39Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : null,
+    "diffHunk" : "@@ -29,12 +29,14 @@ object Attr {\n   final case class PinAlways(dep: Global)           extends Pin\n   final case class PinIf(dep: Global, cond: Global) extends Pin\n   final case class PinWeak(dep: Global)             extends Pin\n+  final case object Stub                            extends Attr"
+  },
+  {
+    "id" : "baa94578-cdf7-4f2c-8ee5-18d6e6694ad2",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "979d22b5-1bb6-4a93-b2aa-41a4d8f0e421",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I think `inlineOpt` or `inlineVal` might be better than `doInline` which makes the reader think you are doing inline.",
+        "createdAt" : "2020-08-21T16:19:17Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7440bd7b-9c7d-4ef9-be1e-e6e4000c99cd",
+        "parentId" : "979d22b5-1bb6-4a93-b2aa-41a4d8f0e421",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Maybe `inlineHint`?",
+        "createdAt" : "2020-08-21T16:51:54Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "97a613c4-4118-4429-ac17-d83dccdf7320",
+        "parentId" : "979d22b5-1bb6-4a93-b2aa-41a4d8f0e421",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Even better.",
+        "createdAt" : "2020-08-21T17:10:11Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -32,7 +32,7 @@ object Attr {\n   final case object Abstract          extends Attr\n }\n \n-final case class Attrs(inline: Inline = MayInline,\n+final case class Attrs(doInline: Inline = MayInline,"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "cc5285f4-8540-4ef9-a8f8-493c4439ee40",
+    "prId" : 406,
+    "comments" : [
+      {
+        "id" : "2f6aeba2-055b-44cc-9d42-e8e6b23eb899",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Dead code!",
+        "createdAt" : "2016-11-26T13:14:01Z",
+        "updatedAt" : "2016-11-26T13:17:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f3b96fdf83ada2341c08f79cbd400e3421bfcfeb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,6 @@\n+package scala.scalanative\n+package sbtplugin\n+\n+trait LinkerReporter {\n+  def log(global: nir.Global): Unit\n+}"
+  }
+]

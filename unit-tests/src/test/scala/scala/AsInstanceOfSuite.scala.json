@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "7f3a4ba4-40a3-4278-9d13-43fe44d118ed",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "acf312a9-cbe8-46e2-a02c-4054431f7b45",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider the following instead:\r\n```suggestion\r\n    assert((anyNull.asInstanceOf[Null]: Any) == null)\r\n```\r\nThat keeps the test as is, only silencing the warning, rather than making it more convoluted.",
+        "createdAt" : "2020-05-05T16:16:47Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "35a0cbe5-16df-4755-9234-59e56274ac71",
+        "parentId" : "acf312a9-cbe8-46e2-a02c-4054431f7b45",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Implemented as suggested.  Thank you.",
+        "createdAt" : "2020-05-05T20:53:08Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -20,7 +20,15 @@ object AsInstanceOfSuite extends tests.Suite {\n   }\n \n   test(\"null.asInstanceOf[Null]\") {\n-    assert(anyNull.asInstanceOf[Null] == null)\n+//    (anyNull.asInstanceOf[Null] == null) and\n+//    (anyNull.asInstanceOf[Null] eq null) are _compile_ time tests and\n+//    will always be true. How do I know? Scalac tells me so...\n+//    Wrapping in an Option gives a somewhat convoluted runtime test.\n+//    If something is massively wrong with anyNull.asInstanceOf[Null]\n+//    the Option will hold a Some(), of some kind, rather than the expected\n+//    None. I (LeeTibbert) am not sure what value this test adds beyond\n+//    symmetry & completeness.\n+    assert(Option(anyNull.asInstanceOf[Null]).isEmpty)"
+  },
+  {
+    "id" : "76783ded-27ca-498b-9ec7-e266e11ad714",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "50310a50-e827-4df3-8b7c-c8114fd2cc81",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We should always use `2.11.` with a final `.` instead of `2.11`. Technically this is more correct, since just `2.11` would match `2.110.1` for example.",
+        "createdAt" : "2020-08-20T15:59:42Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -27,10 +29,14 @@ object AsInstanceOfSuite extends tests.Suite {\n     assertThrows[NullPointerException](anyNull.asInstanceOf[Nothing])\n   }\n \n-  test(\"null.asInstanceOf[Unit]\") {\n+  test(\"null.asInstanceOf[Unit]\", cond = scalaVersion.startsWith(\"2.11\")) {"
+  }
+]

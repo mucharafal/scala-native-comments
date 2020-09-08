@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "b703281d-c494-4961-a2cc-9877cb7e74cc",
+    "prId" : 610,
+    "comments" : [
+      {
+        "id" : "e0866f3f-fed3-4420-b400-2cad19514b31",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "For this one we should record all println output into a StringBuilder and compare the result with expected output in `def check` of the benchmark.",
+        "createdAt" : "2017-04-04T14:15:16Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1d2c058f-788b-41c7-9f9c-f5fc4a385852",
+        "parentId" : "e0866f3f-fed3-4420-b400-2cad19514b31",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "I'll compare the size of the output rather than the output because it's too large.",
+        "createdAt" : "2017-04-04T15:03:28Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ed4db66d-bda8-4d9e-b2ee-766110e00e91",
+        "parentId" : "e0866f3f-fed3-4420-b400-2cad19514b31",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That works too. ",
+        "createdAt" : "2017-04-05T10:26:47Z",
+        "updatedAt" : "2017-04-05T11:51:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "90d7bef335b469b7e7b91a14cd1135be26436847",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,146 @@\n+//  Taken from https://github.com/kostya/benchmarks/blob/master/brainfuck2/bf.scala\n+//\n+//  Copyright (c) 2014 'Konstantin Makarchev'\n+//\n+//    MIT License\n+//\n+//    Permission is hereby granted, free of charge, to any person obtaining\n+//    a copy of this software and associated documentation files (the\n+//    \"Software\"), to deal in the Software without restriction, including\n+//    without limitation the rights to use, copy, modify, merge, publish,\n+//    distribute, sublicense, and/or sell copies of the Software, and to\n+//    permit persons to whom the Software is furnished to do so, subject to\n+//    the following conditions:\n+//\n+//    The above copyright notice and this permission notice shall be\n+//    included in all copies or substantial portions of the Software.\n+//\n+//    THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND,\n+//    EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF\n+//    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND\n+//    NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE\n+//    LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION\n+//    OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION\n+//    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.\n+//\n+\n+package brainfuck\n+\n+class BrainfuckBenchmark extends benchmarks.Benchmark[Unit] {\n+  override def run(): Unit = {\n+    new Program(Program.asText).run\n+  }\n+\n+  override def check(result: Unit) = true\n+}\n+\n+abstract class Op\n+case class Inc(v: Int)           extends Op\n+case class Move(v: Int)          extends Op\n+case class Print()               extends Op\n+case class Loop(loop: Array[Op]) extends Op\n+case class Nop()                 extends Op\n+\n+class Tape() {\n+  private var tape = Array(0)\n+  private var pos  = 0\n+\n+  def get         = tape(pos)\n+  def inc(x: Int) = tape(pos) += x\n+  def move(x: Int) = {\n+    pos += x\n+    while (pos >= tape.length) { tape :+= 0 }\n+  }\n+}\n+\n+class Program(text: String) {\n+  var ops = parse(text.iterator)\n+\n+  def parse(iterator: Iterator[Char]): Array[Op] = {\n+    var res = Array[Op]()\n+    while (iterator.hasNext) {\n+      val op = iterator.next() match {\n+        case '+' => new Inc(1)\n+        case '-' => new Inc(-1)\n+        case '>' => new Move(1)\n+        case '<' => new Move(-1)\n+        case '.' => new Print()\n+        case '[' => new Loop(parse(iterator))\n+        case ']' => return res\n+        case _   => new Nop()\n+      }\n+\n+      op match {\n+        case Nop() => ()\n+        case _     => res :+= op\n+      }\n+    }\n+\n+    res\n+  }\n+\n+  def run = _run(ops, new Tape())\n+\n+  def _run(program: Array[Op], tape: Tape) {\n+    for (op <- program) op match {\n+      case Inc(x)     => tape.inc(x)\n+      case Move(x)    => tape.move(x)\n+      case Loop(loop) => while (tape.get > 0) _run(loop, tape)\n+      case Print()    => //print(tape.get.toChar)"
+  }
+]

@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "8fcb6298-3d03-4da6-b0da-8b2d12920af7",
+    "prId" : 69,
+    "comments" : [
+      {
+        "id" : "1c633ff2-28c6-410a-8ed4-942267695e23",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`CSize` is a better type for the last argument. \n",
+        "createdAt" : "2016-05-13T13:02:41Z",
+        "updatedAt" : "2016-05-13T13:06:37Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "75b1fe61-c967-474a-b8ba-1355dac3f009",
+        "parentId" : "1c633ff2-28c6-410a-8ed4-942267695e23",
+        "author" : {
+          "login" : "kmizu",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/97326?v=4"
+        },
+        "body" : "@densh Thanks.  I've rewritten to use `CSize` instead of `UInt`.\n",
+        "createdAt" : "2016-05-13T13:07:49Z",
+        "updatedAt" : "2016-05-13T13:08:03Z",
+        "lastEditedBy" : {
+          "login" : "kmizu",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/97326?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1e1984ea8cdc587a4f38a3815d565c24b0b47a3a",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,7 @@\n+package scala.scalanative\n+package native\n+\n+@extern object string {\n+  def strncmp(s1: CString, s2: CString, n: UInt): CInt = extern"
+  }
+]

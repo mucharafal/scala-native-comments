@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "8a86c6a7-c0da-4c25-9d0c-8a8cd8bfdd46",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "31780dbb-41cf-444e-a614-e7344369db81",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets shorten name of this one to just `GC`.",
+        "createdAt" : "2018-03-12T10:31:50Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,25 @@\n+package scala.scalanative.build\n+\n+/**\n+ * @param dir directory name of the gc\n+ * @param links dependencies of the gc\n+ */\n+sealed abstract class GarbageCollector(val name: String,"
+  }
+]

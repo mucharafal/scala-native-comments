@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a6edfcf0-a9f2-43d4-9ecc-6a8937bbd3f0",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "91b403b9-efef-404c-bc21-ce5d8ab45c50",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Are the names `one two three` from the original code or can they be changed?\r\n\r\nWhen I read the code and tried to follow what was going on, I expected `one` to refer to \r\none second. Yeah, a leap on my part.  It took me time and doing the math in the declaration\r\nto figure out that it meant something like dataPointOne  By the time I got to `three` I had figured\r\nout the pattern/intent, but lost my humor.  OK, I'm a slow learner ;-)",
+        "createdAt" : "2019-03-19T15:13:23Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a0b8c96f-0479-4308-a505-55140bb04d0d",
+        "parentId" : "91b403b9-efef-404c-bc21-ce5d8ab45c50",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "LOL, yeah I did that so it is like a list and easy to reference but `v1, v2 ...` would be better for value1 etc.",
+        "createdAt" : "2019-03-19T15:54:45Z",
+        "updatedAt" : "2019-03-19T20:36:48Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,24 @@\n+package java.time\n+\n+object DurationSuite extends tests.Suite {\n+\n+  val one   = Duration.ofSeconds(350070L, 112233L)"
+  }
+]

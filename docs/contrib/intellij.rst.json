@@ -1,0 +1,126 @@
+[
+  {
+    "id" : "637da61a-53a1-4000-a26b-c4d78c9b4c0f",
+    "prId" : 1766,
+    "comments" : [
+      {
+        "id" : "cbdb61e3-29de-4287-a6f1-ca611cc1fbc2",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "After renaming the file, please add a section about Metals. A simple \"Metals import should work out of the box for most of the modules.\" would be enough.",
+        "createdAt" : "2020-04-30T10:01:11Z",
+        "updatedAt" : "2020-07-01T15:05:20Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fc6c31c9d02dc34081bb295b772586c3d085623e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+.. _intellij:\n+"
+  },
+  {
+    "id" : "4223fc63-f437-469a-a606-6c591608a526",
+    "prId" : 1766,
+    "comments" : [
+      {
+        "id" : "282f0e00-6ad2-4f40-a7ed-0fcf85f6e0bd",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "```suggestion\r\nIntelliJ IDEA\r\n```",
+        "createdAt" : "2020-04-30T10:01:30Z",
+        "updatedAt" : "2020-07-01T15:05:20Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fc6c31c9d02dc34081bb295b772586c3d085623e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+.. _intellij:\n+\n+IntelliJ IDEA setup"
+  },
+  {
+    "id" : "87d85a8e-3d5d-4c7c-9d20-955f33d4df2f",
+    "prId" : 1766,
+    "comments" : [
+      {
+        "id" : "e19581af-2082-4b0a-90b7-fbadafd95565",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "```suggestion\r\n```",
+        "createdAt" : "2020-04-30T10:02:18Z",
+        "updatedAt" : "2020-07-01T15:05:20Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fc6c31c9d02dc34081bb295b772586c3d085623e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+.. _intellij:\n+\n+IntelliJ IDEA setup\n+===================\n+\n+First, check \"use sbt shell for import and build\" when opening the SN project.\n+Then, once the project is imported, you have to fix some dependencies:\n+"
+  },
+  {
+    "id" : "f5d91eba-e021-457f-9289-5ed8be476e99",
+    "prId" : 1766,
+    "comments" : [
+      {
+        "id" : "484ab190-436d-40ab-bf7c-53283ecc256a",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Oh, I forgot. Before the Metals and IntelliJ sections, please mention that we need to execute `sbt rebuild` so that artifacts are published and the IDEs can resolve them.",
+        "createdAt" : "2020-04-30T10:21:09Z",
+        "updatedAt" : "2020-07-01T15:05:20Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fc6c31c9d02dc34081bb295b772586c3d085623e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,17 @@\n+.. _intellij:"
+  }
+]

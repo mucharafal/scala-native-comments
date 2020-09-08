@@ -1,0 +1,227 @@
+[
+  {
+    "id" : "b4fb52fb-a198-4daf-ad12-67a7f38fa312",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "d4679e9d-768e-4a87-904f-5b976bcc52a4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets move this to `scala.scalanative.runtime.ryu` instead.",
+        "createdAt" : "2019-02-27T11:18:25Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1ff3fac3-0c2b-4d4f-93cf-72f3914f316b",
+        "parentId" : "d4679e9d-768e-4a87-904f-5b976bcc52a4",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I concur that moving to below scala.scalanative.runtime is an improvement.\r\n\r\nI suggest keeping Ieee754 in the name, say scala.scalanative.ieee754.ryu\r\nor DoubleFloat.ryu. This would make it easier for some poor developer, in\r\nthree month or a year out to find the code (and allow for alternate implementations).\r\nFolks looking for stuff related to Double or Float at this level of detail have a sporting\r\n chance of knowing or googling Iee754.\r\n\r\nI will implement what you suggest.  Thanks",
+        "createdAt" : "2019-02-28T18:53:38Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "50c02b08-4163-4688-b50d-feb899e86fd7",
+        "parentId" : "d4679e9d-768e-4a87-904f-5b976bcc52a4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`scala.scalanative.ieee754.ryu` works as well. ",
+        "createdAt" : "2019-03-01T11:24:10Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "01003abc-14bc-45b4-9a0d-c84a43ee288a",
+        "parentId" : "d4679e9d-768e-4a87-904f-5b976bcc52a4",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done, voved to `scalanative/runtime/ieee754tostring/ryu/` and related files adjusted.\r\n\r\nI like the fact that the trickery of `java.lang` code being in a non-obvious place is\r\neliminated.  Thank you.\r\n\r\nAnother kilometer down the pike. ",
+        "createdAt" : "2019-03-02T20:59:43Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,71 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu"
+  },
+  {
+    "id" : "5dfbb1b1-c509-4a55-ba83-8350bc12035a",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "b7077469-ccfc-4d5d-8813-f5e2650f6aa5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please copy paste the whole license notice to LICENSE.md file (see previous entries over there for formatting).",
+        "createdAt" : "2019-02-27T11:19:15Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "058a1fdd-2d69-4e24-a378-d3825bfdf457",
+        "parentId" : "b7077469-ccfc-4d5d-8813-f5e2650f6aa5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done, as requested.  Tested locally by running sphinx-build and examining resultant html\r\nfile with Firefox.",
+        "createdAt" : "2019-03-03T01:42:27Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,71 @@\n+// Copyright 2018 Ulf Adams"
+  },
+  {
+    "id" : "d7ad877a-2882-462d-84a0-dfe24552e537",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "654ed870-c9eb-44c4-b3e7-40db57529688",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This looks like it's going to be better served by `final case class RyuRoundingMode(acceptLowerBound: Boolean, acceptUpperBound: Boolean)`.",
+        "createdAt" : "2019-02-27T11:26:33Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cf73bdb0-a010-4c21-859c-bdc23ee67e6d",
+        "parentId" : "654ed870-c9eb-44c4-b3e7-40db57529688",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Sorry, I do not understand, especially for the ROUND_EVEN. Can you elaborate?\r\n\r\naccept*Bound(even: Boolean) is a method, not a value. The methods in\r\nrounding modes CONSERVATIVE and ROUND_EVEN differ, by intent & necessity.\r\n\r\nWithout violating SN, I am trying to stay pretty close to the Ryu original both because\r\nI will probably have to re-port soon (order of months) and to allow a future maintainer\r\nto compare the two Rosetta stone style.  Of course, have to follow SN closely enough\r\nto get accepted. \r\n\r\nThere is an argument that since only RoundingMode CONSERVATIVE is used in\r\nthe Ryu scala code, all the ROUND_EVEN stuff should be stripped out.  Since it\r\nwould be a straight deletion, any future maintainer should understand it. That\r\nwould allow the case class you recommended.,\r\n\r\nI am still not sure what the implicit conversion does.  I think it is unnecessary.\r\nIn my sandbox, I am trying to see if I can get away deleting that conversion\r\nand reducing the cognitive load all around. ",
+        "createdAt" : "2019-03-01T06:28:04Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8037d343-feb1-4253-9bfe-3941bc622e36",
+        "parentId" : "654ed870-c9eb-44c4-b3e7-40db57529688",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I was wrong, I somehow missed that those methods took parameters and assumed it was a configuration-like object which can be better expressed via case class here. Lets keep the code as is. ",
+        "createdAt" : "2019-03-01T11:23:17Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,71 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu\n+\n+import scala.language.implicitConversions\n+\n+object RyuRoundingMode extends Enumeration {\n+\n+  val CONSERVATIVE: RyuRoundingMode = new conservativeRM()\n+\n+  val ROUND_EVEN: RyuRoundingMode = new roundEvenRM()\n+\n+  abstract class RyuRoundingMode {\n+\n+    def acceptUpperBound(even: Boolean): Boolean\n+\n+    def acceptLowerBound(even: Boolean): Boolean\n+\n+  }"
+  }
+]

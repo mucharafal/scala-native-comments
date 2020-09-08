@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "ace54812-ba24-427c-bfcb-66db3980d02d",
+    "prId" : 1676,
+    "comments" : [
+      {
+        "id" : "5c8654c4-1a29-4e3a-878e-1204002defbc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't feel like the weight of having a non-trivial model of C++ code is justified for this use case. Why not just use libc functions for the minimal I/O that we need in the core? ",
+        "createdAt" : "2019-08-02T08:42:25Z",
+        "updatedAt" : "2019-08-02T08:47:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3f3954b3-77b4-405a-8c9d-a0a0d95ff288",
+        "parentId" : "5c8654c4-1a29-4e3a-878e-1204002defbc",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "You're right, after splitting any of this will not be needed, it will be just std_in/out/err and nothing else.",
+        "createdAt" : "2019-08-02T11:04:12Z",
+        "updatedAt" : "2019-08-02T11:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "85c60b798e4e9c52ff082fad991619883731cf08",
+    "line" : 5,
+    "diffHunk" : "@@ -0,0 +1,53 @@\n+package scala.scalanative.cpp.ios\n+import scalanative.unsafe._\n+import scala.scalanative.cpp._\n+\n+class IOStream(obj: NativeObject) extends CppObject(obj) {"
+  }
+]

@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "ca098c83-56fa-4bca-aec1-33a41498b5e6",
+    "prId" : 1216,
+    "comments" : [
+      {
+        "id" : "14b8c38b-3709-4a9c-87b8-a3846f28041f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`final case class`.",
+        "createdAt" : "2018-07-10T14:54:12Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fdc54258-a0e0-4f11-8e61-9eed7769dfb9",
+        "parentId" : "14b8c38b-3709-4a9c-87b8-a3846f28041f",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2018-07-11T00:34:20Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d48d6c1ac16cc6f8fcae6346a3df87725038b6e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,106 @@\n+package scala.scalanative.nio.fs\n+\n+import scalanative.native._\n+import scalanative.posix.dirent._\n+import scalanative.posix.{errno => e, fcntl, unistd}, e._, unistd.access\n+import scalanative.native._, stdlib._, stdio._, string._\n+import scala.collection.mutable.UnrolledBuffer\n+import scala.reflect.ClassTag\n+import java.io.{File, IOException}\n+import fcntl._\n+\n+object FileHelpers {\n+  case class Dirent(name: String, tpe: CShort)"
+  },
+  {
+    "id" : "f0f9d014-9197-45ac-9ab5-bfcd728c2e08",
+    "prId" : 1216,
+    "comments" : [
+      {
+        "id" : "32fbbcfd-4e25-4796-8aca-40586d5dd191",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We tend to put all the state early in the object/class (i.e. before the methods).",
+        "createdAt" : "2018-07-10T14:54:44Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bf257f99-3b5a-4975-82d9-5aab893ad388",
+        "parentId" : "32fbbcfd-4e25-4796-8aca-40586d5dd191",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2018-07-11T00:34:27Z",
+        "updatedAt" : "2018-07-11T03:55:40Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d48d6c1ac16cc6f8fcae6346a3df87725038b6e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,106 @@\n+package scala.scalanative.nio.fs\n+\n+import scalanative.native._\n+import scalanative.posix.dirent._\n+import scalanative.posix.{errno => e, fcntl, unistd}, e._, unistd.access\n+import scalanative.native._, stdlib._, stdio._, string._\n+import scala.collection.mutable.UnrolledBuffer\n+import scala.reflect.ClassTag\n+import java.io.{File, IOException}\n+import fcntl._\n+\n+object FileHelpers {\n+  case class Dirent(name: String, tpe: CShort)\n+  def list[T: ClassTag](path: String,\n+                        f: (String, CShort) => T,\n+                        allowEmpty: Boolean = false): Array[T] = Zone {\n+    implicit z =>\n+      val dir = opendir(toCString(path))\n+\n+      if (dir == null) {\n+        if (!allowEmpty) throw UnixException(path, errno.errno)\n+        null\n+      } else {\n+        val buffer = UnrolledBuffer.empty[T]\n+        Zone { implicit z =>\n+          var elem = alloc[dirent]\n+          var res  = 0\n+          while ({ res = readdir(dir, elem); res == 0 }) {\n+            val name = fromCString(elem._2.asInstanceOf[CString])\n+\n+            // java doesn't list '.' and '..', we filter them out.\n+            if (name != \".\" && name != \"..\") {\n+              buffer += f(name, !elem._3)\n+            }\n+          }\n+          closedir(dir)\n+          res match {\n+            case e if e == EBADF || e == EFAULT || e == EIO =>\n+              throw UnixException(path, res)\n+            case _ => buffer.toArray\n+          }\n+        }\n+      }\n+  }\n+\n+  def createNewFile(path: String): Boolean =\n+    if (path.isEmpty) {\n+      throw new IOException(s\"No such file or directory $path\")\n+    } else {\n+      Zone { implicit z =>\n+        // 438 == 0666\n+        open(toCString(path), O_RDWR | O_CREAT | O_EXCL, 438) match {\n+          case fd if fd < 0 =>\n+            val e = errno.errno\n+            if (e != EEXIST) throw UnixException(path, e)\n+            false\n+          case fd =>\n+            if (close(fd) == -1) throw UnixException(path, errno.errno)\n+            true\n+        }\n+      }\n+    }\n+\n+  def createTempFile(prefix: String,\n+                     suffix: String,\n+                     dir: File,\n+                     minLength: Boolean): File =\n+    if (prefix == null) throw new NullPointerException\n+    else if (minLength && prefix.length < 3)\n+      throw new IllegalArgumentException(\"Prefix string too short\")\n+    else {\n+      val tmpDir       = Option(dir).fold(tempDir)(_.toString)\n+      val newSuffix    = Option(suffix).getOrElse(\".tmp\")\n+      var result: File = null\n+      do {\n+        result = genTempFile(prefix, newSuffix, tmpDir)\n+      } while (!createNewFile(result.toString))\n+      result\n+    }\n+\n+  def exists(path: String): Boolean =\n+    Zone { implicit z =>\n+      access(toCString(path), fcntl.F_OK) == 0\n+    }\n+  private[this] lazy val random = new scala.util.Random()"
+  }
+]

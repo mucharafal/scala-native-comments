@@ -1,0 +1,522 @@
+[
+  {
+    "id" : "da46bbbc-60a2-4246-a31f-8acd4f9047a1",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "36819cfa-180e-44cf-9d8a-0c63475b3f51",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Do we really need this in our final code? I'd drop all debug printing altogether. ",
+        "createdAt" : "2019-02-26T13:16:47Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "034b1519-5848-4d27-b3dd-27223d72d017",
+        "parentId" : "36819cfa-180e-44cf-9d8a-0c63475b3f51",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I concur that final code should be as fast and light as correctness will allow, without\r\nDEBUG or performance monitoring code.\r\n\r\nMotivated by this review comment, I removed an obviously dead & worse than\r\nuseless dead DEBUG data structure (POW5) and its initialization at object\r\ncreation. Precious space & CPU cycles gained.\r\n\r\nIf you allow, I would like to keep the runtime printifs under the control\r\nof the DEBUG variable around for a SN release or two, or at least\r\nbaselevels.  Agreed, they take up space in the generated code and\r\nhave a small runtime cost.  In addition, reviewers must skip over them.\r\n\r\nI have two major reasons for wanting to keep them until this code is being\r\nexercised by a few tens of users.  Basically, I am chicken:  Every new class\r\nof user reveals a new class of bug.  I am reasonable confident that\r\nthat this code is at par with Ryu (which has a few known corner cases.)\r\nbut, based on fear not evidence, am concerned with least significant\r\ndigit issues.   I can verify reports a _lot_ quicker if I do not have to \r\ngo back and figure out where the debugging writes should be.\r\nYeah, I could  write an awk script or such to strip the debugging\r\nwrites out of a private copy, but that is also error prone.  I agree\r\nthat leaving hanging \"work to be done later\" (a.k.a technical debt)\r\nshould be avoided in the general case.\r\n\r\nMy second reason for feeling more comfortable if the debugging\r\ncode is feft for a few evolutions is that I believe it may well help me\r\nwith backing out BigIntegers.\r\n\r\nPlease advise. Thanks",
+        "createdAt" : "2019-02-28T19:08:35Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "65fbb437-82b9-4139-86d2-9ac154467acd",
+        "parentId" : "36819cfa-180e-44cf-9d8a-0c63475b3f51",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Debug is gone from current RyuDouble.scala. This facilitated the removal\r\nof the dependency on BigInteger.  If/When RyuDouble.scala passes review,\r\nI will make similar changes to RyuFloat.scala  which will allow this conversation\r\nto be resolved.  For now it is still pending.",
+        "createdAt" : "2019-03-03T19:44:20Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "784dc862-72ce-41bf-81cb-a43ca49d2163",
+        "parentId" : "36819cfa-180e-44cf-9d8a-0c63475b3f51",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Debug is gone from RyuFloat.scala",
+        "createdAt" : "2019-03-05T13:25:36Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,548 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu\n+\n+import java.math.BigInteger\n+\n+import RyuRoundingMode._\n+\n+object RyuDouble {\n+\n+  var DEBUG: Boolean = false"
+  },
+  {
+    "id" : "243697b6-d231-411b-89f4-39dfd7ddd562",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "b4b65c32-d066-4549-ad8b-3cada08f671a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Use while loops instead of for loops everywhere in this PR. While interflow can optimize closures away, I'd not risk it in performance critical performance-sensitive code like that.",
+        "createdAt" : "2019-02-26T13:17:54Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c89962ad-92e0-4401-a0ad-1f80c6469cba",
+        "parentId" : "b4b65c32-d066-4549-ad8b-3cada08f671a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Based on discussion on gitter and #1439, this comment is out of date. For loops over ranges are completely free.",
+        "createdAt" : "2019-02-26T22:15:20Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2ef9e56b-736b-41c5-9d0e-c4b5b0f6cc07",
+        "parentId" : "b4b65c32-d066-4549-ad8b-3cada08f671a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Just to be clear, free even when the bound (bounds?) of the range is a variable, known only at runtime?  Your last comment implies that but I want to double check.",
+        "createdAt" : "2019-02-26T23:19:01Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "26c27021-e8f2-4d38-ab98-ccf470fae23f",
+        "parentId" : "b4b65c32-d066-4549-ad8b-3cada08f671a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, should be all good. For example for:\r\n```\r\n  @noinline def loop2(a: Int, b: Int): Unit = {\r\n    for (i <- a until b) {\r\n      f(i)\r\n    }\r\n  }\r\n```\r\nWe get:\r\n```\r\n__SM5Test$D5loop2iiuE:\r\n00000001000423f0\tpushq\t%rbp\r\n00000001000423f1\tpushq\t%rbx\r\n00000001000423f2\tpushq\t%rax\r\n00000001000423f3\tmovl\t%edx, %ebx\r\n00000001000423f5\tmovl\t%esi, %ebp\r\n00000001000423f7\tcmpl\t%ebx, %ebp\r\n00000001000423f9\tcmovgel\t%ebp, %ebx\r\n00000001000423fc\tjge\t0x10004240d\r\n00000001000423fe\tnop\r\n0000000100042400\tmovl\t%ebp, %esi\r\n0000000100042402\tcallq\t__SM5Test$KD1fiuEX5Test$iE\r\n0000000100042407\tincl\t%ebp\r\n0000000100042409\tcmpl\t%ebp, %ebx\r\n000000010004240b\tjne\t0x100042400\r\n000000010004240d\tleaq\t__SM36scala.scalanative.runtime.BoxedUnit$G8instance(%rip), %rax\r\n0000000100042414\taddq\t$0x8, %rsp\r\n0000000100042418\tpopq\t%rbx\r\n0000000100042419\tpopq\t%rbp\r\n000000010004241a\tretq\r\n000000010004241b\tnopl\t(%rax,%rax)\r\n```",
+        "createdAt" : "2019-02-26T23:34:47Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,548 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu\n+\n+import java.math.BigInteger\n+\n+import RyuRoundingMode._\n+\n+object RyuDouble {\n+\n+  var DEBUG: Boolean = false\n+\n+  private val DOUBLE_MANTISSA_BITS: Int = 52\n+\n+  private val DOUBLE_MANTISSA_MASK: Long = (1L << DOUBLE_MANTISSA_BITS) - 1\n+\n+  private val DOUBLE_EXPONENT_BITS: Int = 11\n+\n+  private val DOUBLE_EXPONENT_MASK: Int = (1 << DOUBLE_EXPONENT_BITS) - 1\n+\n+  private val DOUBLE_EXPONENT_BIAS: Int = (1 << (DOUBLE_EXPONENT_BITS - 1)) - 1\n+\n+  private val POS_TABLE_SIZE: Int = 326\n+\n+  private val NEG_TABLE_SIZE: Int = 291\n+\n+  // Only for debugging.\n+  private val POW5: Array[BigInteger] = new Array[BigInteger](POS_TABLE_SIZE)\n+\n+  private val POW5_INV: Array[BigInteger] =\n+    new Array[BigInteger](NEG_TABLE_SIZE)\n+\n+  private val POW5_BITCOUNT: Int = 121 // max 3*31 = 124\n+\n+  private val POW5_QUARTER_BITCOUNT: Int = 31\n+\n+  private val POW5_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](POS_TABLE_SIZE, 4)\n+\n+  private val POW5_INV_BITCOUNT: Int = 122 // max 3*31 = 124\n+\n+  private val POW5_INV_QUARTER_BITCOUNT: Int = 31\n+\n+  private val POW5_INV_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](NEG_TABLE_SIZE, 4)\n+\n+  val mask: BigInteger = BigInteger\n+    .valueOf(1)\n+    .shiftLeft(POW5_QUARTER_BITCOUNT)\n+    .subtract(BigInteger.ONE)\n+\n+  val invMask: BigInteger = BigInteger\n+    .valueOf(1)\n+    .shiftLeft(POW5_INV_QUARTER_BITCOUNT)\n+    .subtract(BigInteger.ONE)\n+\n+  for (i <- 0 until Math.max(POW5.length, POW5_INV.length)) {\n+    val pow: BigInteger       = BigInteger.valueOf(5).pow(i)\n+    val pow5len: Int          = pow.bitLength()\n+    val expectedPow5Bits: Int = pow5bits(i)\n+    if (expectedPow5Bits != pow5len) {\n+      throw new IllegalStateException(pow5len + \" != \" + expectedPow5Bits)\n+    }\n+    if (i < POW5.length) {\n+      POW5(i) = pow\n+    }\n+    if (i < POW5_SPLIT.length) {\n+      for (j <- 0.until(4)) {\n+        POW5_SPLIT(i)(j) = pow\n+          .shiftRight(\n+            pow5len - POW5_BITCOUNT + (3 - j)\n+              * POW5_QUARTER_BITCOUNT)\n+          .and(mask)\n+          .intValue()\n+      }\n+    }\n+    if (i < POW5_INV_SPLIT.length) {\n+      // We want floor(log_2 5^q) here, which is pow5len - 1.\n+      val j: Int = pow5len - 1 + POW5_INV_BITCOUNT\n+      val inv: BigInteger =\n+        BigInteger.ONE.shiftLeft(j).divide(pow).add(BigInteger.ONE)\n+      POW5_INV(i) = inv\n+      for (k <- 0.until(4)) {\n+        POW5_INV_SPLIT(i)(k) =\n+          if (k == 0)\n+            inv.shiftRight((3 - k) * POW5_INV_QUARTER_BITCOUNT).intValue()\n+          else\n+            inv\n+              .shiftRight((3 - k) * POW5_INV_QUARTER_BITCOUNT)\n+              .and(invMask)\n+              .intValue()\n+      }\n+    }\n+  }\n+\n+  def doubleToString(value: Double): String =\n+    doubleToString(value, RyuRoundingMode.ROUND_EVEN)\n+\n+  def doubleToString(value: Double, roundingMode: RyuRoundingMode): String = {\n+    // Step 1: Decode the floating point number, and unify normalized and\n+    // subnormal cases.\n+    // First, handle all the trivial cases.\n+    if (java.lang.Double.isNaN(value)) return \"NaN\"\n+    if (value == java.lang.Double.POSITIVE_INFINITY) return \"Infinity\"\n+    if (value == java.lang.Double.NEGATIVE_INFINITY) return \"-Infinity\"\n+    val bits: Long = java.lang.Double.doubleToLongBits(value)\n+    if (bits == 0) return \"0.0\"\n+    if (bits == 0x8000000000000000L) return \"-0.0\"\n+\n+    // Otherwise extract the mantissa and exponent bits and run the full\n+    // algorithm.\n+    val ieeeExponent: Int =\n+      ((bits >>> DOUBLE_MANTISSA_BITS) & DOUBLE_EXPONENT_MASK).toInt\n+    val ieeeMantissa: Long = bits & DOUBLE_MANTISSA_MASK\n+    var e2: Int            = 0\n+    var m2: Long           = 0l\n+    if (ieeeExponent == 0) {\n+      // Denormal number - no implicit leading 1, and the exponent is 1, not 0.\n+      e2 = 1 - DOUBLE_EXPONENT_BIAS - DOUBLE_MANTISSA_BITS\n+      m2 = ieeeMantissa\n+    } else {\n+      // Add implicit leading 1.\n+      e2 = ieeeExponent - DOUBLE_EXPONENT_BIAS - DOUBLE_MANTISSA_BITS\n+      m2 = ieeeMantissa | (1L << DOUBLE_MANTISSA_BITS)\n+    }\n+    val sign: Boolean = bits < 0\n+    if (DEBUG) {\n+      println(\"IN=\" + java.lang.Long.toBinaryString(bits))\n+      println(\n+        \"   S=\" + (if (sign) \"-\" else \"+\") + \" E=\" + e2 + \" M=\" +\n+          m2)\n+    }\n+    // Step 2: Determine the interval of legal decimal representations.\n+    val even: Boolean = (m2 & 1) == 0\n+    val mv: Long      = 4 * m2\n+    val mp: Long      = 4 * m2 + 2\n+    val mmShift: Int =\n+      if (((m2 != (1L << DOUBLE_MANTISSA_BITS)) || (ieeeExponent <= 1))) 1\n+      else 0\n+    val mm: Long = 4 * m2 - 1 - mmShift\n+    e2 -= 2\n+    if (DEBUG) {\n+      var sv: String = null\n+      var sp: String = null\n+      var sm: String = null\n+      var e10: Int   = 0\n+      if (e2 >= 0) {\n+        sv = BigInteger.valueOf(mv).shiftLeft(e2).toString\n+        sp = BigInteger.valueOf(mp).shiftLeft(e2).toString\n+        sm = BigInteger.valueOf(mm).shiftLeft(e2).toString\n+        e10 = 0\n+      } else {\n+        val factor: BigInteger = BigInteger.valueOf(5).pow(-e2)\n+        sv = BigInteger.valueOf(mv).multiply(factor).toString\n+        sp = BigInteger.valueOf(mp).multiply(factor).toString\n+        sm = BigInteger.valueOf(mm).multiply(factor).toString\n+        e10 = e2\n+      }\n+      e10 += sp.length - 1\n+      println(\"E =\" + e10)\n+      println(\"d+=\" + sp)\n+      println(\"d =\" + sv)\n+      println(\"d-=\" + sm)\n+      println(\"e2=\" + e2)\n+    }\n+    // Step 3: Convert to a decimal power base using 128-bit arithmetic.\n+    // -1077 = 1 - 1023 - 53 - 2 <= e_2 - 2 <= 2046 - 1023 - 53 - 2 = 968\n+    var dv: Long                   = 0l\n+    var dp: Long                   = 0l\n+    var dm: Long                   = 0l\n+    var e10: Int                   = 0\n+    var dmIsTrailingZeros: Boolean = false\n+    var dvIsTrailingZeros: Boolean = false\n+    if (e2 >= 0) {\n+\n+      val q: Int = Math.max(0, ((e2 * 78913) >>> 18) - 1)\n+      // k = constant + floor(log_2(5^q))\n+      val k: Int = POW5_INV_BITCOUNT + pow5bits(q) - 1\n+      val i: Int = -e2 + q + k\n+      dv = mulPow5InvDivPow2(mv, q, i)\n+      dp = mulPow5InvDivPow2(mp, q, i)\n+      dm = mulPow5InvDivPow2(mm, q, i)\n+      e10 = q\n+      if (DEBUG) {\n+        println(mv + \" * 2^\" + e2)\n+        println(\"V+=\" + dp)\n+        println(\"V =\" + dv)\n+        println(\"V-=\" + dm)\n+      }\n+      if (DEBUG) {\n+        val exact: Long = POW5_INV(q)\n+          .multiply(BigInteger.valueOf(mv))\n+          .shiftRight(-e2 + q + k)\n+          .longValue()\n+        println(exact + \" \" + POW5_INV(q).bitCount())\n+        if (dv != exact) {\n+          throw new IllegalStateException()\n+        }\n+      }\n+      if (q <= 21) {\n+        if (mv % 5 == 0) {\n+          dvIsTrailingZeros = multipleOfPowerOf5(mv, q)\n+        } else if (roundingMode.acceptUpperBound(even)) {\n+          dmIsTrailingZeros = multipleOfPowerOf5(mm, q)\n+        } else if (multipleOfPowerOf5(mp, q)) {\n+          dp -= 1\n+        }\n+      }\n+    } else {\n+      val q: Int = Math.max(0, ((-e2 * 732923) >>> 20) - 1);\n+      val i: Int = -e2 - q\n+      val k: Int = pow5bits(i) - POW5_BITCOUNT\n+      val j: Int = q - k\n+      dv = mulPow5divPow2(mv, i, j)\n+      dp = mulPow5divPow2(mp, i, j)\n+      dm = mulPow5divPow2(mm, i, j)\n+      e10 = q + e2\n+      if (DEBUG) {\n+        println(mv + \" * 5^\" + (-e2) + \" / 10^\" + q)\n+      }\n+      if (q <= 1) {\n+        dvIsTrailingZeros = true\n+        if (roundingMode.acceptUpperBound(even)) {\n+          dmIsTrailingZeros = mmShift == 1\n+        } else {\n+          dp -= 1\n+        }\n+      } else if (q < 63) {\n+        dvIsTrailingZeros = (mv & ((1L << (q - 1)) - 1)) == 0\n+      }\n+    }\n+    if (DEBUG) {\n+      println(\"d+=\" + dp)\n+      println(\"d =\" + dv)\n+      println(\"d-=\" + dm)\n+      println(\"e10=\" + e10)\n+      println(\"d-10=\" + dmIsTrailingZeros)\n+      println(\"d   =\" + dvIsTrailingZeros)\n+      println(\"Accept upper=\" + roundingMode.acceptUpperBound(even))\n+      println(\"Accept lower=\" + roundingMode.acceptLowerBound(even))\n+    }\n+\n+    // Step 4: Find the shortest decimal representation in the interval of\n+    // legal representations.\n+    //\n+    // We do some extra work here in order to follow Float/Double.toString\n+    // semantics. In particular, that requires printing in scientific format\n+    // if and only if the exponent is between -3 and 7, and it requires\n+    // printing at least two decimal digits.\n+    //\n+    // Above, we moved the decimal dot all the way to the right, so now we\n+    // need to count digits to\n+    // figure out the correct exponent for scientific notation.\n+    val vplength: Int = decimalLength(dp)\n+    var exp: Int      = e10 + vplength - 1\n+    // Double.toString semantics requires using scientific notation if and\n+    // only if outside this range.\n+    val scientificNotation: Boolean = !((exp >= -3) && (exp < 7))\n+    var removed: Int                = 0\n+    var lastRemovedDigit: Int       = 0\n+    var output: Long                = 0l\n+    if (dmIsTrailingZeros || dvIsTrailingZeros) {\n+      var done = false // workaround break in .java source\n+      while ((dp / 10 > dm / 10) && !done) {\n+        if ((dp < 100) && scientificNotation) {\n+          // Double.toString semantics requires printing at least two digits.\n+          done = true\n+        } else {\n+          dmIsTrailingZeros &= dm % 10 == 0\n+          dvIsTrailingZeros &= lastRemovedDigit == 0\n+          lastRemovedDigit = (dv % 10).toInt\n+          dp /= 10\n+          dv /= 10\n+          dm /= 10; removed += 1\n+        }\n+      }\n+      if (dmIsTrailingZeros && roundingMode.acceptLowerBound(even)) {\n+        var done = false // workaround break in .java source\n+        while ((dm % 10 == 0) && !done) {\n+          if ((dp < 100) && scientificNotation) {\n+            // Double.toString semantics requires printing at least two digits.\n+            done = true\n+          } else {\n+            dvIsTrailingZeros &= lastRemovedDigit == 0\n+            lastRemovedDigit = (dv % 10).toInt\n+            dp /= 10\n+            dv /= 10\n+            dm /= 10; removed += 1\n+          }\n+        }\n+      }\n+\n+      if (dvIsTrailingZeros && (lastRemovedDigit == 5) && (dv % 2 == 0)) {\n+        // Round even if the exact numbers is .....50..0.\n+        lastRemovedDigit = 4\n+      }\n+      output = dv +\n+        (if ((dv == dm &&\n+             !(dmIsTrailingZeros && roundingMode.acceptLowerBound(even))) ||\n+             (lastRemovedDigit >= 5)) 1\n+         else 0)\n+    } else {\n+      var done = false // workaround break in .java source\n+      while ((dp / 10 > dm / 10) && !done) {\n+        if ((dp < 100) && scientificNotation) {\n+          // Double.toString semantics requires printing at least two digits.\n+          done = true\n+        } else {\n+          lastRemovedDigit = (dv % 10).toInt\n+          dp /= 10\n+          dv /= 10\n+          dm /= 10; removed += 1\n+        }\n+      }\n+      output = dv +\n+        (if ((dv == dm || (lastRemovedDigit >= 5))) 1 else 0)\n+    }\n+    val olength: Int = vplength - removed\n+    if (DEBUG) {\n+      println(\"LAST_REMOVED_DIGIT=\" + lastRemovedDigit)\n+      println(\"VP=\" + dp)\n+      println(\"VR=\" + dv)\n+      println(\"VM=\" + dm)\n+      println(\"O=\" + output)\n+      println(\"OLEN=\" + olength)\n+      println(\"EXP=\" + exp)\n+    }\n+\n+    // Step 5: Print the decimal representation.\n+    // We follow Double.toString semantics here.\n+    val result: Array[Char] = Array.ofDim[Char](24)\n+    var index: Int          = 0\n+    if (sign) {\n+      result({ index += 1; index - 1 }) = '-'\n+    }\n+\n+    // Values in the interval [1E-3, 1E7) are special.\n+    if (scientificNotation) {\n+      for (i <- 0 until olength - 1) {\n+        val c: Int = (output % 10).toInt\n+        output /= 10\n+        result(index + olength - i) = ('0' + c).toChar\n+      }\n+      result(index) = ('0' + output % 10).toChar\n+      result(index + 1) = '.'\n+      index += olength + 1\n+      if (olength == 1) {\n+        result({ index += 1; index - 1 }) = '0'\n+      }\n+\n+      // Print 'E', the exponent sign, and the exponent, which has at most\n+      // three digits.\n+      result({ index += 1; index - 1 }) = 'E'\n+      if (exp < 0) {\n+        result({ index += 1; index - 1 }) = '-'\n+        exp = -exp\n+      }\n+      if (exp >= 100) {\n+        result({ index += 1; index - 1 }) = ('0' + exp / 100).toChar\n+        exp %= 100\n+        result({ index += 1; index - 1 }) = ('0' + exp / 10).toChar\n+      } else if (exp >= 10) {\n+        result({ index += 1; index - 1 }) = ('0' + exp / 10).toChar\n+      }\n+      result({ index += 1; index - 1 }) = ('0' + exp % 10).toChar\n+      new String(result, 0, index)\n+    } else {\n+      // Otherwise follow the Java spec for values in the interval [1E-3, 1E7).\n+      if (exp < 0) {\n+        // Decimal dot is before any of the digits.\n+        result({ index += 1; index - 1 }) = '0'\n+        result({ index += 1; index - 1 }) = '.'\n+        var i: Int = -1\n+        while (i > exp) {\n+          result({ index += 1; index - 1 }) = '0'; i -= 1\n+        }\n+        val current: Int = index\n+        for (i <- 0 until olength) {\n+          result(current + olength - i - 1) = ('0' + output % 10).toChar\n+          output /= 10; index += 1\n+        }\n+      } else if (exp + 1 >= olength) {\n+        for (i <- 0 until olength) {"
+  },
+  {
+    "id" : "eb16e022-6230-4cb2-babe-a978a0c88890",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please use `final val CONSTANT = v` for numeric constants (no type ascription). ",
+        "createdAt" : "2019-02-27T11:21:13Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "807728ed-5627-4cf9-b135-a8ea626a96df",
+        "parentId" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Private modifier can be omitted because the whole thing is part of runtime which is \"private\" package by definition.",
+        "createdAt" : "2019-02-27T11:21:41Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "759cd440-1e58-4a4f-b018-c54bb7376ff1",
+        "parentId" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done, thank you for the suggestion.\r\n\r\n\"private\" removed from all variable and method declarations:\r\n\r\nBecause the 1L on the right hand side is so hard to see and because this\r\nis a Long mixed in amongst a number of Ints, I left the \": Long\" (type ascription???)\r\nin place.  Please advise if I should drop that also. Thank you\r\n\r\n```\r\n final val DOUBLE_MANTISSA_MASK: Long = (1L << DOUBLE_MANTISSA_BITS) - 1\r\n```",
+        "createdAt" : "2019-02-28T19:57:35Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "519c3a0c-0cc6-48f6-8f07-1e365d476772",
+        "parentId" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If you don't have a Long ascription, scalac will inline them at use site, which is a good thing.",
+        "createdAt" : "2019-03-01T11:20:53Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "25b7c864-8432-48a4-b910-9409847e8263",
+        "parentId" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done, as requested.\r\n\r\nI left private on all method declarations other than the one toString method I want to be\r\npublic. Does that help the SN compiler generate less code (I hope) or is it a mistake?",
+        "createdAt" : "2019-03-03T01:45:58Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b593328e-7331-45d6-a66c-912415c0bc95",
+        "parentId" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`private` modifier doesn't really matter from the performance point of view, it's purely a question of API guarantees from an external point of view. The reason I suggested dropping private is that runtime module is \"internals\" of the SN, so use of any of those APIs is \"at your own risk\" and we don't guarantee any compatibility between releases.",
+        "createdAt" : "2019-03-03T15:39:53Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "742aa6d7-25bb-4334-9f9f-61248a89d042",
+        "parentId" : "72763983-b3bb-4280-8494-ddac6d731fdc",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you for your patient explanation.  ",
+        "createdAt" : "2019-03-03T19:45:53Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,548 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu\n+\n+import java.math.BigInteger\n+\n+import RyuRoundingMode._\n+\n+object RyuDouble {\n+\n+  var DEBUG: Boolean = false\n+\n+  private val DOUBLE_MANTISSA_BITS: Int = 52\n+\n+  private val DOUBLE_MANTISSA_MASK: Long = (1L << DOUBLE_MANTISSA_BITS) - 1\n+\n+  private val DOUBLE_EXPONENT_BITS: Int = 11\n+\n+  private val DOUBLE_EXPONENT_MASK: Int = (1 << DOUBLE_EXPONENT_BITS) - 1\n+\n+  private val DOUBLE_EXPONENT_BIAS: Int = (1 << (DOUBLE_EXPONENT_BITS - 1)) - 1\n+\n+  private val POS_TABLE_SIZE: Int = 326\n+\n+  private val NEG_TABLE_SIZE: Int = 291\n+\n+  // Only for debugging.\n+  private val POW5: Array[BigInteger] = new Array[BigInteger](POS_TABLE_SIZE)\n+\n+  private val POW5_INV: Array[BigInteger] =\n+    new Array[BigInteger](NEG_TABLE_SIZE)\n+\n+  private val POW5_BITCOUNT: Int = 121 // max 3*31 = 124\n+\n+  private val POW5_QUARTER_BITCOUNT: Int = 31\n+\n+  private val POW5_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](POS_TABLE_SIZE, 4)\n+\n+  private val POW5_INV_BITCOUNT: Int = 122 // max 3*31 = 124\n+\n+  private val POW5_INV_QUARTER_BITCOUNT: Int = 31"
+  },
+  {
+    "id" : "0cc06abc-ea17-46c3-a30e-2b492710990a",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "BigIntegers are really big in terms of implementation code size (i.e. native binary size too). We should really remove dependency on them in our implementation. ",
+        "createdAt" : "2019-02-27T11:23:40Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dc0c75b4-fa58-4fc3-8d54-7d172f2e348a",
+        "parentId" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood. I'll check what the Ryu C code does & check back here (probably\r\ntake a few days to study  and breadboard, especially if I have to dive into\r\ncodegen.).\r\n\r\nIIRC,  The SN port of Harmony  <mumble>Format <mumble> uses BigInteger\r\nall over the place (and does a  lot of hideous manipulation.   This PR gets\r\n1.0.toString and Double.toString to work, but \"%s\".format(1.0) will still bring\r\nin all the BigInteger stuff.  Again, from memory of pain. the \"%s\" form is\r\nwhat is used by printf and string interpolation s\"\".  Not an excuse to \r\nlet BigInteger creep in here if we can avoid it. \r\n\r\nUntil the next leg of the ultra-marathon relay\r\nHelloWorld.scala using Double.toString may avoid BigInterger but\r\n HelloWorld.scala doing a printf of a Double or Float will bring it in.\r\n\r\nThe galaxy sized issues are related. This PR identifies both but\r\nfocuses on solving  Double.toString. \r\n\r\nThe size of the data structures in Ryu concern me but they are almost\r\ncertainly smaller then the Harmony BigInteger handling.  I never could\r\nget the Harmony Double code to generate correct strings, especially\r\nin the least significant digit or three.",
+        "createdAt" : "2019-02-28T19:42:04Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "50d44036-d22a-4076-8f42-5c391dfb9b8a",
+        "parentId" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, formatting is also another area that needs work to reduce binary size. To best of my knowledge we don't depend on it by default which is a good thing. Lets try to avoid the dependency here as {Float, Double}.toString are always linked by default (they are actually reachable).",
+        "createdAt" : "2019-03-01T11:19:52Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b4e13367-f0a2-4077-be9b-061d4ef47a04",
+        "parentId" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@densh  BigInteger is now gone from RyuDouble.scala and the resultant passes test-all.\r\nIf/When those changes pass review, I can make similar changes to RyuFloat.scala.\r\n\r\nLet me point out two concerns for your review:\r\n\r\n* I used scala.Array() because it allowed me to initialize the Array & because I am used to it.\r\n  Does that have some performance impact?  Should I be doing something with\r\n  scalanative.runtime.IntArray()? I believe that the latter is used under scala.Array().\r\n  How heavy is the overhead? \r\n\r\n* Is the size of the 2D arrays POW5_SPLIT & POW5_INV_SPLIT acceptable?\r\n  They will increase the byte count for simple HelloWorld programs and I know that\r\n   would are working to minimize that.\r\n\r\nThank you.  ",
+        "createdAt" : "2019-03-03T19:35:44Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "30ad70bf-b075-451c-8c30-6fcff9be40d6",
+        "parentId" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. `scala.Array[Int]` and `scalanative.runtime.IntArray` are effectively the same thing (one is compiled down to another). You should use `scala.Array` here.\r\n\r\n2. Can we use one-dimensional array instead? It would be more compact in compiled code. For example, instead of:\r\n```\r\nval array = Array(\r\n  Array(1, 2, 3, 4),\r\n  Array(5, 6, 7, 8),\r\n  ...\r\n)\r\n```\r\nUse:\r\n```\r\nval array = Array(\r\n  1, 2, 3, 4,\r\n  5, 6, 7, 8,\r\n  ...\r\n)\r\n```\r\nAnd then for indexing, instead of `array(i)(j)` you can do `array(i * 4 + j)`. One-dimensional int arrays of constant values are relatively compact in binary form (4 bytes per element). ",
+        "createdAt" : "2019-03-04T12:40:08Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fdbbf600-ce1c-47d3-87cb-0a9c57bb053a",
+        "parentId" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another thing it would be good to leave a comment that explains how this constant array was obtained. A snippet of code in the comment that generates a text of this array would be the most obvious documentation.",
+        "createdAt" : "2019-03-04T12:41:23Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8469ea6e-ad5f-4354-abe9-e6ed0f7a6e93",
+        "parentId" : "c86a13d7-f934-4559-bf27-a489b82be5e0",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done!  I feel more confident knowing that scala.Array is the one to use here.\r\n\r\nThe 1D array indexing array(i * 4 + j) is a row major reminder of my Fortran computer\r\ngraphics days. Very familiar.\r\n\r\nAll BigInteger code is now removed from Ryu*.scala.  As requested, I also added a\r\nlongish comment describing how the new array constants were derived. In case somebody\r\nin the needs to re-generate or fix the values.  Unfortunately, almost all the work was\r\ndone by hand. \r\n\r\nThe review evolutions have, in my opinion, made the code __vastly__ better.",
+        "createdAt" : "2019-03-05T11:55:44Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,548 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu\n+\n+import java.math.BigInteger\n+\n+import RyuRoundingMode._\n+\n+object RyuDouble {\n+\n+  var DEBUG: Boolean = false\n+\n+  private val DOUBLE_MANTISSA_BITS: Int = 52\n+\n+  private val DOUBLE_MANTISSA_MASK: Long = (1L << DOUBLE_MANTISSA_BITS) - 1\n+\n+  private val DOUBLE_EXPONENT_BITS: Int = 11\n+\n+  private val DOUBLE_EXPONENT_MASK: Int = (1 << DOUBLE_EXPONENT_BITS) - 1\n+\n+  private val DOUBLE_EXPONENT_BIAS: Int = (1 << (DOUBLE_EXPONENT_BITS - 1)) - 1\n+\n+  private val POS_TABLE_SIZE: Int = 326\n+\n+  private val NEG_TABLE_SIZE: Int = 291\n+\n+  // Only for debugging.\n+  private val POW5: Array[BigInteger] = new Array[BigInteger](POS_TABLE_SIZE)\n+\n+  private val POW5_INV: Array[BigInteger] =\n+    new Array[BigInteger](NEG_TABLE_SIZE)\n+\n+  private val POW5_BITCOUNT: Int = 121 // max 3*31 = 124\n+\n+  private val POW5_QUARTER_BITCOUNT: Int = 31\n+\n+  private val POW5_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](POS_TABLE_SIZE, 4)\n+\n+  private val POW5_INV_BITCOUNT: Int = 122 // max 3*31 = 124\n+\n+  private val POW5_INV_QUARTER_BITCOUNT: Int = 31\n+\n+  private val POW5_INV_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](NEG_TABLE_SIZE, 4)\n+\n+  val mask: BigInteger = BigInteger"
+  }
+]

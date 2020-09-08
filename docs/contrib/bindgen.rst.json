@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "57345a68-4122-4a40-a5ac-f34b052bce6b",
+    "prId" : 642,
+    "comments" : [
+      {
+        "id" : "76706ecc-1a42-4c13-812a-953ba08bfb7a",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "I would vote for code generation here. The less powerful technique that works well with IDEs",
+        "createdAt" : "2017-04-18T13:15:33Z",
+        "updatedAt" : "2017-06-01T20:47:30Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b15b8ea9-db8b-4894-8ae2-4567378d0b5b",
+        "parentId" : "76706ecc-1a42-4c13-812a-953ba08bfb7a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "IDE support is a blocker here, if scala.meta macros don't work well enough we might have to use code generation instead. ",
+        "createdAt" : "2017-04-22T09:15:40Z",
+        "updatedAt" : "2017-06-01T20:47:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "df75fa01abb765be7ec3f642c3e9381c7937ef16",
+    "line" : 6,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+Automatic binding generation\n+============================\n+\n+Binding generation for now is experimental. The goal is to first use it\n+internally to generate bindings for C's stdlib and later make it\n+available via scala.meta macros and sbt tasks."
+  }
+]

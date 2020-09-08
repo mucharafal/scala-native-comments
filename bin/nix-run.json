@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "9d609126-404c-4057-a08f-f2eaed4dc76e",
+    "prId" : 412,
+    "comments" : [
+      {
+        "id" : "3389c6a8-6817-4b82-94fc-7592455ac920",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should go into separate PR.",
+        "createdAt" : "2016-11-29T15:19:01Z",
+        "updatedAt" : "2016-11-30T15:17:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fbbab6949946b1c51a2be92737adc6b0a62273f3",
+    "line" : null,
+    "diffHunk" : "@@ -1,3 +1,5 @@\n #!/usr/bin/env bash\n \n-nix-shell bin/scala-native.nix -A clangEnv\n+HERE=\"`dirname $0`\"\n+\n+nix-shell $HERE/scala-native.nix -A clangEnv"
+  }
+]

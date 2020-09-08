@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "32014bcd-f30a-47c9-98ae-1db38e77c69e",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "74773f99-9851-424e-ba92-c66898fe12bc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why do we have 2 versions event stats (sync and non-sync) ? Shouldn't one be enough ?",
+        "createdAt" : "2019-02-01T09:55:06Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d119ad7b-f9aa-4c0b-8db0-24f69ec2aa62",
+        "parentId" : "74773f99-9851-424e-ba92-c66898fe12bc",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "There are actually 3 types of GC stats.\r\n\r\n| type| compiler flag | usage | results size per run|\r\n|-------|-----------------|----------|-----------------|\r\n|basic|ENABLE_GC_STATS | shows GC pauses and total GC time, shows phases in Gantt charts | 1.5MB |\r\n|batches|ENABLE_GC_STATS_BATCHES | shows batches in Gantt chart - are batch sizes good ?| 180MB |\r\n|sync|ENABLE_GC_STATS_SYNC | shows synchronization events in Gantt chart - what is the  synchronization overhead? | 309MB |\r\n\r\nThe more we log the larger the results and the more noise it adds.  It is important to be able to pick right verbosity of stats for the thing you are measuring and for the space budget you have. For example, I try to save most of my results and the reports in https://github.com/valdisxp1/scala-native-benchmark-results . But github does not allow commits larger than 100MB.",
+        "createdAt" : "2019-02-02T10:50:02Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,277 @@\n+#include \"GCThread.h\"\n+#include \"Constants.h\"\n+#include \"Sweeper.h\"\n+#include \"Marker.h\"\n+#include <semaphore.h>\n+\n+static inline void GCThread_mark0(Heap *heap, Stats *stats) {\n+#ifdef ENABLE_GC_STATS\n+    uint64_t start_ns, end_ns;\n+    if (stats != NULL) {\n+        start_ns = scalanative_nano_time();\n+        stats->mark_waiting_start_ns = 0;\n+        stats->mark_waiting_end_ns = 0;\n+    }\n+#endif\n+\n+    while (!Marker_IsMarkDone(heap)) {\n+        Marker_MarkAndScale(heap, stats);\n+        if (!Marker_IsMarkDone(heap)) {\n+            sched_yield();\n+        }\n+    }\n+\n+#ifdef ENABLE_GC_STATS"
+  }
+]

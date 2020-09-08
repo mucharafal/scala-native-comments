@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "14ac1b57-1618-4889-acf8-33e47e0e010f",
+    "prId" : 1548,
+    "comments" : [
+      {
+        "id" : "819173f3-c4a5-4e3f-ae0e-33758b2f8b88",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "While you are at it can you also please add:\r\n1. TestSuiteInterflowBench. Benchmark just interflow optimization + in-memory reachability that follows, i.e., `build.ScalaNative.optimize` call. \r\n2. TestSuiteCodeGenBench. Benchmark just the `build.ScalaNative.codegen` call.",
+        "createdAt" : "2019-04-22T09:57:04Z",
+        "updatedAt" : "2019-04-22T09:59:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "06988c08-a978-4887-8c32-794e08609744",
+        "parentId" : "819173f3-c4a5-4e3f-ae0e-33758b2f8b88",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Actually, it would also be good to add total SN pipeline time as `TestSuiteBuildBench` which calls `build.Build.build`. ",
+        "createdAt" : "2019-04-22T10:24:29Z",
+        "updatedAt" : "2019-04-22T10:24:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1d5d49c89e1e90a45a408214ab605f3067c6cf42",
+    "line" : 14,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package scala.scalanative.linker.benchmarks\n+\n+import java.nio.file.{Path, Paths, Files}\n+import java.nio.charset.StandardCharsets\n+import java.util.concurrent.TimeUnit\n+\n+import scala.scalanative.build\n+import scala.scalanative.internal.build.TestSuiteBuildInfo\n+\n+import org.openjdk.jmh.annotations._\n+import org.openjdk.jmh.annotations.Mode.SampleTime\n+\n+@State(Scope.Benchmark)\n+abstract class TestSuiteLinkerBench"
+  }
+]

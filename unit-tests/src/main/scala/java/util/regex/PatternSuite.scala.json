@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "e5fa148e-cecb-4a67-80ed-e789fca3bcbe",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "43b3de44-5e8e-4f50-a007-6c388302f840",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is this PR complete now, why are so many things commented out in the code? Why are they commented out? ",
+        "createdAt" : "2017-04-05T10:37:26Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cc165c26-905a-4398-8273-aafd58307abb",
+        "parentId" : "43b3de44-5e8e-4f50-a007-6c388302f840",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We generally don't accept PRs with commented out code unless it's a signature for the method we haven't implemented yet. ",
+        "createdAt" : "2017-04-05T10:40:34Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2d285b89-9044-42ac-b498-c327f309455a",
+        "parentId" : "43b3de44-5e8e-4f50-a007-6c388302f840",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Most of the commented out test are cases that we don't support. I can create a new issue and create a `testFails` for them.",
+        "createdAt" : "2017-04-05T12:57:35Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "915cda5b-05c5-4317-aa1c-4bd0b099d445",
+        "parentId" : "43b3de44-5e8e-4f50-a007-6c388302f840",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Are greedy quantifiers are not supported either? ",
+        "createdAt" : "2017-04-05T13:51:09Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,259 @@\n+package java.util\n+package regex\n+\n+import scala.collection.immutable.List\n+\n+object PatternSuite extends tests.Suite {\n+  test(\"split/split(n)\") {\n+    val input = \"boo:and:foo\"\n+\n+    val p1 = Pattern.compile(\":\")\n+    assertEquals(p1.split(input).toList, List(\"boo\", \"and\", \"foo\"))\n+    assertEquals(p1.split(input, 2).toList, List(\"boo\", \"and:foo\"))\n+    assertEquals(p1.split(input, 5).toList, List(\"boo\", \"and\", \"foo\"))\n+    assertEquals(p1.split(input, -2).toList, List(\"boo\", \"and\", \"foo\"))\n+\n+    val p2 = Pattern.compile(\"o\")\n+    assertEquals(p2.split(input).toList, List(\"b\", \"\", \":and:f\"))\n+    assertEquals(p2.split(input, 5).toList, List(\"b\", \"\", \":and:f\", \"\", \"\"))\n+    assertEquals(p2.split(input, -2).toList, List(\"b\", \"\", \":and:f\", \"\", \"\"))\n+    assertEquals(p2.split(input, 0).toList, List(\"b\", \"\", \":and:f\"))\n+  }\n+\n+  test(\"quote\") {\n+    assertEquals(\n+      Pattern.quote(\"1.5-2.0?\"),\n+      \"1\\\\.5\\\\-2\\\\.0\\\\?\"\n+    )\n+  }\n+\n+  /*\n+  test(\"characters\") {"
+  },
+  {
+    "id" : "e24a191b-5ea8-4f4f-a749-8552f9abf0e5",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "1f9a3d56-d21a-4e89-87d3-37206f81a485",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is probably the worst method name I've seen in a while. `ok` is acceptable, `ko` should be `fail` or something along those lines, `okko` — ???. ",
+        "createdAt" : "2017-04-10T12:48:46Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,404 @@\n+package java.util\n+package regex\n+\n+import scala.collection.immutable.List\n+\n+object PatternSuite extends tests.Suite {\n+  test(\"split/split(n)\") {\n+    val input = \"boo:and:foo\"\n+\n+    val p1 = Pattern.compile(\":\")\n+    assertEquals(p1.split(input).toList, List(\"boo\", \"and\", \"foo\"))\n+    assertEquals(p1.split(input, 2).toList, List(\"boo\", \"and:foo\"))\n+    assertEquals(p1.split(input, 5).toList, List(\"boo\", \"and\", \"foo\"))\n+    assertEquals(p1.split(input, -2).toList, List(\"boo\", \"and\", \"foo\"))\n+\n+    val p2 = Pattern.compile(\"o\")\n+    assertEquals(p2.split(input).toList, List(\"b\", \"\", \":and:f\"))\n+    assertEquals(p2.split(input, 5).toList, List(\"b\", \"\", \":and:f\", \"\", \"\"))\n+    assertEquals(p2.split(input, -2).toList, List(\"b\", \"\", \":and:f\", \"\", \"\"))\n+    assertEquals(p2.split(input, 0).toList, List(\"b\", \"\", \":and:f\"))\n+  }\n+\n+  test(\"quote\") {\n+    assertEquals(\n+      Pattern.quote(\"1.5-2.0?\"),\n+      \"1\\\\.5\\\\-2\\\\.0\\\\?\"\n+    )\n+  }\n+\n+  test(\"characters\") {\n+    ok(\"a\", \"a\")\n+\n+    // backslash\n+    ok(\"\\\\\\\\\", \"\\\\\")\n+\n+    // octal\n+    ok(\"\\\\01\", \"\\u0001\")\n+    ok(\"\\\\012\", \"\\u000A\") // 12 octal = A hex\n+\n+    // hex\n+    ok(\"\\\\x10\", \"\\u0010\")\n+\n+    ok(\"\\\\t\", \"\\t\")     // tab\n+    ok(\"\\\\n\", \"\\n\")     // newline\n+    ok(\"\\\\r\", \"\\r\")     // carriage-return\n+    ok(\"\\\\f\", \"\\f\")     // form-feed\n+    ok(\"\\\\a\", \"\\u0007\") // alert (bell)\n+  }\n+\n+  testFails(\"(not supported) character classes\", 620) {\n+    ok(\"\\\\0100\", \"\\u0040\") // 100 octal = 40 hex\n+    ok(\"\\\\xFF\", \"\\u00FF\")\n+    ok(\"\\\\uBEEF\", \"\\uBEEF\")\n+    ok(\"\\\\e\", \"\\u001B\") // escape\n+    // control char \\cx\n+  }\n+\n+  test(\"character classes\") {\n+    ok(\"[abc]\", \"a\")\n+    ko(\"[^abc]\", \"c\")\n+    ok(\"[a-zA-Z]\", \"T\")\n+  }\n+\n+  test(\"predefined character classes\") {\n+    ok(\".\", \"a\")\n+    ok(\"\\\\d\", \"0\")\n+    ok(\"\\\\D\", \"a\")\n+    ok(\"\\\\s\", \" \")\n+    ok(\"\\\\S\", \"a\")\n+    ok(\"\\\\w\", \"a\")\n+    ok(\"\\\\W\", \"-\")\n+  }\n+\n+  testFails(\"(not supported) POSIX character classes\", 620) {\n+    // Needs to convert to\n+    ok(\"\\\\p{Alnum}\", \"a\")     // [[:alpha:]]\n+    ok(\"\\\\p{Alpha}\", \"a\")     // [[:alnum:]]\n+    ok(\"\\\\p{ASCII}\", \"a\")     // [[:ascii:]]\n+    ok(\"\\\\p{Blank}\", \" \")     // [[:blank:]]\n+    ok(\"\\\\p{Cntrl}\", \"\\\\x20\") // [[:cntrl:]]\n+    ok(\"\\\\p{Digit}\", \"1\")     // [[:digit:]]\n+    ok(\"\\\\p{Graph}\", \"a\")     // [[:graph:]]\n+    ok(\"\\\\p{Lower}\", \"a\")     // [[:lower:]]\n+    ok(\"\\\\p{Print}\", \"a\")     // [[:print:]]\n+    ok(\"\\\\p{Punct}\", \".\")     // [[:punct:]]\n+    ok(\"\\\\p{Space}\", \" \")     // [[:space:]]\n+    ok(\"\\\\p{Upper}\", \"A\")     // [[:upper:]]\n+    ok(\"\\\\p{XDigit}\", \"a\")    // [[:xdigit:]]\n+  }\n+\n+  test(\"unicode classes\") {\n+    ok(\"\\\\p{Lu}\", \"A\")\n+    ok(\"\\\\p{Sc}\", \"$\")\n+  }\n+\n+  testFails(\"(not supported) unicode classes\", 620) {\n+    // Needs to convert to\n+    ok(\"\\\\p{InGreek}\", \"α\") // p{Latin}\n+    ok(\"\\\\p{IsLatin}\", \"a\") // p{Greek}\n+    ko(\"\\\\p{IsLatin}\", \"α\")\n+\n+    // not supported\n+    ok(\"\\\\p{IsAlphabetic}\", \"a\")\n+    ko(\"\\\\p{IsAlphabetic}\", \"-\")\n+  }\n+\n+  test(\"boundary matchers\") {\n+    ok(\"^a\", \"a\")\n+    ok(\"$\", \"\")\n+    ok(\"foo\\\\b\", \"foo\")\n+    ko(\"foo\\\\B\", \"foo\")\n+    ok(\"\\\\AAbcdef\", \"Abcdef\")\n+    ok(\"foo\\\\z\", \"foo\")\n+  }\n+\n+  testFails(\"(Not supported) boundary matchers\", 620) {\n+    // \\G = at the end of the previous match\n+    val m1 = Pattern.compile(\"\\\\Gfoo\").matcher(\"foofoo foo\")\n+    assert(m1.find())\n+    assert(m1.find())\n+    assert(!m1.find())\n+\n+    // \\Z = end of input of the final terminator\n+    find(\"foo\\\\Z\", \"foo\")\n+    find(\"foo\\\\Z\", \"foo\\n\")\n+\n+    // \\z = end of input\n+    find(\"foo\\\\z\", \"foo\")\n+    find(\"foo\\\\z\", \"foo\\n\", ok = false)\n+\n+    // \\R unicode linebreak\n+    ok(\"\\\\R\", \"\\u000D\\u000A\")\n+  }\n+\n+  test(\"greedy quantifiers\") {\n+    // once or zero\n+    ok(\"X?\", \"\")\n+    ok(\"X?\", \"X\")\n+    ko(\"^X?$\", \"Y\")\n+\n+    // zero or more\n+    ok(\"X*\", \"X\")\n+    ok(\"X*\", \"\")\n+    ok(\"X*\", \"XX\")\n+\n+    // one or more\n+    ok(\"X+\", \"X\")\n+    ko(\"X+\", \"\")\n+    ok(\"X+\", \"XX\")\n+\n+    // exactly n\n+    ok(\"X{3}\", \"XXX\")\n+    ko(\"^X{3}$\", \"XXXX\")\n+\n+    // n or more\n+    ok(\"^X{3,}$\", \"XXXX\")\n+    ko(\"^X{3,}$\", \"XX\")\n+\n+    // n but not more than m\n+    ko(\"^X{3,5}$\", \"XX\")\n+    ok(\"^X{3,5}$\", \"XXX\")\n+    ok(\"^X{3,5}$\", \"XXXX\")\n+    ok(\"^X{3,5}$\", \"XXXXX\")\n+    ko(\"^X{3,5}$\", \"XXXXXX\")\n+  }\n+\n+  test(\"lazy quantifiers\") {\n+    // zero or one, prefer zero\n+    ok(\"X??\", \"\")\n+    ok(\"X??\", \"X\")\n+\n+    // zero or more, prefer fewer\n+    ok(\"X*?\", \"\")\n+    ok(\"X*?\", \"XXX\")\n+\n+    // one or more, prefer fewer\n+    ko(\"X+?\", \"\")\n+    ok(\"X+?\", \"XXX\")\n+\n+    // exactly n\n+    ok(\"X{3}?\", \"XXX\")\n+    ko(\"^X{3}?$\", \"XXXX\")\n+\n+    // n or more, prefer fewer\n+    ok(\"^X{3,}?$\", \"XXXX\")\n+    ko(\"^X{3,}?$\", \"XX\")\n+\n+    // [n, m], prefer fewer\n+    ko(\"^X{3,5}?$\", \"XX\")\n+    ok(\"^X{3,5}?$\", \"XXX\")\n+    ok(\"^X{3,5}?$\", \"XXXX\")\n+    ok(\"^X{3,5}?$\", \"XXXXX\")\n+    ko(\"^X{3,5}?$\", \"XXXXXX\")\n+  }\n+\n+  test(\"composite operators\") {\n+    ok(\"abc\", \"abc\")\n+\n+    // x or y, prefer x\n+    ok(\"a|b\", \"a\")\n+    ok(\"a|b\", \"b\")\n+    ko(\"a|b\", \"c\")\n+  }\n+\n+  test(\"quotation\") {\n+    ok(\"\\\\Qa|b|c\\\\E\", \"a|b|c\")\n+  }\n+\n+  testFails(\"(not supported) java named groups\", 620) {\n+    ok(\"(?<foo>a)\", \"a\") // (?<name> to (?P<name>\n+  }\n+\n+  test(\"re2 named groups\") {\n+    ok(\"(?P<foo>a)\", \"a\")\n+  }\n+\n+  test(\"non capturing groups\") {\n+    ok(\"(?:a)\", \"a\")\n+  }\n+\n+  test(\"flags\") {\n+    ok(\"(?i)iNsEnSiTiVe\", \"insensitive\")\n+    ok(\"(?i:iNsEnSiTiVe)\", \"insensitive\")\n+  }\n+\n+  test(\"toString\") {\n+    val in = \"foo|bar\"\n+    assertEquals(Pattern.compile(in).toString, in)\n+  }\n+\n+  testFails(\"(Not supported) character classes (union and intersection)\", 620) {\n+    ok(\"[a-d[m-p]]\", \"acn\")\n+    ok(\"[[a-z] && [b-y] && [c-x]]\", \"g\")\n+    ok(\"[a-z&&[def]]\", \"e\")\n+    ok(\"[a-z&&[^aeiou]]\", \"c\")\n+    ko(\"[a-z&&[^aeiou]]\", \"o\")\n+    ok(\"[a-z&&[^m-p]]\", \"c\")\n+    ko(\"[a-z&&[^m-p]]\", \"n\")\n+  }\n+\n+  testFails(\n+    \"(Not Supported) predefined character classes (horizontal and vertical)\",\n+    620) {\n+\n+    ok(\"\\\\h\", \" \")\n+    ok(\"\\\\H\", \"a\")\n+    ok(\"\\\\v\", \"\\n\")\n+    ok(\"\\\\V\", \"a\")\n+  }\n+\n+  testFails(\"(not supported)java character function classes\", 620) {\n+    ok(\"\\\\p{javaLowerCase}\", \"a\")\n+    ok(\"\\\\p{javaUpperCase}\", \"A\")\n+    ok(\"\\\\p{javaWhitespace}\", \" \")\n+    ok(\"\\\\p{javaMirrored}\", \"{\") // mirrored with }\n+    ko(\"\\\\p{javaMirrored}\", \"c\")\n+  }\n+\n+  /*\n+    Google's RE2 does not support back references because they can be infinite\n+    https://github.com/google/re2/wiki/WhyRE2\n+    https://github.com/google/re2/blob/2017-03-01/doc/syntax.txt\n+   */\n+  testFails(\"(not supported) back references\", 620) {\n+    ok(\"(a)\\\\1\", \"aa\")\n+    ok(\"(?<foo>a)\\\\k<foo>\", \"aa\")\n+  }\n+\n+  testFails(\"(not supported) lookaheads\", 620) {\n+    // positive lookahead\n+    okko(\".*\\\\.(?=log$).*$\", \"a.b.c.log\", \"a.b.c.log.\")\n+\n+    // negative lookahead\n+    okko(\".*\\\\.(?!log$).*$\", \"abc.logg\", \"abc.log\")\n+\n+    // positive lookbehind\n+    okko(\".*(?<=abc)\\\\.log$\", \"abc.log\", \"cde.log\")\n+\n+    // negative lookbehind\n+    okko(\".*(?<!abc)\\\\.log$\", \"cde.log\", \"abc.log\")\n+\n+    // atomic group\n+    ok(\"(?>a*)abb\", \"aaabb\")\n+    ok(\"(?>a*)bb\", \"aaabb\")\n+    ok(\"(?>a|aa)aabb\", \"aaabb\")\n+    ok(\"(?>aa|a)aabb\", \"aaabb\")\n+\n+    // quantifiers over look ahead\n+    okko(\".*(?<=abc)*\\\\.log$\", \"cde.log\", \"cde.log\")\n+  }\n+\n+  testFails(\"(not supported) possessive quantifiers\", 620) {\n+    // zero or one, prefer more\n+    ok(\"X?+\", \"\")\n+    ok(\"X?+\", \"X\")\n+    find(\".?+X\", \"X\", ok = false)\n+\n+    // zero or more, prefer more\n+    ok(\"X*+\", \"\")\n+    ok(\"X*+\", \"XXX\")\n+    find(\".?+X\", \"X\", ok = false)\n+\n+    // one or more, prefer more\n+    ko(\"X++\", \"\")\n+    ok(\"X++\", \"XXX\")\n+\n+    // exactly n\n+    ok(\"X{3}+\", \"XXX\")\n+    ko(\"^X{3}+$\", \"XXXX\")\n+\n+    // n or more, prefer more\n+    ok(\"^X{3,}+$\", \"XXXX\")\n+    ko(\"^X{3,}+$\", \"XX\")\n+\n+    // [n, m], prefer more\n+    ko(\"^X{3,5}+$\", \"XX\")\n+    ok(\"^X{3,5}+$\", \"XXX\")\n+    ok(\"^X{3,5}+$\", \"XXXX\")\n+    ok(\"^X{3,5}+$\", \"XXXXX\")\n+    ko(\"^X{3,5}+$\", \"XXXXXX\")\n+  }\n+\n+  test(\"syntax exceptions\") {\n+    assertThrows2[PatternSyntaxException](\n+      Pattern.compile(\"foo\\\\L\"),\n+      e => {\n+        e.getDescription == \"Illegal/unsupported escape sequence\" &&\n+        e.getIndex == 3 &&\n+        e.getPattern == \"foo\\\\L\" &&\n+        e.getMessage ==\n+          \"\"\"|Illegal/unsupported escape sequence near index 3\n+             |foo\\L\n+             |   ^\"\"\".stripMargin\n+      }\n+    )\n+    syntax(\"foo\\\\Lbar\", \"Illegal/unsupported escape sequence\", 3)\n+    syntax(\"foo[bar\", \"Unclosed character class\", 3)\n+    syntax(\"foo\\\\\", \"Trailing Backslash\", 3)\n+    syntax(\"[a-0]\", \"Illegal character range\", 1)\n+    syntax(\"*\", \"Dangling meta character '*'\", 0)\n+    syntax(\"foo(bar(foo)baz\", \"Missing parenthesis\", 0)\n+    syntax(\"foo(foo)bar)baz\", \"Missing parenthesis\", 0)\n+  }\n+\n+  private def syntax(pattern: String, description: String, index: Int): Unit = {\n+    assertThrows2[PatternSyntaxException](\n+      Pattern.compile(pattern),\n+      e => {\n+\n+        e.getDescription == description &&\n+        e.getPattern == pattern\n+        e.getIndex == index\n+      }\n+    )\n+  }\n+\n+  private def ok(pattern: String, input: String): Unit =\n+    matches(pattern, input, ok = true)\n+\n+  private def ko(pattern: String, input: String): Unit =\n+    matches(pattern, input, ok = false)\n+\n+  private def okko(pattern: String, okInput: String, koInput: String): Unit = {"
+  }
+]

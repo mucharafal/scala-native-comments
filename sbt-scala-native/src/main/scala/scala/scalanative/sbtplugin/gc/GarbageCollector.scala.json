@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "77aa4e84-b227-4c07-a929-0392a147cba8",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "fc862516-57c8-4731-8f23-5e2e51c2f679",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't need a separate subpackage for that. Let it live straight in `sbtplugin`.",
+        "createdAt" : "2017-03-16T12:45:45Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,38 @@\n+package scala.scalanative\n+package sbtplugin\n+package gc"
+  },
+  {
+    "id" : "71a201a4-0ce3-498c-ae92-4b6fbdec0a5d",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "8afc2ef3-cf86-48d9-b03b-36f6afa9ba83",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those two methods are better of being inside ScalaNativePluginInternal. GC definition can just be a simple ADT. ",
+        "createdAt" : "2017-03-16T13:11:27Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,38 @@\n+package scala.scalanative\n+package sbtplugin\n+package gc\n+\n+import java.io.File\n+\n+/**\n+ * @param dir directory name of the gc\n+ * @param links dependencies of the gc\n+ */\n+abstract class GarbageCollector(dir: String, val links: Seq[String] = Nil) {\n+  // Directory in nativelib containing the garbage collectors\n+  private final val garbageCollectorsDir = \"gc\"\n+  private val specificDir                = s\"$garbageCollectorsDir/$dir\"\n+\n+  /**\n+   *\n+   * Used to find files that should not be compiled\n+   *\n+   * @param path the path to the file\n+   * @param nativelib nativelib directory\n+   * @return true if path is in the nativelib gc directory but not the current GC, false otherwise\n+   */\n+  private def isOtherGC(path: String, nativelib: File): Boolean = {\n+    val nativeGCPath = nativelib.toPath.resolve(garbageCollectorsDir)\n+    path.contains(nativeGCPath.toString) && !path.contains(specificDir)\n+  }\n+\n+  /**\n+   * Removes all files specific to other gcs.\n+   */\n+  def filterFiles(files: Seq[File], nativelib: File): Seq[File] =\n+    files.filterNot(f => isOtherGC(f.getPath().toString, nativelib))"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "23a74041-0c97-4013-b3ae-7ddf1fb3b8e7",
+    "prId" : 53,
+    "comments" : [
+      {
+        "id" : "9e13430f-3b61-48f5-812c-b4208b44cf56",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`brew install bdw-gc` is quite a bit simpler than building it manually. \n",
+        "createdAt" : "2016-05-13T02:56:33Z",
+        "updatedAt" : "2016-05-16T13:55:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4229e248f26c1ee4a1ce0aacc5b73aae23f6c288",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,29 @@\n+# Resolving issue with gc.h\n+\n+You will also need a version of the BOEHM GC either provided by the Operating System repositories or compiled from source. Refer to below instructions for your OS respectively.\n+\n+## Fedora\n+\n+```\n+sudo yum install gc-devel\n+```\n+\n+## Ubuntu\n+\n+```\n+sudo apt-get install libgc-dev\n+```\n+\n+## OSX\n+\n+```\n+git clone git://github.com/ivmai/bdwgc.git\n+cd bdwgc\n+git clone git://github.com/ivmai/libatomic_ops.git\n+autoreconf -vif\n+automake --add-missing\n+./configure\n+make\n+make check\n+sudo make install"
+  }
+]

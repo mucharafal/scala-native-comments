@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "a0b90151-2b4d-4c17-b038-7e82ba345751",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "f922ad08-49d2-4fa9-b654-e8dadf1dba60",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This file should be in `nativelib/src/main/scala/java/net/SocketHelpers.scala`. When compiling a Scala program, it won't be on the compilation classpath, meaning that you won't be able to use it. I understand that this is an implementation detail, but since you can't use it directly, you won't be able to unit test it, and I have the feeling that this is something that could easily be broken by a refactoring, for instance.",
+        "createdAt" : "2017-07-17T07:03:34Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "68625ae2-5d07-4d77-89e9-cc2554f1a269",
+        "parentId" : "f922ad08-49d2-4fa9-b654-e8dadf1dba60",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I just realised you have already moved it, you can delete this one then.",
+        "createdAt" : "2017-07-17T07:14:40Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5af40a27-e990-4752-a20a-15939c364894",
+        "parentId" : "f922ad08-49d2-4fa9-b654-e8dadf1dba60",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-07-17T10:10:03Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,185 @@\n+package java.net\n+\n+import scala.scalanative.native._\n+import scala.scalanative.posix.{netdb, netdbOps}, netdb._, netdbOps._\n+import scala.scalanative.posix.arpa.inet._\n+import scala.scalanative.posix.sys.socketOps._\n+import scala.scalanative.posix.sys.socket._\n+import scala.scalanative.posix.sys.select._\n+import scala.scalanative.posix.unistd.close\n+import scala.scalanative.posix.fcntl._\n+import scala.scalanative.posix.sys.selectOps._\n+import scala.scalanative.posix.netinet.{in, inOps}, in._, inOps._\n+\n+private[net] object SocketHelpers {\n+\n+  def isReachableByEcho(ip: String, timeout: Int, port: Int): Boolean = {\n+    Zone { implicit z =>\n+      val cIP   = toCString(ip)\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_protocol = 0\n+      hints.ai_addr = null\n+      hints.ai_flags = 4 // AI_NUMERICHOST\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_next = null\n+\n+      if (getaddrinfo(cIP, toCString(port.toString), hints, ret) != 0) {\n+        return false\n+      }\n+\n+      val sock = socket((!ret).ai_family, SOCK_STREAM, (!ret).ai_protocol);\n+      if (sock < 0) {\n+        freeaddrinfo(!ret)\n+        return false\n+      }\n+      fcntl(sock, F_SETFL, O_NONBLOCK)\n+\n+      val fdset = stackalloc[fd_set]\n+      !fdset._1 = stackalloc[CLongInt](FD_SETSIZE / sizeof[CLongInt])\n+      FD_ZERO(fdset)\n+      FD_SET(sock, fdset)\n+\n+      val time = stackalloc[timeval]\n+      time.tv_sec = timeout / 1000\n+      time.tv_usec = (timeout % 1000) * 1000\n+\n+      connect(sock, (!ret).ai_addr, (!ret).ai_addrlen)\n+\n+      if (select(sock + 1, null, fdset, null, time) == 1) {\n+        val so_error = stackalloc[CInt].cast[Ptr[Byte]]\n+        val len      = stackalloc[socklen_t]\n+        !len = sizeof[CInt].toUInt\n+        getsockopt(sock, SOL_SOCKET, SO_ERROR, so_error, len)\n+        if (!(so_error.cast[Ptr[CInt]]) != 0) {\n+          freeaddrinfo(!ret)\n+          close(sock)\n+          return false\n+        }\n+      }\n+\n+      freeaddrinfo(!ret)\n+\n+      val sentBytes = send(sock, toCString(\"echo\"), 4, 0)\n+      if (sentBytes < 4) {\n+        close(sock)\n+        return false\n+      }\n+\n+      if (select(sock + 1, fdset, null, null, time) != 1) {\n+        close(sock)\n+        return false;\n+      } else {\n+        val buf      = stackalloc[CChar](5)\n+        val recBytes = recv(sock, buf, 5, 0)\n+        if (recBytes < 4) {\n+          close(sock)\n+          return false\n+        }\n+      }\n+\n+      close(sock)\n+    }\n+    true\n+  }\n+\n+  def hostToIp(host: String): Option[String] = {\n+    Zone { implicit z =>\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      var ipstr = stackalloc[CChar](INET6_ADDRSTRLEN + 1)\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_socktype = 0\n+      hints.ai_next = null\n+\n+      val status = getaddrinfo(toCString(host), null, hints, ret)\n+      if (status != 0)\n+        return None\n+\n+      var addr = stackalloc[Byte]\n+      if ((!ret).ai_family == AF_INET) {\n+        addr = (!ret).ai_addr.cast[Ptr[sockaddr_in]].sin_addr.cast[Ptr[Byte]]\n+      } else {\n+        addr = (!ret).ai_addr.cast[Ptr[sockaddr_in6]].sin6_addr.cast[Ptr[Byte]]\n+      }\n+      inet_ntop((!ret).ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)\n+      freeaddrinfo(!ret)\n+      Some(fromCString(ipstr))\n+    }\n+  }\n+\n+  def hostToIpArray(host: String): scala.Array[String] = {\n+    Zone { implicit z =>\n+      var hints = stackalloc[addrinfo]\n+      var ret   = stackalloc[Ptr[addrinfo]]\n+\n+      string.memset(hints.cast[Ptr[Byte]], 0, sizeof[addrinfo])\n+      hints.ai_family = AF_UNSPEC\n+      hints.ai_socktype = SOCK_STREAM\n+      hints.ai_protocol = 0\n+      hints.ai_canonname = null\n+      hints.ai_addr = null\n+      hints.ai_next = null\n+\n+      val retArray = scala.collection.mutable.ArrayBuffer[String]()\n+      val status   = getaddrinfo(toCString(host), null, hints, ret)\n+      if (status != 0)\n+        return scala.Array.empty[String]\n+\n+      var p = !ret\n+      while (p != null) {\n+        var ipstr = stackalloc[CChar](INET6_ADDRSTRLEN + 1)\n+        var addr  = stackalloc[Byte]\n+        if (p.ai_family == AF_INET) {\n+          addr = p.ai_addr.cast[Ptr[sockaddr_in]].sin_addr.cast[Ptr[Byte]]\n+        } else {\n+          addr = p.ai_addr.cast[Ptr[sockaddr_in6]].sin6_addr.cast[Ptr[Byte]]\n+        }\n+        inet_ntop(p.ai_family, addr, ipstr, INET6_ADDRSTRLEN.toUInt)\n+        retArray += fromCString(ipstr)\n+        p = p.ai_next.cast[Ptr[addrinfo]]\n+      }\n+      freeaddrinfo(!ret)\n+      retArray.toArray\n+    }\n+  }\n+\n+  def ipToHost(ip: String, isV6: Boolean): Option[String] = {\n+    Zone { implicit z =>\n+      var status  = 0\n+      val host    = stackalloc[CChar](1024)\n+      val service = stackalloc[CChar](20)\n+      if (isV6) {\n+        val addr6 = stackalloc[sockaddr_in6]\n+        addr6.sin6_family = AF_INET6.toUShort\n+        inet_pton(AF_INET6, toCString(ip), addr6.sin6_addr.cast[Ptr[Byte]])\n+        status = getnameinfo(addr6.cast[Ptr[sockaddr]],\n+                             sizeof[sockaddr_in6].toUInt,\n+                             host,\n+                             1024.toUInt,\n+                             service,\n+                             20.toUInt,\n+                             0)\n+      } else {\n+        val addr4 = stackalloc[sockaddr_in]\n+        addr4.sin_family = AF_INET.toUShort\n+        inet_pton(AF_INET, toCString(ip), addr4.sin_addr.cast[Ptr[Byte]])\n+        status = getnameinfo(addr4.cast[Ptr[sockaddr]],\n+                             sizeof[sockaddr_in].toUInt,\n+                             host,\n+                             1024.toUInt,\n+                             service,\n+                             20.toUInt,\n+                             0)\n+      }\n+\n+      if (status == 0) Some(fromCString(host)) else None\n+    }\n+  }\n+\n+}"
+  }
+]

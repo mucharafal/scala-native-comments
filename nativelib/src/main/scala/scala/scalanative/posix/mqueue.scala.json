@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "46834d48-f337-4e9e-acd0-857a2946a016",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "a24ff0bd-da12-4f79-917c-866b419fa0fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same as above for `time.h`, please link to POSIX docs, not linux docs.",
+        "createdAt" : "2017-05-03T09:37:59Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 9,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+package scala.scalanative\n+package posix\n+\n+import native._\n+import native.signal.sigevent\n+import native.time.timespec\n+import sys.types.{ssize_t, mode_t}\n+\n+// http://man7.org/linux/man-pages/man7/mq_overview.7.html"
+  },
+  {
+    "id" : "6237a6b2-47d3-4087-9f77-334157207fa1",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "a59807f5-6b3f-4be4-8a40-51321f25c7c0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is a binding for linux version, POSIX one differs: http://pubs.opengroup.org/onlinepubs/9699919799/functions/mq_open.html",
+        "createdAt" : "2017-05-03T09:44:14Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+package scala.scalanative\n+package posix\n+\n+import native._\n+import native.signal.sigevent\n+import native.time.timespec\n+import sys.types.{ssize_t, mode_t}\n+\n+// http://man7.org/linux/man-pages/man7/mq_overview.7.html\n+\n+@extern\n+object mqueue {\n+\n+  def mq_open(name: CString,\n+              oflag: CInt,\n+              mode: mode_t,\n+              attr: Ptr[mq_attr]): mqd_t                 = extern"
+  }
+]

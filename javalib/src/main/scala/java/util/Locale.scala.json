@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "a089a59c-5724-4f80-afd1-f0cf63adafe1",
+    "prId" : 573,
+    "comments" : [
+      {
+        "id" : "e69942e4-763b-4151-b23e-2f92f62b5297",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This comment is not very informative, lets keep it out. ",
+        "createdAt" : "2017-03-31T11:36:49Z",
+        "updatedAt" : "2017-03-31T13:35:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4cbdf364c98063d7d7b2615615657b4ad61487cd",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,165 @@\n package java.util\n \n-final class Locale\n+//import java.{util => ju}\n+\n+/** Ported from Harmony and using Java API docs.\n+ *\n+ * TODO: Commented out code needs implementing.\n+ *\n+ * Harmony defers much of the work to icu4j from\n+ * [[http://site.icu-project.org/ ICU - International Components for Unicode]]\n+ */\n+final class Locale(val language: String,\n+                   val country: String,\n+                   val variant: String)\n+    extends Serializable\n+    with Cloneable {\n+\n+  if (language == null || country == null || variant == null)\n+    throw new NullPointerException()\n+\n+  def this(language: String) = this(language, \"\", \"\")\n+\n+  def this(language: String, country: String) = this(language, country, \"\")\n+\n+  override def clone() = {\n+    try {\n+      super.clone\n+    } catch {\n+      case e: CloneNotSupportedException => null\n+    }\n+  }\n+\n+  @inline override def equals(that: Any): scala.Boolean =\n+    that match {\n+      case that: Locale =>\n+        language == that.language &&\n+          country == that.country &&\n+          variant == that.variant\n+      case _ =>\n+        false\n+    }\n+\n+  def getCountry(): String = country\n+\n+  //def getDisplayCountry(): String = ???\n+\n+  //def getDisplayCountry(locale: Locale): String = ???\n+\n+  //def getDisplayLanguage(): String = ???\n+\n+  //def getDisplayLanguage(locale: Locale): String = ???\n+\n+  //def getDisplayName(): String = ???\n+\n+  //def getDisplayName(locale: Locale): String = ???\n+\n+  //def getDisplayScript(): String = ???\n+\n+  //def getDisplayScript(locale: Locale): String = ???\n+\n+  //def getDisplayVariant(): String = ???\n+\n+  //def getDisplayVariant(locale: Locale): String = ???\n+\n+  //def getExtension(key: Char): String = ???\n+\n+  //def getExtensionKeys(): ju.Set[Character] = ???\n+\n+  //def getISO3Country(): String = ???\n+\n+  //def getISO3Language(): String = ???\n+\n+  //def getLanguage(): String = language\n+\n+  //def getScript(): String = ???\n+\n+  //def getUnicodeLocaleAttributes(): ju.Set[String] = ???\n+\n+  //def getUnicodeLocaleKeys(): ju.Set[String] = ???\n+\n+  //def getUnicodeLocaleType(key: String) = ???\n+\n+  //def getVariant(): String = variant\n+\n+  // synchronized in Java"
+  },
+  {
+    "id" : "e2a47ee8-8c1c-48ab-9584-05048484d305",
+    "prId" : 573,
+    "comments" : [
+      {
+        "id" : "2c4d8ac0-baad-4920-869f-338a2fb2e17e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one too should probably not be there.",
+        "createdAt" : "2017-03-31T11:37:09Z",
+        "updatedAt" : "2017-03-31T13:35:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4cbdf364c98063d7d7b2615615657b4ad61487cd",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,165 @@\n package java.util\n \n-final class Locale\n+//import java.{util => ju}\n+\n+/** Ported from Harmony and using Java API docs.\n+ *\n+ * TODO: Commented out code needs implementing.\n+ *\n+ * Harmony defers much of the work to icu4j from\n+ * [[http://site.icu-project.org/ ICU - International Components for Unicode]]\n+ */\n+final class Locale(val language: String,\n+                   val country: String,\n+                   val variant: String)\n+    extends Serializable\n+    with Cloneable {\n+\n+  if (language == null || country == null || variant == null)\n+    throw new NullPointerException()\n+\n+  def this(language: String) = this(language, \"\", \"\")\n+\n+  def this(language: String, country: String) = this(language, country, \"\")\n+\n+  override def clone() = {\n+    try {\n+      super.clone\n+    } catch {\n+      case e: CloneNotSupportedException => null\n+    }\n+  }\n+\n+  @inline override def equals(that: Any): scala.Boolean =\n+    that match {\n+      case that: Locale =>\n+        language == that.language &&\n+          country == that.country &&\n+          variant == that.variant\n+      case _ =>\n+        false\n+    }\n+\n+  def getCountry(): String = country\n+\n+  //def getDisplayCountry(): String = ???\n+\n+  //def getDisplayCountry(locale: Locale): String = ???\n+\n+  //def getDisplayLanguage(): String = ???\n+\n+  //def getDisplayLanguage(locale: Locale): String = ???\n+\n+  //def getDisplayName(): String = ???\n+\n+  //def getDisplayName(locale: Locale): String = ???\n+\n+  //def getDisplayScript(): String = ???\n+\n+  //def getDisplayScript(locale: Locale): String = ???\n+\n+  //def getDisplayVariant(): String = ???\n+\n+  //def getDisplayVariant(locale: Locale): String = ???\n+\n+  //def getExtension(key: Char): String = ???\n+\n+  //def getExtensionKeys(): ju.Set[Character] = ???\n+\n+  //def getISO3Country(): String = ???\n+\n+  //def getISO3Language(): String = ???\n+\n+  //def getLanguage(): String = language\n+\n+  //def getScript(): String = ???\n+\n+  //def getUnicodeLocaleAttributes(): ju.Set[String] = ???\n+\n+  //def getUnicodeLocaleKeys(): ju.Set[String] = ???\n+\n+  //def getUnicodeLocaleType(key: String) = ???\n+\n+  //def getVariant(): String = variant\n+\n+  // synchronized in Java\n+  @inline override def hashCode(): Int = this.synchronized {\n+    country.hashCode() + language.hashCode() + variant.hashCode()\n+  }\n+\n+  //def toLanguageTag(): String = ???\n+\n+  // Examples: \"en\", \"en_US\", \"_US\", \"en__POSIX\", \"en_US_POSIX\"\n+  @inline override def toString(): String = {\n+    // straight port"
+  },
+  {
+    "id" : "f2cf059d-bcb0-4b98-96d2-2050ca74d7bf",
+    "prId" : 573,
+    "comments" : [
+      {
+        "id" : "6c130f3c-92b5-445f-97a1-20dd60381467",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This line is not necessary.",
+        "createdAt" : "2017-03-31T12:11:30Z",
+        "updatedAt" : "2017-03-31T13:35:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cbd9fdb9-467d-4f53-9f69-06e72df9f37d",
+        "parentId" : "6c130f3c-92b5-445f-97a1-20dd60381467",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I left that line commented out as other commented methods return `ju.Set`. Other places in the code used that alias so I thought it was helpful.",
+        "createdAt" : "2017-03-31T12:36:02Z",
+        "updatedAt" : "2017-03-31T13:35:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "20592755-ea0a-48ef-a20d-c21e16c5563b",
+        "parentId" : "6c130f3c-92b5-445f-97a1-20dd60381467",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I see, lets keep it for now then. ",
+        "createdAt" : "2017-03-31T12:55:49Z",
+        "updatedAt" : "2017-03-31T13:35:10Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4cbdf364c98063d7d7b2615615657b4ad61487cd",
+    "line" : 4,
+    "diffHunk" : "@@ -1,7 +1,165 @@\n package java.util\n \n-final class Locale\n+//import java.{util => ju}"
+  }
+]

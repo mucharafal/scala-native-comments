@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "a494eef2-37f9-464a-b57a-880c4d034f7f",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "1d49376f-e195-4cca-9ee4-b798a5f238de",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Why is this necessary?",
+        "createdAt" : "2017-06-14T09:37:19Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3f883087-124d-4f87-b9d7-cd97a3df9044",
+        "parentId" : "1d49376f-e195-4cca-9ee4-b798a5f238de",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Inet4Address inherits static methods from InetAddress in Java. There are no statics in Scala, but importing functions from the companion object gives the same behaviour.",
+        "createdAt" : "2017-06-15T12:57:26Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "04c2111f-1920-4932-8f91-5b43181b92f1",
+        "parentId" : "1d49376f-e195-4cca-9ee4-b798a5f238de",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Unfortunately that's not how it works:\r\n```\r\nscala> object Foo { def bar = 1 }\r\ndefined object Foo\r\n\r\nscala> object Bar { import Foo._ }\r\ndefined object Bar\r\n\r\nscala> Bar.bar\r\n<console>:13: error: value bar is not a member of object Bar\r\n       Bar.bar\r\n           ^\r\n```\r\n\r\nCalling functions of `object Inet4Address` will still result in a linking error.",
+        "createdAt" : "2017-06-28T08:41:57Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package java.net\n+\n+final class Inet4Address private[net] (ipAddress: Array[Byte], host: String)\n+    extends InetAddress(ipAddress, host) {\n+\n+  private[net] def this(ipAddress: Array[Byte]) = this(ipAddress, null)\n+\n+  def isMulticastAddress(): Boolean =\n+    (ipAddress(0) & 0xF0) == 0xE0\n+\n+  def isAnyLocalAddress(): Boolean =\n+    ipAddress.forall(_ == 0)\n+\n+  def isLoopbackAddress(): Boolean =\n+    (ipAddress(0) & 255) == 127\n+\n+  def isLinkLocalAddress(): Boolean =\n+    ((ipAddress(0) & 255) == 169) && ((ipAddress(1) & 255) == 254)\n+\n+  def isSiteLocalAddress(): Boolean = {\n+    ((ipAddress(0) & 255) == 10) || ((ipAddress(0) & 255) == 172) &&\n+    (((ipAddress(1) & 255) > 15) && (ipAddress(1) & 255) < 32) ||\n+    ((ipAddress(0) & 255) == 192) && ((ipAddress(1) & 255) == 168)\n+  }\n+\n+  def isMCGlobal(): Boolean = {\n+    if (!isMulticastAddress) return false\n+\n+    val address = InetAddress.bytesToInt(ipAddress, 0)\n+\n+    if (address >>> 8 < 0xE00001) return false\n+\n+    if (address >>> 24 > 0xEE) return false\n+\n+    true\n+  }\n+\n+  def isMCNodeLocal(): Boolean = false\n+\n+  def isMCLinkLocal(): Boolean =\n+    InetAddress.bytesToInt(ipAddress, 0) >>> 8 == 0xE00000\n+\n+  def isMCSiteLocal(): Boolean =\n+    (InetAddress.bytesToInt(ipAddress, 0) >>> 16) == 0xEFFF\n+\n+  def isMCOrgLocal(): Boolean = {\n+    val prefix = InetAddress.bytesToInt(ipAddress, 0) >>> 16\n+    prefix >= 0xEFC0 && prefix <= 0xEFC3\n+  }\n+\n+}\n+\n+object Inet4Address {\n+  import InetAddress._\n+}"
+  },
+  {
+    "id" : "cd063792-d22e-4e5d-b308-a304533d7c24",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "2e9a32cb-202b-426e-bae6-bd90d53a492d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Is this `// Ported from Apache Harmony` ?",
+        "createdAt" : "2017-06-15T07:29:40Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,55 @@\n+package java.net\n+\n+final class Inet4Address private[net] (ipAddress: Array[Byte], host: String)"
+  }
+]

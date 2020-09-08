@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "fe93aac7-7867-4380-9ee1-89c470dbc793",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "8bf15d1d-b1d1-4a80-9525-392f5a934774",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "can we remove this and give links errors",
+        "createdAt" : "2017-03-21T03:09:01Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.io\n+\n+import java.nio.channels.FileChannel\n+\n+import scalanative.native._, stdlib._, stdio._, string._\n+import scala.scalanative.posix.unistd\n+import unistd._\n+import scala.scalanative.runtime.GC\n+\n+class FileInputStream(fd: FileDescriptor) extends InputStream {\n+\n+  def this(file: File) = this(FileInputStream.fileDescriptor(file))\n+  def this(str: String) = this(new File(str))\n+\n+  override def available(): Int = {\n+    val currentPosition = lseek(fd.fd, 0, SEEK_CUR)\n+    val lastPosition    = lseek(fd.fd, 0, SEEK_END)\n+    lseek(fd.fd, currentPosition, SEEK_SET)\n+    (lastPosition - currentPosition).toInt\n+  }\n+\n+  override def close(): Unit =\n+    fcntl.close(fd.fd)\n+\n+  override protected def finalize(): Unit =\n+    close()\n+\n+  def getChannel: FileChannel ="
+  },
+  {
+    "id" : "6f7d0f0b-30cf-4a9b-9cf7-275698dc84c8",
+    "prId" : 685,
+    "comments" : [
+      {
+        "id" : "e1e40155-3b0c-4f62-9370-ee6aa2a740ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Doing it via `.toUnsignedInt.toInt` would be a bit less cryptic. ",
+        "createdAt" : "2017-05-24T15:44:04Z",
+        "updatedAt" : "2017-05-25T08:41:40Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d58186dc-dffa-4616-8634-364bb83fbf6a",
+        "parentId" : "e1e40155-3b0c-4f62-9370-ee6aa2a740ff",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I changed it to use `.toUInt.toInt`",
+        "createdAt" : "2017-05-25T08:42:19Z",
+        "updatedAt" : "2017-05-25T08:42:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a6863a7de93540d9f59834a4e2501c1677366d9",
+    "line" : null,
+    "diffHunk" : "@@ -29,7 +29,7 @@ class FileInputStream(fd: FileDescriptor) extends InputStream {\n   override def read(): Int = {\n     val buffer = new Array[Byte](1)\n     if (read(buffer) <= 0) -1\n-    else buffer(0)\n+    else buffer(0) & 0xFF"
+  }
+]

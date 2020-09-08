@@ -1,0 +1,153 @@
+[
+  {
+    "id" : "4aa1f8d5-8d83-483a-bb82-b9fefd10d2b9",
+    "prId" : 1609,
+    "comments" : [
+      {
+        "id" : "84d86afc-084a-4d2d-94d0-3f2af013f84d",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "To be friendly to developers running the test suite on systems other than Travis, the two\r\ntests expected to throw should execute only on Travis.\r\n\r\nAdapting the Travis detection  idiom kindly supplied by  @francisdb on SN gitter:\r\n(needs scalafmt)\r\n```\r\n val isTravis = System.getenv(\"TRAVIS\") == \"true\"\r\n \r\n  test(\"lookupPrincipalByName throws exception for `gobbledygook` user\") {\r\n      if (isTravis) {\r\n          assertThrows[UserPrincipalNotFoundException](\r\n          lookupService.lookupPrincipalByName(\"gobbledygook\"))\r\n     }\r\n}\r\n```",
+        "createdAt" : "2019-06-26T22:52:31Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2726ecd5-aa5e-45e7-93cb-6dd305e48ee6",
+        "parentId" : "84d86afc-084a-4d2d-94d0-3f2af013f84d",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2019-06-30T13:06:16Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "29477f86dd95b0556d50984e2501250ea3c88017",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,27 @@\n+package java.nio.file.attribute\n+\n+import java.nio.file.FileSystems\n+\n+object UserPrincipalLookupServiceSuite extends tests.Suite {\n+  val lookupService = FileSystems.getDefault.getUserPrincipalLookupService\n+\n+  test(\"lookupPrincipalByName succeeds for `root` user\") {\n+    assert(\n+      lookupService.lookupPrincipalByName(\"root\").getName == \"root\")\n+  }\n+\n+  test(\"lookupPrincipalByName throws exception for `gobbledygook` user\") {"
+  },
+  {
+    "id" : "90e00167-2cca-45a0-8976-104cbf357113",
+    "prId" : 1609,
+    "comments" : [
+      {
+        "id" : "a785874f-c4b3-4d46-b731-e10f05436f2a",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Studying the test suite I kept asking myself:  What confidence do I/we have that the problem described\r\nas a reproducer in the original commit is actually both fixed and shown to be fixed?\r\n\r\nAfter a number of design studies, I believe a simple solution is to add a test here which does a \r\nlookup of a strictly numeric group name believed to not exist on Travis, say  65501 (not 65534).\r\n\r\nThis test would get a short comment that it shows the reproducer in the base commit note\r\nis fixed.  Yes, future devos will have to spend time figuring out this is true. It is not face evident\r\nbut a comment will give some future devo a clue & starting place.\r\n\r\nThe second edit would be to edit the base commit to say that identify the test & file that gives the\r\nessence of the long form reproducer given.  I would keep that long form raw reproducer.\r\n\r\n[needs scalafmt]\r\n\r\ntest(\"lookupPrincipalByGroupName succeeds for gid only group 65501\") {\r\n if (isTravis) {\r\n    val expected = \"65501\"\r\n    assert(\r\n      lookupService.lookupPrincipalByGroupName(expected).getName == expected)\r\n  }\r\n}\r\n\r\n",
+        "createdAt" : "2019-06-26T23:07:59Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d0c13e06-2912-4972-a83c-0d0a63f92e3d",
+        "parentId" : "a785874f-c4b3-4d46-b731-e10f05436f2a",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "To be honest, I thought this will just not work since you cannot simply pass a UID / GID for a name.\r\n\r\nBut you're right. There's a crazy [loophole](https://github.com/keerath/openjdk-8-source/blob/5f6e9d42a9f6b6736100c9c6f43f5f5ea1570cfb/jdk/src/solaris/classes/sun/nio/fs/UnixUserPrincipals.java#L150-L157) (which is not even documented), but you can create a User or Group principal if you pass an arbitrary integer value as String to the `lookupByName` or `lookupByGroupName` methods of the `UserPrincipalLookupService`. :scream:",
+        "createdAt" : "2019-06-30T12:02:23Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f7c1fef1-a086-45a9-8a6c-565d203796ae",
+        "parentId" : "a785874f-c4b3-4d46-b731-e10f05436f2a",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "I think, in this light, we should add tests which check that for any Integer.toString argument, both functions do not throw and return a user with the given \"name\".\r\n\r\nAlas, that does not really reproduce the initial problem. It doesn't even hit the same code path (if we imitate the implementation in OpenJDK 8). The initial problem was to lookup a user/group name for a UID/GID, respectively. For that matter we would need to exercise the `getUsername` and `getGroupName` methods which are only called if the `NativeUserPrincipal`'s `name` is `None`.\r\n\r\nIs it possible to access the classes in the `scala.scalanative.nio.fs.attribute` package from the unit-tests?",
+        "createdAt" : "2019-06-30T12:32:54Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d7997439-bf4d-49b4-9956-e5b5fc0f0a91",
+        "parentId" : "a785874f-c4b3-4d46-b731-e10f05436f2a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@avdv \r\nThe `Very important notice about Javalib` of the [Contributing Guidelines](https://scala-native.readthedocs.io/en/v0.3.9-docs/contrib/contributing.html#very-important-notice-about-javalibl) say that we can not\r\nuse or look at OpenJDk code, so we can not use either the code nor the knowledge of the loophole.\r\n\r\nHowever, we can use knowledge from before looking at the code.  A careful reading of the Java * docs\r\nindicates that all Principals have a name.  The information you provided in the base note indicates that\r\nthe name used for gid when there is no other in /etc/groups is gid.\r\n\r\nI checked the discontinued Apache Harmony javalib implementation, which we _can_ look at. Its Principals\r\nall throw if a name is not provide.\r\n\r\nI think the concept you have surfaced that all Principals have a name allows a major simplification of the code,   \r\n\r\n\r\n",
+        "createdAt" : "2019-07-02T00:55:56Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2fe54968-c99f-42f9-865b-f0856908b7ed",
+        "parentId" : "a785874f-c4b3-4d46-b731-e10f05436f2a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "yes, you are correct, with this generation of changes, the test to prove the base issue was fixed I proposed\r\nis no longer useful.  I'll try again.",
+        "createdAt" : "2019-07-02T00:57:02Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "29477f86dd95b0556d50984e2501250ea3c88017",
+    "line" : 45,
+    "diffHunk" : "@@ -0,0 +1,27 @@\n+package java.nio.file.attribute\n+\n+import java.nio.file.FileSystems\n+\n+object UserPrincipalLookupServiceSuite extends tests.Suite {\n+  val lookupService = FileSystems.getDefault.getUserPrincipalLookupService\n+\n+  test(\"lookupPrincipalByName succeeds for `root` user\") {\n+    assert(\n+      lookupService.lookupPrincipalByName(\"root\").getName == \"root\")\n+  }\n+\n+  test(\"lookupPrincipalByName throws exception for `gobbledygook` user\") {\n+    assertThrows[UserPrincipalNotFoundException](\n+      lookupService.lookupPrincipalByName(\"gobbledygook\"))\n+  }\n+\n+  test(\"lookupPrincipalByGroupName succeeds for `root` group\") {\n+    assert(\n+      lookupService.lookupPrincipalByGroupName(\"root\").getName == \"root\")\n+  }\n+\n+  test(\"lookupPrincipalByGroupName throws exception for `gobbledygook` group\") {\n+    assertThrows[UserPrincipalNotFoundException](\n+      lookupService.lookupPrincipalByGroupName(\"gobbledygook\"))\n+  }\n+}"
+  }
+]

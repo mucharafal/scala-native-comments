@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "3e068e29-017d-4045-ac5f-0d8e419aa596",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "265aec54-65b2-4629-9aab-7416611e780f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It looks like `targetArchitecture` is not used here.",
+        "createdAt" : "2018-10-29T09:35:47Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0c1a77ea-a75d-4072-ab72-f8b600ebe889",
+        "parentId" : "265aec54-65b2-4629-9aab-7416611e780f",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "It's used when calculating field layouts, as `meta.targetArchitecture`.",
+        "createdAt" : "2018-10-29T16:43:50Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 9,
+    "diffHunk" : "@@ -6,7 +6,11 @@ import scalanative.nir._\n import scalanative.sema._\n import scalanative.linker.{Trait, Struct, Class}\n \n-class Metadata(val linked: linker.Result, proxies: Seq[Defn]) {\n+import scala.scalanative.build.TargetArchitecture\n+\n+class Metadata(val linked: linker.Result,\n+               proxies: Seq[Defn],\n+               val targetArchitecture: TargetArchitecture) {"
+  }
+]

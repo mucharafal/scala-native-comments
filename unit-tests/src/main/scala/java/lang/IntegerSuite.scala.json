@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "ab3f31eb-8c5a-42b9-b7ef-cb1f5679aec4",
+    "prId" : 288,
+    "comments" : [
+      {
+        "id" : "5fe5fe70-3dce-4d48-b783-a4867ffba71f",
+        "parentId" : null,
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "I'm missing some test for the corner cases: `0`, `Integer.MAX_VALUE` and `Integer.MIN_VALUE`\n",
+        "createdAt" : "2016-09-13T13:25:29Z",
+        "updatedAt" : "2016-09-21T01:38:36Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "8d29f733f32fb8b1637b1a7d9b7eaea540ef2710",
+    "line" : 3,
+    "diffHunk" : "@@ -0,0 +1,38 @@\n+package java.lang\n+\n+object IntegerSuite extends tests.Suite {"
+  }
+]

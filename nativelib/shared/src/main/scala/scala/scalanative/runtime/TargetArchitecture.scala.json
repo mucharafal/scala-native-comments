@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "8c9a8713-2044-46d8-aff0-e4e80d263a9f",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "d91fa170-3ff9-4824-aad5-e3b1d7063647",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets use the same names for architectures as LLVM. This one should be just `arm `, and  64-bit one would be `aarch64`.",
+        "createdAt" : "2018-07-19T08:41:24Z",
+        "updatedAt" : "2018-07-19T09:20:20Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 25,
+    "diffHunk" : "@@ -0,0 +1,35 @@\n+package scala.scalanative\n+package runtime\n+\n+import native._\n+\n+sealed abstract class Bits(count: Int) {\n+  override def toString = count.toString\n+}\n+case object ThirtyTwo extends Bits(32)\n+case object SixtyFour extends Bits(64)\n+\n+/**\n+ * Represents the platform the built code will be run on.\n+ */\n+sealed abstract class TargetArchitecture(val bits: Bits,\n+                                         val isIntel: Boolean,\n+                                         val id: Int) {\n+  def is32 = bits == ThirtyTwo\n+}\n+\n+object TargetArchitecture {\n+  case object i386   extends TargetArchitecture(ThirtyTwo, true, 1)\n+  case object i686   extends TargetArchitecture(ThirtyTwo, true, 2)\n+  case object x86_64 extends TargetArchitecture(SixtyFour, true, 3)\n+  case object armv7l extends TargetArchitecture(ThirtyTwo, false, 4)"
+  },
+  {
+    "id" : "80c640fa-f0ca-44d2-9184-f0c40e330bfb",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "637ebacc-731b-4bff-8d13-f6d56a5e26d5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Are isIntel and id use anywhere? ",
+        "createdAt" : "2018-07-19T08:41:38Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,35 @@\n+package scala.scalanative\n+package runtime\n+\n+import native._\n+\n+sealed abstract class Bits(count: Int) {\n+  override def toString = count.toString\n+}\n+case object ThirtyTwo extends Bits(32)\n+case object SixtyFour extends Bits(64)\n+\n+/**\n+ * Represents the platform the built code will be run on.\n+ */\n+sealed abstract class TargetArchitecture(val bits: Bits,\n+                                         val isIntel: Boolean,\n+                                         val id: Int) {"
+  }
+]

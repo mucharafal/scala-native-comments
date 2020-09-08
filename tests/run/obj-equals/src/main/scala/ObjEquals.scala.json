@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "14daa85d-a6b8-4504-a32d-4f3f79d2deff",
+    "prId" : 281,
+    "comments" : [
+      {
+        "id" : "6bf2cd6c-6ea1-41ee-930d-95d48eccd03f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No need for `== true`. That's automatically implied by `assert`.\n",
+        "createdAt" : "2016-09-05T06:52:55Z",
+        "updatedAt" : "2016-09-05T06:52:55Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "589e7ae6d7f793a25456ffd9779292229699e962",
+    "line" : 9,
+    "diffHunk" : "@@ -0,0 +1,11 @@\n+object ObjEquals {\n+\n+  case class O(m: Int)\n+\n+  def main(args: Array[String]): Unit = {\n+    val a = new O(5)\n+    val b = new O(5)\n+\n+    assert((a==b) == true)"
+  }
+]

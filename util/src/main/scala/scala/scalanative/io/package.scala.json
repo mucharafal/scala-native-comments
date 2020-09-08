@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "d6617a5a-5790-4006-9fe2-c1dfc3a5b140",
+    "prId" : 401,
+    "comments" : [
+      {
+        "id" : "a5809913-6977-49a4-b5d8-566845ba25f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I bet this shouldn't be a *public val*.",
+        "createdAt" : "2016-11-23T14:43:46Z",
+        "updatedAt" : "2016-11-24T09:28:33Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "70ed7853-48d2-4ba7-bb55-3880c9a39294",
+        "parentId" : "a5809913-6977-49a4-b5d8-566845ba25f6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Ooops...",
+        "createdAt" : "2016-11-23T15:10:01Z",
+        "updatedAt" : "2016-11-24T09:28:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "45bf30ff68dc247bdb7422428a0ed548a8e2a7fb",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,19 @@\n+package scala.scalanative\n+\n+import java.nio.ByteBuffer\n+\n+package object io {\n+  // We allocate huge direct buffer, but due to virtual memory\n+  // semantics, only the used part is going to be actually provided\n+  // by the underlying OS.\n+  val defaultBuffer = ByteBuffer.allocateDirect(128 * 1024 * 1024)"
+  },
+  {
+    "id" : "c9b2e523-4716-4571-b05b-427912d23fb8",
+    "prId" : 715,
+    "comments" : [
+      {
+        "id" : "f68a8319-330f-4930-9663-4d2528d7c8f1",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "It seems to me that the `extension` parameter is redundant. What do you think about this?\r\n\r\n```scala\r\n  def packageNameFromPath(path: Path): String = {\r\n    val fileName = path.getFileName.toString\r\n    val base     = fileName.split('.').init.mkString(\".\")\r\n\r\n    Option(path.getParent) match {\r\n      case Some(parent) => parent.resolve(base).asScala.mkString(\".\")\r\n      case None         => base\r\n    }\r\n  }\r\n```",
+        "createdAt" : "2017-05-11T09:16:20Z",
+        "updatedAt" : "2017-05-14T20:05:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2d407cf9-7ddb-4e73-a003-8f7f20a234be",
+        "parentId" : "f68a8319-330f-4930-9663-4d2528d7c8f1",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Yes, that looks better. Fixed in 69b4328",
+        "createdAt" : "2017-05-11T12:17:05Z",
+        "updatedAt" : "2017-05-14T20:05:12Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d66a09f319d127c04c3746a7940794ea9f4b104a",
+    "line" : null,
+    "diffHunk" : "@@ -14,4 +16,13 @@ package object io {\n     try f(buffer)\n     finally pool.reclaim(buffer)\n   }\n+\n+  def packageNameFromPath(path: Path, extension: String): String = {"
+  }
+]

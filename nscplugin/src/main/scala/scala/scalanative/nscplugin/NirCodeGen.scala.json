@@ -1,0 +1,778 @@
+[
+  {
+    "id" : "63381b33-3265-4c5d-8d34-4e3fadf9cd98",
+    "prId" : 129,
+    "comments" : [
+      {
+        "id" : "c29540e8-9373-4c16-9409-2591ac1ffdae",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "What if I write `@link(\"something\", \"foo\")`? You probably don't want to crash. You should report a compile error and gracefully recover with the default.\n",
+        "createdAt" : "2016-05-24T09:28:10Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ee5a784b-a2ec-4c02-8d1f-4c45ff7887f7",
+        "parentId" : "c29540e8-9373-4c16-9409-2591ac1ffdae",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice catch. \n",
+        "createdAt" : "2016-05-24T09:28:57Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d91e32f0778c018d217fbfef1bc56209717d2ebc",
+    "line" : null,
+    "diffHunk" : "@@ -157,12 +157,23 @@ abstract class NirCodeGen\n       def pinned =\n         if (!isModule(sym) || isExternModule(sym)) Seq()\n         else Seq(Attr.PinAlways(genMethodName(sym.asClass.primaryConstructor)))\n-\n-      Attrs.fromSeq(\n-          pinned ++ sym.annotations.collect {\n+      val attrs = sym.annotations.collect {\n         case ann if ann.symbol == ExternClass => Attr.Extern\n         case ann if ann.symbol == PureClass   => Attr.Pure\n-      })\n+        case ann if ann.symbol == LinkClass =>\n+          val Apply(_, args) = ann.tree\n+          val values = args.map {\n+            case Literal(Constant(str: String)) => str\n+          }\n+\n+          values match {\n+            case Seq(n)            => Attr.LinkDynamic(n)\n+            case Seq(n, \"dynamic\") => Attr.LinkDynamic(n)\n+            case Seq(n, \"static\")  => Attr.LinkStatic(n)\n+          }"
+  },
+  {
+    "id" : "bea34443-a873-43ef-9960-1bfc4f5cfd7f",
+    "prId" : 152,
+    "comments" : [
+      {
+        "id" : "85864d8b-6777-4929-9547-15f0c795ad2d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Could you tell me why you pin the primary constructor of classes? It might help me understand exactly what pinning does in the context of SN.\n",
+        "createdAt" : "2016-06-06T13:03:51Z",
+        "updatedAt" : "2016-06-07T11:16:22Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d0995267-c32e-41fb-a332-149a372a9267",
+        "parentId" : "85864d8b-6777-4929-9547-15f0c795ad2d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Constructors are pinned for module classes only. This is necessary due to the fact that one never calls it explicitly, it's only being used inside the implementation of `module $name` opcode that loads a module (i.e. in generated accessor that is injected by `ModuleLowering` pass). This way if you depend on module, you'll also automatically depend on the module's constructor. \n",
+        "createdAt" : "2016-06-06T13:07:48Z",
+        "updatedAt" : "2016-06-07T11:16:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1069b347-9788-40b7-b9b0-3da1ad3a2aec",
+        "parentId" : "85864d8b-6777-4929-9547-15f0c795ad2d",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah I see.\n",
+        "createdAt" : "2016-06-06T13:10:10Z",
+        "updatedAt" : "2016-06-07T11:16:22Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f68847e8e5cb9b2adef959186c26035fbc9979e2",
+    "line" : 11,
+    "diffHunk" : "@@ -154,9 +154,20 @@ abstract class NirCodeGen\n       else Some(genTypeName(sym.superClass))\n \n     def genClassAttrs(sym: Symbol): Attrs = {\n-      def pinned =\n-        if (!isModule(sym) || isExternModule(sym)) Seq()\n-        else Seq(Attr.PinAlways(genMethodName(sym.asClass.primaryConstructor)))\n+      def pinned = {\n+        val ctor =\n+          if (!isModule(sym) || isExternModule(sym)) Seq()\n+          else\n+            Seq(Attr.PinAlways(genMethodName(sym.asClass.primaryConstructor)))"
+  },
+  {
+    "id" : "35db5b88-c8cc-41b4-87ac-04290c5019b3",
+    "prId" : 166,
+    "comments" : [
+      {
+        "id" : "45528ce1-f80c-4bee-95dc-5d702617afb5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "``` scala\nval (argsp, ctsp) = allargs.splitAt(arity)\n```\n\n?\n",
+        "createdAt" : "2016-06-10T08:00:23Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1826d930-4ffb-4efa-9d6b-fc43fbd1c985",
+        "parentId" : "45528ce1-f80c-4bee-95dc-5d702617afb5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍 \n",
+        "createdAt" : "2016-06-10T11:39:30Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7a9a185cff15a9615ce0d96806c7349c4bed703",
+    "line" : null,
+    "diffHunk" : "@@ -1198,6 +1226,58 @@ abstract class NirCodeGen\n       }\n     }\n \n+    def genFunPtrOp(app: Apply, code: Int, focus: Focus): Focus = {\n+      code match {\n+        case FUN_PTR_CALL =>\n+          val Apply(sel @ Select(funp, _), allargsp) = app\n+\n+          val arity = FunctionPtrApply.indexOf(sel.symbol)\n+\n+          val fun    = genExpr(funp, focus)\n+          val argsp  = allargsp.take(arity)\n+          val ctsp   = allargsp.drop(arity)"
+  },
+  {
+    "id" : "86a37851-35ba-4b29-8c59-8c9d7c417a93",
+    "prId" : 166,
+    "comments" : [
+      {
+        "id" : "6c8ffb3b-3d76-4c0d-bdc4-ef8b308cd9ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It seems like you don't clear this map between compilation units.\n",
+        "createdAt" : "2016-06-14T12:59:30Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d67c8564-24d8-4beb-84b4-4a3ca6d2ea98",
+        "parentId" : "6c8ffb3b-3d76-4c0d-bdc4-ef8b308cd9ff",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Spot on! Mutability, my old friend, strikes again. \n",
+        "createdAt" : "2016-06-14T13:28:21Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "92b957fc-9b77-4090-af34-36d4392b72a2",
+        "parentId" : "6c8ffb3b-3d76-4c0d-bdc4-ef8b308cd9ff",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Reminds me of https://github.com/scala-js/scala-js/issues/2222 and its fix https://github.com/scala-js/scala-js/commit/533da726f8aad590af2692107e901c7f9bc234ea :p\n",
+        "createdAt" : "2016-06-14T13:33:40Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "06698ac6-b62f-42f7-9241-2a7a92d2bbc3",
+        "parentId" : "6c8ffb3b-3d76-4c0d-bdc4-ef8b308cd9ff",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those kinds of bugs are fun. 😄 \n",
+        "createdAt" : "2016-06-14T13:37:15Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7a9a185cff15a9615ce0d96806c7349c4bed703",
+    "line" : null,
+    "diffHunk" : "@@ -76,11 +76,24 @@ abstract class NirCodeGen\n   }\n \n   class SaltyCodePhase(prev: Phase) extends StdPhase(prev) {\n-    val curLocalInfo = new util.ScopedVar[CollectLocalInfo]\n-    val curClassSym  = new util.ScopedVar[Symbol]\n-    val curMethodSym = new util.ScopedVar[Symbol]\n-    val curEnv       = new util.ScopedVar[Env]\n-    val curThis      = new util.ScopedVar[Val]\n+    private val curLocalInfo = new util.ScopedVar[CollectLocalInfo]\n+    private val curClassSym  = new util.ScopedVar[Symbol]\n+    private val curMethodSym = new util.ScopedVar[Symbol]\n+    private val curEnv       = new util.ScopedVar[Env]\n+    private val curThis      = new util.ScopedVar[Val]\n+\n+    private val lazyAnonDefs = mutable.Map.empty[Symbol, ClassDef]"
+  },
+  {
+    "id" : "b31d9139-51f3-490a-97a6-69c3ae48ec6f",
+    "prId" : 281,
+    "comments" : [
+      {
+        "id" : "4ea54119-cdea-40f3-86a6-a9b7504f024b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice catch, @ragnr !\n",
+        "createdAt" : "2016-09-05T06:53:11Z",
+        "updatedAt" : "2016-09-05T06:53:11Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "589e7ae6d7f793a25456ffd9779292229699e962",
+    "line" : 5,
+    "diffHunk" : "@@ -1170,7 +1170,7 @@ abstract class NirCodeGen\n         right withOp Op.Comp(comp, Rt.Object, left.value, right.value)\n       } else {\n         val equals = genMethodCall(NObjectEqualsMethod,\n-                                   statically = true,\n+                                   statically = false,"
+  },
+  {
+    "id" : "8c7c2ea7-bb8d-463c-88d4-01c1ca8ce30b",
+    "prId" : 347,
+    "comments" : [
+      {
+        "id" : "5efff0cf-b81e-40c9-b9b7-ac597f98715a",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "`ty` seems to be not used anymore\n",
+        "createdAt" : "2016-10-23T19:26:17Z",
+        "updatedAt" : "2016-10-23T20:25:40Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "63c7d5b152a2816285efb1863f0e71ae3a6af326",
+    "line" : null,
+    "diffHunk" : "@@ -1417,7 +1417,7 @@ abstract class NirCodeGen\n       val ty  = genTypeSym(sym)"
+  },
+  {
+    "id" : "6a45815e-f5ef-42f4-83fe-56b5be25de42",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "6c319b57-8758-4001-8eb8-45f9d7a2b50c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Dead comment? \n",
+        "createdAt" : "2016-11-11T14:24:36Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -848,8 +855,28 @@ abstract class NirCodeGen\n       init withValue alloc.value\n     }\n \n-    def genApplyDynamic(app: ApplyDynamic, focus: Focus) =\n-      unsupported(app)\n+    def genApplyDynamic(app: ApplyDynamic, focus: Focus) = {\n+      val ApplyDynamic(obj, args) = app\n+      val sym = app.symbol\n+\n+      val self = genExpr(obj, focus)\n+\n+      genDynMethodCall(sym, self.value, args, self)\n+\n+    }\n+\n+    def genDynMethodCall(sym: Symbol, self: Val, argsp: Seq[Tree], focus: Focus): Focus = {\n+\n+      val sig          = genMethodSig(sym)\n+      val methodName   = genMethodName(sym).id\n+      val (args, last) = genMethodArgs(sym, argsp, focus)\n+\n+      val method = last withOp Op.DynMethod(self, methodName.toString)\n+      val values = self +: args\n+\n+      //unsupported(methodName)"
+  },
+  {
+    "id" : "57c06cbb-fbcb-4561-bea1-8bd6e006d981",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "3f22d34c-6a56-499b-a885-f22dbf7c51cd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs more tests.\n",
+        "createdAt" : "2016-11-11T14:28:15Z",
+        "updatedAt" : "2016-11-23T17:37:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : null,
+    "diffHunk" : "@@ -848,8 +855,28 @@ abstract class NirCodeGen\n       init withValue alloc.value\n     }\n \n-    def genApplyDynamic(app: ApplyDynamic, focus: Focus) =\n-      unsupported(app)\n+    def genApplyDynamic(app: ApplyDynamic, focus: Focus) = {\n+      val ApplyDynamic(obj, args) = app\n+      val sym = app.symbol\n+\n+      val self = genExpr(obj, focus)\n+\n+      genDynMethodCall(sym, self.value, args, self)\n+\n+    }\n+\n+    def genDynMethodCall(sym: Symbol, self: Val, argsp: Seq[Tree], focus: Focus): Focus = {\n+\n+      val sig          = genMethodSig(sym)\n+      val methodName   = genMethodName(sym).id\n+      val (args, last) = genMethodArgs(sym, argsp, focus)\n+\n+      val method = last withOp Op.DynMethod(self, methodName.toString)\n+      val values = self +: args\n+\n+      //unsupported(methodName)\n+      method withOp Op.Call(sig, method.value, values)\n+    }"
+  },
+  {
+    "id" : "1360cac8-5bb2-43c2-8330-28ebe2e11860",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "fffcb697-28f0-4122-b2d1-ccd8970ce0e4",
+        "parentId" : null,
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "@densh This method is duplicated several time, where should I put it ?",
+        "createdAt" : "2016-11-23T17:41:24Z",
+        "updatedAt" : "2016-11-23T17:43:01Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : 84,
+    "diffHunk" : "@@ -848,8 +855,37 @@ abstract class NirCodeGen\n       init withValue alloc.value\n     }\n \n-    def genApplyDynamic(app: ApplyDynamic, focus: Focus) =\n-      unsupported(app)\n+    def genApplyDynamic(app: ApplyDynamic, focus: Focus) = {\n+      val ApplyDynamic(obj, args) = app\n+      val sym = app.symbol\n+\n+      val self = genExpr(obj, focus)\n+\n+      genDynMethodCall(sym, self.value, args, self)\n+\n+    }\n+\n+    def genDynMethodCall(sym: Symbol, self: Val, argsp: Seq[Tree], focus: Focus): Focus = {\n+\n+      val sig          = genMethodSig(sym)\n+      val methodName   = genSignature(genMethodName(sym))\n+      val (args, last) = genMethodArgs(sym, argsp, focus)\n+\n+      val method = last withOp Op.Dynmethod(self, methodName.toString)\n+      val values = self +: args\n+\n+      method withOp Op.Call(sig, method.value, values)\n+    }\n+\n+    def genSignature(methodName: nir.Global): String = {"
+  },
+  {
+    "id" : "06e333b1-988c-454d-a8c5-2dec003d27af",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "5e36c3c7-bed7-4022-b6b2-70b6ba59204e",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "@densh This should pass in the pointer type using the tag. Not sure how to do that.\r\n\r\nRight now for `int` this generates\r\n\r\n```\r\n  %src.57 = ptrtoint i8* %src.43 to i64\r\n  %src.58 = ptrtoint i8* %src.44 to i64\r\n```\r\nAnd it should generate\r\n```\r\n %46 = ptrtoint i32* %44 to i64\r\n %47 = ptrtoint i32* %45 to i64\r\n```",
+        "createdAt" : "2017-04-07T04:04:58Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "936c18c1-7725-4755-a9a3-d1b9b9aaaee3",
+        "parentId" : "5e36c3c7-bed7-4022-b6b2-70b6ba59204e",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Found the reason: https://github.com/scala-native/scala-native/blob/master/tools/src/main/scala/scala/scalanative/codegen/CodeGen.scala#L329\r\n\r\nGiven that\r\n> ptr:\r\n> Corresponds to LLVM’s pointer type with a major distinction of not preserving the type of memory that’s being pointed at. Pointers are going to become untyped in LLVM in near future too.\r\n\r\nthe type will have to be handled explicitly by the generated code.",
+        "createdAt" : "2017-04-08T20:15:23Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,33 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {\n+            case lit: Literal =>\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case id: Ident =>\n+              def show(f: Focus): Focus = {\n+                f.insts.foreach(i => println(\"  |\" + i))\n+                f\n+              }\n+              /*\n+\n+              With tag type\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val ptrInt    = ptrArg withOp Op.Conv(nir.Conv.Ptrtoint, ty, ptr.value)\n+              val ptrArgInt = ptrInt withOp Op.Conv(nir.Conv.Ptrtoint, ty, ptrArg.value)\n+              */\n+              val ptrArg    = genExpr(argp, ptr)\n+              val ptrInt    = ptrArg withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptr.value)\n+              val ptrArgInt = ptrInt withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptrArg.value)"
+  },
+  {
+    "id" : "aa852d54-c4b2-4cb1-8bbc-0d18f6b04266",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "97bfed37-bcc9-4169-87a0-96883a489600",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You need to dispatch on `argp.tpe.typeSymbol` here. That would give you a symbol to the type of the expression. For example:\r\n\r\n```\r\nval sym = argp.tpe.typeSymbol\r\nsym match {\r\n  case IntClass => /* ... */\r\n  case PtrClass => /* ... */\r\n}\r\n```",
+        "createdAt" : "2017-04-10T08:56:28Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,30 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {"
+  },
+  {
+    "id" : "99903f24-0bcc-4869-a5c4-364aeb3382e6",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "c769ed9e-6151-4a18-a1ff-c199463b504e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Both arguments are unsigned, therefore the bin op type should be `ULong` too.",
+        "createdAt" : "2017-04-10T08:58:43Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d38258e9-d143-4116-b079-e35a7cbfe579",
+        "parentId" : "c769ed9e-6151-4a18-a1ff-c199463b504e",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The byte offset should be signed. \r\n\r\n```c\r\n#include <stddef.h>\r\n#include <stdio.h>\r\n#include <string.h>\r\n\r\nstruct s { int a; char b; };\r\n\r\nint main(int argc, char *argv[]) {\r\n  char carr[] = \"abcdefg\";\r\n  char *cptr = strchr(carr, 'd');\r\n  ptrdiff_t cres = cptr - carr;\r\n  ptrdiff_t cresNeg = carr - cptr;\r\n  printf(\"cres: %ld ; %ld\\n\", cres, cresNeg);\r\n\r\n  int iarr[] = { 1, 2, 3, 4, 5, 6, 7, 0 };\r\n  int *iptr = iarr + 5;\r\n  ptrdiff_t ires = iptr - iarr;\r\n  ptrdiff_t iresNeg = iarr - iptr;\r\n  printf(\"ires: %ld ; %ld\\n\", ires, iresNeg);\r\n\r\n  struct s sarr[] = { { 1, 'a' }, { 1, 'a' }, { 1, 'a' } };\r\n  struct s *sptr = &sarr[2];\r\n  ptrdiff_t sres = sptr - sarr;\r\n  ptrdiff_t sresNeg = sarr - sptr;\r\n  printf(\"sres: %ld ; %ld\\n\", sres, sresNeg);\r\n\r\n  return 0;\r\n}\r\n```\r\nGives\r\n\r\n```\r\ncres: 3 ; -3\r\nires: 5 ; -5\r\nsres: 2 ; -2\r\n```",
+        "createdAt" : "2017-04-10T13:18:54Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6f172c24-f952-4f1f-b64a-b82664e49275",
+        "parentId" : "c769ed9e-6151-4a18-a1ff-c199463b504e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You're right. Then all the operations have to be on `Long`, not `ULong`. For example `ptrtoint` should cast to signed `Long` too.",
+        "createdAt" : "2017-04-10T13:27:08Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f93676f-5d9e-4354-a119-432809169aa8",
+        "parentId" : "c769ed9e-6151-4a18-a1ff-c199463b504e",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "True, I missed that in the ll IR. It uses `i64`.",
+        "createdAt" : "2017-04-10T13:49:22Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,30 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {\n+            case lit: Literal =>\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case id: Ident =>\n+              /*\n+               * Pointers in Scala Native are untyped and modeled as `i8*`.\n+               * Pointer substraction therefore explicitly divide the byte\n+               * offset by the size of pointer type.\n+               */\n+              val st         = unwrapTag(tagp)\n+              val ty         = genType(st, box = false)\n+              val ptrInt     = ptr withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptr.value)\n+              val ptrArg     = genExpr(argp, ptrInt)\n+              val ptrArgInt  = ptrInt withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptrArg.value)\n+              val byteOffset = ptrArgInt withOp Op.Bin(Bin.Isub, nir.Type.Long, ptrInt.value, ptrArgInt.value)"
+  },
+  {
+    "id" : "e034b329-3dea-4ac1-a411-9af871f79f9e",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "00f5ac7d-2648-400c-b161-a7d628d32a0c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Byte offset is unsigned, therefore need to perform `Bin.Udiv` on `nir.Type.ULong`. ",
+        "createdAt" : "2017-04-10T08:59:09Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,30 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {\n+            case lit: Literal =>\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case id: Ident =>\n+              /*\n+               * Pointers in Scala Native are untyped and modeled as `i8*`.\n+               * Pointer substraction therefore explicitly divide the byte\n+               * offset by the size of pointer type.\n+               */\n+              val st         = unwrapTag(tagp)\n+              val ty         = genType(st, box = false)\n+              val ptrInt     = ptr withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptr.value)\n+              val ptrArg     = genExpr(argp, ptrInt)\n+              val ptrArgInt  = ptrInt withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptrArg.value)\n+              val byteOffset = ptrArgInt withOp Op.Bin(Bin.Isub, nir.Type.Long, ptrInt.value, ptrArgInt.value)\n+              val sizeOf     = byteOffset withOp Op.Sizeof(ty)\n+              sizeOf withOp Op.Bin(Bin.Sdiv, nir.Type.Long, byteOffset.value, sizeOf.value)"
+  },
+  {
+    "id" : "dc5410e2-b936-476a-9741-438c1875e127",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "145386b3-137e-4cbb-9020-99eab0a2bd56",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We use `//` for inline code comments like these, and without blank lines before/after the text.",
+        "createdAt" : "2017-04-10T09:00:51Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,30 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {\n+            case lit: Literal =>\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case id: Ident =>\n+              /*\n+               * Pointers in Scala Native are untyped and modeled as `i8*`.\n+               * Pointer substraction therefore explicitly divide the byte\n+               * offset by the size of pointer type.\n+               */"
+  },
+  {
+    "id" : "effce5e5-a4c1-4337-baf4-91a58991b5be",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "d9b51437-477c-4379-90d2-e03c3f78da4e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should be `ptrArg withOp ...`, otherwise you drop all the ops generated in `ptrArg`. This happens due to functional chaining nature of the `nir.Focus`. Generally every next instruction should use focus from the previous one.",
+        "createdAt" : "2017-04-10T09:02:01Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,30 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {\n+            case lit: Literal =>\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case id: Ident =>\n+              /*\n+               * Pointers in Scala Native are untyped and modeled as `i8*`.\n+               * Pointer substraction therefore explicitly divide the byte\n+               * offset by the size of pointer type.\n+               */\n+              val st         = unwrapTag(tagp)\n+              val ty         = genType(st, box = false)\n+              val ptrInt     = ptr withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptr.value)\n+              val ptrArg     = genExpr(argp, ptrInt)\n+              val ptrArgInt  = ptrInt withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptrArg.value)"
+  },
+  {
+    "id" : "7278a87f-f107-4fda-9d8b-5941c009b6a7",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "3b1ab2a7-8f09-4ca6-95d6-d1f9ee763770",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The same problem as in https://github.com/scala-native/scala-native/pull/624/files#r110604872. `ptrArgInt withOp`.",
+        "createdAt" : "2017-04-10T09:02:31Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,30 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          argp match {\n+            case lit: Literal =>\n+              val st     = unwrapTag(tagp)\n+              val ty     = genType(st, box = false)\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case id: Ident =>\n+              /*\n+               * Pointers in Scala Native are untyped and modeled as `i8*`.\n+               * Pointer substraction therefore explicitly divide the byte\n+               * offset by the size of pointer type.\n+               */\n+              val st         = unwrapTag(tagp)\n+              val ty         = genType(st, box = false)\n+              val ptrInt     = ptr withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptr.value)\n+              val ptrArg     = genExpr(argp, ptrInt)\n+              val ptrArgInt  = ptrInt withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptrArg.value)\n+              val byteOffset = ptrArgInt withOp Op.Bin(Bin.Isub, nir.Type.Long, ptrInt.value, ptrArgInt.value)\n+              val sizeOf     = byteOffset withOp Op.Sizeof(ty)"
+  },
+  {
+    "id" : "4ee0da76-8834-461b-8770-f8e930e7d149",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "a93cd5c4-c49e-4c0f-aaf6-539aa0a413d7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that everything is signed here, it should cast to `Long`, not `ULong`. ",
+        "createdAt" : "2017-04-10T13:29:51Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ef755141-62c8-4d20-8fbe-5f58f0de1910",
+        "parentId" : "a93cd5c4-c49e-4c0f-aaf6-539aa0a413d7",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Done. I don't know if it would make sense to also resolve the type of `CPtrDiff` using symbols or whether it is OK to explicitly say `Long` when calculating the result type.",
+        "createdAt" : "2017-04-10T16:14:01Z",
+        "updatedAt" : "2017-04-10T16:14:01Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : null,
+    "diffHunk" : "@@ -1540,12 +1540,27 @@ abstract class NirCodeGen\n           val offset = genExpr(offsetp, ptr)\n           offset withOp Op.Elem(ty, ptr.value, Seq(offset.value))\n \n-        case (PTR_SUB, Seq(offsetp, tagp)) =>\n-          val st     = unwrapTag(tagp)\n-          val ty     = genType(st, box = false)\n-          val offset = genExpr(offsetp, ptr)\n-          val neg    = negateInt(offset.value, offset)\n-          neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+        case (PTR_SUB, Seq(argp, tagp)) =>\n+          val st  = unwrapTag(tagp)\n+          val ty  = genType(st, box = false)\n+          val sym = argp.tpe.typeSymbol\n+          sym match {\n+            case IntClass =>\n+              val offset = genExpr(argp, ptr)\n+              val neg    = negateInt(offset.value, offset)\n+              neg withOp Op.Elem(ty, ptr.value, Seq(neg.value))\n+\n+            case PtrClass =>\n+              // Pointers in Scala Native are untyped and modeled as `i8*`.\n+              // Pointer substraction therefore explicitly divide the byte\n+              // offset by the size of pointer type.\n+              val ptrInt     = ptr withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptr.value)\n+              val ptrArg     = genExpr(argp, ptrInt)\n+              val ptrArgInt  = ptrArg withOp Op.Conv(nir.Conv.Ptrtoint, nir.Type.ULong, ptrArg.value)"
+  }
+]

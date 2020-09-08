@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "ab638e2b-8166-4d9b-9124-863d7f4224c0",
+    "prId" : 769,
+    "comments" : [
+      {
+        "id" : "1ec3332a-5193-4203-98cb-7e1f3c68663a",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "This is not necessary",
+        "createdAt" : "2017-06-06T09:48:29Z",
+        "updatedAt" : "2017-06-06T09:49:35Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "39a3710adb17acd175fb2904e0b24b3bc67e638e",
+    "line" : 3,
+    "diffHunk" : "@@ -0,0 +1,13 @@\n+package java.io\n+\n+import scala.util.Try"
+  }
+]

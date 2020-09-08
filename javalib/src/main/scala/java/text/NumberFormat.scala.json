@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "10b26b7d-1395-4649-8ea9-30ab620508f5",
+    "prId" : 804,
+    "comments" : [
+      {
+        "id" : "11d65cd9-5a69-4d3a-9eae-3106c62c6686",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No TODOs. ",
+        "createdAt" : "2017-08-07T11:11:11Z",
+        "updatedAt" : "2017-08-07T12:22:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f8dba2ebf2d57ef8f753a811fb72cffc6e2ce047",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,48 @@\n+package java.text\n+\n+import java.util.Locale\n+\n+abstract class NumberFormat extends Format {\n+  // basic implementation for java.util.Formatter with Locale.US only\n+  // TODO: add missing methods"
+  }
+]

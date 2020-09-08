@@ -1,0 +1,281 @@
+[
+  {
+    "id" : "dee69fac-32a7-450b-8400-60d9020f08bd",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "dfad9e28-64c3-47ef-871e-87371abd9314",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There are tabs here.",
+        "createdAt" : "2020-08-06T17:16:27Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,299 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.JS\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+\t\t * removed during a close operation. In this case we're not doing\n+\t\t * anything.\n+\t\t */"
+  },
+  {
+    "id" : "f3ecfc8e-438b-4426-a585-68d80859a6ef",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "e5cfe726-8bb7-48d2-8c52-bd18a7fc1fc3",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "More tabs. I think your editor is inserting tabs for continuation lines in Scaladoc comments.",
+        "createdAt" : "2020-08-06T17:18:34Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,299 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.JS\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+\t\t * removed during a close operation. In this case we're not doing\n+\t\t * anything.\n+\t\t */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+\t\t\t   * known problems."
+  },
+  {
+    "id" : "6ca8c2cb-81a6-4e9f-99a2-5f199d3f112c",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "79d30a96-0f40-499d-a1de-6800620c6062",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be removed before merging.",
+        "createdAt" : "2020-08-06T17:19:36Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,299 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.JS\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+\t\t * removed during a close operation. In this case we're not doing\n+\t\t * anything.\n+\t\t */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+\t\t\t   * known problems.\n+\t\t\t   * This is not ideal, but the best we can do, since we do not know\n+\t\t\t   * all possible opCodes we could receive (we'd need something like\n+\t\t\t   * an opCode \"domain\").\n+\t\t\t   * For now this is good enough; if collisions happen in the\n+\t\t\t   * future, we can improve this.\n+\t\t\t   */\n+              val detail = opCode match {\n+                case NativeEndpoints.msgSlave.opCode =>\n+                  \"; \" +\n+                    \"The test adapter could not send a message to a slave, \" +\n+                    \"which probably happens because the slave terminated early, \" +\n+                    \"without waiting for the reply to a call to send(). \" +\n+                    \"This is probably a bug in the testing framework you are \" +\n+                    \"using. See also #3201.\"\n+\n+                case _ =>\n+                  \"\"\n+              }\n+              System.err.println(s\"unknown endpoint: $opCode$detail\")"
+  },
+  {
+    "id" : "0baeef8d-f861-4b5e-baf1-ea8e63b4ff79",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "6b3b2eb9-8c5a-44ea-bb94-3a28e05727cf",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n                    \"using. See also scala-js/scala-js#3201.\"\r\n```",
+        "createdAt" : "2020-08-06T17:20:30Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,299 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.JS\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+\t\t * removed during a close operation. In this case we're not doing\n+\t\t * anything.\n+\t\t */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+\t\t\t   * known problems.\n+\t\t\t   * This is not ideal, but the best we can do, since we do not know\n+\t\t\t   * all possible opCodes we could receive (we'd need something like\n+\t\t\t   * an opCode \"domain\").\n+\t\t\t   * For now this is good enough; if collisions happen in the\n+\t\t\t   * future, we can improve this.\n+\t\t\t   */\n+              val detail = opCode match {\n+                case NativeEndpoints.msgSlave.opCode =>\n+                  \"; \" +\n+                    \"The test adapter could not send a message to a slave, \" +\n+                    \"which probably happens because the slave terminated early, \" +\n+                    \"without waiting for the reply to a call to send(). \" +\n+                    \"This is probably a bug in the testing framework you are \" +\n+                    \"using. See also #3201.\""
+  },
+  {
+    "id" : "ddd984eb-6b7a-4059-88ec-043d9003989a",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "549d2229-e34e-48f2-88e4-44eefb96ed85",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This class, as well as most (all) classes in `testinterface.*` should be `private[testinterface]`, the same way they are `private[testing]` in Scala.js. They are not public API.",
+        "createdAt" : "2020-08-06T17:23:41Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,299 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.JS\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+abstract class RPCCore()(implicit ec: ExecutionContext) {"
+  },
+  {
+    "id" : "7a5ea761-28d7-4b75-8bf0-6613b772b289",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "acf6069b-827f-4f00-8f8c-ca2efecc63b9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Spurious blank line.",
+        "createdAt" : "2020-08-07T18:26:27Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.js\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+         * removed during a close operation. In this case we're not doing\n+         * anything.\n+         */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+               * known problems.\n+               * This is not ideal, but the best we can do, since we do not know\n+               * all possible opCodes we could receive (we'd need something like\n+               * an opCode \"domain\").\n+               * For now this is good enough; if collisions happen in the\n+               * future, we can improve this.\n+               */\n+              val detail = opCode match {\n+                case NativeEndpoints.msgWorker.opCode =>\n+                  \"; \" +\n+                    \"The test adapter could not send a message to a worker, \" +\n+                    \"which probably happens because the worker terminated early, \" +\n+                    \"without waiting for the reply to a call to send(). \" +\n+                    \"This is probably a bug in the testing framework you are \" +\n+                    \"using. See also scala-js/scala-js#3201.\"\n+\n+                case _ => \"\"\n+              }\n+\n+              throw new IllegalStateException(s\"Unknown opcode: $opCode$detail\")\n+\n+            case bep: BoundMsgEndpoint =>\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+              val arg = deserialize[Msg](in)\n+              bep.exec(arg)\n+\n+            case bep: BoundRPCEndpoint =>\n+              val callID = in.readLong()\n+\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+\n+              Future\n+                .fromTry(Try(deserialize[Req](in)))\n+                .flatMap(bep.exec)\n+                .onComplete(repl => send(makeReply(callID, repl)))\n+          }\n+\n+      }\n+    }\n+  }\n+\n+  /** Subclass needs to implement message sending. */\n+  protected def send(msg: String): Unit\n+\n+  /** Used to send a message to the other end. */\n+  final def send(ep: MsgEndpoint)(msg: ep.Msg): Unit = {\n+    import ep._\n+    send(makeMsgMsg(opCode, msg))\n+  }\n+\n+  /** Used to make an actual call to the other end. */\n+  final def call(ep: RPCEndpoint)(req: ep.Req): Future[ep.Resp] = {\n+    import ep._\n+\n+    // Reserve an id for this call.\n+    val id = nextID.incrementAndGet()\n+\n+    // Prepare message. We do this early in case it throws.\n+    val msg = makeRPCMsg(opCode, id, req)\n+\n+    // Register pending call.\n+    val promise = Promise[Resp]()\n+    val oldCall = pending.put(id, PendingCall(promise))\n+\n+    if (oldCall != null) {\n+      val error = new AssertionError(\"Ran out of call ids!\")\n+      close(error)\n+      throw error\n+    }\n+\n+    if (closeReason != null) {\n+"
+  },
+  {
+    "id" : "f6bb9dd6-e98a-46bd-98f4-31ed537d4800",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "fe890b28-abb2-4caf-8e34-ecebffef9dfb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n      /* In the meantime, someone closed the channel. Help closing.\r\n```\r\n(this is not a Scaladoc comment)",
+        "createdAt" : "2020-08-07T18:26:40Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.js\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+         * removed during a close operation. In this case we're not doing\n+         * anything.\n+         */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+               * known problems.\n+               * This is not ideal, but the best we can do, since we do not know\n+               * all possible opCodes we could receive (we'd need something like\n+               * an opCode \"domain\").\n+               * For now this is good enough; if collisions happen in the\n+               * future, we can improve this.\n+               */\n+              val detail = opCode match {\n+                case NativeEndpoints.msgWorker.opCode =>\n+                  \"; \" +\n+                    \"The test adapter could not send a message to a worker, \" +\n+                    \"which probably happens because the worker terminated early, \" +\n+                    \"without waiting for the reply to a call to send(). \" +\n+                    \"This is probably a bug in the testing framework you are \" +\n+                    \"using. See also scala-js/scala-js#3201.\"\n+\n+                case _ => \"\"\n+              }\n+\n+              throw new IllegalStateException(s\"Unknown opcode: $opCode$detail\")\n+\n+            case bep: BoundMsgEndpoint =>\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+              val arg = deserialize[Msg](in)\n+              bep.exec(arg)\n+\n+            case bep: BoundRPCEndpoint =>\n+              val callID = in.readLong()\n+\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+\n+              Future\n+                .fromTry(Try(deserialize[Req](in)))\n+                .flatMap(bep.exec)\n+                .onComplete(repl => send(makeReply(callID, repl)))\n+          }\n+\n+      }\n+    }\n+  }\n+\n+  /** Subclass needs to implement message sending. */\n+  protected def send(msg: String): Unit\n+\n+  /** Used to send a message to the other end. */\n+  final def send(ep: MsgEndpoint)(msg: ep.Msg): Unit = {\n+    import ep._\n+    send(makeMsgMsg(opCode, msg))\n+  }\n+\n+  /** Used to make an actual call to the other end. */\n+  final def call(ep: RPCEndpoint)(req: ep.Req): Future[ep.Resp] = {\n+    import ep._\n+\n+    // Reserve an id for this call.\n+    val id = nextID.incrementAndGet()\n+\n+    // Prepare message. We do this early in case it throws.\n+    val msg = makeRPCMsg(opCode, id, req)\n+\n+    // Register pending call.\n+    val promise = Promise[Resp]()\n+    val oldCall = pending.put(id, PendingCall(promise))\n+\n+    if (oldCall != null) {\n+      val error = new AssertionError(\"Ran out of call ids!\")\n+      close(error)\n+      throw error\n+    }\n+\n+    if (closeReason != null) {\n+\n+      /** In the meantime, someone closed the channel. Help closing."
+  },
+  {
+    "id" : "35280d7e-d5c5-4b46-9c5d-0a78d3cf5185",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "fdbe3171-5799-48ee-878f-1166c60ad643",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    /* Fix for #3128: explicitly upcast to java.util.Map so that the keySet()\r\n```",
+        "createdAt" : "2020-08-07T18:27:20Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.js\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+         * removed during a close operation. In this case we're not doing\n+         * anything.\n+         */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+               * known problems.\n+               * This is not ideal, but the best we can do, since we do not know\n+               * all possible opCodes we could receive (we'd need something like\n+               * an opCode \"domain\").\n+               * For now this is good enough; if collisions happen in the\n+               * future, we can improve this.\n+               */\n+              val detail = opCode match {\n+                case NativeEndpoints.msgWorker.opCode =>\n+                  \"; \" +\n+                    \"The test adapter could not send a message to a worker, \" +\n+                    \"which probably happens because the worker terminated early, \" +\n+                    \"without waiting for the reply to a call to send(). \" +\n+                    \"This is probably a bug in the testing framework you are \" +\n+                    \"using. See also scala-js/scala-js#3201.\"\n+\n+                case _ => \"\"\n+              }\n+\n+              throw new IllegalStateException(s\"Unknown opcode: $opCode$detail\")\n+\n+            case bep: BoundMsgEndpoint =>\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+              val arg = deserialize[Msg](in)\n+              bep.exec(arg)\n+\n+            case bep: BoundRPCEndpoint =>\n+              val callID = in.readLong()\n+\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+\n+              Future\n+                .fromTry(Try(deserialize[Req](in)))\n+                .flatMap(bep.exec)\n+                .onComplete(repl => send(makeReply(callID, repl)))\n+          }\n+\n+      }\n+    }\n+  }\n+\n+  /** Subclass needs to implement message sending. */\n+  protected def send(msg: String): Unit\n+\n+  /** Used to send a message to the other end. */\n+  final def send(ep: MsgEndpoint)(msg: ep.Msg): Unit = {\n+    import ep._\n+    send(makeMsgMsg(opCode, msg))\n+  }\n+\n+  /** Used to make an actual call to the other end. */\n+  final def call(ep: RPCEndpoint)(req: ep.Req): Future[ep.Resp] = {\n+    import ep._\n+\n+    // Reserve an id for this call.\n+    val id = nextID.incrementAndGet()\n+\n+    // Prepare message. We do this early in case it throws.\n+    val msg = makeRPCMsg(opCode, id, req)\n+\n+    // Register pending call.\n+    val promise = Promise[Resp]()\n+    val oldCall = pending.put(id, PendingCall(promise))\n+\n+    if (oldCall != null) {\n+      val error = new AssertionError(\"Ran out of call ids!\")\n+      close(error)\n+      throw error\n+    }\n+\n+    if (closeReason != null) {\n+\n+      /** In the meantime, someone closed the channel. Help closing.\n+       * We need this check to guard against a race between `call` and `close`.\n+       */\n+      helpClose()\n+    } else {\n+      // Actually send message.\n+      send(msg)\n+    }\n+\n+    promise.future\n+  }\n+\n+  final def attach(ep: MsgEndpoint)(ex: ep.Msg => Unit): Unit = {\n+    attach(new BoundMsgEndpoint {\n+      val endpoint: ep.type = ep\n+      val exec              = ex\n+    })\n+  }\n+\n+  /** Attaches the given method to the given (local) endpoint. */\n+  final def attach(ep: RPCEndpoint)(ex: ep.Req => ep.Resp): Unit = {\n+    attachAsync(ep)(x => Future.fromTry(Try(ex(x))))\n+  }\n+\n+  /** Attaches the given method to the given (local) endpoint. */\n+  final def attachAsync(ep: RPCEndpoint)(\n+      ex: ep.Req => Future[ep.Resp]): Unit = {\n+    attach(new BoundRPCEndpoint {\n+      val endpoint: ep.type = ep\n+      val exec              = ex\n+    })\n+  }\n+\n+  private final def attach(bep: BoundEndpoint): Unit = {\n+    val opCode = bep.endpoint.opCode\n+    val old    = endpoints.put(opCode, bep)\n+    require(old == null, s\"Duplicate endpoint for opcode $opCode.\")\n+  }\n+\n+  final def detach(ep: Endpoint): Unit = {\n+    val old = endpoints.remove(ep.opCode)\n+    require(old != null, \"Endpoint was not attached.\")\n+  }\n+\n+  /** Close the communication channel.\n+   *\n+   *  This only affects the current calls (i.e. the client part of the\n+   *  interface). Endpoint attachment is unaffected.\n+   *\n+   *  It is permitted to call `close` multiple times. However, if the calls are\n+   *  concurrent and have different reasons, which pending calls get cancelled\n+   *  with which reasons is unspecified (but all of them will get cancelled).\n+   */\n+  def close(reason: Throwable): Unit = {\n+    closeReason = reason\n+    helpClose()\n+  }\n+\n+  private def helpClose(): Unit = {\n+\n+    /** Fix for #3128: explicitly upcast to java.util.Map so that the keySet()"
+  },
+  {
+    "id" : "af7594ed-9768-46ee-9164-77bce78e9952",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "4f7a3010-7ab9-42cd-b3ab-937699132b11",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    /* Directly use the Java Iterator because Scala's JavaConverters are\r\n```",
+        "createdAt" : "2020-08-07T18:27:26Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,297 @@\n+package scala.scalanative.testinterface.common\n+\n+// Ported from Scala.js\n+\n+import java.util.concurrent.atomic.AtomicLong\n+import scala.concurrent._\n+import scala.scalanative.testinterface.common.Serializer.{\n+  deserialize,\n+  serialize\n+}\n+import scala.util.{Failure, Success, Try}\n+\n+/** Core RPC dispatcher.\n+ *\n+ *  Tracks and assigns call identities on top of a message passing interface.\n+ *\n+ *  Note that it does not have timeout handling for calls. Users are expected to\n+ *  manage call teardown by calling [[close]] in case of failure. This typically\n+ *  means that subclasses need to put an explicit call to [[close]] once they\n+ *  are sure to not call [[handleMessage]] anymore.\n+ *\n+ *  This class guarantees that dispatch handles synchronously when\n+ *  [[handleMessage]] is called, so closing can be performed race-free.\n+ */\n+private[testinterface] abstract class RPCCore()(implicit ec: ExecutionContext) {\n+  import RPCCore._\n+\n+  /** Pending calls. */\n+  private[this] val pending = new java.util.HashMap[Long, PendingCall]\n+\n+  /** Reason why we are closing this RPCCore. If non-null, we are closing. */\n+  @volatile\n+  private[this] var closeReason: Throwable = _\n+\n+  /** Next call ID we'll assign. */\n+  private[this] val nextID = new AtomicLong(0L)\n+\n+  /** Currently registered endpoints. */\n+  private[this] val endpoints = new java.util.HashMap[OpCode, BoundEndpoint]\n+\n+  /** Subclass should call this whenever a new message arrives */\n+  final protected def handleMessage(msg: String): Unit = {\n+    Serializer.withInputStream(msg) { in =>\n+      val opCode = in.readByte()\n+\n+      def getPending(): Option[PendingCall] = {\n+        val callID = in.readLong()\n+\n+        /** Note that `callID` might not be in `pending` anymore if it got\n+         * removed during a close operation. In this case we're not doing\n+         * anything.\n+         */\n+        Option(pending.remove(callID))\n+      }\n+\n+      opCode match {\n+        case RPCCore.ReplyOK =>\n+          getPending().foreach { p =>\n+            import p._\n+            promise.complete(Try(deserialize[Resp](in)))\n+          }\n+\n+        case RPCCore.ReplyErr =>\n+          getPending().foreach { p =>\n+            val throwable = Try(deserialize[Throwable](in)) match {\n+              case Success(t) => new RPCException(t)\n+              case Failure(t) => t\n+            }\n+            p.promise.failure(throwable)\n+          }\n+\n+        case _ =>\n+          endpoints.get(opCode) match {\n+            case null =>\n+              /** Quick and dirty way to provide more error detail for certain\n+               * known problems.\n+               * This is not ideal, but the best we can do, since we do not know\n+               * all possible opCodes we could receive (we'd need something like\n+               * an opCode \"domain\").\n+               * For now this is good enough; if collisions happen in the\n+               * future, we can improve this.\n+               */\n+              val detail = opCode match {\n+                case NativeEndpoints.msgWorker.opCode =>\n+                  \"; \" +\n+                    \"The test adapter could not send a message to a worker, \" +\n+                    \"which probably happens because the worker terminated early, \" +\n+                    \"without waiting for the reply to a call to send(). \" +\n+                    \"This is probably a bug in the testing framework you are \" +\n+                    \"using. See also scala-js/scala-js#3201.\"\n+\n+                case _ => \"\"\n+              }\n+\n+              throw new IllegalStateException(s\"Unknown opcode: $opCode$detail\")\n+\n+            case bep: BoundMsgEndpoint =>\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+              val arg = deserialize[Msg](in)\n+              bep.exec(arg)\n+\n+            case bep: BoundRPCEndpoint =>\n+              val callID = in.readLong()\n+\n+              val ep: bep.endpoint.type = bep.endpoint\n+              import ep._\n+\n+              Future\n+                .fromTry(Try(deserialize[Req](in)))\n+                .flatMap(bep.exec)\n+                .onComplete(repl => send(makeReply(callID, repl)))\n+          }\n+\n+      }\n+    }\n+  }\n+\n+  /** Subclass needs to implement message sending. */\n+  protected def send(msg: String): Unit\n+\n+  /** Used to send a message to the other end. */\n+  final def send(ep: MsgEndpoint)(msg: ep.Msg): Unit = {\n+    import ep._\n+    send(makeMsgMsg(opCode, msg))\n+  }\n+\n+  /** Used to make an actual call to the other end. */\n+  final def call(ep: RPCEndpoint)(req: ep.Req): Future[ep.Resp] = {\n+    import ep._\n+\n+    // Reserve an id for this call.\n+    val id = nextID.incrementAndGet()\n+\n+    // Prepare message. We do this early in case it throws.\n+    val msg = makeRPCMsg(opCode, id, req)\n+\n+    // Register pending call.\n+    val promise = Promise[Resp]()\n+    val oldCall = pending.put(id, PendingCall(promise))\n+\n+    if (oldCall != null) {\n+      val error = new AssertionError(\"Ran out of call ids!\")\n+      close(error)\n+      throw error\n+    }\n+\n+    if (closeReason != null) {\n+\n+      /** In the meantime, someone closed the channel. Help closing.\n+       * We need this check to guard against a race between `call` and `close`.\n+       */\n+      helpClose()\n+    } else {\n+      // Actually send message.\n+      send(msg)\n+    }\n+\n+    promise.future\n+  }\n+\n+  final def attach(ep: MsgEndpoint)(ex: ep.Msg => Unit): Unit = {\n+    attach(new BoundMsgEndpoint {\n+      val endpoint: ep.type = ep\n+      val exec              = ex\n+    })\n+  }\n+\n+  /** Attaches the given method to the given (local) endpoint. */\n+  final def attach(ep: RPCEndpoint)(ex: ep.Req => ep.Resp): Unit = {\n+    attachAsync(ep)(x => Future.fromTry(Try(ex(x))))\n+  }\n+\n+  /** Attaches the given method to the given (local) endpoint. */\n+  final def attachAsync(ep: RPCEndpoint)(\n+      ex: ep.Req => Future[ep.Resp]): Unit = {\n+    attach(new BoundRPCEndpoint {\n+      val endpoint: ep.type = ep\n+      val exec              = ex\n+    })\n+  }\n+\n+  private final def attach(bep: BoundEndpoint): Unit = {\n+    val opCode = bep.endpoint.opCode\n+    val old    = endpoints.put(opCode, bep)\n+    require(old == null, s\"Duplicate endpoint for opcode $opCode.\")\n+  }\n+\n+  final def detach(ep: Endpoint): Unit = {\n+    val old = endpoints.remove(ep.opCode)\n+    require(old != null, \"Endpoint was not attached.\")\n+  }\n+\n+  /** Close the communication channel.\n+   *\n+   *  This only affects the current calls (i.e. the client part of the\n+   *  interface). Endpoint attachment is unaffected.\n+   *\n+   *  It is permitted to call `close` multiple times. However, if the calls are\n+   *  concurrent and have different reasons, which pending calls get cancelled\n+   *  with which reasons is unspecified (but all of them will get cancelled).\n+   */\n+  def close(reason: Throwable): Unit = {\n+    closeReason = reason\n+    helpClose()\n+  }\n+\n+  private def helpClose(): Unit = {\n+\n+    /** Fix for #3128: explicitly upcast to java.util.Map so that the keySet()\n+     * method is binary compatible on JDK7.\n+     */\n+    val pendingCallIDs = (pending: java.util.Map[Long, _]).keySet()\n+    val exception      = new ClosedException(closeReason)\n+\n+    /** Directly use the Java Iterator because Scala's JavaConverters are"
+  }
+]

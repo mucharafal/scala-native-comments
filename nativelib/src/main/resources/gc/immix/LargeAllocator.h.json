@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "7ddeaa00-bab1-4aea-aa14-cf469b87222f",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "d94e903f-61ef-4657-bd27-ef6318ce352e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Free lists have operations defined on them, sounds like a thing that one would put into datastructures. ",
+        "createdAt" : "2017-05-26T12:54:19Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : 22,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+#ifndef IMMIX_LARGEALLOCATOR_H\n+#define IMMIX_LARGEALLOCATOR_H\n+\n+#include \"datastructures/Bitmap.h\"\n+#include \"GCTypes.h\"\n+#include \"Constants.h\"\n+#include \"headers/ObjectHeader.h\"\n+\n+#define FREE_LIST_COUNT                                                        \\\n+    (LARGE_OBJECT_MAX_SIZE_BITS - LARGE_OBJECT_MIN_SIZE_BITS + 1)\n+\n+typedef struct Chunk Chunk;\n+\n+struct Chunk {\n+    ObjectHeader header;\n+    Chunk *next;\n+};\n+\n+typedef struct {\n+    Chunk *first;\n+    Chunk *last;\n+} FreeList;"
+  }
+]

@@ -1,0 +1,102 @@
+[
+  {
+    "id" : "0cb196c5-aa6d-47f2-a148-fc1cc4b35c86",
+    "prId" : 298,
+    "comments" : [
+      {
+        "id" : "6682d35b-9ad1-4334-a90f-64059388747b",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "`s/Scala.js/scala-native/`?\n",
+        "createdAt" : "2016-09-22T12:18:46Z",
+        "updatedAt" : "2016-10-03T13:53:09Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cb3dff99-766b-4111-9ccd-b1df9aa1de27",
+        "parentId" : "6682d35b-9ad1-4334-a90f-64059388747b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep!\n",
+        "createdAt" : "2016-09-22T12:25:31Z",
+        "updatedAt" : "2016-10-03T13:53:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "63bc9f851858843b6e59da5aaa7de712c4aa114d",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,9 @@\n+.. _lang:\n+\n+Language semantics\n+==================\n+\n+In general, the semantics of the Scala.js language are the same as Scala on the"
+  },
+  {
+    "id" : "41bc7535-f06b-4432-864e-4e3057487214",
+    "prId" : 298,
+    "comments" : [
+      {
+        "id" : "adaf2b09-b857-4d8e-a558-f6f04e9e07ed",
+        "parentId" : null,
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "I think here is almost fair to mention memory allocation with `stackalloc` and `malloc`.\nAnd probably add a note on threading execution (i.e. not supported now)\n",
+        "createdAt" : "2016-09-26T06:48:45Z",
+        "updatedAt" : "2016-10-03T13:53:09Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "17b97856-fece-4bba-85a1-c8dbeb13d553",
+        "parentId" : "adaf2b09-b857-4d8e-a558-f6f04e9e07ed",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This pr only introduces basic layout. We'll fill it up with content as we go. \n",
+        "createdAt" : "2016-10-03T13:49:52Z",
+        "updatedAt" : "2016-10-03T13:53:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "63bc9f851858843b6e59da5aaa7de712c4aa114d",
+    "line" : 6,
+    "diffHunk" : "@@ -0,0 +1,9 @@\n+.. _lang:\n+\n+Language semantics\n+==================\n+\n+In general, the semantics of the Scala Native language are the same as Scala on"
+  }
+]

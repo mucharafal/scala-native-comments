@@ -1,0 +1,126 @@
+[
+  {
+    "id" : "168c0ac4-c07c-44e0-bc24-e9bcd33e805a",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "d21ae932-2958-4db4-b3f6-af4ba3513ec5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Oh now that git figures out that this is the same file, it's painfully obviously that the result type should be `AnyRef` to keep compatibility with previous code.",
+        "createdAt" : "2020-05-20T16:29:17Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -1,32 +1,31 @@\n-package org.scalajs.testinterface\n+package org.scalajs\n+package testinterface\n \n-import scala.scalanative.testinterface.PreloadedClassLoader\n+import scala.scalanative.reflect.Reflect\n \n-// ScalaJS defines this to mimic reflection.\n-// We substitute it with our implementation, expecting that\n-// the `ClassLoader` that we'll receive is a `PreloadedClassLoader`,\n-// from which we'll directly get the instance we're interested in.\n+@deprecated(message = \"Use scala.scalanative.reflect.Reflect instead.\",\n+            since = \"0.4.0\")\n object TestUtils {\n \n-  def newInstance(name: String, loader: ClassLoader)(\n-      args: Seq[AnyRef]): AnyRef =\n+  def newInstance(name: String, loader: ClassLoader)(args: Seq[AnyRef]): Any ="
+  },
+  {
+    "id" : "27529199-06bd-4dbb-ac6c-467f6217bd14",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "30ae49f5-bf0b-490f-b9e0-6670bf8e927d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here: it should return `AnyRef`.\r\n\r\nYou'll need to cast the result of `.newInstance(args: _*)` to `AnyRef` for the code to typecheck. (such a cast always works, so it's fine)",
+        "createdAt" : "2020-05-20T16:30:41Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -1,32 +1,31 @@\n-package org.scalajs.testinterface\n+package org.scalajs\n+package testinterface\n \n-import scala.scalanative.testinterface.PreloadedClassLoader\n+import scala.scalanative.reflect.Reflect\n \n-// ScalaJS defines this to mimic reflection.\n-// We substitute it with our implementation, expecting that\n-// the `ClassLoader` that we'll receive is a `PreloadedClassLoader`,\n-// from which we'll directly get the instance we're interested in.\n+@deprecated(message = \"Use scala.scalanative.reflect.Reflect instead.\",\n+            since = \"0.4.0\")\n object TestUtils {\n \n-  def newInstance(name: String, loader: ClassLoader)(\n-      args: Seq[AnyRef]): AnyRef =\n+  def newInstance(name: String, loader: ClassLoader)(args: Seq[AnyRef]): Any =\n     newInstance(name, loader, Seq.fill(args.length)(null))(args)\n \n-  def newInstance(name: String, loader: ClassLoader, paramTypes: Seq[Class[_]])(\n-      args: Seq[Any]): AnyRef = {\n+  def newInstance(fqcn: String, loader: ClassLoader, paramTypes: Seq[Class[_]])(\n+      args: Seq[Any]): Any = {"
+  },
+  {
+    "id" : "e2bd84da-91bb-480a-a6ac-cc0bf04a8777",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "d859dfc0-d995-4ca4-b359-ba2545a06182",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "And same here.",
+        "createdAt" : "2020-05-20T16:30:53Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -1,32 +1,31 @@\n-package org.scalajs.testinterface\n+package org.scalajs\n+package testinterface\n \n-import scala.scalanative.testinterface.PreloadedClassLoader\n+import scala.scalanative.reflect.Reflect\n \n-// ScalaJS defines this to mimic reflection.\n-// We substitute it with our implementation, expecting that\n-// the `ClassLoader` that we'll receive is a `PreloadedClassLoader`,\n-// from which we'll directly get the instance we're interested in.\n+@deprecated(message = \"Use scala.scalanative.reflect.Reflect instead.\",\n+            since = \"0.4.0\")\n object TestUtils {\n \n-  def newInstance(name: String, loader: ClassLoader)(\n-      args: Seq[AnyRef]): AnyRef =\n+  def newInstance(name: String, loader: ClassLoader)(args: Seq[AnyRef]): Any =\n     newInstance(name, loader, Seq.fill(args.length)(null))(args)\n \n-  def newInstance(name: String, loader: ClassLoader, paramTypes: Seq[Class[_]])(\n-      args: Seq[Any]): AnyRef = {\n+  def newInstance(fqcn: String, loader: ClassLoader, paramTypes: Seq[Class[_]])(\n+      args: Seq[Any]): Any = {\n     require(args.size == paramTypes.size, \"argument count mismatch\")\n \n-    loader match {\n-      case l: PreloadedClassLoader => l.loadPreloaded(name)\n-      case other                   => throw new UnsupportedOperationException()\n-    }\n+    Reflect\n+      .lookupInstantiatableClass(fqcn)\n+      .getOrElse(throw new Exception(s\"instantiatable class not found: $fqcn\"))\n+      .getConstructor(paramTypes: _*)\n+      .getOrElse(throw new Exception(s\"constructor not found: $paramTypes\"))\n+      .newInstance(args: _*)\n   }\n \n-  def loadModule(name: String, loader: ClassLoader): AnyRef =\n-    loader match {\n-      case l: PreloadedClassLoader => l.loadPreloaded(name)\n-      case other =>\n-        val clazz = other.loadClass(name + \"$\")\n-        clazz.getField(\"MODULE$\").get(null)\n-    }\n+  def loadModule(fqcn: String, loader: ClassLoader): Any = {"
+  },
+  {
+    "id" : "c5b97764-bc0a-45ea-9723-7ebe1e9b91dd",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "391e0fa9-7170-4814-a024-764df3fcef3c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We should still keep this object, with the deprecation message. We will be able to remove it in 0.5.0. We need it to nudge testing framework authors to the new APIs.",
+        "createdAt" : "2020-08-06T17:29:48Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,34 +0,0 @@\n-package org.scalajs\n-package testinterface\n-\n-import scala.scalanative.reflect.Reflect\n-\n-@deprecated(message = \"Use scala.scalanative.reflect.Reflect instead.\",\n-            since = \"0.4.0\")\n-object TestUtils {"
+  }
+]

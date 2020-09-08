@@ -1,0 +1,245 @@
+[
+  {
+    "id" : "8de71b67-a443-4f2c-941b-1e308f222668",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "bf560f85-5f80-4c4b-85fe-2933ff4fd517",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can you elaborate on this comment? It doesn't seem to be very clear.",
+        "createdAt" : "2017-05-22T11:13:04Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6e2136f5-e03b-426c-a020-56cfe074615d",
+        "parentId" : "bf560f85-5f80-4c4b-85fe-2933ff4fd517",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "This comment should be removed, it's different from the mmtk code because of multithreading, the access to the global allocator needs to be synchronised.",
+        "createdAt" : "2017-05-22T11:36:12Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2c4df746-76f1-4e48-b5e1-7bb5c9329dd4",
+        "parentId" : "bf560f85-5f80-4c4b-85fe-2933ff4fd517",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Agreed, lets remove it.",
+        "createdAt" : "2017-05-22T12:07:47Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,188 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"Line.h\"\n+#include \"Block.h\"\n+#include \"stats/AllocatorStats.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+BlockHeader *getNextBlock(Allocator *allocator);\n+bool getNextLine(Allocator *allocator);\n+\n+Allocator *Allocator_create(word_t *heapStart, int blockCount) {\n+    Allocator *allocator = malloc(sizeof(Allocator));\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_init(&allocator->recycledBlocks, heapStart);\n+    BlockList_init(&allocator->freeBlocks, heapStart);\n+\n+    // Init the free block list\n+    allocator->freeBlocks.first = (BlockHeader *)heapStart;\n+    BlockHeader *lastBlockHeader =\n+        (BlockHeader *)(heapStart + ((blockCount - 1) * WORDS_IN_BLOCK));\n+    allocator->freeBlocks.last = lastBlockHeader;\n+    lastBlockHeader->header.nextBlock = LAST_BLOCK;\n+\n+// Block stats\n+#ifdef ALLOCATOR_STATS\n+    allocator->stats = AllocatorStats_create();\n+    allocator->stats->blockCount = (uint64_t)blockCount;\n+#endif\n+\n+    Allocator_initCursors(allocator);\n+\n+    return allocator;\n+}\n+\n+bool Allocator_initCursors(Allocator *allocator) {\n+\n+    // Init cursor\n+    allocator->block = NULL;\n+    allocator->cursor = NULL;\n+    allocator->limit = NULL;\n+\n+    getNextLine(allocator);\n+\n+    // Init large cursor\n+    if (BlockList_isEmpty(&allocator->freeBlocks)) {\n+        return false;\n+    }\n+    BlockHeader *largeHeader =\n+        BlockList_removeFirstBlock(&allocator->freeBlocks);\n+    allocator->largeBlock = largeHeader;\n+    allocator->largeCursor = Block_getFirstWord(largeHeader);\n+    allocator->largeLimit = Block_getBlockEnd(largeHeader);\n+\n+    return true;\n+}\n+\n+/*\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    if (end > allocator->largeLimit) {\n+        // DIFFERENT FROM IMMIX"
+  },
+  {
+    "id" : "3fcbe411-999c-4b60-8ae4-c8aeb5670826",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "c1259b25-e9f0-4e36-85d0-f72ad3a78b53",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Allocator_firstLineNewBlock`.",
+        "createdAt" : "2017-05-26T12:46:12Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,259 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"Line.h\"\n+#include \"Block.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+BlockHeader *getNextBlock(Allocator *allocator);\n+bool getNextLine(Allocator *allocator);\n+\n+/**\n+ *\n+ * Allocates the Allocator and initialises it's fields\n+ *\n+ * @param heapStart\n+ * @param blockCount Initial number of blocks in the heap\n+ * @return\n+ */\n+Allocator *Allocator_create(word_t *heapStart, int blockCount) {\n+    Allocator *allocator = malloc(sizeof(Allocator));\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_init(&allocator->recycledBlocks, heapStart);\n+    BlockList_init(&allocator->freeBlocks, heapStart);\n+\n+    // Init the free block list\n+    allocator->freeBlocks.first = (BlockHeader *)heapStart;\n+    BlockHeader *lastBlockHeader =\n+        (BlockHeader *)(heapStart + ((blockCount - 1) * WORDS_IN_BLOCK));\n+    allocator->freeBlocks.last = lastBlockHeader;\n+    lastBlockHeader->header.nextBlock = LAST_BLOCK;\n+\n+    // Block stats\n+    allocator->blockCount = (uint64_t)blockCount;\n+    allocator->freeBlockCount = (uint64_t)blockCount;\n+    allocator->recycledBlockCount = 0;\n+\n+    Allocator_initCursors(allocator);\n+\n+    return allocator;\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_canInitCursors(Allocator *allocator) {\n+    return allocator->freeBlockCount >= 2 ||\n+           (allocator->freeBlockCount == 1 &&\n+            allocator->recycledBlockCount > 0);\n+}\n+\n+/**\n+ *\n+ * Used to initialise the cursors of the Allocator after collection\n+ *\n+ * @param allocator\n+ */\n+void Allocator_initCursors(Allocator *allocator) {\n+\n+    // Init cursor\n+    allocator->block = NULL;\n+    allocator->cursor = NULL;\n+    allocator->limit = NULL;\n+\n+    getNextLine(allocator);\n+\n+    // Init large cursor\n+    assert(!BlockList_isEmpty(&allocator->freeBlocks));\n+\n+    BlockHeader *largeHeader =\n+        BlockList_removeFirstBlock(&allocator->freeBlocks);\n+    allocator->largeBlock = largeHeader;\n+    allocator->largeCursor = Block_getFirstWord(largeHeader);\n+    allocator->largeLimit = Block_getBlockEnd(largeHeader);\n+}\n+\n+/**\n+ * Heuristic that tells if the heap should be grown or not.\n+ */\n+bool Allocator_shouldGrow(Allocator *allocator) {\n+    uint64_t unavailableBlockCount =\n+        allocator->blockCount -\n+        (allocator->freeBlockCount + allocator->recycledBlockCount);\n+\n+#ifdef DEBUG_PRINT\n+    printf(\"\\n\\nBlock count: %llu\\n\", allocator->blockCount);\n+    printf(\"Unavailable: %llu\\n\", unavailableBlockCount);\n+    printf(\"Free: %llu\\n\", allocator->freeBlockCount);\n+    printf(\"Recycled: %llu\\n\", allocator->recycledBlockCount);\n+    fflush(stdout);\n+#endif\n+\n+    return allocator->freeBlockCount < allocator->blockCount / 3 ||\n+           4 * unavailableBlockCount > allocator->blockCount ||\n+           allocator->freeMemoryAfterCollection * 2 <\n+               allocator->blockCount * BLOCK_TOTAL_SIZE;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    if (end > allocator->largeLimit) {\n+        if (BlockList_isEmpty(&allocator->freeBlocks)) {\n+            return NULL;\n+        }\n+        BlockHeader *block = BlockList_removeFirstBlock(&allocator->freeBlocks);\n+        allocator->largeBlock = block;\n+        allocator->largeCursor = Block_getFirstWord(block);\n+        allocator->largeLimit = Block_getBlockEnd(block);\n+        return overflowAllocation(allocator, size);\n+    }\n+\n+    if (end == allocator->largeLimit) {\n+        memset(start, 0, size);\n+    } else {\n+        memset(start, 0, size + WORD_SIZE);\n+    }\n+\n+    allocator->largeCursor = end;\n+\n+    Line_update(allocator->largeBlock, start);\n+\n+    return start;\n+}\n+\n+/**\n+ * Allocation fast path, uses the cursor and limit.\n+ */\n+INLINE word_t *Allocator_alloc(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // Checks if the end of the block overlaps with the limit\n+    if (end > allocator->limit) {\n+        // If it overlaps but the block to allocate is a `medium` sized block,\n+        // use overflow allocation\n+        if (size > LINE_SIZE) {\n+            return overflowAllocation(allocator, size);\n+        } else {\n+            // Otherwise try to get a new line.\n+            if (getNextLine(allocator)) {\n+                return Allocator_alloc(allocator, size);\n+            }\n+\n+            return NULL;\n+        }\n+    }\n+\n+    if (end == allocator->limit) {\n+        memset(start, 0, size);\n+    } else {\n+        memset(start, 0, size + WORD_SIZE);\n+    }\n+\n+    allocator->cursor = end;\n+\n+    Line_update(allocator->block, start);\n+\n+    return start;\n+}\n+\n+/**\n+ * Updates the cursor and the limit of the Allocator to point the next line of\n+ * the recycled block\n+ */\n+bool nextLineRecycled(Allocator *allocator) {\n+    // The cursor can point on first word of next block, thus `- WORD_SIZE`\n+    BlockHeader *block = Block_getBlockHeader(allocator->cursor - WORD_SIZE);\n+    assert(Block_isRecyclable(block));\n+\n+    int16_t lineIndex = block->header.first;\n+    if (lineIndex == LAST_HOLE) {\n+        allocator->cursor = NULL;\n+        return getNextLine(allocator);\n+    }\n+\n+    word_t *line = Block_getLineAddress(block, lineIndex);\n+\n+    allocator->cursor = line;\n+    FreeLineHeader *lineHeader = (FreeLineHeader *)line;\n+    block->header.first = lineHeader->next;\n+    uint16_t size = lineHeader->size;\n+    allocator->limit = line + (size * WORDS_IN_LINE);\n+\n+    return true;\n+}\n+\n+/**\n+ * Updates the the cursor and the limit of the Allocator to point to the first\n+ * free line of the new block.\n+ */\n+void firstLineNewBlock(Allocator *allocator, BlockHeader *block) {"
+  },
+  {
+    "id" : "1dc27e18-6ff6-422e-a6d4-c2d4191aec65",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "a6417679-ce61-4c4f-a947-f838ecc3784c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Allocator_getNextLine`",
+        "createdAt" : "2017-05-26T12:46:25Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,259 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"Line.h\"\n+#include \"Block.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+BlockHeader *getNextBlock(Allocator *allocator);\n+bool getNextLine(Allocator *allocator);\n+\n+/**\n+ *\n+ * Allocates the Allocator and initialises it's fields\n+ *\n+ * @param heapStart\n+ * @param blockCount Initial number of blocks in the heap\n+ * @return\n+ */\n+Allocator *Allocator_create(word_t *heapStart, int blockCount) {\n+    Allocator *allocator = malloc(sizeof(Allocator));\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_init(&allocator->recycledBlocks, heapStart);\n+    BlockList_init(&allocator->freeBlocks, heapStart);\n+\n+    // Init the free block list\n+    allocator->freeBlocks.first = (BlockHeader *)heapStart;\n+    BlockHeader *lastBlockHeader =\n+        (BlockHeader *)(heapStart + ((blockCount - 1) * WORDS_IN_BLOCK));\n+    allocator->freeBlocks.last = lastBlockHeader;\n+    lastBlockHeader->header.nextBlock = LAST_BLOCK;\n+\n+    // Block stats\n+    allocator->blockCount = (uint64_t)blockCount;\n+    allocator->freeBlockCount = (uint64_t)blockCount;\n+    allocator->recycledBlockCount = 0;\n+\n+    Allocator_initCursors(allocator);\n+\n+    return allocator;\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_canInitCursors(Allocator *allocator) {\n+    return allocator->freeBlockCount >= 2 ||\n+           (allocator->freeBlockCount == 1 &&\n+            allocator->recycledBlockCount > 0);\n+}\n+\n+/**\n+ *\n+ * Used to initialise the cursors of the Allocator after collection\n+ *\n+ * @param allocator\n+ */\n+void Allocator_initCursors(Allocator *allocator) {\n+\n+    // Init cursor\n+    allocator->block = NULL;\n+    allocator->cursor = NULL;\n+    allocator->limit = NULL;\n+\n+    getNextLine(allocator);\n+\n+    // Init large cursor\n+    assert(!BlockList_isEmpty(&allocator->freeBlocks));\n+\n+    BlockHeader *largeHeader =\n+        BlockList_removeFirstBlock(&allocator->freeBlocks);\n+    allocator->largeBlock = largeHeader;\n+    allocator->largeCursor = Block_getFirstWord(largeHeader);\n+    allocator->largeLimit = Block_getBlockEnd(largeHeader);\n+}\n+\n+/**\n+ * Heuristic that tells if the heap should be grown or not.\n+ */\n+bool Allocator_shouldGrow(Allocator *allocator) {\n+    uint64_t unavailableBlockCount =\n+        allocator->blockCount -\n+        (allocator->freeBlockCount + allocator->recycledBlockCount);\n+\n+#ifdef DEBUG_PRINT\n+    printf(\"\\n\\nBlock count: %llu\\n\", allocator->blockCount);\n+    printf(\"Unavailable: %llu\\n\", unavailableBlockCount);\n+    printf(\"Free: %llu\\n\", allocator->freeBlockCount);\n+    printf(\"Recycled: %llu\\n\", allocator->recycledBlockCount);\n+    fflush(stdout);\n+#endif\n+\n+    return allocator->freeBlockCount < allocator->blockCount / 3 ||\n+           4 * unavailableBlockCount > allocator->blockCount ||\n+           allocator->freeMemoryAfterCollection * 2 <\n+               allocator->blockCount * BLOCK_TOTAL_SIZE;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    if (end > allocator->largeLimit) {\n+        if (BlockList_isEmpty(&allocator->freeBlocks)) {\n+            return NULL;\n+        }\n+        BlockHeader *block = BlockList_removeFirstBlock(&allocator->freeBlocks);\n+        allocator->largeBlock = block;\n+        allocator->largeCursor = Block_getFirstWord(block);\n+        allocator->largeLimit = Block_getBlockEnd(block);\n+        return overflowAllocation(allocator, size);\n+    }\n+\n+    if (end == allocator->largeLimit) {\n+        memset(start, 0, size);\n+    } else {\n+        memset(start, 0, size + WORD_SIZE);\n+    }\n+\n+    allocator->largeCursor = end;\n+\n+    Line_update(allocator->largeBlock, start);\n+\n+    return start;\n+}\n+\n+/**\n+ * Allocation fast path, uses the cursor and limit.\n+ */\n+INLINE word_t *Allocator_alloc(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // Checks if the end of the block overlaps with the limit\n+    if (end > allocator->limit) {\n+        // If it overlaps but the block to allocate is a `medium` sized block,\n+        // use overflow allocation\n+        if (size > LINE_SIZE) {\n+            return overflowAllocation(allocator, size);\n+        } else {\n+            // Otherwise try to get a new line.\n+            if (getNextLine(allocator)) {\n+                return Allocator_alloc(allocator, size);\n+            }\n+\n+            return NULL;\n+        }\n+    }\n+\n+    if (end == allocator->limit) {\n+        memset(start, 0, size);\n+    } else {\n+        memset(start, 0, size + WORD_SIZE);\n+    }\n+\n+    allocator->cursor = end;\n+\n+    Line_update(allocator->block, start);\n+\n+    return start;\n+}\n+\n+/**\n+ * Updates the cursor and the limit of the Allocator to point the next line of\n+ * the recycled block\n+ */\n+bool nextLineRecycled(Allocator *allocator) {\n+    // The cursor can point on first word of next block, thus `- WORD_SIZE`\n+    BlockHeader *block = Block_getBlockHeader(allocator->cursor - WORD_SIZE);\n+    assert(Block_isRecyclable(block));\n+\n+    int16_t lineIndex = block->header.first;\n+    if (lineIndex == LAST_HOLE) {\n+        allocator->cursor = NULL;\n+        return getNextLine(allocator);\n+    }\n+\n+    word_t *line = Block_getLineAddress(block, lineIndex);\n+\n+    allocator->cursor = line;\n+    FreeLineHeader *lineHeader = (FreeLineHeader *)line;\n+    block->header.first = lineHeader->next;\n+    uint16_t size = lineHeader->size;\n+    allocator->limit = line + (size * WORDS_IN_LINE);\n+\n+    return true;\n+}\n+\n+/**\n+ * Updates the the cursor and the limit of the Allocator to point to the first\n+ * free line of the new block.\n+ */\n+void firstLineNewBlock(Allocator *allocator, BlockHeader *block) {\n+    allocator->block = block;\n+\n+    // The block can be free or recycled.\n+    if (Block_isFree(block)) {\n+        allocator->cursor = Block_getFirstWord(block);\n+        allocator->limit = Block_getBlockEnd(block);\n+    } else {\n+        assert(Block_isRecyclable(block));\n+        int16_t lineIndex = block->header.first;\n+        assert(lineIndex < LINE_COUNT);\n+        word_t *line = Block_getLineAddress(block, lineIndex);\n+\n+        allocator->cursor = line;\n+        FreeLineHeader *lineHeader = (FreeLineHeader *)line;\n+        block->header.first = lineHeader->next;\n+        uint16_t size = lineHeader->size;\n+        assert(size > 0);\n+        allocator->limit = line + (size * WORDS_IN_LINE);\n+    }\n+}\n+\n+bool getNextLine(Allocator *allocator) {"
+  },
+  {
+    "id" : "7d14f10f-8e8a-45fa-9962-2dffa168673d",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "76658baa-1761-4553-ba96-7c8f915e430b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Allocator_nextLineRecycled`",
+        "createdAt" : "2017-05-26T12:46:36Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,259 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"Line.h\"\n+#include \"Block.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+BlockHeader *getNextBlock(Allocator *allocator);\n+bool getNextLine(Allocator *allocator);\n+\n+/**\n+ *\n+ * Allocates the Allocator and initialises it's fields\n+ *\n+ * @param heapStart\n+ * @param blockCount Initial number of blocks in the heap\n+ * @return\n+ */\n+Allocator *Allocator_create(word_t *heapStart, int blockCount) {\n+    Allocator *allocator = malloc(sizeof(Allocator));\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_init(&allocator->recycledBlocks, heapStart);\n+    BlockList_init(&allocator->freeBlocks, heapStart);\n+\n+    // Init the free block list\n+    allocator->freeBlocks.first = (BlockHeader *)heapStart;\n+    BlockHeader *lastBlockHeader =\n+        (BlockHeader *)(heapStart + ((blockCount - 1) * WORDS_IN_BLOCK));\n+    allocator->freeBlocks.last = lastBlockHeader;\n+    lastBlockHeader->header.nextBlock = LAST_BLOCK;\n+\n+    // Block stats\n+    allocator->blockCount = (uint64_t)blockCount;\n+    allocator->freeBlockCount = (uint64_t)blockCount;\n+    allocator->recycledBlockCount = 0;\n+\n+    Allocator_initCursors(allocator);\n+\n+    return allocator;\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_canInitCursors(Allocator *allocator) {\n+    return allocator->freeBlockCount >= 2 ||\n+           (allocator->freeBlockCount == 1 &&\n+            allocator->recycledBlockCount > 0);\n+}\n+\n+/**\n+ *\n+ * Used to initialise the cursors of the Allocator after collection\n+ *\n+ * @param allocator\n+ */\n+void Allocator_initCursors(Allocator *allocator) {\n+\n+    // Init cursor\n+    allocator->block = NULL;\n+    allocator->cursor = NULL;\n+    allocator->limit = NULL;\n+\n+    getNextLine(allocator);\n+\n+    // Init large cursor\n+    assert(!BlockList_isEmpty(&allocator->freeBlocks));\n+\n+    BlockHeader *largeHeader =\n+        BlockList_removeFirstBlock(&allocator->freeBlocks);\n+    allocator->largeBlock = largeHeader;\n+    allocator->largeCursor = Block_getFirstWord(largeHeader);\n+    allocator->largeLimit = Block_getBlockEnd(largeHeader);\n+}\n+\n+/**\n+ * Heuristic that tells if the heap should be grown or not.\n+ */\n+bool Allocator_shouldGrow(Allocator *allocator) {\n+    uint64_t unavailableBlockCount =\n+        allocator->blockCount -\n+        (allocator->freeBlockCount + allocator->recycledBlockCount);\n+\n+#ifdef DEBUG_PRINT\n+    printf(\"\\n\\nBlock count: %llu\\n\", allocator->blockCount);\n+    printf(\"Unavailable: %llu\\n\", unavailableBlockCount);\n+    printf(\"Free: %llu\\n\", allocator->freeBlockCount);\n+    printf(\"Recycled: %llu\\n\", allocator->recycledBlockCount);\n+    fflush(stdout);\n+#endif\n+\n+    return allocator->freeBlockCount < allocator->blockCount / 3 ||\n+           4 * unavailableBlockCount > allocator->blockCount ||\n+           allocator->freeMemoryAfterCollection * 2 <\n+               allocator->blockCount * BLOCK_TOTAL_SIZE;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    if (end > allocator->largeLimit) {\n+        if (BlockList_isEmpty(&allocator->freeBlocks)) {\n+            return NULL;\n+        }\n+        BlockHeader *block = BlockList_removeFirstBlock(&allocator->freeBlocks);\n+        allocator->largeBlock = block;\n+        allocator->largeCursor = Block_getFirstWord(block);\n+        allocator->largeLimit = Block_getBlockEnd(block);\n+        return overflowAllocation(allocator, size);\n+    }\n+\n+    if (end == allocator->largeLimit) {\n+        memset(start, 0, size);\n+    } else {\n+        memset(start, 0, size + WORD_SIZE);\n+    }\n+\n+    allocator->largeCursor = end;\n+\n+    Line_update(allocator->largeBlock, start);\n+\n+    return start;\n+}\n+\n+/**\n+ * Allocation fast path, uses the cursor and limit.\n+ */\n+INLINE word_t *Allocator_alloc(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // Checks if the end of the block overlaps with the limit\n+    if (end > allocator->limit) {\n+        // If it overlaps but the block to allocate is a `medium` sized block,\n+        // use overflow allocation\n+        if (size > LINE_SIZE) {\n+            return overflowAllocation(allocator, size);\n+        } else {\n+            // Otherwise try to get a new line.\n+            if (getNextLine(allocator)) {\n+                return Allocator_alloc(allocator, size);\n+            }\n+\n+            return NULL;\n+        }\n+    }\n+\n+    if (end == allocator->limit) {\n+        memset(start, 0, size);\n+    } else {\n+        memset(start, 0, size + WORD_SIZE);\n+    }\n+\n+    allocator->cursor = end;\n+\n+    Line_update(allocator->block, start);\n+\n+    return start;\n+}\n+\n+/**\n+ * Updates the cursor and the limit of the Allocator to point the next line of\n+ * the recycled block\n+ */\n+bool nextLineRecycled(Allocator *allocator) {"
+  },
+  {
+    "id" : "8ad00f24-b83c-4f45-b10f-0069d3d4c7e1",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "69bb99c2-9f5a-4d59-9899-181c3ef8317a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Allocator_overflowAllocation`.",
+        "createdAt" : "2017-05-26T12:46:54Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d804ce8a-011e-4d11-bcec-7a1acc2e186f",
+        "parentId" : "69bb99c2-9f5a-4d59-9899-181c3ef8317a",
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Do you want to add the module name to all functions ? I did it only for \"public\" (defined in .h) functions.",
+        "createdAt" : "2017-05-26T13:02:19Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "83d3d4a9-af72-4e9d-8f10-f049fc51f83c",
+        "parentId" : "69bb99c2-9f5a-4d59-9899-181c3ef8317a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, I think it's a good idea to add it. It helps to easily navigate the codebase without IDE.",
+        "createdAt" : "2017-05-26T13:03:56Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,259 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"Line.h\"\n+#include \"Block.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+BlockHeader *getNextBlock(Allocator *allocator);\n+bool getNextLine(Allocator *allocator);\n+\n+/**\n+ *\n+ * Allocates the Allocator and initialises it's fields\n+ *\n+ * @param heapStart\n+ * @param blockCount Initial number of blocks in the heap\n+ * @return\n+ */\n+Allocator *Allocator_create(word_t *heapStart, int blockCount) {\n+    Allocator *allocator = malloc(sizeof(Allocator));\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_init(&allocator->recycledBlocks, heapStart);\n+    BlockList_init(&allocator->freeBlocks, heapStart);\n+\n+    // Init the free block list\n+    allocator->freeBlocks.first = (BlockHeader *)heapStart;\n+    BlockHeader *lastBlockHeader =\n+        (BlockHeader *)(heapStart + ((blockCount - 1) * WORDS_IN_BLOCK));\n+    allocator->freeBlocks.last = lastBlockHeader;\n+    lastBlockHeader->header.nextBlock = LAST_BLOCK;\n+\n+    // Block stats\n+    allocator->blockCount = (uint64_t)blockCount;\n+    allocator->freeBlockCount = (uint64_t)blockCount;\n+    allocator->recycledBlockCount = 0;\n+\n+    Allocator_initCursors(allocator);\n+\n+    return allocator;\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_canInitCursors(Allocator *allocator) {\n+    return allocator->freeBlockCount >= 2 ||\n+           (allocator->freeBlockCount == 1 &&\n+            allocator->recycledBlockCount > 0);\n+}\n+\n+/**\n+ *\n+ * Used to initialise the cursors of the Allocator after collection\n+ *\n+ * @param allocator\n+ */\n+void Allocator_initCursors(Allocator *allocator) {\n+\n+    // Init cursor\n+    allocator->block = NULL;\n+    allocator->cursor = NULL;\n+    allocator->limit = NULL;\n+\n+    getNextLine(allocator);\n+\n+    // Init large cursor\n+    assert(!BlockList_isEmpty(&allocator->freeBlocks));\n+\n+    BlockHeader *largeHeader =\n+        BlockList_removeFirstBlock(&allocator->freeBlocks);\n+    allocator->largeBlock = largeHeader;\n+    allocator->largeCursor = Block_getFirstWord(largeHeader);\n+    allocator->largeLimit = Block_getBlockEnd(largeHeader);\n+}\n+\n+/**\n+ * Heuristic that tells if the heap should be grown or not.\n+ */\n+bool Allocator_shouldGrow(Allocator *allocator) {\n+    uint64_t unavailableBlockCount =\n+        allocator->blockCount -\n+        (allocator->freeBlockCount + allocator->recycledBlockCount);\n+\n+#ifdef DEBUG_PRINT\n+    printf(\"\\n\\nBlock count: %llu\\n\", allocator->blockCount);\n+    printf(\"Unavailable: %llu\\n\", unavailableBlockCount);\n+    printf(\"Free: %llu\\n\", allocator->freeBlockCount);\n+    printf(\"Recycled: %llu\\n\", allocator->recycledBlockCount);\n+    fflush(stdout);\n+#endif\n+\n+    return allocator->freeBlockCount < allocator->blockCount / 3 ||\n+           4 * unavailableBlockCount > allocator->blockCount ||\n+           allocator->freeMemoryAfterCollection * 2 <\n+               allocator->blockCount * BLOCK_TOTAL_SIZE;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *overflowAllocation(Allocator *allocator, size_t size) {"
+  }
+]

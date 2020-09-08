@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "6a1c4cb2-85a2-413b-9cc0-9000b124ddd0",
+    "prId" : 1364,
+    "comments" : [
+      {
+        "id" : "ac65f6ab-a620-4d3b-a33a-c63cfa2a2b4e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `Settings_StatsFileName`.",
+        "createdAt" : "2018-10-25T14:58:47Z",
+        "updatedAt" : "2018-10-27T11:19:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7633cbd8aa831f3412a552fb169f78e57f264a0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,6 @@\n+#include \"Settings.h\"\n+#include <stdlib.h>\n+\n+char *Settings_GC_StatsFileName() {"
+  }
+]

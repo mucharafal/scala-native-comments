@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "114130fb-12a7-4d32-825e-7e746a99a6a0",
+    "prId" : 726,
+    "comments" : [
+      {
+        "id" : "3c940b4e-162f-45f0-a86d-7d3bf9ca57bf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Block_getInLine` ?",
+        "createdAt" : "2017-05-26T12:56:04Z",
+        "updatedAt" : "2017-05-26T19:58:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e178312c9ed14cff70f46cd7ef3ea62a9cf51246",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,168 @@\n+#include <stddef.h>\n+#include <stdio.h>\n+#include \"Object.h\"\n+#include \"headers/BlockHeader.h\"\n+#include \"Line.h\"\n+#include \"Log.h\"\n+#include \"utils/MathUtils.h\"\n+\n+Object *Object_nextLargeObject(Object *object) {\n+    size_t size = Object_chunkSize(object);\n+    assert(size != 0);\n+    return (Object *)((ubyte_t *)object + size);\n+}\n+\n+Object *Object_nextObject(Object *object) {\n+    size_t size = Object_size(&object->header);\n+    assert(size < LARGE_BLOCK_SIZE);\n+    if (size == 0) {\n+        return NULL;\n+    }\n+    Object *next = (Object *)((ubyte_t *)object + size);\n+    assert(Block_getBlockHeader((word_t *)next) ==\n+               Block_getBlockHeader((word_t *)object) ||\n+           (ubyte_t *)Block_getBlockHeader((word_t *)next) ==\n+               (ubyte_t *)Block_getBlockHeader((word_t *)object) +\n+                   BLOCK_TOTAL_SIZE);\n+    return next;\n+}\n+\n+static inline bool isWordAligned(word_t *word) {\n+    return ((word_t)word & WORD_INVERSE_MASK) == (word_t)word;\n+}\n+\n+Object *getInLine(BlockHeader *blockHeader, int lineIndex, word_t *word) {"
+  }
+]

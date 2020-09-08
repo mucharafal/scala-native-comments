@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "1940ffa4-7e38-4836-9507-23a9002084be",
+    "prId" : 1805,
+    "comments" : [
+      {
+        "id" : "b7cf1621-186a-42d5-91eb-fc227df20fa4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same as the comment in `BigDecimal` above.",
+        "createdAt" : "2020-05-19T13:40:14Z",
+        "updatedAt" : "2020-05-24T22:48:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "34009988-7023-49e9-afdf-21d91e3b5359",
+        "parentId" : "b7cf1621-186a-42d5-91eb-fc227df20fa4",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "removed",
+        "createdAt" : "2020-05-24T22:52:51Z",
+        "updatedAt" : "2020-05-24T22:52:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2456c8333efb20366c5b22bb8022daf06e1b19a0",
+    "line" : null,
+    "diffHunk" : "@@ -462,6 +462,10 @@ class BigInteger extends Number with Comparable[BigInteger] {\n   override def doubleValue(): Double =\n     java.lang.Double.parseDouble(this.toString)\n \n+  @inline override def __scala_==(other: _Object): scala.Boolean = {\n+    this.equals(other)\n+  }\n+"
+  }
+]

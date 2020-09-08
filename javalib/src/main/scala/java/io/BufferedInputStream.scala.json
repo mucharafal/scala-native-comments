@@ -1,0 +1,338 @@
+[
+  {
+    "id" : "371caace-cd6d-4ee4-8467-c0b999b9935d",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "9a2f39b6-2e2c-48d0-bed2-757419b515b0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't do authorship comments as they easily get out of date, we use git blame for this instead. ",
+        "createdAt" : "2017-04-10T17:36:13Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f29e24f9-155b-41d8-997b-295851e6db40",
+        "parentId" : "9a2f39b6-2e2c-48d0-bed2-757419b515b0",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T08:48:29Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,157 @@\n+package java.io\n+\n+/**\n+ * Created by remi on 08/03/17.\n+ */"
+  },
+  {
+    "id" : "79bbbe3a-d4fd-4f83-9f24-7a0cb88a8182",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "0dd3b163-29d1-47b5-9bf6-77efc927bcb5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't do doc comments for public members of the JDK as they are never going to be published anywhere (people are encouraged the reference docs instead.) It's ok to have doc comments that explain private/internal members that specific to the current implementation.",
+        "createdAt" : "2017-04-10T17:37:14Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "614f1733-b9c3-4e3d-8599-0cb3b96fa8bf",
+        "parentId" : "0dd3b163-29d1-47b5-9bf6-77efc927bcb5",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T08:48:38Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,157 @@\n+package java.io\n+\n+/**\n+ * Created by remi on 08/03/17.\n+ */\n+class BufferedInputStream(in: InputStream, size: Int)\n+    extends FilterInputStream(in)\n+    with Closeable\n+    with AutoCloseable {\n+\n+  if (size < 0) throw new IllegalArgumentException()\n+\n+  def this(in: InputStream) = this(in, 8192)\n+\n+  /** The internal buffer array where the data is stored. */\n+  protected[this] var buf = new Array[Byte](size)\n+\n+  /** The index one greater than the index of the last valid byte in the buffer. */\n+  protected[this] var count = 0\n+\n+  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the reset method fail.. */\n+  private[this] var markLimit = 0\n+\n+  /** The value of the pos field at the time the last mark method was called. */\n+  private[this] var markpos = -1\n+\n+  /** The current position in the buffer. */\n+  protected[this] var pos = 0\n+\n+  private[this] var closed = false\n+\n+  /** The position of the last element in the buffer excluded */\n+  private[this] var end = 0\n+\n+  /**\n+   * Returns an estimate of the number of bytes that can be read (or skipped over)\n+   * from this input stream without blocking by the next invocation of a method for this input stream.\n+   */"
+  },
+  {
+    "id" : "4f509a85-2ef2-47fd-bcae-63e942ee91af",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "5038fe5a-f72b-48f8-b657-fe7f960d3db5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This pattern is useless inefficient. Consider using instead:\r\n```scala\r\n... = in match {\r\n  case null => throw new IOException()\r\n  case source =>\r\n    synchronized { ... }\r\n}\r\n```\r\nThis applies everywhere you use this pattern.\r\n\r\nEven better, since the `null` case is always to throw an exception (except in `close()`, which has very special logic anyway), you can repurpose `ensureOpen()` to take care of this:\r\n```scala\r\ndef ensureOpen(): (InputStream, Array[Byte]) = {\r\n  /* First read `in`, then `buf`. Since `buf` is volatile and is the first thing\r\n   * that is set to `null` in `close()`, we know that if we read `buf != null`,\r\n   * we *also* read `in != null`.\r\n   */  \r\n  val in = this.in\r\n  val buf = this.buf\r\n  if (buf == null)\r\n    throw new IOException(\"Operation on closed stream\")\r\n  (in, buf)\r\n}\r\n```\r\nthen you can simply use\r\n```scala\r\nval (in, buf) = ensureOpen()\r\n```\r\nin `available()` and all the other methods that currently use the `Option(in)`/`Option(buf)` pattern.\r\n\r\nNote that ",
+        "createdAt" : "2020-05-11T14:15:30Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "91be2556-38e6-4e92-a81b-320d6c2025ed",
+        "parentId" : "5038fe5a-f72b-48f8-b657-fe7f960d3db5",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Well, in fact the above `ensureOpen()` is not good enough, because `read()` can reallocate a bigger `buf`, which means that it can concurrently set another non-null `buf` after the `buf = null`.\r\n\r\nTherefore, I believe a dedicated\r\n```scala\r\nprivate[this] var closed: Boolean = false\r\n```\r\nand then do:\r\n```scala\r\ndef ensureOpen(): (InputStream, Array[Byte]) = {\r\n  /* First read `in` and `buf`, then `closed`. Since `closed` is the first thing\r\n   * that is set to `true` in `close()`, we know that if `closed` is false, the\r\n   * `in` and `buf` are non-null.\r\n   */\r\n  val in = this.in\r\n  val buf = this.buf\r\n  if (closed)\r\n    throw new IOException(\"Operation on closed stream\")\r\n  (in, buf)\r\n}\r\n```\r\nwhile `close()` starts by setting `closed` to `true`:\r\n```scala\r\ndef close(): Unit = {\r\n  if (!closed) {\r\n    closed = true\r\n    val in = this.in\r\n    if (in != null)\r\n      in.close()\r\n    in = null\r\n    buff = null\r\n  }\r\n}\r\n```",
+        "createdAt" : "2020-05-11T15:23:42Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -1,129 +1,247 @@\n package java.io\n \n-class BufferedInputStream(_in: InputStream, size: Int)\n+/* A note on the implementation. IMO (coreyoconnor) neither the written or de-facto specification for\n+ * BufferedInputStream are nicely designed. In particular the aspects:\n+ *\n+ * 1. protected fields\n+ * 2. asynchronous close\n+ *\n+ * For async close: I cannot find an official spec on this, but evidence implies this is required:\n+ * First are the existing implementations in Apache Harmony and OpenJDK. Second are the bug reports\n+ * implying close must support async.\n+ *\n+ * - https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4225348\n+ * - https://issues.apache.org/jira/browse/HARMONY-6014\n+ *\n+ * Full thread correctness seems near impossible, so the implementation only prioritizes async close.\n+ *\n+ * Mark support makes lenient use of the \"might\" and \"may\"s in the spec.\n+ *\n+ * One pattern is using `Option(in)` to capture a field to a local.\n+ */\n+class BufferedInputStream(_in: InputStream, initialSize: Int)\n     extends FilterInputStream(_in)\n     with Closeable\n     with AutoCloseable {\n \n-  if (size <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n+  if (initialSize <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n \n   def this(in: InputStream) = this(in, 8192)\n \n+  // per spec close will release system resources. This implies buf should be set to null\n+  // post close to ensure GC can release this resource\n   /** The internal buffer array where the data is stored. */\n-  protected[this] var buf = new Array[Byte](size)\n+  protected[this] var buf = new Array[Byte](initialSize)\n \n   /** The index one greater than the index of the last valid byte in the buffer. */\n-  protected[this] var count = 0\n+  protected[this] var count: Int = 0\n \n-  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the reset method fail.. */\n-  private[this] var markLimit = 0\n+  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the\n+    *  reset method fail..\n+    */\n+  protected[this] var marklimit: Int = 0\n \n   /** The value of the pos field at the time the last mark method was called. */\n-  private[this] var markpos = -1\n+  protected[this] var markpos: Int = -1\n \n   /** The current position in the buffer. */\n-  protected[this] var pos = 0\n-\n-  private[this] var closed = false\n-\n-  /** The position of the last element in the buffer excluded */\n-  private[this] var end = 0\n-\n-  override def available(): Int = {\n-    if (closed) throw new IOException()\n-    end - pos + in.available()\n+  protected[this] var pos: Int = 0\n+\n+  override def available(): Int = Option(in) match {"
+  },
+  {
+    "id" : "9a06bfde-fb86-44a5-8844-3251efbaba7f",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "eceb918b-b48c-4f0b-97fd-1f209f095f4e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Calling this \"async\" is very misleading, and actually misled me for 5 minutes. async means asynchronous, not asynchronized (not a word). `close()` is not async; it is very much synchronous: when it returns, you know the stream is closed.\r\n\r\nThe correct concept is simply \"not synchronized\".",
+        "createdAt" : "2020-05-11T14:30:32Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -1,129 +1,247 @@\n package java.io\n \n-class BufferedInputStream(_in: InputStream, size: Int)\n+/* A note on the implementation. IMO (coreyoconnor) neither the written or de-facto specification for\n+ * BufferedInputStream are nicely designed. In particular the aspects:\n+ *\n+ * 1. protected fields\n+ * 2. asynchronous close\n+ *\n+ * For async close: I cannot find an official spec on this, but evidence implies this is required:"
+  },
+  {
+    "id" : "7b66b870-d5ab-4358-82d5-2c5abe347490",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "f99ec826-a484-4933-9631-3ed5a8d89c6c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Here you can't use `ensureOpen()`, but you can use\r\n```scala\r\n... = in match {\r\n  case null =>\r\n  case source =>\r\n    ...\r\n}\r\n```",
+        "createdAt" : "2020-05-11T14:45:58Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -1,129 +1,247 @@\n package java.io\n \n-class BufferedInputStream(_in: InputStream, size: Int)\n+/* A note on the implementation. IMO (coreyoconnor) neither the written or de-facto specification for\n+ * BufferedInputStream are nicely designed. In particular the aspects:\n+ *\n+ * 1. protected fields\n+ * 2. asynchronous close\n+ *\n+ * For async close: I cannot find an official spec on this, but evidence implies this is required:\n+ * First are the existing implementations in Apache Harmony and OpenJDK. Second are the bug reports\n+ * implying close must support async.\n+ *\n+ * - https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4225348\n+ * - https://issues.apache.org/jira/browse/HARMONY-6014\n+ *\n+ * Full thread correctness seems near impossible, so the implementation only prioritizes async close.\n+ *\n+ * Mark support makes lenient use of the \"might\" and \"may\"s in the spec.\n+ *\n+ * One pattern is using `Option(in)` to capture a field to a local.\n+ */\n+class BufferedInputStream(_in: InputStream, initialSize: Int)\n     extends FilterInputStream(_in)\n     with Closeable\n     with AutoCloseable {\n \n-  if (size <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n+  if (initialSize <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n \n   def this(in: InputStream) = this(in, 8192)\n \n+  // per spec close will release system resources. This implies buf should be set to null\n+  // post close to ensure GC can release this resource\n   /** The internal buffer array where the data is stored. */\n-  protected[this] var buf = new Array[Byte](size)\n+  protected[this] var buf = new Array[Byte](initialSize)\n \n   /** The index one greater than the index of the last valid byte in the buffer. */\n-  protected[this] var count = 0\n+  protected[this] var count: Int = 0\n \n-  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the reset method fail.. */\n-  private[this] var markLimit = 0\n+  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the\n+    *  reset method fail..\n+    */\n+  protected[this] var marklimit: Int = 0\n \n   /** The value of the pos field at the time the last mark method was called. */\n-  private[this] var markpos = -1\n+  protected[this] var markpos: Int = -1\n \n   /** The current position in the buffer. */\n-  protected[this] var pos = 0\n-\n-  private[this] var closed = false\n-\n-  /** The position of the last element in the buffer excluded */\n-  private[this] var end = 0\n-\n-  override def available(): Int = {\n-    if (closed) throw new IOException()\n-    end - pos + in.available()\n+  protected[this] var pos: Int = 0\n+\n+  override def available(): Int = Option(in) match {\n+    case Some(source) =>\n+      synchronized {\n+        source.available() + count - pos\n+      }\n+    case None => throw new IOException()\n   }\n \n-  override def close(): Unit = {\n-    closed = true\n+  // from spec: \"closing a previously closed stream has no effect\"\n+  // inferred from bug reports: close must be callable async from read\n+  override def close(): Unit = Option(in) foreach { source =>"
+  },
+  {
+    "id" : "95315a96-b45b-4d29-9e7c-7daccc147926",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "a254f1c7-4617-479a-95ce-b41e2dc20548",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Please add `{}` around the body of methods that exceed 1 line. Otherwise it's difficult to see where a method ends.",
+        "createdAt" : "2020-05-11T14:54:02Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -1,129 +1,247 @@\n package java.io\n \n-class BufferedInputStream(_in: InputStream, size: Int)\n+/* A note on the implementation. IMO (coreyoconnor) neither the written or de-facto specification for\n+ * BufferedInputStream are nicely designed. In particular the aspects:\n+ *\n+ * 1. protected fields\n+ * 2. asynchronous close\n+ *\n+ * For async close: I cannot find an official spec on this, but evidence implies this is required:\n+ * First are the existing implementations in Apache Harmony and OpenJDK. Second are the bug reports\n+ * implying close must support async.\n+ *\n+ * - https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4225348\n+ * - https://issues.apache.org/jira/browse/HARMONY-6014\n+ *\n+ * Full thread correctness seems near impossible, so the implementation only prioritizes async close.\n+ *\n+ * Mark support makes lenient use of the \"might\" and \"may\"s in the spec.\n+ *\n+ * One pattern is using `Option(in)` to capture a field to a local.\n+ */\n+class BufferedInputStream(_in: InputStream, initialSize: Int)\n     extends FilterInputStream(_in)\n     with Closeable\n     with AutoCloseable {\n \n-  if (size <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n+  if (initialSize <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n \n   def this(in: InputStream) = this(in, 8192)\n \n+  // per spec close will release system resources. This implies buf should be set to null\n+  // post close to ensure GC can release this resource\n   /** The internal buffer array where the data is stored. */\n-  protected[this] var buf = new Array[Byte](size)\n+  protected[this] var buf = new Array[Byte](initialSize)\n \n   /** The index one greater than the index of the last valid byte in the buffer. */\n-  protected[this] var count = 0\n+  protected[this] var count: Int = 0\n \n-  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the reset method fail.. */\n-  private[this] var markLimit = 0\n+  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the\n+    *  reset method fail..\n+    */\n+  protected[this] var marklimit: Int = 0\n \n   /** The value of the pos field at the time the last mark method was called. */\n-  private[this] var markpos = -1\n+  protected[this] var markpos: Int = -1\n \n   /** The current position in the buffer. */\n-  protected[this] var pos = 0\n-\n-  private[this] var closed = false\n-\n-  /** The position of the last element in the buffer excluded */\n-  private[this] var end = 0\n-\n-  override def available(): Int = {\n-    if (closed) throw new IOException()\n-    end - pos + in.available()\n+  protected[this] var pos: Int = 0\n+\n+  override def available(): Int = Option(in) match {\n+    case Some(source) =>\n+      synchronized {\n+        source.available() + count - pos\n+      }\n+    case None => throw new IOException()\n   }\n \n-  override def close(): Unit = {\n-    closed = true\n+  // from spec: \"closing a previously closed stream has no effect\"\n+  // inferred from bug reports: close must be callable async from read\n+  override def close(): Unit = Option(in) foreach { source =>\n+    // from spec \"releases any system resources associated\".\n+    // implies\n+    buf = null\n+    source.close()\n+    in = null\n   }\n \n-  override def mark(readLimit: Int): Unit = {\n-    if (!closed) {\n-      val srcBuf = buf\n-      if (buf.size < readLimit)\n-        buf = new Array[Byte](readLimit)\n+  override def mark(readLimit: Int): Unit = synchronized {\n+    marklimit = readLimit\n+    markpos = pos\n+  }\n \n-      // Move data to beginning of buffer\n-      if (pos != 0 || (buf ne srcBuf))\n-        System.arraycopy(srcBuf, pos, buf, 0, end - pos)\n+  override def markSupported(): Boolean = true\n \n-      // Update internal state\n-      end -= pos\n+  /* Reads up to sourceBuffer.length bytes from the source input stream.\n+   * This will also replace `buf` if a larger buffer is required to handle mark.\n+   *\n+   * postcondition: markpos invalidated if pos - markpos exceeds marklimit. Not exactly at the\n+   * boundary tho as this is only a \"may\" in spec.\n+   *\n+   * @returns buf\n+   */\n+  private def fillBuffer(sourceBuffer: Array[Byte],\n+                         source: InputStream): Option[Array[Byte]] ="
+  },
+  {
+    "id" : "008db468-0123-4bc0-8608-9de1b8888858",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "47339cc2-6bfe-4b4b-ba90-77e8994f332b",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider the simpler:\r\n```scala\r\nval bigEnoughBuf = if (count < sourceBuffer.length) {\r\n  sourceBuffer\r\n} else {\r\n  val newBuffer = new Array[Byte](sourceBuffer.length * 2)\r\n  sourceBuffer.copyToArray(newBuffer)\r\n  buf = newBuffer\r\n  newBuffer\r\n}\r\n// then the current content of fillMarkBufferUnsafe, replacing sourceBuffer by bigEnoughBuf\r\n```",
+        "createdAt" : "2020-05-11T15:42:45Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "29d76fe5-e4d2-4e32-a00e-f098886ada25",
+        "parentId" : "47339cc2-6bfe-4b4b-ba90-77e8994f332b",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Also after setting `buf = newBuffer`, we should check again whether `closed` is true, and if yes, reset it back to `null`:\r\n```scala\r\nbuf = newBuffer\r\nif (closed)\r\n  buf = null\r\n```\r\nDoing the naively simpler\r\n```scala\r\nif (!closed)\r\n  buf = newBuffer\r\n```\r\nis not correct, since we could first read `closed` as false, then `close()` would execute and set `closed = true` and `buf = null`, then we'd come back here and do `buf = newBuffer`.",
+        "createdAt" : "2020-05-11T15:45:56Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -1,129 +1,247 @@\n package java.io\n \n-class BufferedInputStream(_in: InputStream, size: Int)\n+/* A note on the implementation. IMO (coreyoconnor) neither the written or de-facto specification for\n+ * BufferedInputStream are nicely designed. In particular the aspects:\n+ *\n+ * 1. protected fields\n+ * 2. asynchronous close\n+ *\n+ * For async close: I cannot find an official spec on this, but evidence implies this is required:\n+ * First are the existing implementations in Apache Harmony and OpenJDK. Second are the bug reports\n+ * implying close must support async.\n+ *\n+ * - https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4225348\n+ * - https://issues.apache.org/jira/browse/HARMONY-6014\n+ *\n+ * Full thread correctness seems near impossible, so the implementation only prioritizes async close.\n+ *\n+ * Mark support makes lenient use of the \"might\" and \"may\"s in the spec.\n+ *\n+ * One pattern is using `Option(in)` to capture a field to a local.\n+ */\n+class BufferedInputStream(_in: InputStream, initialSize: Int)\n     extends FilterInputStream(_in)\n     with Closeable\n     with AutoCloseable {\n \n-  if (size <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n+  if (initialSize <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n \n   def this(in: InputStream) = this(in, 8192)\n \n+  // per spec close will release system resources. This implies buf should be set to null\n+  // post close to ensure GC can release this resource\n   /** The internal buffer array where the data is stored. */\n-  protected[this] var buf = new Array[Byte](size)\n+  protected[this] var buf = new Array[Byte](initialSize)\n \n   /** The index one greater than the index of the last valid byte in the buffer. */\n-  protected[this] var count = 0\n+  protected[this] var count: Int = 0\n \n-  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the reset method fail.. */\n-  private[this] var markLimit = 0\n+  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the\n+    *  reset method fail..\n+    */\n+  protected[this] var marklimit: Int = 0\n \n   /** The value of the pos field at the time the last mark method was called. */\n-  private[this] var markpos = -1\n+  protected[this] var markpos: Int = -1\n \n   /** The current position in the buffer. */\n-  protected[this] var pos = 0\n-\n-  private[this] var closed = false\n-\n-  /** The position of the last element in the buffer excluded */\n-  private[this] var end = 0\n-\n-  override def available(): Int = {\n-    if (closed) throw new IOException()\n-    end - pos + in.available()\n+  protected[this] var pos: Int = 0\n+\n+  override def available(): Int = Option(in) match {\n+    case Some(source) =>\n+      synchronized {\n+        source.available() + count - pos\n+      }\n+    case None => throw new IOException()\n   }\n \n-  override def close(): Unit = {\n-    closed = true\n+  // from spec: \"closing a previously closed stream has no effect\"\n+  // inferred from bug reports: close must be callable async from read\n+  override def close(): Unit = Option(in) foreach { source =>\n+    // from spec \"releases any system resources associated\".\n+    // implies\n+    buf = null\n+    source.close()\n+    in = null\n   }\n \n-  override def mark(readLimit: Int): Unit = {\n-    if (!closed) {\n-      val srcBuf = buf\n-      if (buf.size < readLimit)\n-        buf = new Array[Byte](readLimit)\n+  override def mark(readLimit: Int): Unit = synchronized {\n+    marklimit = readLimit\n+    markpos = pos\n+  }\n \n-      // Move data to beginning of buffer\n-      if (pos != 0 || (buf ne srcBuf))\n-        System.arraycopy(srcBuf, pos, buf, 0, end - pos)\n+  override def markSupported(): Boolean = true\n \n-      // Update internal state\n-      end -= pos\n+  /* Reads up to sourceBuffer.length bytes from the source input stream.\n+   * This will also replace `buf` if a larger buffer is required to handle mark.\n+   *\n+   * postcondition: markpos invalidated if pos - markpos exceeds marklimit. Not exactly at the\n+   * boundary tho as this is only a \"may\" in spec.\n+   *\n+   * @returns buf\n+   */\n+  private def fillBuffer(sourceBuffer: Array[Byte],\n+                         source: InputStream): Option[Array[Byte]] =\n+    if (markpos != -1 && (pos - markpos <= marklimit))\n+      fillMarkedBuffer(sourceBuffer, source)\n+    else\n+      fillUnmarkedBuffer(sourceBuffer, source)\n+\n+  private def fillUnmarkedBuffer(sourceBuffer: Array[Byte],\n+                                 source: InputStream): Option[Array[Byte]] = {\n+    // mark is always invalidated in this case\n+    marklimit = 0\n+    markpos = -1\n+\n+    val bytesRead = source.read(sourceBuffer)\n+\n+    if (bytesRead == -1) {\n+      pos = 0\n+      count = 0\n+      None\n+    } else {\n       pos = 0\n-      markpos = 0\n+      count = bytesRead\n+      Option(sourceBuffer)\n     }\n   }\n \n-  override def markSupported(): Boolean = true\n-\n-  override def read(): Int = {\n-    ensureOpen()\n+  /* For mark (markpos == -1) the logic is:\n+   * If there is space in the current buffer: read into buffer starting at `count`\n+   *\n+   * If there is no space in the current buffer: create a larger buffer, copy old, read into larger\n+   * buffer starting at `count`.\n+   *\n+   * The mark is not invalidated in this method: Per spec there is no requirement to invalidate mark\n+   * *exactly* when pos - markpos exceeds marklimit. This is \"generous\" and migh permit a reset\n+   * beyond marklimit.\n+   */\n+  private def fillMarkedBuffer(sourceBuffer: Array[Byte],\n+                               source: InputStream): Option[Array[Byte]] =\n+    if (count < sourceBuffer.length) {\n+      fillMarkedBufferUnsafe(sourceBuffer, source)\n+    } else {\n+      val newBuffer = new Array[Byte](sourceBuffer.length * 2)\n+      sourceBuffer.copyToArray(newBuffer)\n+      buf = newBuffer\n+      fillMarkedBufferUnsafe(newBuffer, source)\n+    }"
+  },
+  {
+    "id" : "098a163a-01ee-4c2f-8b54-be9b50ebb10d",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "8417cafb-02d0-4982-88c3-b7cae1d3fbc3",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I'm really not a fan of supposedly-tailrec functions that actually mutate outside state (`pos`, the content of `b`, the call to `fillBuffer`, etc.) in addition to changing the value of some accumulators (`bytesRead`). It means that when reading this, I have to reason about the explicit state *plus* the implicit state. That's too much for my brain to handle.\r\n\r\nPlease use a good old loop with a `var bytesRead` instead.",
+        "createdAt" : "2020-05-11T15:51:10Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -1,129 +1,247 @@\n package java.io\n \n-class BufferedInputStream(_in: InputStream, size: Int)\n+/* A note on the implementation. IMO (coreyoconnor) neither the written or de-facto specification for\n+ * BufferedInputStream are nicely designed. In particular the aspects:\n+ *\n+ * 1. protected fields\n+ * 2. asynchronous close\n+ *\n+ * For async close: I cannot find an official spec on this, but evidence implies this is required:\n+ * First are the existing implementations in Apache Harmony and OpenJDK. Second are the bug reports\n+ * implying close must support async.\n+ *\n+ * - https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4225348\n+ * - https://issues.apache.org/jira/browse/HARMONY-6014\n+ *\n+ * Full thread correctness seems near impossible, so the implementation only prioritizes async close.\n+ *\n+ * Mark support makes lenient use of the \"might\" and \"may\"s in the spec.\n+ *\n+ * One pattern is using `Option(in)` to capture a field to a local.\n+ */\n+class BufferedInputStream(_in: InputStream, initialSize: Int)\n     extends FilterInputStream(_in)\n     with Closeable\n     with AutoCloseable {\n \n-  if (size <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n+  if (initialSize <= 0) throw new IllegalArgumentException(\"Buffer size <= 0\")\n \n   def this(in: InputStream) = this(in, 8192)\n \n+  // per spec close will release system resources. This implies buf should be set to null\n+  // post close to ensure GC can release this resource\n   /** The internal buffer array where the data is stored. */\n-  protected[this] var buf = new Array[Byte](size)\n+  protected[this] var buf = new Array[Byte](initialSize)\n \n   /** The index one greater than the index of the last valid byte in the buffer. */\n-  protected[this] var count = 0\n+  protected[this] var count: Int = 0\n \n-  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the reset method fail.. */\n-  private[this] var markLimit = 0\n+  /** The maximum read ahead allowed after a call to the mark method before subsequent calls to the\n+    *  reset method fail..\n+    */\n+  protected[this] var marklimit: Int = 0\n \n   /** The value of the pos field at the time the last mark method was called. */\n-  private[this] var markpos = -1\n+  protected[this] var markpos: Int = -1\n \n   /** The current position in the buffer. */\n-  protected[this] var pos = 0\n-\n-  private[this] var closed = false\n-\n-  /** The position of the last element in the buffer excluded */\n-  private[this] var end = 0\n-\n-  override def available(): Int = {\n-    if (closed) throw new IOException()\n-    end - pos + in.available()\n+  protected[this] var pos: Int = 0\n+\n+  override def available(): Int = Option(in) match {\n+    case Some(source) =>\n+      synchronized {\n+        source.available() + count - pos\n+      }\n+    case None => throw new IOException()\n   }\n \n-  override def close(): Unit = {\n-    closed = true\n+  // from spec: \"closing a previously closed stream has no effect\"\n+  // inferred from bug reports: close must be callable async from read\n+  override def close(): Unit = Option(in) foreach { source =>\n+    // from spec \"releases any system resources associated\".\n+    // implies\n+    buf = null\n+    source.close()\n+    in = null\n   }\n \n-  override def mark(readLimit: Int): Unit = {\n-    if (!closed) {\n-      val srcBuf = buf\n-      if (buf.size < readLimit)\n-        buf = new Array[Byte](readLimit)\n+  override def mark(readLimit: Int): Unit = synchronized {\n+    marklimit = readLimit\n+    markpos = pos\n+  }\n \n-      // Move data to beginning of buffer\n-      if (pos != 0 || (buf ne srcBuf))\n-        System.arraycopy(srcBuf, pos, buf, 0, end - pos)\n+  override def markSupported(): Boolean = true\n \n-      // Update internal state\n-      end -= pos\n+  /* Reads up to sourceBuffer.length bytes from the source input stream.\n+   * This will also replace `buf` if a larger buffer is required to handle mark.\n+   *\n+   * postcondition: markpos invalidated if pos - markpos exceeds marklimit. Not exactly at the\n+   * boundary tho as this is only a \"may\" in spec.\n+   *\n+   * @returns buf\n+   */\n+  private def fillBuffer(sourceBuffer: Array[Byte],\n+                         source: InputStream): Option[Array[Byte]] =\n+    if (markpos != -1 && (pos - markpos <= marklimit))\n+      fillMarkedBuffer(sourceBuffer, source)\n+    else\n+      fillUnmarkedBuffer(sourceBuffer, source)\n+\n+  private def fillUnmarkedBuffer(sourceBuffer: Array[Byte],\n+                                 source: InputStream): Option[Array[Byte]] = {\n+    // mark is always invalidated in this case\n+    marklimit = 0\n+    markpos = -1\n+\n+    val bytesRead = source.read(sourceBuffer)\n+\n+    if (bytesRead == -1) {\n+      pos = 0\n+      count = 0\n+      None\n+    } else {\n       pos = 0\n-      markpos = 0\n+      count = bytesRead\n+      Option(sourceBuffer)\n     }\n   }\n \n-  override def markSupported(): Boolean = true\n-\n-  override def read(): Int = {\n-    ensureOpen()\n+  /* For mark (markpos == -1) the logic is:\n+   * If there is space in the current buffer: read into buffer starting at `count`\n+   *\n+   * If there is no space in the current buffer: create a larger buffer, copy old, read into larger\n+   * buffer starting at `count`.\n+   *\n+   * The mark is not invalidated in this method: Per spec there is no requirement to invalidate mark\n+   * *exactly* when pos - markpos exceeds marklimit. This is \"generous\" and migh permit a reset\n+   * beyond marklimit.\n+   */\n+  private def fillMarkedBuffer(sourceBuffer: Array[Byte],\n+                               source: InputStream): Option[Array[Byte]] =\n+    if (count < sourceBuffer.length) {\n+      fillMarkedBufferUnsafe(sourceBuffer, source)\n+    } else {\n+      val newBuffer = new Array[Byte](sourceBuffer.length * 2)\n+      sourceBuffer.copyToArray(newBuffer)\n+      buf = newBuffer\n+      fillMarkedBufferUnsafe(newBuffer, source)\n+    }\n \n-    if (prepareRead()) {\n-      val res = buf(pos).toInt\n-      pos += 1\n-      res\n-    } else -1\n+  private def fillMarkedBufferUnsafe(\n+      sourceBuffer: Array[Byte],\n+      source: InputStream): Option[Array[Byte]] = {\n+    val bytesRead =\n+      source.read(sourceBuffer, count, sourceBuffer.length - count)\n+    if (bytesRead == -1)\n+      None\n+    else {\n+      count += bytesRead\n+      Option(sourceBuffer)\n+    }\n   }\n \n-  override def read(b: Array[Byte], off: Int, len: Int): Int = {\n-    ensureOpen()\n+  // can block\n+  // returns -1 on end of stream\n+  // otherwise returns next byte of data\n+  // or throws IOException\n+  override def read(): Int = (Option(buf), Option(in)) match {\n+    case (Some(sourceBuffer), Some(source)) =>\n+      synchronized {\n+        if (pos < count) {\n+          val res = sourceBuffer(pos).toInt\n+          pos += 1\n+          res\n+        } else {\n+          fillBuffer(sourceBuffer, source) match {\n+            case None => -1\n+            case Some(nextBuffer) => {\n+              val res = nextBuffer(pos).toInt\n+              pos += 1\n+              res\n+            }\n+          }\n+        }\n+      }\n+    case _ => throw new IOException(\"read requested on closed or null stream\")\n+  }\n \n-    if (off < 0 || len < 0 || len > b.length - off)\n-      throw new IndexOutOfBoundsException\n+  override def read(b: Array[Byte], off: Int, len: Int): Int =\n+    (Option(buf), Option(in)) match {\n+      case (Some(sourceBuffer), Some(source)) => {\n+        if (off < 0 || len < 0 || len > b.length - off)\n+          throw new IndexOutOfBoundsException\n+\n+        if (len == 0) 0\n+        else\n+          synchronized {\n+            unsafeRead(b, off, len, sourceBuffer, source)\n+          }\n+      }\n+      case _ => throw new IOException(\"read(array, off, len) on closed stream\")\n+    }\n \n-    if (len == 0) 0\n-    else if (prepareRead()) {\n-      val count = Math.min(len, end - pos)\n-      System.arraycopy(this.buf, pos, b, off, count)\n-      pos += count\n-      count\n-    } else -1\n-  }\n+  private def unsafeRead(b: Array[Byte],\n+                         off: Int,\n+                         len: Int,\n+                         sourceBuffer: Array[Byte],\n+                         source: InputStream): Int =\n+    unsafeRead(b, off, len, sourceBuffer, source, 0)\n+\n+  @annotation.tailrec"
+  }
+]

@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "5ca3dd18-19dd-48ce-9fd9-a65c2c205670",
+    "prId" : 1085,
+    "comments" : [
+      {
+        "id" : "890ebb6c-50e9-4f5a-afb8-7677bf09e533",
+        "parentId" : null,
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "Is there a reason for using sqrt(2) and not 1.4 ?",
+        "createdAt" : "2017-11-21T19:12:39Z",
+        "updatedAt" : "2017-11-22T10:03:39Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4e32a091-b7bb-4257-8b40-9ab3993b24e5",
+        "parentId" : "890ebb6c-50e9-4f5a-afb8-7677bf09e533",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "sqrt(2) makes heap double (roughly) every 2 heap size extensions. With 1.4 it's going to be a bit less than that. ",
+        "createdAt" : "2017-11-22T09:57:33Z",
+        "updatedAt" : "2017-11-22T10:03:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2aae1006f01c13676e5fdff08be90e2ff02b27ae",
+    "line" : 7,
+    "diffHunk" : "@@ -49,6 +49,8 @@\n \n #define LARGE_BLOCK_MASK (~((1 << LARGE_OBJECT_MIN_SIZE_BITS) - 1))\n \n-#define GROWTH_RATE 30\n+#define EARLY_GROWTH_THRESHOLD (128 * 1024 * 1024UL)\n+#define EARLY_GROWTH_RATE 2.0\n+#define GROWTH_RATE 1.414213562"
+  }
+]

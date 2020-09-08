@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "f526aa66-da07-4cf3-905c-4a9c52ab5880",
+    "prId" : 1106,
+    "comments" : [
+      {
+        "id" : "d1db34c1-3bf1-47bf-94d3-2d1f894820e1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "@densh Are there conditional moves in your IR?\r\n\r\nIf yest, this should definitely be a conditional move instead of a conditional branch.",
+        "createdAt" : "2017-12-04T22:57:00Z",
+        "updatedAt" : "2017-12-16T20:42:16Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c245fbd5-5ac7-4299-a8e4-0f973a6c74bf",
+        "parentId" : "d1db34c1-3bf1-47bf-94d3-2d1f894820e1",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "LLVM doesn't expose conditional moves explicitly. AFAIK instruction selection may pick cmov if it feels like it. ",
+        "createdAt" : "2017-12-05T13:48:13Z",
+        "updatedAt" : "2017-12-16T20:42:16Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1cf4b895-6d45-4132-8a43-97f5ffc41767",
+        "parentId" : "d1db34c1-3bf1-47bf-94d3-2d1f894820e1",
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "In the release mode we are indeed getting a conditional move:\r\n\r\n```\r\n  def foo(value: Long, divisor: Long): Long = {\r\n    value % divisor\r\n  }\r\n```\r\n\r\n```\r\n\t.type\t\"Test$::foo_i64_i64_i64\",@function\r\n\"Test$::foo_i64_i64_i64\":               # @\"Test$::foo_i64_i64_i64\"\r\n# BB#0:                                 # %_4.0\r\n\tcmp\trdx, -1\r\n\tmov\tecx, 1\r\n\tcmovne\trcx, rdx\r\n\tmov\trax, rsi\r\n\tcqo\r\n\tidiv\trcx\r\n\tmov\trax, rdx\r\n\tret\r\n```\r\n\r\n",
+        "createdAt" : "2017-12-06T22:32:43Z",
+        "updatedAt" : "2017-12-16T20:42:16Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f51ed93047ed12c99c4dad35c6a69f1db299616c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package scala.scalanative.optimizer.pass\n+\n+import scala.scalanative.nir\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Pass, PassCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Detects taking remainder for division by -1 and replaces it by division by 1 which can't overflow.\n+ *\n+ *\n+ * We implement '%' (remainder) with LLVM's 'srem' and it can overflow for cases:\n+ * Int.MinValue % -1\n+ * Long.MinValue % -1\n+ * E.g. On x86_64 'srem' might get translated to 'idiv' which computes both quotient and remainder at once\n+ * and quotient can overflow.\n+ */\n+class SRemOverflow(implicit top: Top) extends Pass {\n+\n+  override def onInsts(insts: Seq[Inst]): Seq[Inst] = {\n+    val buf = new nir.Buffer\n+    import buf._\n+\n+    def matchSrem(IntType: Type,\n+                  makeVal: Int => Val): PartialFunction[Inst, Unit] = {\n+\n+      case Inst.Let(name, sremBin @ Op.Bin(Bin.Srem, IntType, _, divisor)) =>\n+        val safeDivisor         = Val.Local(fresh(), IntType)\n+        val thenL, elseL, contL = fresh()\n+\n+        val isPossibleOverflow = let(\n+          Op.Comp(Comp.Ieq, IntType, divisor, makeVal(-1)))\n+        branch(isPossibleOverflow, Next(thenL), Next(elseL))"
+  },
+  {
+    "id" : "208fc81f-abfc-4a11-9442-06ecda45dcfd",
+    "prId" : 1106,
+    "comments" : [
+      {
+        "id" : "7775175a-efe1-48e3-8729-16ae6ad7618f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Instead of taking `IntType` as an argument, you can match using `case ... Type.I(width) ... if width == 32 || width == 64`. The whole helper function can then be hand inlined into foreach. ",
+        "createdAt" : "2017-12-11T16:50:41Z",
+        "updatedAt" : "2017-12-16T20:42:16Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6f83714d-8c13-449f-95c0-b92a7e8c3705",
+        "parentId" : "7775175a-efe1-48e3-8729-16ae6ad7618f",
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Sure, done.\r\n\r\nI'm still always constructing `Int.Val` and I was worried it wouldn't work for longs, but turns out it doesn't seem to matter.",
+        "createdAt" : "2017-12-17T05:15:45Z",
+        "updatedAt" : "2017-12-17T05:15:45Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f51ed93047ed12c99c4dad35c6a69f1db299616c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package scala.scalanative.optimizer.pass\n+\n+import scala.scalanative.nir\n+import scala.scalanative.nir._\n+import scala.scalanative.optimizer.analysis.ClassHierarchy.Top\n+import scala.scalanative.optimizer.{Pass, PassCompanion}\n+import scala.scalanative.tools.Config\n+\n+/**\n+ * Detects taking remainder for division by -1 and replaces it by division by 1 which can't overflow.\n+ *\n+ *\n+ * We implement '%' (remainder) with LLVM's 'srem' and it can overflow for cases:\n+ * Int.MinValue % -1\n+ * Long.MinValue % -1\n+ * E.g. On x86_64 'srem' might get translated to 'idiv' which computes both quotient and remainder at once\n+ * and quotient can overflow.\n+ */\n+class SRemOverflow(implicit top: Top) extends Pass {\n+\n+  override def onInsts(insts: Seq[Inst]): Seq[Inst] = {\n+    val buf = new nir.Buffer\n+    import buf._\n+\n+    def matchSrem(IntType: Type,\n+                  makeVal: Int => Val): PartialFunction[Inst, Unit] = {\n+\n+      case Inst.Let(name, sremBin @ Op.Bin(Bin.Srem, IntType, _, divisor)) =>"
+  }
+]

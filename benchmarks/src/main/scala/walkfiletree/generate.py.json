@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "6b9d43bf-ad83-4ccb-8d59-9f01ab0cf504",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "2bb5717d-03d4-4ba1-a376-6f4ca3336ae9",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "If we had a `prepare()` method in `benchmarks.Benchmark` we could put the directory structure generation there.\r\nAnd have cleanup in `cleanup()` method. \r\n\r\nAnd/or just create these files inside the tmp dir.",
+        "createdAt" : "2018-01-11T22:08:22Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ec777dc9-da58-442f-8a38-0a9f63d7192d",
+        "parentId" : "2bb5717d-03d4-4ba1-a376-6f4ca3336ae9",
+        "author" : {
+          "login" : "henrymai",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/136857?v=4"
+        },
+        "body" : "Yeah, I wasn't sure what direction you guys would have wanted, so I tried to keep it simple for this initial patch with the checked in generated dummy directory structure.\r\n\r\nI'll look into enhancing the Benchmark trait.",
+        "createdAt" : "2018-01-11T22:56:57Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "henrymai",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/136857?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,26 @@\n+"
+  }
+]

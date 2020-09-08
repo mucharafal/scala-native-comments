@@ -1,0 +1,282 @@
+[
+  {
+    "id" : "8dc76b7f-5ae5-4e81-9e25-2010736d1d6f",
+    "prId" : 166,
+    "comments" : [
+      {
+        "id" : "1c007459-141a-4aef-b4b8-47689ee763ee",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@sjrd Any idea why implicits in FunctionPtr are not resolved automatically? How does this work in SJS for ThisFunctions? \n",
+        "createdAt" : "2016-06-22T13:43:39Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "00ee5c41-f0e8-4e26-a0cb-94d6d8357840",
+        "parentId" : "1c007459-141a-4aef-b4b8-47689ee763ee",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`js.ThisFunctionN` extends `js.ThisFunction`, and the implicit conversions are in the companion object of `js.ThisFunction`.\n\nIf you want automatic resolution, you either need `FunctionPtrN` to extend `FunctionPtr`, or put the implicit conversion to `FunctionPtrN` in the companion of `FunctionPtrN`.\n",
+        "createdAt" : "2016-06-22T13:48:37Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "16bb26ce-a8e5-4c94-8a64-67af998ea357",
+        "parentId" : "1c007459-141a-4aef-b4b8-47689ee763ee",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This fixed it, thanks!\n",
+        "createdAt" : "2016-06-22T13:54:24Z",
+        "updatedAt" : "2016-06-23T08:15:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f7a9a185cff15a9615ce0d96806c7349c4bed703",
+    "line" : null,
+    "diffHunk" : "@@ -1,13 +1,15 @@\n-import scalanative.native._\n+import scalanative.native._, FunctionPtr._"
+  },
+  {
+    "id" : "c5f574b0-3fed-4af8-90d3-6584323d3d48",
+    "prId" : 235,
+    "comments" : [
+      {
+        "id" : "d8c4aef9-58de-44f1-acad-a04cb1c7721d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Use `stdio.printf`, Scala-style `println` is not quite there yet.\n",
+        "createdAt" : "2016-07-14T09:14:49Z",
+        "updatedAt" : "2016-07-14T09:14:49Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c1d7b23d4b8627bbecfc9179343c47fafef49399",
+    "line" : 6,
+    "diffHunk" : "@@ -4,6 +4,11 @@ import java.nio.charset._\n \n object Test  {\n   def main(args: Array[String]): Unit = {\n+    val a:Ptr[_] = null;\n+    if(a==null){\n+      println(\"1\");"
+  },
+  {
+    "id" : "15885e84-4014-41ee-8ebe-66a61c154623",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "b0ae911c-36c0-4968-aab1-f323563a9ad5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This change is not necessary in this PR. ",
+        "createdAt" : "2017-04-05T14:01:14Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -1,4 +1,4 @@\n object Test {\n   def main(args: Array[String]): Unit =\n-    println(\"Hello, world!\")\n+    println(\"Hello, World\")"
+  },
+  {
+    "id" : "fd5d6131-2294-4913-8be9-a6840ca7af58",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "b20c6c7e-89bc-4f28-81fd-650aa13147fb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This change is not necessary in this PR. ",
+        "createdAt" : "2017-04-10T12:54:05Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -1,4 +1,4 @@\n object Test {\n   def main(args: Array[String]): Unit =\n-    println(\"Hello, world!\")\n+    println(\"Hello, world\")"
+  },
+  {
+    "id" : "c391dd39-515b-41e0-9967-ee1b6bd85ea5",
+    "prId" : 621,
+    "comments" : [
+      {
+        "id" : "4dc71182-22bb-4bdd-835e-58b41679da6e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This needs to be upgraded to scripted test before we merge this. ",
+        "createdAt" : "2017-04-05T15:30:43Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "519a04ea55e644018688f8debbd0684e3d3a7ab7",
+    "line" : null,
+    "diffHunk" : "@@ -1,4 +1,7 @@\n object Test {\n-  def main(args: Array[String]): Unit =\n-    println(\"Hello, world!\")\n+  def main(args: Array[String]): Unit = {\n+    import scala.concurrent.Future\n+    import scala.concurrent.ExecutionContext.Implicits.global\n+    Future(1 + 2).map(_ + 3).map(_ + 4).foreach(println)\n+  }"
+  },
+  {
+    "id" : "cbe99129-94c7-4d05-857c-cb9c11c9e550",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "c02e7f44-17ce-48e1-a588-81cafeca781f",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This might be changing the originally hello world from Scala Days and the first release.",
+        "createdAt" : "2020-08-17T22:14:16Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "653e470e-f899-4d4f-b9e9-9ee72ee36411",
+        "parentId" : "c02e7f44-17ce-48e1-a588-81cafeca781f",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Yeah, will revert this.",
+        "createdAt" : "2020-08-18T08:49:16Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,5 @@\n object Test {\n   def main(args: Array[String]): Unit = {\n-    println(\"Hello, World!\")\n+    println(\"Hello, world!\")"
+  },
+  {
+    "id" : "2da1e36c-9fe7-4021-b172-e5b9cfca9bf6",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "291cda89-cbdb-49c0-94f6-56bc76749fe6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These changes should be reverted before merging.",
+        "createdAt" : "2020-08-20T13:25:52Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,11 @@\n object Test {\n+  def foo(x: Int): Unit = {"
+  }
+]

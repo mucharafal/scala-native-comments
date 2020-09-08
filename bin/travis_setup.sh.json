@@ -1,0 +1,155 @@
+[
+  {
+    "id" : "a451ecd3-7718-4830-afd2-e553582ea2c4",
+    "prId" : 791,
+    "comments" : [
+      {
+        "id" : "a8c9ec65-5c35-46d0-9ef0-3f83f53e3475",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why do we need this export? It doesn't seem to add much value.",
+        "createdAt" : "2017-06-07T12:35:28Z",
+        "updatedAt" : "2017-06-07T13:19:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7a8df1fa-b4e5-4983-ac28-433ac9704e67",
+        "parentId" : "a8c9ec65-5c35-46d0-9ef0-3f83f53e3475",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I can remove it, but I thought the idea was to make this script usable by external projects, such as https://github.com/scala-native/scala-native.g8. ",
+        "createdAt" : "2017-06-07T13:00:05Z",
+        "updatedAt" : "2017-06-07T13:19:17Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e77af5df25a83d7681ee1eb491bb15e882d84a5b",
+    "line" : null,
+    "diffHunk" : "@@ -13,26 +18,20 @@ if [ \"$(uname)\" == \"Darwin\" ]; then\n \n else\n \n-    # Install LLVM/Clang 3.7, Boehm GC, libunwind\n-    sudo apt-get -qq update\n-    sudo sh -c \"echo 'deb http://apt.llvm.org/precise/ llvm-toolchain-precise-3.7 main' >> /etc/apt/sources.list\"\n-    sudo sh -c \"echo 'deb http://apt.llvm.org/precise/ llvm-toolchain-precise main' >> /etc/apt/sources.list\"\n-    wget -O - http://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -\n+    export LLVM_VERSION=${LLVM_VERSION:-3.8}"
+  },
+  {
+    "id" : "6d45cb15-03fa-4652-8322-863ef2aa59c3",
+    "prId" : 791,
+    "comments" : [
+      {
+        "id" : "8eb08ebb-733b-42b8-b61c-659455d80034",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Do we really need those? ",
+        "createdAt" : "2017-06-07T12:35:37Z",
+        "updatedAt" : "2017-06-07T13:19:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f694666c-5f8e-4c32-bcf4-96e98f0b84eb",
+        "parentId" : "8eb08ebb-733b-42b8-b61c-659455d80034",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The build should fail if one of the commands in this script fails. This is not currently the case and `set -e` fixes that. As for the other flags I invite you to read [this](http://redsymbol.net/articles/unofficial-bash-strict-mode/), the gist is that it hardens the script.",
+        "createdAt" : "2017-06-07T12:59:14Z",
+        "updatedAt" : "2017-06-07T13:19:17Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e77af5df25a83d7681ee1eb491bb15e882d84a5b",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,10 @@\n #!/usr/bin/env bash\n \n+# Strict mode\n+set -euo pipefail\n+ORIG_IFS=\"$IFS\"\n+IFS=$'\\n\\t'"
+  },
+  {
+    "id" : "b73425c2-16c1-4d7f-98c3-e185582ac3d6",
+    "prId" : 828,
+    "comments" : [
+      {
+        "id" : "b25ac474-70d8-4d22-938c-546bf674f0bd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Adding more dependencies to the core is really hard to justify. Every single additional dependency makes it harder to setup environment on older Linux distributions. ",
+        "createdAt" : "2017-06-27T09:11:56Z",
+        "updatedAt" : "2017-06-27T09:14:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7d28764c-6a48-45b5-9f45-1f9eab92e3f8",
+        "parentId" : "b25ac474-70d8-4d22-938c-546bf674f0bd",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "It is only for linux plarform.\r\nGCC 4.9.0,\tApril 22, 2014\r\nI agreed with you that it's very risky.\r\nI found that scala-native doesn't work with java 1.7, it requires to upgrade to java 1.8 which is not supported on Ubuntu 14.04 for instance (there is third party package but it's not stable, shows errors)\r\nI wasn't expected you accept this PR :) I just can't work on separate repository until scala-native becomes more mature.",
+        "createdAt" : "2017-06-27T09:37:05Z",
+        "updatedAt" : "2017-06-27T09:37:05Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "53e1111cf89de5754aad30995fe8c950fc5754bb",
+    "line" : 4,
+    "diffHunk" : "@@ -22,9 +22,11 @@ else\n     sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test\n     sudo apt-get -qq update\n     sudo apt-get install -y -qq \\\n+      gcc-5 g++-5 \\"
+  }
+]

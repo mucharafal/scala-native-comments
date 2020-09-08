@@ -1,0 +1,130 @@
+[
+  {
+    "id" : "80a772f5-bec8-4287-a811-56e9ee77dd78",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "b7da771a-9cf7-4c1d-b124-9320dfbdc879",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Just a comment since this C code already exists. I think it is much more pleasing to use all lowercase even if the C macro is all uppercase. I think we should search through on a another PR to normalize these. @LeeTibbert, do you concur?",
+        "createdAt" : "2019-07-11T00:03:47Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1a1aba86-fe94-4b00-a9dd-3d0bc06d6ae0",
+        "parentId" : "b7da771a-9cf7-4c1d-b124-9320dfbdc879",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@ekrich  Yes, I agree,  The existing line (& siblings) should not be changed for this PR and\r\nthat either you or I should create an Issue about the casing of `@name(\"\"scalanative_foo`).\r\nI just checked posixlib and posix/sys and the usage appears to be systematically random between files.\r\n\r\nIn fact, just the other day I created a PR adding support for posix/sys/resource. I used scananative_FOO\r\nbecause the models I happened to pick out of the directory all used that form and I wanted to be\r\nconsistent with them.  I think the scalanative_foo form has greater consistency with the larger scope of the project.",
+        "createdAt" : "2019-07-13T09:29:23Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e4e326a3-7552-4e96-b06b-86ef08022b43",
+        "parentId" : "b7da771a-9cf7-4c1d-b124-9320dfbdc879",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "I think that would look nicer also, but agree that it doesn't belong in this PR",
+        "createdAt" : "2019-07-20T21:07:36Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : null,
+    "diffHunk" : "@@ -50,6 +50,8 @@ object netdb {\n \n   @name(\"scalanative_AI_CANONNAME\")"
+  },
+  {
+    "id" : "fe635c6c-67df-4dbc-9f39-28675622d38c",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "41fb6e9e-66cd-468f-9f13-35d9cff086ab",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "If the gai_strerror() declaration moved up to just before\r\n```\r\n @name(\"scalanative_getaddrinfo\")\r\n  def getaddrinfo(name: CString,\r\n```\r\nthen the methods & \"constants\" would then each be grouped together\r\nrather than interspersed.  The methods would also be in alphabetical order\r\nand easier to find.\r\n",
+        "createdAt" : "2019-07-13T11:44:02Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f7e4b166-34d3-4e7b-bf59-7da33b47a523",
+        "parentId" : "41fb6e9e-66cd-468f-9f13-35d9cff086ab",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Agreed that is a good idea.",
+        "createdAt" : "2019-07-17T20:48:52Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : null,
+    "diffHunk" : "@@ -50,6 +50,8 @@ object netdb {\n \n   @name(\"scalanative_AI_CANONNAME\")\n   def AI_CANONNAME: CInt = extern\n+\n+  def gai_strerror(code: CInt): CString = extern"
+  }
+]

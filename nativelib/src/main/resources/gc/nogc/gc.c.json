@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "8ab5b3dd-37c2-4a71-9318-91743b71ceea",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "31698446-9744-4f29-bdbd-90706f5008ad",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should also make this smaller. It was good for benchmarks to completely remove GC out of the question, but for actual apps we need finer-grain granularity. Lets say `4M` for example. Any allocations above that amount should go directly to `malloc`, sidestepping bump allocation. ",
+        "createdAt" : "2017-03-20T10:31:29Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,40 @@\n+#include <gc.h>\n+#include \"gc.h\"\n+#include <stdio.h>\n+#include <stdlib.h>\n+\n+// Dummy GC that allocates memory in 1G chunks and never frees.\n+\n+void* start = 0;\n+void* last = 0;\n+\n+#define CHUNK (1024*1024*1024)"
+  }
+]

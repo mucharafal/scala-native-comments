@@ -1,0 +1,139 @@
+[
+  {
+    "id" : "f0ea30c3-c6c3-4e1e-997a-a747b7845868",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "ef7ca4a3-6962-4fad-afc0-660ba9770a1c",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Can we make these lazy fields private? \r\n\r\n",
+        "createdAt" : "2018-01-11T22:20:52Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ed9b11c8-0777-4c30-b8f3-f4599f6037c2",
+        "parentId" : "ef7ca4a3-6962-4fad-afc0-660ba9770a1c",
+        "author" : {
+          "login" : "henrymai",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/136857?v=4"
+        },
+        "body" : "Ok, will do.",
+        "createdAt" : "2018-01-11T22:55:00Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "henrymai",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/136857?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -16,37 +16,49 @@ class UnixPath(private val fs: UnixFileSystem, private val rawPath: String)\n   override def getFileSystem(): FileSystem =\n     fs\n \n-  override def isAbsolute(): Boolean =\n+  override def isAbsolute(): Boolean = _isAbsolute\n+\n+  lazy val _isAbsolute ="
+  },
+  {
+    "id" : "2b7d1e4b-ea46-42ae-929b-ebe1fa5b5de0",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "cf48fabd-616f-40f5-9ba8-e3682464c5dd",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "Have you considered writing cached implementation manually thus avoiding synchronization costs of `lazy val`s?\r\nNot sure if it would still be correct though or more performant.",
+        "createdAt" : "2018-01-11T22:28:46Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3aa8c8ea-5c8c-49b4-b5b6-1c18c0d981f6",
+        "parentId" : "cf48fabd-616f-40f5-9ba8-e3682464c5dd",
+        "author" : {
+          "login" : "henrymai",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/136857?v=4"
+        },
+        "body" : "I've thought about it, but my reasoning for the state of the current patch is:\r\n\r\n- lazy val expresses the intent concisely and explicitly.\r\n\r\n- the speed of lazy val initialization is implementation dependent. In the JVM implementation of scala, they've been able to largely mitigate the synchronization cost: http://docs.scala-lang.org/sips/pending/improved-lazy-val-initialization.html\r\n\r\n- I could be wrong, but it seems that any correct/performant version that I can create for my own cached implementation would be also the same as writing an optimized implementation for lazy val for scala-native (if it is not already optimized).\r\n\r\n",
+        "createdAt" : "2018-01-11T22:55:02Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "henrymai",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/136857?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -16,37 +16,49 @@ class UnixPath(private val fs: UnixFileSystem, private val rawPath: String)\n   override def getFileSystem(): FileSystem =\n     fs\n \n-  override def isAbsolute(): Boolean =\n+  override def isAbsolute(): Boolean = _isAbsolute\n+\n+  lazy val _isAbsolute ="
+  },
+  {
+    "id" : "6a3dda3a-9d64-4678-85f8-3580e3008b65",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "8ac0b75e-6bb1-4abd-976c-cc1a19a5eec1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I’d move all lazy vals to the beginning of the class here, before the methods.",
+        "createdAt" : "2018-07-07T12:33:05Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -11,42 +11,54 @@ class UnixPath(private val fs: UnixFileSystem, private val rawPath: String)\n     extends Path {\n   import UnixPath._\n \n-  lazy val path: String = removeRedundantSlashes(rawPath)\n+  private lazy val path: String = removeRedundantSlashes(rawPath)\n \n   override def getFileSystem(): FileSystem =\n     fs\n \n-  override def isAbsolute(): Boolean =\n+  override def isAbsolute(): Boolean = _isAbsolute\n+\n+  private lazy val _isAbsolute =\n     rawPath.startsWith(\"/\")\n \n-  override def getRoot(): Path =\n+  override def getRoot(): Path = root\n+\n+  private lazy val root ="
+  }
+]

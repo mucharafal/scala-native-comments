@@ -1,0 +1,139 @@
+[
+  {
+    "id" : "a49b5987-1fcd-4c14-b51d-93ffbcc4d4e0",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "10ac71b2-6ede-4226-9e17-9e8687e82303",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If we can't run this test in CI, we should not include it as it's likely to get out of date in long-term. ",
+        "createdAt" : "2017-09-04T09:13:41Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -372,6 +372,18 @@ object PatternSuite extends tests.Suite {\n     syntax(\"foo(foo)bar)baz\", \"Missing parenthesis\", 0)\n   }\n \n+  private val runStressTests = false\n+  if (runStressTests) {\n+    test(\"compile should not leak memory\") {\n+      println(\"===== AN ENDLESS STRESS TEST INVOKED =====\")\n+      while (true) {\n+        for {\n+          pattern <- (1 to 500).map(_.toString)\n+        } Pattern.compile(pattern)\n+      }\n+    }\n+  }"
+  },
+  {
+    "id" : "86bf3148-069d-4d2a-a1a0-ed53a91ce68b",
+    "prId" : 1714,
+    "comments" : [
+      {
+        "id" : "853587fd-5bf7-4594-94c0-7024231298a5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There's a missing `&&` here.",
+        "createdAt" : "2020-02-21T10:21:17Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2498cced-8221-44fc-ae05-0d07ef43166c",
+        "parentId" : "853587fd-5bf7-4594-94c0-7024231298a5",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks @LeeTibbert. See https://github.com/scala-native/scala-native/issues/1740",
+        "createdAt" : "2020-03-18T23:09:10Z",
+        "updatedAt" : "2020-04-27T19:18:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9f0521daf3eb1228c7a2fc8864f0f4f24ceb5ad0",
+    "line" : null,
+    "diffHunk" : "@@ -586,13 +584,11 @@ object PatternSuite extends tests.Suite {\n   }\n \n   private def syntax(pattern: String, description: String, index: Int): Unit = {\n-    assertThrowsAnd[PatternSyntaxException](Pattern.compile(pattern))(\n-      e => {\n-        e.getDescription == description &&\n-        e.getPattern == pattern\n-        e.getIndex == index\n-      }\n-    )\n+    assertThrowsAnd[PatternSyntaxException](Pattern.compile(pattern))(e => {\n+      e.getDescription == description &&\n+      e.getPattern == pattern"
+  },
+  {
+    "id" : "f4cbf8a3-ce9f-4efb-acbc-5ab09b1fce48",
+    "prId" : 1741,
+    "comments" : [
+      {
+        "id" : "84a2bf6e-5a4c-4183-bd00-1aa51a7de41e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n        (e.getIndex == index)\r\n```\r\nI don't see the point of putting individual properties and vars in parens.\r\n\r\nBut perhaps none of those new parentheses are needed? In the similar snippet further down, you did not add any parens.",
+        "createdAt" : "2020-03-17T11:54:12Z",
+        "updatedAt" : "2020-03-17T15:33:06Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6b53cb6f-d098-4c86-9b33-7e4e1a95ef2f",
+        "parentId" : "84a2bf6e-5a4c-4183-bd00-1aa51a7de41e",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you.  Fixed now (was not intended. sloppy on my part...).\r\n\r\nI also made the relevant code in scalanative/regex/PatternSuite.scala correspond.\r\n\r\nAs you noted, the parentheses are not _strictly_ necessary.  I find that some\r\n(proper & useful) parentheses make it easier me read logical statements on the fly.\r\nPerhaps I have read too much Lisp code. \r\n",
+        "createdAt" : "2020-03-17T15:47:16Z",
+        "updatedAt" : "2020-03-17T15:47:16Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5713d52f7fede88afa7270387735392a08f110de",
+    "line" : null,
+    "diffHunk" : "@@ -576,21 +576,48 @@ object PatternSuite extends tests.Suite {\n       }\n     )\n \n+    /// Ordered alphabetical by description (second arg).\n+    /// Helps ensuring that each scalanative/regex Parser description\n+    /// matches its JVM equivalent.\n+    ///\n+    /// These are _not_ all the JVM parser PatternSyntaxExceptions available.\n+    /// They are only the cases reported by scalanative.regex.Parser.scala\n+    ///\n+    /// Some tests are marked MISSING because I (LeeT.) have not yet\n+    /// figured out a pattern which will trigger the error.\n+\n+    // MISSING: Test scalanative.regex ERR_INVALID_NAMED_CAPTURE\n+    //          \"Bad named capture group\"\n+\n+    // There are two conditions which currently yield the same description.\n+    // ERR_MISSING_REPEAT_ARGUMENT matches the JVM.\n+    // Trigger for ERR_MISSING_REPEAT_ARGUMENT  not yet found.\n+\n+    // Test scalanative.regex ERR_MISSING_REPEAT_ARGUMENT\n+    syntax(\"*\", \"Dangling meta character '*'\", 0)\n+\n+    // MISSING: Test scalanative.regex ERR_MISSING_REPEAT_ARGUMENT\n+    //          \"Dangling meta character '*'\"\n+\n+    syntax(\"[a-0]\", \"Illegal character range\", 3)\n     syntax(\"foo\\\\Lbar\", \"Illegal/unsupported escape sequence\", 4)\n-    syntax(\"foo[bar\", \"Unclosed character class\", 6)\n+\n+    // MISSING: Test scalanative.regex ERR_INVALID_REPEAT_OP\n+    //          \"invalid nested repetition operator\"\n+\n     syntax(\"foo\\\\\", \"Trailing Backslash\", 4)\n-    syntax(\"[a-0]\", \"Illegal character range\", 3)\n-    syntax(\"*\", \"Dangling meta character '*'\", 0)\n-    syntax(\"foo(bar(foo)baz\", \"Missing parenthesis\", 15)\n-    syntax(\"foo(foo)bar)baz\", \"Missing parenthesis\", 10)\n+    syntax(\"foo[bar\", \"Unclosed character class\", 6)\n+    syntax(\"foo(bar(foo)baz\", \"Unclosed group\", 15)\n+    syntax(\"(?q)\", \"Unknown inline modifier\", 2) // bad perl operator\n+    syntax(\"foo(foo)bar)baz\", \"Unmatched closing ')'\", 10)\n   }\n \n   private def syntax(pattern: String, description: String, index: Int): Unit = {\n     assertThrowsAnd[PatternSyntaxException](Pattern.compile(pattern))(\n       e => {\n-        e.getDescription == description &&\n-        e.getPattern == pattern\n-        e.getIndex == index\n+        (e.getDescription == description) &&\n+        (e.getPattern == pattern) &&\n+        (e.getIndex) == (index)"
+  }
+]

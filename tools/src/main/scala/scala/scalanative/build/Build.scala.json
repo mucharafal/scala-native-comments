@@ -1,0 +1,161 @@
+[
+  {
+    "id" : "abe37f59-444d-4cac-b1d0-74472e2e7406",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "3a0aa1b6-178c-48d0-9df1-518a4d58fec3",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Spurious changes?",
+        "createdAt" : "2020-07-08T14:44:04Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "09bcfb0a-6564-43e9-ae85-9846a820c665",
+        "parentId" : "3a0aa1b6-178c-48d0-9df1-518a4d58fec3",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, this was not intended. Fixed.",
+        "createdAt" : "2020-07-09T14:59:06Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -17,16 +17,15 @@ object Build {\n    *\n    *  {{{\n    *  val classpath: Seq[Path] = ...\n-   *  val nativelib: Path      = ...\n    *  val workdir: Path        = ...\n    *  val main: String         = ...\n    *\n-   *  val clang    = Discover.clang()\n-   *  val clangpp  = Discover.clangpp()\n-   *  val linkopts = Discover.linkingOptions()\n-   *  val compopts = Discover.compileOptions()\n-   *  val triple   = Discover.targetTriple(clang, workdir)\n-   *  val outpath  = workdir.resolve(\"out\")\n+   *  val clang     = Discover.clang()\n+   *  val clangpp   = Discover.clangpp()\n+   *  val linkopts  = Discover.linkingOptions()\n+   *  val compopts  = Discover.compileOptions()\n+   *  val triple    = Discover.targetTriple(clang, workdir)\n+   *  val outpath   = workdir.resolve(\"out\")"
+  },
+  {
+    "id" : "6b7832fd-f6be-49b6-b615-b00ff19d6140",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "cfb9f3bb-6768-4d37-9994-7c961c99dd5f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I don't understand this comment. Is it still up to date/relevant?",
+        "createdAt" : "2020-07-08T14:45:55Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a11cdf11-964a-4fdb-b4ca-37ad758f0c2b",
+        "parentId" : "cfb9f3bb-6768-4d37-9994-7c961c99dd5f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, this is an artifact of an old version. Fixed.",
+        "createdAt" : "2020-07-09T14:59:13Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -51,23 +49,28 @@ object Build {\n    *  @return `outpath`, the path to the resulting native binary.\n    */\n   def build(config: Config, outpath: Path): Path = config.logger.time(\"Total\") {\n+    val workdir = config.workdir\n     val entries = ScalaNative.entries(config)\n     val linked  = ScalaNative.link(config, entries)\n     ScalaNative.logLinked(config, linked)\n     val optimized = ScalaNative.optimize(config, linked)\n \n-    IO.getAll(config.workdir, \"glob:**.ll\").foreach(Files.delete)\n+    IO.getAll(workdir, \"glob:**.ll\").foreach(Files.delete)\n     ScalaNative.codegen(config, optimized)\n-    val generated = IO.getAll(config.workdir, \"glob:**.ll\")\n+    val generated = IO.getAll(workdir, \"glob:**.ll\")\n+\n+    val nativelibs   = Discover.findNativeLibs(config.classPath, workdir)\n+    val nativelib    = Discover.findNativeLib(nativelibs)\n+    val unpackedLibs = nativelibs.map(LLVM.unpackNativeCode(_))\n \n-    val unpackedLib = LLVM.unpackNativelib(config.nativelib, config.workdir)\n     val objectFiles = config.logger.time(\"Compiling to native code\") {\n       val nativelibConfig =\n         config.withCompileOptions(\"-O2\" +: config.compileOptions)\n-      LLVM.compileNativelib(nativelibConfig, linked, unpackedLib)\n+      // head needs to be the nativelib which is required"
+  },
+  {
+    "id" : "c3979586-0a21-49de-8e9b-e7751f494890",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "78f4e33e-6596-452f-94dd-e43643026c43",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`unpackedLibs` is not used anymore. That seems very fishy to me.",
+        "createdAt" : "2020-08-18T14:09:12Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e5b91ba0-474b-48d5-9ae5-8df1a95edf28",
+        "parentId" : "78f4e33e-6596-452f-94dd-e43643026c43",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "All the unpacked libs are in the same directory so the `glob` looks in this case for `native/*/scala-native` so the individual paths are not needed. I could possibly build the pattern for the `unpackedLibs` such as the following:\r\n`{\"dir-0\", \"dir-1\", ...}` - perhaps that is better. I would like to avoid traversing the the directory more than once.",
+        "createdAt" : "2020-08-18T15:02:14Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -69,6 +69,6 @@ object Build {\n       LLVM.compile(config, generated)\n     }\n \n-    LLVM.link(config, linked, objectFiles, unpackedLibs, outpath)\n+    LLVM.link(config, linked, objectFiles, outpath)"
+  }
+]

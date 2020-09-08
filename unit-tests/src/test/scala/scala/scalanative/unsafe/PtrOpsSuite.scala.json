@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "fa916d03-26a1-4f66-8df1-a0ebafc9f13b",
+    "prId" : 1845,
+    "comments" : [
+      {
+        "id" : "e854033a-05f6-462a-87f8-9092b8fac7ae",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same comment about the meaning of the test. We should prevent the implementation from returning a dummy function or something like that.",
+        "createdAt" : "2020-07-10T13:22:02Z",
+        "updatedAt" : "2020-07-13T12:14:05Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e9c0779bbc940f1d4c27edefd33127052e0ace2f",
+    "line" : null,
+    "diffHunk" : "@@ -24,4 +24,23 @@ object PtrOpsSuite extends tests.Suite {\n       assert(sarr - sptr == -7)\n     }\n   }\n+\n+  test(\"cast to CFuncPtr\") {\n+    type ExpectedFnType = CFuncPtr0[CInt]\n+    type OtherFnType    = CFuncPtr1[CInt, CString]\n+    val funcPtr: Ptr[Byte] = new ExpectedFnType {\n+      override def apply(): CInt = stdlib.rand()\n+    }.toPtr\n+\n+    assertTrue {\n+      Ptr\n+        .ptrToCFuncPtr[ExpectedFnType](funcPtr)\n+        .isInstanceOf[ExpectedFnType]"
+  }
+]

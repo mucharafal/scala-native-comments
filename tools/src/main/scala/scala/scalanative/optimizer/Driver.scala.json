@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "03655254-1dc4-436f-81a8-733a3c553231",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "6973cd98-c9f5-4d05-8c02-74167e895164",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one should go right before AsLowering. ",
+        "createdAt" : "2016-12-04T11:00:42Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -22,6 +22,7 @@ object Driver {\n   def apply(config: tools.Config): Driver =\n     new Impl(\n       Seq(pass.GlobalBoxingElimination,\n+          pass.BoxingLowering,"
+  }
+]

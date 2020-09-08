@@ -1,0 +1,152 @@
+[
+  {
+    "id" : "fe8aac29-8723-440c-8a86-73bbc8b45038",
+    "prId" : 1672,
+    "comments" : [
+      {
+        "id" : "5c4b4b67-a0c4-4ea6-b7bd-70b3b19ba1c0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Before we started using `FileInputStream` and `FileOutputStream`, we used to have a dedicated private stream implementations that didn't rely on File I/O but used libc instead: https://github.com/scala-native/scala-native/commit/8041de7f11a49e9922883770f01e57c454a5358e#diff-9f67b7df156c5096453ed90792be0ad2\r\n\r\nYou can just revert that change here. This will retain the in/out/err working without having `javacorelib` depend on `javafilelib`.",
+        "createdAt" : "2019-07-31T10:02:29Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "60c8847d-5d7b-492a-9dfe-2d21683b071a",
+        "parentId" : "5c4b4b67-a0c4-4ea6-b7bd-70b3b19ba1c0",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Thanks, this is only part of the revert, FileDescriptor.out also should be reverted then, I used `std::cout`, `std::cerr` and `std::cin` implementation in my another Windows support branch, so I can port only these lines and then in another PR I will submit whole implementation of FileDescriptor I have already. How does it sounds?",
+        "createdAt" : "2019-07-31T10:57:47Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d3b034fe-ae36-4041-8174-13037cf68c39",
+        "parentId" : "5c4b4b67-a0c4-4ea6-b7bd-70b3b19ba1c0",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Should work now",
+        "createdAt" : "2019-08-03T15:39:07Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c9683fd97f81f59476301f655458353b6b7d8249",
+    "line" : null,
+    "diffHunk" : "@@ -63,21 +63,18 @@ object System {\n       }\n       sysProps.setProperty(\"user.home\", getenv(\"HOME\"))\n       val buf = stackalloc[scala.Byte](1024)\n-      unistd.getcwd(buf, 1024) match {\n-        case null =>\n-        case b    => sysProps.setProperty(\"user.dir\", fromCString(b))\n-      }\n+      sysProps.setProperty(\"user.dir\", null)\n     }\n \n     sysProps\n   }\n \n   var in: InputStream =\n-    new FileInputStream(FileDescriptor.in)\n+    null //new FileInputStream(FileDescriptor.in)\n   var out: PrintStream =\n-    new PrintStream(new FileOutputStream(FileDescriptor.out))\n+    null //new PrintStream(new FileOutputStream(FileDescriptor.out))\n   var err: PrintStream =\n-    new PrintStream(new FileOutputStream(FileDescriptor.err))\n+    null //new PrintStream(new FileOutputStream(FileDescriptor.err))"
+  },
+  {
+    "id" : "d9120b2e-7ff8-4d9c-8c3a-3d3c90aab032",
+    "prId" : 1672,
+    "comments" : [
+      {
+        "id" : "460c5992-4e0f-42bf-8338-534042349e28",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This needs to be refactored to move platform-dependant parts into `runtime.Platform`.",
+        "createdAt" : "2019-07-31T10:03:16Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0592872a-cd66-49f1-9ca4-0e2d5257eb22",
+        "parentId" : "460c5992-4e0f-42bf-8338-534042349e28",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Yes, I am fighting with `javafilelib` at the moment, after that I will fix all these small issues about `System.scala`",
+        "createdAt" : "2019-07-31T11:00:56Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c346a610-264a-464a-a41a-50ac5e19ccc0",
+        "parentId" : "460c5992-4e0f-42bf-8338-534042349e28",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "System.scala fully works now",
+        "createdAt" : "2019-08-03T15:39:26Z",
+        "updatedAt" : "2019-08-17T14:22:33Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c9683fd97f81f59476301f655458353b6b7d8249",
+    "line" : null,
+    "diffHunk" : "@@ -148,7 +145,7 @@ object System {\n           \"\"\n       map.put(name, value)\n       ptr = ptr + 1\n-    }\n+    }*/"
+  }
+]

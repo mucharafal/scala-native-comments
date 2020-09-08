@@ -1,0 +1,729 @@
+[
+  {
+    "id" : "21f0cdc3-03b4-4611-90f3-b8d336f88c8d",
+    "prId" : 477,
+    "comments" : [
+      {
+        "id" : "ef10766a-64ad-4638-8902-1bde5e921c69",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "/cc @MasseGuillaume nix builds needs to be updated with new libunwind dependency. ",
+        "createdAt" : "2017-01-10T20:47:30Z",
+        "updatedAt" : "2017-01-13T13:35:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4676d2da934189e1643fdfed11d84c007f82275a",
+    "line" : 16,
+    "diffHunk" : "@@ -24,15 +24,15 @@ systems Scala Native has been used with:\n \n Ubuntu::\n \n-    $ sudo apt-get install clang libgc-dev\n+    $ sudo apt-get install clang libgc-dev libunwind-dev\n \n macOS::\n \n     $ brew install llvm bdw-gc\n \n FreeBSD::\n \n-    $ pkg install llvm38 boehm-gc\n+    $ pkg install llvm38 boehm-gc libunwind\n \n nix/nixOS::"
+  },
+  {
+    "id" : "341b0347-7d77-496d-a50a-3f352462d0c5",
+    "prId" : 587,
+    "comments" : [
+      {
+        "id" : "f3c16e95-4792-40c3-9489-e7b7566102b5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd say 'toolchain' as it's not just compiler, but linker too. ",
+        "createdAt" : "2017-03-22T14:36:29Z",
+        "updatedAt" : "2017-04-03T09:08:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8b3681ba-bf51-40b7-9058-012a30c2696b",
+        "parentId" : "f3c16e95-4792-40c3-9489-e7b7566102b5",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-03-22T15:30:43Z",
+        "updatedAt" : "2017-04-03T09:08:57Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9ada01112bb328187869ff1497fd91b3d8336465",
+    "line" : null,
+    "diffHunk" : "@@ -15,6 +15,8 @@ Installing SBT\n Please refer to `this link <http://www.scala-sbt.org/release/docs/Setup.html>`_\n for instructions for your OS.\n \n+Please note that you'll need Java 8 to use the Scala Native compiler."
+  },
+  {
+    "id" : "56f616f2-8b5b-44f3-a159-a8f975ba1238",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "4d852255-ddb2-42d8-9636-eb433d902187",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Version number is more clear than the name of the release.",
+        "createdAt" : "2017-04-05T13:57:36Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -27,15 +27,17 @@ systems Scala Native has been used with:\n \n Ubuntu::\n \n-    $ sudo apt-get install clang libgc-dev libunwind-dev\n+    $ sudo apt-get install clang libgc-dev libunwind-dev libre2-dev\n+\n+Note: libre2-dev is available since Xenial. Refer to `travis.yml <https://github.com/scala-native/scala-native/blob/master/.travis.yml>`_ to install from source."
+  },
+  {
+    "id" : "26b4bd68-d06d-4ebb-a41a-0a27caa0fe76",
+    "prId" : 706,
+    "comments" : [
+      {
+        "id" : "dc099b82-f8ab-4405-a082-a3ded436d48e",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Looks great! We might as well specify the version numbers for completeness.",
+        "createdAt" : "2017-05-07T16:52:41Z",
+        "updatedAt" : "2017-05-07T16:52:41Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1d4d328df0b34dd8a745df24f7c5ce888ef2775f",
+    "line" : 27,
+    "diffHunk" : "@@ -18,12 +18,26 @@ for instructions for your OS.\n Please note that you'll need Java 8 or more recent to use the Scala Native\n toolchain.\n \n-Installing LLVM, Clang and Boehm GC\n------------------------------------\n+Installing LLVM, Clang and native libraries\n+-------------------------------------------\n \n-Boehm GC and LLVM (that includes Clang) are Scala Native's only external\n-dependencies. Here are install instructions for a number of operating\n-systems Scala Native has been used with:\n+Scala Native requires Clang, which is part of the LLVM toolchain. The\n+recommended LLVM version is 3.7 or newer, however, the Scala Native sbt\n+plugin uses feature detection to discover the installed version of Clang\n+so older versions may also work.\n+\n+In addition, the native Scala runtime and Java API implementation\n+require the Boehm garbage collector and the RE2 regular expression"
+  },
+  {
+    "id" : "981b4d16-c54f-463e-9168-3b022e6092b8",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "9bed06f9-d82d-42ef-b943-4c67fa11c365",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The sbt version doesn't really matter, since sbt will load the one defined in project/build.properties.",
+        "createdAt" : "2017-05-07T14:48:31Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "da84510f-3efe-488c-b107-326761af43b6",
+        "parentId" : "9bed06f9-d82d-42ef-b943-4c67fa11c365",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Yes, that's true. What do you think about removing the mention of `project/build.properties` from the [sbt chapter](http://www.scala-native.org/en/latest/user/sbt.html)? If we specify it in the setup chapter, it would be redundant.",
+        "createdAt" : "2017-05-07T16:47:27Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d29ee4a2-0464-46ba-829f-b03e325fc4b6",
+        "parentId" : "9bed06f9-d82d-42ef-b943-4c67fa11c365",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The `project/build.properties` file ensures that the build is reproducible across different system so it should always be created. http://www.scala-sbt.org/0.13/docs/Basic-Def.html#Specifying+the+sbt+version",
+        "createdAt" : "2017-05-07T17:01:24Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -3,49 +3,65 @@\n Environment setup\n =================\n \n-This is what you will be doing, in a nutshell:\n+Scala Native has the following system requirements:\n \n-* installation of sbt\n-* installation of LLVM and Clang\n-* installation of Boehm GC\n+* Java 8 or later\n+* sbt 0.13.15"
+  },
+  {
+    "id" : "0d727d0c-c3dd-4937-b291-57eaef86528e",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "9ced01e0-9e31-4d1f-a84c-ee838eb5552d",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I've also worked on updating this section to reflect that the Scala Native runtime and JDK implementation now depends on both Boehm GC and the RE2 regular expression engine.\r\n\r\nhttps://github.com/scala-native/scala-native/pull/706/files#diff-a2d0368ffcd2931da4849e9d4288854e\r\n\r\nGreat work, BTW 👍 ",
+        "createdAt" : "2017-05-07T14:48:38Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "640222c4-79b0-4f1e-8454-8a8fbbbec564",
+        "parentId" : "9ced01e0-9e31-4d1f-a84c-ee838eb5552d",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Ah, I didn't see your pull request. Let's get yours merged first, then I'll resolve any conflicts on my end.",
+        "createdAt" : "2017-05-07T16:50:51Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8b7518f0-82ad-48ed-9c1a-3a22f87363a5",
+        "parentId" : "9ced01e0-9e31-4d1f-a84c-ee838eb5552d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, lets merge @jonas' PR first, it's a bit smaller.",
+        "createdAt" : "2017-05-09T09:33:48Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -3,49 +3,65 @@\n Environment setup\n =================\n \n-This is what you will be doing, in a nutshell:\n+Scala Native has the following system requirements:\n \n-* installation of sbt\n-* installation of LLVM and Clang\n-* installation of Boehm GC\n+* Java 8 or later\n+* sbt 0.13.15\n+* LLVM\n+* Boehm GC\n \n Installing sbt\n --------------\n \n Please refer to `this link <http://www.scala-sbt.org/release/docs/Setup.html>`_\n-for instructions for your OS.\n+for instructions for your operating system.\n \n-Please note that you'll need Java 8 or more recent to use the Scala Native\n-toolchain.\n+Installing LLVM and Boehm GC\n+----------------------------\n \n-Installing LLVM, Clang and Boehm GC\n------------------------------------\n+LLVM and Boehm GC are Scala Native's only external dependencies. Here are"
+  },
+  {
+    "id" : "d41ac6c8-8461-4954-a6f6-e9927b908b45",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "8fe0bb97-c172-479f-a362-bb9274edaa4c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It would be good to mention version here, i.e. sbt 0.13.x",
+        "createdAt" : "2017-05-16T18:35:00Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -3,20 +3,20 @@\n Environment setup\n =================\n \n-This is what you will be doing, in a nutshell:\n+Scala Native has the following minimum system requirements:\n \n-* installation of sbt\n-* installation of LLVM and Clang\n-* installation of native libraries\n+* Java 8\n+* sbt"
+  },
+  {
+    "id" : "8b25070f-fcf4-4bfc-80f1-9ea83329fa18",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "87ac36fc-2868-412b-b77d-15b1c1500de8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "3.7 or newer.",
+        "createdAt" : "2017-05-16T18:35:06Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -3,20 +3,20 @@\n Environment setup\n =================\n \n-This is what you will be doing, in a nutshell:\n+Scala Native has the following minimum system requirements:\n \n-* installation of sbt\n-* installation of LLVM and Clang\n-* installation of native libraries\n+* Java 8\n+* sbt\n+* LLVM 3.7"
+  },
+  {
+    "id" : "2b319b5c-0293-4543-9f24-7427cca704c4",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "5b464a7f-9dbc-4725-9164-40da6880eb70",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Java 8 or newer.",
+        "createdAt" : "2017-05-16T18:35:11Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "208bc0bb-4bf5-475a-a023-0483bd0b49e8",
+        "parentId" : "5b464a7f-9dbc-4725-9164-40da6880eb70",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "I wrote in the paragraph before \"Scala Native has the following _minimum_ system requirements\". Should I still add \"or newer\" for clarity?",
+        "createdAt" : "2017-05-17T10:53:30Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5fc192ad-225a-4a03-8068-430768897e1c",
+        "parentId" : "5b464a7f-9dbc-4725-9164-40da6880eb70",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd say it would be more clear to write `Java 8+` or something along those lines. ",
+        "createdAt" : "2017-05-17T12:02:40Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -3,20 +3,20 @@\n Environment setup\n =================\n \n-This is what you will be doing, in a nutshell:\n+Scala Native has the following minimum system requirements:\n \n-* installation of sbt\n-* installation of LLVM and Clang\n-* installation of native libraries\n+* Java 8"
+  },
+  {
+    "id" : "8a7b9624-37e6-4a5d-b921-92f2f496e64e",
+    "prId" : 708,
+    "comments" : [
+      {
+        "id" : "19489c8f-1009-4d25-8e23-93f8c5b32ab3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I have an impression that this one deserves to be on the same page together with FAQ, given that we don't expect many people to hit this problem",
+        "createdAt" : "2017-05-16T18:36:18Z",
+        "updatedAt" : "2017-05-17T13:57:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "15de238ec3010c8cdfaa31f353cc18e257ba3847",
+    "line" : null,
+    "diffHunk" : "@@ -39,27 +39,45 @@ build time.\n Here are install instructions for a number of operating systems Scala\n Native has been used with:\n \n-Ubuntu::\n+**Ubuntu**\n+::\n+\n+    $ sudo apt install clang libgc-dev libunwind-dev libre2-dev\n \n-    $ sudo apt-get install clang libgc-dev libunwind-dev libre2-dev\n+*Note:* libre2-dev is available since Xenial (16.04 LTS). Refer to `travis.yml <https://github.com/scala-native/scala-native/blob/master/.travis.yml>`_ to install from source.\n \n-Note: libre2-dev is available since Xenial (16.04 LTS). Refer to `travis.yml <https://github.com/scala-native/scala-native/blob/master/.travis.yml>`_ to install from source.\n+**Arch Linux**\n+::\n \n-macOS::\n+    $ sudo pacman -S llvm gc re2\n+\n+**macOS**\n+::\n \n     $ brew install llvm bdw-gc re2\n \n-FreeBSD::\n+**FreeBSD**\n+::\n \n     $ pkg install llvm38 boehm-gc libunwind re2\n \n-nix/nixOS::\n+**Nix/NixOS**\n+::\n \n     $ wget https://raw.githubusercontent.com/scala-native/scala-native/master/bin/scala-native.nix\n-\n     $ nix-shell scala-native.nix -A clangEnv\n \n Continue to :ref:`sbt`.\n \n+Troubleshooting\n+---------------\n+When compiling your Scala Native project, the linker ``ld`` may fail with the following message:\n+\n+::\n+\n+  relocation R_X86_64_32 against `.rodata.str1.1' can not be used when making a shared object; recompile with -fPIC\n+\n+It is likely that the ``LDFLAGS`` environment variable enables hardening. For example, this occurs when the ``hardening-wrapper`` package is installed on Arch Linux. It can be safely removed.\n+"
+  },
+  {
+    "id" : "6e88b130-7202-4857-b576-2d44b072ec8c",
+    "prId" : 1094,
+    "comments" : [
+      {
+        "id" : "70d4d508-f466-4f56-9209-482955cef118",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "User guide mentions things necessary to use the latest released version of Scala Native, not build and develop it from source. Putting clang format in there might be confusing as it's not necessary from the end user point of view.",
+        "createdAt" : "2017-11-27T12:26:00Z",
+        "updatedAt" : "2017-11-29T03:02:58Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3135ccc757dad6446d5fa5685b927d5bc3bc0540",
+    "line" : null,
+    "diffHunk" : "@@ -56,6 +56,7 @@ Native has been used with:\n \n     $ brew install llvm\n     $ brew install bdw-gc re2 # optional\n+    $ brew install clang-format # required if using ./bin/clangfmt"
+  },
+  {
+    "id" : "f3f16094-b341-48cf-a020-1befd9f29252",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "0cb4080e-96fd-49d7-b6b3-1c4d255baf14",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't need libunwind deps any more either. ",
+        "createdAt" : "2019-04-17T09:48:54Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "80ed48d7-d693-4efa-84cf-6c174ae39cc9",
+        "parentId" : "0cb4080e-96fd-49d7-b6b3-1c4d255baf14",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please drop it here as well. ",
+        "createdAt" : "2019-04-17T09:59:13Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3460ce06-c436-42e2-8c08-c5755b1f07a8",
+        "parentId" : "0cb4080e-96fd-49d7-b6b3-1c4d255baf14",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.  Built on my local machine & viewed in Firefox.\r\n\r\nI also searched  all the .rst file in the docs tree for the case-insensitive string \"unw\".\r\nThat showed a few references, but nothing that I could see related to the full \r\nlibunwind.  ",
+        "createdAt" : "2019-04-17T17:59:03Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7513a8ac-0864-46c1-8e6e-de446b4c970c",
+        "parentId" : "0cb4080e-96fd-49d7-b6b3-1c4d255baf14",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "As long as I was in setup.html making non re2s related changes, it seemed fair game\r\nfor me to change the description of the default garbage collector to 'immix'. I also\r\nprovided a hyperlink to the original paper and did some rewording.\r\n\r\nAll builds & views. Hyperlink from setup.rst to intended section of sbt.rst works.",
+        "createdAt" : "2019-04-17T18:02:04Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -86,14 +80,14 @@ installation of Arch Linux.\n .. code-block:: shell\n \n     $ sudo dnf install llvm clang\n-    $ sudo dnf install libunwind-devel gc-devel zlib-devel re2-devel # optional\n+    $ sudo dnf install libunwind-devel gc-devel zlib-devel # optional"
+  },
+  {
+    "id" : "3493d99c-b44b-485d-9356-b30faea46e79",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "5edf3fb6-80fc-4a13-9ee0-58a78586669e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You can split this in two lines and then say something like:\r\n```\r\n$ sudo dnf install gc-devel   # optional, only if you use boehm gc\r\n$ sudo dnf install zlib-devel # optional, only if you use java.util.zip.*\r\n```\r\nIMO this makes it more clear what are these dependencies for. \r\n\r\nIt would be good to update the comment in this style everywhere for optional deps in setup instructions. ",
+        "createdAt" : "2019-04-17T20:47:01Z",
+        "updatedAt" : "2019-04-17T20:47:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c73db979-de1c-4b16-a284-b2a5fd381e60",
+        "parentId" : "5edf3fb6-80fc-4a13-9ee0-58a78586669e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets change this later in another PR, it's not related to re2s.",
+        "createdAt" : "2019-04-22T13:49:24Z",
+        "updatedAt" : "2019-04-22T13:49:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : 76,
+    "diffHunk" : "@@ -86,14 +78,14 @@ installation of Arch Linux.\n .. code-block:: shell\n \n     $ sudo dnf install llvm clang\n-    $ sudo dnf install libunwind-devel gc-devel zlib-devel re2-devel # optional\n+    $ sudo dnf install gc-devel zlib-devel # both optional"
+  },
+  {
+    "id" : "1f8d189b-c158-46a8-99c0-f67575bce547",
+    "prId" : 1848,
+    "comments" : [
+      {
+        "id" : "6cfe563a-f96d-41e6-8795-7e6648d6739d",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : " I believe that the clang installation instructions on approximately line #63 needs to\r\nchange from simple `clang` to `clang-9`, possibly with a comment to \r\nconsider using update-alternatives to make it the default clang.",
+        "createdAt" : "2020-07-11T23:57:46Z",
+        "updatedAt" : "2020-07-16T12:52:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "dab93a52-1309-4937-bc11-e02104a75036",
+        "parentId" : "6cfe563a-f96d-41e6-8795-7e6648d6739d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "With one small comment above, this PR LGTM!  \r\nThank you for making things current and easier to work with.\r\n\r\nI do not want to hold up this PR. Let me float an approach to setup.rst which\r\nI have seen work well in other projects. I wish I could remember which ones.\r\nIf devos like the approach, I can submit a follow-on PR, so this one does\r\nnot get held up by bike-shedding.\r\n\r\nThe idea is to deal with base requirements, supported variants, variants\r\nwhich may work, and those known not to work using the concepts from\r\nstatistics of central tendency and variation.  That is, describe the\r\nrequirements at a high level (i.e. LLVM not llvm-9), then give\r\na section which says something like \"Scala Native is developed on a \r\nnumber of hardware and software configurations. Continuous Integration (CI)\r\ntesting is done on the following \"known good\" configuration:\r\n```\r\nHardware: \r\nOperating System: Ubuntu 18.04 LTS\r\nSoftware:  openjdk-8\r\n                  sbt-org sbt\r\n                  clang-9,  non-LTO, LTO\r\n                   ld.bfd\r\n                  immix GC, boehm GC\r\n                   foo # to test optional component\r\n```\r\n<insert text saying that mac-os (versions???) is not tested but is used by several developers here.>\r\n\r\nThe Java-8 discussion is a bit tricky.  Saying that scalanative-plugin only supports/works_with  Java-8\r\n  seems to be erecting a strong barrier but, I believe, true.  Is there some softer but also true language\r\nthat could be used here?\r\n\r\n ",
+        "createdAt" : "2020-07-12T00:20:52Z",
+        "updatedAt" : "2020-07-16T12:52:20Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "48adf0e8-f0e2-4b48-aa34-64ebce647988",
+        "parentId" : "6cfe563a-f96d-41e6-8795-7e6648d6739d",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Thanks for the comments @LeeTibbert.\r\n\r\n> I believe that the clang installation instructions on approximately line #63 needs to\r\n> change from simple `clang` to `clang-9`, possibly with a comment to\r\n> consider using update-alternatives to make it the default clang.\r\n\r\nI intentionally left this out, because the way clang discovery is done at the moment, it does not matter which clang is set the default via alternatives. The build will just pick the latest one.\r\n\r\nI agree that the rest of the comments could go in a separate PR.",
+        "createdAt" : "2020-07-16T12:50:03Z",
+        "updatedAt" : "2020-07-16T12:52:20Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ccb99380aa9917e89e71af6e8712cf75e6243ed6",
+    "line" : 14,
+    "diffHunk" : "@@ -26,7 +26,7 @@ Installing clang and runtime dependencies\n -----------------------------------------\n \n Scala Native requires Clang, which is part of the LLVM toolchain. The\n-recommended LLVM version is 3.7 or newer, however, the Scala Native sbt\n+recommended LLVM version is 9 or newer, however, the Scala Native sbt"
+  },
+  {
+    "id" : "78ca0dec-c298-4de7-9067-7c4f05fc22c0",
+    "prId" : 1848,
+    "comments" : [
+      {
+        "id" : "bf13caa0-9281-4f86-b576-cdfec95371dc",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I am aware that this line comes from the venerable 0.4.0-M2 description but I think it\r\nis problematic.  To make any progress at all, we can not get mired in fixing every\r\npoint 10 places to the right of the decimal. However, some are worth a bit of effort\r\nto fix as we find them.  The interest of new devos is a precious and perishable thing.\r\n(as he preaches to the quire.)\r\n\r\nI think this should something like (rough) \r\n``` \r\nJava 8 or newer for projects using Scala Native\r\nJava 8 only to build Scala Native project itself.\r\n```\r\nOne would think the second line belongs in the Contributor's Guide. Indeed it might\r\nbe duplicated there. But by the time a new devo gets to the Contributor's Guide\r\nthe damage has been done.\r\n\r\nTimes change so I might be behind the curve. These days I use\r\n.bash file to set a Java 8 environment to build SN itself.  Even then\r\nI continue to hose myself on interactive builds by forgetting to\r\nrun the project login script and trying to build with the default\r\nJava 11 on my system.",
+        "createdAt" : "2020-07-16T15:09:14Z",
+        "updatedAt" : "2020-07-16T15:09:15Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ccb99380aa9917e89e71af6e8712cf75e6243ed6",
+    "line" : 2,
+    "diffHunk" : "@@ -7,7 +7,7 @@ Scala Native has the following build dependencies:\n \n * Java 8 or newer"
+  }
+]

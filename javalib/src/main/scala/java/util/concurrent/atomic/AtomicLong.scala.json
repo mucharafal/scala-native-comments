@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "a53730e0-41af-490a-8a9e-ec2856a59787",
+    "prId" : 597,
+    "comments" : [
+      {
+        "id" : "109d5bca-53ca-43c2-9cdc-49e126f749dc",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I curious if this will work correctly. My impression is that the JVM gives specific guarantees regarding access to memory, however, I am not sure that Scala Native provides any of those. It would be interesting to have a test, for example based on the example here: http://en.cppreference.com/w/c/language/atomic\r\n\r\nI am also curious if it would be possible to somehow base the `AtomicX` implementation on primitives provided by `stdatomic.h` or if the penalty of boxing/unboxing etc would to big.",
+        "createdAt" : "2017-04-10T13:46:15Z",
+        "updatedAt" : "2017-04-10T13:46:15Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6452abc32bb3d8e851859887c3e0ed271f82b1d6",
+    "line" : 22,
+    "diffHunk" : "@@ -1,10 +1,24 @@\n package java.util.concurrent.atomic\n \n+import scala.scalanative.native\n+import scala.scalanative.native.Atomic\n+\n class AtomicLong(private[this] var value: Long)\n     extends Number\n     with Serializable {\n   def this() = this(0L)\n \n+  private val lock: native.Ptr[native.CInt] = native.stackalloc[native.CInt]\n+  !lock = 0\n+\n+  private def getLock: Boolean = {\n+    Atomic.compareAndSwapInt(lock, 0, 1)\n+  }\n+\n+  private def releaseLock: Unit = {\n+    !lock = 0\n+  }\n+\n   final def get(): Long = value"
+  }
+]

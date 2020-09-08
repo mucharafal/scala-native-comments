@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "d7d260b6-72de-449f-b50e-fab2d16a0d3a",
+    "prId" : 1767,
+    "comments" : [
+      {
+        "id" : "a4ffec8e-1271-4f3a-872c-cab6711d945f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You could verify the result returned by `skip`.",
+        "createdAt" : "2020-05-11T15:58:37Z",
+        "updatedAt" : "2020-08-18T14:46:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5cd6a59b4395453bb1a862d90ea2f80bff431301",
+    "line" : null,
+    "diffHunk" : "@@ -27,9 +25,17 @@ object BufferedInputStreamSuite extends tests.Suite {\n     assert(in.read() == 1)\n \n     assert(in.read() == 2)\n+  }\n+\n+  test(\"simple array reads\") {\n+\n+    val arrayIn = new ByteArrayInputStream(exampleBytes0, 0, 10)\n+\n+    val in = new BufferedInputStream(arrayIn)\n \n     val a = new Array[Byte](7)\n \n+    in.skip(3)"
+  }
+]

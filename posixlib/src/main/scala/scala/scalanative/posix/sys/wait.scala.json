@@ -1,0 +1,237 @@
+[
+  {
+    "id" : "3d7f478c-35d9-43d7-afc9-8e18fb42ba1c",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "8d995d2f-3aa1-4ff4-8c86-699810b739e2",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I am really not understanding this exactly. I am seeing the following:\r\n```\r\ndef wait(status: Ptr[CInt]: pid_t = extern\r\n```\r\nReference: http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/sys_wait.h.html\r\n\r\nNote: `pid_t` is in sys/types.",
+        "createdAt" : "2019-07-11T00:09:40Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "acd8d329-d62d-409b-9346-03247f71a8e6",
+        "parentId" : "8d995d2f-3aa1-4ff4-8c86-699810b739e2",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I think this is an attempt to solve the fact that the object & the method within it\r\nhave the same name.  Privately, I call this the \"errno.errno\" problem because I have\r\ntripped over it so many times. My karma probably did not improve from all the bad\r\nwords I used on errno.errno.\r\n\r\nThere are a number of bad solutions.     I think the least bad is to do away with\r\nthe `@name`, use the expected `wait` as the method name and, importantly,\r\nleave a one line comment above the method something like\r\n`Use as wait.wait`.  I damn myself with my own writing....\r\n",
+        "createdAt" : "2019-07-13T08:32:38Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6f5c95ed-2431-4246-a1be-2bb7a8148e48",
+        "parentId" : "8d995d2f-3aa1-4ff4-8c86-699810b739e2",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "@LeeTibbert @ekrich it's actually worse than that - `wait()` collides with a method on java.lang.Object:\r\nhttps://docs.oracle.com/javase/7/docs/api/java/lang/Object.html\r\nSo it can't be overridden, but I wanted to make the C wait() available anyway.",
+        "createdAt" : "2019-07-20T21:01:53Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c7f06154-92e5-4e36-bf4a-0cc99f89fb2d",
+        "parentId" : "8d995d2f-3aa1-4ff4-8c86-699810b739e2",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "@ekrich you are absolutely right that I totally bungled the signature of wait() lol.",
+        "createdAt" : "2019-07-20T21:21:13Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5c9f3727-6939-461b-b9cd-439388560edc",
+        "parentId" : "8d995d2f-3aa1-4ff4-8c86-699810b739e2",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@rwhaling   I concur that making the C wait available is a worthwhile goal.\r\n\r\nAren' the method signatures different, so a method name of wait#wait would not conflict?\r\n The C wait now takes a pointer to a pid_t as an argument and returns a pid_t.\r\n I followed your URL (thank you) and the  Java method(s) return void.  \r\n\r\nAs always, if I am out of order or out to lunch here, let me know.\r\n",
+        "createdAt" : "2019-07-21T10:52:58Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package scala.scalanative.posix.sys\n+\n+import scala.scalanative.unsafe._\n+\n+@extern\n+object wait {\n+  @name(\"wait\")"
+  },
+  {
+    "id" : "376b2b38-d167-4354-8d54-f74993cdb7f5",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "81f859e5-08c4-462e-a277-8e4a6a37bde9",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "`waitpid` should use the CInt type.",
+        "createdAt" : "2019-07-11T00:13:01Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package scala.scalanative.posix.sys\n+\n+import scala.scalanative.unsafe._\n+\n+@extern\n+object wait {\n+  @name(\"wait\")\n+  def _wait(): Int                                           = extern\n+  def waitpid(pid: Int, status: Ptr[Int], options: Int): Int = extern"
+  },
+  {
+    "id" : "4e3a1579-1c58-4f3f-9ca3-90a5c39d9250",
+    "prId" : 1643,
+    "comments" : [
+      {
+        "id" : "7a0ff51f-6262-4da8-868b-cb4a3e10c67b",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I did not notice an associated edit to `docs/lib/posixlib.rst` to announce that `wait` is now supported.\r\n\r\nMy recent PR #1646 added support for resource.h so I had to edit posixlib.rst.  I think/hope I got it right.\r\nThose edits might be useful to you.  The key is in knowing that there are  __two__ places to edit in\r\nthe file.     \r\n\r\nIf it would be useful to you, I could do the wait.h edits, do a sphinx-build to ensure they build (skipping over\r\nknown errors), and ship it to you.  I am trying to ease the PR flow, if possible.",
+        "createdAt" : "2019-07-13T09:21:04Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "fc274232-39bd-4ced-a208-841277e3c5e7",
+        "parentId" : "7a0ff51f-6262-4da8-868b-cb4a3e10c67b",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "I see, I don't think I knew that document existed, I'll update this with these functions.",
+        "createdAt" : "2019-07-20T21:05:40Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1adc0a57-8eb2-4ed4-b4ca-5b84ff1d3970",
+        "parentId" : "7a0ff51f-6262-4da8-868b-cb4a3e10c67b",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "it looks to me like sys/wait.h is already listed in there for some reason?",
+        "createdAt" : "2019-07-20T21:41:21Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d58c4403-9405-4265-812c-4cfaf7c4d1b3",
+        "parentId" : "7a0ff51f-6262-4da8-868b-cb4a3e10c67b",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I just checked the \"latest\" (0.4.0-M2) ReadTheDocs web output and posix sys/wait.h\r\nis listed as \"N/A\" (Not Available? I'll create an separate issue ). \r\n\r\nAs this PR implements sys/wait.h, I would expect the right column to\r\ncontain a valid link, such as the implemented sys/types.h a few lines above.\r\n(By being concrete I mean to be descriptive, not to give offense.)\r\n\r\nAr my tired eyes missing something?\r\n",
+        "createdAt" : "2019-07-21T10:34:11Z",
+        "updatedAt" : "2019-08-10T01:38:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3781b85624b423ab3a6cdb8dff33cd828a8ce9dd",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package scala.scalanative.posix.sys"
+  }
+]

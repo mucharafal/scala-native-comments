@@ -1,0 +1,3545 @@
+[
+  {
+    "id" : "a683269f-3b82-4b1b-8e5c-92cb46b7f5bf",
+    "prId" : 92,
+    "comments" : [
+      {
+        "id" : "b3704308-41cd-4679-9c74-b738c894ff5f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why would you move all these things to `.scala`?\n",
+        "createdAt" : "2016-05-17T11:23:07Z",
+        "updatedAt" : "2016-05-17T11:23:07Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6dc09c36-f768-45c0-a6cd-507d578fd5f2",
+        "parentId" : "b3704308-41cd-4679-9c74-b738c894ff5f",
+        "author" : {
+          "login" : "t-hiroyoshi",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/10783208?u=ee3909d61fb9f79884f23df85f5313e7d90855d0&v=4"
+        },
+        "body" : "I think it's better for controlling tests.\n",
+        "createdAt" : "2016-05-17T11:26:26Z",
+        "updatedAt" : "2016-05-17T11:26:26Z",
+        "lastEditedBy" : {
+          "login" : "t-hiroyoshi",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/10783208?u=ee3909d61fb9f79884f23df85f5313e7d90855d0&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "66616b6e-cd1e-4dbb-963b-c1ad6eacfcaa",
+        "parentId" : "b3704308-41cd-4679-9c74-b738c894ff5f",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Er ... I don't understand. What do you mean by \"controlling tests\"?\n",
+        "createdAt" : "2016-05-17T11:36:38Z",
+        "updatedAt" : "2016-05-17T11:36:38Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "20bbfbbf-28cd-4b4c-8e01-6f914456e24d",
+        "parentId" : "b3704308-41cd-4679-9c74-b738c894ff5f",
+        "author" : {
+          "login" : "t-hiroyoshi",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/10783208?u=ee3909d61fb9f79884f23df85f5313e7d90855d0&v=4"
+        },
+        "body" : "Tests with Build.scala is more readable.\nBut I find this https://github.com/sbt/sbt/pull/2524.\nUsing build.sbt is better now.\n",
+        "createdAt" : "2016-05-17T11:55:07Z",
+        "updatedAt" : "2016-05-17T11:55:07Z",
+        "lastEditedBy" : {
+          "login" : "t-hiroyoshi",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/10783208?u=ee3909d61fb9f79884f23df85f5313e7d90855d0&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fe9fe4b11a028c98c70e3f429697ec8870b78d2e",
+    "line" : 136,
+    "diffHunk" : "@@ -1,125 +1,11 @@\n-import scala.io.Source\n-import scala.scalanative.sbtplugin.{ScalaNativePlugin, ScalaNativePluginInternal}\n-import ScalaNativePlugin.autoImport._\n-\n-val toolScalaVersion = \"2.10.6\"\n-\n-val libScalaVersion  = \"2.11.8\"\n-\n-lazy val baseSettings = Seq(\n-  organization := \"org.scala-native\",\n-  version      := scala.scalanative.nir.Versions.current,\n-\n-  scalafmtConfig := Some(file(\".scalafmt\"))\n-)\n-\n-lazy val toolSettings =\n-  baseSettings ++ Seq(\n-    scalaVersion := toolScalaVersion\n-  )\n-\n-lazy val libSettings =\n-  baseSettings ++ ScalaNativePlugin.projectSettings ++ Seq(\n-    scalaVersion := libScalaVersion,\n-\n-    nativeEmitDependencyGraphPath := Some(file(\"out.dot\"))\n-  )\n-\n-lazy val util =\n-  project.in(file(\"util\")).\n-    settings(toolSettings)\n-\n-lazy val nir =\n-  project.in(file(\"nir\")).\n-    settings(toolSettings).\n-    dependsOn(util)\n-\n-lazy val tools =\n-  project.in(file(\"tools\")).\n-    settings(toolSettings).\n-    settings(\n-      libraryDependencies += \"commons-io\" % \"commons-io\" % \"2.4\"\n-    ).\n-    dependsOn(nir, util)\n-\n-lazy val nscplugin =\n-  project.in(file(\"nscplugin\")).\n-    settings(toolSettings).\n-    settings(\n-      scalaVersion := \"2.11.8\",\n-      unmanagedSourceDirectories in Compile ++= Seq(\n-        (scalaSource in (nir, Compile)).value,\n-        (scalaSource in (util, Compile)).value\n-      ),\n-      libraryDependencies ++= Seq(\n-        \"org.scala-lang\" % \"scala-compiler\" % scalaVersion.value,\n-        \"org.scala-lang\" % \"scala-reflect\" % scalaVersion.value\n-      ),\n-      publishArtifact in (Compile, packageDoc) := false\n-    )\n-\n-lazy val sbtplugin =\n-  project.in(file(\"sbtplugin\")).\n-    settings(toolSettings).\n-    settings(\n-      sbtPlugin := true\n-    ).\n-    dependsOn(tools)\n-\n-// rt is a library project but it can't use libSettings\n-// due to the fact that it contains nrt dependency in\n-// ScalaNativePlugin.projectSettings.\n-lazy val rtlib =\n-  project.in(file(\"rtlib\")).\n-    settings(baseSettings).\n-    settings(\n-      scalaVersion := libScalaVersion\n-    )\n-\n-lazy val nativelib =\n-  project.in(file(\"nativelib\")).\n-    settings(libSettings)\n-\n-lazy val javalib =\n-  project.in(file(\"javalib\")).\n-    settings(libSettings).\n-    dependsOn(nativelib)\n-\n-lazy val assembleScalaLibrary = taskKey[Unit](\n-  \"Checks out scala standard library from submodules/scala and then applies overrides.\")\n-\n-lazy val scalalib =\n-  project.in(file(\"scalalib\")).\n-    settings(libSettings).\n-    settings(\n-      assembleScalaLibrary := {\n-        IO.delete(file(\"scalalib/src/main/scala\"))\n-        IO.copyDirectory(\n-          file(\"submodules/scala/src/library/scala\"),\n-          file(\"scalalib/src/main/scala/scala\"))\n-\n-        val epoch :: major :: _ = scalaVersion.value.split(\"\\\\.\").toList\n-        IO.copyDirectory(\n-          file(s\"scalalib/overrides-$epoch.$major/scala\"),\n-          file(\"scalalib/src/main/scala/scala\"), overwrite = true)\n-      },\n-\n-      compile in Compile <<= (compile in Compile) dependsOn assembleScalaLibrary\n-    ).\n-    dependsOn(javalib)\n-\n-lazy val demoNative =\n-  project.in(file(\"demo-native\")).\n-    settings(libSettings).\n-    settings(\n-      nativeVerbose := true,\n-      nativeClangOptions := Seq(\"-O2\")\n-    ).\n-    dependsOn(scalalib)\n-\n-lazy val demoJVM =\n-  project.in(file(\"demo-jvm\")).\n-    settings(\n-      fork in run := true,\n-      javaOptions in run ++= Seq(\"-Xms64m\", \"-Xmx64m\")\n-    )\n+val util = Build.util\n+val nir = Build.nir\n+val tools = Build.tools\n+val nscplugin = Build.nscplugin\n+val sbtplugin = Build.sbtplugin\n+val rtlib = Build.rtlib\n+val nativelib = Build.nativelib\n+val javalib = Build.javalib\n+val scalalib = Build.scalalib\n+val demoNative = Build.demoNative\n+val demoJVM = Build.demoJVM"
+  },
+  {
+    "id" : "cc427452-332a-4049-b6e2-828cc1b30cfd",
+    "prId" : 196,
+    "comments" : [
+      {
+        "id" : "fddf4748-3969-41a4-a305-8ffc86e75103",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Splitting out libc out of nativelib was a mistake. It added one extra full import to reach common functionality for no good reason. \n",
+        "createdAt" : "2016-06-24T15:06:37Z",
+        "updatedAt" : "2016-06-24T15:06:37Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "bb271fedd8086e44e57af88775908c32eefea434",
+    "line" : 8,
+    "diffHunk" : "@@ -88,11 +88,6 @@ lazy val nativelib =\n   project.in(file(\"nativelib\")).\n     settings(libSettings)\n \n-lazy val clib =\n-  project.in(file(\"clib\")).\n-    settings(libSettings).\n-    dependsOn(nativelib)\n-"
+  },
+  {
+    "id" : "5ae735d5-5c7e-4daa-83f4-8dd847482147",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "311344b4-93ef-424e-b779-70a845f41629",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg Why no alignment here? \n",
+        "createdAt" : "2016-09-29T10:17:01Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f5f5cd9b-ea47-4fe9-ad8a-18ce2ec00555",
+        "parentId" : "311344b4-93ef-424e-b779-70a845f41629",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "Good question. I get alignment when running from the CLI:\n\n``` scala\nscalafmt -f target/foo.sbt -c \"style=defaultWithAlign\" | head -n 50         error\n...\n  publishSnapshot := Def.taskDyn {\n    val travis   = Try(sys.env(\"TRAVIS\")).getOrElse(\"false\") == \"true\"\n    val pr       = Try(sys.env(\"TRAVIS_PULL_REQUEST\")).getOrElse(\"false\") != \"false\"\n    val branch   = Try(sys.env(\"TRAVIS_BRANCH\")).getOrElse(\"\")\n    val snapshot = version.value.trim.endsWith(\"SNAPSHOT\")\n...\n```\n\nMy guess is that the defaultWithAlign style is not picked up, which is surprising since I even test that the config is picked up for sbt files:\n\nhttps://github.com/olafurpg/scalafmt/blob/f59d125a717168077c89f979274676aade20c98d/scalafmtSbt/src/sbt-test/scalafmt-sbt/helloworld/build.sbt#L37-L38\n\nI've opened https://github.com/olafurpg/scalafmt/issues/480\n",
+        "createdAt" : "2016-09-29T21:54:54Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : null,
+    "diffHunk" : "@@ -27,11 +25,10 @@ lazy val publishSettings = Seq(\n     else\n       Some(\"releases\" at nexus + \"service/local/staging/deploy/maven2\")\n   },\n-\n   publishSnapshot := Def.taskDyn {\n-    val travis   = Try(sys.env(\"TRAVIS\")).getOrElse(\"false\") == \"true\"\n-    val pr       = Try(sys.env(\"TRAVIS_PULL_REQUEST\")).getOrElse(\"false\") != \"false\"\n-    val branch   = Try(sys.env(\"TRAVIS_BRANCH\")).getOrElse(\"\")\n+    val travis = Try(sys.env(\"TRAVIS\")).getOrElse(\"false\") == \"true\"\n+    val pr = Try(sys.env(\"TRAVIS_PULL_REQUEST\")).getOrElse(\"false\") != \"false\"\n+    val branch = Try(sys.env(\"TRAVIS_BRANCH\")).getOrElse(\"\")"
+  },
+  {
+    "id" : "ea516d59-2c0b-43f2-91ef-15c2fbde6882",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "a130c6ce-b8a7-4fc3-bd49-9a4909535169",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg Why no alignment here? \n",
+        "createdAt" : "2016-09-29T10:17:28Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : null,
+    "diffHunk" : "@@ -40,25 +37,26 @@ lazy val publishSettings = Seq(\n         publish\n \n       case _ =>\n-        println(\"not going to publish a snapshot due to: \" +\n-                s\"travis = $travis, pr = $pr, \" +\n-                s\"branch = $branch, snapshot = $snapshot\")\n+        println(\n+          \"not going to publish a snapshot due to: \" +\n+            s\"travis = $travis, pr = $pr, \" +\n+            s\"branch = $branch, snapshot = $snapshot\")\n         Def.task()\n     }\n   }.value,\n-\n   credentials ++= {\n     for {\n-      realm    <- sys.env.get(\"MAVEN_REALM\")\n-      domain   <- sys.env.get(\"MAVEN_DOMAIN\")\n-      user     <- sys.env.get(\"MAVEN_USER\")\n+      realm <- sys.env.get(\"MAVEN_REALM\")\n+      domain <- sys.env.get(\"MAVEN_DOMAIN\")\n+      user <- sys.env.get(\"MAVEN_USER\")"
+  },
+  {
+    "id" : "f2b8fa0d-0eab-4ff6-bb64-2bc0733e851e",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "7db71002-b5a9-45dc-bff3-3a3ab823460d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg Indentation seems to be completely off. \n",
+        "createdAt" : "2016-09-29T10:18:04Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "68ebcb78-b910-4a0c-8579-bc8730247d16",
+        "parentId" : "7db71002-b5a9-45dc-bff3-3a3ab823460d",
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "I've seen something similar before, it's caused by the use of infix application. You kind of deserve this crappy output when you (ab)use infix applications like this :P \n\nPut a dot in front of `dependsOn` and it will look good.\n\nI've opened https://github.com/olafurpg/scalafmt/issues/479\n",
+        "createdAt" : "2016-09-29T21:57:31Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : null,
+    "diffHunk" : "@@ -157,49 +157,53 @@ lazy val nscplugin =\n     )\n \n lazy val sbtplugin =\n-  project.in(file(\"sbtplugin\")).\n-    settings(toolSettings).\n-    settings(publishSettings).\n-    settings(\n+  project\n+    .in(file(\"sbtplugin\"))\n+    .settings(toolSettings)\n+    .settings(publishSettings)\n+    .settings(\n       sbtPlugin := true,\n       // Scalafmt fails to format source of sbt plugins.\n       scalafmtTest := {},\n       // Support for scripted tests\n       ScriptedPlugin.scriptedSettings,\n-      scriptedLaunchOpts := { scriptedLaunchOpts.value ++\n-        Seq(\"-Xmx1024M\", \"-XX:MaxPermSize=256M\", \"-Dplugin.version=\" + version.value)\n+      scriptedLaunchOpts := {\n+        scriptedLaunchOpts.value ++\n+          Seq(\"-Xmx1024M\",\n+              \"-XX:MaxPermSize=256M\",\n+              \"-Dplugin.version=\" + version.value)\n       },\n       sbtTestDirectory := (baseDirectory in ThisBuild).value / \"scripted-tests\",\n       // publish the other projects before running scripted tests.\n       scripted <<= scripted dependsOn (publishLocal in util,\n-                                       publishLocal in nir,\n-                                       publishLocal in tools,\n-                                       publishLocal in nscplugin,\n-                                       publishLocal in nativelib,\n-                                       publishLocal in javalib,\n-                                       publishLocal in scalalib)\n-    ).\n-    dependsOn(tools)\n+      publishLocal in nir,\n+      publishLocal in tools,\n+      publishLocal in nscplugin,\n+      publishLocal in nativelib,\n+      publishLocal in javalib,\n+      publishLocal in scalalib)"
+  },
+  {
+    "id" : "20cfef9f-885c-4d80-9e94-e0ef0576c7b1",
+    "prId" : 372,
+    "comments" : [
+      {
+        "id" : "3b25be53-275e-4386-9058-88d0d59e5c00",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Separate sbt project for this seems to be an overkill. Why not have it as part of existing `tools` project? ",
+        "createdAt" : "2016-12-04T11:31:32Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c289f64c-20df-4401-8858-244cb1f7e30a",
+        "parentId" : "3b25be53-275e-4386-9058-88d0d59e5c00",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You're right. I'll move it to `tools`.",
+        "createdAt" : "2016-12-06T15:15:51Z",
+        "updatedAt" : "2016-12-06T15:32:17Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "79210c5df7fb7920e1e1bdd7b5050f711c48bf56",
+    "line" : null,
+    "diffHunk" : "@@ -195,12 +217,16 @@ lazy val sbtScalaNative =\n                    publishLocal in nscplugin,\n                    publishLocal in nativelib,\n                    publishLocal in javalib,\n-                   publishLocal in scalalib)\n+                   publishLocal in scalalib,\n+                   publishLocal in llvmTools)\n         .evaluated,\n       publishLocal := publishLocal.dependsOn(publishLocal in tools).value\n     )\n     .dependsOn(tools)\n \n+lazy val llvmTools =\n+  project.in(file(\"llvm-tools\")).settings(toolSettings)"
+  },
+  {
+    "id" : "b1640463-b597-4ff0-b063-88ebccc8f39b",
+    "prId" : 392,
+    "comments" : [
+      {
+        "id" : "8cea0f4b-ffda-42dc-97bf-6566a784d84c",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "@densh \r\nScala.js uses: sbt-scalajs\r\n\r\nI like sbt-native since it's short. There is, however, a possible confusion with [sbt-native-packager](https://github.com/sbt/sbt-native-packager).\r\n",
+        "createdAt" : "2016-11-24T14:16:51Z",
+        "updatedAt" : "2016-11-25T12:22:43Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "62290bd4-5df8-4a25-a066-b66fae7a6103",
+        "parentId" : "8cea0f4b-ffda-42dc-97bf-6566a784d84c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Indeed, `sbt-native` is actually ambigious wrt native-packager. Lets include scala in the name like Scala.js. ",
+        "createdAt" : "2016-11-24T14:44:55Z",
+        "updatedAt" : "2016-11-25T12:22:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b57457a0814be123a23a185c8bd6cc35de2e994e",
+    "line" : null,
+    "diffHunk" : "@@ -161,30 +166,37 @@ lazy val nscplugin =\n       publishArtifact in (Compile, packageDoc) := false\n     )\n \n-lazy val sbtplugin =\n+lazy val sbtPluginSettings =\n+  toolSettings ++\n+    publishSettings ++\n+    ScriptedPlugin.scriptedSettings ++\n+    Seq(\n+      sbtPlugin := true,\n+      scriptedLaunchOpts ++=\n+        Seq(\"-Xmx1024M\",\n+            \"-XX:MaxPermSize=256M\",\n+            \"-Dplugin.version=\" + version.value)\n+    )\n+\n+lazy val sbtNative =\n   project\n-    .in(file(\"sbtplugin\"))\n-    .settings(toolSettings)\n-    .settings(publishSettings)\n+    .in(file(\"sbt-native\"))\n+    .settings(sbtPluginSettings)\n     .settings(\n-      sbtPlugin := true,\n-      // Support for scripted tests\n-      ScriptedPlugin.scriptedSettings,\n-      scriptedLaunchOpts := {\n-        scriptedLaunchOpts.value ++\n-          Seq(\"-Xmx1024M\",\n-              \"-XX:MaxPermSize=256M\",\n-              \"-Dplugin.version=\" + version.value)\n-      },\n+      addSbtPlugin(\"org.scala-native\" % \"sbt-cross\" % \"0.1.0-SNAPSHOT\"),\n+      moduleName := \"sbt-native\","
+  },
+  {
+    "id" : "41fe23db-aa0a-4bb9-b4e8-d299f13f56db",
+    "prId" : 412,
+    "comments" : [
+      {
+        "id" : "675c4a09-7231-42b0-971f-189177edb6d5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@sjrd @Duhemm is it the nicest way to aggregate tasks? Can't we just redefine `test`, `publishLocal` and `clean` on the root project? ",
+        "createdAt" : "2016-11-29T15:20:16Z",
+        "updatedAt" : "2016-11-30T15:17:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fbbab6949946b1c51a2be92737adc6b0a62273f3",
+    "line" : 76,
+    "diffHunk" : "@@ -360,3 +377,31 @@ lazy val benchmarks =\n       }.taskValue\n     )\n     .enablePlugins(ScalaNativePlugin)\n+\n+commands ++= Seq(\n+  Command.command(\"cleanAll\") { state =>\n+    \"clean\" ::\n+      \"cleanCache\" ::\n+        \"cleanLocal\" ::\n+          state\n+  },\n+  Command.command(\"publishLocalAll\") { state =>\n+    \"project testInterface\" ::\n+      \"+ publishLocal\" ::\n+        \"project /\" ::\n+          \"reload\" ::\n+            \"nscplugin/publishLocal\" ::\n+              \"nativelib/publishLocal\" ::\n+                \"publishLocal\" ::\n+                  state\n+  },\n+  Command.command(\"testAll\") { state =>\n+    \"tools/test\" ::\n+      \"sandbox/run\" ::\n+        \"demoNative/run\" ::\n+          \"tests/run\" ::\n+            \"benchmarks/run\" ::\n+              \"scripted\" ::\n+                state\n+  }\n+)"
+  },
+  {
+    "id" : "b2c6033a-0505-4171-84ea-8e8ea52801f2",
+    "prId" : 444,
+    "comments" : [
+      {
+        "id" : "3743896f-e885-428c-aea7-182019f78821",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`publishLocal in nativelib` has to depend on `publishLocal in nscplugin`.",
+        "createdAt" : "2016-12-16T14:38:46Z",
+        "updatedAt" : "2016-12-16T14:38:46Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a9d002342ebc2e337bb4143667911d49b3537b55",
+    "line" : 15,
+    "diffHunk" : "@@ -118,6 +118,43 @@ lazy val projectSettings =\n     resolvers := Nil\n   )\n \n+lazy val root =\n+  project\n+    .in(file(\".\"))\n+    .settings(\n+      clean := {\n+        val forceCleanCache = cleanCache.toTask(\"\").value\n+        val forceCleanLocal = cleanLocal.toTask(\"\").value\n+        clean.value\n+      },\n+      publishLocal := {\n+        val forcePublishLocal0 = (publishLocal in nscplugin).value\n+        val forcePublishLocal1 = (publishLocal in nativelib).value"
+  },
+  {
+    "id" : "8e244c4a-ba3c-4492-816b-8289021c6d4e",
+    "prId" : 502,
+    "comments" : [
+      {
+        "id" : "210bdec5-72e1-4370-ba34-6d26ab6fe619",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd add \"clean\" as the first line. ",
+        "createdAt" : "2017-02-07T11:24:15Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f67b506adfc14f24c63a19046e0f468740a5ecaa",
+    "line" : null,
+    "diffHunk" : "@@ -13,6 +13,24 @@ lazy val baseSettings = Seq(\n   sources in doc in Compile := Nil // doc generation currently broken\n )\n \n+addCommandAlias(\n+  \"fullRebuild\",\n+  Seq("
+  },
+  {
+    "id" : "28653849-623a-4397-b678-ff01e7c2b4b5",
+    "prId" : 502,
+    "comments" : [
+      {
+        "id" : "aceb7f8c-c551-4860-a60a-57fef6d9f1d7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Tests invocations and publishing should probably go separately as rebuild command would be useful for local development too.",
+        "createdAt" : "2017-02-07T11:24:59Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f67b506adfc14f24c63a19046e0f468740a5ecaa",
+    "line" : null,
+    "diffHunk" : "@@ -13,6 +13,24 @@ lazy val baseSettings = Seq(\n   sources in doc in Compile := Nil // doc generation currently broken\n )\n \n+addCommandAlias(\n+  \"fullRebuild\",\n+  Seq(\n+    \"cleanCache\",\n+    \"cleanLocal\",\n+    \"nscplugin/publishLocal\",\n+    \"nativelib/publishLocal\",\n+    \"publishLocal\",\n+    \"sandbox/run\",\n+    \"demoNative/run\",\n+    \"tests/run\",\n+    \"tools/test\",\n+    \"benchmarks/run\",\n+    \"scripted\",\n+    \"publishSnapshot\""
+  },
+  {
+    "id" : "374546b7-18e5-46b0-8ca2-8681cc2ab9a8",
+    "prId" : 502,
+    "comments" : [
+      {
+        "id" : "c13cbe9c-ee6f-4a4c-892f-a09f794e3757",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "\"rebuild\" ",
+        "createdAt" : "2017-02-07T11:25:27Z",
+        "updatedAt" : "2017-02-21T16:48:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f67b506adfc14f24c63a19046e0f468740a5ecaa",
+    "line" : null,
+    "diffHunk" : "@@ -13,6 +13,24 @@ lazy val baseSettings = Seq(\n   sources in doc in Compile := Nil // doc generation currently broken\n )\n \n+addCommandAlias(\n+  \"fullRebuild\","
+  },
+  {
+    "id" : "8bf3ac43-5205-4182-a2ff-b5099a33799a",
+    "prId" : 523,
+    "comments" : [
+      {
+        "id" : "481df2cb-7afe-4f08-95c5-714da508b152",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "For this name is not sbt-crossproject. Probably copy-paste mistake. ",
+        "createdAt" : "2017-02-22T16:13:41Z",
+        "updatedAt" : "2017-02-22T16:20:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1a0af70ed0728be4db1ee0fd5e1ac1a9203cfff9",
+    "line" : null,
+    "diffHunk" : "@@ -58,18 +58,30 @@ lazy val setUpTestingCompiler = Def.task {\n     ((crossTarget in Compile).value / \"nativelib\").getAbsolutePath\n }\n \n-lazy val publishSettings = Seq(\n-  publishArtifact in Compile := true,\n-  publishArtifact in Test := false,\n-  publishMavenStyle := true,\n-  publishTo := {\n+// to publish plugin (we only need to do this once, it's already done!)\n+// follow: http://www.scala-sbt.org/0.13/docs/Bintray-For-Plugins.html\n+// then add a new package\n+// name: sbt-crossproject, license: BSD-like, version control: git@github.com:scala-native/scala-native.git"
+  },
+  {
+    "id" : "00ece21d-0e8a-449e-9d35-de98bd175aa2",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "3c99b0a4-23f0-4f49-a9d9-e6015dfeb98f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It doesn't deserve a separate sequence of settings yet, lets just inline it for now. Moreover, given that `BoehmGC` is a default, we don't have to put into the build at all. ",
+        "createdAt" : "2017-03-16T12:43:27Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -36,6 +37,10 @@ addCommandAlias(\n   ).mkString(\";\", \";\", \"\")\n )\n \n+lazy val gcSettings = Seq(\n+  nativeGC := BoehmGC\n+)"
+  },
+  {
+    "id" : "80eeaccf-1246-4d15-ae43-114775ef7b4a",
+    "prId" : 605,
+    "comments" : [
+      {
+        "id" : "9da8e69c-e7f8-4872-a073-b3a4f2579d03",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "maybe add a comment. why we need this and how does it works.",
+        "createdAt" : "2017-04-03T15:22:54Z",
+        "updatedAt" : "2017-04-04T09:10:09Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e2862da9-c43f-487c-9a7e-7d01691d6b1d",
+        "parentId" : "9da8e69c-e7f8-4872-a073-b3a4f2579d03",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-04-04T09:10:31Z",
+        "updatedAt" : "2017-04-04T09:10:31Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "eadc43f7d753ff682c5092e163f6bb9b3f86547e",
+    "line" : null,
+    "diffHunk" : "@@ -299,7 +299,15 @@ lazy val javalib =\n     .settings(libSettings)\n     .settings(mavenPublishSettings)\n     .settings(\n-      sources in doc in Compile := Nil // doc generation currently broken\n+      sources in doc in Compile := Nil, // doc generation currently broken\n+      scalacOptions in Compile := {"
+  },
+  {
+    "id" : "0b92846c-e0c7-476c-ab77-72608c30bf37",
+    "prId" : 621,
+    "comments" : [
+      {
+        "id" : "1ed40771-da73-4acf-8a56-47016cf6717d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Not sure what this does.",
+        "createdAt" : "2017-04-06T20:50:02Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f02c12f1-dc66-4712-9688-ee8e26b9aead",
+        "parentId" : "1ed40771-da73-4acf-8a56-47016cf6717d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Removes all the java code from our build of scala library. This fixes conflict situations when we have a Scala-defined override for something that used to be in Java before. ",
+        "createdAt" : "2017-04-10T11:34:32Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d55271ae-5d22-4a38-9ad9-72e0b3a32dcb",
+        "parentId" : "1ed40771-da73-4acf-8a56-47016cf6717d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I should add comment to explain this.",
+        "createdAt" : "2017-04-10T11:34:59Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "17c034a6-2c82-41a3-9f81-a9d90154fefc",
+        "parentId" : "1ed40771-da73-4acf-8a56-47016cf6717d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-04-10T11:54:28Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "519a04ea55e644018688f8debbd0684e3d3a7ab7",
+    "line" : null,
+    "diffHunk" : "@@ -356,6 +356,8 @@ lazy val scalalib =\n         IO.copyDirectory(file(s\"scalalib/overrides-$epoch.$major/scala\"),\n                          file(\"scalalib/src/main/scala/scala\"),\n                          overwrite = true)\n+\n+        (file(\"scalalib/src/main/scala\") ** \"*.java\").get.foreach(IO.delete)"
+  },
+  {
+    "id" : "215b2f9c-6873-467b-8de0-f34db47d55a1",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Wouldn't it be better to use `java.io.File.separator` here?",
+        "createdAt" : "2017-05-07T17:16:59Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a2a53a81-7f9e-49c7-9247-33b05e2f9374",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Yes, I think so, I fixed it but not updated yet",
+        "createdAt" : "2017-05-08T18:21:01Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1ab5961e-2e30-4ba5-8fe7-263a931cf167",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Actually it looks not good, split requires regex expression which depends on OS:\r\n1. split(\"/\") - one separators\r\n2. split(\"\\\\\\\\\\\\\\\\\") - four separators",
+        "createdAt" : "2017-05-08T20:33:36Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0cd4622f-7d31-418e-be0c-36c42c60c6da",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "In that case, you could write `split(java.io.File.separator + '+')`.",
+        "createdAt" : "2017-05-09T09:30:44Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "909716f8-23cc-456a-8f61-623cc0434581",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "it will be translated to split(\"\\\\+\") but we want split(\"\\\\\\\\+\")",
+        "createdAt" : "2017-05-09T09:39:35Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4707d74f-801d-4e47-8076-8890950d9060",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "There are also two Yen symbols (Japanese) which are also path separators.\r\nI think we need something like 'File.separatorRegex' publicly exposed",
+        "createdAt" : "2017-05-09T13:50:47Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "093312ac-9649-495d-a983-0a3628554640",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "A safer solution would be not to do this string replacement in the first place. You could try this instead: http://stackoverflow.com/a/13049413",
+        "createdAt" : "2017-05-09T17:20:03Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "29d02097-77fe-4285-98f2-e9de1d35c6cf",
+        "parentId" : "1b834a89-c2cc-454f-b438-7783af5510e2",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Thanks, I replaced by Matcher.quoteReplacement(System.getProperty(\"file.separator\") and it works fine",
+        "createdAt" : "2017-05-09T19:35:23Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -382,14 +382,16 @@ lazy val tests =\n       // nativeOptimizerReporter := OptimizerReporter.toDirectory(\n       //   crossTarget.value),\n       sourceGenerators in Compile += Def.task {\n-        val dir    = sourceDirectory.value\n-        val prefix = dir.getAbsolutePath + \"/main/scala/\"\n+        val dir       = sourceDirectory.value\n+        val separator = java.io.File.separator;\n+        val prefix = dir.getAbsolutePath + Seq(\"main\", \"scala\")\n+            .mkString(separator, separator, separator)\n         val suites = (dir ** \"*Suite.scala\").get\n           .map { f =>\n             f.getAbsolutePath\n               .replace(prefix, \"\")\n               .replace(\".scala\", \"\")\n-              .split(\"/\")\n+              .split(\"/|\\\\\\\\\")"
+  },
+  {
+    "id" : "cfbec3b2-a876-4b33-afc0-05f79e7836e0",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "98862e0c-2ac8-49a3-b2b2-edf1d27a149a",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "The semicolon is redundant",
+        "createdAt" : "2017-05-09T17:13:30Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "151cdcaf-87ad-420a-9e0d-7bd0a9d43554",
+        "parentId" : "98862e0c-2ac8-49a3-b2b2-edf1d27a149a",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "fixed",
+        "createdAt" : "2017-05-09T19:36:08Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -382,14 +382,16 @@ lazy val tests =\n       // nativeOptimizerReporter := OptimizerReporter.toDirectory(\n       //   crossTarget.value),\n       sourceGenerators in Compile += Def.task {\n-        val dir    = sourceDirectory.value\n-        val prefix = dir.getAbsolutePath + \"/main/scala/\"\n+        val dir       = sourceDirectory.value\n+        val separator = java.io.File.separator;"
+  },
+  {
+    "id" : "c902c44d-fdf5-48af-83d6-c894e0e14f0a",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "4201ab39-5595-4220-87d6-ded43816f75e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This change is not necessary.",
+        "createdAt" : "2017-08-07T11:27:15Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fe4a38ee-7e08-4125-9cfd-80eafb511883",
+        "parentId" : "4201ab39-5595-4220-87d6-ded43816f75e",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "leftovers, I will remove it",
+        "createdAt" : "2017-08-08T10:29:24Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -396,6 +396,10 @@ lazy val demoNative =\n     .in(file(\"demo/native\"))\n     .settings(projectSettings)\n     .settings(noPublishSettings)\n+    .settings(\n+      nativeMode := \"release\",\n+      nativeGC := \"none\"\n+    )"
+  },
+  {
+    "id" : "fedd3a69-377f-47da-9ff6-cd5630015d4b",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "da5ab9c7-6c3c-49fe-9463-568c3851c3a4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Do we really need to split test interface and stubs sub projects? Can we merge them together? ",
+        "createdAt" : "2017-06-12T09:27:54Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -483,3 +509,39 @@ lazy val testingCompiler =\n       )\n     )\n     .dependsOn(testingCompilerInterface, nativelib)\n+\n+lazy val testInterface =\n+  project\n+    .settings(toolSettings)\n+    .settings(scalaVersion := libScalaVersion)\n+    .in(file(\"test-interface\"))\n+    .settings(\n+      name := \"test-interface\",\n+      libraryDependencies += \"org.scala-sbt\"    % \"test-interface\"   % \"1.0\",\n+      libraryDependencies -= \"org.scala-native\" %%% \"test-interface\" % version.value % Test\n+    )\n+    .enablePlugins(ScalaNativePlugin)\n+    .dependsOn(testInterfaceSerialization, stubs)"
+  },
+  {
+    "id" : "fdbf6434-652c-43ea-becc-60f768456d22",
+    "prId" : 965,
+    "comments" : [
+      {
+        "id" : "26511106-ac34-48b4-9314-a74de1e3347c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We use `SCALANATIVE_` prefix for environment variables that influence our build. That makes it a bit more explicit. ",
+        "createdAt" : "2017-08-21T15:32:57Z",
+        "updatedAt" : "2017-08-21T16:30:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1db5b1a70a38ddf6958c574e27c3502c53f35901",
+    "line" : null,
+    "diffHunk" : "@@ -347,19 +347,20 @@ lazy val scalalib =\n       assembleScalaLibrary := {\n         import org.eclipse.jgit.api._\n \n-        val s      = streams.value\n-        val trgDir = target.value / \"scalaSources\" / scalaVersion.value\n+        val s         = streams.value\n+        val trgDir    = target.value / \"scalaSources\" / scalaVersion.value\n+        val scalaRepo = sys.env.get(\"SCALAREPO\").getOrElse(\"https://github.com/scala/scala.git\")"
+  },
+  {
+    "id" : "85e72146-4ae2-489c-8071-323590c7ed73",
+    "prId" : 1020,
+    "comments" : [
+      {
+        "id" : "27d1ff0d-c022-4991-ae03-037bd4d15836",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I think that `auxlib` doesn't need to depend on `nativelib`, but it doesn't hurt to keep the dependency.",
+        "createdAt" : "2017-09-20T08:16:25Z",
+        "updatedAt" : "2017-09-20T08:22:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b3ca4bc3-bde6-4486-847b-b175367bdaa9",
+        "parentId" : "27d1ff0d-c022-4991-ae03-037bd4d15836",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It does have to depend on it, otherwise there is no `native.Ptr` when you compile `auxlib` with a scala native plugin, and it crashes due to not being able to resolve the symbol for it. ",
+        "createdAt" : "2017-09-20T08:29:05Z",
+        "updatedAt" : "2017-09-20T08:29:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "afe1b444996fddd346b327f7f1ad4a93934fe5d5",
+    "line" : 42,
+    "diffHunk" : "@@ -338,6 +341,13 @@ lazy val javalib =\n lazy val assembleScalaLibrary = taskKey[Unit](\n   \"Checks out scala standard library from submodules/scala and then applies overrides.\")\n \n+lazy val auxlib =\n+  project\n+    .in(file(\"auxlib\"))\n+    .settings(libSettings)\n+    .settings(mavenPublishSettings)\n+    .dependsOn(nativelib)"
+  },
+  {
+    "id" : "c1ed3914-3013-460d-a115-d2d69de497c6",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "1f5ce067-8346-4e1d-9a88-a6979edb3ff3",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Only 2.1.0 is available for both 2.12.3 and 2.10.6\r\n\r\nhttps://repo1.maven.org/maven2/org/scalamacros/paradise_2.12.3/\r\nhttps://repo1.maven.org/maven2/org/scalamacros/paradise_2.10.6/",
+        "createdAt" : "2017-09-29T15:09:26Z",
+        "updatedAt" : "2017-11-10T13:53:52Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "96a21f0a-4de7-433b-93ed-28e001577402",
+        "parentId" : "1f5ce067-8346-4e1d-9a88-a6979edb3ff3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@xeno-by Is there a reason why macro paradise `2.1.1` is not published for `2.10.6` ?",
+        "createdAt" : "2017-10-03T12:26:13Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "24823331-38ec-469b-8c1a-258c7c528fdd",
+        "parentId" : "1f5ce067-8346-4e1d-9a88-a6979edb3ff3",
+        "author" : {
+          "login" : "xeno-by",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/609152?u=20bb3a58b554d0984a33eaa519c5cf3fd09e88fc&v=4"
+        },
+        "body" : "Oversight. I'll remedy this shortly.",
+        "createdAt" : "2017-10-03T17:29:17Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "xeno-by",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/609152?u=20bb3a58b554d0984a33eaa519c5cf3fd09e88fc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "262caf8f-abcf-4246-811b-b71707fd39d3",
+        "parentId" : "1f5ce067-8346-4e1d-9a88-a6979edb3ff3",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "@densh any reason not to bump this? all tests are passing.",
+        "createdAt" : "2017-10-04T06:38:23Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "21d7520a-27e1-416c-b295-e49f4995c89c",
+        "parentId" : "1f5ce067-8346-4e1d-9a88-a6979edb3ff3",
+        "author" : {
+          "login" : "xeno-by",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/609152?u=20bb3a58b554d0984a33eaa519c5cf3fd09e88fc&v=4"
+        },
+        "body" : "Wow this is the definition of things falling through the cracks. I've published `2.1.1` for `2.10.7`. Would it be fine for you guys to migrate?",
+        "createdAt" : "2017-11-07T17:51:14Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "xeno-by",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/609152?u=20bb3a58b554d0984a33eaa519c5cf3fd09e88fc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8eb7ca43-91bc-4b5f-8dbf-c8c68656a594",
+        "parentId" : "1f5ce067-8346-4e1d-9a88-a6979edb3ff3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`2.10.7` should work.",
+        "createdAt" : "2017-11-08T13:40:49Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : 28,
+    "diffHunk" : "@@ -224,7 +233,7 @@ lazy val tools =\n         \"com.lihaoyi\"    %% \"scalaparse\" % \"0.4.2\",\n         \"org.scalacheck\" %% \"scalacheck\" % \"1.13.4\" % \"test\",\n         compilerPlugin(\n-          \"org.scalamacros\" % \"paradise\" % \"2.0.1\" cross CrossVersion.full),\n+          \"org.scalamacros\" % \"paradise\" % \"2.1.0\" cross CrossVersion.full),"
+  },
+  {
+    "id" : "93f33469-bd22-4d08-a717-9955979028a8",
+    "prId" : 1039,
+    "comments" : [
+      {
+        "id" : "8bd6c4dc-5c50-4adb-8953-cd4873fd077c",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Rather than hardcoding that, it would be better to have a hidden `SettingKey` that holds the sbt version used by sbt. This can be determined using:\r\n\r\n```scala\r\nval sbtScalaVersion = appConfiguration.value.provider.scalaProvider.version\r\n```\r\n\r\nThis is a stable API that works for sbt 0.13 and 1.0, it most likely won't change anytime soon.",
+        "createdAt" : "2017-10-24T11:26:41Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0fd371eb-2b04-43fe-9853-1f550fd88c9e",
+        "parentId" : "8bd6c4dc-5c50-4adb-8953-cd4873fd077c",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "I just tried this and it does not work properly.\r\n\r\nIf I start sbt and do `^^ 1.0.2` then `sbtScalaNative/compile` it wants to fetch sbt-crossproject _2.10.\r\n\r\n",
+        "createdAt" : "2017-10-31T09:27:45Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4388da00-5d3e-49db-a9cb-fbbbe9a67be3",
+        "parentId" : "8bd6c4dc-5c50-4adb-8953-cd4873fd077c",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Argh sure, I was assuming you'd be starting with either sbt 1 or sbt 0.13. I can't think of anything better than leaving this as it is then.",
+        "createdAt" : "2017-10-31T09:42:40Z",
+        "updatedAt" : "2017-11-10T13:53:53Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d3b02c0bdb8bea38694183e5b4efaf8bb8ade123",
+    "line" : 17,
+    "diffHunk" : "@@ -163,7 +162,13 @@ lazy val noPublishSettings = Seq(\n lazy val toolSettings =\n   baseSettings ++\n     Seq(\n-      scalaVersion := toolScalaVersion,\n+      crossSbtVersions := List(\"0.13.16\", \"1.0.2\"),\n+      scalaVersion := {\n+        (sbtBinaryVersion in pluginCrossBuild).value match {\n+          case \"0.13\" => \"2.10.6\"\n+          case _      => \"2.12.3\""
+  },
+  {
+    "id" : "5e3fc49e-c777-435f-adaa-62379e2fdf7d",
+    "prId" : 1041,
+    "comments" : [
+      {
+        "id" : "5d76bd61-19fd-4a0f-8222-e2083f885b86",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "It would be better to log using `sLog.info(s\"Using $gc gc\")`\r\n\r\nhttps://github.com/sbt/sbt/blob/bcd21ba9b64cf89023bc9626bcb5129c155ba90b/main/src/main/scala/sbt/Keys.scala#L107",
+        "createdAt" : "2017-10-24T12:38:43Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e8341ebe-109c-474a-a7e6-a0b5e92a0ce1",
+        "parentId" : "5d76bd61-19fd-4a0f-8222-e2083f885b86",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Didn't know about that. Thank-you.",
+        "createdAt" : "2017-10-25T00:37:37Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d774bcd01fa627c6507719d4af64ec6a41685b32",
+    "line" : null,
+    "diffHunk" : "@@ -184,21 +184,24 @@ lazy val libSettings =\n     )\n   )\n \n-lazy val gcSettings =\n+lazy val gcSetting =\n   if (!System.getenv.containsKey(\"SCALANATIVE_GC\")) {\n-    println(\"Using default gc\")\n-    Seq.empty\n+    nativeGC := {\n+      val gc = nativeGC.value\n+      println(s\"Using $gc gc\")"
+  },
+  {
+    "id" : "68b0b475-1036-4404-af58-1c7389fbb36a",
+    "prId" : 1041,
+    "comments" : [
+      {
+        "id" : "3318998a-530d-4e73-a086-e17f637f731c",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Same here, it would be better to use `sLog`. Wouldn't it be clearer if written like this?\r\n\r\n```scala\r\nnativeGC := {\r\n  val default = nativeGC.value\r\n  val log = sLog.value\r\n  val gc = Option(System.getenv.get(\"SCALANATIVE_GC\")).getOrElse(default)\r\n  log.info(s\"Using $gc gc\")\r\n}\r\n     \r\n```",
+        "createdAt" : "2017-10-24T12:38:46Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8ec18e58-7d7c-440a-97fa-b7a97a0f4c2d",
+        "parentId" : "3318998a-530d-4e73-a086-e17f637f731c",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "That looks really nice, ready now. 👍 ",
+        "createdAt" : "2017-10-25T00:55:02Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d774bcd01fa627c6507719d4af64ec6a41685b32",
+    "line" : null,
+    "diffHunk" : "@@ -184,21 +184,24 @@ lazy val libSettings =\n     )\n   )\n \n-lazy val gcSettings =\n+lazy val gcSetting =\n   if (!System.getenv.containsKey(\"SCALANATIVE_GC\")) {\n-    println(\"Using default gc\")\n-    Seq.empty\n+    nativeGC := {\n+      val gc = nativeGC.value\n+      println(s\"Using $gc gc\")\n+      gc\n+    }\n   } else {\n     val gc = System.getenv.get(\"SCALANATIVE_GC\")\n     println(s\"Using gc based on SCALANATIVE_GC=$gc\")\n-    Seq(nativeGC := gc)\n+    nativeGC := gc"
+  },
+  {
+    "id" : "10288da0-9d6c-4030-8fd0-cfa33726e92d",
+    "prId" : 1041,
+    "comments" : [
+      {
+        "id" : "f7168db2-7ddd-461d-b24b-988670febda5",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Sorry, I must have forgotten to submit this comment...\r\n\r\nI meant to remove `gcSetting`, and put (after the `addCommandAlias`, completely un-nested):\r\n\r\n```scala\r\nnativeGC in ThisBuild := {\r\n  /* ... */\r\n}\r\n```\r\n\r\nThis way, I think it would probably print only once. If that doesn't work out, then this LGTM as it is!",
+        "createdAt" : "2017-10-26T14:53:19Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "087d3615-6a31-4685-8887-a3791dbbe9be",
+        "parentId" : "f7168db2-7ddd-461d-b24b-988670febda5",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Sounds like a good idea, I'll give it a try.",
+        "createdAt" : "2017-10-26T15:00:43Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "59c2fec5-9f81-4fcd-8428-d157fc36d870",
+        "parentId" : "f7168db2-7ddd-461d-b24b-988670febda5",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I added this line in the current PR. Do you think it is okay?\r\nhttps://github.com/ekrich/scala-native/blob/topic/build-gc/sbt-scala-native/src/main/scala/scala/scalanative/sbtplugin/ScalaNativePluginInternal.scala#L239\r\n\r\n```\r\n[info] Compiling 1 Scala source to /Users/eric/workspace/scala-native/unit-tests/target/scala-2.11/test-classes...\r\n[info] Linking (6851 ms)\r\n[info] Discovered 4246 classes and 24348 methods\r\n[info] Using boehm gc\r\n[info] Optimizing (7485 ms)\r\n[info] Generating intermediate code (2001 ms)\r\n[info] Produced 66 files\r\n[info] Compiling to native code (3157 ms)\r\n[info] Linking native code (643 ms)\r\n```",
+        "createdAt" : "2017-10-26T17:01:39Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1148a665-24d8-4543-85cf-152b586fa49c",
+        "parentId" : "f7168db2-7ddd-461d-b24b-988670febda5",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "On the one hand it’s a bit redundant, but on the other hand this task actually produces very different result based on the value of `nativeGC`... I’m fine with it, but I’ll let @densh decide.",
+        "createdAt" : "2017-10-26T23:05:28Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b86834a4-3618-4fea-b50c-a1330b3e8a7f",
+        "parentId" : "f7168db2-7ddd-461d-b24b-988670febda5",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "That is why I was asking about the log stuff as he is very disciplined about details. I tried your suggestion and it prints only once vs 3 times on startup but `session save` actually changes the build file so this is not good. I was getting help from Dale while doing this PR and he suggested making the setting global in the plugin and adding a root project which only printed the `Using gc...` once but that busted tons of stuff. This change really helps as you can actually change the GC at the command line and everything else still works except macOS with `immix` which is broken for another reason.",
+        "createdAt" : "2017-10-26T23:41:58Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f62e8484-2311-4f7f-82b3-c09f1252c2f2",
+        "parentId" : "f7168db2-7ddd-461d-b24b-988670febda5",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Just to document this, when I put the `nativeGC` setting raw in the build. sbt saveSettings would overwrite this value in the actual build file - when they say sbt is interactive, they really mean it. so this approach would not work.",
+        "createdAt" : "2017-11-29T18:10:15Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d774bcd01fa627c6507719d4af64ec6a41685b32",
+    "line" : null,
+    "diffHunk" : "@@ -184,21 +184,20 @@ lazy val libSettings =\n     )\n   )\n \n-lazy val gcSettings =\n-  if (!System.getenv.containsKey(\"SCALANATIVE_GC\")) {\n-    println(\"Using default gc\")\n-    Seq.empty\n-  } else {\n-    val gc = System.getenv.get(\"SCALANATIVE_GC\")\n-    println(s\"Using gc based on SCALANATIVE_GC=$gc\")\n-    Seq(nativeGC := gc)\n+lazy val gcSetting =\n+  nativeGC := {\n+    val log     = sLog.value\n+    val default = nativeGC.value\n+    val gc      = Option(System.getenv.get(\"SCALANATIVE_GC\")).getOrElse(default)\n+    log.info(s\"Using $gc gc\")\n+    gc"
+  },
+  {
+    "id" : "edc62b6e-889f-45ad-b9ab-9e233711601a",
+    "prId" : 1041,
+    "comments" : [
+      {
+        "id" : "be46a4f0-79b0-49bf-88f6-7b428179975e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets *not* use aggregates. They are confusing in a number of ways. One should think of Scala Native a collection of smaller projects, not a single mega-project.",
+        "createdAt" : "2017-11-29T10:01:30Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7d24998b-4f69-411f-ae2c-2e1964a80bf1",
+        "parentId" : "be46a4f0-79b0-49bf-88f6-7b428179975e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I agree that aggregates are a bit messy looking but a `default` main project is like \"aggregate all\" by default and it publishes a default project in the current build. Also, if I put the gcSetting in project settings rather than the root project the setting gets set three times and repeats the message.",
+        "createdAt" : "2017-11-29T17:39:31Z",
+        "updatedAt" : "2017-12-03T19:57:54Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "d774bcd01fa627c6507719d4af64ec6a41685b32",
+    "line" : 77,
+    "diffHunk" : "@@ -184,21 +185,51 @@ lazy val libSettings =\n     )\n   )\n \n-lazy val gcSettings =\n-  if (!System.getenv.containsKey(\"SCALANATIVE_GC\")) {\n-    println(\"Using default gc\")\n-    Seq.empty\n-  } else {\n-    val gc = System.getenv.get(\"SCALANATIVE_GC\")\n-    println(s\"Using gc based on SCALANATIVE_GC=$gc\")\n-    Seq(nativeGC := gc)\n+lazy val gcSetting =\n+  nativeGC := {\n+    val log     = sLog.value\n+    val default = (nativeGC in ThisBuild).value\n+    val gc      = Option(System.getenv.get(\"SCALANATIVE_GC\")).getOrElse(default)\n+    log.info(s\"Using $gc gc\")\n+    gc\n   }\n \n lazy val projectSettings =\n   ScalaNativePlugin.projectSettings ++ Seq(\n     scalaVersion := libScalaVersion,\n     resolvers := Nil\n-  ) ++ gcSettings\n+  )\n+\n+lazy val scalaNative =\n+  project\n+    .in(file(\".\"))\n+    .aggregate(\n+      util,\n+      nir,\n+      tools,\n+      nscplugin,\n+      sbtScalaNative,\n+      nativelib,\n+      javalib,\n+      auxlib,\n+      scalalib,\n+      testingCompilerInterface,\n+      testingCompiler,\n+      testInterface,\n+      testInterfaceSerialization,\n+      testInterfaceSbtDefs,\n+      sandbox,\n+      demoNative,\n+      tests,\n+      demoJVM,\n+      benchmarks\n+    )\n+    .settings(\n+      name := \"scala-native\",\n+      gcSetting,\n+      aggregate in publishLocal := false\n+    )\n+    .settings(noPublishSettings)"
+  },
+  {
+    "id" : "a802959f-be11-40f3-9608-3fd6a6b50d64",
+    "prId" : 1059,
+    "comments" : [
+      {
+        "id" : "db4194ac-dd17-40f8-9f1c-5c16c4be9532",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The reason we set those environment variables in the build is that they have to be external to the testing process. If we set those environment variables from within tests, we don't know if getenv/setenv actually interacts with the outer world, or just updates a process-local hash map. ",
+        "createdAt" : "2018-01-19T11:55:36Z",
+        "updatedAt" : "2018-01-19T11:59:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e070486c-9b32-4099-8a31-9c92238382ad",
+        "parentId" : "db4194ac-dd17-40f8-9f1c-5c16c4be9532",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "The reason I was trying to move this to the test was that it lack encapsulation and it is not DRY this way. I was also trying to move stuff out of the build so we are less dependent on the sbt build. \r\n\r\nAlso, the way an env var is set on the JVM is via reflection on a private member to modify the env map. https://stackoverflow.com/questions/318239/how-do-i-set-environment-variables-from-java\r\n\r\nOverall, there are quite a few things going on here so it may be better if I break this PR into multiple pieces since I can't demonstrate the problem that easily without some changes.\r\n\r\nTypically, the environment in C can be changed for the running process and then is inherited by any child processes. It appears we may be inheriting the env from the Java process as described in the SOF above so it is masking the underlying problem.",
+        "createdAt" : "2018-01-22T16:15:13Z",
+        "updatedAt" : "2018-01-22T16:15:14Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b7a96c85-3b15-4aca-b316-39eb6c72b4b6",
+        "parentId" : "db4194ac-dd17-40f8-9f1c-5c16c4be9532",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We used to have a test that checks that environment variables set from outside are visible in native. After this change it's no longer testing this, it's testing that environment variables set from inside native are visible inside native which is not the same thing. This is a regression.",
+        "createdAt" : "2018-01-22T16:39:35Z",
+        "updatedAt" : "2018-01-22T16:39:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "11a8a5fe-bce2-432c-b8ba-0f52d960e863",
+        "parentId" : "db4194ac-dd17-40f8-9f1c-5c16c4be9532",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I looked into this in `sbt` and it seems that the `envVars` are passed to the spawned process for the tests. I think since there is no way to change the `env` of a running Java process, this was the only way to actually test this at all. If we add a native `setenv`, this updates the current process `env` so we can test this way.\r\n\r\nIf you are conceptually ok with moving the data to the test area to reduce the dependency on `sbt` and to make the tests DRY then I have started another PR to add the `setenv` and I can open another one to adjust the tests.\r\nSee https://github.com/scala-native/scala-native/pull/1151",
+        "createdAt" : "2018-01-26T15:21:44Z",
+        "updatedAt" : "2018-01-26T15:21:44Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "547806e90aab6f8410d31e4de4b46b81692868b6",
+    "line" : 11,
+    "diffHunk" : "@@ -439,14 +439,7 @@ lazy val tests =\n       // nativeOptimizerReporter := OptimizerReporter.toDirectory(\n       //   crossTarget.value),\n       libraryDependencies += \"org.scala-native\" %%% \"test-interface\" % nativeVersion,\n-      testFrameworks += new TestFramework(\"tests.NativeFramework\"),\n-      envVars in (Test, test) ++= Map(\n-        \"USER\"                           -> \"scala-native\",\n-        \"HOME\"                           -> baseDirectory.value.getAbsolutePath,\n-        \"SCALA_NATIVE_ENV_WITH_EQUALS\"   -> \"1+1=2\",\n-        \"SCALA_NATIVE_ENV_WITHOUT_VALUE\" -> \"\",\n-        \"SCALA_NATIVE_ENV_WITH_UNICODE\"  -> 0x2192.toChar.toString\n-      )"
+  },
+  {
+    "id" : "f8afffcd-ac12-4f4f-80ad-8ee3ffa6df6d",
+    "prId" : 1191,
+    "comments" : [
+      {
+        "id" : "2eda343f-8a50-4eca-9c25-03eb0e6a4579",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Builds fails at the moment. It seems that `in Compile` is missing here and on the next line, [similarly to the mapping for javalib](https://github.com/carrot-garden/scala_scala-native/blob/81d76e2c1fdb01698749bf9cd2445a567660bdd5/build.sbt#L321).",
+        "createdAt" : "2018-03-08T16:21:27Z",
+        "updatedAt" : "2018-03-08T16:25:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b3f7b22c-e361-4cfb-8b3a-0ef26428a30d",
+        "parentId" : "2eda343f-8a50-4eca-9c25-03eb0e6a4579",
+        "author" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "body" : "changed to `mappings in packageBin in Compile`",
+        "createdAt" : "2018-03-08T16:26:28Z",
+        "updatedAt" : "2018-03-08T16:26:28Z",
+        "lastEditedBy" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1571aadf7f1bedfa2c027bc48224187772cfca30",
+    "line" : null,
+    "diffHunk" : "@@ -398,6 +398,14 @@ lazy val scalalib =\n       compile in Compile := (compile in Compile)\n         .dependsOn(assembleScalaLibrary)\n         .value,\n+      // Don't include classfiles for scalalib in the packaged jar.\n+      mappings in packageBin := {"
+  },
+  {
+    "id" : "2422f74f-0784-4ac4-a4ad-b13b04fe6cef",
+    "prId" : 1194,
+    "comments" : [
+      {
+        "id" : "3d6b3f81-b029-401e-8e39-e0d6da5d6bdf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`Scala Native` is the official spelling, no dots. ",
+        "createdAt" : "2018-03-12T14:21:44Z",
+        "updatedAt" : "2018-03-23T21:16:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "65199f44-887d-41fa-af51-34656ce22e75",
+        "parentId" : "3d6b3f81-b029-401e-8e39-e0d6da5d6bdf",
+        "author" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "body" : "changed",
+        "createdAt" : "2018-03-12T15:37:35Z",
+        "updatedAt" : "2018-03-23T21:16:57Z",
+        "lastEditedBy" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "77566307877dd02c5cb30bdbcc32e7c62493511a",
+    "line" : null,
+    "diffHunk" : "@@ -11,11 +11,27 @@ val sbt10ScalaVersion     = \"2.12.4\"\n val libScalaVersion       = \"2.11.12\"\n val libCrossScalaVersions = Seq(\"2.11.8\", \"2.11.11\", libScalaVersion)\n \n-lazy val baseSettings = Seq(\n-  organization := \"org.scala-native\",\n-  version := nativeVersion\n+// Convert \"SomeName\" to \"some-name\".\n+def convertCamelKebab(name: String) : String = {\n+  name.replaceAll( \"([a-z])([A-Z]+)\", \"$1-$2\" ).toLowerCase\n+}\n+\n+// Generate project name from project id.\n+def projectName(project: sbt.ResolvedProject) : String = {\n+  convertCamelKebab(project.id)\n+}\n+\n+// Provide consistent project name pattern.\n+lazy val nameSettings = Seq(\n+  normalizedName := projectName(thisProject.value), // Maven <artifactId>\n+  name := s\"Scala.native ${projectName(thisProject.value)}\" // Maven <name>"
+  },
+  {
+    "id" : "c0e4aa60-076a-42dc-a762-5b5cd4513873",
+    "prId" : 1194,
+    "comments" : [
+      {
+        "id" : "eb352ff5-4d26-4ce8-bce1-72ffff268df3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This seems to belong to `publishSettings`. Lets put it there instead, then you don't have to add extra `.settings(nameSettings)` everywhere. ",
+        "createdAt" : "2018-03-12T14:24:01Z",
+        "updatedAt" : "2018-03-23T21:16:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6b07761b-4fcf-406b-985d-f6dca399f1d8",
+        "parentId" : "eb352ff5-4d26-4ce8-bce1-72ffff268df3",
+        "author" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "body" : "applied to both `publishSettings` and `noPublishSettings` since there is no shared settings root in this `build.sbt`, which could cover all project modules\r\n",
+        "createdAt" : "2018-03-12T15:37:38Z",
+        "updatedAt" : "2018-03-23T21:16:57Z",
+        "lastEditedBy" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6aef122f-f7bb-4718-9e21-90b5bc770a50",
+        "parentId" : "eb352ff5-4d26-4ce8-bce1-72ffff268df3",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2018-03-12T16:16:20Z",
+        "updatedAt" : "2018-03-23T21:16:57Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "77566307877dd02c5cb30bdbcc32e7c62493511a",
+    "line" : 15,
+    "diffHunk" : "@@ -11,11 +11,27 @@ val sbt10ScalaVersion     = \"2.12.4\"\n val libScalaVersion       = \"2.11.12\"\n val libCrossScalaVersions = Seq(\"2.11.8\", \"2.11.11\", libScalaVersion)\n \n-lazy val baseSettings = Seq(\n-  organization := \"org.scala-native\",\n-  version := nativeVersion\n+// Convert \"SomeName\" to \"some-name\".\n+def convertCamelKebab(name: String) : String = {\n+  name.replaceAll( \"([a-z])([A-Z]+)\", \"$1-$2\" ).toLowerCase\n+}\n+\n+// Generate project name from project id.\n+def projectName(project: sbt.ResolvedProject) : String = {\n+  convertCamelKebab(project.id)\n+}\n+\n+// Provide consistent project name pattern.\n+lazy val nameSettings = Seq("
+  },
+  {
+    "id" : "94c246cb-8a9a-45af-b1b1-048300f43372",
+    "prId" : 1210,
+    "comments" : [
+      {
+        "id" : "55e42d77-40ad-4b09-bfcb-783542fdc2dd",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I think that you can also remove this from `project/build.sbt`:\r\n\r\nhttps://github.com/scala-native/scala-native/blob/682dab82c7c689d00ebe6d263685694994287ad4/project/build.sbt#L17-L20",
+        "createdAt" : "2018-03-28T12:32:39Z",
+        "updatedAt" : "2018-03-28T13:09:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "031cc321-a271-4642-8bce-f8ae7434fb38",
+        "parentId" : "55e42d77-40ad-4b09-bfcb-783542fdc2dd",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Indeed. 👍",
+        "createdAt" : "2018-03-28T13:05:13Z",
+        "updatedAt" : "2018-03-28T13:09:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b13a042f-8cd7-47df-b2c0-9c0db4bd5be9",
+        "parentId" : "55e42d77-40ad-4b09-bfcb-783542fdc2dd",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "a6e6257",
+        "createdAt" : "2018-03-28T13:09:55Z",
+        "updatedAt" : "2018-03-28T13:09:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a6e6257153c37d42ea67782b205e3ee1ad41cbaf",
+    "line" : 41,
+    "diffHunk" : "@@ -231,19 +231,32 @@ lazy val nir =\n     .settings(mavenPublishSettings)\n     .dependsOn(util)\n \n+lazy val nirparser =\n+  project\n+    .in(file(\"nirparser\"))\n+    .settings(toolSettings)\n+    .settings(noPublishSettings)\n+    .settings(\n+      libraryDependencies ++= Seq(\n+        \"com.lihaoyi\" %% \"fastparse\"  % \"1.0.0\",\n+        \"com.lihaoyi\" %% \"scalaparse\" % \"1.0.0\",\n+        compilerPlugin(\n+          \"org.scalamacros\" % \"paradise\" % \"2.1.0\" cross CrossVersion.full),\n+        \"org.scalacheck\" %% \"scalacheck\" % \"1.13.4\" % \"test\",\n+        \"org.scalatest\"  %% \"scalatest\"  % \"3.0.0\"  % \"test\"\n+      )\n+    )\n+    .dependsOn(nir)\n+\n lazy val tools =\n   project\n     .in(file(\"tools\"))\n     .settings(toolSettings)\n     .settings(mavenPublishSettings)\n     .settings(\n       libraryDependencies ++= Seq(\n-        \"com.lihaoyi\"    %% \"fastparse\"  % \"0.4.2\",\n-        \"com.lihaoyi\"    %% \"scalaparse\" % \"0.4.2\",\n         \"org.scalacheck\" %% \"scalacheck\" % \"1.13.4\" % \"test\",\n-        compilerPlugin(\n-          \"org.scalamacros\" % \"paradise\" % \"2.1.0\" cross CrossVersion.full),\n-        \"org.scalatest\" %% \"scalatest\" % \"3.0.0\" % \"test\""
+  },
+  {
+    "id" : "6ae7198c-f96c-4e60-a50a-cf788c047a3e",
+    "prId" : 1210,
+    "comments" : [
+      {
+        "id" : "25ba87e2-aaa4-4c14-ad6f-8a1e2b04719e",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Also, this project should be added to `test-all` and `scala-native/scripts/release`",
+        "createdAt" : "2018-03-28T12:39:39Z",
+        "updatedAt" : "2018-03-28T13:09:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5b8d8c23-afbe-4f13-a63a-d05ba65801d7",
+        "parentId" : "25ba87e2-aaa4-4c14-ad6f-8a1e2b04719e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good catch on including in `test-all`. We don't have to release it yet, as it's not part of the public API at the moment.",
+        "createdAt" : "2018-03-28T13:06:23Z",
+        "updatedAt" : "2018-03-28T13:09:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1921c7d2-761d-4852-8d76-587069f0cfb6",
+        "parentId" : "25ba87e2-aaa4-4c14-ad6f-8a1e2b04719e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "a6e6257",
+        "createdAt" : "2018-03-28T13:09:53Z",
+        "updatedAt" : "2018-03-28T13:09:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a6e6257153c37d42ea67782b205e3ee1ad41cbaf",
+    "line" : 12,
+    "diffHunk" : "@@ -231,19 +231,32 @@ lazy val nir =\n     .settings(mavenPublishSettings)\n     .dependsOn(util)\n \n+lazy val nirparser ="
+  },
+  {
+    "id" : "2ef3bfc4-ce9c-481b-9c7d-53448d079500",
+    "prId" : 1302,
+    "comments" : [
+      {
+        "id" : "1ff19164-d837-4f73-9a77-f0c296198667",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd call this one `test-tools`. ",
+        "createdAt" : "2018-09-21T10:55:25Z",
+        "updatedAt" : "2018-09-25T23:36:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ebea06fed4bd9bbf3ec373f772d5a3cde47fa92d",
+    "line" : null,
+    "diffHunk" : "@@ -72,6 +72,24 @@ addCommandAlias(\n   ).mkString(\";\", \";\", \"\")\n )\n \n+addCommandAlias(\n+  \"test-compile\","
+  },
+  {
+    "id" : "fee984e1-9758-46d6-bbdf-3048c9844242",
+    "prId" : 1375,
+    "comments" : [
+      {
+        "id" : "4c6cec81-2bb4-42e3-8dee-fe70717a864d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets keep the old `sbt10` suffix to minimize the diff (#1363 has been rebased too many times already).",
+        "createdAt" : "2018-10-30T11:28:14Z",
+        "updatedAt" : "2018-10-30T12:10:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "16094dc58b204678d08723acf25d4e32a07845bb",
+    "line" : null,
+    "diffHunk" : "@@ -3,10 +3,10 @@ import scala.util.Try\n import scalanative.sbtplugin.ScalaNativePluginInternal._\n import scalanative.io.packageNameFromPath\n \n-val sbt13Version          = \"0.13.16\"\n+val sbt13Version          = \"0.13.17\"\n val sbt13ScalaVersion     = \"2.10.7\"\n-val sbt10Version          = \"1.0.4\"\n-val sbt10ScalaVersion     = \"2.12.4\"\n+val sbt1Version           = \"1.2.6\"\n+val sbt1ScalaVersion      = \"2.12.7\""
+  },
+  {
+    "id" : "eb3ee3ca-0b6d-40f1-8eaa-9ae63c0b8138",
+    "prId" : 1417,
+    "comments" : [
+      {
+        "id" : "fff8a047-e8f2-4df4-bd87-8d098eb6a64d",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "`METALS_ENABLED=false` :trollface: \r\n\r\nWe only set it to `true` so no worries :p ",
+        "createdAt" : "2019-02-15T15:14:05Z",
+        "updatedAt" : "2019-02-15T15:14:05Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d2231546-0fb8-4a2c-ab3d-85f4b583aa0e",
+        "parentId" : "fff8a047-e8f2-4df4-bd87-8d098eb6a64d",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@olafurpg I should have asked for your review since you gave me the code. :-)",
+        "createdAt" : "2019-02-15T15:36:44Z",
+        "updatedAt" : "2019-02-15T15:36:44Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c37082efec78aaf90cc7b1b437220e08e6394dca",
+    "line" : 5,
+    "diffHunk" : "@@ -20,6 +20,16 @@ def projectName(project: sbt.ResolvedProject): String = {\n   convertCamelKebab(project.id)\n }\n \n+lazy val startupTransition: State => State = { s: State =>\n+  if (System.getProperty(\"METALS_ENABLED\") != null) \"^^1.2.6\" :: s"
+  },
+  {
+    "id" : "abae97a0-0609-4e7f-a9f9-61d755d43ffd",
+    "prId" : 1548,
+    "comments" : [
+      {
+        "id" : "f332b254-f149-4923-a11a-a591669f3aa6",
+        "parentId" : null,
+        "author" : {
+          "login" : "jvican",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2462974?u=247f9a0cfd142440687595dce462fabed087e912&v=4"
+        },
+        "body" : "Commented code because it's common to add these flags while tuning performance",
+        "createdAt" : "2019-04-20T12:00:14Z",
+        "updatedAt" : "2019-04-20T15:14:05Z",
+        "lastEditedBy" : {
+          "login" : "jvican",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2462974?u=247f9a0cfd142440687595dce462fabed087e912&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1d5d49c89e1e90a45a408214ab605f3067c6cf42",
+    "line" : 36,
+    "diffHunk" : "@@ -304,6 +304,31 @@ lazy val tools =\n     )\n     .dependsOn(nir, util, testingCompilerInterface % Test)\n \n+// To benchmark, it's recommended to run `^^1.2.6` to switch to Scala 2.12 first\n+lazy val toolsBenchmarks = project\n+  .in(file(\"tools-benchmarks\"))\n+  .enablePlugins(JmhPlugin)\n+  .enablePlugins(BuildInfoPlugin)\n+  .dependsOn(tools % \"compile->test\")\n+  .settings(toolSettings)\n+  .settings(\n+    sourceDirectory in Jmh := (sourceDirectory in Compile).value,\n+    classDirectory in Jmh := (classDirectory in Compile).value,\n+    dependencyClasspath in Jmh := (dependencyClasspath in Compile).value,\n+    compile in Jmh := (compile in Jmh).dependsOn(compile in Compile).value,\n+    run in Jmh := (run in Jmh).dependsOn(Keys.compile in Jmh).evaluated,\n+    // Only generate build info for test configuration\n+    buildInfoObject in Compile := \"TestSuiteBuildInfo\",\n+    buildInfoPackage in Compile := \"scala.scalanative.internal.build\",\n+    buildInfoKeys in Compile := List(\n+      BuildInfoKey.map(Keys.fullClasspath.in(NativeTest).in(tests)) {\n+        case (key, value) => (\"fullTestSuiteClasspath\", value.toList.map(_.data))\n+      }\n+    )\n+    // Set up java options to profile with async-profiler and flight recorder \n+    //javaOptions in Jmh ++= List(\"-XX:+UnlockCommercialFeatures\", \"-XX:+FlightRecorder\", \"-XX:+UnlockDiagnosticVMOptions\", \"-XX:+DebugNonSafepoints\")"
+  },
+  {
+    "id" : "d7cc4bbd-7668-4ec0-8eb4-124ab69831eb",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "ac9452a2-5f2b-41ea-bf5b-5d13c67a8150",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "These changes should be in another PR.",
+        "createdAt" : "2020-06-11T08:28:18Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "84ad226c-3436-46c9-ab2a-5ac368a96357",
+        "parentId" : "ac9452a2-5f2b-41ea-bf5b-5d13c67a8150",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "They were needed for the current manifest reading implementation for consistency for lookup and for the resulting directory name. They can be moved to a new PR given the new approach.",
+        "createdAt" : "2020-06-11T18:12:18Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "50468652-622a-48e4-814b-aa0ad3ca7f03",
+        "parentId" : "ac9452a2-5f2b-41ea-bf5b-5d13c67a8150",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This change has been rolled back.",
+        "createdAt" : "2020-06-16T17:23:49Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -20,8 +20,8 @@ def projectName(project: sbt.ResolvedProject): String = {\n \n // Provide consistent project name pattern.\n lazy val nameSettings: Seq[Setting[_]] = Seq(\n-  normalizedName := projectName(thisProject.value),         // Maven <artifactId>\n-  name := s\"Scala Native ${projectName(thisProject.value)}\" // Maven <name>\n+  normalizedName := projectName(thisProject.value), // Maven <artifactId>\n+  name := projectName(thisProject.value)            // Maven <name>\n )"
+  },
+  {
+    "id" : "db83b9ab-4ce6-468a-87a2-17406b647a5b",
+    "prId" : 1712,
+    "comments" : [
+      {
+        "id" : "82d89b63-70bb-4100-ba25-12352969ae5a",
+        "parentId" : null,
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "You might want to set this to an older version of sbt unless you are using sbt 1.3.x features. Otherwise you might publish a version of the plugin that works on sbt 1.3.x but not earlier versions. See https://github.com/sbt/sbt/issues/5154.",
+        "createdAt" : "2019-10-30T22:03:58Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "81943b58-42fe-4c36-a3a2-1566501171b7",
+        "parentId" : "82d89b63-70bb-4100-ba25-12352969ae5a",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks for the review. What version of sbt `1.x` do you recommend?",
+        "createdAt" : "2019-10-30T23:14:55Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "49e009d0-34dc-41da-978e-c38f135c71b7",
+        "parentId" : "82d89b63-70bb-4100-ba25-12352969ae5a",
+        "author" : {
+          "login" : "sideeffffect",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/9019485?v=4"
+        },
+        "body" : "`1.2.8` according to https://github.com/sbt/sbt/issues/5154#issuecomment-538666595",
+        "createdAt" : "2019-10-31T11:09:40Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "sideeffffect",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/9019485?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "40082bed724604807bc88ddf064ee16e47cb4ec1",
+    "line" : 130,
+    "diffHunk" : "@@ -232,11 +209,10 @@ lazy val noPublishSettings = Seq(\n lazy val toolSettings =\n   baseSettings ++\n     Seq(\n-      crossSbtVersions := List(sbt13Version, sbt10Version),\n+      crossSbtVersions := List(sbt10Version),"
+  },
+  {
+    "id" : "b95dc0a4-501b-4ea1-a564-43cada020e7e",
+    "prId" : 1712,
+    "comments" : [
+      {
+        "id" : "5756519a-a95a-467f-9257-55d55775a7da",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "I accidentally introduced a trailing comma here.\r\n```suggestion\r\n        (util / Compile / scalaSource).value\r\n```",
+        "createdAt" : "2020-01-28T11:06:30Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "40082bed724604807bc88ddf064ee16e47cb4ec1",
+    "line" : null,
+    "diffHunk" : "@@ -325,9 +301,9 @@ lazy val nscplugin =\n       scalaVersion := libScalaVersion,\n       crossScalaVersions := libCrossScalaVersions,\n       crossVersion := CrossVersion.full,\n-      unmanagedSourceDirectories in Compile ++= Seq(\n-        (scalaSource in (nir, Compile)).value,\n-        (scalaSource in (util, Compile)).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (nir / Compile / scalaSource).value,\n+        (util / Compile / scalaSource).value,"
+  },
+  {
+    "id" : "83c54caa-a4b7-467b-9089-ffc43f4d2d55",
+    "prId" : 1712,
+    "comments" : [
+      {
+        "id" : "44512719-f45f-4ac4-9804-9c7238e36c38",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You can replace all that with\r\n```scala\r\nscalaVersion := sbt10ScalaVersion\r\n```",
+        "createdAt" : "2020-01-29T10:07:51Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "388037a1-b9e6-4200-81c9-d11ca3ae8ee7",
+        "parentId" : "44512719-f45f-4ac4-9804-9c7238e36c38",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, we don't need that extra code.",
+        "createdAt" : "2020-01-29T16:40:04Z",
+        "updatedAt" : "2020-01-31T17:43:10Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "40082bed724604807bc88ddf064ee16e47cb4ec1",
+    "line" : null,
+    "diffHunk" : "@@ -226,17 +203,16 @@ lazy val noPublishSettings = Seq(\n   publish := {},\n   publishLocal := {},\n   publishSnapshot := { println(\"no publish\") },\n-  skip in publish := true\n+  publish / skip := true\n ) ++ nameSettings\n \n lazy val toolSettings =\n   baseSettings ++\n     Seq(\n-      crossSbtVersions := List(sbt13Version, sbt10Version),\n+      crossSbtVersions := List(sbt10Version),\n       scalaVersion := {\n-        (sbtBinaryVersion in pluginCrossBuild).value match {\n-          case \"0.13\" => sbt13ScalaVersion\n-          case _      => sbt10ScalaVersion\n+        (pluginCrossBuild / sbtBinaryVersion).value match {\n+          case _ => sbt10ScalaVersion\n         }\n       },"
+  },
+  {
+    "id" : "846d10d3-8ade-43ca-988f-dabaaff7e00c",
+    "prId" : 1752,
+    "comments" : [
+      {
+        "id" : "e12befe7-c032-424d-874e-84d93f6c2919",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Have you considered putting this `inThisBuild`? Like this:\r\n```scala\r\ninThisBuild(Def.settings(\r\n  scalacOptions ++= ...\r\n))\r\n```\r\n?",
+        "createdAt" : "2020-05-05T15:58:16Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "22b32ec4-a820-4048-a064-8941228a4a19",
+        "parentId" : "e12befe7-c032-424d-874e-84d93f6c2919",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Implemented as suggested.  Thank you.   It makes the code simpler & easier to understand,\r\nbut then, you knew that.\r\n\r\nI put that snippet at what I thought was a logical place.  If you think someplace\r\nelse in the file is better, I can move it.",
+        "createdAt" : "2020-05-05T20:50:07Z",
+        "updatedAt" : "2020-05-06T18:12:13Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0a53e24fa7d2c53128a893d0285bd5c2053cd60d",
+    "line" : null,
+    "diffHunk" : "@@ -33,10 +33,23 @@ lazy val mimaSettings: Seq[Setting[_]] = Seq(\n   }\n )\n \n+// Common start but individual sub-projects may add or remove scalacOptions.\n+lazy val baseScalacSettings = {\n+  scalacOptions ++= Seq("
+  },
+  {
+    "id" : "42125e8c-7079-4592-9b25-f9d34451c793",
+    "prId" : 1779,
+    "comments" : [
+      {
+        "id" : "9da8fd11-9e5e-45e7-afa7-fab07f90108a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It is good practice to surround XML literals with `()`, due to quirks in how several nodes may or may not be bundled in a `NodeSeq`. I'm surprise IntelliJ flags this. In any case, it would be better to keep the `()`.",
+        "createdAt" : "2020-05-08T14:50:44Z",
+        "updatedAt" : "2020-05-08T15:38:14Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "678fc39c-5c15-4a86-b906-3cb2f6b1d3d8",
+        "parentId" : "9da8fd11-9e5e-45e7-afa7-fab07f90108a",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Well, it was a suggestion. Good to know, will revert.",
+        "createdAt" : "2020-05-08T15:39:03Z",
+        "updatedAt" : "2020-05-08T15:39:03Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "576597cba4500b0cdd20fe7b733f64e39f6f9e25",
+    "line" : null,
+    "diffHunk" : "@@ -202,15 +201,14 @@ lazy val publishSettings = Seq(\n       browseUrl = url(\"https://github.com/scala-native/scala-native\"),\n       connection = \"scm:git:git@github.com:scala-native/scala-native.git\"\n     )),\n-  pomExtra := (\n+  pomExtra :="
+  },
+  {
+    "id" : "d2aad1c7-4c5e-4c21-aa9d-ea02b5b734d0",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "f60290b9-9091-42d8-9ba8-05711e33000b",
+        "parentId" : null,
+        "author" : {
+          "login" : "hepin1989",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/501740?u=b0b4ebfd5fdd2e824196d92f212984038a65b942&v=4"
+        },
+        "body" : "~~this change related?~~\r\n>I also moved several .in(file(\"foo\")) lines so that the file is consistent;\r\n\r\n",
+        "createdAt" : "2020-05-14T04:56:14Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "hepin1989",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/501740?u=b0b4ebfd5fdd2e824196d92f212984038a65b942&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : 245,
+    "diffHunk" : "@@ -608,20 +687,20 @@ lazy val testInterfaceSerialization =\n \n lazy val testInterfaceSbtDefs =\n   project\n+    .in(file(\"test-interface-sbt-defs\"))\n     .settings(toolSettings)\n     .settings(scalaVersion := libScalaVersion)\n     .settings(mavenPublishSettings)\n-    .in(file(\"test-interface-sbt-defs\"))\n     .settings(\n       libraryDependencies -= \"org.scala-native\" %%% \"test-interface\" % version.value % Test\n     )\n     .enablePlugins(ScalaNativePlugin)\n \n lazy val testRunner =\n   project\n+    .in(file(\"test-runner\"))"
+  },
+  {
+    "id" : "d63a3ff9-462d-4b25-8e49-a30dac78e4dc",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "73e93066-6440-4a80-83d1-c660d3838751",
+        "parentId" : null,
+        "author" : {
+          "login" : "hepin1989",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/501740?u=b0b4ebfd5fdd2e824196d92f212984038a65b942&v=4"
+        },
+        "body" : "fetchScalaSource is not needed as it's in the compile ",
+        "createdAt" : "2020-05-14T08:18:32Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "hepin1989",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/501740?u=b0b4ebfd5fdd2e824196d92f212984038a65b942&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : 201,
+    "diffHunk" : "@@ -505,7 +584,7 @@ lazy val scalalib =\n         }\n       },\n       publishLocal := publishLocal\n-        .dependsOn(assembleScalaLibrary, auxlib / publishLocal)\n+        .dependsOn(auxlib / publishLocal)"
+  },
+  {
+    "id" : "55c54f30-a555-4759-9b3e-824493acce7a",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "cc1874ea-1079-4642-8be9-3bc03a553463",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The references to the lines will be lost when the build of Scala.js changes in the future. You can use a fixed URL instead like this:\r\nhttps://github.com/scala-js/scala-js/blob/1761f94ee31902b61c579d5cb121117c9dc08295/project/Build.scala#L1125-L1233",
+        "createdAt" : "2020-05-14T09:20:56Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "065321da-c88a-40c3-9f5b-92beaace6fc1",
+        "parentId" : "cc1874ea-1079-4642-8be9-3bc03a553463",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood & agreed. Thank you for the suggested replacement.\r\nI had to break up the URL in the code. Not sure if the way I did it\r\nis acceptable.  I think the blob url is a good marker in time and will\r\nsimplify the life of anyone trying to understand this code.",
+        "createdAt" : "2020-05-14T17:39:44Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : null,
+    "diffHunk" : "@@ -450,52 +451,130 @@ lazy val scalalib =\n     )\n     .settings(mavenPublishSettings)\n     .settings(\n-      assembleScalaLibrary := {\n-        import org.eclipse.jgit.api._\n-\n-        val s      = streams.value\n-        val trgDir = target.value / \"scalaSources\" / scalaVersion.value\n-        val scalaRepo = sys.env.getOrElse(\"SCALANATIVE_SCALAREPO\",\n-                                          \"https://github.com/scala/scala.git\")\n-\n-        if (!trgDir.exists) {\n-          s.log.info(\n-            s\"Fetching Scala source version ${scalaVersion.value} from $scalaRepo\")\n-\n-          // Make parent dirs and stuff\n+      // code to fetch scala sources adapted, with gratitude, from\n+      // Scala.js Build.scala, lines 1125 to 1233, at the suggestion of"
+  },
+  {
+    "id" : "41f38294-63d8-4120-8a60-c856518d5b95",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "ba4df682-e027-4314-ae40-07a3fb6d9339",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "While 1) is clearly interesting going forward, 2) and 3) are distraction for the next person reading this code. Differences in format between Scala.js and Scala Native are *everywhere*, not just in this specific spot, so pointing it out here is distracting.",
+        "createdAt" : "2020-05-14T09:22:48Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b9fc7a1b-166f-471c-b83e-0a44b620dad7",
+        "parentId" : "ba4df682-e027-4314-ae40-07a3fb6d9339",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2020-05-14T17:37:20Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : null,
+    "diffHunk" : "@@ -450,52 +451,130 @@ lazy val scalalib =\n     )\n     .settings(mavenPublishSettings)\n     .settings(\n-      assembleScalaLibrary := {\n-        import org.eclipse.jgit.api._\n-\n-        val s      = streams.value\n-        val trgDir = target.value / \"scalaSources\" / scalaVersion.value\n-        val scalaRepo = sys.env.getOrElse(\"SCALANATIVE_SCALAREPO\",\n-                                          \"https://github.com/scala/scala.git\")\n-\n-        if (!trgDir.exists) {\n-          s.log.info(\n-            s\"Fetching Scala source version ${scalaVersion.value} from $scalaRepo\")\n-\n-          // Make parent dirs and stuff\n+      // code to fetch scala sources adapted, with gratitude, from\n+      // Scala.js Build.scala, lines 1125 to 1233, at the suggestion of\n+      // @sjrd.\n+      //\n+      // By intent, the content is intended to be as similar as feasible.\n+      // The forced differences are:\n+      //   1) Scala Native build.sbt uses a slightly different baseDirectory\n+      //      than Scala.js. See commented starting with \"SN Port:\" below.\n+      //      This is the only intended change with meaning between the two.\n+      //   2) This file is sbt, Scala.js uses a .scala file. Trailing commas\n+      //      may differ.\n+      //   3) The project scalafmt configuration differs between Scala Native\n+      //      and the Scala.js so there are annoying but not meaningful\n+      //      format differences."
+  },
+  {
+    "id" : "56760b57-abcd-41b0-b565-24e58833a48b",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "9c4b03c9-c277-437b-a903-c8f45c043f97",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`#2649` looks like it points to an issue in this repo. Consider writing `scala-js/scala-js#2649` or even the full URL `https://github.com/scala-js/scala-js/issues/2649`",
+        "createdAt" : "2020-05-14T09:24:14Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7a32950a-6a9f-4a77-b414-44e46518631a",
+        "parentId" : "9c4b03c9-c277-437b-a903-c8f45c043f97",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. Cut & paste oversight. One can be too identical. Thank you for establishing\r\nproper context.",
+        "createdAt" : "2020-05-14T17:36:52Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : null,
+    "diffHunk" : "@@ -450,52 +451,130 @@ lazy val scalalib =\n     )\n     .settings(mavenPublishSettings)\n     .settings(\n-      assembleScalaLibrary := {\n-        import org.eclipse.jgit.api._\n-\n-        val s      = streams.value\n-        val trgDir = target.value / \"scalaSources\" / scalaVersion.value\n-        val scalaRepo = sys.env.getOrElse(\"SCALANATIVE_SCALAREPO\",\n-                                          \"https://github.com/scala/scala.git\")\n-\n-        if (!trgDir.exists) {\n-          s.log.info(\n-            s\"Fetching Scala source version ${scalaVersion.value} from $scalaRepo\")\n-\n-          // Make parent dirs and stuff\n+      // code to fetch scala sources adapted, with gratitude, from\n+      // Scala.js Build.scala, lines 1125 to 1233, at the suggestion of\n+      // @sjrd.\n+      //\n+      // By intent, the content is intended to be as similar as feasible.\n+      // The forced differences are:\n+      //   1) Scala Native build.sbt uses a slightly different baseDirectory\n+      //      than Scala.js. See commented starting with \"SN Port:\" below.\n+      //      This is the only intended change with meaning between the two.\n+      //   2) This file is sbt, Scala.js uses a .scala file. Trailing commas\n+      //      may differ.\n+      //   3) The project scalafmt configuration differs between Scala Native\n+      //      and the Scala.js so there are annoying but not meaningful\n+      //      format differences.\n+      libraryDependencies +=\n+        \"org.scala-lang\" % \"scala-library\" % scalaVersion.value classifier \"sources\",\n+      artifactPath in fetchScalaSource :=\n+        target.value / \"scalaSources\" / scalaVersion.value,\n+      /* Work around for #2649. We would like to always use `update`, but"
+  },
+  {
+    "id" : "d5a4e5ef-0665-484a-ac57-aaedf7f42c73",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "aff20aea-d5a5-403a-b0ea-7c4f85d040de",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "What happens to the `publishLocal` dependency in this case?",
+        "createdAt" : "2020-05-14T18:13:07Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "02ddb9d2-a9b2-4d10-8f54-9ef8d9075842",
+        "parentId" : "aff20aea-d5a5-403a-b0ea-7c4f85d040de",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Please keep me honest, correct, & proper. By my understanding, `nativelib / publishLocal`\r\nwill have gone through its earlier phases at some point. In particular, `nativelib / update`,\r\nso that the spooky hidden nscplugin dependency I/we are chasing gets satisfied. \r\n\r\nAgreed entirely that this is not a good solution. The question before the house, IMHO,\r\nis the benefit of the way faster fetch, especially over a slow wire,  make it an\r\nacceptable fix whilst we figure out something better.  I propose \"Yes\".\r\n",
+        "createdAt" : "2020-05-14T19:50:36Z",
+        "updatedAt" : "2020-05-14T19:50:36Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "58ec28f2-88f9-4508-bf0f-526a6d010bed",
+        "parentId" : "aff20aea-d5a5-403a-b0ea-7c4f85d040de",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Using `publishLocal` like that says that another `publishLocal` must occur as a dependency when updating `nativelib` via `nativelib/publishLocal`. To `publishLocal` you must compile etc. and other project `dependsOn` must occur too. The top of the chain is `scalalib/publishLocal` from the rebuild alias.\r\n\r\nOverall, I am just uncomfortable with changes other than the pulling of the library source as a basic replacement. I would have to test drive and look at outputs etc. Remember that if you break the chain then when working on the `javalib` for example, the process is to `javalib/publishLocal` after changes so you could be breaking some dependency.",
+        "createdAt" : "2020-05-14T22:00:11Z",
+        "updatedAt" : "2020-05-14T22:01:14Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : 12,
+    "diffHunk" : "@@ -358,7 +359,7 @@ lazy val nativelib =\n     .settings(mavenPublishSettings)\n     .settings(\n       libraryDependencies += \"org.scala-lang\" % \"scala-reflect\" % scalaVersion.value,\n-      publishLocal := publishLocal\n+      update := update"
+  },
+  {
+    "id" : "de8e283d-1ccb-4b66-af81-f8bdfbfc8a58",
+    "prId" : 1799,
+    "comments" : [
+      {
+        "id" : "d76bb13e-5fcd-41cc-8068-8a1282a49202",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "The new code relies on `update` so the `compile` dependency is no longer needed?",
+        "createdAt" : "2020-05-14T18:14:42Z",
+        "updatedAt" : "2020-05-14T18:27:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cf5b3199-6cc1-4159-8019-cfd71c3cd751",
+        "parentId" : "d76bb13e-5fcd-41cc-8068-8a1282a49202",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Exactly!  I believe that removing the section you quoted is actually a simplification and\r\nseparation of concerns.  The fetching of scala sources is done in the `scalalib / assemble`\r\nphase, where one innocent of prior art would expect.\r\n\r\nThe change in nativelib to publish nscplugin in its assemble phase rather than the previous\r\n`publishLocal`  is a more than obscure workaround for the more than obscure way\r\nthe nscplugin dependency is introduced in ScalaNativePluginInternal.scala.\r\n\r\nI have proposed on gitter a better next-generation solution, based on sbt `onLoad` & a new\r\nTask. Still not a good solution. Perhaps someone will come up with something better.\r\n\r\nI think/hope the workaround in this PR will earn its keep while we find something better.\r\nI have tried to make it possible for anyone in the future to follow this trickery but will\r\napologize not to those future forlorn souls.",
+        "createdAt" : "2020-05-14T19:45:53Z",
+        "updatedAt" : "2020-05-14T19:45:53Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f923030219f0c4bd33748e69f462ec1084d124b3",
+    "line" : 192,
+    "diffHunk" : "@@ -450,52 +451,130 @@ lazy val scalalib =\n     )\n     .settings(mavenPublishSettings)\n     .settings(\n-      assembleScalaLibrary := {\n-        import org.eclipse.jgit.api._\n-\n-        val s      = streams.value\n-        val trgDir = target.value / \"scalaSources\" / scalaVersion.value\n-        val scalaRepo = sys.env.getOrElse(\"SCALANATIVE_SCALAREPO\",\n-                                          \"https://github.com/scala/scala.git\")\n-\n-        if (!trgDir.exists) {\n-          s.log.info(\n-            s\"Fetching Scala source version ${scalaVersion.value} from $scalaRepo\")\n-\n-          // Make parent dirs and stuff\n+      // code to fetch scala sources adapted, with gratitude, from\n+      // Scala.js Build.scala, lines 1125 to 1233, at the suggestion of\n+      // @sjrd.\n+      //\n+      // By intent, the content is intended to be as similar as feasible.\n+      // The forced differences are:\n+      //   1) Scala Native build.sbt uses a slightly different baseDirectory\n+      //      than Scala.js. See commented starting with \"SN Port:\" below.\n+      //      This is the only intended change with meaning between the two.\n+      //   2) This file is sbt, Scala.js uses a .scala file. Trailing commas\n+      //      may differ.\n+      //   3) The project scalafmt configuration differs between Scala Native\n+      //      and the Scala.js so there are annoying but not meaningful\n+      //      format differences.\n+      libraryDependencies +=\n+        \"org.scala-lang\" % \"scala-library\" % scalaVersion.value classifier \"sources\",\n+      artifactPath in fetchScalaSource :=\n+        target.value / \"scalaSources\" / scalaVersion.value,\n+      /* Work around for #2649. We would like to always use `update`, but\n+       * that fails if the scalaVersion we're looking for happens to be the\n+       * version of Scala used by sbt itself. This is clearly a bug in sbt,\n+       * which we work around here by using `updateClassifiers` instead in\n+       * that case.\n+       */\n+      update in fetchScalaSource := Def.taskDyn {\n+        if (scalaVersion.value == scala.util.Properties.versionNumberString)\n+          updateClassifiers\n+        else\n+          update\n+      }.value,\n+      fetchScalaSource := {\n+        val s        = streams.value\n+        val cacheDir = s.cacheDirectory\n+        val ver      = scalaVersion.value\n+        val trgDir   = (artifactPath in fetchScalaSource).value\n+\n+        val report = (update in fetchScalaSource).value\n+        val scalaLibSourcesJar = report\n+          .select(configuration = configurationFilter(\"compile\"),\n+                  module = moduleFilter(name = \"scala-library\"),\n+                  artifact = artifactFilter(classifier = \"sources\"))\n+          .headOption\n+          .getOrElse {\n+            throw new Exception(\n+              s\"Could not fetch scala-library sources for version $ver\")\n+          }\n+\n+        FileFunction.cached(cacheDir / s\"fetchScalaSource-$ver\",\n+                            FilesInfo.lastModified,\n+                            FilesInfo.exists) { dependencies =>\n+          s.log.info(s\"Unpacking Scala library sources to $trgDir...\")\n+\n+          if (trgDir.exists)\n+            IO.delete(trgDir)\n           IO.createDirectory(trgDir)\n+          IO.unzip(scalaLibSourcesJar, trgDir)\n+        }(Set(scalaLibSourcesJar))\n \n-          // Clone scala source code\n-          new CloneCommand()\n-            .setDirectory(trgDir)\n-            .setURI(scalaRepo)\n-            .call()\n-            .close()\n+        trgDir\n+      },\n+      unmanagedSourceDirectories in Compile := {\n+        // Calculates all prefixes of the current Scala version\n+        // (including the empty prefix) to construct override\n+        // directories like the following:\n+        // - override-2.13.0-RC1\n+        // - override-2.13.0\n+        // - override-2.13\n+        // - override-2\n+        // - override\n+\n+        val ver = scalaVersion.value\n+\n+        // SN Port: sjs uses baseDirectory.value.getParentFile here.\n+        val base  = baseDirectory.value\n+        val parts = ver.split(Array('.', '-'))\n+        val verList = parts.inits.map { ps =>\n+          val len = ps.mkString(\".\").length\n+          // re-read version, since we lost '.' and '-'\n+          ver.substring(0, len)\n+        }\n+        def dirStr(v: String) =\n+          if (v.isEmpty) \"overrides\" else s\"overrides-$v\"\n+        val dirs = verList.map(base / dirStr(_)).filter(_.exists)\n+        dirs.toSeq // most specific shadow less specific\n+      },\n+      // Compute sources\n+      // Files in earlier src dirs shadow files in later dirs\n+      sources in Compile := {\n+        // Sources coming from the sources of Scala\n+        val scalaSrcDir = fetchScalaSource.value\n+\n+        // All source directories (overrides shadow scalaSrcDir)\n+        val sourceDirectories =\n+          (unmanagedSourceDirectories in Compile).value :+ scalaSrcDir\n+\n+        // Filter sources with overrides\n+        def normPath(f: File): String =\n+          f.getPath.replace(java.io.File.separator, \"/\")\n+\n+        val sources = mutable.ListBuffer.empty[File]\n+        val paths   = mutable.Set.empty[String]\n+\n+        val s = streams.value\n+\n+        for {\n+          srcDir <- sourceDirectories\n+          normSrcDir = normPath(srcDir)\n+          src <- (srcDir ** \"*.scala\").get\n+        } {\n+          val normSrc = normPath(src)\n+          val path    = normSrc.substring(normSrcDir.length)\n+          val useless =\n+            path.contains(\"/scala/collection/parallel/\") ||\n+              path.contains(\"/scala/util/parsing/\")\n+          if (!useless) {\n+            if (paths.add(path))\n+              sources += src\n+            else\n+              s.log.debug(s\"not including $src\")\n+          }\n         }\n \n-        // Checkout proper ref. We do this anyway so we fail if\n-        // something is wrong\n-        val git = Git.open(trgDir)\n-        s.log.info(s\"Checking out Scala source version ${scalaVersion.value}\")\n-        git.checkout().setName(s\"v${scalaVersion.value}\").call()\n-\n-        IO.delete(file(\"scalalib/src/main/scala\"))\n-        IO.copyDirectory(trgDir / \"src\" / \"library\" / \"scala\",\n-                         file(\"scalalib/src/main/scala/scala\"))\n-\n-        val epoch :: major :: _ = scalaVersion.value.split(\"\\\\.\").toList\n-        IO.copyDirectory(file(s\"scalalib/overrides-$epoch.$major/scala\"),\n-                         file(\"scalalib/src/main/scala/scala\"),\n-                         overwrite = true)\n-\n-        // Remove all java code, as it's not going to be available\n-        // in the NIR anyway. This also resolves issues wrt overrides\n-        // of code that was previously in Java but is in Scala now.\n-        (file(\"scalalib/src/main/scala\") ** \"*.java\").get.foreach(IO.delete)\n+        sources.result()\n       },\n-      Compile / compile := (Compile / compile)\n-        .dependsOn(assembleScalaLibrary)\n-        .value,"
+  },
+  {
+    "id" : "fecf49d9-2fa2-445d-9340-d5861fb7243c",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "083eb468-33aa-4029-8210-a342de8d4eef",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It would make more sense to place both in the existing categories, \"Compiler plugins\" and \"Scala Native libraries\".",
+        "createdAt" : "2020-07-09T10:16:00Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -311,7 +317,10 @@ lazy val sbtScalaNative =\n             util / publishLocal,\n             nir / publishLocal,\n             tools / publishLocal,\n-            testRunner / publishLocal\n+            testRunner / publishLocal,\n+            // JUnit\n+            junitPlugin / publishLocal,\n+            junitRuntime / publishLocal"
+  },
+  {
+    "id" : "770d5d39-5e0a-4bd2-bff1-096669bf009e",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "660c8600-84d1-4a0d-ae04-4b451039e1cc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Those two options should probably not stay in the final PR.",
+        "createdAt" : "2020-07-09T10:16:57Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -553,7 +562,15 @@ lazy val tests =\n       //   crossTarget.value),\n       // nativeLinkerReporter := LinkerReporter.toFile(\n       //   target.value / \"out.dot\"),\n-      testFrameworks += new TestFramework(\"tests.NativeFramework\"),\n+      testFrameworks ++= Seq(\n+        new TestFramework(\"tests.NativeFramework\"),\n+        new TestFramework(\"com.novocode.junit.JUnitFramework\")\n+      ),\n+      Test / testOptions ++= Seq(\n+        Tests.Argument(TestFrameworks.JUnit, \"-a\", \"-s\", \"-v\")\n+      ),\n+      Test / parallelExecution := false,\n+      Test / logBuffered := false,"
+  },
+  {
+    "id" : "4b701044-dff5-4662-bf58-6437cc283b2a",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "77c11b33-8ee9-47ad-bb2a-3a7d773ace3f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why this change? Is it related to the rest of this PR?",
+        "createdAt" : "2020-07-09T10:17:48Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -630,6 +651,103 @@ lazy val testRunner =\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n       libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (testInterfaceSerialization / Compile / scalaSource).value\n+      )"
+  },
+  {
+    "id" : "6074d5c8-e6fd-4585-a933-b781858a8746",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "db7e8a94-13f6-4ce9-a988-0320881777c1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider adding\r\n```scala\r\nnormalizedName := \"junit-runtime\"\r\n```\r\nso that we avoid the awkward artifact name `j-unit-runtime`.",
+        "createdAt" : "2020-07-09T10:22:29Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d87aa4f4-225f-42fd-bcb6-6a999426b65d",
+        "parentId" : "db7e8a94-13f6-4ce9-a988-0320881777c1",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "This was addressed by renaming the project `val`s from `jUnit...` to `junit...`.",
+        "createdAt" : "2020-07-09T12:57:32Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -630,6 +651,103 @@ lazy val testRunner =\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n       libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (testInterfaceSerialization / Compile / scalaSource).value\n+      )\n     )\n     .dependsOn(tools)\n+\n+// JUnit modules and settings ------------------------------------------------\n+\n+lazy val junitRuntime =\n+  project\n+    .in(file(\"junit-runtime\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      nameSettings,"
+  },
+  {
+    "id" : "6bb7f109-159a-4e30-ad8d-25ebbcc09579",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "234ff294-9c4e-491e-9abc-f4a4fe649931",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here with\r\n```scala\r\nnormalizedName := \"junit-plugin\"\r\n```",
+        "createdAt" : "2020-07-09T10:22:59Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : 88,
+    "diffHunk" : "@@ -630,6 +651,103 @@ lazy val testRunner =\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n       libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (testInterfaceSerialization / Compile / scalaSource).value\n+      )\n     )\n     .dependsOn(tools)\n+\n+// JUnit modules and settings ------------------------------------------------\n+\n+lazy val junitRuntime =\n+  project\n+    .in(file(\"junit-runtime\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      nameSettings,\n+      Compile / headerSources ~= { srcs =>\n+        srcs.filter { src =>\n+          val path = src.getPath.replace('\\\\', '/')\n+          !path.contains(\"/org/junit/\") && !path.contains(\"/org/hamcrest/\")\n+        }\n+      }\n+    )\n+    .dependsOn(\n+      nscplugin % \"plugin\",\n+      testInterface\n+    )\n+\n+lazy val junitPlugin =\n+  project\n+    .in(file(\"junit-plugin\"))\n+    .settings(mavenPublishSettings)\n+    .settings("
+  },
+  {
+    "id" : "89aec323-93a7-437e-8a14-b73ca0cdfbd5",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "929afb7a-6fe8-4c7a-a8e4-9e79426528d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should probably not stay in the final PR.",
+        "createdAt" : "2020-07-09T10:24:58Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b52a361e-cb19-411b-a25b-cea5ff32ec5c",
+        "parentId" : "929afb7a-6fe8-4c7a-a8e4-9e79426528d4",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Maybe the `logBuffered` can go, but not the other two, as the JUnit self-tests also test deprecated APIs.",
+        "createdAt" : "2020-07-09T13:00:56Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9df77beb-daa7-4bff-bb4d-7bbee43ff69b",
+        "parentId" : "929afb7a-6fe8-4c7a-a8e4-9e79426528d4",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Yes, I was only referring to `logBuffered`.",
+        "createdAt" : "2020-07-09T14:07:49Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -630,6 +651,103 @@ lazy val testRunner =\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n       libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (testInterfaceSerialization / Compile / scalaSource).value\n+      )\n     )\n     .dependsOn(tools)\n+\n+// JUnit modules and settings ------------------------------------------------\n+\n+lazy val junitRuntime =\n+  project\n+    .in(file(\"junit-runtime\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      nameSettings,\n+      Compile / headerSources ~= { srcs =>\n+        srcs.filter { src =>\n+          val path = src.getPath.replace('\\\\', '/')\n+          !path.contains(\"/org/junit/\") && !path.contains(\"/org/hamcrest/\")\n+        }\n+      }\n+    )\n+    .dependsOn(\n+      nscplugin % \"plugin\",\n+      testInterface\n+    )\n+\n+lazy val junitPlugin =\n+  project\n+    .in(file(\"junit-plugin\"))\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      crossScalaVersions := libCrossScalaVersions,\n+      crossVersion := CrossVersion.full,\n+      libraryDependencies += \"org.scala-lang\" % \"scala-compiler\" % scalaVersion.value,\n+      exportJars := true\n+    )\n+\n+val commonJUnitTestOutputsSettings = Def.settings(\n+  nameSettings,\n+  Compile / publishArtifact := false,\n+  Test / parallelExecution := false,\n+  Test / unmanagedSourceDirectories +=\n+    baseDirectory.value.getParentFile / \"shared/src/test/scala\",\n+  Test / testOptions ++= Seq(\n+    Tests.Argument(TestFrameworks.JUnit, \"-a\", \"-s\", \"-v\"),\n+    Tests.Filter(_.endsWith(\"Assertions\"))\n+  ),\n+  Test / scalacOptions --= Seq(\"-deprecation\", \"-Xfatal-warnings\"),\n+  Test / scalacOptions += \"-deprecation:false\",\n+  Test / logBuffered := false"
+  },
+  {
+    "id" : "3882e240-b131-41c9-8dac-8bfb33ecdd91",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "b9a2f91b-d718-4bee-b0c7-69b0e295b841",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is not necessary. It is implied by the dependency on `junitRuntime`.",
+        "createdAt" : "2020-07-09T10:27:08Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -630,6 +651,103 @@ lazy val testRunner =\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n       libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (testInterfaceSerialization / Compile / scalaSource).value\n+      )\n     )\n     .dependsOn(tools)\n+\n+// JUnit modules and settings ------------------------------------------------\n+\n+lazy val junitRuntime =\n+  project\n+    .in(file(\"junit-runtime\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      nameSettings,\n+      Compile / headerSources ~= { srcs =>\n+        srcs.filter { src =>\n+          val path = src.getPath.replace('\\\\', '/')\n+          !path.contains(\"/org/junit/\") && !path.contains(\"/org/hamcrest/\")\n+        }\n+      }\n+    )\n+    .dependsOn(\n+      nscplugin % \"plugin\",\n+      testInterface\n+    )\n+\n+lazy val junitPlugin =\n+  project\n+    .in(file(\"junit-plugin\"))\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      crossScalaVersions := libCrossScalaVersions,\n+      crossVersion := CrossVersion.full,\n+      libraryDependencies += \"org.scala-lang\" % \"scala-compiler\" % scalaVersion.value,\n+      exportJars := true\n+    )\n+\n+val commonJUnitTestOutputsSettings = Def.settings(\n+  nameSettings,\n+  Compile / publishArtifact := false,\n+  Test / parallelExecution := false,\n+  Test / unmanagedSourceDirectories +=\n+    baseDirectory.value.getParentFile / \"shared/src/test/scala\",\n+  Test / testOptions ++= Seq(\n+    Tests.Argument(TestFrameworks.JUnit, \"-a\", \"-s\", \"-v\"),\n+    Tests.Filter(_.endsWith(\"Assertions\"))\n+  ),\n+  Test / scalacOptions --= Seq(\"-deprecation\", \"-Xfatal-warnings\"),\n+  Test / scalacOptions += \"-deprecation:false\",\n+  Test / logBuffered := false\n+)\n+\n+lazy val junitTestOutputsNative =\n+  project\n+    .in(file(\"junit-test/output-native\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(\n+      commonJUnitTestOutputsSettings,\n+      Test / scalacOptions ++= {\n+        val jar = (junitPlugin / Compile / packageBin).value\n+        Seq(s\"-Xplugin:$jar\")\n+      }\n+    )\n+    .dependsOn(\n+      nscplugin        % \"plugin\",\n+      junitRuntime     % \"test\",\n+      testInterface    % \"test\","
+  },
+  {
+    "id" : "b537fc4a-1255-4bf3-bf9b-9aae27a9fa43",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "a3d9d305-1c9f-4e36-aa53-e166df6c76ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I don't think this is necessary. It should be implied by the dependency on `junit-interface`.",
+        "createdAt" : "2020-07-09T10:28:07Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -630,6 +651,103 @@ lazy val testRunner =\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n       libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      Compile / unmanagedSourceDirectories ++= Seq(\n+        (testInterfaceSerialization / Compile / scalaSource).value\n+      )\n     )\n     .dependsOn(tools)\n+\n+// JUnit modules and settings ------------------------------------------------\n+\n+lazy val junitRuntime =\n+  project\n+    .in(file(\"junit-runtime\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      nameSettings,\n+      Compile / headerSources ~= { srcs =>\n+        srcs.filter { src =>\n+          val path = src.getPath.replace('\\\\', '/')\n+          !path.contains(\"/org/junit/\") && !path.contains(\"/org/hamcrest/\")\n+        }\n+      }\n+    )\n+    .dependsOn(\n+      nscplugin % \"plugin\",\n+      testInterface\n+    )\n+\n+lazy val junitPlugin =\n+  project\n+    .in(file(\"junit-plugin\"))\n+    .settings(mavenPublishSettings)\n+    .settings(\n+      crossScalaVersions := libCrossScalaVersions,\n+      crossVersion := CrossVersion.full,\n+      libraryDependencies += \"org.scala-lang\" % \"scala-compiler\" % scalaVersion.value,\n+      exportJars := true\n+    )\n+\n+val commonJUnitTestOutputsSettings = Def.settings(\n+  nameSettings,\n+  Compile / publishArtifact := false,\n+  Test / parallelExecution := false,\n+  Test / unmanagedSourceDirectories +=\n+    baseDirectory.value.getParentFile / \"shared/src/test/scala\",\n+  Test / testOptions ++= Seq(\n+    Tests.Argument(TestFrameworks.JUnit, \"-a\", \"-s\", \"-v\"),\n+    Tests.Filter(_.endsWith(\"Assertions\"))\n+  ),\n+  Test / scalacOptions --= Seq(\"-deprecation\", \"-Xfatal-warnings\"),\n+  Test / scalacOptions += \"-deprecation:false\",\n+  Test / logBuffered := false\n+)\n+\n+lazy val junitTestOutputsNative =\n+  project\n+    .in(file(\"junit-test/output-native\"))\n+    .enablePlugins(MyScalaNativePlugin)\n+    .settings(\n+      commonJUnitTestOutputsSettings,\n+      Test / scalacOptions ++= {\n+        val jar = (junitPlugin / Compile / packageBin).value\n+        Seq(s\"-Xplugin:$jar\")\n+      }\n+    )\n+    .dependsOn(\n+      nscplugin        % \"plugin\",\n+      junitRuntime     % \"test\",\n+      testInterface    % \"test\",\n+      junitAsyncNative % \"test\"\n+    )\n+\n+lazy val junitTestOutputsJVM =\n+  project\n+    .in(file(\"junit-test/output-jvm\"))\n+    .settings(\n+      commonJUnitTestOutputsSettings,\n+      libraryDependencies ++= Seq(\n+        \"org.scala-sbt\" % \"test-interface\"  % \"1.0\"  % \"test\","
+  },
+  {
+    "id" : "77d1f302-a049-49c2-8716-8ff6dcf81263",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "321d949b-8b4a-4af8-9441-e8ac6f113b1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This import is not necessary. `sbt.Keys._` is already imported implicitly in `build.sbt`.",
+        "createdAt" : "2020-07-09T14:08:52Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,7 @@\n import java.io.File.pathSeparator\n \n+import sbt.Keys.libraryDependencies\n+"
+  },
+  {
+    "id" : "35c3d1f9-de9f-4939-bfae-78c614504f7b",
+    "prId" : 1844,
+    "comments" : [
+      {
+        "id" : "5114aa93-47a2-4c33-a270-23a7c38217cd",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Comparing strings is too naive. `\"9\" >= \"11\"` is true! You can see here the correct way to get the JDK version as an Int:\r\nhttps://github.com/scala-js/scala-js/blob/848e57f370052e953755e98193830900e3a0b5b0/project/Build.scala#L526-L527",
+        "createdAt" : "2020-07-10T14:18:30Z",
+        "updatedAt" : "2020-07-10T16:14:53Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d4143d33db0c36f92bbb3d2dde9471a33cc1bef0",
+    "line" : null,
+    "diffHunk" : "@@ -574,7 +574,13 @@ lazy val tests =\n         \"SCALA_NATIVE_ENV_WITH_UNICODE\"  -> 0x2192.toChar.toString,\n         \"SCALA_NATIVE_USER_DIR\"          -> System.getProperty(\"user.dir\")\n       ),\n-      nativeLinkStubs := true\n+      nativeLinkStubs := true,\n+      Test / unmanagedSourceDirectories ++= {\n+        if (System.getProperty(\"java.specification.version\") >= \"11\")"
+  },
+  {
+    "id" : "ba26f359-6b92-4cc4-bed1-840189639bd6",
+    "prId" : 1844,
+    "comments" : [
+      {
+        "id" : "10a0c644-1528-4718-9fe4-a300fb6a49bd",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Let's use the same convention between Scala.js and SN, to ease porting tests from one to the other:\r\n```suggestion\r\n          Seq(baseDirectory.value / \"src/test/require-jdk11\")\r\n```\r\nAnd a more sbt-ish way of doing that is:\r\n```suggestion\r\n          Seq((Test / sourceDirectory).value / \"require-jdk11\")\r\n```",
+        "createdAt" : "2020-07-10T14:23:36Z",
+        "updatedAt" : "2020-07-10T16:14:53Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d4143d33db0c36f92bbb3d2dde9471a33cc1bef0",
+    "line" : null,
+    "diffHunk" : "@@ -574,7 +574,13 @@ lazy val tests =\n         \"SCALA_NATIVE_ENV_WITH_UNICODE\"  -> 0x2192.toChar.toString,\n         \"SCALA_NATIVE_USER_DIR\"          -> System.getProperty(\"user.dir\")\n       ),\n-      nativeLinkStubs := true\n+      nativeLinkStubs := true,\n+      Test / unmanagedSourceDirectories ++= {\n+        if (System.getProperty(\"java.specification.version\") >= \"11\")\n+          Seq(baseDirectory.value / \"src/test-jdk11/scala\")"
+  },
+  {
+    "id" : "5ac71769-64fa-4fdb-9340-2189359fdd54",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "238eaddd-6ad2-4ecb-8906-bf7f9b119046",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The imports are redundant. They are imported by default in all .sbt files.",
+        "createdAt" : "2020-08-06T16:58:16Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,5 +1,6 @@\n import java.io.File.pathSeparator\n-\n+import sbt.Keys.unmanagedSourceDirectories\n+import sbt.Test"
+  },
+  {
+    "id" : "178212f7-303f-4095-8729-77da161badfe",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "2c677963-6522-485b-be9a-c30bda38ab71",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This won't play nice with most IDEs. It's better to modify `unmanagedSourceDirectories`. You can copy the way Scala.js does it at\r\nhttps://github.com/scala-js/scala-js/blob/de973d6dbae77720565c2ac46cc54df462077924/project/Build.scala#L904-L907",
+        "createdAt" : "2020-08-06T17:01:47Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -622,11 +627,20 @@ lazy val testInterface =\n     .in(file(\"test-interface\"))\n     .enablePlugins(MyScalaNativePlugin)\n     .settings(mavenPublishSettings)\n-    .dependsOn(nscplugin % \"plugin\", allCoreLibs, testInterfaceSerialization)\n+    .settings(\n+      Compile / sources ++= (testInterfaceCommon / Compile / sources).value,\n+      Test / sources ++= (testInterfaceCommon / Test / sources).value"
+  },
+  {
+    "id" : "079ca024-7724-46c4-abc6-0a8e12e7e003",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "b87faf97-4e48-4695-964d-31209b0b4cdb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here.",
+        "createdAt" : "2020-08-06T17:01:55Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -645,8 +659,13 @@ lazy val testRunner =\n     .settings(mavenPublishSettings)\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n-      libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      libraryDependencies ++= Seq(\n+        \"org.scala-sbt\" % \"test-interface\"  % \"1.0\",\n+        \"com.novocode\"  % \"junit-interface\" % \"0.11\" % \"test\"\n+      ),\n+      Compile / sources ++= (testInterfaceCommon / Compile / sources).value,\n+      Test / sources ++= (testInterfaceCommon / Test / sources).value,"
+  },
+  {
+    "id" : "6e196820-914d-40f6-8f91-8f1157ed8473",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "bc0a601f-0c95-42b1-8969-3326dc1ec3e0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be a regular `dependsOn(jUnitAsyncJVM % \"test\")` instead.",
+        "createdAt" : "2020-08-06T17:02:48Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7453c015-e2aa-4f63-b050-8b8e7db7a69a",
+        "parentId" : "bc0a601f-0c95-42b1-8969-3326dc1ec3e0",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "I've tried to change it, but then sbt cannot resolve dependency of `org/scala-native/junit-async-jvm_2.12/0.4.0-SNAPSHOT/junit-async-jvm_2.12-0.4.0-SNAPSHOT.pom`, do you know why this may happend? \r\nIt's strange as it occurs in `test-runner`, but not in `junitTestOutputsJVM`. Both of them have dependency of `junitAsyncJvm`\r\n\r\nIs it possible that this problem not exists in Scala.js as there is used MultiProject? \r\n",
+        "createdAt" : "2020-08-07T09:51:47Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "26ccb567-6ecf-4600-abd4-48ec57efe5c3",
+        "parentId" : "bc0a601f-0c95-42b1-8969-3326dc1ec3e0",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah it's probably because junitAsyncJVM` is configured with Scala 2.11 for some reason? It should probably be configured with\r\n```scala\r\nscalaVersion := sbt10ScalaVersion\r\n```\r\n(as well as projects that depend on it)",
+        "createdAt" : "2020-08-07T18:16:42Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -645,8 +659,13 @@ lazy val testRunner =\n     .settings(mavenPublishSettings)\n     .settings(\n       crossScalaVersions := Seq(sbt10ScalaVersion),\n-      libraryDependencies += \"org.scala-sbt\" % \"test-interface\" % \"1.0\",\n-      Compile / sources ++= (testInterfaceSerialization / Compile / sources).value\n+      libraryDependencies ++= Seq(\n+        \"org.scala-sbt\" % \"test-interface\"  % \"1.0\",\n+        \"com.novocode\"  % \"junit-interface\" % \"0.11\" % \"test\"\n+      ),\n+      Compile / sources ++= (testInterfaceCommon / Compile / sources).value,\n+      Test / sources ++= (testInterfaceCommon / Test / sources).value,\n+      Test / sources ++= (junitAsyncJVM / Compile / sources).value"
+  },
+  {
+    "id" : "8c1de38f-82f1-4526-a2d1-8099a031e6d7",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "951b5f28-55e0-4afe-829c-94180f06e1db",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "With the other suggested changes, this definition can be entirely removed. The sources are there, but there is no *project* for them (there shouldn't be).",
+        "createdAt" : "2020-08-06T17:06:30Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -622,11 +627,20 @@ lazy val testInterface =\n     .in(file(\"test-interface\"))\n     .enablePlugins(MyScalaNativePlugin)\n     .settings(mavenPublishSettings)\n-    .dependsOn(nscplugin % \"plugin\", allCoreLibs, testInterfaceSerialization)\n+    .settings(\n+      Compile / sources ++= (testInterfaceCommon / Compile / sources).value,\n+      Test / sources ++= (testInterfaceCommon / Test / sources).value\n+    )\n+    .dependsOn(nscplugin   % \"plugin\",\n+               junitPlugin % \"plugin\",\n+               allCoreLibs,\n+               testInterfaceSbtDefs,\n+               junitRuntime,\n+               junitAsyncNative % \"test\")\n \n-lazy val testInterfaceSerialization =\n+lazy val testInterfaceCommon ="
+  },
+  {
+    "id" : "b6787071-931a-4247-9df8-331cd350c1fa",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "d9cc22ed-1f33-4f0e-9772-e5a1dbde7838",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The tools and all JVM-only projects (except the compiler plugins) should have `crossScalaVersions` that contains only `sbt10Version`.",
+        "createdAt" : "2020-08-20T13:54:16Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -188,6 +188,7 @@ lazy val toolSettings: Seq[Setting[_]] =\n     sbtVersion := sbt10Version,\n     crossSbtVersions := List(sbt10Version),\n     scalaVersion := sbt10ScalaVersion,\n+    crossScalaVersions := libCrossScalaVersions,"
+  },
+  {
+    "id" : "b3df12f4-bc40-40be-9af3-59b07d8a1bfa",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "6b1e6b7d-c319-4f12-a7ce-2da3945a43db",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider doing this once and for all in `MyScalaNativePlugin.projectSettings`.",
+        "createdAt" : "2020-08-20T13:55:35Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -337,14 +339,20 @@ lazy val clib =\n   project\n     .in(file(\"clib\"))\n     .enablePlugins(MyScalaNativePlugin)\n-    .settings(mavenPublishSettings)\n+    .settings(\n+      crossScalaVersions := libCrossScalaVersions,\n+      mavenPublishSettings\n+    )\n     .dependsOn(nscplugin % \"plugin\", nativelib)\n \n lazy val posixlib =\n   project\n     .in(file(\"posixlib\"))\n     .enablePlugins(MyScalaNativePlugin)\n-    .settings(mavenPublishSettings)\n+    .settings(\n+      crossScalaVersions := libCrossScalaVersions,"
+  },
+  {
+    "id" : "8a4748b5-01f7-40d0-aa05-e37134a697ae",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "0e5dfc0e-522a-4726-b66a-c7f51964ef98",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`scalaVersion` should be set once and for all as\r\n```scala\r\nThisBuild / scalaVersion := \"2.12.12\"\r\n```\r\nAll projects should load by default with that version, and none should override that.\r\n\r\nProjects can and should override `crossScalaVersions` to have the correct value, depending on whether they are JVM projects or native projects/compiler plugins.",
+        "createdAt" : "2020-08-20T13:58:09Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -589,6 +602,8 @@ lazy val sandbox =\n     .settings(\n       // nativeOptimizerReporter := OptimizerReporter.toDirectory(\n       //   crossTarget.value),\n+      scalaVersion := libScalaVersion,"
+  },
+  {
+    "id" : "f6c9910b-cc78-4307-9da2-5d1040dd1046",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "d6788353-cf84-48f9-857d-c17064ae0cfc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should probably not stay for the final PR.",
+        "createdAt" : "2020-08-20T13:58:25Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -589,6 +602,8 @@ lazy val sandbox =\n     .settings(\n       // nativeOptimizerReporter := OptimizerReporter.toDirectory(\n       //   crossTarget.value),\n+      scalaVersion := libScalaVersion,\n+      nativeLinkStubs := true"
+  },
+  {
+    "id" : "21d37134-d665-4b97-b180-21b47495b4d5",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "82fab5c9-8d9b-43c0-9b4c-09c747434d39",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`BuildInfoPlugin` should not be in `testInterface`. The test-interface is a public artifact. We only need the BuildInfo in the unit-tests, so we should put `BuildInfoPlugin` in the unit-tests, not in the test-interface.",
+        "createdAt" : "2020-08-20T14:35:05Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -623,7 +640,12 @@ lazy val testInterfaceCommonSourcesSettings = Seq(\n lazy val testInterface =\n   project\n     .in(file(\"test-interface\"))\n-    .enablePlugins(MyScalaNativePlugin)\n+    .enablePlugins(MyScalaNativePlugin, BuildInfoPlugin)"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "d0f571c7-b0d3-4e7f-8275-c711d444eeaa",
+    "prId" : 304,
+    "comments" : [
+      {
+        "id" : "3478c2fa-5cb7-4f2c-acf6-a7ccbffb37cb",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "btw, you can now update the style dynamically with `// scalafmt: { binpack.callSite = true }`\n",
+        "createdAt" : "2016-09-29T21:59:22Z",
+        "updatedAt" : "2016-09-30T11:45:23Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f050fcd455e116b96382ac7441c91a3a5987ef97",
+    "line" : 3,
+    "diffHunk" : "@@ -101,178 +101,178 @@ private[math] object Primality {\n \n   /** All prime numbers with bit length lesser than 10 bits. */\n   private val Primes = Array[Int]("
+  }
+]

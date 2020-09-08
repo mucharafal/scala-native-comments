@@ -1,0 +1,92 @@
+[
+  {
+    "id" : "0be53f6a-e040-436c-823d-6aa57847f65d",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "0622bcde-88a2-4473-969e-fb83442a1923",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`undefined` body.\n",
+        "createdAt" : "2016-06-21T11:38:41Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -41,28 +54,48 @@ object Short {\n   def MIN_VALUE: scala.Short = -32768\n   def MAX_VALUE: scala.Short = 32767\n \n-  @inline def valueOf(shortValue: scala.Short): Short = new Short(shortValue)\n-  @inline def valueOf(s: String): Short               = valueOf(parseShort(s))\n+  @inline def compare(x: scala.Short, y: scala.Short): scala.Int =\n+    x - y\n \n-  @inline def valueOf(s: String, radix: Int): Short =\n-    valueOf(parseShort(s, radix))\n+  def decode(nm: _String): Short = {\n+    val i = Integer.decode(nm).intValue\n+    val r = i.toShort\n+    if (r == i)\n+      valueOf(r)\n+    else\n+      throw new NumberFormatException()\n+  }\n+\n+  @inline def hashCode(value: scala.Short): scala.Int =\n+    value.toInt\n \n-  @inline def parseShort(s: String): scala.Short = parseShort(s, 10)\n+  @inline def parseShort(s: _String): scala.Short =\n+    parseShort(s, 10)\n \n-  def parseShort(s: String, radix: Int): scala.Short = {\n-    val r = Integer.parseInt(s, radix)\n-    if (r < MIN_VALUE || r > MAX_VALUE)\n+  @inline def parseShort(s: _String, radix: scala.Int): scala.Short = {\n+    val i = Integer.parseInt(s, radix)\n+    if (i < MIN_VALUE || i > MAX_VALUE)\n       throw new NumberFormatException(s\"\"\"For input string: \"$s\"\"\"\")\n     else\n-      r.toShort\n+      i.toShort\n   }\n \n-  @inline def toString(s: scala.Short): String =\n-    String.valueOf(s)\n-\n-  @inline def compare(x: scala.Short, y: scala.Short): scala.Int =\n-    x - y\n-\n   def reverseBytes(i: scala.Short): scala.Short =\n     (((i >>> 8) & 0xff) + ((i & 0xff) << 8)).toShort\n+\n+  @inline def toString(s: scala.Short): _String =\n+    Integer.toString(s)\n+\n+//  def toUnsignedInt(x: scala.Short): scala.Int =\n+\n+//  def toUnsignedLong(x: scala.Short): scala.Long ="
+  },
+  {
+    "id" : "bebd8257-7ea6-4f59-a52a-7fc8c7de0db8",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "e490f31e-8bff-4716-a4cf-d0dc370c9b66",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`@inline`\n",
+        "createdAt" : "2016-06-21T11:49:20Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -41,28 +54,48 @@ object Short {\n   def MIN_VALUE: scala.Short = -32768\n   def MAX_VALUE: scala.Short = 32767\n \n-  @inline def valueOf(shortValue: scala.Short): Short = new Short(shortValue)\n-  @inline def valueOf(s: String): Short               = valueOf(parseShort(s))\n+  @inline def compare(x: scala.Short, y: scala.Short): scala.Int =\n+    x - y\n \n-  @inline def valueOf(s: String, radix: Int): Short =\n-    valueOf(parseShort(s, radix))\n+  def decode(nm: _String): Short = {\n+    val i = Integer.decode(nm).intValue\n+    val r = i.toShort\n+    if (r == i)\n+      valueOf(r)\n+    else\n+      throw new NumberFormatException()\n+  }\n+\n+  @inline def hashCode(value: scala.Short): scala.Int =\n+    value.toInt\n \n-  @inline def parseShort(s: String): scala.Short = parseShort(s, 10)\n+  @inline def parseShort(s: _String): scala.Short =\n+    parseShort(s, 10)\n \n-  def parseShort(s: String, radix: Int): scala.Short = {\n-    val r = Integer.parseInt(s, radix)\n-    if (r < MIN_VALUE || r > MAX_VALUE)\n+  @inline def parseShort(s: _String, radix: scala.Int): scala.Short = {\n+    val i = Integer.parseInt(s, radix)\n+    if (i < MIN_VALUE || i > MAX_VALUE)\n       throw new NumberFormatException(s\"\"\"For input string: \"$s\"\"\"\")\n     else\n-      r.toShort\n+      i.toShort\n   }\n \n-  @inline def toString(s: scala.Short): String =\n-    String.valueOf(s)\n-\n-  @inline def compare(x: scala.Short, y: scala.Short): scala.Int =\n-    x - y\n-\n   def reverseBytes(i: scala.Short): scala.Short ="
+  },
+  {
+    "id" : "07573b14-04bc-4b04-ba70-e6e12fabd5e7",
+    "prId" : 210,
+    "comments" : [
+      {
+        "id" : "243dc76f-30f0-4655-867e-48ff4a707986",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Use `llvm.bswap.i16` here.\n",
+        "createdAt" : "2016-06-30T12:11:15Z",
+        "updatedAt" : "2016-06-30T12:11:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2d046b2267df8f07b713099c1196b41ef081948f",
+    "line" : 92,
+    "diffHunk" : "@@ -41,28 +56,50 @@ object Short {\n   def MIN_VALUE: scala.Short = -32768\n   def MAX_VALUE: scala.Short = 32767\n \n-  @inline def valueOf(shortValue: scala.Short): Short = new Short(shortValue)\n-  @inline def valueOf(s: String): Short               = valueOf(parseShort(s))\n+  @inline def compare(x: scala.Short, y: scala.Short): scala.Int =\n+    x - y\n \n-  @inline def valueOf(s: String, radix: Int): Short =\n-    valueOf(parseShort(s, radix))\n+  def decode(nm: String): Short = {\n+    val i = Integer.decode(nm).intValue\n+    val r = i.toShort\n+    if (r == i)\n+      valueOf(r)\n+    else\n+      throw new NumberFormatException()\n+  }\n \n-  @inline def parseShort(s: String): scala.Short = parseShort(s, 10)\n+  @inline def hashCode(value: scala.Short): scala.Int =\n+    value.toInt\n \n-  def parseShort(s: String, radix: Int): scala.Short = {\n-    val r = Integer.parseInt(s, radix)\n-    if (r < MIN_VALUE || r > MAX_VALUE)\n+  @inline def parseShort(s: String): scala.Short =\n+    parseShort(s, 10)\n+\n+  @inline def parseShort(s: String, radix: scala.Int): scala.Short = {\n+    val i = Integer.parseInt(s, radix)\n+    if (i < MIN_VALUE || i > MAX_VALUE)\n       throw new NumberFormatException(s\"\"\"For input string: \"$s\"\"\"\")\n     else\n-      r.toShort\n+      i.toShort\n   }\n \n+  @inline def reverseBytes(i: scala.Short): scala.Short ="
+  }
+]

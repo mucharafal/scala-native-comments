@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "42b4daff-8f58-455a-85c1-0514f452c605",
+    "prId" : 362,
+    "comments" : [
+      {
+        "id" : "665b67c9-348c-4793-86c1-4c9951a8dc58",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same here.\n",
+        "createdAt" : "2016-10-28T10:02:34Z",
+        "updatedAt" : "2016-10-28T10:31:12Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "16948c508312bfc308e5300a67d661fd4d698de4",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,324 @@\n+package scala\n+\n+object FloatComparisonSuite extends tests.Suite {\n+  test(\"fcmp\") {\n+    // These were code-generated on the JVM using:\n+    //\n+    // scala> val values = Seq((\"0.0f\", 0.0f),\n+    //                         (\"-0.0f\", -0.0f),\n+    //                         (\"Float.MaxValue\", Float.MaxValue),\n+    //                         (\"Float.MinValue\", Float.MinValue),\n+    //                         (\"Float.NaN\", Float.NaN),\n+    //                         (\"42.0f\", 42.0f),\n+    //                         (\"-42.0f\", -42.0f))"
+  }
+]

@@ -1,0 +1,180 @@
+[
+  {
+    "id" : "d8a6e6c3-e25a-4c94-b453-816d810726dd",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "0e90e044-1936-4d1f-b47b-59a1cffd3e5f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This seems to be a duplicate of the one in `scalanative.runtime` (and all of the same comment apply), do we need to have full arch enumeration at runtime or would just a banch of method in `runtime.Platform` suffice for typical use cases?",
+        "createdAt" : "2018-07-19T08:51:00Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 18,
+    "diffHunk" : "@@ -0,0 +1,23 @@\n+package scala.scalanative.build\n+\n+sealed abstract class Bits(count: Int) {\n+  override def toString = count.toString\n+}\n+case object ThirtyTwo extends Bits(32)\n+case object SixtyFour extends Bits(64)\n+\n+/**\n+ * Represents the platform the built code will be run on.\n+ */\n+sealed abstract class TargetArchitecture(val bits: Bits,\n+                                         val isIntel: Boolean,\n+                                         val id: Int) {\n+  def is32 = bits == ThirtyTwo\n+}\n+\n+object TargetArchitecture {"
+  },
+  {
+    "id" : "90c307c8-0e84-4902-b6b9-a5e7c75dd6ab",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "a4d75f6c-3d41-4752-a63f-41a1d57f28b5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No aarch64? Are there any blockers to add it?",
+        "createdAt" : "2018-10-17T09:20:22Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ae1d5952-bdc3-4d42-9c70-3779c3982b03",
+        "parentId" : "a4d75f6c-3d41-4752-a63f-41a1d57f28b5",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "I can add it, but last I remember there were some test failures there. Then again, there are a couple test failures on `arm` right now so I'll just add it in.",
+        "createdAt" : "2018-10-17T16:49:51Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "835f0600-1344-4331-8f45-3444fd108e8e",
+        "parentId" : "a4d75f6c-3d41-4752-a63f-41a1d57f28b5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should have failing tests disabled for that platform and file corresponding issues to keep the progress on getting to 100% coverage. ",
+        "createdAt" : "2018-10-18T08:58:48Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,24 @@\n+package scala.scalanative.build\n+\n+sealed class Bits(count: Int) {\n+  override def toString = s\"x$count\"\n+}\n+\n+case object ThirtyTwo extends Bits(32)\n+case object SixtyFour extends Bits(64)\n+\n+/**\n+ * Represents the platform the built code will be run on.\n+ */\n+sealed class TargetArchitecture(val bits: Bits,\n+                                val isIntel: Boolean,\n+                                val id: Int) {\n+  val is32 = bits == ThirtyTwo\n+}\n+\n+object TargetArchitecture {\n+  case object i386   extends TargetArchitecture(ThirtyTwo, true, 1)\n+  case object i686   extends TargetArchitecture(ThirtyTwo, true, 2)\n+  case object x86_64 extends TargetArchitecture(SixtyFour, true, 3)\n+  case object arm    extends TargetArchitecture(ThirtyTwo, false, 4)"
+  },
+  {
+    "id" : "356be84b-c718-4214-99cb-17ba8d8dd8b0",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "c7531947-5d4f-4333-9d9c-2daa0fa42f48",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why multiple 32-bit x86 platforms? ",
+        "createdAt" : "2018-10-17T09:20:40Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2b371c92-6c60-4e86-9e8b-361565e6d1c9",
+        "parentId" : "c7531947-5d4f-4333-9d9c-2daa0fa42f48",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "I'm hoping to also use `TargetArchitecture` for cross compilation at the LLVM level, so having each individual target will allow us to generate specific target triples.",
+        "createdAt" : "2018-10-17T16:51:28Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0775603b-d60c-4491-8d92-3ef3c356ecf3",
+        "parentId" : "c7531947-5d4f-4333-9d9c-2daa0fa42f48",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds good.",
+        "createdAt" : "2018-10-18T09:02:21Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,24 @@\n+package scala.scalanative.build\n+\n+sealed class Bits(count: Int) {\n+  override def toString = s\"x$count\"\n+}\n+\n+case object ThirtyTwo extends Bits(32)\n+case object SixtyFour extends Bits(64)\n+\n+/**\n+ * Represents the platform the built code will be run on.\n+ */\n+sealed class TargetArchitecture(val bits: Bits,\n+                                val isIntel: Boolean,\n+                                val id: Int) {\n+  val is32 = bits == ThirtyTwo\n+}\n+\n+object TargetArchitecture {\n+  case object i386   extends TargetArchitecture(ThirtyTwo, true, 1)\n+  case object i686   extends TargetArchitecture(ThirtyTwo, true, 2)"
+  }
+]

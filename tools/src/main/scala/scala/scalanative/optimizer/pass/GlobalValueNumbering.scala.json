@@ -1,0 +1,117 @@
+[
+  {
+    "id" : "3ae2e8fe-0c9e-47e6-9f38-aca202035cae",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "d25cc5b3-3e77-4348-b60f-f2ccfe65716d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "/cc @hkapp ",
+        "createdAt" : "2016-12-02T13:48:26Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -286,6 +292,9 @@ object GlobalValueNumbering extends PassCompanion {\n         case Conv(conv, ty, value)      => Seq(\"Conv\", ty, value)\n         case Select(cond, thenv, elsev) => Seq(\"Select\", cond, thenv, elsev)\n \n+        case Box(code, obj)   => Seq(\"Box\", code.toString, obj)\n+        case Unbox(code, obj) => Seq(\"Unbox\", code.toString, obj)\n+\n         case Field(obj, name)           => Seq(\"Field\", obj, name)\n         case Method(obj, name)          => Seq(\"Method\", obj, name)\n         case As(ty, obj)                => Seq(\"As\", ty, obj)"
+  },
+  {
+    "id" : "441fbd7e-c183-45e6-b7b3-58068e050805",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "5089e16f-78e8-431b-9b06-4426deee993a",
+        "parentId" : null,
+        "author" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "body" : "`codeA == codeB`",
+        "createdAt" : "2016-12-02T17:47:57Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "05c855f6-1e89-47d1-b182-30d656e7d56d",
+        "parentId" : "5089e16f-78e8-431b-9b06-4426deee993a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good catch!",
+        "createdAt" : "2016-12-03T13:10:36Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -180,6 +180,12 @@ object GlobalValueNumbering extends PassCompanion {\n           case (Sizeof(tyA), Sizeof(tyB)) =>\n             eqType(tyA, tyB)\n \n+          case (Box(codeA, objA), Box(codeB, objB)) =>\n+            codeA == codeB && eqVal(objA, objB)\n+\n+          case (Unbox(codeA, objA), Unbox(codeB, objB)) =>\n+            codeB == codeB && eqVal(objA, objB)"
+  },
+  {
+    "id" : "e8089ee5-0b82-4321-823b-dd6f78b0e068",
+    "prId" : 422,
+    "comments" : [
+      {
+        "id" : "b2ee93aa-c123-4c79-a2db-abe3a1db2433",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Should go the end similarly to the comment above.",
+        "createdAt" : "2016-12-04T11:02:19Z",
+        "updatedAt" : "2016-12-04T14:09:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d0a2ed7b4c3e4b42d35c150b63ec06e0c55e52ec",
+    "line" : null,
+    "diffHunk" : "@@ -286,6 +292,9 @@ object GlobalValueNumbering extends PassCompanion {\n         case Conv(conv, ty, value)      => Seq(\"Conv\", ty, value)\n         case Select(cond, thenv, elsev) => Seq(\"Select\", cond, thenv, elsev)\n \n+        case Box(code, obj)   => Seq(\"Box\", code.toString, obj)\n+        case Unbox(code, obj) => Seq(\"Unbox\", code.toString, obj)"
+  }
+]

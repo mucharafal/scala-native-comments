@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "a675e0be-f1a9-424c-95b4-ec9370f3e551",
+    "prId" : 730,
+    "comments" : [
+      {
+        "id" : "a328add6-ff9f-4da2-b3b5-96b4604af322",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Missing a b",
+        "createdAt" : "2017-05-22T12:51:24Z",
+        "updatedAt" : "2017-05-25T11:54:59Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "844373d9-6fe5-4e25-bcf9-42a050f0d0bd",
+        "parentId" : "a328add6-ff9f-4da2-b3b5-96b4604af322",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Also adding a proper `#!` header would make it usable as a stand-alone script for installing tools.",
+        "createdAt" : "2017-05-22T15:04:29Z",
+        "updatedAt" : "2017-05-25T11:54:59Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d202ca16-01eb-4bde-bad1-1286d5fdccd8",
+        "parentId" : "a328add6-ff9f-4da2-b3b5-96b4604af322",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Nice catch and good idea!",
+        "createdAt" : "2017-05-25T10:02:27Z",
+        "updatedAt" : "2017-05-25T11:54:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4207bfdb6670d3d59b4741389da751c4219894a",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,8 @@\n+rew update"
+  }
+]

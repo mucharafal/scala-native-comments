@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "21d42b48-a0a8-4159-b302-c5ba3f347c95",
+    "prId" : 621,
+    "comments" : [
+      {
+        "id" : "c03924d8-f94c-4b1c-a90d-41f2e2aba4d5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You should also `println(\"main\")` at the end of `main()` (after the `Future(1 + 2)...` line) and assert that the output is `\"main\\n10\"` (and not `\"10\\nmain\"`).",
+        "createdAt" : "2017-04-06T20:52:46Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1845e5da-bdea-4537-a92e-c21905598ba9",
+        "parentId" : "c03924d8-f94c-4b1c-a90d-41f2e2aba4d5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good idea.",
+        "createdAt" : "2017-04-10T11:35:05Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d7314805-d8f2-441e-abfe-f5279cf3b19c",
+        "parentId" : "c03924d8-f94c-4b1c-a90d-41f2e2aba4d5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Done.",
+        "createdAt" : "2017-04-10T11:54:41Z",
+        "updatedAt" : "2017-04-10T12:24:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "519a04ea55e644018688f8debbd0684e3d3a7ab7",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,7 @@\n+object Test {\n+  def main(args: Array[String]): Unit = {\n+    import scala.concurrent.Future\n+    import scala.concurrent.ExecutionContext.Implicits.global\n+    Future(1 + 2).map(_ + 3).map(_ + 4).foreach(println)\n+  }"
+  }
+]

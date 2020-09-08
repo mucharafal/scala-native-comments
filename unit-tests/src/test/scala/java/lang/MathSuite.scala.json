@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "69b25a60-fe16-4eba-9ea9-522fac06c40e",
+    "prId" : 1307,
+    "comments" : [
+      {
+        "id" : "3fc986f1-f666-4e3e-9fa2-b8d72611a346",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Would be good to indent it by 2 spaces.",
+        "createdAt" : "2018-10-17T11:35:07Z",
+        "updatedAt" : "2019-03-09T16:57:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "68ed063cdb104a919d4b37302f4b1e66c7579e34",
+    "line" : null,
+    "diffHunk" : "@@ -1,21 +1,91 @@\n package java.lang\n \n object MathSuite extends tests.Suite {\n-  test(\"max\") {\n+\n+  // This method can/will be removed when/if pull request #1305 is merged.\n+  // Until then, this allows tests to be written as though #1305 were\n+  // effective yet still pass Travis CI until then.\n+  private def assert(cond: Boolean, message: String): Unit =\n+    assert(cond)\n+\n+// Max()"
+  }
+]

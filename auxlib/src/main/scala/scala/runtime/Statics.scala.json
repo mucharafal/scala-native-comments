@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "dbd2f81f-98b7-407f-92e8-36498f7ce4b5",
+    "prId" : 1224,
+    "comments" : [
+      {
+        "id" : "c430e9f7-decb-466c-85a9-66e17e1f05f9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I wonder how did this ever happen. 😲",
+        "createdAt" : "2018-04-11T11:44:49Z",
+        "updatedAt" : "2018-04-11T11:44:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "19ef6c4b45ae4bed7e2f3a4e859e8649bd85dc57",
+    "line" : 4,
+    "diffHunk" : "@@ -18,7 +18,7 @@ object Statics {\n   }\n \n   def finalizeHash(hash: Int, length: Int): Int =\n-    avalanche(hash & length)"
+  }
+]

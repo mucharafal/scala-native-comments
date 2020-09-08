@@ -1,0 +1,324 @@
+[
+  {
+    "id" : "e66c40a6-5645-4501-8b63-f2a4bbdc4841",
+    "prId" : 804,
+    "comments" : [
+      {
+        "id" : "4c683034-e461-4654-a33f-b878b8c8e402",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We're not going to support security management, so this comment should be dropped. ",
+        "createdAt" : "2017-08-07T11:13:08Z",
+        "updatedAt" : "2017-08-07T12:22:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f8dba2ebf2d57ef8f753a811fb72cffc6e2ce047",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,4001 @@\n+package java.util\n+\n+// Ported from Harmony\n+\n+// Tests related to SecurityManager are removed because they doesn't exist on Scala Native"
+  },
+  {
+    "id" : "07f64946-c158-4e55-9a0a-a25c992a60a9",
+    "prId" : 804,
+    "comments" : [
+      {
+        "id" : "2a01d657-79bb-46ee-9ef0-737f98b2767a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Dereferencing null is undefined behavior in Scala Native. So segfault is expected. ",
+        "createdAt" : "2017-08-07T11:13:59Z",
+        "updatedAt" : "2017-08-07T12:22:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "72f741d7-2901-4753-a8d2-d29d526f0bc3",
+        "parentId" : "2a01d657-79bb-46ee-9ef0-737f98b2767a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please drop all the tests that expect NullPointerException. ",
+        "createdAt" : "2017-08-07T11:14:46Z",
+        "updatedAt" : "2017-08-07T12:22:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "f8dba2ebf2d57ef8f753a811fb72cffc6e2ce047",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,4001 @@\n+package java.util\n+\n+// Ported from Harmony\n+\n+// Tests related to SecurityManager are removed because they doesn't exist on Scala Native\n+\n+import java.io.BufferedOutputStream\n+import java.io.ByteArrayOutputStream\n+import java.io.Closeable\n+import java.io.File\n+import java.io.FileNotFoundException\n+import java.io.FileOutputStream\n+import java.io.Flushable\n+import java.io.IOException\n+import java.io.OutputStream\n+import java.io.PrintStream\n+import java.io.UnsupportedEncodingException\n+import java.lang.StringBuilder\n+import java.math.BigDecimal\n+import java.math.BigInteger\n+import java.math.MathContext\n+import java.nio.charset.Charset\n+\n+object FormatterSuite extends tests.Suite {\n+  private var root: Boolean             = false\n+  private var notExist: File            = _\n+  private var fileWithContent: File     = _\n+  private var readOnly: File            = _\n+  private var defaultTimeZone: TimeZone = _\n+\n+  // setup resource files for testing\n+  protected def setUp(): Unit = {\n+    // disabled, doesn't work on Scala Native right now\n+    // root = System.getProperty(\"user.name\").equalsIgnoreCase(\"root\")\n+    notExist = File.createTempFile(\"notexist\", null)\n+    notExist.delete()\n+\n+    fileWithContent = File.createTempFile(\"filewithcontent\", null)\n+    val bw = new BufferedOutputStream(new FileOutputStream(fileWithContent))\n+    bw.write(1); // write something into the file\n+    bw.close()\n+\n+    readOnly = File.createTempFile(\"readonly\", null)\n+    readOnly.setReadOnly()\n+\n+    // ignores ??? until these are implemented\n+    try {\n+      defaultTimeZone = TimeZone.getDefault()\n+      val cst = TimeZone.getTimeZone(\"Asia/Shanghai\")\n+      TimeZone.setDefault(cst)\n+    } catch {\n+      case _: NotImplementedError =>\n+    }\n+  }\n+\n+  // delete the resource files if they exist\n+  protected def tearDown(): Unit = {\n+    if (notExist.exists()) notExist.delete()\n+    if (fileWithContent.exists()) fileWithContent.delete()\n+    if (readOnly.exists()) readOnly.delete()\n+    // TimeZone.setDefault(defaultTimeZone)\n+  }\n+\n+  override def test(name: String)(body: => Unit): Unit =\n+    super.test(name) {\n+      setUp()\n+      try {\n+        body\n+      } finally {\n+        tearDown()\n+      }\n+    }\n+\n+  override def testFails(name: String, issue: Int)(body: => Unit): Unit =\n+    super.testFails(name, issue) {\n+      setUp()\n+      try {\n+        body\n+      } finally {\n+        tearDown()\n+      }\n+    }\n+\n+  def assertNull[A](a: A): Unit =\n+    assert(a == null)\n+\n+  def assertNotNull[A](a: A): Unit =\n+    assertNot(a == null)\n+\n+  def assertTrue[A](a: A): Unit =\n+    assert(a == true)\n+\n+  private class MockAppendable extends Appendable {\n+    def append(arg0: CharSequence): Appendable = null\n+\n+    def append(arg0: Char): Appendable = null\n+\n+    def append(arg0: CharSequence, arg1: Int, arg2: Int): Appendable = null\n+  }\n+\n+  private class MockFormattable extends Formattable {\n+    def formatTo(formatter: Formatter,\n+                 flags: Int,\n+                 width: Int,\n+                 precision: Int): Unit = {\n+      if ((flags & FormattableFlags.UPPERCASE) != 0)\n+        formatter.format(\n+          \"CUSTOMIZED FORMAT FUNCTION\" + \" WIDTH: \" + width + \" PRECISION: \" + precision)\n+      else\n+        formatter.format(\n+          \"customized format function\" + \" width: \" + width + \" precision: \" + precision)\n+    }\n+\n+    override def toString(): String = \"formattable object\"\n+\n+    override def hashCode(): Int = 0xf\n+  }\n+\n+  private class MockDestination extends Appendable with Flushable {\n+    // Porting note: the content of MockDestination was stripped because it was no-op.\n+    def append(c: Char): Appendable = throw new IOException()\n+\n+    def append(csq: CharSequence): Appendable = throw new IOException()\n+\n+    def append(csq: CharSequence, start: Int, end: Int): Appendable =\n+      throw new IOException()\n+\n+    def flush(): Unit = throw new IOException(\"Always throw IOException\")\n+\n+    override def toString(): String = \"\"\n+  }\n+\n+  test(\"Constructor()\") {\n+    val f = new Formatter()\n+    assertNotNull(f)\n+    assertTrue(f.out().isInstanceOf[StringBuilder])\n+    assertEquals(f.locale(), Locale.getDefault())\n+    assertNotNull(f.toString())\n+  }\n+\n+  test(\"Constructor(Appendable)\") {\n+    val ma = new MockAppendable()\n+    val f1 = new Formatter(ma)\n+    assertEquals(ma, f1.out())\n+    assertEquals(f1.locale(), Locale.getDefault())\n+    assertNotNull(f1.toString())\n+\n+    val f2 = new Formatter(null.asInstanceOf[Appendable])\n+    /*\n+     * If a(the input param) is null then a StringBuilder will be created\n+     * and the output can be attained by invoking the out() method. But RI\n+     * raises an error of FormatterClosedException when invoking out() or\n+     * toString().\n+     */\n+    val sb = f2.out()\n+    assertTrue(sb.isInstanceOf[StringBuilder])\n+    assertNotNull(f2.toString())\n+  }\n+\n+  test(\"Constructor(Locale)\") {\n+    val f1 = new Formatter(Locale.FRANCE)\n+    assertTrue(f1.out().isInstanceOf[StringBuilder])\n+    assertEquals(f1.locale(), Locale.FRANCE)\n+    assertNotNull(f1.toString())\n+\n+    val f2 = new Formatter(null.asInstanceOf[Locale])\n+    assertNull(f2.locale())\n+    assertTrue(f2.out().isInstanceOf[StringBuilder])\n+    assertNotNull(f2.toString())\n+  }\n+\n+  test(\"Constructor(Appendable, Locale)\") {\n+    val ma = new MockAppendable()\n+    val f1 = new Formatter(ma, Locale.CANADA)\n+    assertEquals(ma, f1.out())\n+    assertEquals(f1.locale(), Locale.CANADA)\n+\n+    val f2 = new Formatter(ma, null)\n+    assertNull(f2.locale())\n+    assertEquals(ma, f1.out())\n+\n+    val f3 = new Formatter(null, Locale.GERMAN)\n+    assertEquals(f3.locale(), Locale.GERMAN)\n+    assertTrue(f3.out().isInstanceOf[StringBuilder])\n+  }\n+\n+  test(\"Constructor(String)\") {\n+    assertThrows[NullPointerException](\n+      new Formatter(null.asInstanceOf[String]))\n+\n+    locally {\n+      val f = new Formatter(notExist.getPath())\n+      assertEquals(f.locale(), Locale.getDefault())\n+      f.close()\n+    }\n+\n+    locally {\n+      val f = new Formatter(fileWithContent.getPath())\n+      assertEquals(0, fileWithContent.length())\n+      f.close()\n+    }\n+\n+    if (!root) {\n+      assertThrows[FileNotFoundException](new Formatter(readOnly.getPath()))\n+    }\n+  }\n+\n+  testFails(\"Constructor(String, String)\", 816) {\n+    // OutputStreamWriter should throw UnsupportedEncodingException (NOT UnsupportedCharsetException)\n+    assertThrows[NullPointerException](\n+      new Formatter(null.asInstanceOf[String],\n+                    Charset.defaultCharset().name()))\n+\n+    locally {\n+      val f =\n+        new Formatter(notExist.getPath(), Charset.defaultCharset().name())\n+      assertEquals(f.locale(), Locale.getDefault())\n+      f.close()\n+    }\n+\n+    assertThrows[UnsupportedEncodingException](\n+      new Formatter(notExist.getPath(), \"ISO 111-1\")) // fails #816\n+\n+    locally {\n+      val f = new Formatter(fileWithContent.getPath(), \"UTF-16BE\")\n+      assertEquals(0, fileWithContent.length())\n+      f.close()\n+    }\n+\n+    if (!root) {\n+      assertThrows[FileNotFoundException](\n+        new Formatter(readOnly.getPath(), \"UTF-16BE\"))\n+    }\n+  }\n+\n+  testFails(\"Constructor(String, String, Locale)\", 816) {\n+    // OutputStreamWriter should throw UnsupportedEncodingException (NOT UnsupportedCharsetException)\n+    assertThrows[NullPointerException](\n+      new Formatter(null.asInstanceOf[String],\n+                    Charset.defaultCharset().name(),\n+                    Locale.KOREA))\n+\n+    locally {\n+      val f = new Formatter(notExist.getPath(),\n+                            Charset.defaultCharset().name(),\n+                            null)\n+      assertNotNull(f)\n+      f.close()\n+    }\n+\n+    locally {\n+      val f = new Formatter(notExist.getPath(),\n+                            Charset.defaultCharset().name(),\n+                            Locale.KOREA)\n+      assertEquals(f.locale(), Locale.KOREA)\n+      f.close()\n+    }\n+\n+    assertThrows[UnsupportedEncodingException](new Formatter(\n+      notExist.getPath(),\n+      \"ISO 1111-1\",\n+      Locale.CHINA)) // fails #816\n+\n+    locally {\n+      val f = new Formatter(fileWithContent.getPath(),\n+                            \"UTF-16BE\",\n+                            Locale.CANADA_FRENCH)\n+      assertEquals(0, fileWithContent.length())\n+      f.close()\n+    }\n+\n+    if (!root) {\n+      assertThrows[FileNotFoundException](\n+        new Formatter(readOnly.getPath(),\n+                      Charset.defaultCharset().name(),\n+                      Locale.ITALY))\n+    }\n+  }\n+\n+  test(\"Constructor(File)\") {\n+    // segfault\n+    // assertThrows[NullPointerException](new Formatter(null.asInstanceOf[File]))\n+\n+    locally {\n+      val f = new Formatter(notExist)\n+      assertEquals(f.locale(), Locale.getDefault())\n+      f.close()\n+    }\n+\n+    locally {\n+      val f = new Formatter(fileWithContent)\n+      assertEquals(0, fileWithContent.length())\n+      f.close()\n+    }\n+\n+    if (!root) {\n+      assertThrows[FileNotFoundException](new Formatter(readOnly))\n+    }\n+  }\n+\n+  testFails(\"Constructor(File, String)\", 816) {\n+    // OutputStreamWriter should throw UnsupportedEncodingException (NOT UnsupportedCharsetException)\n+\n+    // segfault\n+    // assertThrows[NullPointerException](new Formatter(null.asInstanceOf[File], Charset.defaultCharset().name()))\n+\n+    locally {\n+      val f = new Formatter(notExist, Charset.defaultCharset().name())\n+      assertEquals(f.locale(), Locale.getDefault)\n+      f.close()\n+    }\n+\n+    locally {\n+      val f = new Formatter(fileWithContent, \"UTF-16BE\")\n+      assertEquals(0, fileWithContent.length)\n+      f.close()\n+    }\n+\n+    if (!root) {\n+      assertThrows[FileNotFoundException](\n+        new Formatter(readOnly, Charset.defaultCharset().name()))\n+    }\n+\n+    // segfault\n+    // try {\n+    //   assertThrows[NullPointerException](new Formatter(notExist, null))\n+    // } finally if (notExist.exists()) {\n+    //   // Fail on RI on Windows, because output stream is created and\n+    //   // not closed when exception thrown\n+    //   assertTrue(notExist.delete())\n+    // }\n+\n+    try {\n+      assertThrows[UnsupportedEncodingException](\n+        new Formatter(notExist, \"ISO 1111-1\")) /// fails #816\n+    } finally if (notExist.exists()) {\n+      // Fail on RI on Windows, because output stream is created and\n+      // not closed when exception thrown\n+      assertTrue(notExist.delete())\n+    }\n+  }\n+\n+  testFails(\"Constructor(File, String, Locale)\", 816) {\n+    // OutputStreamWriter should throw UnsupportedEncodingException (NOT UnsupportedCharsetException)\n+\n+    // segfault\n+    // assertThrows[NullPointerException](new Formatter(null.asInstanceOf[File], Charset.defaultCharset().name(), Locale.KOREA))\n+\n+    // segfault\n+    // assertThrows[NullPointerException](new Formatter(notExist, null, Locale.KOREA))"
+  },
+  {
+    "id" : "8abc41a6-c341-4c33-b9cd-d3057d4ab20e",
+    "prId" : 1340,
+    "comments" : [
+      {
+        "id" : "2bb8b00c-cbd1-4863-b88c-9c6ccbe68f28",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`this PR` is going to be very unclear if you look at this code in 1 year for example. Please make it more clear.",
+        "createdAt" : "2018-10-17T11:20:54Z",
+        "updatedAt" : "2019-03-08T14:51:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "534db3cd-c34b-4d19-80f3-7fd82e73d9ad",
+        "parentId" : "2bb8b00c-cbd1-4863-b88c-9c6ccbe68f28",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Changes made as requested.  \r\n\r\nSince this PR requires #1298, Later parts of Travis CI fail. Scalafmt & tools pass.\r\nThe failure should go away once #1298 is merged.",
+        "createdAt" : "2018-12-03T21:54:42Z",
+        "updatedAt" : "2019-03-08T14:51:47Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9b8863dad64cd696338130b996a9f37dece38726",
+    "line" : null,
+    "diffHunk" : "@@ -2924,6 +2924,14 @@ object FormatterSuite extends tests.Suite {\n     }\n   }\n \n+  // Next test uses, by design, Locale.GERMAN and will continue to fail\n+  // even after PR #1298 and this PR for issue ##1296 are merged."
+  },
+  {
+    "id" : "6fd20306-896a-4358-869d-ee5c2b1f34ea",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why does this one still fail? Is it going to be easy to fix after this PR?",
+        "createdAt" : "2019-02-27T11:20:16Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7457514c-2b5e-43b4-9a0a-d8f7e852632e",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@denesh You have sharp eyes!\r\n\r\nYou are entirely right, the continuing failure is enough to astonish a reviewer or\r\nfuture maintainer.\r\n\r\nIt took me a while to warp my brain again to understand the continuing failure.\r\nI created new issue #1443 to describe the continuing failure.\r\n\r\nThe short story is that after this PR or its successors are accepted, the test\r\nwill continue to fail because it will then get as far as a LOCALE.German test\r\nat the bottom of the file and LOCALE.German is not currently implemented.\r\n\r\nThe original SN developer created the file FormatterUSSuite.scala to avoid\r\nLocale issues. The numeric portions for this test are, to quick inspection,\r\nidentical and pass (after this PR or kin).   ",
+        "createdAt" : "2019-02-28T18:23:31Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9edcdf97-1b5a-474c-9072-520f08819c0f",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We are most likely never going to support non-US locales, so might as well drop tests which depend on those locales being implemented altogether. ",
+        "createdAt" : "2019-03-01T11:21:36Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b03c7663-30c7-484b-98c3-da322ee6c7e3",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Yes `Locale` and friends are bigger than a breadbox. \r\n\r\nYou will probably be asking me to write at least the first\r\ndraft of a release note. I should put in a prominent\r\nplace that the current .toString() code always uses dor or\r\nfull-stop for the decimal place and never uses a places separator.\r\nIt is not US Local and I would have to check if it even matches C Locale.\r\nAlmost certainly better than existing printf() based code, but not \r\nan exact JVM match.\r\n\r\nThe ideas of 'fast & light binaries ' and of binaries which can\r\nbe easily used by all those in the non-English world are probably\r\ndiametrically opposed.  I suspect that it will come down to a \r\ntwo-library choice at link time or such.   \r\n \r\nFormatterUSSuite.scala has us-specific tests for this PR.\r\n\r\nThis commit puts an explanatory issue number on each of the\r\ntestFails() relevant to it.\r\n\r\nI propose  that I spend my time on removing BigInteger rather\r\nthan stripping stuff out of FormatterSuite.scala. That file is no worse\r\nthan it was and is even a little better with issue markers.\r\n\r\nI'll keep my eye out to see if Locale stuff can be stripped from \r\nRyu code.\r\n\r\nPlease advise.\r\n\r\nPS: In have dreams of taking a run at Locale after the PRs I have currently outstanding\r\n       have been dispatched.  No promises, just dreams & hopes.\r\n",
+        "createdAt" : "2019-03-02T21:29:04Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ed3347e6-da81-423b-b0e3-914da00a8b0d",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I suggest dropping german locale tests completely. If we ever support non-US locales, we can bring it back then (and it's extremely unlikely).",
+        "createdAt" : "2019-03-03T15:38:07Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5521fb8f-e674-4661-912e-2af23c6d51c7",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I will drop the Locale test in the specific test as you suggest.\r\n\r\nIf you are are recommending that all Locale tests be dropped from\r\nFormatterSuite.scala then it would be less astonishing and more\r\nwell contained if I did that in a second PR, subsequent to this one\r\nbeing accepted.  The changes are more extensive. In addition \r\nFormatterUSSuite.scala becomes redundant and should be deleted.\r\nSomeone looking to revert the larger changes are unlikely to find them\r\nin this PR.\r\n\r\nYour thoughts/direction?  Thank you.",
+        "createdAt" : "2019-03-03T19:41:05Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f410eaac-36a5-4db7-be9c-e94faf491c54",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Doing it in a separate PR sounds good.",
+        "createdAt" : "2019-03-04T12:34:42Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e260428c-fc23-4897-bab2-60460949edde",
+        "parentId" : "fa8437ee-e521-4732-8b5d-f17922cb1dfa",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood & agreed, in a subsequent, independent PR nuke all Locale references\r\nin FormatterSuite.scala and mark FormatterUSSuite.scala as obsolete.\r\nI will also close the corresponding issue.\r\n\r\nI think the changes to FormatterSuite.scala in this PR are worth doing as part of\r\nthis PR.  They give a marker for what needs to change.  I could figure out the\r\ngit foo to revert that file is you want.",
+        "createdAt" : "2019-03-05T11:48:43Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -2492,7 +2487,7 @@ object FormatterSuite extends tests.Suite {\n \n   testFails(\n     \"format(String, Array[Object]) for Float/Double conversion type 'e' and 'E'\",\n-    0) { // issue not filed yet\n+    1296) {"
+  }
+]

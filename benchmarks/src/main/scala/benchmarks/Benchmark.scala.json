@@ -1,0 +1,505 @@
+[
+  {
+    "id" : "829488f1-4dce-4dcc-8a6c-2c7b0cbef308",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "9c023714-8487-4608-8b0b-a75c01111621",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Need to handle the case when either `run` or `check` throw an exception. \n",
+        "createdAt" : "2016-10-28T15:34:38Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c7b2f806-b3f1-41f4-995e-4d5670bafd1a",
+        "parentId" : "9c023714-8487-4608-8b0b-a75c01111621",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done\n",
+        "createdAt" : "2016-10-30T12:59:22Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,14 @@\n+package benchmarks\n+\n+import scala.annotation.tailrec\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean\n+  def name: String\n+\n+  @tailrec final def loop(iterations: Int): Boolean = {\n+    if (iterations == 0) true\n+    else check(run) && loop(iterations - 1)"
+  },
+  {
+    "id" : "97ab4f9d-62b6-44dd-bfa0-80300b12cbb3",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "6f91f71c-0eef-40c2-af96-2fd78f578d9b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We can just use `.getClass.getName` instead. \n",
+        "createdAt" : "2016-10-28T15:35:06Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8436aa4e-53e5-4b74-bfa8-a45af40f0ff3",
+        "parentId" : "6f91f71c-0eef-40c2-af96-2fd78f578d9b",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done\n",
+        "createdAt" : "2016-10-30T12:59:02Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,14 @@\n+package benchmarks\n+\n+import scala.annotation.tailrec\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean\n+  def name: String"
+  },
+  {
+    "id" : "ac5d4834-a19b-44b2-bc90-a38b45ba0883",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "6b032769-fb73-4a8c-b084-e663c5ee6aed",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "it would be nice to ensure that `run` isn't inlined.\n",
+        "createdAt" : "2016-11-15T13:56:18Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8797e496-4159-441f-8be9-dad4673d8abb",
+        "parentId" : "6b032769-fb73-4a8c-b084-e663c5ee6aed",
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "As `run` does not take any arguments, wouldn't it be better to make in an entry point which is supposed to be run by `perf`? this will ensure that you don't need to invent your own measurement ways and ways to make sure you don't optimize acrross runs. \n",
+        "createdAt" : "2016-11-15T14:16:51Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 41,
+    "diffHunk" : "@@ -0,0 +1,85 @@\n+package benchmarks\n+\n+sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n+\n+case class BenchmarkCompleted(override val name: String,\n+                              minNs: Long,\n+                              maxNs: Long,\n+                              avgNs: Long,\n+                              iterations: Int,\n+                              override val success: Boolean)\n+    extends BenchmarkResult(name, success) {\n+  override def toString: String = {\n+    def format(n: Double, decimals: Int = 3): String = {\n+      val s = n.toString\n+      s.substring(0, s.indexOf('.') + decimals + 1)\n+    }\n+\n+    val minMs = format(minNs / 1e6)\n+    val maxMs = format(maxNs / 1e6)\n+    val avgMs = format(avgNs / 1e6)\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${minMs}ms, max ${maxMs}ms,\" +\n+      s\" avg ${avgMs}ms\"\n+  }\n+}\n+\n+case class BenchmarkFailed(override val name: String, cause: Throwable)\n+    extends BenchmarkResult(name, false) {\n+  override def toString: String =\n+    s\"\"\"  [fail] $name threw an exception:\n+       |$cause\"\"\".stripMargin\n+}\n+\n+case class BenchmarkDisabled(override val name: String)\n+    extends BenchmarkResult(name, true) {\n+  override def toString: String =\n+    s\"\"\" [???] $name is disabled.\"\"\"\n+}\n+\n+abstract class Benchmark[T] {\n+  def run(): T"
+  },
+  {
+    "id" : "60438ff9-3a60-4ef5-8229-2e1114d83e7f",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "83d80ca4-2a9a-411a-8328-94704b2b13a0",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "I'm not sure what kind of check does benchmark do\n",
+        "createdAt" : "2016-11-15T13:56:44Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ad1f6287-f215-4f4e-8155-76e88405e6e6",
+        "parentId" : "83d80ca4-2a9a-411a-8328-94704b2b13a0",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It checks that computed result value is the same as expected. This is a sanity check.",
+        "createdAt" : "2016-12-02T13:40:28Z",
+        "updatedAt" : "2016-12-02T13:40:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 42,
+    "diffHunk" : "@@ -0,0 +1,85 @@\n+package benchmarks\n+\n+sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n+\n+case class BenchmarkCompleted(override val name: String,\n+                              minNs: Long,\n+                              maxNs: Long,\n+                              avgNs: Long,\n+                              iterations: Int,\n+                              override val success: Boolean)\n+    extends BenchmarkResult(name, success) {\n+  override def toString: String = {\n+    def format(n: Double, decimals: Int = 3): String = {\n+      val s = n.toString\n+      s.substring(0, s.indexOf('.') + decimals + 1)\n+    }\n+\n+    val minMs = format(minNs / 1e6)\n+    val maxMs = format(maxNs / 1e6)\n+    val avgMs = format(avgNs / 1e6)\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${minMs}ms, max ${maxMs}ms,\" +\n+      s\" avg ${avgMs}ms\"\n+  }\n+}\n+\n+case class BenchmarkFailed(override val name: String, cause: Throwable)\n+    extends BenchmarkResult(name, false) {\n+  override def toString: String =\n+    s\"\"\"  [fail] $name threw an exception:\n+       |$cause\"\"\".stripMargin\n+}\n+\n+case class BenchmarkDisabled(override val name: String)\n+    extends BenchmarkResult(name, true) {\n+  override def toString: String =\n+    s\"\"\" [???] $name is disabled.\"\"\"\n+}\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean"
+  },
+  {
+    "id" : "710decd0-7800-4049-af50-4211b643b6d3",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "e988c06c-53a0-428e-ada1-f9f4b5e01c8d",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "`max = math.max(max, elapsed)`\nsame for min\n",
+        "createdAt" : "2016-11-15T13:57:39Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 67,
+    "diffHunk" : "@@ -0,0 +1,85 @@\n+package benchmarks\n+\n+sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n+\n+case class BenchmarkCompleted(override val name: String,\n+                              minNs: Long,\n+                              maxNs: Long,\n+                              avgNs: Long,\n+                              iterations: Int,\n+                              override val success: Boolean)\n+    extends BenchmarkResult(name, success) {\n+  override def toString: String = {\n+    def format(n: Double, decimals: Int = 3): String = {\n+      val s = n.toString\n+      s.substring(0, s.indexOf('.') + decimals + 1)\n+    }\n+\n+    val minMs = format(minNs / 1e6)\n+    val maxMs = format(maxNs / 1e6)\n+    val avgMs = format(avgNs / 1e6)\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${minMs}ms, max ${maxMs}ms,\" +\n+      s\" avg ${avgMs}ms\"\n+  }\n+}\n+\n+case class BenchmarkFailed(override val name: String, cause: Throwable)\n+    extends BenchmarkResult(name, false) {\n+  override def toString: String =\n+    s\"\"\"  [fail] $name threw an exception:\n+       |$cause\"\"\".stripMargin\n+}\n+\n+case class BenchmarkDisabled(override val name: String)\n+    extends BenchmarkResult(name, true) {\n+  override def toString: String =\n+    s\"\"\" [???] $name is disabled.\"\"\"\n+}\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean\n+\n+  private class BenchmarkDisabledException extends Exception\n+  final def disableBenchmark(): Nothing = throw new BenchmarkDisabledException\n+\n+  final def estimateTime(): Long = {\n+    val start = System.nanoTime()\n+    val _     = try { run() } catch { case _: Throwable => () }\n+    System.nanoTime() - start\n+  }\n+\n+  final def loop(iterations: Int): BenchmarkResult =\n+    try {\n+      var min: Long        = Long.MaxValue\n+      var max: Long        = Long.MinValue\n+      var success: Boolean = true\n+\n+      val t0 = System.nanoTime()\n+      for (_ <- 1 to iterations) {\n+        val start  = System.nanoTime()\n+        val result = run()\n+        val end    = System.nanoTime()\n+\n+        success = success && check(result)\n+        val elapsed = end - start\n+        if (elapsed > max) max = elapsed"
+  },
+  {
+    "id" : "a16dfc2c-05c3-4772-bd05-e101eb3d04f4",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "cca87db4-b54d-4568-bbec-d898fd318c9b",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "it would be nice to store the actual numbers and report:\n- average\n- stddeviation\n- median\n- 95% percentile\n- 5% percentile.\n- average only between runs that fall in between 5 & 95 percentiles. \n",
+        "createdAt" : "2016-11-15T13:59:45Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4e04839f-84fa-4a82-9e8c-92589d7765db",
+        "parentId" : "cca87db4-b54d-4568-bbec-d898fd318c9b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Great suggestion, this one we should definitely do.",
+        "createdAt" : "2016-12-02T13:36:54Z",
+        "updatedAt" : "2016-12-02T13:36:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 71,
+    "diffHunk" : "@@ -0,0 +1,85 @@\n+package benchmarks\n+\n+sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n+\n+case class BenchmarkCompleted(override val name: String,\n+                              minNs: Long,\n+                              maxNs: Long,\n+                              avgNs: Long,\n+                              iterations: Int,\n+                              override val success: Boolean)\n+    extends BenchmarkResult(name, success) {\n+  override def toString: String = {\n+    def format(n: Double, decimals: Int = 3): String = {\n+      val s = n.toString\n+      s.substring(0, s.indexOf('.') + decimals + 1)\n+    }\n+\n+    val minMs = format(minNs / 1e6)\n+    val maxMs = format(maxNs / 1e6)\n+    val avgMs = format(avgNs / 1e6)\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${minMs}ms, max ${maxMs}ms,\" +\n+      s\" avg ${avgMs}ms\"\n+  }\n+}\n+\n+case class BenchmarkFailed(override val name: String, cause: Throwable)\n+    extends BenchmarkResult(name, false) {\n+  override def toString: String =\n+    s\"\"\"  [fail] $name threw an exception:\n+       |$cause\"\"\".stripMargin\n+}\n+\n+case class BenchmarkDisabled(override val name: String)\n+    extends BenchmarkResult(name, true) {\n+  override def toString: String =\n+    s\"\"\" [???] $name is disabled.\"\"\"\n+}\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean\n+\n+  private class BenchmarkDisabledException extends Exception\n+  final def disableBenchmark(): Nothing = throw new BenchmarkDisabledException\n+\n+  final def estimateTime(): Long = {\n+    val start = System.nanoTime()\n+    val _     = try { run() } catch { case _: Throwable => () }\n+    System.nanoTime() - start\n+  }\n+\n+  final def loop(iterations: Int): BenchmarkResult =\n+    try {\n+      var min: Long        = Long.MaxValue\n+      var max: Long        = Long.MinValue\n+      var success: Boolean = true\n+\n+      val t0 = System.nanoTime()\n+      for (_ <- 1 to iterations) {\n+        val start  = System.nanoTime()\n+        val result = run()\n+        val end    = System.nanoTime()\n+\n+        success = success && check(result)\n+        val elapsed = end - start\n+        if (elapsed > max) max = elapsed\n+        if (elapsed < min) min = elapsed\n+      }\n+      val totalTime = System.nanoTime() - t0\n+      val average   = totalTime / iterations"
+  },
+  {
+    "id" : "0bcb1d48-3575-48bc-97ab-6f09dad6551c",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "5ac87578-480f-4e3e-9db6-74fc712827b6",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "I don't know how exceptions are implemented here and if it would affect the benchmarking framework.\n",
+        "createdAt" : "2016-11-15T14:17:42Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4b6cbad4-2180-49c2-b8a7-4b0541918c94",
+        "parentId" : "5ac87578-480f-4e3e-9db6-74fc712827b6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Exceptions are free as long as you don't throw them. Throwing and unwinding is expensive. ",
+        "createdAt" : "2016-12-02T13:39:53Z",
+        "updatedAt" : "2016-12-02T13:39:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 44,
+    "diffHunk" : "@@ -0,0 +1,85 @@\n+package benchmarks\n+\n+sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n+\n+case class BenchmarkCompleted(override val name: String,\n+                              minNs: Long,\n+                              maxNs: Long,\n+                              avgNs: Long,\n+                              iterations: Int,\n+                              override val success: Boolean)\n+    extends BenchmarkResult(name, success) {\n+  override def toString: String = {\n+    def format(n: Double, decimals: Int = 3): String = {\n+      val s = n.toString\n+      s.substring(0, s.indexOf('.') + decimals + 1)\n+    }\n+\n+    val minMs = format(minNs / 1e6)\n+    val maxMs = format(maxNs / 1e6)\n+    val avgMs = format(avgNs / 1e6)\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${minMs}ms, max ${maxMs}ms,\" +\n+      s\" avg ${avgMs}ms\"\n+  }\n+}\n+\n+case class BenchmarkFailed(override val name: String, cause: Throwable)\n+    extends BenchmarkResult(name, false) {\n+  override def toString: String =\n+    s\"\"\"  [fail] $name threw an exception:\n+       |$cause\"\"\".stripMargin\n+}\n+\n+case class BenchmarkDisabled(override val name: String)\n+    extends BenchmarkResult(name, true) {\n+  override def toString: String =\n+    s\"\"\" [???] $name is disabled.\"\"\"\n+}\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean\n+\n+  private class BenchmarkDisabledException extends Exception"
+  },
+  {
+    "id" : "9660aa97-ec1f-430b-b0ec-72cca30842d0",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "d15fe828-7936-45fa-bad6-ed42c22cb1da",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "is there a way to get a monotonic time counter in native?\n\nsame for all calls to `nanoTime`.\n",
+        "createdAt" : "2016-11-15T14:18:51Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "07f18461-106d-4bc3-8de2-b0a19656f507",
+        "parentId" : "d15fe828-7936-45fa-bad6-ed42c22cb1da",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "AFAIK what we have is monotonic on linux https://github.com/scala-native/scala-native/blob/master/nativelib/src/main/resources/time.c#L23",
+        "createdAt" : "2016-12-02T13:39:04Z",
+        "updatedAt" : "2016-12-02T13:39:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 48,
+    "diffHunk" : "@@ -0,0 +1,85 @@\n+package benchmarks\n+\n+sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n+\n+case class BenchmarkCompleted(override val name: String,\n+                              minNs: Long,\n+                              maxNs: Long,\n+                              avgNs: Long,\n+                              iterations: Int,\n+                              override val success: Boolean)\n+    extends BenchmarkResult(name, success) {\n+  override def toString: String = {\n+    def format(n: Double, decimals: Int = 3): String = {\n+      val s = n.toString\n+      s.substring(0, s.indexOf('.') + decimals + 1)\n+    }\n+\n+    val minMs = format(minNs / 1e6)\n+    val maxMs = format(maxNs / 1e6)\n+    val avgMs = format(avgNs / 1e6)\n+    (if (success) \"  [ok] \" else \"  [fail] \") + name +\n+      s\": $iterations iterations, min ${minMs}ms, max ${maxMs}ms,\" +\n+      s\" avg ${avgMs}ms\"\n+  }\n+}\n+\n+case class BenchmarkFailed(override val name: String, cause: Throwable)\n+    extends BenchmarkResult(name, false) {\n+  override def toString: String =\n+    s\"\"\"  [fail] $name threw an exception:\n+       |$cause\"\"\".stripMargin\n+}\n+\n+case class BenchmarkDisabled(override val name: String)\n+    extends BenchmarkResult(name, true) {\n+  override def toString: String =\n+    s\"\"\" [???] $name is disabled.\"\"\"\n+}\n+\n+abstract class Benchmark[T] {\n+  def run(): T\n+  def check(t: T): Boolean\n+\n+  private class BenchmarkDisabledException extends Exception\n+  final def disableBenchmark(): Nothing = throw new BenchmarkDisabledException\n+\n+  final def estimateTime(): Long = {\n+    val start = System.nanoTime()"
+  },
+  {
+    "id" : "302c5d1c-26d4-45fa-82de-d9df1301c264",
+    "prId" : 425,
+    "comments" : [
+      {
+        "id" : "120c71ce-6250-41f1-a330-264930acb67b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Storing all the results and then presenting them later is a great idea. ",
+        "createdAt" : "2016-12-06T21:23:11Z",
+        "updatedAt" : "2016-12-07T10:40:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "abb884890cc11f69e7fb66c25f7674695a8fa8e5",
+    "line" : 8,
+    "diffHunk" : "@@ -3,39 +3,15 @@ package benchmarks\n sealed abstract class BenchmarkResult(val name: String, val success: Boolean)\n \n case class BenchmarkCompleted(override val name: String,\n-                              minNs: Long,\n-                              maxNs: Long,\n-                              avgNs: Long,\n-                              iterations: Int,\n+                              timesNs: Seq[Long],"
+  },
+  {
+    "id" : "6e7e9fc3-151c-41bf-b1ea-b96424b6dc20",
+    "prId" : 425,
+    "comments" : [
+      {
+        "id" : "adf8b07a-8e39-4c8b-b129-25ace01a9d82",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets do a while loop here and store the results into an array. Otherwise I'm afraid of accidental overheads of the wrapping code that we should avoid at all cost.",
+        "createdAt" : "2016-12-06T21:23:31Z",
+        "updatedAt" : "2016-12-07T10:40:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6cbf7f72-25c1-4f85-9ee2-c19580912063",
+        "parentId" : "adf8b07a-8e39-4c8b-b129-25ace01a9d82",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2016-12-07T10:38:22Z",
+        "updatedAt" : "2016-12-07T10:40:30Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "abb884890cc11f69e7fb66c25f7674695a8fa8e5",
+    "line" : null,
+    "diffHunk" : "@@ -59,30 +35,19 @@ abstract class Benchmark[T] {\n \n   final def loop(iterations: Int): BenchmarkResult =\n     try {\n-      var min: Long        = Long.MaxValue\n-      var max: Long        = Long.MinValue\n       var success: Boolean = true\n \n-      val t0 = System.nanoTime()\n-      for (_ <- 1 to iterations) {\n-        val start  = System.nanoTime()\n-        val result = run()\n-        val end    = System.nanoTime()\n+      val times =\n+        for (_ <- 1 to iterations) yield {\n+          val start  = System.nanoTime()\n+          val result = run()\n+          val end    = System.nanoTime()\n \n-        success = success && check(result)\n-        val elapsed = end - start\n-        if (elapsed > max) max = elapsed\n-        if (elapsed < min) min = elapsed\n-      }\n-      val totalTime = System.nanoTime() - t0\n-      val average   = totalTime / iterations\n+          success = success && check(result)\n+          end - start\n+        }"
+  },
+  {
+    "id" : "ba650157-5ad6-48f8-a3d8-14bc5f5612e9",
+    "prId" : 1129,
+    "comments" : [
+      {
+        "id" : "93622c29-ca33-4613-8bed-4f646a31f48f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We typically use `()` as unit value.",
+        "createdAt" : "2018-07-07T12:28:37Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "558c2716-d11b-48df-9af1-2adf6b76ea2a",
+        "parentId" : "93622c29-ca33-4613-8bed-4f646a31f48f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Other frameworks call this kind of step `setup`. It seems to be a more natural name for this.",
+        "createdAt" : "2018-07-07T12:29:34Z",
+        "updatedAt" : "2018-07-07T19:38:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "792f441294b7ce0ba1264a4cdfac2c086e095860",
+    "line" : null,
+    "diffHunk" : "@@ -23,7 +23,10 @@ case object ShortRunningTime    extends BenchmarkRunningTime(30000)\n case object UnknownRunningTime  extends BenchmarkRunningTime(1)\n \n abstract class Benchmark[T]() {\n+  def preRun(): Unit = Unit"
+  }
+]

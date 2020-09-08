@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "c29d29e5-74c0-4aaa-9a72-d054a8610ca1",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "371e36bc-adf7-4804-b70e-d58c305b2488",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Don't you mean `this eq other` here?",
+        "createdAt" : "2017-08-31T07:08:36Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ec0608f6-8474-4ff5-ac9c-b6f0301e2dbd",
+        "parentId" : "371e36bc-adf7-4804-b70e-d58c305b2488",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "You are right, but this would only work if:\r\n\r\n```scala\r\noverride def equals(other: Any): Boolean =\r\n    other match {\r\n      case otherRef : AnyRef if this eq otherRef => true\r\n      case otherCp: CertPath if otherCp.getType.equals(`type`) =>\r\n        getCertificates().equals(otherCp.getCertificates)\r\n      case _ => false\r\n    }\r\n```\r\n\r\nIt can be written better, o I can remove this shortcut?",
+        "createdAt" : "2017-08-31T10:00:28Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,16 @@\n package java.security.cert\n \n-import java.util.List\n-\n abstract class CertPath protected (`type`: String) {\n-  def getCertificates(): List[_ <: Certificate]\n+\n+  def getCertificates(): java.util.List[_ <: Certificate]\n+\n+  def getType(): String = `type`\n+\n+  override def equals(other: Any): Boolean =\n+    other match {\n+      case _ if this == other => true"
+  }
+]

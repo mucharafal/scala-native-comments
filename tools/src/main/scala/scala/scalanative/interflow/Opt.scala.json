@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "adea9bf4-7b4e-4341-a07c-a49cf932d1ed",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "7f4d7037-7223-45bf-a5fd-80456d1cc744",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Here we should definitely use the `origRetty` that is computed just below, and then get rid of the `resRetty` computation. In fact the computation of `resRetty` was already trying to cover up for `lub` coming up with the wrong types.",
+        "createdAt" : "2020-08-20T15:43:26Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 14,
+    "diffHunk" : "@@ -86,7 +86,7 @@ trait Opt { self: Interflow =>\n     val retty = rets match {\n       case Seq()   => Type.Nothing\n       case Seq(ty) => ty\n-      case tys     => Sub.lub(tys)\n+      case tys     => Sub.lub(tys, Type.Ref(Global.Top(\"java.lang.Object\")))"
+  }
+]

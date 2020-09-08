@@ -1,0 +1,980 @@
+[
+  {
+    "id" : "b4159649-5bd1-4207-a818-46836ce11b25",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "653e9f57-5dbe-450d-9110-d02d3c9c6f3f",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "we should free somewhere",
+        "createdAt" : "2017-01-13T18:53:29Z",
+        "updatedAt" : "2017-03-17T21:24:53Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b8ea07df-4742-42a1-9e7f-b69e3d772aa5",
+        "parentId" : "653e9f57-5dbe-450d-9110-d02d3c9c6f3f",
+        "author" : {
+          "login" : "rberenguel",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2410938?u=ad4509d66219b1fb1a07af0230dcd4f0ef12d18b&v=4"
+        },
+        "body" : "I know, but I'd need a destructor for the regex for that (since this alloc has to outlive the execution)",
+        "createdAt" : "2017-03-19T22:12:41Z",
+        "updatedAt" : "2017-03-19T22:12:42Z",
+        "lastEditedBy" : {
+          "login" : "rberenguel",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2410938?u=ad4509d66219b1fb1a07af0230dcd4f0ef12d18b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 85,
+    "diffHunk" : "@@ -0,0 +1,104 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+@extern\n+object Regex {\n+  def regcomp(regex: Ptr[Int], str: CString, num: Int): Int = extern\n+  def regexec(regex: Ptr[Int],\n+              str: CString,\n+              nmatch: Int,\n+              matchposition: Ptr[RegMatch.regmatch_t],\n+              num2: Int): Int = extern\n+}\n+\n+case class RegexError(error: Int)\n+\n+trait RegexPattern {\n+  def flags(): Int\n+  def pattern(): String\n+  override def toString(): String\n+}\n+\n+final class Pattern private (_compiled: Ptr[Int],\n+                             _pattern: String,\n+                             _flags: Int)\n+    extends Serializable\n+    with RegexPattern {\n+  def flags(): Int                = _flags\n+  def compiled(): Ptr[Int]        = _compiled\n+  def pattern(): String           = _pattern\n+  override def toString(): String = _pattern\n+\n+  def matcher(input: String): RegexMatcher =\n+    new RegexMatcher(this, input, 0, input.length)\n+  def split(input: CharSequence): Array[String] =\n+    split(input, 0)\n+\n+  def split(input: CharSequence, limit: Int): Array[String] = {\n+    val inputStr = input.toString\n+\n+    if (inputStr == \"\") {\n+      Array(\"\")\n+    } else {\n+      val lim     = if (limit > 0) limit else Int.MaxValue\n+      val matcher = this.matcher(inputStr)\n+      val builder = Array.newBuilder[String]\n+      var prevEnd = 0\n+      var size    = 0\n+      while ((size < lim - 1) && matcher.find()) {\n+        if (matcher.end == 0) {} else {\n+          builder += inputStr.substring(prevEnd, matcher.start)\n+          size += 1\n+        }\n+        prevEnd = matcher.end\n+      }\n+      builder += inputStr.substring(prevEnd)\n+      val result = builder.result()\n+\n+      if (limit != 0) {\n+        result\n+      } else {\n+        var actualLength = result.length\n+        while (actualLength != 0 && result(actualLength - 1) == \"\") actualLength -= 1\n+\n+        if (actualLength == result.length) {\n+          result\n+        } else {\n+          val actualResult = new Array[String](actualLength)\n+          System.arraycopy(result, 0, actualResult, 0, actualLength)\n+          actualResult\n+        }\n+      }\n+    }\n+  }\n+}\n+\n+object Pattern {\n+  def compile(regex: String, flags: Int): Pattern = {\n+    val compiledRegex = malloc(sizeof[Int] * 100).cast[Ptr[Int]] //Dirtiest hack ever"
+  },
+  {
+    "id" : "52fa4a46-b9f0-4340-b378-b0b0ad8b1de1",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "4fab32eb-defc-4853-9c94-634e14128a1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "For extern objects, we've been using lowercase name that corresponds to the name of the header so far. Lets keep this convention. ",
+        "createdAt" : "2017-02-03T10:49:18Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "67d2ba78-a78a-4419-84a4-e6e2396c85ca",
+        "parentId" : "4fab32eb-defc-4853-9c94-634e14128a1e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It should also go to `scala.scalanative.posix` package, as that's a binding for a posix API. ",
+        "createdAt" : "2017-02-03T10:53:26Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 7,
+    "diffHunk" : "@@ -0,0 +1,109 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+@extern\n+object Regex {"
+  },
+  {
+    "id" : "7bbc6c53-f12d-4525-932d-04015ac43d64",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "b17c84c1-eea0-49ff-bab3-a2cae70b9719",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "```\r\ndef regcomp(regex: Ptr[regex_t], pattern: CString, cflags: CInt): CInt = extern\r\ndef regexec(regex: Ptr[regex_t], str: CString, nmatch: CSize, pmatch: Ptr[regmatch_t]], eflags: CInt): CInt = extern\r\n```\r\n\r\nwhere you can define `regex_t` as `type regex_t = CStruct0`",
+        "createdAt" : "2017-02-03T10:52:45Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e8644215-983f-4792-b966-f7a706fdfe70",
+        "parentId" : "b17c84c1-eea0-49ff-bab3-a2cae70b9719",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's important to use `CInt` instead of just `Int` here to keep it explicit that this type might have different size on some platforms (even though we only support 64-bit platforms at the moment.) ",
+        "createdAt" : "2017-02-03T10:55:33Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 13,
+    "diffHunk" : "@@ -0,0 +1,109 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+@extern\n+object Regex {\n+  def regcomp(regex: Ptr[Int], str: CString, num: Int): Int = extern\n+  def regexec(regex: Ptr[Int],\n+              str: CString,\n+              nmatch: Int,\n+              matchposition: Ptr[RegMatch.regmatch_t],\n+              num2: Int): Int = extern"
+  },
+  {
+    "id" : "10ec4b00-00ff-410b-8319-e13bb9fde3d0",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "a49500f1-ee85-46ae-9a57-ba9f6a1d59b5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's actually fine. What's the size of `regex_t` typically? You can also just do `malloc(400)` instead of using sizeof, it's not really making code any more clear as we're not allocating array of ints. ",
+        "createdAt" : "2017-02-03T10:57:39Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 85,
+    "diffHunk" : "@@ -0,0 +1,109 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+@extern\n+object Regex {\n+  def regcomp(regex: Ptr[Int], str: CString, num: Int): Int = extern\n+  def regexec(regex: Ptr[Int],\n+              str: CString,\n+              nmatch: Int,\n+              matchposition: Ptr[RegMatch.regmatch_t],\n+              num2: Int): Int = extern\n+}\n+\n+case class RegexError(error: Int)\n+\n+trait RegexPattern {\n+  def flags(): Int\n+  def pattern(): String\n+  override def toString(): String\n+}\n+\n+final class Pattern private (_compiled: Ptr[Int],\n+                             _pattern: String,\n+                             _flags: Int)\n+    extends Serializable\n+    with RegexPattern {\n+  def flags(): Int                = _flags\n+  def compiled(): Ptr[Int]        = _compiled\n+  def pattern(): String           = _pattern\n+  override def toString(): String = _pattern\n+\n+  def matcher(input: String): RegexMatcher =\n+    new RegexMatcher(this, input, 0, input.length)\n+  def split(input: CharSequence): Array[String] =\n+    split(input, 0)\n+\n+  def split(input: CharSequence, limit: Int): Array[String] = {\n+    val inputStr = input.toString\n+\n+    if (inputStr == \"\") {\n+      Array(\"\")\n+    } else {\n+      val lim     = if (limit > 0) limit else Int.MaxValue\n+      val matcher = this.matcher(inputStr)\n+      val builder = Array.newBuilder[String]\n+      var prevEnd = 0\n+      var size    = 0\n+      while ((size < lim - 1) && matcher.find()) {\n+        if (matcher.end == 0) {} else {\n+          builder += inputStr.substring(prevEnd, matcher.start)\n+          size += 1\n+        }\n+        prevEnd = matcher.end\n+      }\n+      builder += inputStr.substring(prevEnd)\n+      val result = builder.result()\n+\n+      if (limit != 0) {\n+        result\n+      } else {\n+        var actualLength = result.length\n+        while (actualLength != 0 && result(actualLength - 1) == \"\") actualLength -= 1\n+\n+        if (actualLength == result.length) {\n+          result\n+        } else {\n+          val actualResult = new Array[String](actualLength)\n+          System.arraycopy(result, 0, actualResult, 0, actualLength)\n+          actualResult\n+        }\n+      }\n+    }\n+  }\n+  protected override def finalize(): Unit = {\n+    // Note that a pattern does not exist without _compiled being alloc-ed, so\n+    // this free should never apply to non-alloc-ed memory\n+    free(_compiled.asInstanceOf[Ptr[Byte]])\n+  }\n+}\n+\n+object Pattern {\n+  def compile(regex: String, flags: Int): Pattern = {\n+    val compiledRegex = malloc(sizeof[Int] * 100).cast[Ptr[Int]] //Dirtiest hack ever"
+  },
+  {
+    "id" : "7647f514-0909-42ad-b77d-1137d260cee6",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "fe6a4872-6937-4771-88f8-3709d56d9c75",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "No need for `* 1`.",
+        "createdAt" : "2017-02-03T10:57:56Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 93,
+    "diffHunk" : "@@ -0,0 +1,109 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+@extern\n+object Regex {\n+  def regcomp(regex: Ptr[Int], str: CString, num: Int): Int = extern\n+  def regexec(regex: Ptr[Int],\n+              str: CString,\n+              nmatch: Int,\n+              matchposition: Ptr[RegMatch.regmatch_t],\n+              num2: Int): Int = extern\n+}\n+\n+case class RegexError(error: Int)\n+\n+trait RegexPattern {\n+  def flags(): Int\n+  def pattern(): String\n+  override def toString(): String\n+}\n+\n+final class Pattern private (_compiled: Ptr[Int],\n+                             _pattern: String,\n+                             _flags: Int)\n+    extends Serializable\n+    with RegexPattern {\n+  def flags(): Int                = _flags\n+  def compiled(): Ptr[Int]        = _compiled\n+  def pattern(): String           = _pattern\n+  override def toString(): String = _pattern\n+\n+  def matcher(input: String): RegexMatcher =\n+    new RegexMatcher(this, input, 0, input.length)\n+  def split(input: CharSequence): Array[String] =\n+    split(input, 0)\n+\n+  def split(input: CharSequence, limit: Int): Array[String] = {\n+    val inputStr = input.toString\n+\n+    if (inputStr == \"\") {\n+      Array(\"\")\n+    } else {\n+      val lim     = if (limit > 0) limit else Int.MaxValue\n+      val matcher = this.matcher(inputStr)\n+      val builder = Array.newBuilder[String]\n+      var prevEnd = 0\n+      var size    = 0\n+      while ((size < lim - 1) && matcher.find()) {\n+        if (matcher.end == 0) {} else {\n+          builder += inputStr.substring(prevEnd, matcher.start)\n+          size += 1\n+        }\n+        prevEnd = matcher.end\n+      }\n+      builder += inputStr.substring(prevEnd)\n+      val result = builder.result()\n+\n+      if (limit != 0) {\n+        result\n+      } else {\n+        var actualLength = result.length\n+        while (actualLength != 0 && result(actualLength - 1) == \"\") actualLength -= 1\n+\n+        if (actualLength == result.length) {\n+          result\n+        } else {\n+          val actualResult = new Array[String](actualLength)\n+          System.arraycopy(result, 0, actualResult, 0, actualLength)\n+          actualResult\n+        }\n+      }\n+    }\n+  }\n+  protected override def finalize(): Unit = {\n+    // Note that a pattern does not exist without _compiled being alloc-ed, so\n+    // this free should never apply to non-alloc-ed memory\n+    free(_compiled.asInstanceOf[Ptr[Byte]])\n+  }\n+}\n+\n+object Pattern {\n+  def compile(regex: String, flags: Int): Pattern = {\n+    val compiledRegex = malloc(sizeof[Int] * 100).cast[Ptr[Int]] //Dirtiest hack ever\n+    val retval        = Regex.regcomp(compiledRegex, toCString(regex), 0)\n+    if (retval == 0) {\n+      new Pattern(compiledRegex, regex, flags)\n+    } else new Pattern(null, regex, flags)\n+  }\n+\n+  def execute(pattern: Pattern, text: String): FullRegMatch = {\n+    val regmatch = malloc(sizeof[RegMatch.regmatch_t] * 1)"
+  },
+  {
+    "id" : "ea4b7fe2-4245-4cdc-b11a-73bce821867f",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "b747cb62-945d-49c2-b317-bfcbff10f34f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Commented out code.",
+        "createdAt" : "2017-04-05T13:58:15Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,153 @@\n+package java.util\n+package regex\n+\n+import cre2._, cre2h._\n+\n+import scalanative.native._, stdlib._, stdio._, string._\n+\n+// Inspired by: https://github.com/google/re2j/blob/master/java/com/google/re2j/Pattern.java\n+\n+/** Pattern is implemented using Google's re2 engine https://github.com/google/re2\n+ *\n+ * Some expressions are not supported:\n+ *  * Character Classes\n+ *    * unions: [a-d[m-p]]\n+ *    * intersections: [a-z&&[^aeiou]]\n+ *  * predefined character classes: \\h, \\H, \\v, \\V\n+ *  * java character function classes\n+ *    * \\p{javaLowerCase}\n+ *    * \\p{javaUpperCase}\n+ *    * \\p{javaWhitespace}\n+ *    * \\p{javaMirrored}\n+ *  * boundary matchers: \\G, \\Z, \\R\n+ *  * possessive quantifiers\n+ *    * X?+\n+ *    * X*+\n+ *    * X++\n+ *    * X{n}+\n+ *    * X{n,}+\n+ *    * X{n,m}+\n+ *  * lookaheads\n+ *    * (?=X)\n+ *    * (?!X)\n+ *    * (?<=X)\n+ *    * (?<!X)\n+ *    * (?>X)\n+ */\n+object Pattern {\n+  def CANON_EQ: Int                = 128\n+  def CASE_INSENSITIVE: Int        = 2\n+  def COMMENTS: Int                = 4\n+  def DOTALL: Int                  = 32\n+  def LITERAL: Int                 = 16\n+  def MULTILINE: Int               = 8\n+  def UNICODE_CASE: Int            = 64\n+  def UNICODE_CHARACTER_CLASS: Int = 256\n+  def UNIX_LINES: Int              = 1\n+\n+  def compile(regex: String): Pattern = compile(regex, 0)\n+\n+  def compile(regex: String, flags: Int): Pattern =\n+    compile(regex, 0, adapt = true)\n+\n+  def compile(regex: String, flags: Int, adapt: Boolean): Pattern = {\n+\n+    def notSupported(flag: Int, flagName: String): Unit = {\n+      if ((flags & flag) == flag) {\n+        assert(false, s\"regex flag $flagName is not supported\")\n+      }\n+    }\n+\n+    // cre2_opt_set_one_line(false) is only available when limiting ourself to posix_syntax\n+    // https://github.com/google/re2/blob/2017-03-01/re2/re2.h#L548\n+    // regex flag MULTILINE cannot be disabled\n+    val options = cre2_opt_new()\n+    notSupported(CANON_EQ, \"CANON_EQ(canonical equivalences)\")\n+    cre2_opt_set_case_sensitive(options, flags & CASE_INSENSITIVE)\n+    notSupported(COMMENTS, \"COMMENTS\")\n+    cre2_opt_set_dot_nl(options, flags & DOTALL)\n+    cre2_opt_set_literal(options, flags & LITERAL)\n+    notSupported(UNICODE_CASE, \"UNICODE_CASE\")\n+    notSupported(UNICODE_CHARACTER_CLASS, \"UNICODE_CHARACTER_CLASS\")\n+    notSupported(UNIX_LINES, \"UNIX_LINES\")\n+\n+    val adaptedRegex = regex\n+    // if(adapt) adaptPatternToRe2(regex)\n+    // else regex"
+  },
+  {
+    "id" : "c9848450-8d14-409a-b9ff-6ceb033238ae",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "7a7fbe81-de46-42a0-9850-52e6554524f4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why do you need options in pattern? They are never used anywhere in the Scala code oustide of `compile` method.",
+        "createdAt" : "2017-04-10T13:04:59Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8dc12b12-c10e-4c6b-ae9a-37ee1adf6e64",
+        "parentId" : "7a7fbe81-de46-42a0-9850-52e6554524f4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Additionally you should do `cre2_opt_delete` at some point, otherwise you leak memory. ",
+        "createdAt" : "2017-04-10T13:05:33Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c89ee28e-c44b-4aac-b3cf-93ac3339f7c7",
+        "parentId" : "7a7fbe81-de46-42a0-9850-52e6554524f4",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Yep the idea is to use the finalizer on it. I forgot to add it back.",
+        "createdAt" : "2017-04-10T13:10:37Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,203 @@\n+package java.util\n+package regex\n+\n+import cre2._, cre2h._\n+\n+import scalanative.native._, stdlib._, stdio._, string._\n+\n+// Inspired by: https://github.com/google/re2j/blob/master/java/com/google/re2j/Pattern.java\n+\n+/** Pattern is implemented using Google's re2 engine https://github.com/google/re2\n+ *\n+ * Some expressions are not supported:\n+ *  * Character Classes\n+ *    * unions: [a-d[m-p]]\n+ *    * intersections: [a-z&&[^aeiou]]\n+ *  * predefined character classes: \\h, \\H, \\v, \\V\n+ *  * java character function classes\n+ *    * \\p{javaLowerCase}\n+ *    * \\p{javaUpperCase}\n+ *    * \\p{javaWhitespace}\n+ *    * \\p{javaMirrored}\n+ *  * boundary matchers: \\G, \\Z, \\R\n+ *  * possessive quantifiers\n+ *    * X?+\n+ *    * X*+\n+ *    * X++\n+ *    * X{n}+\n+ *    * X{n,}+\n+ *    * X{n,m}+\n+ *  * lookaheads\n+ *    * (?=X)\n+ *    * (?!X)\n+ *    * (?<=X)\n+ *    * (?<!X)\n+ *    * (?>X)\n+ */\n+object Pattern {\n+  def CANON_EQ: Int                = 128\n+  def CASE_INSENSITIVE: Int        = 2\n+  def COMMENTS: Int                = 4\n+  def DOTALL: Int                  = 32\n+  def LITERAL: Int                 = 16\n+  def MULTILINE: Int               = 8\n+  def UNICODE_CASE: Int            = 64\n+  def UNICODE_CHARACTER_CLASS: Int = 256\n+  def UNIX_LINES: Int              = 1\n+\n+  def compile(regex: String): Pattern = compile(regex, 0)\n+\n+  def compile(regex: String, flags: Int): Pattern =\n+    compile(regex, 0, adapt = true)\n+\n+  def compile(regex: String, flags: Int, adapt: Boolean): Pattern = {\n+\n+    def notSupported(flag: Int, flagName: String): Unit = {\n+      if ((flags & flag) == flag) {\n+        assert(false, s\"regex flag $flagName is not supported\")\n+      }\n+    }\n+\n+    val options = cre2_opt_new()\n+    notSupported(CANON_EQ, \"CANON_EQ(canonical equivalences)\")\n+    cre2_opt_set_case_sensitive(options, flags & CASE_INSENSITIVE)\n+    notSupported(COMMENTS, \"COMMENTS\")\n+    cre2_opt_set_dot_nl(options, flags & DOTALL)\n+    cre2_opt_set_literal(options, flags & LITERAL)\n+    notSupported(UNICODE_CASE, \"UNICODE_CASE\")\n+    notSupported(UNICODE_CHARACTER_CLASS, \"UNICODE_CHARACTER_CLASS\")\n+    notSupported(UNIX_LINES, \"UNIX_LINES\")\n+    // cre2_opt_set_one_line(false) is only available when limiting ourself to posix_syntax\n+    // https://github.com/google/re2/blob/2017-03-01/re2/re2.h#L548\n+    // regex flag MULTILINE cannot be disabled\n+\n+    cre2_opt_set_log_errors(options, 0)\n+\n+    val re2 = cre2_new(toCString(regex), regex.size, options)\n+\n+    val code = new cre2_error_code_t(cre2_error_code(re2))\n+\n+    if (code != CRE2_NO_ERROR) {\n+      val errorPattern = {\n+        val arg = cre2_string_t.stackalloc\n+        cre2_error_arg(re2, arg)\n+        arg.toString\n+      }\n+\n+      // we try to find the index of the parsing error\n+      // this could return the wrong index it only finds the first match\n+      // see https://groups.google.com/forum/#!topic/re2-dev/rnvFZ9Ki8nk\n+      val index =\n+        if (code == CRE2_ERROR_TRAILING_BACKSLASH) regex.size - 1\n+        else regex.indexOfSlice(errorPattern)\n+\n+      val reText = fromCString(cre2_error_string(re2))\n+\n+      val description =\n+        code match {\n+          case CRE2_ERROR_BAD_ESCAPE         => \"Illegal/unsupported escape sequence\"\n+          case CRE2_ERROR_MISSING_PAREN      => \"Missing parenthesis\"\n+          case CRE2_ERROR_TRAILING_BACKSLASH => \"Trailing Backslash\"\n+          case CRE2_ERROR_MISSING_BRACKET    => \"Unclosed character class\"\n+          case CRE2_ERROR_BAD_CHAR_RANGE     => \"Illegal character range\"\n+          case CRE2_ERROR_BAD_CHAR_CLASS =>\n+            \"Illegal/unsupported character class\"\n+          case CRE2_ERROR_REPEAT_SIZE       => \"Bad repetition argument\"\n+          case CRE2_ERROR_REPEAT_ARGUMENT   => \"Dangling meta character '*'\"\n+          case CRE2_ERROR_REPEAT_OP         => \"Bad repetition operator\"\n+          case CRE2_ERROR_BAD_PERL_OP       => \"Bad perl operator\"\n+          case CRE2_ERROR_BAD_UTF8          => \"Invalid UTF-8 in regexp\"\n+          case CRE2_ERROR_BAD_NAMED_CAPTURE => \"Bad named capture group\"\n+          case CRE2_ERROR_PATTERN_TOO_LARGE =>\n+            \"Pattern too large (compilation failed)\"\n+          case CRE2_ERROR_INTERNAL => \"Internal Error\"\n+          case _                   => reText\n+        }\n+\n+      throw new PatternSyntaxException(\n+        description,\n+        regex,\n+        index\n+      )\n+    }\n+\n+    new Pattern(\n+      _pattern = regex,\n+      _flags = flags,\n+      _regex = re2,\n+      options = options"
+  },
+  {
+    "id" : "881171d7-f45e-41cd-9c46-d5edcb67f441",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "63ae3a19-f0d2-47bc-a875-b16835ad0a28",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't do doc comments for java library as they are never going to be seen. This should go to the `docs/` in the section about javalib. ",
+        "createdAt" : "2017-04-10T16:46:45Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,209 @@\n+package java.util\n+package regex\n+\n+import cre2._, cre2h._\n+\n+import scalanative.native._, stdlib._, stdio._, string._\n+\n+// Inspired by: https://github.com/google/re2j/blob/master/java/com/google/re2j/Pattern.java\n+\n+/** Pattern is implemented using Google's re2 engine https://github.com/google/re2\n+ *\n+ * Some expressions are not supported:\n+ *  * Character Classes\n+ *    * unions: [a-d[m-p]]\n+ *    * intersections: [a-z&&[^aeiou]]\n+ *  * predefined character classes: \\h, \\H, \\v, \\V\n+ *  * java character function classes\n+ *    * \\p{javaLowerCase}\n+ *    * \\p{javaUpperCase}\n+ *    * \\p{javaWhitespace}\n+ *    * \\p{javaMirrored}\n+ *  * boundary matchers: \\G, \\Z, \\R\n+ *  * possessive quantifiers\n+ *    * X?+\n+ *    * X*+\n+ *    * X++\n+ *    * X{n}+\n+ *    * X{n,}+\n+ *    * X{n,m}+\n+ *  * lookaheads\n+ *    * (?=X)\n+ *    * (?!X)\n+ *    * (?<=X)\n+ *    * (?<!X)\n+ *    * (?>X)\n+ */"
+  },
+  {
+    "id" : "3b622db4-1f33-46b1-8ff0-61f22a90093d",
+    "prId" : 733,
+    "comments" : [
+      {
+        "id" : "56b88b37-ff9d-440f-8fc2-2c142b205ad7",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "You need to free a stack allocated String or should this be malloc as you are passing back into the Scala world? \r\n`free(original.data.cast[Ptr[Byte]])`",
+        "createdAt" : "2017-05-24T16:03:46Z",
+        "updatedAt" : "2017-05-25T07:17:05Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "30e23228-6cfe-498f-b61a-fdd18504da93",
+        "parentId" : "56b88b37-ff9d-440f-8fc2-2c142b205ad7",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Or the returned string needs to be managed by the runtime?",
+        "createdAt" : "2017-05-24T16:38:54Z",
+        "updatedAt" : "2017-05-25T07:17:05Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6a6fd46b-2014-4a65-946c-f571f5f28aff",
+        "parentId" : "56b88b37-ff9d-440f-8fc2-2c142b205ad7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`fromRE2String` calls `toCString`, which uses `malloc` to allocate the memory. It means we must free it afterwards. ",
+        "createdAt" : "2017-05-24T16:54:24Z",
+        "updatedAt" : "2017-05-25T07:17:05Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b28160f3-784e-4ddc-9382-3cb44e1fae5b",
+        "parentId" : "56b88b37-ff9d-440f-8fc2-2c142b205ad7",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Thanks, will dig deeper next time.",
+        "createdAt" : "2017-05-24T16:59:48Z",
+        "updatedAt" : "2017-05-25T07:17:05Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9fefd28ad484aac63a3e7739f3f816aad0de8820",
+    "line" : null,
+    "diffHunk" : "@@ -107,10 +106,12 @@ object Pattern {\n     compile(regex).matcher(input).matches\n \n   def quote(s: String): String = {\n-    val original = StringPart(s)\n-    val quoted   = StringPart.stackalloc\n+    val original, quoted = stackalloc[cre2.string_t]\n+    toRE2String(s, original)\n     cre2.quoteMeta(quoted, original)\n-    quoted.toString\n+    val res = fromRE2String(quoted)\n+    free(original.data.cast[Ptr[Byte]])"
+  },
+  {
+    "id" : "39385c64-e42f-4057-ac4a-b67bbebc8bcb",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that the memory for compiled regular expressions is never going to be freed, the overhead of storing them permanently is negligible. Lets use normal (non-fixed-size) hash map for the cache instead. ",
+        "createdAt" : "2017-09-04T09:15:42Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5d1dd0c5-0147-4e76-a328-9030ccc8a98e",
+        "parentId" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "author" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "body" : "Compiled regexes can be and actually are freed in`put` (l. 76). That said, I agree with you that a normal map is appropriate. How about using (Scala's) `LinkedHashMap` with a separate `size` field? This way, we can keep cache with a Map while limiting the memory usage by keeping `tail`s.",
+        "createdAt" : "2017-09-04T10:34:52Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fb7127c2-8adc-44ce-90f3-caaa746701a8",
+        "parentId" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets try the following then:\r\n\r\n```\r\nfinal case class Key(regex: String, flags: Int)\r\nfinal class Node(var key: Key, var value: RE2RegExpOps, var rc: Int, var next: Node)\r\n\r\nvar last: Node = ???\r\nval map: java.util.HashMap[Key, Node] = ???\r\n```\r\n\r\n1. Nodes form a ringbuffer of some fixed length (lets say 128).  Every node stores a key that identifies the value it contains, precomplied regular expression and a reference count of current users of given regular expression.\r\n\r\n2. Apart from the ringbuffer there is also a map from keys to nodes that provides direct mapping to already precompiled regular expressions.\r\n\r\n3. Whenever a key is requested we do the following:\r\n\r\n   1. Check if it's in the map, if it is, lookup the regex through the map and increase the reference count for the node while it's being used. \r\n\r\n   2. If it's not, start traversing the ring buffer from `last` until a node with rc=0 is found. We dispose of the old regular exression and remove the key from the map. Now the node can be re-used to store a new key/value pair.\r\n\r\n   3. If while traversing we get back to the location where we started (due to all nodes having non-zero rc),  we need to grow a ringbuffer by 1 more node, and then we can do the same as ii.\r\n\r\n   4. Whenever we find a \"good\" node to be reused from the ringbuffer, we need to update `last ` to point to the next node after it. \r\n",
+        "createdAt" : "2017-09-06T09:02:20Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9336bdab-8b5e-46f7-ad20-429949263be8",
+        "parentId" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You realize that your algorithm never decrements `rc`? Obviously it can't, since you don't know when someone does not use a regex anymore.\r\n\r\nJust use an LRU and stop worrying.",
+        "createdAt" : "2017-09-06T09:21:00Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "00108ae2-8a8f-46d2-8511-83bc1d4f1475",
+        "parentId" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@sjrd The only access to the store is through withRE2Regex so it does know when to decrement and increment.",
+        "createdAt" : "2017-09-06T09:31:02Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "29c1f1dd-65af-4237-8347-7b39f59adc4e",
+        "parentId" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It also scales trivially to multithreaded equivalent with CAS and atomic RC in presence of different threads using different regexes at their own pace.",
+        "createdAt" : "2017-09-06T09:39:07Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "da6e7788-bcb1-4359-8f36-c194adc4dd5a",
+        "parentId" : "37fbd6bd-10cb-4416-b874-453d96643c5f",
+        "author" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "body" : "@densh Implemented your suggestion.",
+        "createdAt" : "2017-09-06T12:49:18Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,157 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    private case class Entry(regex: String, flags: Int, re2: RE2RegExpOps)\n+\n+    private val cache =\n+      scala.collection.mutable.IndexedSeq.fill[Entry](100)(null)"
+  },
+  {
+    "id" : "2fcc7d9d-e3b3-4397-964e-315b1c746619",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "d47de548-797f-4c41-a5b9-8457eba1eef4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't expose our RE2 as a public API, so flags are always constant, no need to remember them in the cache. It can be as simple as a mapping from regex string to a compiled regex instance. ",
+        "createdAt" : "2017-09-04T09:17:24Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "470e8a96-71db-4f05-a6a7-0fb959d04eb3",
+        "parentId" : "d47de548-797f-4c41-a5b9-8457eba1eef4",
+        "author" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "body" : "The overload `Pattern.compile(String regex, int flags)` does exist in JDK. `Entry.flags` is meant to cache the second parameter (not RE2's).",
+        "createdAt" : "2017-09-04T10:29:13Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "matil019",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/28897240?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "406c7e47-8a02-4314-979f-d6ce62662825",
+        "parentId" : "d47de548-797f-4c41-a5b9-8457eba1eef4",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good point.",
+        "createdAt" : "2017-09-06T08:27:44Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,157 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    private case class Entry(regex: String, flags: Int, re2: RE2RegExpOps)"
+  },
+  {
+    "id" : "98bb8871-4627-4c42-8ba5-8d8435d4ef19",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "791b2ddf-f31c-4a96-acd4-601d1f925dd6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`private`",
+        "createdAt" : "2017-09-06T12:53:16Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,177 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    final case class Key(regex: String, flags: Int)\n+    final class Node(var key: Key,\n+                     var value: RE2RegExpOps,\n+                     var rc: Int,\n+                     var next: Node)\n+\n+    private def freshNode(next: Node) =\n+      new Node(null, new RE2RegExpOps(null), 0, next)\n+\n+    import scala.annotation.tailrec\n+\n+    // The tip of Nodes. The Nodes form a ring buffer of some length.\n+    var last: Node = {\n+      // Populate the ringbuffer\n+      @tailrec def f(n: Node, num: Int): Node =\n+        if (num < 0)\n+          n\n+        else\n+          f(freshNode(n), num - 1)\n+      val last = freshNode(null)\n+      last.next = f(last, 128)\n+      last\n+    }\n+\n+    // Used to quickly look up a Node from a Key.\n+    val map = scala.collection.mutable.HashMap.empty[Key, Node]"
+  },
+  {
+    "id" : "9ae63694-8bd2-4afa-b571-8c2581d17459",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "7ff97f31-d9e5-4e4e-b586-0d7b2b024020",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`private`",
+        "createdAt" : "2017-09-06T12:53:23Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,177 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    final case class Key(regex: String, flags: Int)\n+    final class Node(var key: Key,\n+                     var value: RE2RegExpOps,\n+                     var rc: Int,\n+                     var next: Node)\n+\n+    private def freshNode(next: Node) =\n+      new Node(null, new RE2RegExpOps(null), 0, next)\n+\n+    import scala.annotation.tailrec\n+\n+    // The tip of Nodes. The Nodes form a ring buffer of some length.\n+    var last: Node = {"
+  },
+  {
+    "id" : "c701b5b2-1a83-49d7-9c7f-23c01c7fa94f",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "b6dfa2e1-8e05-4c5c-ba04-4d563be5105c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`synchronized` here is probably not the best way to make this thread-safe. It's safe to assume single-threaded-only for now as we don't support threads yet.",
+        "createdAt" : "2017-09-06T12:53:57Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,177 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    final case class Key(regex: String, flags: Int)\n+    final class Node(var key: Key,\n+                     var value: RE2RegExpOps,\n+                     var rc: Int,\n+                     var next: Node)\n+\n+    private def freshNode(next: Node) =\n+      new Node(null, new RE2RegExpOps(null), 0, next)\n+\n+    import scala.annotation.tailrec\n+\n+    // The tip of Nodes. The Nodes form a ring buffer of some length.\n+    var last: Node = {\n+      // Populate the ringbuffer\n+      @tailrec def f(n: Node, num: Int): Node =\n+        if (num < 0)\n+          n\n+        else\n+          f(freshNode(n), num - 1)\n+      val last = freshNode(null)\n+      last.next = f(last, 128)\n+      last\n+    }\n+\n+    // Used to quickly look up a Node from a Key.\n+    val map = scala.collection.mutable.HashMap.empty[Key, Node]\n+\n+    private def selectNode(regex: String, flags: Int): Node = synchronized {\n+      // Look up a RE2RegExpOps from the map.\n+      // If the map doesn't contain the key, look for an unused Node (whose refcount(rc) is 0),\n+      // delete its old compiled pattern if any, and then compile a new RE2 pattern and cache it\n+      // before returning it.\n+      // If all of the nodes are in use, expand the ringbuffer by 1 as a last resort.\n+      map.get(Key(regex, flags)).getOrElse {\n+        @tailrec def findUnused(n: Node): Node =\n+          if (n eq last) {\n+            // No unused nodes in the ringbuffer; expand its size by 1\n+            val newnode = freshNode(last.next)\n+            last.next = newnode\n+            newnode\n+          } else if (n.rc <= 0)\n+            n\n+          else\n+            findUnused(n.next)\n+        val reused =\n+          if (last.rc <= 0)\n+            last\n+          else\n+            findUnused(last.next)\n+        // delete the old pattern (if any)\n+        map -= reused.key\n+        if (reused.value.ptr != null) {\n+          cre2.delete(reused.value.ptr)\n+          reused.value = new RE2RegExpOps(null)\n+        }\n+        // reuse the node by replacing its members with new contents\n+        reused.key = Key(regex, flags)\n+        reused.value = doCompile(regex, flags)\n+        map += reused.key -> reused\n+        // advance `last` so that it points to the next node (which is likely the least recently used one)\n+        last = reused.next\n+        reused\n+      }\n+    }\n+\n+    def withRE2Regex[A](regex: String, flags: Int)(f: RE2RegExpOps => A): A = {\n+      // increase the refcount of the selected node while in use to prevent it from deleted\n+      val node = synchronized {"
+  },
+  {
+    "id" : "956109e8-2dd3-4af3-aa43-e2a0e042f759",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "2bb46a79-db48-4e97-92b1-bb2fa67b36db",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This import should go to the top of the file. ",
+        "createdAt" : "2017-09-06T12:57:05Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,177 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    final case class Key(regex: String, flags: Int)\n+    final class Node(var key: Key,\n+                     var value: RE2RegExpOps,\n+                     var rc: Int,\n+                     var next: Node)\n+\n+    private def freshNode(next: Node) =\n+      new Node(null, new RE2RegExpOps(null), 0, next)\n+\n+    import scala.annotation.tailrec"
+  },
+  {
+    "id" : "f58655d1-a86e-4250-8ead-22d7259cad7b",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "d3cea1e9-2614-491b-a004-a49384805949",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is this used anywhere outside this file? If not lets make it `private`.",
+        "createdAt" : "2017-09-06T12:59:36Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,177 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    final case class Key(regex: String, flags: Int)\n+    final class Node(var key: Key,\n+                     var value: RE2RegExpOps,\n+                     var rc: Int,\n+                     var next: Node)\n+\n+    private def freshNode(next: Node) =\n+      new Node(null, new RE2RegExpOps(null), 0, next)\n+\n+    import scala.annotation.tailrec\n+\n+    // The tip of Nodes. The Nodes form a ring buffer of some length.\n+    var last: Node = {\n+      // Populate the ringbuffer\n+      @tailrec def f(n: Node, num: Int): Node =\n+        if (num < 0)\n+          n\n+        else\n+          f(freshNode(n), num - 1)\n+      val last = freshNode(null)\n+      last.next = f(last, 128)\n+      last\n+    }\n+\n+    // Used to quickly look up a Node from a Key.\n+    val map = scala.collection.mutable.HashMap.empty[Key, Node]\n+\n+    private def selectNode(regex: String, flags: Int): Node = synchronized {\n+      // Look up a RE2RegExpOps from the map.\n+      // If the map doesn't contain the key, look for an unused Node (whose refcount(rc) is 0),\n+      // delete its old compiled pattern if any, and then compile a new RE2 pattern and cache it\n+      // before returning it.\n+      // If all of the nodes are in use, expand the ringbuffer by 1 as a last resort.\n+      map.get(Key(regex, flags)).getOrElse {\n+        @tailrec def findUnused(n: Node): Node =\n+          if (n eq last) {\n+            // No unused nodes in the ringbuffer; expand its size by 1\n+            val newnode = freshNode(last.next)\n+            last.next = newnode\n+            newnode\n+          } else if (n.rc <= 0)\n+            n\n+          else\n+            findUnused(n.next)\n+        val reused =\n+          if (last.rc <= 0)\n+            last\n+          else\n+            findUnused(last.next)\n+        // delete the old pattern (if any)\n+        map -= reused.key\n+        if (reused.value.ptr != null) {\n+          cre2.delete(reused.value.ptr)\n+          reused.value = new RE2RegExpOps(null)\n+        }\n+        // reuse the node by replacing its members with new contents\n+        reused.key = Key(regex, flags)\n+        reused.value = doCompile(regex, flags)\n+        map += reused.key -> reused\n+        // advance `last` so that it points to the next node (which is likely the least recently used one)\n+        last = reused.next\n+        reused\n+      }\n+    }\n+\n+    def withRE2Regex[A](regex: String, flags: Int)(f: RE2RegExpOps => A): A = {\n+      // increase the refcount of the selected node while in use to prevent it from deleted\n+      val node = synchronized {\n+        val n = selectNode(regex, flags)\n+        n.rc += 1\n+        n\n+      }\n+      try f(node.value)\n+      finally node.rc -= 1\n+    }\n+\n+    def doCompile(regex: String, flags: Int): RE2RegExpOps = Zone {"
+  },
+  {
+    "id" : "69e7d749-487e-45f8-a97f-0a4f1902dd07",
+    "prId" : 992,
+    "comments" : [
+      {
+        "id" : "53678fcd-2719-40c3-b23c-e9f33184fd70",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's good to keep curly braces if `if` is multi-line, here and above. ",
+        "createdAt" : "2017-09-06T13:00:42Z",
+        "updatedAt" : "2017-09-06T13:32:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e06e562912ccbd8814e89cf5017ca54fffded693",
+    "line" : null,
+    "diffHunk" : "@@ -118,18 +41,177 @@ object Pattern {\n       res\n     }\n \n-  def adaptPatternToRe2(regex: String): String = {\n-    regex\n+  private object CompiledPatternStore {\n+    final case class Key(regex: String, flags: Int)\n+    final class Node(var key: Key,\n+                     var value: RE2RegExpOps,\n+                     var rc: Int,\n+                     var next: Node)\n+\n+    private def freshNode(next: Node) =\n+      new Node(null, new RE2RegExpOps(null), 0, next)\n+\n+    import scala.annotation.tailrec\n+\n+    // The tip of Nodes. The Nodes form a ring buffer of some length.\n+    var last: Node = {\n+      // Populate the ringbuffer\n+      @tailrec def f(n: Node, num: Int): Node =\n+        if (num < 0)\n+          n\n+        else\n+          f(freshNode(n), num - 1)\n+      val last = freshNode(null)\n+      last.next = f(last, 128)\n+      last\n+    }\n+\n+    // Used to quickly look up a Node from a Key.\n+    val map = scala.collection.mutable.HashMap.empty[Key, Node]\n+\n+    private def selectNode(regex: String, flags: Int): Node = synchronized {\n+      // Look up a RE2RegExpOps from the map.\n+      // If the map doesn't contain the key, look for an unused Node (whose refcount(rc) is 0),\n+      // delete its old compiled pattern if any, and then compile a new RE2 pattern and cache it\n+      // before returning it.\n+      // If all of the nodes are in use, expand the ringbuffer by 1 as a last resort.\n+      map.get(Key(regex, flags)).getOrElse {\n+        @tailrec def findUnused(n: Node): Node =\n+          if (n eq last) {\n+            // No unused nodes in the ringbuffer; expand its size by 1\n+            val newnode = freshNode(last.next)\n+            last.next = newnode\n+            newnode\n+          } else if (n.rc <= 0)\n+            n\n+          else\n+            findUnused(n.next)\n+        val reused =\n+          if (last.rc <= 0)\n+            last\n+          else\n+            findUnused(last.next)"
+  },
+  {
+    "id" : "8edff6a7-04e8-4636-b5f9-e71e7142563d",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "b4319343-041a-4db1-937e-19473ea1c12a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The code here implements a bit overdesigned LRU cache. It would be good to keep something like that in the new implementation (i.e. cache compiled instances of regex per input string).",
+        "createdAt" : "2019-04-15T14:29:59Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "c213b491-3cdc-4643-9950-d0da9bf82cd3",
+        "parentId" : "b4319343-041a-4db1-937e-19473ea1c12a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I believe I removed that code when I converted to re2s.  \r\n\r\nAs much as I love caches, I convinced myself that the Pattern cache code \r\nhad not much upside and a lot of down side.  \r\n\r\nMuch as I like caches, this seemed to me like one of those places to go simple and correct\r\nuntil  real data shows the need.  Would a cache help at all?\r\n\r\nTo get the re2s transition to happen I decided to drop the code until experience\r\nand data show that a cache is helpful.  The work could be done in a future sprint.\r\n\r\nCompiling a pattern is basically running the parser over it and returning the same thing\r\nif it parses. One must balance the cost of a fast parser versus a cache scheme with\r\nmemory allocation.  I made the bet that the former will be faster in almost all use cases.\r\nOf course, there will be special cases, such as repeated use of the same pattern,\r\nwhere i loose the bet.\r\n\r\nNow, I am willing to believe that any serious user of regex is going to be caching themselves\r\nand not relying upon the implementation. Rightly, the JVM documentation says nothing\r\nabout caching.\r\n\r\nYour thoughts?",
+        "createdAt" : "2019-04-17T01:19:50Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "452f8d20-1ee5-4ca5-a0f0-286f4119c360",
+        "parentId" : "b4319343-041a-4db1-937e-19473ea1c12a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "A number of string methods internally use regex but don't allow user to cache the regular expressions such as `java.lang.String.{replaceAll, replaceFirst, split, matches}`. So caching the compilation of the regex can reduce overhead significantly, especially when performing those operations on small strings. ",
+        "createdAt" : "2019-04-17T09:22:44Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "9f871a62-2eb6-4f1f-bac2-9e0fd3aa43c6",
+        "parentId" : "b4319343-041a-4db1-937e-19473ea1c12a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood.  \r\n\r\nCan this be spun off into its own Issue and not block this PR?  I think it is going to take\r\nsome days and some discussion to get regex pattern caching right.  For example,\r\ninformed gestimates of cache size (probably > 10 and < 100).  I must consider \r\ninteractions with underlying RE2 caching. On a first run through it looks like straight\r\ndelegation will not work, but then again, tell an engineer that something will not work\r\nand 48 hours later they will have a solution.\r\n\r\nLastly, I must make sure that whatever I write does not trigger issue #1091. Easy\r\nenough to avoid as long as the defect is kept in mind.\r\n\r\nWrite an LRU cache seems like a job interview question, to be done in 5 minutes with\r\npeople judging:  guess I would fail that interview.  The simple list is obvious and\r\nnon-concurrent and I tend to write industrial strength code, perhaps at the expense\r\nof timeliness.  That is my excuse for the day and I am sticking with it (Locale specific joke!)\r\n\r\nPlease advise.  Thank you.",
+        "createdAt" : "2019-04-17T18:44:07Z",
+        "updatedAt" : "2019-04-17T18:44:07Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d5fb9fba-ed3e-49e4-a91e-afed9c88c725",
+        "parentId" : "b4319343-041a-4db1-937e-19473ea1c12a",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I would fail that interview too.",
+        "createdAt" : "2019-04-17T18:49:03Z",
+        "updatedAt" : "2019-04-17T18:49:04Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "bd6fcc4b-9522-4bd8-8ff8-62ab4c75354b",
+        "parentId" : "b4319343-041a-4db1-937e-19473ea1c12a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's perfectly fine to file this for later. Lets do that. ",
+        "createdAt" : "2019-04-17T20:44:41Z",
+        "updatedAt" : "2019-04-17T20:44:41Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : 116,
+    "diffHunk" : "@@ -19,243 +22,116 @@ object Pattern {\n   def UNICODE_CHARACTER_CLASS: Int = 256\n   def UNIX_LINES: Int              = 1\n \n-  def compile(regex: String): Pattern = compile(regex, 0)\n+  private def validateJavaFlags(flags: Int): Unit = {\n \n-  def compile(regex: String, flags: Int): Pattern = {\n-    // make sure the provided regex is compiled\n-    CompiledPatternStore.withRE2Regex(regex, flags)(_ => ())\n+    def notSupported(flag: Int, flagName: String): Unit = {\n+      if ((flags & flag) == flag) {\n+        throw new UnsupportedOperationException(\n+          s\"regex flag $flagName is not supported.\")\n+      }\n+    }\n \n-    new Pattern(\n-      _pattern = regex,\n-      _flags = flags\n+    val unsupportedOptions = Array[(Int, String)](\n+      (CANON_EQ, \"CANON_EQ(canonical equivalences)\"),\n+      (COMMENTS, \"COMMENTS\"),\n+      (UNICODE_CASE, \"UNICODE_CASE\"),\n+      (UNICODE_CHARACTER_CLASS, \"UNICODE_CHARACTER_CLASS\"),\n+      (UNIX_LINES, \"UNIX_LINES\")\n     )\n-  }\n \n-  def matches(regex: String, input: CharSequence): Boolean =\n-    compile(regex).matcher(input).matches\n+    for (i <- 0 until unsupportedOptions.length) {\n+      notSupported(unsupportedOptions(i)._1, unsupportedOptions(i)._2)\n+    }\n \n-  def quote(s: String): String = {\n-    s\"\\\\Q${s}\\\\E\"\n+    // Any bit set other than given set throws.\n+    if ((flags & ~(CASE_INSENSITIVE | DOTALL | LITERAL | MULTILINE)) != 0) {\n+      throw new IllegalArgumentException(s\"Unknown flag ${flags}\")\n+    }\n   }\n \n-  private object CompiledPatternStore {\n-    final case class Key(regex: String, flags: Int)\n-    final class Node(var key: Key,\n-                     var value: RE2RegExpOps,\n-                     var rc: Int,\n-                     var next: Node)\n-\n-    private def freshNode(next: Node) =\n-      new Node(null, new RE2RegExpOps(null), 0, next)\n-\n-    // The tip of Nodes. The Nodes form a ring buffer of some length.\n-    private var last: Node = {\n-      // Populate the ringbuffer\n-      @tailrec def f(n: Node, num: Int): Node =\n-        if (num < 0) {\n-          n\n-        } else {\n-          f(freshNode(n), num - 1)\n-        }\n-      val last = freshNode(null)\n-      last.next = f(last, 128)\n-      last\n-    }\n+  private def toRe2Flags(flags: Int): Int = {\n+\n+    // Pass re2s only the flags it knows about and clear the rest.\n+    //\n+    // j.u.regex LITERAL is handled in j.u.regex.Pattern#compile\n+    // so OK to clear that bit. java bits not known to re2s will cause\n+    // it to throw, so clear them also.\n+    //\n+    // re2s supports only CASE_INSENSITIVE | DOTALL | MULTILINE |\n+    //                    DISABLE_UNICODE_GROUPS))\n+    //\n+    // DISABLE_UNICODE_GROUPS causes rejectUnsupportedOptions()\n+    // to be thrown, so only CASE_INSENSITIVE, DOTALL, and MULTILINE are\n+    // left when execution reaches this point.\n+    //\n+    // The constants for these three definitely differ between j.u.regex\n+    // and re2s and must be be translated.\n+\n+    val optionTranslations = Array[(Int, Int)](\n+      (CASE_INSENSITIVE, re2s.Pattern.CASE_INSENSITIVE),\n+      (DOTALL, re2s.Pattern.DOTALL),\n+      (MULTILINE, re2s.Pattern.MULTILINE)\n+    )\n \n-    // Used to quickly look up a Node from a Key.\n-    private val map = scala.collection.mutable.HashMap.empty[Key, Node]\n-\n-    private def selectNode(regex: String, flags: Int): Node = {"
+  }
+]

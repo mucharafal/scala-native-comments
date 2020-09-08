@@ -1,0 +1,146 @@
+[
+  {
+    "id" : "fd7311dd-e43a-4330-8fd7-a29e899ab8a6",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "fa6b9376-22c1-46f0-ab0a-1ae9d14dd4d2",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "private fd?",
+        "createdAt" : "2017-03-21T03:10:25Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "72c95af0-c5f7-4d5e-a2cb-abb717585bfc",
+        "parentId" : "fa6b9376-22c1-46f0-ab0a-1ae9d14dd4d2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, it's private, only `getFD` accessor is public. ",
+        "createdAt" : "2017-04-10T18:37:28Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c589305c-8417-42cd-b839-06d4ca27ce96",
+        "parentId" : "fa6b9376-22c1-46f0-ab0a-1ae9d14dd4d2",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "So nothing to change...?",
+        "createdAt" : "2017-04-11T08:10:05Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "589796db-c9e5-4083-9731-a6a055595756",
+        "parentId" : "fa6b9376-22c1-46f0-ab0a-1ae9d14dd4d2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, nothing to change. ",
+        "createdAt" : "2017-04-11T09:06:31Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,51 @@\n+package java.io\n+\n+import java.nio.channels.FileChannel\n+\n+import scala.scalanative.posix.unistd\n+import scala.scalanative.native._\n+import scala.scalanative.runtime.GC\n+\n+class FileOutputStream(fd: FileDescriptor) extends OutputStream {"
+  },
+  {
+    "id" : "954282cd-0517-4c28-a22a-868935c5cde2",
+    "prId" : 659,
+    "comments" : [
+      {
+        "id" : "dfdeeb45-1f9b-4fd9-aa47-f8884a499f28",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I think it still makes sense to retry if `errno == EINTR`. Will make a PR if nobody beats me to it.",
+        "createdAt" : "2017-04-24T13:20:47Z",
+        "updatedAt" : "2017-04-24T13:20:47Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "44a6cb06-910b-4888-9032-e7aeae44da41",
+        "parentId" : "dfdeeb45-1f9b-4fd9-aa47-f8884a499f28",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Go for it! ",
+        "createdAt" : "2017-04-24T13:23:02Z",
+        "updatedAt" : "2017-04-24T13:23:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1da523f26ff8d1d6617b49a940f4c620debd1772",
+    "line" : 51,
+    "diffHunk" : "@@ -17,26 +17,43 @@ class FileOutputStream(fd: FileDescriptor) extends OutputStream {\n   override protected def finalize(): Unit =\n     close()\n \n-  // def getChannel(): FileChannel\n-\n   final def getFD(): FileDescriptor =\n     fd\n \n-  override def write(b: Array[Byte]): Unit =\n-    write(b, 0, b.length)\n+  override def write(buffer: Array[Byte]): Unit = {\n+    if (buffer == null) {\n+      throw new NullPointerException\n+    }\n+    write(buffer, 0, buffer.length)\n+  }\n \n-  override def write(b: Array[Byte], off: Int, len: Int): Unit = {\n-    val buffer = GC.malloc(len)\n-    var i      = off\n-    while (i < len) {\n-      !(buffer + i) = b(off + i)\n-      i += 1\n+  override def write(buffer: Array[Byte], offset: Int, count: Int): Unit = {\n+    if (buffer == null) {\n+      throw new NullPointerException\n+    }\n+    if (offset < 0 || count < 0 || count > buffer.length - offset) {\n+      throw new IndexOutOfBoundsException\n+    }\n+    if (count == 0) {\n+      return\n+    }\n+\n+    // we use the runtime knowledge of the array layout to avoid\n+    // intermediate buffer, and read straight from the array memory\n+    val buf        = buffer.asInstanceOf[runtime.ByteArray].at(offset)\n+    val writeCount = unistd.write(fd.fd, buf, count)\n+\n+    if (writeCount < 0) {\n+      // negative value (typically -1) indicates that write failed\n+      throw new IOException(\"couldn't write to file\")"
+  }
+]

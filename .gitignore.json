@@ -1,0 +1,145 @@
+[
+  {
+    "id" : "175e3e2e-9ae3-4d40-ba0a-b3241e5bde45",
+    "prId" : 75,
+    "comments" : [
+      {
+        "id" : "7e837605-4d0b-440d-a442-9ff23dd72bee",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "PPM files are not typical of the project and I don't think it's a good idea to have them in `.gitignore`. Ignoring `.dot` files is quite reasonable. Please drop the blank line and ppm and update your commit.\n",
+        "createdAt" : "2016-05-15T01:57:00Z",
+        "updatedAt" : "2016-05-15T14:23:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2b018fcaeb12a1c07a758e4a843329a210218862",
+    "line" : null,
+    "diffHunk" : "@@ -1,2 +1,5 @@\n scalalib/src/\n target/\n+\n+*.dot\n+*.ppm"
+  },
+  {
+    "id" : "bf7373ee-3e6a-4ca0-aca7-ed3e5b0c85f1",
+    "prId" : 92,
+    "comments" : [
+      {
+        "id" : "d9eefbe6-3f56-431f-971e-7771cc7f5914",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is environment-specific. It should be in your global `.gitignore`, not in project-specific `.gitignore`s.\n",
+        "createdAt" : "2016-05-17T11:20:53Z",
+        "updatedAt" : "2016-05-17T11:20:53Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fe9fe4b11a028c98c70e3f429697ec8870b78d2e",
+    "line" : 6,
+    "diffHunk" : "@@ -1,3 +1,6 @@\n scalalib/src/\n target/\n+submodules/scala\n *.dot\n+.idea\n+.idea_modules"
+  },
+  {
+    "id" : "13a0126b-cb8b-41a5-a9c4-6521cd3fe774",
+    "prId" : 93,
+    "comments" : [
+      {
+        "id" : "4210ae07-5505-4121-bd16-d24deedece97",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think that we should have this one in gitignore as it's really demo-specific. \n",
+        "createdAt" : "2016-05-17T11:45:33Z",
+        "updatedAt" : "2016-05-17T12:02:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "35a913f3-884c-4033-9587-8047f13a869a",
+        "parentId" : "4210ae07-5505-4121-bd16-d24deedece97",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "ok I'll fix and rebase\n",
+        "createdAt" : "2016-05-17T12:00:27Z",
+        "updatedAt" : "2016-05-17T12:02:51Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "dba3ec4eac44e9b298c897284797dfbb11771ae0",
+    "line" : null,
+    "diffHunk" : "@@ -1,3 +1,4 @@\n scalalib/src/\n target/\n *.dot\n+image0.ppm"
+  },
+  {
+    "id" : "d4eb205b-2dcb-460a-b43d-83bcb5a1a070",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "bd4265c0-e598-4bc1-9ea1-2331850e301c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be in a separate PR ;)",
+        "createdAt" : "2020-02-20T14:31:07Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -19,3 +19,8 @@ bin/\n .settings/\n .externalToolBuilders/\n .cache*\n+\n+# metals\n+/.bloop/\n+/.metals/\n+/project/metals.sbt"
+  }
+]

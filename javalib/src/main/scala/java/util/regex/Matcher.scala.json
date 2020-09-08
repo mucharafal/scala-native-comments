@@ -1,0 +1,430 @@
+[
+  {
+    "id" : "683447d8-6ced-43aa-b1f7-598d5eb96050",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "ed9e2fa4-cd4b-499e-8480-9b2b5f9933d8",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "```\r\ntype regoff_t = CInt\r\ntype regmatch_t = CStruct2[regoff_t, regoff_t]\r\n```",
+        "createdAt" : "2017-02-03T10:45:19Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "235c286c-5702-4eed-86b1-040a6df086fe",
+        "parentId" : "ed9e2fa4-cd4b-499e-8480-9b2b5f9933d8",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those should also be defined inside the `@extern object regex`.",
+        "createdAt" : "2017-02-03T10:48:27Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 8,
+    "diffHunk" : "@@ -0,0 +1,162 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+object RegMatch {\n+  @struct\n+  class regmatch_t(val rm_so: Int, val rm_eo: Int)"
+  },
+  {
+    "id" : "11a40bbc-195e-4624-8431-5fe4d0019503",
+    "prId" : 480,
+    "comments" : [
+      {
+        "id" : "f2118d45-84ad-45f8-8a7c-b6cec0cb2a49",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is a really confusing toString. `s\"FullRegMatch($rm_so, $rm_eo, $input, $retval)` would be a bit better. ",
+        "createdAt" : "2017-02-03T11:00:22Z",
+        "updatedAt" : "2017-02-03T11:01:18Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b3499f5faa17721d501bef27f8a9f253fdfbfd85",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,162 @@\n+package java.util.regex\n+\n+import scalanative.native._, stdlib._, stdio._\n+import scalanative.runtime.struct\n+\n+object RegMatch {\n+  @struct\n+  class regmatch_t(val rm_so: Int, val rm_eo: Int)\n+}\n+\n+class FullRegMatch(val rm_so: Int,\n+                   val rm_eo: Int,\n+                   input: String,\n+                   val retval: Int) {\n+  def length: Int               = rm_eo - rm_so\n+  def get: String               = input.substring(rm_so, rm_eo)\n+  override def toString: String = s\"$rm_so $rm_eo $input $retval\""
+  },
+  {
+    "id" : "2fd711ad-c4b5-4d7c-84e3-e48998882760",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "2f759ccb-a8df-4e81-9556-a132635139e4",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't leave TODOs in the code.",
+        "createdAt" : "2017-04-10T12:45:28Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,261 @@\n+package java.util\n+package regex\n+\n+import cre2._, cre2h._\n+\n+import scalanative.native._, stdlib._, stdio._, string._\n+\n+// Inspired by: https://github.com/google/re2j/blob/master/java/com/google/re2j/Matcher.java\n+\n+object Matcher {\n+  def quoteReplacement(s: String): String = {\n+    if (s.indexOf('\\\\') < 0 && s.indexOf('$') < 0) {\n+      s\n+    } else {\n+      val sb = new StringBuilder()\n+      var i  = 0\n+      while (i < s.length) {\n+        val c = s.charAt(i)\n+        if (c == '\\\\' || c == '$') {\n+          sb.append('\\\\')\n+        }\n+        sb.append(c)\n+        i += 1\n+      }\n+      sb.toString\n+    }\n+  }\n+}\n+\n+final class Matcher private[regex] (var _pattern: Pattern,\n+                                    var inputSequence: CharSequence)\n+    extends MatchResult {\n+\n+  private val regex = _pattern.regex\n+\n+  private var hasMatch  = false\n+  private var hasGroups = false\n+  private var appendPos = 0\n+\n+  private var groups =\n+    Array.ofDim[(Int, Int)](cre2_num_capturing_groups(regex) + 1)\n+\n+  private var lastAnchor: Option[cre2_anchor_t] = None\n+\n+  private[regex] var inputLength = inputSequence.length\n+\n+  def matches(): Boolean = genMatch(0, CRE2_ANCHOR_BOTH)\n+\n+  def lookingAt(): Boolean = genMatch(0, CRE2_ANCHOR_START)\n+\n+  def find(start: Int): Boolean = genMatch(0, CRE2_UNANCHORED)\n+\n+  def find(): Boolean = {\n+    var startIndex = 0\n+    if (hasMatch) {\n+      startIndex = end\n+      if (start == end) {\n+        startIndex += 1\n+      }\n+    }\n+\n+    genMatch(startIndex, CRE2_UNANCHORED)\n+  }\n+\n+  private def doMatch(start: Int,\n+                      end: Int,\n+                      nMatches: Int,\n+                      anchor: cre2_anchor_t): Boolean = {\n+    val matches = cre2_string_t.array(nMatches)\n+    val in      = toCString(inputSequence.toString)\n+\n+    val ok = cre2_match(\n+        regex = regex,\n+        text = in,\n+        textlen = inputLength,\n+        startpos = start,\n+        endpos = end,\n+        anchor = anchor,\n+        matches = matches,\n+        nMatches = nMatches\n+      ) == 1\n+\n+    if (ok) {\n+      var i = 0\n+      while (i < nMatches) {\n+        val m     = matches(i)\n+        val start = cre2_distance(m.data, in) // #598, m.data - in\n+        val end   = start + m.lenght\n+        groups(i) = ((start, end))\n+\n+        i += 1\n+      }\n+    }\n+\n+    ok\n+  }\n+\n+  private def genMatch(start: Int, anchor: cre2_anchor_t): Boolean = {\n+    val ok = doMatch(start, inputLength, 1, anchor)\n+\n+    if (ok) {\n+      hasMatch = true\n+      hasGroups = false\n+      lastAnchor = Some(anchor)\n+    }\n+\n+    ok\n+  }\n+\n+  def replaceFirst(replacement: String): String =\n+    replace(replacement, global = false)\n+\n+  def replaceAll(replacement: String): String =\n+    replace(replacement, global = true)\n+\n+  private def replace(replacement: String, global: Boolean): String = {\n+    val textAndTarget = cre2_string_t(inputSequence.toString)\n+    val rewrite       = cre2_string_t(replacement)\n+\n+    if (global) cre2_global_replace_re(regex, textAndTarget, rewrite)\n+    else cre2_replace_re(regex, textAndTarget, rewrite)\n+\n+    textAndTarget.toString\n+  }\n+\n+  def group(): String = group(0)\n+\n+  def group(group: Int): String = {\n+    val startIndex = start(group)\n+    val endIndex   = end(group)\n+\n+    if (startIndex < 0 && endIndex < 0) null\n+    else inputSequence.subSequence(startIndex, endIndex).toString()\n+  }\n+\n+  def group(name: String): String = group(groupIndex(name))\n+\n+  private def groupIndex(name: String): Int = {\n+    val pos = cre2_find_named_capturing_groups(regex, toCString(name))\n+    if (pos == -1) {\n+      throw new IllegalArgumentException(s\"No group with name <$name>\")\n+    }\n+    pos\n+  }\n+\n+  def groupCount: Int = groups.length - 1\n+\n+  def start: Int = start(0)\n+\n+  def start(group: Int): Int = {\n+    loadGroup(group)\n+    groups(group)._1\n+  }\n+\n+  def start(name: String): Int = start(groupIndex(name))\n+\n+  def end: Int = end(0)\n+\n+  def end(group: Int): Int = {\n+    loadGroup(group)\n+    groups(group)._2\n+  }\n+\n+  def end(name: String): Int = end(groupIndex(name))\n+\n+  private def loadGroup(group: Int): Unit = {\n+    if (group < 0 || group > groupCount) {\n+      throw new IndexOutOfBoundsException(s\"No group $group\")\n+    }\n+\n+    if (!hasMatch) {\n+      throw new IllegalStateException(\"No match found\")\n+    }\n+\n+    if (!(group == 0 || hasGroups)) {\n+      val ok = doMatch(\n+        start = groups(0)._1,\n+        end = groups(0)._2,\n+        nMatches = groups.length,\n+        anchor = lastAnchor.get\n+      )\n+\n+      if (!ok) {\n+        throw new IllegalStateException(\"Cannot load groups\")\n+      }\n+\n+      hasGroups = true\n+    }\n+  }\n+\n+  def pattern(): Pattern = this.pattern\n+\n+  def reset(input: CharSequence): Matcher = {\n+    reset()\n+    inputSequence = input\n+    inputLength = input.length\n+    this\n+  }\n+\n+  def reset(): Matcher = {\n+    appendPos = 0\n+    hasMatch = false\n+    hasGroups = false\n+    this\n+  }\n+\n+  def region(start: Int, end: Int): Matcher = ???\n+\n+  // TODO: $g(i) and ${name}"
+  },
+  {
+    "id" : "cf134b20-bada-4b67-b584-60e701576bc0",
+    "prId" : 740,
+    "comments" : [
+      {
+        "id" : "da783269-37c1-4c46-82c0-f716cc8abe2c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This seems to be like a workaround that doesn't address the root cause of the issue: we add `+ 1` to the number of groups in https://github.com/scala-native/scala-native/pull/740/files#diff-ef6e5cb9d8056c08c6441a0d16a64425R39, and then when we try to read the data of that last group it's simply not there (i.e. `m.data == null`.) Can we fix the root cause instead?",
+        "createdAt" : "2017-06-06T17:07:32Z",
+        "updatedAt" : "2017-06-23T00:05:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "545aadab-47f1-475c-b4ba-9ee86471f844",
+        "parentId" : "da783269-37c1-4c46-82c0-f716cc8abe2c",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@MasseGuillaume Do you remember why that `+ 1` was necessary?",
+        "createdAt" : "2017-06-06T17:08:54Z",
+        "updatedAt" : "2017-06-23T00:05:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0fb2092f-ad37-4a9a-9f7a-681369fc079b",
+        "parentId" : "da783269-37c1-4c46-82c0-f716cc8abe2c",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "group(0) is source string, so actual groups start from 1 to N",
+        "createdAt" : "2017-06-06T17:22:37Z",
+        "updatedAt" : "2017-06-23T00:05:48Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b928f860-e362-476b-9cae-99e4f7e0cfb1",
+        "parentId" : "da783269-37c1-4c46-82c0-f716cc8abe2c",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I'm not sure if there is one more case when re2 specifies open range as a group, like (2, inf) means the rest of the source string starts from 2th position.\r\nThere is also (inf, 5) means take(5). I have seen that kind of cases as well. But I just fixed deterministic here, I agree to fix more correctly.",
+        "createdAt" : "2017-06-06T17:27:38Z",
+        "updatedAt" : "2017-06-23T00:05:48Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "183160dbc4ab97b53ba199f1d799ef82fa597a45",
+    "line" : null,
+    "diffHunk" : "@@ -85,8 +85,8 @@ final class Matcher private[regex] (var _pattern: Pattern,\n         var i = 0\n         while (i < nMatches) {\n           val m     = matches + i\n-          val start = (m.data - in).toInt\n-          val end   = start + m.length\n+          val start = if (m.data == null) -1 else (m.data - in).toInt\n+          val end   = if (m.data == null) -1 else start + m.length"
+  },
+  {
+    "id" : "0036b212-af7d-4e9f-9911-558c98f8a978",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "f5090219-0010-4038-80c1-8fad2cb0050d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please file an issue and refer to it here.",
+        "createdAt" : "2019-04-15T14:19:04Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5cd9b197-280b-4186-bbb9-41b62534697a",
+        "parentId" : "f5090219-0010-4038-80c1-8fad2cb0050d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. Issue #1541.   \r\n\r\nI will try to look at this after the current PR and a rest period.\r\nThis is all new work, so nothing in 0.3.8 is broken.  There are a number of regex\r\nissues, all in obscure places, which are competing for attention.  After my brain\r\nheals, I need to do a priority sort.",
+        "createdAt" : "2019-04-17T01:47:34Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -46,287 +45,410 @@ object Matcher {\n       qrLoop(s, idx, sb).toString\n     }\n   }\n+\n }\n \n final class Matcher private[regex] (var _pattern: Pattern,\n-                                    var inputSequence: CharSequence)\n+                                    var _inputSequence: CharSequence)\n     extends MatchResult {\n \n-  private def withRE2Regex[A](f: RE2RegExpOps => A): A =\n-    _pattern.withRE2Regex(f)\n+  private var currentPattern = _pattern\n \n   private var hasMatch  = false\n   private var hasGroups = false\n   private var appendPos = 0\n \n-  private var groups = withRE2Regex { re2op =>\n-    val regex = re2op.ptr\n-    Array.ofDim[(Int, Int)](cre2.numCapturingGroups(regex) + 1)\n+  private var _regionStart = 0\n+  private var _regionEnd   = _inputSequence.length\n+\n+  private var _groupCount = currentPattern.compiled.groupCount()\n+\n+  // This default differs from JVM but describes actual SN behavior.\n+  // That behavior is a bug, awaiting a fix."
+  },
+  {
+    "id" : "5998e5ae-b578-4c0c-8d6e-fcbd034d96d4",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "70f5c95e-92ba-4a92-83d5-3958f85d7f26",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1D array are only more *size* efficient for large constants such as unicode tables. Otherwise there is no reason not to use 2D arrays for dynamically-sized data if it's easier to understand.",
+        "createdAt" : "2019-04-15T14:20:20Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "78c565f5-64de-4bd4-966d-196e5d4389f7",
+        "parentId" : "70f5c95e-92ba-4a92-83d5-3958f85d7f26",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Entirely gone in j.u.r.Matcher.scala in 2019-04-16 code with improved delegation.\r\n\r\nI verified that re2s.Matcher.scala uses 1-D arrays.",
+        "createdAt" : "2019-04-17T01:31:54Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -46,287 +45,410 @@ object Matcher {\n       qrLoop(s, idx, sb).toString\n     }\n   }\n+\n }\n \n final class Matcher private[regex] (var _pattern: Pattern,\n-                                    var inputSequence: CharSequence)\n+                                    var _inputSequence: CharSequence)\n     extends MatchResult {\n \n-  private def withRE2Regex[A](f: RE2RegExpOps => A): A =\n-    _pattern.withRE2Regex(f)\n+  private var currentPattern = _pattern\n \n   private var hasMatch  = false\n   private var hasGroups = false\n   private var appendPos = 0\n \n-  private var groups = withRE2Regex { re2op =>\n-    val regex = re2op.ptr\n-    Array.ofDim[(Int, Int)](cre2.numCapturingGroups(regex) + 1)\n+  private var _regionStart = 0\n+  private var _regionEnd   = _inputSequence.length\n+\n+  private var _groupCount = currentPattern.compiled.groupCount()\n+\n+  // This default differs from JVM but describes actual SN behavior.\n+  // That behavior is a bug, awaiting a fix.\n+  private var anchoringBoundsInUse = false\n+\n+  private def clearGroup0(g: Array[Int]) = {\n+    g(0) = -1\n+    g(1) = -1\n   }\n \n-  private var lastAnchor: Option[cre2.anchor_t] = None\n+  private def createGroups(nGroups: Int): Array[Int] = {\n \n-  private[regex] def inputLength = inputSequence.length\n+    // +1 is for groups(0). It holds full match, but is not part of groupCount.\n+    // \"groups\" is an old-style 2-D row-major array, where Array(index) holds\n+    // start for group number index and Array(index + 1) holds the\n+    // corresponding end. In SN, 1-D arrays are much more efficient, albeit\n+    // much less elegant."
+  },
+  {
+    "id" : "4b90afaa-2145-4310-ab34-04afd687038e",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "03655da9-59f7-4de9-9060-59d95d88d8ed",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can you cache this `Pattern.compile` as a lazy val at top level somewhere?",
+        "createdAt" : "2019-04-15T14:21:04Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0eee25b0-48ba-498b-b8c5-1888549b258b",
+        "parentId" : "03655da9-59f7-4de9-9060-59d95d88d8ed",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "My most recent iteration of Matcher.scala does more delegation and is much simpler than\r\nthe iteration you looked at.  I believe the section you commented on no longer exists\r\nin j.u.r.Matcher.scala.\r\n\r\nI checked that no similar code exists in re2s.Matcher.scala.  The two are often parallel but\r\nnot here.",
+        "createdAt" : "2019-04-17T00:56:59Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -46,287 +45,410 @@ object Matcher {\n       qrLoop(s, idx, sb).toString\n     }\n   }\n+\n }\n \n final class Matcher private[regex] (var _pattern: Pattern,\n-                                    var inputSequence: CharSequence)\n+                                    var _inputSequence: CharSequence)\n     extends MatchResult {\n \n-  private def withRE2Regex[A](f: RE2RegExpOps => A): A =\n-    _pattern.withRE2Regex(f)\n+  private var currentPattern = _pattern\n \n   private var hasMatch  = false\n   private var hasGroups = false\n   private var appendPos = 0\n \n-  private var groups = withRE2Regex { re2op =>\n-    val regex = re2op.ptr\n-    Array.ofDim[(Int, Int)](cre2.numCapturingGroups(regex) + 1)\n+  private var _regionStart = 0\n+  private var _regionEnd   = _inputSequence.length\n+\n+  private var _groupCount = currentPattern.compiled.groupCount()\n+\n+  // This default differs from JVM but describes actual SN behavior.\n+  // That behavior is a bug, awaiting a fix.\n+  private var anchoringBoundsInUse = false\n+\n+  private def clearGroup0(g: Array[Int]) = {\n+    g(0) = -1\n+    g(1) = -1\n   }\n \n-  private var lastAnchor: Option[cre2.anchor_t] = None\n+  private def createGroups(nGroups: Int): Array[Int] = {\n \n-  private[regex] def inputLength = inputSequence.length\n+    // +1 is for groups(0). It holds full match, but is not part of groupCount.\n+    // \"groups\" is an old-style 2-D row-major array, where Array(index) holds\n+    // start for group number index and Array(index + 1) holds the\n+    // corresponding end. In SN, 1-D arrays are much more efficient, albeit\n+    // much less elegant.\n \n-  def matches(): Boolean = genMatch(0, ANCHOR_BOTH)\n+    val result = new Array[Int](2 * (nGroups + 1))\n \n-  def lookingAt(): Boolean = genMatch(0, ANCHOR_START)\n+    // No lastmatch at creation, that is group(0) is coded as null,\n+    // not null string.\n+    // groups n > 0 have undefined values until after a loadGroup() executes.\n+    clearGroup0(result)\n \n-  def find(start: Int): Boolean = {\n+    result\n+  }\n \n-    if ((start < 0) || (start > inputLength)) {\n-      throw new IndexOutOfBoundsException(\"Illegal start index\")\n+  private def clearGroups(g: Array[Int]) = {\n+    Arrays.fill(groups, 0, g.length, -1) // Now, all groups return null.\n+  }\n+\n+  // The group indexes, in [start, end) pairs.  Zeroth pair is overall match.\n+  private var groups = createGroups(_groupCount)\n+\n+  private def groupStartIndex(groupNum: Int) = groups(groupNum * 2)\n+  private def groupEndIndex(groupNum: Int)   = groups((groupNum * 2) + 1)\n+\n+  private var lastAnchor: Option[RE2.anchor_t] = None\n+\n+  private[regex] def inputLength = _inputSequence.length\n+\n+  private[regex] def appendReplacement2(sb: StringBuffer,\n+                                        replacement: String,\n+                                        doGroups: Boolean): Matcher = {\n+    val s = start\n+    val e = end\n+    if (appendPos < s) {\n+      sb.append(_inputSequence, appendPos, s)\n     }\n+    appendPos = e\n \n-    reset()\n-    genMatch(start, UNANCHORED)\n-  }\n+    if (doGroups) {\n+      val m =\n+        Pattern.compile(\"(\\\\$(\\\\d)|\\\\$\\\\{(\\\\w*)\\\\})\").matcher(replacement)"
+  },
+  {
+    "id" : "53f6a56f-f322-438d-b5e2-cf54862d75b3",
+    "prId" : 1519,
+    "comments" : [
+      {
+        "id" : "1cda4ac6-4fb2-4ea7-9d5a-aadc7ff78c5d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why bother with this change at at all? The implementation does nothing and won't survive for long. It's better to just use `nativeLinkStubs := true` in unit tests projects and not worry about it for the time being. ",
+        "createdAt" : "2019-04-02T09:22:04Z",
+        "updatedAt" : "2019-04-02T09:22:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "01fd87c2-dfc7-435c-9fa9-7a08a82b8b49",
+        "parentId" : "1cda4ac6-4fb2-4ea7-9d5a-aadc7ff78c5d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "OK, I'll close this PR and focus on adding nativeLinkStubs.  \r\n\r\nThank you for the direction.\r\n\r\n",
+        "createdAt" : "2019-04-02T10:12:30Z",
+        "updatedAt" : "2019-04-02T10:12:30Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f798be42-69f9-44ff-99c0-b1ba8cb3b6c0",
+        "parentId" : "1cda4ac6-4fb2-4ea7-9d5a-aadc7ff78c5d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2019-04-02T10:30:02Z",
+        "updatedAt" : "2019-04-02T10:30:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6e6662688394838d78ee1c2abf49d418ca0c543e",
+    "line" : 16,
+    "diffHunk" : "@@ -265,7 +265,18 @@ final class Matcher private[regex] (var _pattern: Pattern,\n     this\n   }\n \n-  def region(start: Int, end: Int): Matcher = ???\n+  // ATTENTION: This is a sub-minimal stub implementation in order\n+  //            to get ScalaNative unit and scripted tests to link.\n+  //            A full implementation would have required re-working\n+  //            gen Match() to have an end parameter and its callers,\n+  //            in particular find(start) to specify proper start and end.\n+  //\n+  //            This code may be replaced soon by re2s so it does not\n+  //            make sense to make major changes now.\n+\n+  def region(start: Int, end: Int): Matcher = {\n+    this\n+  }"
+  }
+]

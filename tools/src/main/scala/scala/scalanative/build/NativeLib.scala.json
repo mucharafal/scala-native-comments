@@ -1,0 +1,377 @@
+[
+  {
+    "id" : "f5e10328-4b05-4545-89e5-82b26150a555",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "351a5b2f-0ae0-4c1e-9c55-c99253f3b636",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I read this as \"file system\", not as \"file separator\". Consider renaming it as `fileSep`.",
+        "createdAt" : "2020-08-18T14:18:42Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "55e6c296-7c8d-454d-852a-5199ec5870f0",
+        "parentId" : "351a5b2f-0ae0-4c1e-9c55-c99253f3b636",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok sure thing.",
+        "createdAt" : "2020-08-18T15:02:29Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -1,27 +1,95 @@\n package scala.scalanative\n package build\n \n+import java.io.File\n import java.nio.file.Path\n+import java.util.regex._\n \n /** Original jar or dir path and generated dir path for native code */\n private[scalanative] case class NativeLib(src: Path, dest: Path)\n \n+/** Utilities for dealing with native library code */\n private[scalanative] object NativeLib {\n+  private val fs           = File.separator"
+  },
+  {
+    "id" : "f5cec729-e394-4f68-99a9-4a97dd8368da",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "ec0a3623-e82d-4f49-a55c-baefdb10be6e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The fact that `classes` is here is worrying. The tools shouldn't know about `classes`, which is sbt-specific. We should receive the classpath from the build tool, which would give us entries that end in `classes` if it's sbt, and look into those directories (for each one, in the subdirectory `scala-native`), but nowhere else.",
+        "createdAt" : "2020-08-18T14:23:16Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1de8d374-c3cf-470b-bdf7-feaf5edbd2bc",
+        "parentId" : "ec0a3623-e82d-4f49-a55c-baefdb10be6e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Right, I didn't like that either - I added a `Note:` above. Somehow we need to get the path to the `classes` dir no matter what it is called. Could we add that to `Config` so it is not hard coded? We can't just search for the `codeDir` here because it is too easy for someone to put their projects into a `scala-native` directory.",
+        "createdAt" : "2020-08-18T15:06:34Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f2baa9db-9d84-4203-838c-dbdcf91a644a",
+        "parentId" : "ec0a3623-e82d-4f49-a55c-baefdb10be6e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "You are correct, the classpath solves all the problems. Fixed.",
+        "createdAt" : "2020-08-18T21:47:37Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b5731d3b-4b3e-4e2f-ba3a-a982bcfe915e",
+        "parentId" : "ec0a3623-e82d-4f49-a55c-baefdb10be6e",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Just using the classpath worked. Thanks for the suggestion.",
+        "createdAt" : "2020-08-18T22:46:47Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -1,27 +1,95 @@\n package scala.scalanative\n package build\n \n+import java.io.File\n import java.nio.file.Path\n+import java.util.regex._\n \n /** Original jar or dir path and generated dir path for native code */\n private[scalanative] case class NativeLib(src: Path, dest: Path)\n \n+/** Utilities for dealing with native library code */\n private[scalanative] object NativeLib {\n+  private val fs           = File.separator\n+  private val jarExtension = \".jar\"\n \n-  /** List of source patterns used */\n-  val jarExtension  = \".jar\"\n-  val srcExtensions = Seq(\".c\", \".cpp\", \".S\", \".h\", \".hpp\")\n-  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+  /** Object file extension: \".o\" */\n+  val oExt = \".o\"\n+\n+  /** C++ file extension: \".cpp\" */\n+  val cppExt = \".cpp\"\n+\n+  /** List of source patterns used: \".c, .cpp, .S\" */\n+  val srcExtensions = Seq(\".c\", cppExt, \".S\")\n+\n+  /**\n+   * Name of directory that contains native code: \"scala-native\"\n+   */\n+  val codeDir = \"scala-native\"\n+\n+  /** Used to find native source files in directories */\n+  val srcPatterns = srcExtensions.mkString(\n+    s\"glob:**${fs}classes${fs}${codeDir}${fs}**{\","
+  },
+  {
+    "id" : "c4fe4904-2684-4468-8ee2-8a69b14e6f84",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "a30bf4ad-28be-4153-acf7-4f0651ccf119",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This pattern looks weird. Why does it only take the file name part of `workdir` into account? It should use the full path. Or it shouldn't even be part of the patterns, but the search should be restricted to be inside `workdir`.",
+        "createdAt" : "2020-08-18T14:25:40Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "42e7a9b3-c737-4342-aebb-304b60b92673",
+        "parentId" : "a30bf4ad-28be-4153-acf7-4f0651ccf119",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, I think I could do that and remove the `**` from the front of the `glob`. I will try that.",
+        "createdAt" : "2020-08-18T15:08:25Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7013292d-8564-4a2c-b315-765a687ef424",
+        "parentId" : "a30bf4ad-28be-4153-acf7-4f0651ccf119",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This is fixed too to use full path and only the unpacked dirs which is basically the correct solution.",
+        "createdAt" : "2020-08-18T19:18:55Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -1,27 +1,95 @@\n package scala.scalanative\n package build\n \n+import java.io.File\n import java.nio.file.Path\n+import java.util.regex._\n \n /** Original jar or dir path and generated dir path for native code */\n private[scalanative] case class NativeLib(src: Path, dest: Path)\n \n+/** Utilities for dealing with native library code */\n private[scalanative] object NativeLib {\n+  private val fs           = File.separator\n+  private val jarExtension = \".jar\"\n \n-  /** List of source patterns used */\n-  val jarExtension  = \".jar\"\n-  val srcExtensions = Seq(\".c\", \".cpp\", \".S\", \".h\", \".hpp\")\n-  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+  /** Object file extension: \".o\" */\n+  val oExt = \".o\"\n+\n+  /** C++ file extension: \".cpp\" */\n+  val cppExt = \".cpp\"\n+\n+  /** List of source patterns used: \".c, .cpp, .S\" */\n+  val srcExtensions = Seq(\".c\", cppExt, \".S\")\n+\n+  /**\n+   * Name of directory that contains native code: \"scala-native\"\n+   */\n+  val codeDir = \"scala-native\"\n+\n+  /** Used to find native source files in directories */\n+  val srcPatterns = srcExtensions.mkString(\n+    s\"glob:**${fs}classes${fs}${codeDir}${fs}**{\",\n+    \",\",\n+    \"}\")\n+\n+  /** Used to find native source files in jar files */\n+  private val jarSrcRegex: String = {\n+    val regexExtensions = srcExtensions.mkString(\"\"\"(\\\"\"\", \"\"\"|\\\"\"\", \")\")\n+    s\"\"\"^${codeDir}${fs}(.+)${regexExtensions}$$\"\"\"\n+  }\n+\n+  /**\n+   * This method guarantees that only code copied and generated\n+   * into the `native` directory and also in the `scala-native`\n+   * sub directory gets picked up for compilation.\n+   *\n+   * @param workdir the base working directory\n+   * @return the source pattern\n+   */\n+  def destSrcPatterns(workdir: Path): String = {\n+    val workdirName = workdir.getFileName()\n+    srcExtensions.mkString(\n+      s\"glob:**${fs}${workdirName}${fs}*${fs}${codeDir}${fs}**{\","
+  },
+  {
+    "id" : "70cddd42-3706-4794-8c53-24830f7fffb2",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "e731a001-6d9f-45f7-9f4c-58c558a60221",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Another `classes` that should not be there.",
+        "createdAt" : "2020-08-18T14:26:12Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "46973f7a-0c38-4512-8238-ca1e600870cc",
+        "parentId" : "e731a001-6d9f-45f7-9f4c-58c558a60221",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Right, but that is more specific. I don't expect anyone to have a text file with that name. This is related to the discussion above about `classes`.",
+        "createdAt" : "2020-08-18T15:10:22Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3ef1e201-a508-46a5-90f2-8bf511f16de5",
+        "parentId" : "e731a001-6d9f-45f7-9f4c-58c558a60221",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I use the full path here as well to be explicit. It could be `s\"glob:**${nativeLibMarkerFile}\"` but then we can drop the `**`.",
+        "createdAt" : "2020-08-18T21:49:25Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "90383fdd-5c7f-471b-b320-06abf83302f3",
+        "parentId" : "e731a001-6d9f-45f7-9f4c-58c558a60221",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Fixed as well.",
+        "createdAt" : "2020-08-18T22:47:08Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -1,27 +1,95 @@\n package scala.scalanative\n package build\n \n+import java.io.File\n import java.nio.file.Path\n+import java.util.regex._\n \n /** Original jar or dir path and generated dir path for native code */\n private[scalanative] case class NativeLib(src: Path, dest: Path)\n \n+/** Utilities for dealing with native library code */\n private[scalanative] object NativeLib {\n+  private val fs           = File.separator\n+  private val jarExtension = \".jar\"\n \n-  /** List of source patterns used */\n-  val jarExtension  = \".jar\"\n-  val srcExtensions = Seq(\".c\", \".cpp\", \".S\", \".h\", \".hpp\")\n-  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n+  /** Object file extension: \".o\" */\n+  val oExt = \".o\"\n+\n+  /** C++ file extension: \".cpp\" */\n+  val cppExt = \".cpp\"\n+\n+  /** List of source patterns used: \".c, .cpp, .S\" */\n+  val srcExtensions = Seq(\".c\", cppExt, \".S\")\n+\n+  /**\n+   * Name of directory that contains native code: \"scala-native\"\n+   */\n+  val codeDir = \"scala-native\"\n+\n+  /** Used to find native source files in directories */\n+  val srcPatterns = srcExtensions.mkString(\n+    s\"glob:**${fs}classes${fs}${codeDir}${fs}**{\",\n+    \",\",\n+    \"}\")\n+\n+  /** Used to find native source files in jar files */\n+  private val jarSrcRegex: String = {\n+    val regexExtensions = srcExtensions.mkString(\"\"\"(\\\"\"\", \"\"\"|\\\"\"\", \")\")\n+    s\"\"\"^${codeDir}${fs}(.+)${regexExtensions}$$\"\"\"\n+  }\n+\n+  /**\n+   * This method guarantees that only code copied and generated\n+   * into the `native` directory and also in the `scala-native`\n+   * sub directory gets picked up for compilation.\n+   *\n+   * @param workdir the base working directory\n+   * @return the source pattern\n+   */\n+  def destSrcPatterns(workdir: Path): String = {\n+    val workdirName = workdir.getFileName()\n+    srcExtensions.mkString(\n+      s\"glob:**${fs}${workdirName}${fs}*${fs}${codeDir}${fs}**{\",\n+      \",\",\n+      \"}\")\n+  }\n+\n+  /**\n+   * Allow all the object files \".o\" to be found with one\n+   * directory recursion.\n+   *\n+   * @param workdir the base working directory\n+   * @return the object file pattern\n+   */\n+  def destObjPatterns(workdir: Path): String = {\n+    val workdirName = workdir.getFileName()\n+    s\"glob:**${fs}${workdirName}${fs}*${fs}${codeDir}${fs}**${oExt}\"\n+  }\n \n   /** To positively identify nativelib */\n-  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+  private val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n \n-  val dirMarkerFilePattern = \"glob:**\" + nativeLibMarkerFile\n+  /** Note: assumes that code is compiled into the `classes` directory */\n+  private val dirMarkerFilePattern =\n+    s\"glob:**${fs}classes${fs}\" + nativeLibMarkerFile"
+  },
+  {
+    "id" : "dbb58c79-c59b-4eda-8859-fc480daa3503",
+    "prId" : 1876,
+    "comments" : [
+      {
+        "id" : "e0c0c740-2f1d-489b-ab9a-47daba73439f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "As a public method, this should have an explicit result type:\r\n```suggestion\r\n  def allFilesPattern(path: Path): String =\r\n```",
+        "createdAt" : "2020-08-27T07:59:19Z",
+        "updatedAt" : "2020-08-28T03:05:02Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3b017044-8aeb-40b7-ad9b-015efdddf36b",
+        "parentId" : "e0c0c740-2f1d-489b-ab9a-47daba73439f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Rebased and this change made as well.",
+        "createdAt" : "2020-08-28T03:20:31Z",
+        "updatedAt" : "2020-08-28T03:20:31Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a2365116e6cf00226e4702abef728103ff4fda09",
+    "line" : null,
+    "diffHunk" : "@@ -1,27 +1,119 @@\n package scala.scalanative\n package build\n \n+import java.io.File\n import java.nio.file.Path\n+import java.util.regex._\n \n /** Original jar or dir path and generated dir path for native code */\n private[scalanative] case class NativeLib(src: Path, dest: Path)\n \n+/** Utilities for dealing with native library code */\n private[scalanative] object NativeLib {\n+  private val fileSep      = File.separator\n+  private val jarExtension = \".jar\"\n+\n+  /** Object file extension: \".o\" */\n+  val oExt = \".o\"\n+\n+  /** C++ file extension: \".cpp\" */\n+  val cppExt = \".cpp\"\n+\n+  /** List of source patterns used: \".c, .cpp, .S\" */\n+  val srcExtensions = Seq(\".c\", cppExt, \".S\")\n+\n+  /**\n+   * Name of directory that contains native code: \"scala-native\"\n+   */\n+  val codeDir = \"scala-native\"\n+\n+  /**\n+   * Used to find native source files in directories\n+   *\n+   * @param path The classpath entry\n+   * @return the source pattern\n+   */\n+  def srcPatterns(path: Path) =\n+    srcExtensions.mkString(s\"glob:${srcPathPattern(path)}**{\", \",\", \"}\")\n+\n+  /** Used to find native source files in jar files */\n+  private val jarSrcRegex: String = {\n+    val regexExtensions = srcExtensions.mkString(\"\"\"(\\\"\"\", \"\"\"|\\\"\"\", \")\")\n+    s\"\"\"^${codeDir}${fileSep}(.+)${regexExtensions}$$\"\"\"\n+  }\n \n-  /** List of source patterns used */\n-  val jarExtension  = \".jar\"\n-  val srcExtensions = Seq(\".c\", \".cpp\", \".S\", \".h\", \".hpp\")\n-  val srcPatterns   = srcExtensions.mkString(\"glob:**{\", \",\", \"}\")\n-\n-  /** To positively identify nativelib */\n-  val nativeLibMarkerFile = \"org_scala-native_nativelib.txt\"\n+  private def srcPathPattern(path: Path): String =\n+    s\"${path.toString()}${fileSep}${codeDir}${fileSep}\"\n+\n+  /**\n+   * Used to create hash of the directory to copy\n+   *\n+   * @param path The classpath entry\n+   * @return the file pattern\n+   */\n+  def allFilesPattern(path: Path) ="
+  }
+]

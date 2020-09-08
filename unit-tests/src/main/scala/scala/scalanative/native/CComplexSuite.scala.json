@@ -1,0 +1,205 @@
+[
+  {
+    "id" : "4adc3190-8ba4-4b3a-84c1-1bbe488afe2e",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "00f8cc1c-7a6d-40ad-ae24-480f768bee1f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those should be zone allocated instead.",
+        "createdAt" : "2017-06-12T12:37:35Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2d399e01-b399-4793-ad4c-9ca71bcab284",
+        "parentId" : "00f8cc1c-7a6d-40ad-ae24-480f768bee1f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Ok, redone with zones after a rebase.",
+        "createdAt" : "2017-06-12T16:15:46Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,291 @@\n+package scala.scalanative.native\n+\n+import complex._\n+import complexOps._\n+\n+import java.{lang => jl}\n+\n+// Reference\n+// http://en.cppreference.com/w/c/numeric/complex\n+// Ran the complex functions in C to get the results\n+// in hex which are used here for the tests.\n+// TODO: 2 float tests fail on Linux so they are omitted for now\n+object CComplexSuite extends tests.Suite {\n+  // shared values for special calculations\n+  val qtrPI = Math.PI / 4\n+  val sqrt2 = Math.sqrt(2)\n+  val real  = 1.0\n+  val imag  = 1.0\n+\n+  // float complex helper fcns\n+  def printF(str: String, cp: Ptr[CFloatComplex]): Unit =\n+    println(s\"$str -> ${cp.re} ${cp.im}\")\n+  def toFloat(i: Int): Float = jl.Float.intBitsToFloat(i)\n+  def isAlmostEqual(act: Float, exp: Float): Boolean = {\n+    val diff    = Math.abs(act - exp)\n+    val epsilon = Math.max(Math.ulp(act), Math.ulp(exp))\n+    diff <= epsilon\n+  }\n+  def assertEqualsComplexF(act: Ptr[CFloatComplex],\n+                           exp: Ptr[CFloatComplex]): Unit =\n+    assert(isAlmostEqual(act.re, exp.re) && isAlmostEqual(act.im, exp.im))\n+  // complex data for float\n+  val tf = stdlib\n+    .malloc(sizeof[CFloatComplex])\n+    .cast[Ptr[CFloatComplex]]\n+    .init(real.toFloat, imag.toFloat)\n+  val buff = stdlib.malloc(sizeof[CFloatComplex]).cast[Ptr[CFloatComplex]]\n+\n+  test(\"cacosf\") {\n+    assertEqualsComplexF(\n+      cacosf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f67910a), toFloat(0xbf87d7dc)))\n+  }\n+  test(\"casinf\") {\n+    assertEqualsComplexF(\n+      casinf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f2a8eab), toFloat(0x3f87d7dc)))\n+  }\n+  test(\"catanf\") {\n+    assertEqualsComplexF(\n+      catanf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f823454), toFloat(0x3ece0210)))\n+  }\n+//  test(\"ccosf\") {\n+//    assertEqualsComplexF(\n+//      ccosf(tf, buff),\n+//      stackalloc[CFloatComplex].init(toFloat(0x3f556f55), toFloat(0xbf7d2866)))\n+//  }\n+  test(\"csinf\") {\n+    assertEqualsComplexF(\n+      csinf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3fa633dc), toFloat(0x3f228cff)))\n+  }\n+  test(\"ctanf\") {\n+    assertEqualsComplexF(\n+      ctanf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3e8b2327), toFloat(0x3f8abe00)))\n+\n+  }\n+  test(\"cacoshf\") {\n+    assertEqualsComplexF(\n+      cacoshf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f87d7dc), toFloat(0x3f67910a)))\n+  }\n+  test(\"casinhf\") {\n+    assertEqualsComplexF(\n+      casinhf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f87d7dc), toFloat(0x3f2a8eab)))\n+  }\n+  test(\"catanhf\") {\n+    assertEqualsComplexF(\n+      catanhf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3ece0210), toFloat(0x3f823454)))\n+  }\n+//  test(\"ccoshf\") {\n+//    assertEqualsComplexF(\n+//      ccoshf(tf, buff),\n+//      stackalloc[CFloatComplex].init(toFloat(0x3f556f55), toFloat(0x3f7d2866)))\n+//  }\n+  test(\"csinhf\") {\n+    assertEqualsComplexF(\n+      csinhf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f228cff), toFloat(0x3fa633dc)))\n+  }\n+  test(\"ctanhf\") {\n+    assertEqualsComplexF(\n+      ctanhf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f8abe00), toFloat(0x3e8b2327)))\n+  }\n+  test(\"cexpf\") {\n+    assertEqualsComplexF(\n+      cexpf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3fbbfe2a), toFloat(0x40126407)))\n+  }\n+  test(\"clogf\") {\n+    assertEqualsComplexF(\n+      clogf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3eb17218), toFloat(0x3f490fdb)))\n+  }\n+  test(\"cabsf\") {\n+    assertEquals(cabsf(tf), sqrt2.toFloat)\n+  }\n+  test(\"cpowf\") {\n+    assertEqualsComplexF(\n+      cpowf(tf, tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3e8c441e), toFloat(0x3f156d6a)))\n+  }\n+  test(\"csqrtf\") {\n+    assertEqualsComplexF(\n+      csqrtf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f8ca1af), toFloat(0x3ee90189)))\n+  }\n+  test(\"cargf\") {\n+    assertEquals(cargf(tf), qtrPI.toFloat)\n+  }\n+  test(\"cimagf\") {\n+    assertEquals(cimagf(tf), imag)\n+  }\n+  test(\"conjf\") {\n+    assertEqualsComplexF(\n+      conjf(tf, buff),\n+      stackalloc[CFloatComplex].init(real.toFloat, -imag.toFloat))\n+  }\n+  test(\"cprojf\") {\n+    assertEqualsComplexF(cprojf(tf, buff), tf)\n+  }\n+  test(\"crealf\") {\n+    assertEquals(crealf(tf), real)\n+  }\n+\n+  // double complex helper fcns\n+  def printD(str: String, cp: Ptr[CDoubleComplex]): Unit =\n+    println(s\"$str -> ${cp.re} ${cp.im}\")\n+  def toDouble(hex: String): Double = {\n+    import java.math.BigInteger\n+    val l = new BigInteger(hex, 16).longValue\n+    jl.Double.longBitsToDouble(l)\n+  }\n+  def isAlmostEqual(act: Double, exp: Double): Boolean = {\n+    val diff    = Math.abs(act - exp)\n+    val epsilon = Math.max(Math.ulp(act), Math.ulp(exp))\n+    diff <= epsilon\n+  }\n+  def assertEqualsComplexD(act: Ptr[CDoubleComplex],\n+                           exp: Ptr[CDoubleComplex]): Unit =\n+    assert(isAlmostEqual(act.re, exp.re) && isAlmostEqual(act.im, exp.im))\n+\n+  // complex data for double\n+  val td = stdlib\n+    .malloc(sizeof[CDoubleComplex])\n+    .cast[Ptr[CDoubleComplex]]\n+    .init(real, imag)\n+  val buf = stdlib.malloc(sizeof[CDoubleComplex]).cast[Ptr[CDoubleComplex]]\n+\n+  test(\"cacos\") {\n+    assertEqualsComplexD(\n+      cacos(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fecf2214ccccd44\"),\n+                                      toDouble(\"bff0fafb8f2f147f\")))\n+  }\n+  test(\"cacos\") {\n+    assertEqualsComplexD(\n+      cacos(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fecf2214ccccd44\"),\n+                                      toDouble(\"bff0fafb8f2f147f\")))\n+  }\n+  test(\"casin\") {\n+    assertEqualsComplexD(\n+      casin(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fe551d55bbb8ced\"),\n+                                      toDouble(\"3ff0fafb8f2f147f\")))\n+  }\n+  test(\"ctan\") {\n+    assertEqualsComplexD(\n+      ctan(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fd16464f4a33f88\"),\n+                                      toDouble(\"3ff157bffca4a8bc\")))\n+  }\n+  test(\"ccos\") {\n+    assertEqualsComplexD(\n+      ccos(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3feaadea96f4359b\"),\n+                                      toDouble(\"bfefa50ccd2ae8f3\")))\n+  }\n+  test(\"csin\") {\n+    assertEqualsComplexD(\n+      csin(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3ff4c67b74f6cc4f\"),\n+                                      toDouble(\"3fe4519fd8047f92\")))\n+  }\n+  test(\"ctan\") {\n+    assertEqualsComplexD(\n+      ctan(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fd16464f4a33f88\"),\n+                                      toDouble(\"3ff157bffca4a8bc\")))\n+  }\n+  test(\"cacosh\") {\n+    assertEqualsComplexD(\n+      cacosh(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3ff0fafb8f2f147f\"),\n+                                      toDouble(\"3fecf2214ccccd44\")))\n+  }\n+  test(\"casinh\") {\n+    assertEqualsComplexD(\n+      casinh(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3ff0fafb8f2f147f\"),\n+                                      toDouble(\"3fe551d55bbb8ced\")))\n+  }\n+  test(\"catanh\") {\n+    assertEqualsComplexD(\n+      catanh(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fd9c041f7ed8d33\"),\n+                                      toDouble(\"3ff0468a8ace4df6\")))\n+  }\n+  test(\"ccosh\") {\n+    assertEqualsComplexD(\n+      ccosh(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3feaadea96f4359b\"),\n+                                      toDouble(\"3fefa50ccd2ae8f3\")))\n+  }\n+  test(\"csinh\") {\n+    assertEqualsComplexD(\n+      csinh(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fe4519fd8047f92\"),\n+                                      toDouble(\"3ff4c67b74f6cc4f\")))\n+  }\n+  test(\"ctanh\") {\n+    assertEqualsComplexD(\n+      ctanh(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3ff157bffca4a8bc\"),\n+                                      toDouble(\"3fd16464f4a33f88\")))\n+  }\n+  test(\"cexp\") {\n+    assertEqualsComplexD(\n+      cexp(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3ff77fc5377c5a96\"),\n+                                      toDouble(\"40024c80edc62064\")))\n+  }\n+  test(\"clog\") {\n+    assertEqualsComplexD(\n+      clog(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fd62e42fefa39ef\"),\n+                                      toDouble(\"3fe921fb54442d18\")))\n+  }\n+  test(\"cabs\") {\n+    assertEquals(cabs(td), sqrt2)\n+  }\n+  test(\"cpow\") {\n+    assertEqualsComplexD(\n+      cpow(td, td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3fd18884016cf327\"),\n+                                      toDouble(\"3fe2adad36b098aa\")))\n+  }\n+  test(\"csqrt\") {\n+    assertEqualsComplexD(\n+      csqrt(td, buf),\n+      stackalloc[CDoubleComplex].init(toDouble(\"3ff19435caffa9f9\"),\n+                                      toDouble(\"3fdd203138f6c828\")))\n+  }\n+  test(\"carg\") {\n+    assertEquals(carg(td), qtrPI)\n+  }\n+  test(\"cimag\") {\n+    assertEquals(cimag(td), imag)\n+  }\n+  test(\"conj\") {\n+    assertEqualsComplexD(conj(td, buf),\n+                         stackalloc[CDoubleComplex].init(real, -imag))\n+  }\n+  test(\"cproj\") {\n+    assertEqualsComplexD(cproj(td, buf), td)\n+  }\n+  test(\"creal\") {\n+    assertEquals(creal(td), real)\n+  }\n+  // Can't seem to free here - need after test hook\n+//  stdlib.free(tf.cast[Ptr[Byte]])\n+//  stdlib.free(buff.cast[Ptr[Byte]])\n+//  stdlib.free(td.cast[Ptr[Byte]])\n+//  stdlib.free(buf.cast[Ptr[Byte]])"
+  },
+  {
+    "id" : "3dd85121-f287-4f54-a4ac-2db1b0084d59",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "2a875c56-12a1-4a9d-ab3b-63700e210da6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why is this test commented out?",
+        "createdAt" : "2017-06-12T12:37:44Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "836170cf-bfc5-42e5-af12-237bacb0b216",
+        "parentId" : "2a875c56-12a1-4a9d-ab3b-63700e210da6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Same as above but I haven't had time to get docker working yet to investigate the cause of the difference on Linux. I changed to individual tests which is better anyway to find out the offending tests.",
+        "createdAt" : "2017-06-12T15:51:10Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9042ee34-83b3-437c-b384-95289291326a",
+        "parentId" : "2a875c56-12a1-4a9d-ab3b-63700e210da6",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-06-30T19:55:07Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,291 @@\n+package scala.scalanative.native\n+\n+import complex._\n+import complexOps._\n+\n+import java.{lang => jl}\n+\n+// Reference\n+// http://en.cppreference.com/w/c/numeric/complex\n+// Ran the complex functions in C to get the results\n+// in hex which are used here for the tests.\n+// TODO: 2 float tests fail on Linux so they are omitted for now\n+object CComplexSuite extends tests.Suite {\n+  // shared values for special calculations\n+  val qtrPI = Math.PI / 4\n+  val sqrt2 = Math.sqrt(2)\n+  val real  = 1.0\n+  val imag  = 1.0\n+\n+  // float complex helper fcns\n+  def printF(str: String, cp: Ptr[CFloatComplex]): Unit =\n+    println(s\"$str -> ${cp.re} ${cp.im}\")\n+  def toFloat(i: Int): Float = jl.Float.intBitsToFloat(i)\n+  def isAlmostEqual(act: Float, exp: Float): Boolean = {\n+    val diff    = Math.abs(act - exp)\n+    val epsilon = Math.max(Math.ulp(act), Math.ulp(exp))\n+    diff <= epsilon\n+  }\n+  def assertEqualsComplexF(act: Ptr[CFloatComplex],\n+                           exp: Ptr[CFloatComplex]): Unit =\n+    assert(isAlmostEqual(act.re, exp.re) && isAlmostEqual(act.im, exp.im))\n+  // complex data for float\n+  val tf = stdlib\n+    .malloc(sizeof[CFloatComplex])\n+    .cast[Ptr[CFloatComplex]]\n+    .init(real.toFloat, imag.toFloat)\n+  val buff = stdlib.malloc(sizeof[CFloatComplex]).cast[Ptr[CFloatComplex]]\n+\n+  test(\"cacosf\") {\n+    assertEqualsComplexF(\n+      cacosf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f67910a), toFloat(0xbf87d7dc)))\n+  }\n+  test(\"casinf\") {\n+    assertEqualsComplexF(\n+      casinf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f2a8eab), toFloat(0x3f87d7dc)))\n+  }\n+  test(\"catanf\") {\n+    assertEqualsComplexF(\n+      catanf(tf, buff),\n+      stackalloc[CFloatComplex].init(toFloat(0x3f823454), toFloat(0x3ece0210)))\n+  }\n+//  test(\"ccosf\") {\n+//    assertEqualsComplexF(\n+//      ccosf(tf, buff),\n+//      stackalloc[CFloatComplex].init(toFloat(0x3f556f55), toFloat(0xbf7d2866)))\n+//  }"
+  },
+  {
+    "id" : "25155826-1f8c-4218-80fe-2f71e7ad26a2",
+    "prId" : 722,
+    "comments" : [
+      {
+        "id" : "44b0ab9a-6901-4923-bbfe-20f9db62d1fa",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This needs to be addressed.",
+        "createdAt" : "2017-06-12T12:37:58Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c17751e9-3e99-490c-a2ff-10a425bd06cb",
+        "parentId" : "44b0ab9a-6901-4923-bbfe-20f9db62d1fa",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "They work on macOS and all the other tests work including the double versions of those functions so there has to be some floating point difference on one of the platforms. I tried to add `Math.ulp` to the comparison but it didn't seem to help.",
+        "createdAt" : "2017-06-12T15:48:43Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "09fc1bb6-66c2-4802-80d1-3285baa28497",
+        "parentId" : "44b0ab9a-6901-4923-bbfe-20f9db62d1fa",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2017-06-30T19:54:53Z",
+        "updatedAt" : "2017-07-10T14:26:13Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b3013e11ed7fd81dd7391cc147e4e599c5a2d97c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,291 @@\n+package scala.scalanative.native\n+\n+import complex._\n+import complexOps._\n+\n+import java.{lang => jl}\n+\n+// Reference\n+// http://en.cppreference.com/w/c/numeric/complex\n+// Ran the complex functions in C to get the results\n+// in hex which are used here for the tests.\n+// TODO: 2 float tests fail on Linux so they are omitted for now"
+  }
+]

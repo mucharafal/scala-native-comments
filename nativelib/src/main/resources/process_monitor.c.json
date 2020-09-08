@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "4fd89bf0-51fa-4fc6-ac6e-564aa565e755",
+    "prId" : 1082,
+    "comments" : [
+      {
+        "id" : "5654b8a9-3753-4b1f-9b86-23c387846a36",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This file needs to be split into in 2: forwarder methods for posix, and another one for \"runtime\" code for process implementation. ",
+        "createdAt" : "2018-02-13T16:39:25Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6e102da5-ece2-49d6-bb1c-e25ad9a53f0f",
+        "parentId" : "5654b8a9-3753-4b1f-9b86-23c387846a36",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "I think this was addressed by bringing in the relevant files from #1068 and removing the forwarder methods.",
+        "createdAt" : "2018-02-22T00:28:48Z",
+        "updatedAt" : "2018-02-22T05:23:44Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ecd37e5909a957621cdeef446c0e6c59b77bd151",
+    "line" : 72,
+    "diffHunk" : "@@ -0,0 +1,102 @@\n+#include <pthread.h>\n+#include <signal.h>\n+#include <unistd.h>\n+#include <sys/wait.h>\n+#include <sys/time.h>\n+\n+#define RETURN_ON_ERROR(f)                                                     \\\n+    do {                                                                       \\\n+        int res = f;                                                           \\\n+        if (res != 0)                                                          \\\n+            return res;                                                        \\\n+    } while (0)\n+\n+struct proc_info {\n+    int pid;\n+    int result;\n+};\n+static pthread_mutex_t shared_mutex;\n+static pthread_mutex_t private_mutex;\n+static pthread_cond_t cond;\n+static pthread_t main_thread;\n+static int last_pid = -1;\n+static int last_result = -1;\n+\n+void *wait_loop(void *arg) {\n+    int status;\n+    // Block all signals on the monitor thread.\n+    sigset_t set;\n+    sigfillset(&set);\n+    pthread_sigmask(SIG_BLOCK, &set, NULL);\n+\n+    pthread_mutex_lock(&private_mutex);\n+    while (1) {\n+        int pid = waitpid(-1, &status, 0);\n+        if (pid != -1) {\n+            pthread_mutex_lock(&shared_mutex);\n+            last_pid = pid;\n+            last_result = WIFSIGNALED(status) ? 0x80 + status : status;\n+            pthread_kill(main_thread, SIGUSR1);\n+            // Wait until the main thread has handled the signal to start\n+            // polling for pids again.\n+            pthread_cond_wait(&cond, &private_mutex);\n+            pthread_mutex_unlock(&shared_mutex);\n+        }\n+    }\n+    // should be unreachable\n+    pthread_mutex_unlock(&private_mutex);\n+    return NULL;\n+}\n+\n+void scalanative_process_monitor_shared_mutex(pthread_mutex_t **mutex) {\n+    *mutex = &shared_mutex;\n+}\n+\n+int scalanative_process_monitor_signal_cond(pthread_cond_t *proc_cond) {\n+    return pthread_cond_broadcast(proc_cond);\n+}\n+\n+int scalanative_process_monitor_mutex_lock(pthread_mutex_t *mutex) {\n+    return pthread_mutex_lock(mutex);\n+}\n+\n+int scalanative_process_monitor_mutex_unlock(pthread_mutex_t *mutex) {\n+    return pthread_mutex_unlock(mutex);\n+}\n+\n+void scalanative_process_monitor_last_proc_info(struct proc_info *info) {\n+    info->pid = last_pid;\n+    info->result = last_result;\n+}\n+\n+int scalanative_process_monitor_notify() {\n+    RETURN_ON_ERROR(pthread_mutex_lock(&private_mutex));\n+    RETURN_ON_ERROR(pthread_cond_broadcast(&cond));\n+    return pthread_mutex_unlock(&private_mutex);\n+}\n+\n+int scalanative_process_monitor_wait(pthread_mutex_t *mutex,\n+                                     pthread_cond_t **cond_p,\n+                                     struct timespec *ts) {\n+    int res = 0;\n+    pthread_cond_t cond;\n+\n+    RETURN_ON_ERROR(pthread_cond_init(&cond, NULL));\n+    *cond_p = &cond;\n+    // The expectation is that this call will exit due to an interrupt rather\n+    // than a signal/broadcast.\n+    res = ts ? pthread_cond_timedwait(&cond, mutex, ts)\n+             : pthread_cond_wait(&cond, &shared_mutex);\n+    pthread_cond_destroy(&cond);\n+    return res;\n+}\n+\n+void scalanative_process_monitor_init() {\n+    pthread_t thread;\n+    pthread_mutex_init(&shared_mutex, NULL);\n+    pthread_mutex_init(&private_mutex, NULL);\n+    pthread_cond_init(&cond, NULL);\n+    pthread_create(&thread, NULL, wait_loop, NULL);\n+    pthread_detach(thread);\n+    main_thread = pthread_self();\n+}"
+  }
+]

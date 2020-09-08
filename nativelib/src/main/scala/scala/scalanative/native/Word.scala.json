@@ -1,0 +1,161 @@
+[
+  {
+    "id" : "98036071-f9f5-4e8d-ad34-14aa23283127",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "05f6b519-e5c6-4daa-b797-e95308d801c5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets add conversions to all numeric integer types here.\r\n",
+        "createdAt" : "2019-04-29T12:42:24Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package scala.scalanative\n+package native\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toUInt: UInt   = castRawWordToInt(rawWord).toUInt\n+  @alwaysinline def toUWord: UWord = new UWord(rawWord)"
+  },
+  {
+    "id" : "d924b855-0e7d-4ce4-afa7-3463a4653fd6",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "c98941ba-32fc-486d-bdd5-9c65963d7a0d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets have all ops that you can do on Longs as well. The ones missing are: unary ops (~, !, +, -), comparisons (<, <=, >, >=), bitwise ops (&, |, ^).",
+        "createdAt" : "2019-04-29T12:44:52Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package scala.scalanative\n+package native\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toUInt: UInt   = castRawWordToInt(rawWord).toUInt\n+  @alwaysinline def toUWord: UWord = new UWord(rawWord)\n+\n+  @alwaysinline def +(other: Word): Word =\n+    new Word(addRawWords(rawWord, other.rawWord))\n+  @alwaysinline def -(other: Word): Word =\n+    new Word(subRawWords(rawWord, other.rawWord))\n+  @alwaysinline def *(other: Word): Word =\n+    new Word(multRawWords(rawWord, other.rawWord))\n+  @alwaysinline def /(other: Word): Word =\n+    new Word(divRawWords(rawWord, other.rawWord))"
+  },
+  {
+    "id" : "b99e89ff-dc3b-4fa2-9e91-48ae423ccc81",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "71a44626-20f6-4bd5-998a-41a32e2a262b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs conversions from the rest of integer numeric types as well.",
+        "createdAt" : "2019-04-29T12:45:34Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "806907a6-061e-4236-a980-b6d3c91da50a",
+        "parentId" : "71a44626-20f6-4bd5-998a-41a32e2a262b",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "The idea here was to only have \"safe\" conversions that will work correctly on all platforms, so that's why I don't have a conversion from `Long` to `Word` and instead `.toWord` has to be explicitly called. I'll add in conversions for smaller integer types to words though.",
+        "createdAt" : "2019-04-29T22:02:00Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "27cdcec9-c539-4a65-b13b-0daa8bda9e76",
+        "parentId" : "71a44626-20f6-4bd5-998a-41a32e2a262b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets for with explicit conversions only then. This 100% safe and explicit. Unsigned integers for example don't have implicit conversions.",
+        "createdAt" : "2019-05-01T09:28:50Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4ca78b38-0e2d-4572-a7d9-d789c4388ffa",
+        "parentId" : "71a44626-20f6-4bd5-998a-41a32e2a262b",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "I tried making this change to have everything be explicit, but there are a lot of places where we perform operations on words with literal numbers (for example `stackalloc` with a count), so making everything explicit would end up forcing users to put a lot of `toWord`s everywhere. I decided to drop the conversion away from `Word` since that's less common, and have added conversions to `Word` from all integer types with size <= 32 bits. This way, the behavior matches how Scala handles conversions for regular numeric types.",
+        "createdAt" : "2019-05-26T21:38:43Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,43 @@\n+package scala.scalanative\n+package native\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+final class Word(private[scalanative] val rawWord: RawWord) {\n+  @alwaysinline def toInt: Int     = castRawWordToInt(rawWord)\n+  @alwaysinline def toUInt: UInt   = castRawWordToInt(rawWord).toUInt\n+  @alwaysinline def toUWord: UWord = new UWord(rawWord)\n+\n+  @alwaysinline def +(other: Word): Word =\n+    new Word(addRawWords(rawWord, other.rawWord))\n+  @alwaysinline def -(other: Word): Word =\n+    new Word(subRawWords(rawWord, other.rawWord))\n+  @alwaysinline def *(other: Word): Word =\n+    new Word(multRawWords(rawWord, other.rawWord))\n+  @alwaysinline def /(other: Word): Word =\n+    new Word(divRawWords(rawWord, other.rawWord))\n+\n+  override def hashCode: Int =\n+    java.lang.Long.hashCode(Word.wordToLong(this))\n+\n+  override def equals(other: Any): Boolean =\n+    (this eq other.asInstanceOf[AnyRef]) || (other match {\n+      case other: Word =>\n+        other.rawWord == rawWord\n+      case _ =>\n+        false\n+    })\n+\n+  override def toString(): String = castRawWordToLong(rawWord).toString\n+}\n+\n+object Word {\n+  @alwaysinline implicit def intToWord(int: Int): Word =\n+    new Word(castIntToRawWord(int))\n+  @alwaysinline implicit def wordToLong(word: Word): Long =\n+    castRawWordToLong(word.rawWord)"
+  }
+]

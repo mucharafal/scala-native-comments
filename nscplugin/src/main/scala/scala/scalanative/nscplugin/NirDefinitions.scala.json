@@ -1,0 +1,68 @@
+[
+  {
+    "id" : "174c4980-2e1f-479a-93cf-0601d4af0179",
+    "prId" : 624,
+    "comments" : [
+      {
+        "id" : "bf83c33d-341a-4b18-82ea-23cb04b9fe0d",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "what is `alternatives` ?",
+        "createdAt" : "2017-04-07T15:28:55Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "6abf15fd-bd1d-44a8-98c7-8504bb197db0",
+        "parentId" : "bf83c33d-341a-4b18-82ea-23cb04b9fe0d",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "My understanding is it allows us to match overloaded methods.",
+        "createdAt" : "2017-04-07T15:34:15Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "dfaac897-8062-4f5f-8c9b-a1e2d0bb32c3",
+        "parentId" : "bf83c33d-341a-4b18-82ea-23cb04b9fe0d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given overloaded symbol, it gives you possible concrete alternatives. In this case `-` is overloaded for two types of pointer arithmetics. ",
+        "createdAt" : "2017-04-10T08:47:42Z",
+        "updatedAt" : "2017-04-10T16:12:25Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "f9f03071e3bb30c3150045931cd775351ef9055d",
+    "line" : 5,
+    "diffHunk" : "@@ -21,7 +21,7 @@ trait NirDefinitions { self: NirGlobalAddons =>\n     lazy val PtrLoadMethod   = getDecl(PtrClass, TermName(\"unary_$bang\"))\n     lazy val PtrStoreMethod  = getDecl(PtrClass, TermName(\"unary_$bang_$eq\"))\n     lazy val PtrAddMethod    = getDecl(PtrClass, TermName(\"$plus\"))\n-    lazy val PtrSubMethod    = getDecl(PtrClass, TermName(\"$minus\"))\n+    lazy val PtrSubMethods   = getDecl(PtrClass, TermName(\"$minus\")).alternatives"
+  }
+]

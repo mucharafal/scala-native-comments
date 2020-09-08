@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "161d68f4-c6cb-4603-a60f-6435a73ea3ce",
+    "prId" : 381,
+    "comments" : [
+      {
+        "id" : "faa5d032-d0f8-46d8-9757-798cba8fef90",
+        "parentId" : null,
+        "author" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "body" : "@densh Is there a value for \"null\" pointers ? (When there are no dynamic methods)",
+        "createdAt" : "2016-11-23T17:42:10Z",
+        "updatedAt" : "2016-11-23T17:43:16Z",
+        "lastEditedBy" : {
+          "login" : "LukasKellenberger",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5486443?u=d1ffebd58808f0bc66ebd75d45381eeec915d2c1&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "0cde310adcc9f26df9f616cf259162277f8e6e12",
+    "line" : 56,
+    "diffHunk" : "@@ -81,16 +81,81 @@ object ClassHierarchy {\n         meth\n     }\n \n+    lazy val alldynmethods: Seq[Method] = {\n+      val dynmethods   = methods.filter(m => m.attrs.isDyn)\n+      val signatureSet = dynmethods.map(genSignature).toSet\n+      val meths = dynmethods\n+        .foldLeft(Map[String, Method]()) {\n+          case (acc, m) =>\n+            val signature = genSignature(m)\n+            if (!acc.contains(signature)) {\n+              acc + (signature -> m)\n+            } else {\n+              acc\n+            }\n+        }\n+        .values\n+\n+      parent\n+        .fold(Seq.empty[Method])(_.alldynmethods)\n+        .filterNot(m => signatureSet(genSignature(m))) ++ meths\n+    }\n+\n     lazy val vtableStruct: Type.Struct =\n       Type.Struct(Global.None, vtable.map(_.ty))\n \n     lazy val vtableValue: Val.Struct = Val.Struct(Global.None, vtable)\n \n-    lazy val typeStruct: Type.Struct =\n-      Type.Struct(Global.None, Seq(Type.I32, Type.Ptr, vtableStruct))\n+    lazy val perfectHashMap: PerfectHashMap[String, Val] = {\n+      PerfectHashMap(hash,\n+                     alldynmethods.foldLeft(Map[String, Val]())((acc, m) =>\n+                       acc + (genSignature(m) -> m.value)))\n+    }\n+\n+    def hash(buf: String, seed: Long): Long = buf.foldLeft(seed) {\n+      case (hash, c) =>\n+        val inter = hash ^ c.toInt\n+        inter + (inter << 1) + (inter << 4) + (inter << 5) + (inter << 7) + (inter << 8) + (inter << 40);\n+    }\n \n-    lazy val typeValue: Val.Struct = Val\n-      .Struct(Global.None, Seq(Val.I32(id), Val.String(name.id), vtableValue))\n+    lazy val dynDispatchTableValue: Val = {\n+      // If there a value for null pointer ?\n+      lazy val defaultPtr: Val = allmethods.head.value"
+  }
+]

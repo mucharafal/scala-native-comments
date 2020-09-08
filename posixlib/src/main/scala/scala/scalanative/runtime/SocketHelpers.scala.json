@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "bcc1e9ad-8e35-4912-9cef-cc66f7634b7c",
+    "prId" : 1473,
+    "comments" : [
+      {
+        "id" : "bc6f9605-cf4e-4640-a1d7-3548b01bae78",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`alloc[fd_set]` does return `Ptr[fd_set]`, no need to cast it after.",
+        "createdAt" : "2019-04-02T14:16:34Z",
+        "updatedAt" : "2019-04-02T18:09:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "30f2394f-1245-4ca7-9e12-02c9262f30d2",
+        "parentId" : "bc6f9605-cf4e-4640-a1d7-3548b01bae78",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "`alloc[fd_set]` neat feature!  So that is at least part of what the macro is doing.\r\n\r\ncast removed. comments tweaked. Thank you for the recommendation.  Travis CI \r\nshows all green.",
+        "createdAt" : "2019-04-02T18:57:14Z",
+        "updatedAt" : "2019-04-02T18:57:15Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6c5477313995e244fa4ebe2d1d5c72dc5773ccd1",
+    "line" : null,
+    "diffHunk" : "@@ -46,7 +45,8 @@ object SocketHelpers {\n \n         fcntl(sock, F_SETFL, O_NONBLOCK)\n \n-        val fdsetPtr = selectFdSet.createZeroed\n+        // Zone.alloc is documented as returning zeroed memory.\n+        val fdsetPtr = alloc[fd_set].cast[Ptr[fd_set]]"
+  },
+  {
+    "id" : "c1060df3-8aae-4286-aaa7-d7ed29e55e63",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "d3522597-2886-46d5-917f-707225f896ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We do seem to have an overload for `<` for comparing `Word` and `Int`, why this explicit conversion needed here?",
+        "createdAt" : "2019-05-28T09:08:24Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -77,7 +77,7 @@ object SocketHelpers {\n         }\n \n         val sentBytes = send(sock, toCString(\"echo\"), 4, 0)\n-        if (sentBytes < 4) {\n+        if (sentBytes.toLong < 4) {"
+  }
+]

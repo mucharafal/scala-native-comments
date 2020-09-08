@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "2ea14100-8440-4707-b16d-bec6c9ff92e1",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "31e89ebb-0d2c-4557-bda9-60258bfc4784",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It would be better to implement a custom function here, such as a stupid-simple arithmetic operation. With a call to an existing stdlib C function, this test could be become seemingly obsolete if the Scala Native clib adds `llabs`.",
+        "createdAt" : "2020-06-11T09:45:24Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1799491e-03b3-4cb6-895c-56f5e897e986",
+        "parentId" : "31e89ebb-0d2c-4557-bda9-60258bfc4784",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This was a great idea, I was thinking way to complex.",
+        "createdAt" : "2020-06-11T19:59:17Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,3 @@\n+#include <stdlib.h>\n+\n+long long scalanative_llabs(long long *in) { return llabs(*in); }"
+  }
+]

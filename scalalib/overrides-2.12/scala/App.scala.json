@@ -1,0 +1,87 @@
+[
+  {
+    "id" : "9f07dabf-e7c2-48ae-8372-7f8800ab9b49",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "6f478f17-a2a0-46bf-9f06-6b29c5ab5c8f",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Are the overrides just standard for `2.12` even in the Scala repo?",
+        "createdAt" : "2020-08-17T22:15:56Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "02d323b0-dd77-453a-868e-7bc6d9de3a32",
+        "parentId" : "6f478f17-a2a0-46bf-9f06-6b29c5ab5c8f",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Hmm, what do you mean?",
+        "createdAt" : "2020-08-18T08:49:08Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2c51fa34-37d3-47a8-8c2e-41fe397e9d4c",
+        "parentId" : "6f478f17-a2a0-46bf-9f06-6b29c5ab5c8f",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I am just asking a general question about why these are here. They are not changed for Scala Native are they?",
+        "createdAt" : "2020-08-18T14:46:58Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f35c6035-5d3e-4d62-8a7e-5185e7602d8e",
+        "parentId" : "6f478f17-a2a0-46bf-9f06-6b29c5ab5c8f",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Oh yeah, we leave them as is. Basically, where applicable, I applied the changelog from the `overrides-2.11` to the 2.12 files.",
+        "createdAt" : "2020-08-18T16:59:29Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 1,
+    "diffHunk" : "@@ -0,0 +1,77 @@\n+/*"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "4560f0f5-3ee0-4b50-a486-b09dd7649683",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "fe883a6f-f7aa-473d-98c8-e74cf10f1dcc",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This change should go in a separate PR that does only that.",
+        "createdAt" : "2020-07-23T15:14:36Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -35,7 +35,7 @@ object NIRCompiler {\n   def getCompiler(): api.NIRCompiler = {\n     val clazz =\n       classLoader.loadClass(\"scala.scalanative.NIRCompiler\")\n-    clazz.newInstance match {\n+    clazz.getConstructor().newInstance() match {"
+  }
+]

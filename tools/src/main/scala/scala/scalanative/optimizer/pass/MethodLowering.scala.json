@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "f88efb34-ffce-4a33-9fae-257fbfaed2d3",
+    "prId" : 686,
+    "comments" : [
+      {
+        "id" : "ce298f21-1391-47c5-991d-86380f9a25ce",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Although this adds one more instruction, first one is guaranteed to be constant-folded in LLVM optimizer (all arguments of the instructions are statically-known values and the instruction is side-effect-free.)",
+        "createdAt" : "2017-05-01T13:49:12Z",
+        "updatedAt" : "2017-05-01T13:49:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "5d4a1fc56f1da22a81fe3ab9f24f72aa9d18db07",
+    "line" : 30,
+    "diffHunk" : "@@ -37,10 +38,12 @@ class MethodLowering(implicit fresh: Fresh, top: Top) extends Pass {\n         val typeptr = let(Op.Load(Type.Ptr, obj))\n         val idptr   = let(Op.Elem(Rt.Type, typeptr, Seq(Val.Int(0), Val.Int(0))))\n         val id      = let(Op.Load(Type.Int, idptr))\n-        val methptrptr = let(\n-          Op.Elem(top.dispatchTy,\n-                  top.dispatchVal,\n-                  Seq(Val.Int(0), id, Val.Int(meth.id))))\n+        val rowptr = let(\n+          Op.Elem(Type.Ptr,\n+                  top.tables.dispatchVal,\n+                  Seq(Val.Int(top.tables.dispatchOffset(meth.id)))))\n+        val methptrptr =\n+          let(Op.Elem(Type.Ptr, rowptr, Seq(id)))"
+  }
+]

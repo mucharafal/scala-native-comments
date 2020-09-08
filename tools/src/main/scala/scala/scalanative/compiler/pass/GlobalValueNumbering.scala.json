@@ -1,0 +1,285 @@
+[
+  {
+    "id" : "b9b31d44-e49e-49db-a098-e4e5506012a6",
+    "prId" : 335,
+    "comments" : [
+      {
+        "id" : "d79768b7-126a-4cbb-9d2e-0e14a98f5165",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Do we really need this universal entry-point? This looks like ad-hoc overloading. \n",
+        "createdAt" : "2016-10-25T08:48:18Z",
+        "updatedAt" : "2016-10-25T16:52:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d7e52db5-2355-4a76-9f9c-516026e65143",
+        "parentId" : "d79768b7-126a-4cbb-9d2e-0e14a98f5165",
+        "author" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "body" : "It was only to simplify the code for `hashOp`, but it is not strictly necessary. I am still unsure whether this or \"specializing\" `hashOp` is better. I would say the latter to be honest, so long and tedious code change ahead.\n",
+        "createdAt" : "2016-10-25T15:39:04Z",
+        "updatedAt" : "2016-10-25T16:52:22Z",
+        "lastEditedBy" : {
+          "login" : "hkapp",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/10584771?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2f51c140-9cc2-4da7-82c3-5846da7e6bc0",
+        "parentId" : "d79768b7-126a-4cbb-9d2e-0e14a98f5165",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Oh, I see now. Lets leave as is for now then. \n",
+        "createdAt" : "2016-10-25T15:40:37Z",
+        "updatedAt" : "2016-10-25T16:52:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e698fb9a20672a909a9f1b6aa8d4a735821d8d18",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,135 @@\n+package scala.scalanative\n+package compiler\n+package pass\n+\n+import nir._, Shows._\n+import util.sh\n+\n+object GlobalValueNumbering {\n+\n+  type Hash = Int\n+\n+  class HashFunction(hashLocal: Local => Hash) extends (Any => Hash) {\n+\n+    /* Careful : the hashes are not independent !\n+     * ex: %src.1 = stackalloc[ty]\n+     * %src.2 = load[ty]: %src.1: ptr\n+     * then H(%src.2) = H(\"Load\") XOR H(%src.1) XOR H(ty)\n+     *                = H(\"Load\") XOR H(\"Stackalloc\") XOR H(ty) XOR H(ty)\n+     *                = H(\"Load\") XOR H(\"Stackalloc\")\n+     *                  -> independent of the type\n+     * This might not appear as a problem (the example given is not hashed like this anymore)\n+     * If it is a problem, we can still hash the XOR, i.e. :\n+     * %src.1 = H(H(\"Stackalloc\") XOR H(ty))\n+     * But this increases the cost and requires a more powerful hashing function for integers than H(n) = n\n+     * */\n+\n+    import HashFunction._\n+\n+    def apply(obj: Any): Hash = {"
+  },
+  {
+    "id" : "62261019-49f3-441d-ad08-77b3bced8933",
+    "prId" : 335,
+    "comments" : [
+      {
+        "id" : "3c272638-c66a-435d-be80-4276c3f2b156",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is quite a naive way to combine hash codes. Better put all the intermediate hashes into one array and then call `java.util.Arrays.hashCode` on the contents. \n",
+        "createdAt" : "2016-10-25T08:55:08Z",
+        "updatedAt" : "2016-10-25T16:52:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f8191ffa-16a0-44ac-9117-295e002911fd",
+        "parentId" : "3c272638-c66a-435d-be80-4276c3f2b156",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "`scala.util.hashing.MurmurHash3.orderedHash(hashes)`\n",
+        "createdAt" : "2016-10-25T09:16:23Z",
+        "updatedAt" : "2016-10-25T16:52:22Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e698fb9a20672a909a9f1b6aa8d4a735821d8d18",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,135 @@\n+package scala.scalanative\n+package compiler\n+package pass\n+\n+import nir._, Shows._\n+import util.sh\n+\n+object GlobalValueNumbering {\n+\n+  type Hash = Int\n+\n+  class HashFunction(hashLocal: Local => Hash) extends (Any => Hash) {\n+\n+    /* Careful : the hashes are not independent !\n+     * ex: %src.1 = stackalloc[ty]\n+     * %src.2 = load[ty]: %src.1: ptr\n+     * then H(%src.2) = H(\"Load\") XOR H(%src.1) XOR H(ty)\n+     *                = H(\"Load\") XOR H(\"Stackalloc\") XOR H(ty) XOR H(ty)\n+     *                = H(\"Load\") XOR H(\"Stackalloc\")\n+     *                  -> independent of the type\n+     * This might not appear as a problem (the example given is not hashed like this anymore)\n+     * If it is a problem, we can still hash the XOR, i.e. :\n+     * %src.1 = H(H(\"Stackalloc\") XOR H(ty))\n+     * But this increases the cost and requires a more powerful hashing function for integers than H(n) = n\n+     * */\n+\n+    import HashFunction._\n+\n+    def apply(obj: Any): Hash = {\n+      obj match {\n+        case op: Op     => hashOp(op)\n+        case value: Val => hashVal(value)\n+\n+        case local: Local => hashLocal(local)\n+\n+        case ty: Type   => hashType(ty)\n+        case g: Global  => hashGlobal(g)\n+        case bin: Bin   => hashBin(bin)\n+        case comp: Comp => hashComp(comp)\n+        case conv: Conv => hashConv(conv)\n+\n+        case b: Boolean  => b.hashCode\n+        case i: Int      => i.hashCode\n+        case d: Double   => d.hashCode\n+        case str: String => str.hashCode\n+\n+        case _ =>\n+          throw new IllegalArgumentException(\n+              s\"Unable to hash value {${obj}} of type ${obj.getClass.getName}\")\n+      }\n+    }\n+\n+    def hashOp(op: Op): Hash = {\n+      import Op._\n+      val opFields: Seq[Any] = op match {\n+        case Call(ty, ptr, args)    => \"Call\" +: ty +: ptr +: args\n+        case Load(ty, ptr)          => Seq(\"Load\", ty, ptr)\n+        case Store(ty, ptr, value)  => Seq(\"Store\", ty, ptr, value)\n+        case Elem(ty, ptr, indexes) => \"Elem\" +: ty +: ptr +: indexes\n+        case Extract(aggr, indexes) => \"Extract\" +: aggr +: indexes\n+        case Insert(aggr, value, indexes) =>\n+          \"Insert\" +: aggr +: value +: indexes\n+\n+        case Stackalloc(ty, n)          => Seq(\"Stackalloc\", ty, n)\n+        case Bin(bin, ty, l, r)         => Seq(\"Bin\", bin, ty, l, r)\n+        case Comp(comp, ty, l, r)       => Seq(\"Comp\", comp, ty, l, r)\n+        case Conv(conv, ty, value)      => Seq(\"Conv\", ty, value)\n+        case Select(cond, thenv, elsev) => Seq(\"Select\", cond, thenv, elsev)\n+\n+        case Field(ty, obj, name)       => Seq(\"Field\", obj, name)\n+        case Method(ty, obj, name)      => Seq(\"Method\", ty, obj, name)\n+        case As(ty, obj)                => Seq(\"As\", ty, obj)\n+        case Is(ty, obj)                => Seq(\"Is\", ty, obj)\n+        case Copy(value)                => Seq(\"Copy\", value)\n+        case Closure(ty, fun, captures) => \"Closure\" +: ty +: fun +: captures\n+\n+        case Classalloc(name) => Seq(\"Classalloc\", name)\n+        case Module(name)     => Seq(\"Module\", name)\n+        case Sizeof(ty)       => Seq(\"Sizeof\", ty)\n+      }\n+\n+      combineHashes(opFields.map(this.apply))\n+    }\n+\n+    def hashVal(value: Val): Hash = {\n+      import Val._\n+      val fields: Seq[Any] = value match {\n+        case Struct(name, values)  => \"Struct\" +: name +: values\n+        case Array(elemty, values) => \"Array\" +: elemty +: values\n+        case Const(value)          => Seq(\"Const\", value)\n+\n+        case Local(name, _) => Seq(hashLocal(name))\n+\n+        // the other val kinds can't have another Val in them\n+        case _ => Seq(value.hashCode)\n+      }\n+\n+      combineHashes(fields.map(this.apply))\n+    }\n+\n+    def hashType(ty: Type): Hash = {\n+      ty.hashCode\n+    }\n+\n+    def hashGlobal(global: Global): Hash = {\n+      global.hashCode\n+    }\n+\n+    def hashBin(bin: Bin): Hash = {\n+      bin.hashCode\n+    }\n+\n+    def hashComp(comp: Comp): Hash = {\n+      comp.hashCode\n+    }\n+\n+    def hashConv(conv: Conv): Hash = {\n+      conv.hashCode\n+    }\n+\n+  }\n+\n+  object HashFunction {\n+\n+    def combineHashes(hashes: Seq[Hash]): Hash = {\n+      hashes.foldLeft(0) { case (a, b) => a ^ b } // XOR of all the hashes\n+    }"
+  },
+  {
+    "id" : "ee4e16e6-87ff-4f3a-9a85-3ea945ef6fd3",
+    "prId" : 361,
+    "comments" : [
+      {
+        "id" : "0ba6958c-9119-4cff-a7d2-11cc62975d42",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets rename `block.pred` into `block.inEdges` and `block.succ` into `block.outEdges` and then put `def pred` and `def succ` as helper methods directly inside `ControlFlow.Block`. \n",
+        "createdAt" : "2016-11-01T11:41:53Z",
+        "updatedAt" : "2016-11-01T17:40:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "24365788dbd3ff6b4d318c28c5273cecd47a6b12",
+    "line" : null,
+    "diffHunk" : "@@ -2,11 +2,283 @@ package scala.scalanative\n package compiler\n package pass\n \n-import nir._, Shows._\n-import util.sh\n+import scala.collection.mutable\n import scala.util.hashing.MurmurHash3\n \n-object GlobalValueNumbering {\n+import analysis.ClassHierarchy.Top\n+import analysis.ClassHierarchyExtractors._\n+import analysis.ControlFlow\n+import analysis.ControlFlow.Block\n+import analysis.DominatorTree\n+\n+import nir._\n+\n+class GlobalValueNumbering(implicit top: Top) extends Pass {\n+  import GlobalValueNumbering._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      val cfg        = ControlFlow.Graph(defn.insts)\n+      val domination = DominatorTree.build(cfg)\n+\n+      val newInsts = performSimpleValueNumbering(cfg, domination)\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def pred(block: Block) = block.pred.map(_.from)\n+  private def succ(block: Block) = block.succ.map(_.to)"
+  },
+  {
+    "id" : "f7eb51dd-d492-48b7-b8f5-1c9f39bd010d",
+    "prId" : 361,
+    "comments" : [
+      {
+        "id" : "06562437-ae5a-42e0-87a1-3e73b9c80f4e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`toString` is not pure, `load`-s on external memory are side-effecting by definition. \n",
+        "createdAt" : "2016-11-01T11:47:56Z",
+        "updatedAt" : "2016-11-01T17:40:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "24365788dbd3ff6b4d318c28c5273cecd47a6b12",
+    "line" : null,
+    "diffHunk" : "@@ -2,11 +2,283 @@ package scala.scalanative\n package compiler\n package pass\n \n-import nir._, Shows._\n-import util.sh\n+import scala.collection.mutable\n import scala.util.hashing.MurmurHash3\n \n-object GlobalValueNumbering {\n+import analysis.ClassHierarchy.Top\n+import analysis.ClassHierarchyExtractors._\n+import analysis.ControlFlow\n+import analysis.ControlFlow.Block\n+import analysis.DominatorTree\n+\n+import nir._\n+\n+class GlobalValueNumbering(implicit top: Top) extends Pass {\n+  import GlobalValueNumbering._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      val cfg        = ControlFlow.Graph(defn.insts)\n+      val domination = DominatorTree.build(cfg)\n+\n+      val newInsts = performSimpleValueNumbering(cfg, domination)\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def pred(block: Block) = block.pred.map(_.from)\n+  private def succ(block: Block) = block.succ.map(_.to)\n+\n+  private def performSimpleValueNumbering(\n+      cfg: ControlFlow.Graph,\n+      domination: Map[Block, Set[Block]]): Seq[Inst] = {\n+\n+    val variableVN   = mutable.HashMap.empty[Local, Hash]\n+    val instructions = mutable.HashMap.empty[Hash, List[Inst.Let]]\n+    val localDefs    = mutable.HashMap.empty[Local, Inst]\n+\n+    val hash       = new HashFunction(variableVN)\n+    val deepEquals = new DeepEquals(localDefs)\n+\n+    def blockDominatedByDef(dominatedBlock: Block,\n+                            dominatingDef: Local): Boolean = {\n+\n+      domination(dominatedBlock).exists { dominatingBlock =>\n+        val foundInParam = dominatingBlock.params.exists {\n+          case Val.Local(paramName, _) => (paramName == dominatingDef)\n+        }\n+        val foundInInsts = dominatingBlock.insts.exists {\n+          case Inst.Let(name, _) => (name == dominatingDef)\n+          case _                 => false\n+        }\n+\n+        foundInParam || foundInInsts\n+      }\n+    }\n+\n+    val newInsts = cfg.map { block =>\n+      variableVN ++= block.params.map(lval =>\n+        (lval.name, HashFunction.rawLocal(lval.name)))\n+      localDefs ++= block.params.map(lval => (lval.name, block.label))\n+\n+      val newBlockInsts = block.insts.map {\n+\n+        case inst: Inst.Let => {\n+          val idempotent = isIdempotent(inst.op)\n+\n+          val instHash =\n+            if (idempotent)\n+              hash(inst.op)\n+            else\n+              inst.hashCode // hash the assigned variable as well, so a = op(b) and c = op(b) don't have the same hash\n+\n+          variableVN += (inst.name -> instHash)\n+          localDefs += (inst.name  -> inst)\n+\n+          if (idempotent) {\n+            val hashEqualInstrs = instructions.getOrElse(instHash, Nil)\n+            instructions += (instHash -> (inst :: hashEqualInstrs))\n+\n+            val equalInstrs =\n+              hashEqualInstrs.filter(otherInst =>\n+                deepEquals.eqInst(inst, otherInst))\n+            val redundantInstrs = equalInstrs.filter(eqInst =>\n+              blockDominatedByDef(block, eqInst.name)) // only redundant if the current block is dominated by the block in which the equal instruction occurs\n+\n+            val newInstOpt = redundantInstrs.headOption.map(\n+              redInst =>\n+                Inst.Let(inst.name,\n+                         Op.Copy(Val.Local(redInst.name, redInst.op.resty))))\n+            newInstOpt.getOrElse(inst)\n+          } else {\n+            inst\n+          }\n+        }\n+\n+        case otherInst @ _ =>\n+          otherInst\n+      }\n+\n+      block.label +: newBlockInsts\n+    }\n+\n+    newInsts.flatten\n+  }\n+\n+}\n+\n+object GlobalValueNumbering extends PassCompanion {\n+  def apply(ctx: Ctx) = new GlobalValueNumbering()(ctx.top)\n+\n+  /* The definition of idempotent for Call might be wrong.\n+   * Example:\n+   * val a = new AnyRef { var b: Int = 0; override def toString = b.toString }\n+   * val c = a.toString\n+   * a.b = 1\n+   * val d = a.toString\n+   * --> toString is pure, but the values of c and d are different !\n+   * */"
+  },
+  {
+    "id" : "b70d509e-d7a4-4812-9eea-f9438886ee2a",
+    "prId" : 361,
+    "comments" : [
+      {
+        "id" : "8e0819e4-cb35-4cb0-96f1-e7c75f139478",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`case _: Call => false`\n",
+        "createdAt" : "2016-11-01T11:52:40Z",
+        "updatedAt" : "2016-11-01T17:40:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "24365788dbd3ff6b4d318c28c5273cecd47a6b12",
+    "line" : null,
+    "diffHunk" : "@@ -2,11 +2,283 @@ package scala.scalanative\n package compiler\n package pass\n \n-import nir._, Shows._\n-import util.sh\n+import scala.collection.mutable\n import scala.util.hashing.MurmurHash3\n \n-object GlobalValueNumbering {\n+import analysis.ClassHierarchy.Top\n+import analysis.ClassHierarchyExtractors._\n+import analysis.ControlFlow\n+import analysis.ControlFlow.Block\n+import analysis.DominatorTree\n+\n+import nir._\n+\n+class GlobalValueNumbering(implicit top: Top) extends Pass {\n+  import GlobalValueNumbering._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      val cfg        = ControlFlow.Graph(defn.insts)\n+      val domination = DominatorTree.build(cfg)\n+\n+      val newInsts = performSimpleValueNumbering(cfg, domination)\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def pred(block: Block) = block.pred.map(_.from)\n+  private def succ(block: Block) = block.succ.map(_.to)\n+\n+  private def performSimpleValueNumbering(\n+      cfg: ControlFlow.Graph,\n+      domination: Map[Block, Set[Block]]): Seq[Inst] = {\n+\n+    val variableVN   = mutable.HashMap.empty[Local, Hash]\n+    val instructions = mutable.HashMap.empty[Hash, List[Inst.Let]]\n+    val localDefs    = mutable.HashMap.empty[Local, Inst]\n+\n+    val hash       = new HashFunction(variableVN)\n+    val deepEquals = new DeepEquals(localDefs)\n+\n+    def blockDominatedByDef(dominatedBlock: Block,\n+                            dominatingDef: Local): Boolean = {\n+\n+      domination(dominatedBlock).exists { dominatingBlock =>\n+        val foundInParam = dominatingBlock.params.exists {\n+          case Val.Local(paramName, _) => (paramName == dominatingDef)\n+        }\n+        val foundInInsts = dominatingBlock.insts.exists {\n+          case Inst.Let(name, _) => (name == dominatingDef)\n+          case _                 => false\n+        }\n+\n+        foundInParam || foundInInsts\n+      }\n+    }\n+\n+    val newInsts = cfg.map { block =>\n+      variableVN ++= block.params.map(lval =>\n+        (lval.name, HashFunction.rawLocal(lval.name)))\n+      localDefs ++= block.params.map(lval => (lval.name, block.label))\n+\n+      val newBlockInsts = block.insts.map {\n+\n+        case inst: Inst.Let => {\n+          val idempotent = isIdempotent(inst.op)\n+\n+          val instHash =\n+            if (idempotent)\n+              hash(inst.op)\n+            else\n+              inst.hashCode // hash the assigned variable as well, so a = op(b) and c = op(b) don't have the same hash\n+\n+          variableVN += (inst.name -> instHash)\n+          localDefs += (inst.name  -> inst)\n+\n+          if (idempotent) {\n+            val hashEqualInstrs = instructions.getOrElse(instHash, Nil)\n+            instructions += (instHash -> (inst :: hashEqualInstrs))\n+\n+            val equalInstrs =\n+              hashEqualInstrs.filter(otherInst =>\n+                deepEquals.eqInst(inst, otherInst))\n+            val redundantInstrs = equalInstrs.filter(eqInst =>\n+              blockDominatedByDef(block, eqInst.name)) // only redundant if the current block is dominated by the block in which the equal instruction occurs\n+\n+            val newInstOpt = redundantInstrs.headOption.map(\n+              redInst =>\n+                Inst.Let(inst.name,\n+                         Op.Copy(Val.Local(redInst.name, redInst.op.resty))))\n+            newInstOpt.getOrElse(inst)\n+          } else {\n+            inst\n+          }\n+        }\n+\n+        case otherInst @ _ =>\n+          otherInst\n+      }\n+\n+      block.label +: newBlockInsts\n+    }\n+\n+    newInsts.flatten\n+  }\n+\n+}\n+\n+object GlobalValueNumbering extends PassCompanion {\n+  def apply(ctx: Ctx) = new GlobalValueNumbering()(ctx.top)\n+\n+  /* The definition of idempotent for Call might be wrong.\n+   * Example:\n+   * val a = new AnyRef { var b: Int = 0; override def toString = b.toString }\n+   * val c = a.toString\n+   * a.b = 1\n+   * val d = a.toString\n+   * --> toString is pure, but the values of c and d are different !\n+   * */\n+  def isIdempotent(op: Op)(implicit top: Top): Boolean = {\n+    import Op._\n+    op match {\n+      // Always idempotent:\n+      case (_: Pure | _: Method | _: As | _: Is | _: Copy | _: Sizeof |\n+          _: Module | _: Field) =>\n+        true\n+\n+      // Never idempotent:\n+      case (_: Load | _: Store | _: Stackalloc | _: Classalloc) => false\n+\n+      // Special cases:\n+      case Call(_, Val.Global(Ref(node), _), _) =>\n+        node.attrs.isPure\n+\n+      case Call(_, _, _) => false"
+  },
+  {
+    "id" : "d1f1d1dc-8f7d-4665-a005-9497d3f85850",
+    "prId" : 361,
+    "comments" : [
+      {
+        "id" : "93dbcb94-6844-4898-b17a-c71cf969cbd0",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets assume that this one is not idempotent for now.\n",
+        "createdAt" : "2016-11-01T11:53:15Z",
+        "updatedAt" : "2016-11-01T17:40:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "24365788dbd3ff6b4d318c28c5273cecd47a6b12",
+    "line" : null,
+    "diffHunk" : "@@ -2,11 +2,283 @@ package scala.scalanative\n package compiler\n package pass\n \n-import nir._, Shows._\n-import util.sh\n+import scala.collection.mutable\n import scala.util.hashing.MurmurHash3\n \n-object GlobalValueNumbering {\n+import analysis.ClassHierarchy.Top\n+import analysis.ClassHierarchyExtractors._\n+import analysis.ControlFlow\n+import analysis.ControlFlow.Block\n+import analysis.DominatorTree\n+\n+import nir._\n+\n+class GlobalValueNumbering(implicit top: Top) extends Pass {\n+  import GlobalValueNumbering._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      val cfg        = ControlFlow.Graph(defn.insts)\n+      val domination = DominatorTree.build(cfg)\n+\n+      val newInsts = performSimpleValueNumbering(cfg, domination)\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def pred(block: Block) = block.pred.map(_.from)\n+  private def succ(block: Block) = block.succ.map(_.to)\n+\n+  private def performSimpleValueNumbering(\n+      cfg: ControlFlow.Graph,\n+      domination: Map[Block, Set[Block]]): Seq[Inst] = {\n+\n+    val variableVN   = mutable.HashMap.empty[Local, Hash]\n+    val instructions = mutable.HashMap.empty[Hash, List[Inst.Let]]\n+    val localDefs    = mutable.HashMap.empty[Local, Inst]\n+\n+    val hash       = new HashFunction(variableVN)\n+    val deepEquals = new DeepEquals(localDefs)\n+\n+    def blockDominatedByDef(dominatedBlock: Block,\n+                            dominatingDef: Local): Boolean = {\n+\n+      domination(dominatedBlock).exists { dominatingBlock =>\n+        val foundInParam = dominatingBlock.params.exists {\n+          case Val.Local(paramName, _) => (paramName == dominatingDef)\n+        }\n+        val foundInInsts = dominatingBlock.insts.exists {\n+          case Inst.Let(name, _) => (name == dominatingDef)\n+          case _                 => false\n+        }\n+\n+        foundInParam || foundInInsts\n+      }\n+    }\n+\n+    val newInsts = cfg.map { block =>\n+      variableVN ++= block.params.map(lval =>\n+        (lval.name, HashFunction.rawLocal(lval.name)))\n+      localDefs ++= block.params.map(lval => (lval.name, block.label))\n+\n+      val newBlockInsts = block.insts.map {\n+\n+        case inst: Inst.Let => {\n+          val idempotent = isIdempotent(inst.op)\n+\n+          val instHash =\n+            if (idempotent)\n+              hash(inst.op)\n+            else\n+              inst.hashCode // hash the assigned variable as well, so a = op(b) and c = op(b) don't have the same hash\n+\n+          variableVN += (inst.name -> instHash)\n+          localDefs += (inst.name  -> inst)\n+\n+          if (idempotent) {\n+            val hashEqualInstrs = instructions.getOrElse(instHash, Nil)\n+            instructions += (instHash -> (inst :: hashEqualInstrs))\n+\n+            val equalInstrs =\n+              hashEqualInstrs.filter(otherInst =>\n+                deepEquals.eqInst(inst, otherInst))\n+            val redundantInstrs = equalInstrs.filter(eqInst =>\n+              blockDominatedByDef(block, eqInst.name)) // only redundant if the current block is dominated by the block in which the equal instruction occurs\n+\n+            val newInstOpt = redundantInstrs.headOption.map(\n+              redInst =>\n+                Inst.Let(inst.name,\n+                         Op.Copy(Val.Local(redInst.name, redInst.op.resty))))\n+            newInstOpt.getOrElse(inst)\n+          } else {\n+            inst\n+          }\n+        }\n+\n+        case otherInst @ _ =>\n+          otherInst\n+      }\n+\n+      block.label +: newBlockInsts\n+    }\n+\n+    newInsts.flatten\n+  }\n+\n+}\n+\n+object GlobalValueNumbering extends PassCompanion {\n+  def apply(ctx: Ctx) = new GlobalValueNumbering()(ctx.top)\n+\n+  /* The definition of idempotent for Call might be wrong.\n+   * Example:\n+   * val a = new AnyRef { var b: Int = 0; override def toString = b.toString }\n+   * val c = a.toString\n+   * a.b = 1\n+   * val d = a.toString\n+   * --> toString is pure, but the values of c and d are different !\n+   * */\n+  def isIdempotent(op: Op)(implicit top: Top): Boolean = {\n+    import Op._\n+    op match {\n+      // Always idempotent:\n+      case (_: Pure | _: Method | _: As | _: Is | _: Copy | _: Sizeof |\n+          _: Module | _: Field) =>\n+        true\n+\n+      // Never idempotent:\n+      case (_: Load | _: Store | _: Stackalloc | _: Classalloc) => false\n+\n+      // Special cases:\n+      case Call(_, Val.Global(Ref(node), _), _) =>\n+        node.attrs.isPure\n+\n+      case Call(_, _, _) => false\n+\n+      case _: Closure => ???"
+  },
+  {
+    "id" : "2aee927b-7be6-4614-973e-9a1e47a0d03c",
+    "prId" : 361,
+    "comments" : [
+      {
+        "id" : "d960f980-242d-4e65-ae17-afdcdf254149",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems that this and all the other not-idempotent cases are never going to happen due to the check above, therefore we should drop this code altogether. \n",
+        "createdAt" : "2016-11-01T11:54:58Z",
+        "updatedAt" : "2016-11-01T17:40:33Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "24365788dbd3ff6b4d318c28c5273cecd47a6b12",
+    "line" : null,
+    "diffHunk" : "@@ -2,11 +2,283 @@ package scala.scalanative\n package compiler\n package pass\n \n-import nir._, Shows._\n-import util.sh\n+import scala.collection.mutable\n import scala.util.hashing.MurmurHash3\n \n-object GlobalValueNumbering {\n+import analysis.ClassHierarchy.Top\n+import analysis.ClassHierarchyExtractors._\n+import analysis.ControlFlow\n+import analysis.ControlFlow.Block\n+import analysis.DominatorTree\n+\n+import nir._\n+\n+class GlobalValueNumbering(implicit top: Top) extends Pass {\n+  import GlobalValueNumbering._\n+\n+  override def preDefn = {\n+    case defn: Defn.Define =>\n+      val cfg        = ControlFlow.Graph(defn.insts)\n+      val domination = DominatorTree.build(cfg)\n+\n+      val newInsts = performSimpleValueNumbering(cfg, domination)\n+\n+      Seq(defn.copy(insts = newInsts))\n+  }\n+\n+  private def pred(block: Block) = block.pred.map(_.from)\n+  private def succ(block: Block) = block.succ.map(_.to)\n+\n+  private def performSimpleValueNumbering(\n+      cfg: ControlFlow.Graph,\n+      domination: Map[Block, Set[Block]]): Seq[Inst] = {\n+\n+    val variableVN   = mutable.HashMap.empty[Local, Hash]\n+    val instructions = mutable.HashMap.empty[Hash, List[Inst.Let]]\n+    val localDefs    = mutable.HashMap.empty[Local, Inst]\n+\n+    val hash       = new HashFunction(variableVN)\n+    val deepEquals = new DeepEquals(localDefs)\n+\n+    def blockDominatedByDef(dominatedBlock: Block,\n+                            dominatingDef: Local): Boolean = {\n+\n+      domination(dominatedBlock).exists { dominatingBlock =>\n+        val foundInParam = dominatingBlock.params.exists {\n+          case Val.Local(paramName, _) => (paramName == dominatingDef)\n+        }\n+        val foundInInsts = dominatingBlock.insts.exists {\n+          case Inst.Let(name, _) => (name == dominatingDef)\n+          case _                 => false\n+        }\n+\n+        foundInParam || foundInInsts\n+      }\n+    }\n+\n+    val newInsts = cfg.map { block =>\n+      variableVN ++= block.params.map(lval =>\n+        (lval.name, HashFunction.rawLocal(lval.name)))\n+      localDefs ++= block.params.map(lval => (lval.name, block.label))\n+\n+      val newBlockInsts = block.insts.map {\n+\n+        case inst: Inst.Let => {\n+          val idempotent = isIdempotent(inst.op)\n+\n+          val instHash =\n+            if (idempotent)\n+              hash(inst.op)\n+            else\n+              inst.hashCode // hash the assigned variable as well, so a = op(b) and c = op(b) don't have the same hash\n+\n+          variableVN += (inst.name -> instHash)\n+          localDefs += (inst.name  -> inst)\n+\n+          if (idempotent) {\n+            val hashEqualInstrs = instructions.getOrElse(instHash, Nil)\n+            instructions += (instHash -> (inst :: hashEqualInstrs))\n+\n+            val equalInstrs =\n+              hashEqualInstrs.filter(otherInst =>\n+                deepEquals.eqInst(inst, otherInst))\n+            val redundantInstrs = equalInstrs.filter(eqInst =>\n+              blockDominatedByDef(block, eqInst.name)) // only redundant if the current block is dominated by the block in which the equal instruction occurs\n+\n+            val newInstOpt = redundantInstrs.headOption.map(\n+              redInst =>\n+                Inst.Let(inst.name,\n+                         Op.Copy(Val.Local(redInst.name, redInst.op.resty))))\n+            newInstOpt.getOrElse(inst)\n+          } else {\n+            inst\n+          }\n+        }\n+\n+        case otherInst @ _ =>\n+          otherInst\n+      }\n+\n+      block.label +: newBlockInsts\n+    }\n+\n+    newInsts.flatten\n+  }\n+\n+}\n+\n+object GlobalValueNumbering extends PassCompanion {\n+  def apply(ctx: Ctx) = new GlobalValueNumbering()(ctx.top)\n+\n+  /* The definition of idempotent for Call might be wrong.\n+   * Example:\n+   * val a = new AnyRef { var b: Int = 0; override def toString = b.toString }\n+   * val c = a.toString\n+   * a.b = 1\n+   * val d = a.toString\n+   * --> toString is pure, but the values of c and d are different !\n+   * */\n+  def isIdempotent(op: Op)(implicit top: Top): Boolean = {\n+    import Op._\n+    op match {\n+      // Always idempotent:\n+      case (_: Pure | _: Method | _: As | _: Is | _: Copy | _: Sizeof |\n+          _: Module | _: Field) =>\n+        true\n+\n+      // Never idempotent:\n+      case (_: Load | _: Store | _: Stackalloc | _: Classalloc) => false\n+\n+      // Special cases:\n+      case Call(_, Val.Global(Ref(node), _), _) =>\n+        node.attrs.isPure\n+\n+      case Call(_, _, _) => false\n+\n+      case _: Closure => ???\n+    }\n+  }\n+\n+  class DeepEquals(localDefs: Local => Inst)(implicit top: Top) {\n+\n+    def eqInst(instA: Inst.Let, instB: Inst.Let): Boolean = {\n+      (instA.name == instB.name) || eqOp(instA.op, instB.op)\n+    }\n+\n+    def eqOp(opA: Op, opB: Op): Boolean = {\n+      import Op._\n+      if (!(isIdempotent(opA) && isIdempotent(opB)))\n+        false\n+      else {\n+        (opA, opB) match {\n+          // Here we know that the function called is idempotent\n+          case (Call(tyA, ptrA, argsA), Call(tyB, ptrB, argsB)) =>\n+            eqType(tyA, tyB) && eqVal(ptrA, ptrB) && eqVals(argsA, argsB)\n+\n+          case (Load(_, _), Load(_, _)) =>\n+            false // not idempotent"
+  }
+]

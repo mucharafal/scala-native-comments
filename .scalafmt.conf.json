@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "7d0eb953-c5d7-4c8b-9d94-aa1615450299",
+    "prId" : 934,
+    "comments" : [
+      {
+        "id" : "4b049209-1b3d-4e58-9d2a-af6948fa2ba4",
+        "parentId" : null,
+        "author" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "body" : "This is the default value",
+        "createdAt" : "2017-08-14T14:28:38Z",
+        "updatedAt" : "2017-08-14T20:34:18Z",
+        "lastEditedBy" : {
+          "login" : "olafurpg",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1408093?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5bed0a8ada68ff573e2e6f384a240c5116d17346",
+    "line" : null,
+    "diffHunk" : "@@ -5,3 +5,5 @@ project.excludeFilters = [\n   scalalib/\n ]\n project.git = true\n+maxColumn = 80"
+  },
+  {
+    "id" : "c19da3cc-89de-4151-b5a9-2217b6a5f0d3",
+    "prId" : 1548,
+    "comments" : [
+      {
+        "id" : "f7e69a16-64db-4ff7-b24d-f6f386a2ef35",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We specify scalafmt version in the boostrap script instead https://github.com/scala-native/scala-native/blob/master/scripts/scalafmt#L6\r\n\r\nI'd avoid combining scalafmt upgrades with any other changes. It usually produces a giant diff that obfuscates any non-formatting changes.\r\n",
+        "createdAt" : "2019-04-22T09:59:36Z",
+        "updatedAt" : "2019-04-22T09:59:44Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "7f13d526-c5e4-4a96-a261-74ba21f38d98",
+        "parentId" : "f7e69a16-64db-4ff7-b24d-f6f386a2ef35",
+        "author" : {
+          "login" : "jvican",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2462974?u=247f9a0cfd142440687595dce462fabed087e912&v=4"
+        },
+        "body" : "This change is done by Metals automatically, as format on save requires a scalafmt version in the scalafmt config (I don't use format on save, so we can remove this diff altogether).",
+        "createdAt" : "2019-04-22T10:02:14Z",
+        "updatedAt" : "2019-04-22T10:02:14Z",
+        "lastEditedBy" : {
+          "login" : "jvican",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/2462974?u=247f9a0cfd142440687595dce462fabed087e912&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "30ca7876-a405-4c4a-a615-77a07f1d817f",
+        "parentId" : "f7e69a16-64db-4ff7-b24d-f6f386a2ef35",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets drop it for this pr.",
+        "createdAt" : "2019-04-22T10:06:46Z",
+        "updatedAt" : "2019-04-22T10:06:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1d5d49c89e1e90a45a408214ab605f3067c6cf42",
+    "line" : 1,
+    "diffHunk" : "@@ -1,3 +1,4 @@\n+version = \"2.0.0-RC4\""
+  }
+]

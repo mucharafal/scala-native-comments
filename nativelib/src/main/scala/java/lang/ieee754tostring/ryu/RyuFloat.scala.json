@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "fb5c680c-aa53-4ac0-a904-396a2954ec46",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "7730e407-de13-40c1-953d-d3c5082582b6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Can we codegen the `POW5`, `POW5_INV` and `POW_INV_SPLIT`? This would remove the dependency on `BigInteger` here.",
+        "createdAt" : "2019-02-27T11:25:16Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d05e7945-53df-4fc5-bfdd-7e186ef25488",
+        "parentId" : "7730e407-de13-40c1-953d-d3c5082582b6",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done & committed for RyuDouble.scala.  `test-all` passes.  \r\nRyuFloat.scala still needs corresponding changes. I want the\r\nchanges in RyuDouble.scala to pass review (or be declined)\r\nbefore I propagate them.  Progress....\r\n",
+        "createdAt" : "2019-03-03T19:48:49Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "95470358-9217-4db5-9b81-4ddbedbbe818",
+        "parentId" : "7730e407-de13-40c1-953d-d3c5082582b6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets do the same for `RyuFloat` now. The only change I would make is to use one dimensional arrays. ",
+        "createdAt" : "2019-03-04T12:43:28Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "10f0a816-7f07-4f63-b33c-b5f31b003342",
+        "parentId" : "7730e407-de13-40c1-953d-d3c5082582b6",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done for RyuFloat.scala!  Now no BigInteger usage in Ryu*.,scala",
+        "createdAt" : "2019-03-05T11:56:09Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,489 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+package java.lang.ieee754tostring.ryu\n+\n+import java.math.BigInteger\n+\n+import RyuRoundingMode._\n+\n+object RyuFloat {\n+\n+  var DEBUG: Boolean = false\n+\n+  private val FLOAT_MANTISSA_BITS: Int = 23\n+\n+  private val FLOAT_MANTISSA_MASK: Int = (1 << FLOAT_MANTISSA_BITS) - 1\n+\n+  private val FLOAT_EXPONENT_BITS: Int = 8\n+\n+  private val FLOAT_EXPONENT_MASK: Int = (1 << FLOAT_EXPONENT_BITS) - 1\n+\n+  private val FLOAT_EXPONENT_BIAS: Int = (1 << (FLOAT_EXPONENT_BITS - 1)) - 1\n+\n+  private val LOG10_2_DENOMINATOR: Long = 10000000L\n+\n+  private val LOG10_2_NUMERATOR: Long =\n+    (LOG10_2_DENOMINATOR * Math.log10(2)).toLong\n+\n+  private val LOG10_5_DENOMINATOR: Long = 10000000L\n+\n+  private val LOG10_5_NUMERATOR: Long =\n+    (LOG10_5_DENOMINATOR * Math.log10(5)).toLong\n+\n+  private val LOG2_5_DENOMINATOR: Long = 10000000L\n+\n+  private val LOG2_5_NUMERATOR: Long =\n+    (LOG2_5_DENOMINATOR * (Math.log(5) / Math.log(2))).toLong\n+\n+  private val POS_TABLE_SIZE: Int = 47\n+\n+  private val INV_TABLE_SIZE: Int = 31\n+\n+  // Only for debugging.\n+  private val POW5: Array[BigInteger] = new Array[BigInteger](POS_TABLE_SIZE)\n+\n+  private val POW5_INV: Array[BigInteger] =\n+    new Array[BigInteger](INV_TABLE_SIZE)\n+\n+  private val POW5_BITCOUNT: Int = 61\n+\n+  private val POW5_HALF_BITCOUNT: Int = 31\n+\n+  private val POW5_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](POS_TABLE_SIZE, 2)\n+\n+  private val POW5_INV_BITCOUNT: Int = 59\n+\n+  private val POW5_INV_HALF_BITCOUNT: Int = 31\n+\n+  private val POW5_INV_SPLIT: Array[Array[Int]] =\n+    Array.ofDim[Int](INV_TABLE_SIZE, 2)\n+\n+  val mask: BigInteger = BigInteger\n+    .valueOf(1)\n+    .shiftLeft(POW5_HALF_BITCOUNT)\n+    .subtract(BigInteger.ONE)\n+\n+  val maskInv: BigInteger = BigInteger\n+    .valueOf(1)\n+    .shiftLeft(POW5_INV_HALF_BITCOUNT)\n+    .subtract(BigInteger.ONE)\n+\n+  for (i <- 0 until Math.max(POW5.length, POW5_INV.length)) {\n+    val pow: BigInteger       = BigInteger.valueOf(5).pow(i)\n+    val pow5len: Int          = pow.bitLength()\n+    val expectedPow5Bits: Int = pow5bits(i)\n+    if (expectedPow5Bits != pow5len) {\n+      throw new IllegalStateException(pow5len + \" != \" + expectedPow5Bits)\n+    }\n+    if (i < POW5.length) {\n+      POW5(i) = pow\n+    }\n+    if (i < POW5_SPLIT.length) {\n+      POW5_SPLIT(i)(0) = pow\n+        .shiftRight(pow5len - POW5_BITCOUNT + POW5_HALF_BITCOUNT)\n+        .intValue()\n+      POW5_SPLIT(i)(1) =\n+        pow.shiftRight(pow5len - POW5_BITCOUNT).and(mask).intValue()\n+    }\n+    if (i < POW5_INV.length) {\n+      val j: Int = pow5len - 1 + POW5_INV_BITCOUNT\n+      val inv: BigInteger =\n+        BigInteger.ONE.shiftLeft(j).divide(pow).add(BigInteger.ONE)\n+      POW5_INV(i) = inv\n+      POW5_INV_SPLIT(i)(0) = inv.shiftRight(POW5_INV_HALF_BITCOUNT).intValue()\n+      POW5_INV_SPLIT(i)(1) = inv.and(maskInv).intValue()\n+    }\n+  }"
+  }
+]

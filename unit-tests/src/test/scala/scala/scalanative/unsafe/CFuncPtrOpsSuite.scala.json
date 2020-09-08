@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "dcbe76fd-1ce3-4d0a-9103-bae7a9662ef5",
+    "prId" : 1845,
+    "comments" : [
+      {
+        "id" : "22c8b3cb-3976-4c9e-9682-37ade4b97a58",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Testing that the result of a method that returns a `Ptr[Byte]` is an instance of a `Ptr[Byte]` is redundant, and does not actually anything beside the fact that the method does not crash.\r\n\r\nEnd-to-end tests for conversions should always test that we can actually *do* something meaningful with the result.\r\n\r\nThis test does not prevent me from implementing `toPtr` as always returning `unsafe.alloc[Byte]`. A meaningful test would invalidate that implementation.",
+        "createdAt" : "2020-07-10T13:19:49Z",
+        "updatedAt" : "2020-07-13T12:14:05Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e9c0779bbc940f1d4c27edefd33127052e0ace2f",
+    "line" : null,
+    "diffHunk" : "@@ -14,4 +14,10 @@ object CFuncPtrOpsSuite extends tests.Suite {\n       randFunc.asInstanceOf[CFuncPtr1[Int, Int]] // wrong arity\n     }\n   }\n+\n+  test(\"CFuncPtr.toPtr casts to Ptr[Byte]\") {\n+    assertTrue {\n+      randFunc.toPtr.isInstanceOf[Ptr[Byte]]"
+  }
+]

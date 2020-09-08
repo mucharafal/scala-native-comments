@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a6df5968-7dd5-46b8-80e6-1683334cab75",
+    "prId" : 1766,
+    "comments" : [
+      {
+        "id" : "38091469-ac5e-429d-b514-e18d1ee27bb4",
+        "parentId" : null,
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "After the recent changes in the build, this should not be necessary anymore.",
+        "createdAt" : "2020-07-01T11:52:34Z",
+        "updatedAt" : "2020-07-01T15:05:20Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2b841edb-8f3f-4cc1-9891-1bcaef601dd1",
+        "parentId" : "38091469-ac5e-429d-b514-e18d1ee27bb4",
+        "author" : {
+          "login" : "sideeffffect",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/9019485?v=4"
+        },
+        "body" : ":heavy_check_mark: ",
+        "createdAt" : "2020-07-01T15:05:36Z",
+        "updatedAt" : "2020-07-01T15:05:36Z",
+        "lastEditedBy" : {
+          "login" : "sideeffffect",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/9019485?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fc6c31c9d02dc34081bb295b772586c3d085623e",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,20 @@\n+.. _ides:\n+\n+Be sure to execute ``sbt rebuild`` so that artifacts are published and the IDEs can resolve them."
+  }
+]

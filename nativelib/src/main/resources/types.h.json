@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "06cb4cee-e64c-485d-bbc1-c705617c0cb1",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "6745a47c-0543-4521-b948-fa5b4b984a99",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "You should use `uintN_t` and `intN_t` types from `inttypes.h` instead. There is no need to define our own.",
+        "createdAt" : "2017-08-07T11:32:45Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "adeaa055-8419-46d0-abcd-8c53a9ae9e7d",
+        "parentId" : "6745a47c-0543-4521-b948-fa5b4b984a99",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I don't mind actually, but we will partly lose windows 7 support then. It's still possible to have it to compile on win7 but it will require additional installation steps and latest windows update.",
+        "createdAt" : "2017-08-08T10:44:52Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2301a2c4-7bc7-4fb8-8be8-f7e11bdae74e",
+        "parentId" : "6745a47c-0543-4521-b948-fa5b4b984a99",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think that requiring latest windows update is reasonable as long as it keeps working on 7. What kind of extra installation steps are you talking about?",
+        "createdAt" : "2017-08-08T11:59:34Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6dc5ddff-1e2e-4cbb-a1d0-837f236783ab",
+        "parentId" : "6745a47c-0543-4521-b948-fa5b4b984a99",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "inttypes.h is part of Windows 10 SDK starts from Visual Studio 2013, but it could be installed on windows 7 (there is special steps for it)\r\nThere is also a header on windows: <cinttypes> which is very similar, I just need to investigate this case more and make it support older windows versions.",
+        "createdAt" : "2017-08-08T12:19:52Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -1,18 +1,28 @@\n #ifndef __TYPES_H\n #define __TYPES_H\n \n-typedef unsigned long scalanative_dev_t;\n-typedef unsigned int scalanative_mode_t;\n-typedef unsigned long long scalanative_ino_t;\n-typedef unsigned int scalanative_uid_t;\n-typedef unsigned int scalanative_gid_t;\n-typedef long long scalanative_off_t;\n-typedef long int scalanative_time_t;\n-typedef long long scalanative_blkcnt_t;\n-typedef long scalanative_blksize_t;\n-typedef unsigned long scalanative_nlink_t;\n+// this is cross-patform definition of integer types\n+typedef signed char scalanative_int8_t;\n+typedef short scalanative_int16_t;\n+typedef int scalanative_int32_t;\n+typedef long long scalanative_int64_t;\n+typedef unsigned char scalanative_uint8_t;\n+typedef unsigned short scalanative_uint16_t;\n+typedef unsigned int scalanative_uint32_t;\n+typedef unsigned long long scalanative_uint64_t;"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "2d9f6a92-995a-4ba7-bfb4-a468ff5f1f90",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "60449a20-46c9-4370-8174-2de9dca51aaa",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`close()`",
+        "createdAt" : "2017-08-14T09:26:40Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package java.net\n+\n+import java.io.OutputStream\n+\n+// Ported from Apache Harmony\n+private[net] class SocketOutputStream(socket: PlainSocketImpl)\n+    extends OutputStream {\n+\n+  override def close: Unit = {"
+  }
+]

@@ -1,0 +1,108 @@
+[
+  {
+    "id" : "be00f812-dfdc-4c1e-98eb-61a974427597",
+    "prId" : 754,
+    "comments" : [
+      {
+        "id" : "32e68d43-9667-48f1-bcee-6c5ff40f93b1",
+        "parentId" : null,
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Speaking about all CAtomic...\r\nWhy do you use additional constructor here?\r\nI would see it like this:\r\n```\r\nclass CAtomicInt(default:Int = 0) extends Atomic {\r\n...\r\ninit_int(atm, default)\r\n...\r\n}\r\n```",
+        "createdAt" : "2017-06-02T12:58:13Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fa3dc879-cd99-4c0c-9bed-040525ceb514",
+        "parentId" : "32e68d43-9667-48f1-bcee-6c5ff40f93b1",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "Yeah you're right, it's an artifact of the old code I was trying to use I'll change that",
+        "createdAt" : "2017-06-07T10:06:35Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5b6b0c092be2475ad4aa23e540f57a88bec3768c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,87 @@\n+package scala.scalanative\n+package runtime.CAtomics\n+\n+import scala.scalanative.native.{CInt, Ptr, sizeof, stackalloc}\n+import scala.scalanative.runtime.Atomic\n+import scala.scalanative.runtime.Atomic._\n+\n+class CAtomicInt extends CAtomic {"
+  },
+  {
+    "id" : "93298e8a-0e44-45ae-bca8-87fd1facf7b1",
+    "prId" : 754,
+    "comments" : [
+      {
+        "id" : "40f367d9-489b-4ed8-a4f3-884f47af734c",
+        "parentId" : null,
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Btw, I think it would be good to expose init function to user, like `def store(value:Int): Unit = init_int(atm, value)`\r\nTo give user ability to overwrite current value without additional operations.\r\nWhat do you think?",
+        "createdAt" : "2017-06-02T13:01:44Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7699b204-8a58-432e-9b0a-60efb11838bf",
+        "parentId" : "40f367d9-489b-4ed8-a4f3-884f47af734c",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "Yes, good idea I'll do that thanks !",
+        "createdAt" : "2017-06-07T10:07:29Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5b6b0c092be2475ad4aa23e540f57a88bec3768c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,87 @@\n+package scala.scalanative\n+package runtime.CAtomics\n+\n+import scala.scalanative.native.{CInt, Ptr, sizeof, stackalloc}\n+import scala.scalanative.runtime.Atomic\n+import scala.scalanative.runtime.Atomic._\n+\n+class CAtomicInt extends CAtomic {\n+\n+  private[this] val atm = alloc(sizeof[CInt]).cast[Ptr[CInt]]\n+  init_int(atm, 0)"
+  }
+]

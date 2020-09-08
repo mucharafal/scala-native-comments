@@ -1,0 +1,827 @@
+[
+  {
+    "id" : "1a3a1796-f507-473a-a158-9f45e5de6c8d",
+    "prId" : 227,
+    "comments" : [
+      {
+        "id" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It looks like those are [not C11 libc functions](http://www.cplusplus.com/reference/ctime/), but posix time functions. `@extern object time` should only contain the bindings to things defined in `time.h`. We also can't unconditionally depend on posix in our core libraries as that would complicate Windows support. \n",
+        "createdAt" : "2016-07-06T14:11:29Z",
+        "updatedAt" : "2016-07-06T14:11:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5ea9b6a9-e868-4ad0-8317-580f8031cf4f",
+        "parentId" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "ok, given that there is not a way to achieve the desired resolution in a complete OS/independent way....\nthe question is: do you prefer to not support this kind of functions all around or you want to support OS/dependent compilation?\n\nUnfortunately this apply to many other areas, files etc. etc. Posix systems are often not compatible with Windows.\n",
+        "createdAt" : "2016-07-06T14:51:21Z",
+        "updatedAt" : "2016-07-06T14:51:21Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "87bc9862-60dd-4d27-844f-dfb86fee8d55",
+        "parentId" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "i.e.\nthe equivalent of `clock_gettime(CLOck_MONOTONIC, ptr)` on widows is `QueryPerformanceCounter()`\n",
+        "createdAt" : "2016-07-06T14:56:50Z",
+        "updatedAt" : "2016-07-06T14:56:50Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "bd3c45e5-fee8-4654-90f2-057cb0662ead",
+        "parentId" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Once https://github.com/scala-native/scala-native/issues/58 lands we'll be able to implement subsets of APIs in platform-dependent manner (e.g. cross project that has two separate implementations for windows and unix-like systems). For now we should avoid using any platform-specific APIs as that would make it hard to get rid of those dependencies later on. \n",
+        "createdAt" : "2016-07-06T15:00:53Z",
+        "updatedAt" : "2016-07-06T15:00:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "d9725da0-2dfc-4c78-9012-b5918adf0179",
+        "parentId" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "Couldn't we tag with a specific comment the related parts of code?\nIn this way when we will have #58 merged we can move the code to the proper subproject.\n\nAnother option is to start to have a couple of subprojects like `posix-nativelib` and `windows-nativelib` that can be switched in user build imports but that respect the very same classes/methods signatures.\n\nProbably people implementing things on unix and win environment are potentially different (i.e. I have no win dev machine to test on).\n",
+        "createdAt" : "2016-07-06T15:13:39Z",
+        "updatedAt" : "2016-07-06T15:13:39Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5f4c2812-ba4e-475a-96be-c8ef702c4f64",
+        "parentId" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "author" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "body" : "As a possible temporary workaround we could also check:\nhttps://github.com/ThoughtWorksInc/enableIf.scala\n",
+        "createdAt" : "2016-07-06T16:00:05Z",
+        "updatedAt" : "2016-07-06T16:00:05Z",
+        "lastEditedBy" : {
+          "login" : "andreaTP",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5792097?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "1b1370cb-32ee-4d8b-8e5b-0a0bcf160315",
+        "parentId" : "3743781e-a3f1-4a1a-8350-8116ac7fe159",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'll prioritise #58. Lets just have a posix-based implementation in master for now. We probably don't want to expose those as public part of SN yet, so lets put bindings to that in `scala.scalanative.runtime` under `@extern object posix`. Just make sure that you use only cross-platform posix APIs and don't use linux-only things. \n",
+        "createdAt" : "2016-07-08T09:44:56Z",
+        "updatedAt" : "2016-07-08T09:54:42Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6bfeb4bcbe1124a89eba4c1db603cc1cf66fefff",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,27 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object time {\n+\n+  type time_t = CLong\n+\n+  @struct\n+  class timespec(\n+      val tv_sec: time_t = 0L, /* seconds */\n+      val tv_nsec: CLong = 0L /* nanoseconds */\n+  )\n+\n+  def clock_getres(clk_id: Clock.clockid_t, res: Ptr[timespec]): CInt  = extern\n+  def clock_gettime(clk_id: Clock.clockid_t, res: Ptr[timespec]): CInt = extern\n+  def clock_settime(clk_id: Clock.clockid_t, res: Ptr[timespec]): CInt = extern"
+  },
+  {
+    "id" : "693a21e1-7d92-4351-a5ee-55447947458f",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "a0d805f1-6d9a-45d0-af32-8ee21227e756",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should go to `scala.scalanative.runtime` package.\n",
+        "createdAt" : "2016-10-28T15:32:55Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "aea36361-9fc8-4d6c-a6f9-525fbe73f5aa",
+        "parentId" : "a0d805f1-6d9a-45d0-af32-8ee21227e756",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I moved it\n",
+        "createdAt" : "2016-10-30T12:58:40Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,7 @@\n+package scala.scalanative\n+package native"
+  },
+  {
+    "id" : "0ffcf2c9-7902-4561-b1ff-fafca0047e57",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "a78d5e2e-81e3-4fce-a6e4-239e4438ae59",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is neither a POSIX nor C API and should not be here.",
+        "createdAt" : "2017-05-03T09:24:12Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 56,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native\n+\n+import native.signal.sigevent\n+import posix.sys.types.{timer_t, pid_t, clockid_t}\n+\n+// http://man7.org/linux/man-pages/man7/time.7.html\n+\n+@extern\n+object time {\n+\n+  def clock(): clock_t                                = extern\n+  def time(tloc: Ptr[time_t]): time_t                 = extern\n+  def difftime(time1: time_t, time0: time_t): CDouble = extern\n+  def mktime(tm: Ptr[tm]): time_t                     = extern\n+  def strftime(s: CString, max: CSize, format: CString, tm: Ptr[tm]): CSize =\n+    extern\n+  def strptime(s: CString, format: CString, tm: Ptr[tm]): CString =\n+    extern\n+  def gmtime(timep: Ptr[time_t]): Ptr[tm]    = extern\n+  def localtime(timep: Ptr[time_t]): Ptr[tm] = extern\n+  def gmtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def localtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def asctime(tm: Ptr[tm]): CString                             = extern\n+  def asctime_r(tm: Ptr[tm], buf: CString): CString             = extern\n+  def ctime(timep: Ptr[time_t]): CString                        = extern\n+  def ctime_r(timep: Ptr[time_t], buf: CString): CString        = extern\n+  def stime(t: Ptr[time_t]): CInt                               = extern\n+  def timegm(tm: Ptr[tm]): time_t                               = extern\n+  def timelocal(tm: Ptr[tm]): time_t                            = extern\n+  def dysize(year: CInt): CInt                                  = extern\n+  def nanosleep(req: Ptr[timespec], rem: Ptr[timespec]): CInt   = extern\n+  def clock_getres(clk_id: clockid_t, res: Ptr[timespec]): CInt = extern\n+  def clock_gettime(clk_id: clockid_t, tp: Ptr[timespec]): CInt = extern\n+  def clock_settime(clk_id: clockid_t, tp: Ptr[timespec]): CInt = extern\n+  def clock_nanosleep(clock_id: clockid_t,\n+                      flags: CInt,\n+                      request: Ptr[timespec],\n+                      remain: Ptr[timespec]): CInt                    = extern\n+  def clock_getcpuclockid(pid: pid_t, clock_id: Ptr[clockid_t]): CInt = extern\n+  def timer_create(clockid: clockid_t,\n+                   sevp: Ptr[sigevent],\n+                   timerid: Ptr[timer_t]): CInt = extern\n+  def timer_delete(timerid: timer_t): CInt      = extern\n+  def timer_settime(timerid: timer_t,\n+                    flags: CInt,\n+                    new_value: Ptr[timespec],\n+                    old_value: Ptr[timespec]): CInt                    = extern\n+  def timer_gettime(timerid: timer_t, curr_value: Ptr[timespec]): CInt = extern\n+  def timer_getoverrun(timerid: timer_t): CInt                         = extern\n+  def getdate(string: CString): Ptr[tm]                                = extern\n+  def getdate_r(string: CString, res: Ptr[tm]): CInt                   = extern\n+\n+  def scalanative_nano_time: CLongLong = extern"
+  },
+  {
+    "id" : "cb31b232-2298-413d-8392-b2893bcfbc3a",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "cb7f35a5-8424-4ff0-8095-563854cb6332",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Here we don't aim to do anything linux-specific. Our goal is to do purely bindings for documented POSIX APIs. e.g. http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/time.h.html",
+        "createdAt" : "2017-05-03T09:25:20Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 7,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native\n+\n+import native.signal.sigevent\n+import posix.sys.types.{timer_t, pid_t, clockid_t}\n+\n+// http://man7.org/linux/man-pages/man7/time.7.html"
+  },
+  {
+    "id" : "e5bc6b1f-30fe-443b-8457-e92dafefa546",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "fca801ab-b6c6-4eca-9d56-8b77e1ff0c24",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`scalanative.native` may only contain bindings to C's standard library definitions. This one seems to be a binding for POSIX time, therefore should go to `scalanative.posix` instead.",
+        "createdAt" : "2017-05-03T09:25:46Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 2,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native"
+  },
+  {
+    "id" : "0fbc9c3a-b257-45cb-8ddf-37b811110b13",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "6b9a36f2-ecfd-4e88-8548-fb71709b8886",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`stime` is not listed in POSIX's `time.h` docs, therefore should not be here.",
+        "createdAt" : "2017-05-03T09:30:45Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 30,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native\n+\n+import native.signal.sigevent\n+import posix.sys.types.{timer_t, pid_t, clockid_t}\n+\n+// http://man7.org/linux/man-pages/man7/time.7.html\n+\n+@extern\n+object time {\n+\n+  def clock(): clock_t                                = extern\n+  def time(tloc: Ptr[time_t]): time_t                 = extern\n+  def difftime(time1: time_t, time0: time_t): CDouble = extern\n+  def mktime(tm: Ptr[tm]): time_t                     = extern\n+  def strftime(s: CString, max: CSize, format: CString, tm: Ptr[tm]): CSize =\n+    extern\n+  def strptime(s: CString, format: CString, tm: Ptr[tm]): CString =\n+    extern\n+  def gmtime(timep: Ptr[time_t]): Ptr[tm]    = extern\n+  def localtime(timep: Ptr[time_t]): Ptr[tm] = extern\n+  def gmtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def localtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def asctime(tm: Ptr[tm]): CString                             = extern\n+  def asctime_r(tm: Ptr[tm], buf: CString): CString             = extern\n+  def ctime(timep: Ptr[time_t]): CString                        = extern\n+  def ctime_r(timep: Ptr[time_t], buf: CString): CString        = extern\n+  def stime(t: Ptr[time_t]): CInt                               = extern"
+  },
+  {
+    "id" : "c4e222e1-6f77-4a4c-814b-f8fb7b498a44",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "2e0a1fc5-b715-4fc5-90a7-f149aa525363",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not listed in POSIX's `time.h`.",
+        "createdAt" : "2017-05-03T09:31:15Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 31,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native\n+\n+import native.signal.sigevent\n+import posix.sys.types.{timer_t, pid_t, clockid_t}\n+\n+// http://man7.org/linux/man-pages/man7/time.7.html\n+\n+@extern\n+object time {\n+\n+  def clock(): clock_t                                = extern\n+  def time(tloc: Ptr[time_t]): time_t                 = extern\n+  def difftime(time1: time_t, time0: time_t): CDouble = extern\n+  def mktime(tm: Ptr[tm]): time_t                     = extern\n+  def strftime(s: CString, max: CSize, format: CString, tm: Ptr[tm]): CSize =\n+    extern\n+  def strptime(s: CString, format: CString, tm: Ptr[tm]): CString =\n+    extern\n+  def gmtime(timep: Ptr[time_t]): Ptr[tm]    = extern\n+  def localtime(timep: Ptr[time_t]): Ptr[tm] = extern\n+  def gmtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def localtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def asctime(tm: Ptr[tm]): CString                             = extern\n+  def asctime_r(tm: Ptr[tm], buf: CString): CString             = extern\n+  def ctime(timep: Ptr[time_t]): CString                        = extern\n+  def ctime_r(timep: Ptr[time_t], buf: CString): CString        = extern\n+  def stime(t: Ptr[time_t]): CInt                               = extern\n+  def timegm(tm: Ptr[tm]): time_t                               = extern"
+  },
+  {
+    "id" : "6af877b6-841d-416a-b9e6-d051e15fca9f",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "940a2641-7ca5-4d53-a326-f8ac6b67c252",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not listed in POSIX's `time.h`.",
+        "createdAt" : "2017-05-03T09:31:23Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 32,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native\n+\n+import native.signal.sigevent\n+import posix.sys.types.{timer_t, pid_t, clockid_t}\n+\n+// http://man7.org/linux/man-pages/man7/time.7.html\n+\n+@extern\n+object time {\n+\n+  def clock(): clock_t                                = extern\n+  def time(tloc: Ptr[time_t]): time_t                 = extern\n+  def difftime(time1: time_t, time0: time_t): CDouble = extern\n+  def mktime(tm: Ptr[tm]): time_t                     = extern\n+  def strftime(s: CString, max: CSize, format: CString, tm: Ptr[tm]): CSize =\n+    extern\n+  def strptime(s: CString, format: CString, tm: Ptr[tm]): CString =\n+    extern\n+  def gmtime(timep: Ptr[time_t]): Ptr[tm]    = extern\n+  def localtime(timep: Ptr[time_t]): Ptr[tm] = extern\n+  def gmtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def localtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def asctime(tm: Ptr[tm]): CString                             = extern\n+  def asctime_r(tm: Ptr[tm], buf: CString): CString             = extern\n+  def ctime(timep: Ptr[time_t]): CString                        = extern\n+  def ctime_r(timep: Ptr[time_t], buf: CString): CString        = extern\n+  def stime(t: Ptr[time_t]): CInt                               = extern\n+  def timegm(tm: Ptr[tm]): time_t                               = extern\n+  def timelocal(tm: Ptr[tm]): time_t                            = extern"
+  },
+  {
+    "id" : "b90810e9-d8cd-43a0-b408-aedda279fef5",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "e8e9cef2-324c-41fa-9aa1-06629c4ddc6b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Not listed in POSIX's `time.h`.",
+        "createdAt" : "2017-05-03T09:31:30Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 33,
+    "diffHunk" : "@@ -0,0 +1,84 @@\n+package scala.scalanative\n+package native\n+\n+import native.signal.sigevent\n+import posix.sys.types.{timer_t, pid_t, clockid_t}\n+\n+// http://man7.org/linux/man-pages/man7/time.7.html\n+\n+@extern\n+object time {\n+\n+  def clock(): clock_t                                = extern\n+  def time(tloc: Ptr[time_t]): time_t                 = extern\n+  def difftime(time1: time_t, time0: time_t): CDouble = extern\n+  def mktime(tm: Ptr[tm]): time_t                     = extern\n+  def strftime(s: CString, max: CSize, format: CString, tm: Ptr[tm]): CSize =\n+    extern\n+  def strptime(s: CString, format: CString, tm: Ptr[tm]): CString =\n+    extern\n+  def gmtime(timep: Ptr[time_t]): Ptr[tm]    = extern\n+  def localtime(timep: Ptr[time_t]): Ptr[tm] = extern\n+  def gmtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def localtime_r(timep: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    extern\n+  def asctime(tm: Ptr[tm]): CString                             = extern\n+  def asctime_r(tm: Ptr[tm], buf: CString): CString             = extern\n+  def ctime(timep: Ptr[time_t]): CString                        = extern\n+  def ctime_r(timep: Ptr[time_t], buf: CString): CString        = extern\n+  def stime(t: Ptr[time_t]): CInt                               = extern\n+  def timegm(tm: Ptr[tm]): time_t                               = extern\n+  def timelocal(tm: Ptr[tm]): time_t                            = extern\n+  def dysize(year: CInt): CInt                                  = extern"
+  },
+  {
+    "id" : "0d802039-f631-46af-9311-96416c32e0f6",
+    "prId" : 564,
+    "comments" : [
+      {
+        "id" : "70f31102-8578-49f8-8126-944d3cf5f1f5",
+        "parentId" : null,
+        "author" : {
+          "login" : "mscharley",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/336509?u=bae96eaeac1167beb692f2ca76b3a479800cf99f&v=4"
+        },
+        "body" : "Not quite sure what to do with `time_t` and `clock_t`. They are both supposed to be transparent \"implementation specific\" types - `time_t` in particular is often a `CInt` but also often a `CLong` to fix the Y2038 bug and as of C11 it isn't even a numeric type at all.\r\n\r\n`CStruct0` also doesn't work, presumably because of #555",
+        "createdAt" : "2017-03-18T09:50:10Z",
+        "updatedAt" : "2017-03-18T09:52:29Z",
+        "lastEditedBy" : {
+          "login" : "mscharley",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/336509?u=bae96eaeac1167beb692f2ca76b3a479800cf99f&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c52949041e394393543c9129683f009baf28cad6",
+    "line" : 27,
+    "diffHunk" : "@@ -0,0 +1,33 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object time {\n+\n+  // Time manipulation\n+\n+  def difftime(time_end: time_t, time_beg: time_t): CDouble = extern\n+  def time(arg: Ptr[time_t]): time_t                        = extern\n+  def clock(): clock_t                                      = extern\n+\n+  // Format conversions\n+\n+  def asctime(time_ptr: Ptr[tm]): CString = extern\n+  def ctime(time: Ptr[time_t]): CString   = extern\n+  def strftime(str: CString, count: CSize, format: CString, time: Ptr[tm]) =\n+    extern\n+  def gmtime(time: Ptr[time_t]): Ptr[tm]    = extern\n+  def localtime(time: Ptr[time_t]): Ptr[tm] = extern\n+  def mktime(time: Ptr[tm]): time_t         = extern\n+\n+  // Types\n+\n+  type tm      = CStruct9[CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt]\n+  type time_t  = CLong\n+  type clock_t = CLong"
+  },
+  {
+    "id" : "f507c123-8534-4f2e-8b47-6c4e62b8dc7e",
+    "prId" : 929,
+    "comments" : [
+      {
+        "id" : "bc412236-01c2-4a78-9b81-cf2bd922bc8c",
+        "parentId" : null,
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Here you define double native, I'm not sure if you want to do this.\r\nI think it should be either:\r\n`package scala.scalanative.native`\r\nor\r\n```\r\npackage scala.scalanative\r\npackage native\r\n```\r\n",
+        "createdAt" : "2017-08-14T15:25:26Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "20012644-cf63-474a-8f1c-be7ecfe9de80",
+        "parentId" : "bc412236-01c2-4a78-9b81-cf2bd922bc8c",
+        "author" : {
+          "login" : "schrepfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/3553?v=4"
+        },
+        "body" : "I wasn't sure about this one to be honest, I've replicated it the same way as in https://github.com/scala-native/scala-native/blob/master/nativelib/src/main/scala/scala/scalanative/native/stdio.scala ",
+        "createdAt" : "2017-08-14T15:55:09Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "schrepfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/3553?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c2d7a55b-5075-463f-9af6-ee06394d7bb8",
+        "parentId" : "bc412236-01c2-4a78-9b81-cf2bd922bc8c",
+        "author" : {
+          "login" : "schrepfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/3553?v=4"
+        },
+        "body" : "I must have extended the import somehow, maybe optimise imports in my IDE.",
+        "createdAt" : "2017-08-14T17:47:37Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "schrepfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/3553?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "46d772d874c8d5143408ad881e43e67f34c262c1",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,412 @@\n+package scala.scalanative.native\n+package native"
+  },
+  {
+    "id" : "72c2c145-1ae6-4147-b1a1-f96db9e86f74",
+    "prId" : 929,
+    "comments" : [
+      {
+        "id" : "dc15ab04-9e06-4674-af2b-57e87c0e1fa4",
+        "parentId" : null,
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "should it be `time_t` instead of CLong?",
+        "createdAt" : "2017-08-14T15:27:23Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "46d772d874c8d5143408ad881e43e67f34c262c1",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,412 @@\n+package scala.scalanative.native\n+package native\n+\n+@extern\n+object time {\n+\n+  // Types\n+  /** Arithmetic (until C11) Real (since C11) type capable of representing times.\n+    * Although not defined by the C standard, this is almost always an integral value holding the number of seconds\n+    * (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time\n+    *\n+    */\n+  type time_t = CLong\n+\n+  /** Arithmetic (until C11)Real (since C11) type capable of representing the processor time used by a process.\n+    * It has implementation-defined range and precision.\n+    *\n+    */\n+  type clock_t = CLong\n+\n+  /** Structure holding an interval broken down into seconds and nanoseconds.\n+    *\n+    */\n+  type timespec = CStruct2[time_t,\n+    CLong]\n+\n+  type tm = CStruct9[CInt,\n+    CInt,\n+    CInt,\n+    CInt,\n+    CInt,\n+    CInt,\n+    CInt,\n+    CInt,\n+    CInt]\n+\n+  // FFI's\n+\n+  /**\n+    * Computes difference between two calendar times as time_t objects (time_end - time_beg) in seconds.\n+    * If time_end refers to time point before time_beg then the result is negative.\n+    *\n+    * @param time_end End time to compare\n+    * @param time_beg Beginning time to compare\n+    * @return Difference between two times in seconds. On POSIX systems, time_t is measured in seconds, and difftime\n+    *         is equivalent to arithmetic subtraction, but C and C++ allow fractional units for time_t.\n+    */\n+  def difftime(time_end: CLong, time_beg: CLong): CLong = extern"
+  },
+  {
+    "id" : "53640c2c-e0f1-46e5-bf90-1c98e7c395b3",
+    "prId" : 929,
+    "comments" : [
+      {
+        "id" : "28aee943-288c-4d5e-b23d-194f23842e96",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We don't leave comments in the bindings for C headers. ",
+        "createdAt" : "2017-11-27T12:04:03Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c9f82656-2d28-4857-97e0-7b2c7ee501d6",
+        "parentId" : "28aee943-288c-4d5e-b23d-194f23842e96",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please remove all comments in this file. ",
+        "createdAt" : "2017-11-27T12:06:22Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d3dba940-b8a1-4196-bd44-6546dc83e737",
+        "parentId" : "28aee943-288c-4d5e-b23d-194f23842e96",
+        "author" : {
+          "login" : "schrepfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/3553?v=4"
+        },
+        "body" : ":''(\r\nTaking them out but I don't understand why, wouldn't that help with scaladoc tooltips ala intellisense?",
+        "createdAt" : "2017-11-28T21:09:43Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "schrepfler",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/3553?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ad1c6a35-4d0b-41ac-8c16-7cf55b71f4e1",
+        "parentId" : "28aee943-288c-4d5e-b23d-194f23842e96",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is a good point. Lets leave them out for now and open a new issue for adding docs to all the bindings we ship. We need to agree upon what's the detail of documentation we want to include there. Also we should use a consistent source for the docs everywhere.",
+        "createdAt" : "2017-11-28T21:21:50Z",
+        "updatedAt" : "2017-11-29T23:44:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "46d772d874c8d5143408ad881e43e67f34c262c1",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,405 @@\n+package scala.scalanative\n+package native\n+\n+@extern\n+object time {\n+\n+  // Types\n+  /** Arithmetic (until C11) Real (since C11) type capable of representing times.\n+   * Although not defined by the C standard, this is almost always an integral value holding the number of seconds\n+   * (not counting leap seconds) since 00:00, Jan 1 1970 UTC, corresponding to POSIX time\n+   *\n+   */"
+  },
+  {
+    "id" : "c3e68524-9e93-4972-bc90-b94d8d254d73",
+    "prId" : 1170,
+    "comments" : [
+      {
+        "id" : "251b1792-9572-483c-b355-71de0b22414b",
+        "parentId" : null,
+        "author" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "body" : "missing `@name(\"scalanative_strftime\")` ?",
+        "createdAt" : "2018-03-24T01:00:00Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "Andrei-Pozolotin",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1622151?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d7e3c46c-626d-4f1c-88ea-22f1512a49ce",
+        "parentId" : "251b1792-9572-483c-b355-71de0b22414b",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Good catch. Should be fixed now.",
+        "createdAt" : "2018-03-24T01:14:35Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf15c493ac4b980227093224e11ed20072355626",
+    "line" : null,
+    "diffHunk" : "@@ -1,44 +1,76 @@\n package scala.scalanative\n package native\n \n-@extern\n object time {\n \n   type time_t   = CLong\n   type clock_t  = CLong\n   type timespec = CStruct2[time_t, CLong]\n   type tm       = CStruct9[CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt]\n \n-  def asctime(time_ptr: Ptr[tm]): CString                               = extern\n-  def asctime_s(buf: Ptr[CChar], bufsz: CSize, time_ptr: Ptr[tm]): CInt = extern\n-  def clock(): clock_t                                                  = extern\n-  def ctime(time: Ptr[time_t]): CString                                 = extern\n-  def ctime_s(buffer: Ptr[CChar], bufsz: CSize, time: Ptr[time_t]): CInt =\n-    extern\n-  def difftime(time_end: CLong, time_beg: CLong): CDouble      = extern\n-  def gmtime(time: Ptr[time_t]): Ptr[tm]                       = extern\n-  def gmtime_s(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm]    = extern\n-  def localtime(time: Ptr[time_t]): Ptr[tm]                    = extern\n-  def localtime_s(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm] = extern\n-  def mktime(time: Ptr[tm]): time_t                            = extern\n+  private final val timeBufferSize = 26 // taken from `man asctime`\n+  @inline private def zeroAlloc[T](size: CSize)(implicit z: Zone): Ptr[T] = {\n+    val buf = z.alloc(size)\n+    string.memset(buf, 0, size)\n+    buf.cast[Ptr[T]]\n+  }\n+\n+  def asctime(time_ptr: Ptr[tm])(implicit z: Zone): CString =\n+    asctime_r(time_ptr, zeroAlloc[CChar](timeBufferSize))\n+  def asctime_r(time_ptr: Ptr[tm], buf: Ptr[CChar]): CString =\n+    impl.asctime_r(time_ptr, buf)\n+  def clock(): clock_t = impl.clock()\n+  def ctime(time: Ptr[time_t])(implicit z: Zone): CString =\n+    ctime_r(time, zeroAlloc[CChar](timeBufferSize))\n+  def ctime_r(time: Ptr[time_t], buf: Ptr[CChar]): CString =\n+    impl.ctime_r(time, buf)\n+  def difftime(time_end: CLong, time_beg: CLong): CDouble =\n+    impl.difftime(time_end, time_beg)\n+  def gmtime(time: Ptr[time_t])(implicit z: Zone): Ptr[tm] =\n+    gmtime_r(time, zeroAlloc[tm](sizeof[tm]))\n+  def gmtime_r(time: Ptr[time_t], tm: Ptr[tm]): Ptr[tm] =\n+    impl.gmtime_r(time, tm)\n+  def localtime(time: Ptr[time_t])(implicit z: Zone): Ptr[tm] =\n+    localtime_r(time, zeroAlloc[tm](sizeof[tm]))\n+  def localtime_r(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    impl.localtime_r(time, result)\n+  def mktime(time: Ptr[tm]): time_t = impl.mktime(time)\n   def strftime(str: Ptr[CChar],\n                count: CSize,\n                format: CString,\n-               time: Ptr[tm]): CSize                    = extern\n-  def time(arg: Ptr[time_t]): time_t                    = extern\n-  def timespec_get(ts: Ptr[timespec], base: CInt): CInt = extern\n-  def tzset(): Unit                                     = extern\n-  def wcsftime(str: CWideChar,\n-               count: CSize,\n-               format: Ptr[CWideChar],\n-               time: Ptr[tm]): CSize = extern\n-\n-  @name(\"scalanative_daylight\")\n-  def daylight(): CInt = extern\n-  @name(\"scalanative_timezone\")\n-  def timezone(): CLong = extern\n-  @name(\"scalanative_tzname\")\n-  def tzname(): Ptr[CStruct2[CString, CString]] = extern\n+               time: Ptr[tm]): CSize            = impl.strftime(str, count, format, time)\n+  def time(arg: Ptr[time_t]): time_t            = impl.time(arg)\n+  def tzset(): Unit                             = impl.tzset()\n+  def daylight(): CInt                          = impl.daylight()\n+  def timezone(): CLong                         = impl.timezone()\n+  def tzname(): Ptr[CStruct2[CString, CString]] = impl.tzname()\n+\n+  @extern\n+  private object impl {\n+    @name(\"scalanative_asctime_r\")\n+    def asctime_r(time_ptr: Ptr[tm], buf: Ptr[CChar]): CString = extern\n+    def clock(): clock_t                                       = extern\n+    def ctime_r(time: Ptr[time_t], buf: Ptr[CChar]): CString   = extern\n+    def difftime(time_end: CLong, time_beg: CLong): CDouble    = extern\n+    @name(\"scalanative_gmtime_r\")\n+    def gmtime_r(time: Ptr[time_t], tm: Ptr[tm]): Ptr[tm] = extern\n+    @name(\"scalanative_localtime_r\")\n+    def localtime_r(time: Ptr[time_t], tm: Ptr[tm]): Ptr[tm] = extern\n+    @name(\"scalanative_mktime\")\n+    def mktime(time: Ptr[tm]): time_t = extern\n+    def strftime(str: Ptr[CChar],"
+  },
+  {
+    "id" : "91d07d2a-fad7-4153-8921-d5760528571b",
+    "prId" : 1170,
+    "comments" : [
+      {
+        "id" : "63e62079-301a-42fb-9233-a8b95b86be07",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "In bindings we try to stay 100% close to the original signatures and APIs in C. We do not introduce extra parameters or helper methods. It's not the goal of bindings to increase usability of C code, it's the goal of the javalib or 3-rd party projects to build higher-level abstractions. ",
+        "createdAt" : "2018-03-24T13:49:46Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b6122311-a21e-468e-b6f5-c95f21b9331d",
+        "parentId" : "63e62079-301a-42fb-9233-a8b95b86be07",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Ok, if that's strictly the aim of the project, that's fine. I was just put off by the functions that returned naked pointers to static buffers.",
+        "createdAt" : "2018-03-24T17:31:42Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf15c493ac4b980227093224e11ed20072355626",
+    "line" : null,
+    "diffHunk" : "@@ -1,44 +1,77 @@\n package scala.scalanative\n package native\n \n-@extern\n object time {\n \n   type time_t   = CLong\n   type clock_t  = CLong\n   type timespec = CStruct2[time_t, CLong]\n   type tm       = CStruct9[CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt]\n \n-  def asctime(time_ptr: Ptr[tm]): CString                               = extern\n-  def asctime_s(buf: Ptr[CChar], bufsz: CSize, time_ptr: Ptr[tm]): CInt = extern\n-  def clock(): clock_t                                                  = extern\n-  def ctime(time: Ptr[time_t]): CString                                 = extern\n-  def ctime_s(buffer: Ptr[CChar], bufsz: CSize, time: Ptr[time_t]): CInt =\n-    extern\n-  def difftime(time_end: CLong, time_beg: CLong): CDouble      = extern\n-  def gmtime(time: Ptr[time_t]): Ptr[tm]                       = extern\n-  def gmtime_s(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm]    = extern\n-  def localtime(time: Ptr[time_t]): Ptr[tm]                    = extern\n-  def localtime_s(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm] = extern\n-  def mktime(time: Ptr[tm]): time_t                            = extern\n+  private final val timeBufferSize = 26 // taken from `man asctime`\n+  @inline private def zeroAlloc[T](size: CSize)(implicit z: Zone): Ptr[T] = {\n+    val buf = z.alloc(size)\n+    string.memset(buf, 0, size)\n+    buf.cast[Ptr[T]]\n+  }"
+  },
+  {
+    "id" : "bee7cdf3-3faf-4540-ac7a-5926a20ece83",
+    "prId" : 1170,
+    "comments" : [
+      {
+        "id" : "6572f6a5-802c-42c5-902c-741d041ab586",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`object time` itself has to be extern with all of its methods beings extern. As mentioned above bindings should stay true to the original C API, not provide an additional layer of abstraction. ",
+        "createdAt" : "2018-03-24T13:51:07Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a9b7452a-b7ee-4eaf-ad63-f9a687a7a738",
+        "parentId" : "6572f6a5-802c-42c5-902c-741d041ab586",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "Is there a technical reason for this or is it just the convention that scala native has adopted?",
+        "createdAt" : "2018-03-24T17:31:50Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "11a415ae-aed4-42d5-91a5-bb8c5f9f0130",
+        "parentId" : "6572f6a5-802c-42c5-902c-741d041ab586",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We need raw bindings and we also need higher-level abstractions. By separating the two we make it clear which is which. Some people may require access to lowest-level APIs without any abstractions, while others might prefer to have ergonomics-oriented higher-level version of it. Both need to exist.",
+        "createdAt" : "2018-03-24T18:06:34Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0ec01848-88ec-4976-af99-78f30171179b",
+        "parentId" : "6572f6a5-802c-42c5-902c-741d041ab586",
+        "author" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "body" : "That makes sense. Posix is what it is, for better and worse.",
+        "createdAt" : "2018-03-24T18:29:51Z",
+        "updatedAt" : "2018-03-24T22:55:28Z",
+        "lastEditedBy" : {
+          "login" : "eatkins",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2658825?u=8ff05fe0cc4369d7c79d2521ef29f314e11445c2&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf15c493ac4b980227093224e11ed20072355626",
+    "line" : null,
+    "diffHunk" : "@@ -1,44 +1,77 @@\n package scala.scalanative\n package native\n \n-@extern\n object time {\n \n   type time_t   = CLong\n   type clock_t  = CLong\n   type timespec = CStruct2[time_t, CLong]\n   type tm       = CStruct9[CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt, CInt]\n \n-  def asctime(time_ptr: Ptr[tm]): CString                               = extern\n-  def asctime_s(buf: Ptr[CChar], bufsz: CSize, time_ptr: Ptr[tm]): CInt = extern\n-  def clock(): clock_t                                                  = extern\n-  def ctime(time: Ptr[time_t]): CString                                 = extern\n-  def ctime_s(buffer: Ptr[CChar], bufsz: CSize, time: Ptr[time_t]): CInt =\n-    extern\n-  def difftime(time_end: CLong, time_beg: CLong): CDouble      = extern\n-  def gmtime(time: Ptr[time_t]): Ptr[tm]                       = extern\n-  def gmtime_s(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm]    = extern\n-  def localtime(time: Ptr[time_t]): Ptr[tm]                    = extern\n-  def localtime_s(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm] = extern\n-  def mktime(time: Ptr[tm]): time_t                            = extern\n+  private final val timeBufferSize = 26 // taken from `man asctime`\n+  @inline private def zeroAlloc[T](size: CSize)(implicit z: Zone): Ptr[T] = {\n+    val buf = z.alloc(size)\n+    string.memset(buf, 0, size)\n+    buf.cast[Ptr[T]]\n+  }\n+\n+  def asctime(time_ptr: Ptr[tm])(implicit z: Zone): CString =\n+    asctime_r(time_ptr, zeroAlloc[CChar](timeBufferSize))\n+  def asctime_r(time_ptr: Ptr[tm], buf: Ptr[CChar]): CString =\n+    impl.asctime_r(time_ptr, buf)\n+  def clock(): clock_t = impl.clock()\n+  def ctime(time: Ptr[time_t])(implicit z: Zone): CString =\n+    ctime_r(time, zeroAlloc[CChar](timeBufferSize))\n+  def ctime_r(time: Ptr[time_t], buf: Ptr[CChar]): CString =\n+    impl.ctime_r(time, buf)\n+  def difftime(time_end: CLong, time_beg: CLong): CDouble =\n+    impl.difftime(time_end, time_beg)\n+  def gmtime(time: Ptr[time_t])(implicit z: Zone): Ptr[tm] =\n+    gmtime_r(time, zeroAlloc[tm](sizeof[tm]))\n+  def gmtime_r(time: Ptr[time_t], tm: Ptr[tm]): Ptr[tm] =\n+    impl.gmtime_r(time, tm)\n+  def localtime(time: Ptr[time_t])(implicit z: Zone): Ptr[tm] =\n+    localtime_r(time, zeroAlloc[tm](sizeof[tm]))\n+  def localtime_r(time: Ptr[time_t], result: Ptr[tm]): Ptr[tm] =\n+    impl.localtime_r(time, result)\n+  def mktime(time: Ptr[tm]): time_t = impl.mktime(time)\n   def strftime(str: Ptr[CChar],\n                count: CSize,\n                format: CString,\n-               time: Ptr[tm]): CSize                    = extern\n-  def time(arg: Ptr[time_t]): time_t                    = extern\n-  def timespec_get(ts: Ptr[timespec], base: CInt): CInt = extern\n-  def tzset(): Unit                                     = extern\n-  def wcsftime(str: CWideChar,\n-               count: CSize,\n-               format: Ptr[CWideChar],\n-               time: Ptr[tm]): CSize = extern\n-\n-  @name(\"scalanative_daylight\")\n-  def daylight(): CInt = extern\n-  @name(\"scalanative_timezone\")\n-  def timezone(): CLong = extern\n-  @name(\"scalanative_tzname\")\n-  def tzname(): Ptr[CStruct2[CString, CString]] = extern\n+               time: Ptr[tm]): CSize            = impl.strftime(str, count, format, time)\n+  def time(arg: Ptr[time_t]): time_t            = impl.time(arg)\n+  def tzset(): Unit                             = impl.tzset()\n+  def daylight(): CInt                          = impl.daylight()\n+  def timezone(): CLong                         = impl.timezone()\n+  def tzname(): Ptr[CStruct2[CString, CString]] = impl.tzname()\n+\n+  @extern\n+  private object impl {"
+  }
+]

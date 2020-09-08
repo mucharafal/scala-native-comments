@@ -1,0 +1,173 @@
+[
+  {
+    "id" : "82ac6357-0979-4ac0-a5ec-7d3aefb4a482",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "1dd64cdb-8fa7-4627-8240-665ad2b3b1f9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`running` and `time` don't have to be abstract here. It would be cleaner to move implementation for those (in `new Logger { ... }`) into the trait itself. ",
+        "createdAt" : "2018-03-12T10:19:33Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.build\n+\n+import java.lang.System.{err, out, lineSeparator => nl}\n+\n+import scala.sys.process.ProcessLogger\n+\n+/** A `Logger` is in charge of collecting log messages. */\n+trait Logger {\n+\n+  /** Logs `msg` at the debug level. */\n+  def debug(msg: String): Unit\n+\n+  /** Logs `msg` at the info level. */\n+  def info(msg: String): Unit\n+\n+  /** Logs `msg` at the warn level. */\n+  def warn(msg: String): Unit\n+\n+  /** Logs `msg` at the errro level. */\n+  def error(msg: String): Unit\n+\n+  /** Logs at the debug level that the command `cmd` will start running. */\n+  def running(cmd: Seq[String]): Unit\n+\n+  /** Executes `f` and logs at the info level how much long it took. */\n+  def time[T](msg: String)(f: => T): T"
+  },
+  {
+    "id" : "7c4faa12-fecf-4361-9450-93164a7ce314",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "2e0a2f73-5b8b-4617-a599-46a637ebc09a",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring. ",
+        "createdAt" : "2018-03-12T10:19:56Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.build\n+\n+import java.lang.System.{err, out, lineSeparator => nl}\n+\n+import scala.sys.process.ProcessLogger\n+\n+/** A `Logger` is in charge of collecting log messages. */\n+trait Logger {\n+\n+  /** Logs `msg` at the debug level. */\n+  def debug(msg: String): Unit\n+\n+  /** Logs `msg` at the info level. */\n+  def info(msg: String): Unit\n+\n+  /** Logs `msg` at the warn level. */\n+  def warn(msg: String): Unit\n+\n+  /** Logs `msg` at the errro level. */\n+  def error(msg: String): Unit\n+\n+  /** Logs at the debug level that the command `cmd` will start running. */\n+  def running(cmd: Seq[String]): Unit\n+\n+  /** Executes `f` and logs at the info level how much long it took. */\n+  def time[T](msg: String)(f: => T): T\n+}\n+\n+object Logger {\n+\n+  def default: Logger ="
+  },
+  {
+    "id" : "6e7c4786-ff4b-4347-8491-3f55277ad2ca",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "fe443a29-2c06-4ab4-b384-3721eb3c13a5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring.",
+        "createdAt" : "2018-03-12T10:20:04Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.build\n+\n+import java.lang.System.{err, out, lineSeparator => nl}\n+\n+import scala.sys.process.ProcessLogger\n+\n+/** A `Logger` is in charge of collecting log messages. */\n+trait Logger {\n+\n+  /** Logs `msg` at the debug level. */\n+  def debug(msg: String): Unit\n+\n+  /** Logs `msg` at the info level. */\n+  def info(msg: String): Unit\n+\n+  /** Logs `msg` at the warn level. */\n+  def warn(msg: String): Unit\n+\n+  /** Logs `msg` at the errro level. */\n+  def error(msg: String): Unit\n+\n+  /** Logs at the debug level that the command `cmd` will start running. */\n+  def running(cmd: Seq[String]): Unit\n+\n+  /** Executes `f` and logs at the info level how much long it took. */\n+  def time[T](msg: String)(f: => T): T\n+}\n+\n+object Logger {\n+\n+  def default: Logger =\n+    Logger(msg => err.println(s\"[debug] $msg\"),\n+           msg => out.println(s\"[info] $msg\"),\n+           msg => out.println(s\"[warn] $msg\"),\n+           msg => err.println(s\"[error] $msg\"))\n+\n+  def apply(debugFn: String => Unit,"
+  },
+  {
+    "id" : "fe6d7b24-7752-47f7-80bb-ad5dd5b98ff6",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "fc3f6234-acef-478c-92c3-ed75a0066ceb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring.",
+        "createdAt" : "2018-03-12T10:20:12Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,61 @@\n+package scala.scalanative.build\n+\n+import java.lang.System.{err, out, lineSeparator => nl}\n+\n+import scala.sys.process.ProcessLogger\n+\n+/** A `Logger` is in charge of collecting log messages. */\n+trait Logger {\n+\n+  /** Logs `msg` at the debug level. */\n+  def debug(msg: String): Unit\n+\n+  /** Logs `msg` at the info level. */\n+  def info(msg: String): Unit\n+\n+  /** Logs `msg` at the warn level. */\n+  def warn(msg: String): Unit\n+\n+  /** Logs `msg` at the errro level. */\n+  def error(msg: String): Unit\n+\n+  /** Logs at the debug level that the command `cmd` will start running. */\n+  def running(cmd: Seq[String]): Unit\n+\n+  /** Executes `f` and logs at the info level how much long it took. */\n+  def time[T](msg: String)(f: => T): T\n+}\n+\n+object Logger {\n+\n+  def default: Logger =\n+    Logger(msg => err.println(s\"[debug] $msg\"),\n+           msg => out.println(s\"[info] $msg\"),\n+           msg => out.println(s\"[warn] $msg\"),\n+           msg => err.println(s\"[error] $msg\"))\n+\n+  def apply(debugFn: String => Unit,\n+            infoFn: String => Unit,\n+            warnFn: String => Unit,\n+            errorFn: String => Unit): Logger = new Logger {\n+    override def debug(msg: String): Unit = debugFn(msg)\n+    override def info(msg: String): Unit  = infoFn(msg)\n+    override def warn(msg: String): Unit  = warnFn(msg)\n+    override def error(msg: String): Unit = errorFn(msg)\n+    override def running(cmd: Seq[String]): Unit = {\n+      val msg = \"running\" + nl + cmd.mkString(nl + \"\\t\")\n+      debugFn(msg)\n+    }\n+    override def time[T](msg: String)(f: => T): T = {\n+      import java.lang.System.nanoTime\n+      val start = nanoTime()\n+      val res   = f\n+      val end   = nanoTime()\n+      info(s\"$msg (${(end - start) / 1000000} ms)\")\n+      res\n+    }\n+  }\n+\n+  def toProcessLogger(logger: Logger): ProcessLogger ="
+  },
+  {
+    "id" : "5feffcf8-cbe6-44c1-8796-a6cdee42f716",
+    "prId" : 1637,
+    "comments" : [
+      {
+        "id" : "cb851d55-c9d6-45cc-bbd1-16f0202198f2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Spurious change?",
+        "createdAt" : "2020-07-08T15:20:37Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "3997673c-4f66-4f9e-a804-eaa306449f67",
+        "parentId" : "cb851d55-c9d6-45cc-bbd1-16f0202198f2",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "No, this was intended as all the other logging messages start with a capital.",
+        "createdAt" : "2020-07-09T16:03:29Z",
+        "updatedAt" : "2020-08-05T16:19:45Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "ca74e914b77aad5432b0b9cc003d927c890b63b7",
+    "line" : 5,
+    "diffHunk" : "@@ -21,7 +21,7 @@ trait Logger {\n \n   /** Logs at the debug level that the command `cmd` will start running. */\n   def running(cmd: Seq[String]): Unit = {\n-    val msg = \"running\" + nl + cmd.mkString(nl + \"\\t\")\n+    val msg = \"Running\" + nl + cmd.mkString(nl + \"\\t\")"
+  }
+]

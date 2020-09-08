@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "36424bcb-a213-4dab-989b-42b2dbb3d809",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "3ec48505-870f-43d0-84cc-b3692c1cbfc5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`uio.h` contains two functions: `readv` and `writev`. You should include them here.\r\n\r\nhttp://pubs.opengroup.org/onlinepubs/9699919799/",
+        "createdAt" : "2017-05-03T10:01:44Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 11,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.{CSize, Ptr, CStruct2, extern}\n+\n+@extern\n+object uio {\n+\n+  // Types\n+  type iovec = CStruct2[Ptr[Byte], CSize]\n+"
+  }
+]

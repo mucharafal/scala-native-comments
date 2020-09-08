@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "4d2934c2-d774-4a7b-9e2e-9153cede266b",
+    "prId" : 1805,
+    "comments" : [
+      {
+        "id" : "3611476c-c992-40ed-a8cf-7567109a01c5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Please also add tests for equality mixing `BigInt` and `Int`, and `BigDecimal` and `Double`, in both directions. If they have the same value, they should compare equal in all directions.",
+        "createdAt" : "2020-05-19T13:38:00Z",
+        "updatedAt" : "2020-05-24T22:48:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "21066dba-873c-4e74-9a16-af44d8cdbfb7",
+        "parentId" : "3611476c-c992-40ed-a8cf-7567109a01c5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.  There are also some tests in j.l.BigIntegerSuite and j.l.BigDecimalSuite to check that\r\npreviously failing cases pass with the new __scala_== implementation.",
+        "createdAt" : "2020-05-24T22:54:54Z",
+        "updatedAt" : "2020-05-24T22:54:54Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2456c8333efb20366c5b22bb8022daf06e1b19a0",
+    "line" : 148,
+    "diffHunk" : "@@ -0,0 +1,44 @@\n+package java.lang\n+\n+// This suite should be exhaustive is not. It contains the bare minimum\n+// to confirm the existance of Scala Native Issue #1770 and then to verify\n+// that it is fixed.\n+//\n+// Some is better than none.\n+\n+object ScalaNumberSuite extends tests.Suite {\n+\n+  //   __scala_==\n+\n+  test(\"BigInt == BigInt\") {\n+    val token                   = 2047L\n+    val sbi1: scala.math.BigInt = scala.math.BigInt(token)\n+    val sbi2: scala.math.BigInt = scala.math.BigInt(token)\n+\n+    assert(sbi1 == sbi2)\n+  }\n+\n+  test(\"BigInt.equals(BigInt)\") {\n+    val token                   = 2047L\n+    val sbi1: scala.math.BigInt = scala.math.BigInt(token)\n+    val sbi2: scala.math.BigInt = scala.math.BigInt(token)\n+\n+    assert(sbi1.equals(sbi2))\n+  }\n+\n+  test(\"BigDecimal == BigDecimal\") {\n+    val token                       = 2046.5\n+    val sbd1: scala.math.BigDecimal = scala.math.BigDecimal(token)\n+    val sbd2: scala.math.BigDecimal = scala.math.BigDecimal(token)\n+\n+    assert(sbd1 == sbd2)\n+  }\n+\n+  test(\"BigDecimal.equals(BigDecimal)\") {\n+    val token                       = 2046.5\n+    val sbd1: scala.math.BigDecimal = scala.math.BigDecimal(token)\n+    val sbd2: scala.math.BigDecimal = scala.math.BigDecimal(token)\n+\n+    assert(sbd1.equals(sbd2))\n+  }"
+  }
+]

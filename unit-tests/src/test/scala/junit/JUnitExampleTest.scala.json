@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "da592662-4e89-4fdd-a07b-c8b9058c4128",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "cf710105-3cd1-40db-a33d-16f9bbb6e2c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    assertTrue(\"This assertion should pass\", true)\r\n```\r\n(the parameter name is not part of the API, and should not be referred to)",
+        "createdAt" : "2020-07-09T12:20:19Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,10 @@\n+package junit\n+\n+import org.junit.Assert._\n+import org.junit.Test\n+\n+class JUnitExampleTest {\n+  @Test def exampleTest(): Unit = {\n+    assertTrue(\"This assertion should pass\", condition = true)"
+  }
+]

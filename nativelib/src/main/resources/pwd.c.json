@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "45115c44-2fa8-410f-a0e9-b42b5598fc39",
+    "prId" : 1609,
+    "comments" : [
+      {
+        "id" : "7c564cf3-9058-4d07-bc55-78a056436eb5",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Unless I am missing something, all three edits in the file should be deleted.\r\nThe clearing of errno could be author's perogative\r\n\r\nChanging the  non-standard handling in the getpwuid code from two values to three valued and\r\nthen never checking anything other than the 0 result seems to add complexity with little benefit.",
+        "createdAt" : "2019-06-26T22:44:30Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "459902e9-b57a-43e6-9ae8-eaf1ba3fb8b8",
+        "parentId" : "7c564cf3-9058-4d07-bc55-78a056436eb5",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "Yes, you're right. I just forget to revert this file too besides `grp.c`.",
+        "createdAt" : "2019-06-30T12:04:58Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "32a16ca1-e1f5-431b-957e-3ba132f938da",
+        "parentId" : "7c564cf3-9058-4d07-bc55-78a056436eb5",
+        "author" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "body" : "Fixed.",
+        "createdAt" : "2019-06-30T13:06:30Z",
+        "updatedAt" : "2019-08-26T07:15:18Z",
+        "lastEditedBy" : {
+          "login" : "avdv",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/3471749?u=0e2482b234d9c8b486af5297c51fdd352882f101&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "29477f86dd95b0556d50984e2501250ea3c88017",
+    "line" : null,
+    "diffHunk" : "@@ -20,17 +21,19 @@ void scalanative_passwd_copy(struct passwd *passwd,\n }\n int scalanative_getpwuid(scalanative_uid_t uid,\n                          struct scalanative_passwd *buf) {\n+    errno = 0;\n     struct passwd *passwd = getpwuid(uid);\n \n     if (passwd == NULL) {\n-        return 1;\n+        return errno == 0 ? 1 : -1;\n     } else {\n         scalanative_passwd_copy(passwd, buf);\n         return 0;\n     }\n }\n \n int scalanative_getpwnam(char *name, struct scalanative_passwd *buf) {\n+    errno = 0;"
+  }
+]

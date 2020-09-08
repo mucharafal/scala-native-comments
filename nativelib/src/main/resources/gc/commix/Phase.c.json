@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "c9a7d8cc-8134-40b8-8a92-7c62c94a9f3b",
+    "prId" : 1658,
+    "comments" : [
+      {
+        "id" : "c5fb9aa6-2cfa-4e5e-ace8-ff72f6a62a85",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Shouldn't it use the same semaphore name here as the one given to `sem_open` ?",
+        "createdAt" : "2019-07-22T14:34:59Z",
+        "updatedAt" : "2019-07-22T15:09:23Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f989bb82-ddca-4744-a811-58e3bac1bbbd",
+        "parentId" : "c5fb9aa6-2cfa-4e5e-ace8-ff72f6a62a85",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Nice catch! You are absolutely right.",
+        "createdAt" : "2019-07-22T15:10:02Z",
+        "updatedAt" : "2019-07-22T15:10:02Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5711d9a6d0f69db4885e4f140856e9fd70e5b1f6",
+    "line" : null,
+    "diffHunk" : "@@ -3,10 +3,28 @@\n #include \"State.h\"\n #include \"Allocator.h\"\n #include \"BlockAllocator.h\"\n+#include <stdio.h>\n+#include <unistd.h>\n \n void Phase_Init(Heap *heap, uint32_t initialBlockCount) {\n-    sem_init(&heap->gcThreads.startWorkers, 0, 0);\n-    sem_init(&heap->gcThreads.startMaster, 0, 0);\n+    pid_t pid = getpid();\n+    // size = static part + 32 bit int as string\n+    char startWorkersName[32 + 10];\n+    char startMasterName[31 + 10];\n+    snprintf(startWorkersName, 32 + 10, \"scalanative_commix_startWorkers_%d\",\n+             pid);\n+    snprintf(startMasterName, 31 + 10, \"scalanative_commix_startMaster_%d\",\n+             pid);\n+    // only reason for using named semaphores here is for compatibility with\n+    // MacOs we do not share them across processes\n+    heap->gcThreads.startWorkers =\n+        sem_open(startWorkersName, O_CREAT | O_EXCL, 0644, 0);\n+    heap->gcThreads.startMaster =\n+        sem_open(startMasterName, O_CREAT | O_EXCL, 0644, 0);\n+    // clean up when process closes\n+    // also prevents any other process from `sem_open`ing it\n+    sem_unlink(\"startWorkers\");\n+    sem_unlink(\"startMaster\");"
+  }
+]

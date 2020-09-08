@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "8daa7c4f-4fb7-4c68-900b-e2cb0d0b2e58",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "3f436c35-8607-4474-8b57-d56fb0c2bee4",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`read()`",
+        "createdAt" : "2017-08-14T08:52:16Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+package java.net\n+\n+import java.io.InputStream\n+\n+// Ported from Apache Harmony\n+private[net] class SocketInputStream(socket: PlainSocketImpl)\n+    extends InputStream {\n+\n+  override def close: Unit = socket.close\n+\n+  override def available: Int = socket.available\n+\n+  override def read: Int = {"
+  },
+  {
+    "id" : "5b6fd4f6-fa27-48bf-b598-730fc2d43351",
+    "prId" : 914,
+    "comments" : [
+      {
+        "id" : "b8560e39-e6bf-4e53-9ed1-a1132c7958f5",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`close()`",
+        "createdAt" : "2017-08-14T09:26:27Z",
+        "updatedAt" : "2017-08-22T11:53:21Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "075182ddbccc165cd4c24fea2756279fa9143f14",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+package java.net\n+\n+import java.io.InputStream\n+\n+// Ported from Apache Harmony\n+private[net] class SocketInputStream(socket: PlainSocketImpl)\n+    extends InputStream {\n+\n+  override def close: Unit = socket.close"
+  }
+]

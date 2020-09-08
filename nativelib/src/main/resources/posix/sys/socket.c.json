@@ -1,0 +1,124 @@
+[
+  {
+    "id" : "d5516b60-f489-4e9b-8e70-a704f0204e5c",
+    "prId" : 758,
+    "comments" : [
+      {
+        "id" : "187110c6-a1e5-4665-8748-68ebfe5e390f",
+        "parentId" : null,
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "I'm not sure there's a better way to do this for now, but I think this will clip off some data if sockaddr is actually a pointer to a larger struct like sockaddr_in6 or sockaddr_storage.",
+        "createdAt" : "2017-05-31T16:02:25Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "ad3b0e6d-373c-48a3-8159-c6ea24f91514",
+        "parentId" : "187110c6-a1e5-4665-8748-68ebfe5e390f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "[The posix spec for `struct sockaddr`](http://pubs.opengroup.org/onlinepubs/000095399/basedefs/sys/socket.h.html#tag_13_61) says that `sockaddr.sa_data` has a variable length. However, [its length has been `14` since the kernel uses git (at least)](https://github.com/torvalds/linux/blob/master/include/linux/socket.h#L29-L32).\r\n\r\n[The length also appears to be `14` in Mac OS](https://github.com/opensource-apple/xnu/blob/10.12/bsd/sys/socket.h#L591-L595), though they say that it is actually larger. I'm not sure how to read that comment, but I've been using that code on both MacOS and Linux without any issue.\r\n\r\nIndeed once we touch a `sockaddr_storage` or `sockaddr_in6` we'll lose some data. Another solution would be to define, in Scala Native, `sockaddr` as `CStruct0`, have it completely opaque to Scala code, and define functions in C to extract information from that `CStruct0`. I think that's the way to go.\r\n\r\nThanks for pointing out these issues!",
+        "createdAt" : "2017-06-06T08:00:47Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f7835223-9d09-4554-91d6-18e9d263b049",
+        "parentId" : "187110c6-a1e5-4665-8748-68ebfe5e390f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I agree with @rwhaling, this approach doesn't seem to work here. Lets try `CStruct0` option. ",
+        "createdAt" : "2017-06-06T11:26:45Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "273e67793ebd06d914f9fdd08ba19578a0c59979",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,123 @@\n+#include <netinet/in.h>\n+#include <sys/socket.h>\n+#include <string.h>\n+#include <stdio.h>\n+\n+struct scalanative_sockaddr {\n+    char sa_data[14];\n+    sa_family_t sa_family;\n+};\n+\n+void scalanative_convert_sockaddr(struct scalanative_sockaddr *in,\n+                                  struct sockaddr *out) {\n+    out->sa_family = in->sa_family;\n+    void *ignored = memcpy(out->sa_data, in->sa_data, 14);"
+  },
+  {
+    "id" : "7852497f-01ee-4973-a5c2-61246ca865bc",
+    "prId" : 807,
+    "comments" : [
+      {
+        "id" : "cba4b03a-96c8-4286-94c0-769fbb2bd915",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "The diff is confusing in this file. Have you just switched the order in which `scalanative_connect` and `scalanative_bind` are defined?",
+        "createdAt" : "2017-07-10T08:39:23Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "2ca638fe-d58d-49e7-b573-88fc8af33c09",
+        "parentId" : "cba4b03a-96c8-4286-94c0-769fbb2bd915",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "I guess that's what happened. I wrote `scalanative_connect` myself not seeing it's defined just above, then I realised it and probably deleted the wrong one. Since `bind` and `connect` are almost the same the diff is confused ;)",
+        "createdAt" : "2017-07-10T09:22:51Z",
+        "updatedAt" : "2017-08-04T10:45:20Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3bf12b7a41b57ce5f8a25bbe8a14636f4eddbe70",
+    "line" : 36,
+    "diffHunk" : "@@ -104,21 +104,20 @@ int scalanative_connect(int socket, struct scalanative_sockaddr *address,\n     return result;\n }\n \n-int scalanative_bind(int socket, struct scalanative_sockaddr *address,\n-                     socklen_t address_len) {\n+int scalanative_connect(int socket, struct scalanative_sockaddr *address,\n+                        socklen_t address_len) {\n     struct sockaddr *converted_address;\n     int convert_result =\n         scalanative_convert_sockaddr(address, &converted_address, &address_len);\n \n     int result;\n \n     if (convert_result == 0) {\n-        result = bind(socket, converted_address, address_len);\n+        result = connect(socket, converted_address, address_len);"
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "1d66348c-69dc-4db9-98bf-c8e58db69732",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "1b757b57-00cb-4b7c-9824-a236253fdc01",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets name it just `errno`, it should be clear that this is `posix`'s version of `errno`.\n",
+        "createdAt" : "2016-10-28T08:54:04Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,8 @@\n+package scala.scalanative.native.posix\n+\n+import scala.scalanative.native.{CInt, name, extern}\n+\n+object posixErrno {"
+  },
+  {
+    "id" : "a3976feb-1dac-4e7c-a29d-b8d84d15e9b0",
+    "prId" : 318,
+    "comments" : [
+      {
+        "id" : "485f22df-060c-4802-9ee3-b850fb8d1fa1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets make it just `scala.scalanative.posix` instead. \n",
+        "createdAt" : "2016-10-28T08:55:01Z",
+        "updatedAt" : "2016-10-29T09:44:43Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1cb6933383be2cbfb6d117cf532e35216f2b8345",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,8 @@\n+package scala.scalanative.native.posix"
+  }
+]

@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "c848539c-935a-4022-a288-85d24a46bec1",
+    "prId" : 754,
+    "comments" : [
+      {
+        "id" : "bf13315e-bb7c-49aa-b157-dfa1854f49c5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why only int, boolean and long? We should do it for all numeric types.\r\n\r\nIt's also better to use C's fixed-width numeric types here, to make sure they don't change based on the platform.",
+        "createdAt" : "2017-05-29T11:29:18Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "83a3efa6-17b9-4ee0-b0e3-7e3733094eb7",
+        "parentId" : "bf13315e-bb7c-49aa-b157-dfa1854f49c5",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "such as int32_t ?",
+        "createdAt" : "2017-05-29T11:35:45Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3a1c951b-9da4-468d-a3e9-d34b85e17dc4",
+        "parentId" : "bf13315e-bb7c-49aa-b157-dfa1854f49c5",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, `int8_t` == `scala.Byte`, `int16_t` == `scala.Short`, `int32_t` == `scala.Int`, `int64_t` == `scala.Long`. C's `int` and `long` do not always mean `scala.Int` and `scala.Long` in Scala, they are platform-dependant. ",
+        "createdAt" : "2017-05-29T11:43:40Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "430b2b57-a0a0-454f-916b-81d1e7e91255",
+        "parentId" : "bf13315e-bb7c-49aa-b157-dfa1854f49c5",
+        "author" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "body" : "I'm adding short, char, byte, uint, ushort, ulong, uchar and size_t should I add more ? I'm not sure whether it's interesting to add types such as long long etc",
+        "createdAt" : "2017-05-29T12:38:27Z",
+        "updatedAt" : "2017-06-14T15:37:38Z",
+        "lastEditedBy" : {
+          "login" : "Korf74",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/15185503?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5b6b0c092be2475ad4aa23e540f57a88bec3768c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,54 @@\n+// integer\n+\n+int compare_and_swap_int(int* value, int expected, int desired) {\n+\treturn __sync_bool_compare_and_swap(value, expected, desired);\n+}\n+\n+int add_and_fetch_int(int* ptr, int value) {\n+    return __sync_add_and_fetch(ptr, value);\n+}\n+\n+int sub_and_fetch_int(int* ptr, int value) {\n+    return __sync_sub_and_fetch(ptr, value);\n+}\n+\n+// boolean\n+\n+int compare_and_swap_bool(int* value, int expected, int desired) {\n+\treturn __sync_bool_compare_and_swap(value, expected, desired);\n+}\n+\n+int add_and_fetch_bool(int* ptr, int value) {\n+    return __sync_add_and_fetch(ptr, value);\n+}\n+\n+int sub_and_fetch_bool(int* ptr, int value) {\n+    return __sync_sub_and_fetch(ptr, value);\n+}\n+\n+int or_and_fetch_bool(int* ptr, int value) {\n+    return __sync_or_and_fetch(ptr, value);\n+}\n+\n+int and_and_fetch_bool(int* ptr, int value) {\n+    return __sync_fetch_and_and(ptr, value);\n+}\n+\n+int xor_and_fetch_bool(int* ptr, int value) {\n+    return __sync_xor_and_fetch(ptr, value);\n+}\n+\n+\n+// long\n+\n+int compare_and_swap_long(long* value, long expected, long desired) {\n+\treturn __sync_bool_compare_and_swap(value, expected, desired);\n+}\n+\n+long add_and_fetch_long(long* ptr, long value) {\n+    return __sync_add_and_fetch(ptr, value);\n+}\n+\n+long sub_and_fetch_long(long* ptr, long value) {\n+    return __sync_sub_and_fetch(ptr, value);\n+}"
+  }
+]

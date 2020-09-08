@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "7290aa71-ca1c-4693-9716-addae71f0ba3",
+    "prId" : 927,
+    "comments" : [
+      {
+        "id" : "797830e3-4dc4-4e50-ae55-d43c307d7483",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@olafurpg 82 column line with 80 column limit.",
+        "createdAt" : "2017-08-09T11:12:15Z",
+        "updatedAt" : "2017-08-09T12:50:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "6b6a4959468b2913685c807b59caa6a043a7421a",
+    "line" : 6,
+    "diffHunk" : "@@ -1,8 +1,6 @@\n package cd\n \n-class Motion(val callsign: CallSign,\n-             val posOne: Vector3D,\n-             val posTwo: Vector3D) {\n+class Motion(val callsign: CallSign, val posOne: Vector3D, val posTwo: Vector3D) {"
+  }
+]

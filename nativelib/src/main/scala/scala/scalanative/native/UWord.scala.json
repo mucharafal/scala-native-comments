@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "bc0ee986-966a-4122-ad6c-cb825a8cd805",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "2b301784-804b-49fc-b236-f030ec3f1703",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Same comments for missing ops as for `Word`, apply here.",
+        "createdAt" : "2019-04-29T12:46:31Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,42 @@\n+package scala.scalanative\n+package native\n+\n+import scala.runtime.BoxesRunTime._\n+import scala.reflect.ClassTag\n+import scalanative.runtime._\n+import scalanative.runtime.Intrinsics._\n+import scalanative.runtime.Boxes._\n+\n+final class UWord(private[scalanative] val rawWord: RawWord) {"
+  }
+]

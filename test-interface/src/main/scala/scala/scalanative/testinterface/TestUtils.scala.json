@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "585e777e-2ca2-4b74-89ea-327313b40c9b",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "88531583-7a1d-4c02-95bf-48fd9285b2f6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This should be left where it was, in the `scalajs` package.\r\n\r\nThere's no point in *moving* something and then *deprecating* it as its new location. It is not going to help people to migrate if it's moved. The point of deprecations is to accept existing code, make it work, and tell the developer that there's a new way to do it. We should always deprecate at the existing location.",
+        "createdAt" : "2020-05-19T10:42:08Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,31 @@\n+package scala.scalanative\n+package testinterface\n+\n+import scala.scalanative.reflect.Reflect\n+\n+@deprecated(message = \"Use scala.scalanative.reflect.Reflect instead.\",\n+            since = \"0.4.0\")\n+object TestUtils {"
+  }
+]

@@ -1,0 +1,483 @@
+[
+  {
+    "id" : "9c3e6122-075a-4a38-8228-cd9756ba9911",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "59425e79-765e-4f5a-8d55-f5fbca5f3a2e",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "We usually do not include all the javadoc in the classes from the javalib / scalalib, because nobody is ever going to see them.",
+        "createdAt" : "2017-08-28T06:21:52Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "eb33446b-4bf4-46b8-b2f8-db5182eb22e8",
+        "parentId" : "59425e79-765e-4f5a-8d55-f5fbca5f3a2e",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "I remove it?",
+        "createdAt" : "2017-08-28T11:12:30Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "3dffcd72-721b-4817-befe-e3734aefc75b",
+        "parentId" : "59425e79-765e-4f5a-8d55-f5fbca5f3a2e",
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "@xavier-fernandez I do when I port classes from Harmony, they are not visible anywhere as @Duhemm mentioned.",
+        "createdAt" : "2017-08-28T16:47:22Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,70 @@\n package java.security\n \n+// Ported from Harmony\n+\n import java.util.Date\n import java.security.cert.CertPath\n \n-final class Timestamp(timestamp: Date, signerCertPath: CertPath)\n-    extends Serializable\n+import scala.collection.mutable.StringBuilder\n+\n+/**\n+ * Constructs a new instance of {@code Timestamp} with the specified\n+ * {@code timestamp} and the given certificate path.\n+ *\n+ * @param timestamp date and time.\n+ * @param signerCertPath the certificate path.\n+ * @throws NullPointerException\n+ *            if {@code timestamp} is {@code null} or if {@code signerCertPath} is {@code null}.\n+ */"
+  },
+  {
+    "id" : "33dec94f-c646-446c-a351-c0d61a69759b",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "62007f7b-9a71-4b59-9c18-93ba42d1c46f",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Why make it a `case class`? Is it to get `equals` for free? It's a plain `class` in Java, and we stick to the original implementation as closely as possible.",
+        "createdAt" : "2017-08-28T06:22:45Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a029ad6d-b136-4912-a2eb-ac21a4d1c46a",
+        "parentId" : "62007f7b-9a71-4b59-9c18-93ba42d1c46f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "In `new Timestamp(someDate, someSignerCertPath)`, the constructor is supposed to clone `someDate`. `Date` is mutable, and modifying `someDate` after constructing a `Timestamp` with it is not supposed to modify the `Date` held by the `Timestamp`.",
+        "createdAt" : "2017-08-28T06:30:25Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "f09aa2b5-5eb7-427b-bbcf-40931f3dc3e8",
+        "parentId" : "62007f7b-9a71-4b59-9c18-93ba42d1c46f",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "I improved it using an overrided constructor:\r\n\r\n```scala\r\n\r\nfinal class Timestamp private (private val signerCertPath: CertPath, private val timestamp: Date)\r\n    extends Serializable {\r\n\r\n  /**\r\n    * Constructs a new instance of [[Timestamp]].\r\n    *\r\n    * @param timestamp date and time.\r\n    * @param signerCertPath the certificate path.\r\n    * @throws NullPointerException either if [[timestamp]] or [[signerCertPath]] are `null`\r\n    */\r\n  @throws[NullPointerException]\r\n  def this(timestamp: Date, signerCertPath: CertPath): Timestamp = {\r\n\r\n    if (timestamp == null) {\r\n      throw new NullPointerException(\"timestamp cannot be null\")\r\n    }\r\n    if (signerCertPath == null) {\r\n      throw new NullPointerException(\"signerCertPath cannot be null\")\r\n    }\r\n     this(signerCertPath, new Date(timestamp.getTime()))\r\n  }\r\n[...]\r\n```\r\n\r\nThis is what you had in mind?",
+        "createdAt" : "2017-08-28T11:00:27Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d5c66ac8-99b2-4bec-9b3c-61b23f0ed7f8",
+        "parentId" : "62007f7b-9a71-4b59-9c18-93ba42d1c46f",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Exactly, thanks!",
+        "createdAt" : "2017-08-30T08:08:34Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,70 @@\n package java.security\n \n+// Ported from Harmony\n+\n import java.util.Date\n import java.security.cert.CertPath\n \n-final class Timestamp(timestamp: Date, signerCertPath: CertPath)\n-    extends Serializable\n+import scala.collection.mutable.StringBuilder\n+\n+/**\n+ * Constructs a new instance of {@code Timestamp} with the specified\n+ * {@code timestamp} and the given certificate path.\n+ *\n+ * @param timestamp date and time.\n+ * @param signerCertPath the certificate path.\n+ * @throws NullPointerException\n+ *            if {@code timestamp} is {@code null} or if {@code signerCertPath} is {@code null}.\n+ */\n+final case class Timestamp(timestamp: Date, signerCertPath: CertPath)"
+  },
+  {
+    "id" : "ea11e482-2cc2-45f2-bad8-289a393087fa",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "b324ce90-c7de-429d-b415-bcd4f8340c67",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You can drop these comments, they don't really have a meaning outside of Harmony.",
+        "createdAt" : "2017-08-28T06:26:34Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,70 @@\n package java.security\n \n+// Ported from Harmony\n+\n import java.util.Date\n import java.security.cert.CertPath\n \n-final class Timestamp(timestamp: Date, signerCertPath: CertPath)\n-    extends Serializable\n+import scala.collection.mutable.StringBuilder\n+\n+/**\n+ * Constructs a new instance of {@code Timestamp} with the specified\n+ * {@code timestamp} and the given certificate path.\n+ *\n+ * @param timestamp date and time.\n+ * @param signerCertPath the certificate path.\n+ * @throws NullPointerException\n+ *            if {@code timestamp} is {@code null} or if {@code signerCertPath} is {@code null}.\n+ */\n+final case class Timestamp(timestamp: Date, signerCertPath: CertPath)\n+    extends Serializable {\n+\n+  if (timestamp == null) {\n+    // Messages.getString(\"security.0F\")) //$NON-NLS-1$"
+  },
+  {
+    "id" : "7ee69c68-5666-4eb0-af83-69c8c76c3fa0",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "87b3f855-74eb-4b51-a3db-aa2956204387",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "`timestamp` must be cloned here as well.",
+        "createdAt" : "2017-08-28T06:31:05Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,70 @@\n package java.security\n \n+// Ported from Harmony\n+\n import java.util.Date\n import java.security.cert.CertPath\n \n-final class Timestamp(timestamp: Date, signerCertPath: CertPath)\n-    extends Serializable\n+import scala.collection.mutable.StringBuilder\n+\n+/**\n+ * Constructs a new instance of {@code Timestamp} with the specified\n+ * {@code timestamp} and the given certificate path.\n+ *\n+ * @param timestamp date and time.\n+ * @param signerCertPath the certificate path.\n+ * @throws NullPointerException\n+ *            if {@code timestamp} is {@code null} or if {@code signerCertPath} is {@code null}.\n+ */\n+final case class Timestamp(timestamp: Date, signerCertPath: CertPath)\n+    extends Serializable {\n+\n+  if (timestamp == null) {\n+    // Messages.getString(\"security.0F\")) //$NON-NLS-1$\n+    throw new NullPointerException(\"timestamp cannot be null\")\n+  }\n+  if (signerCertPath == null) {\n+    // Messages.getString(\"security.10\") //$NON-NLS-1$\n+    throw new NullPointerException(\"signerCertPath cannot be null\")\n+  }\n+\n+  /**\n+   *\n+   * @return the certificate path of this { @code Timestamp}.\n+   */\n+  @inline def getSignerCertPath(): CertPath = signerCertPath\n+\n+  /**\n+   * @return the date and time of this { @code Timestamp}.\n+   */\n+  @inline def getTimestamp(): Date = timestamp"
+  },
+  {
+    "id" : "e58006e8-c62b-4168-b6de-d52c3db211d2",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "abc4c899-bcf7-4ed2-a39e-2bb753c9f984",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Can you remove those `$NON-NLS-...` too, please?",
+        "createdAt" : "2017-08-28T06:33:38Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,70 @@\n package java.security\n \n+// Ported from Harmony\n+\n import java.util.Date\n import java.security.cert.CertPath\n \n-final class Timestamp(timestamp: Date, signerCertPath: CertPath)\n-    extends Serializable\n+import scala.collection.mutable.StringBuilder\n+\n+/**\n+ * Constructs a new instance of {@code Timestamp} with the specified\n+ * {@code timestamp} and the given certificate path.\n+ *\n+ * @param timestamp date and time.\n+ * @param signerCertPath the certificate path.\n+ * @throws NullPointerException\n+ *            if {@code timestamp} is {@code null} or if {@code signerCertPath} is {@code null}.\n+ */\n+final case class Timestamp(timestamp: Date, signerCertPath: CertPath)\n+    extends Serializable {\n+\n+  if (timestamp == null) {\n+    // Messages.getString(\"security.0F\")) //$NON-NLS-1$\n+    throw new NullPointerException(\"timestamp cannot be null\")\n+  }\n+  if (signerCertPath == null) {\n+    // Messages.getString(\"security.10\") //$NON-NLS-1$\n+    throw new NullPointerException(\"signerCertPath cannot be null\")\n+  }\n+\n+  /**\n+   *\n+   * @return the certificate path of this { @code Timestamp}.\n+   */\n+  @inline def getSignerCertPath(): CertPath = signerCertPath\n+\n+  /**\n+   * @return the date and time of this { @code Timestamp}.\n+   */\n+  @inline def getTimestamp(): Date = timestamp\n+\n+  /**\n+   * Returns the hash code value for this {@code Timestamp}. Returns the same\n+   * hash code for {@code Timestamp}s that are equal to each other as\n+   * required by the general contract of {@link Object#hashCode}.\n+   *\n+   * @return the hash code value for this { @code Timestamp}.\n+   * @see Object#equals(Object)\n+   * @see Timestamp#equals(Object)\n+   */\n+  @transient override lazy val hashCode\n+    : Int = timestamp.hashCode ^ signerCertPath.hashCode\n+\n+  /**\n+   * Returns a string containing a concise, human-readable description of this\n+   * {@code Timestamp}.\n+   *\n+   * @return a printable representation for this { @code Timestamp}.\n+   */\n+  override def toString: String = {\n+    val buf = new StringBuilder(256)\n+    // Dump only the first certificate\n+    buf ++= \"Timestamp [\"\n+    buf ++= timestamp.toString()\n+    buf ++= \" certPath=\" //$NON-NLS-1$ //$NON-NLS-2$"
+  },
+  {
+    "id" : "d0005c0b-443e-4b67-847e-c0acdb0a68e4",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "I think it would be clearer if the null checks were in the primary constructor of the class. This constructor could be written as\r\n```scala\r\ndef this(timestamp: Date, signerCertPath: CertPath) = this(signerCertPath, new Date(timestamp.getTime))\r\n```\r\n\r\nAnd the null checks would be directly in the primary constructor (that is, directly in the body of the class, below this definition for instance. Like in this example:\r\n\r\n```scala\r\nclass A (x: String) {\r\n  def this(x: Any) = this(x.toString)\r\n\r\n  println(\"This is the primary constructor!\")\r\n\r\n  def foo = 123\r\n  // ...\r\n}\r\n```",
+        "createdAt" : "2017-08-30T10:03:41Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "909c5995-690c-4ee1-8c36-ad162145a33d",
+        "parentId" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "I updated it, but we would lose the error message from before in this case...",
+        "createdAt" : "2017-08-30T10:41:37Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4629abb5-719d-43e4-9a3f-96a9c45bda6c",
+        "parentId" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "You can add the second null check just after the first one.",
+        "createdAt" : "2017-08-31T07:12:55Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9d69a0c2-e1b2-47db-9593-37b522804306",
+        "parentId" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "The problem is that in the constructor: `new Date(timestamp.getTime)`",
+        "createdAt" : "2017-09-06T13:31:15Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5212472d-d9fc-4379-a745-e4a54ce2a995",
+        "parentId" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "The constructor would be in this case:\r\n\r\n```scala\r\n  @throws[NullPointerException]\r\n  def this(timestamp: Date, signerCertPath: CertPath) =\r\n    this(signerCertPath, if (timestamp == null) null else new Date(timestamp.getTime()))\r\n```\r\n\r\nIt would also have a performace penalty (double null check)...",
+        "createdAt" : "2017-09-06T13:33:47Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "dd0ee86a-0481-469b-b34a-a2aa0fa0c2b3",
+        "parentId" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It's perfectly acceptable to have different behavior around null-related conditions. Null pointer dereferencing is an undefined behavior in Scala Native and it doesn't need to be checked manually. ",
+        "createdAt" : "2017-11-27T12:11:40Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "6c87f8c8-f9a0-4bb8-8920-0397305c8868",
+        "parentId" : "4d68332b-cf62-4e9b-b139-9b999cde6783",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "done",
+        "createdAt" : "2018-01-21T06:29:02Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,59 @@\n package java.security\n \n-import java.util.Date\n+// Ported from Harmony\n+\n import java.security.cert.CertPath\n+import java.util.Date\n+\n+import scala.collection.mutable\n+\n+final class Timestamp private (private val signerCertPath: CertPath,\n+                               private val timestamp: Date)\n+    extends Serializable {\n+\n+  @throws[NullPointerException]\n+  def this(timestamp: Date, signerCertPath: CertPath) =\n+    this(\n+      {\n+        if (signerCertPath == null) {\n+          throw new NullPointerException(\"signerCertPath cannot be null\")\n+        }\n+        signerCertPath\n+      }, {\n+        if (timestamp == null) {\n+          throw new NullPointerException(\"timestamp cannot be null\")\n+        }\n+        new Date(timestamp.getTime)\n+      }\n+    )"
+  },
+  {
+    "id" : "8c4d4930-a86c-4020-83d1-05389a478128",
+    "prId" : 975,
+    "comments" : [
+      {
+        "id" : "f614fc51-49ce-4ab5-ba9e-a60e76f8273d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please use java.lang.StringBuilder here instead. ",
+        "createdAt" : "2017-11-27T12:10:19Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bd7693ed-a54c-43da-ae88-544cf233253b",
+        "parentId" : "f614fc51-49ce-4ab5-ba9e-a60e76f8273d",
+        "author" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "body" : "done.",
+        "createdAt" : "2018-01-21T06:30:35Z",
+        "updatedAt" : "2018-07-13T04:00:22Z",
+        "lastEditedBy" : {
+          "login" : "xavier-fernandez",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/10242025?u=2650a5997018088295282d61cbb12a079232ea4c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "575e364551977e050e1ff72c0bb1dde2ce63fd19",
+    "line" : null,
+    "diffHunk" : "@@ -1,7 +1,64 @@\n package java.security\n \n-import java.util.Date\n+// Ported from Harmony\n+\n import java.security.cert.CertPath\n+import java.util.Date\n+\n+import scala.collection.mutable\n+\n+final class Timestamp private (private val signerCertPath: CertPath,\n+                               private val timestamp: Date)\n+    extends Serializable {\n+\n+  /** Constructor overload with null checking and timestamp cloning **/\n+  @throws[NullPointerException]\n+  def this(timestamp: Date, signerCertPath: CertPath) =\n+    this(\n+      {\n+        if (signerCertPath == null) {\n+          throw new NullPointerException(\"signerCertPath cannot be null\")\n+        }\n+        signerCertPath\n+      }, {\n+        if (timestamp == null) {\n+          throw new NullPointerException(\"timestamp cannot be null\")\n+        }\n+        new Date(timestamp.getTime)\n+      }\n+    )\n+\n+  @inline def getSignerCertPath: CertPath = signerCertPath\n+\n+  @inline def getTimestamp: Date = new Date(timestamp.getTime)\n+\n+  override def equals(obj: Any): Boolean =\n+    obj match {\n+      case objRef: AnyRef if this eq objRef =>\n+        true\n+      case that: Timestamp =>\n+        timestamp.equals(that.getTimestamp) &&\n+          signerCertPath.equals(that.getSignerCertPath)\n+      case _ =>\n+        false\n+    }\n+\n+  @transient\n+  override lazy val hashCode: Int = timestamp.hashCode ^ signerCertPath.hashCode\n \n-final class Timestamp(timestamp: Date, signerCertPath: CertPath)\n-    extends Serializable\n+  override def toString: String = {\n+    val buf = new mutable.StringBuilder(256)"
+  }
+]

@@ -1,0 +1,146 @@
+[
+  {
+    "id" : "4ed909b5-b3e0-469f-bd99-2ffefc574bef",
+    "prId" : 412,
+    "comments" : [
+      {
+        "id" : "d1c3bce2-3ff9-4ce0-aac6-e5b35c43fabb",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Caused by https://github.com/scala-native/scala-native/issues/404",
+        "createdAt" : "2016-11-29T15:21:07Z",
+        "updatedAt" : "2016-11-30T15:17:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "eee07c42-a05f-47a7-9781-9af3d9ba4d0f",
+        "parentId" : "d1c3bce2-3ff9-4ce0-aac6-e5b35c43fabb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Fixed in #421 ",
+        "createdAt" : "2016-12-01T12:30:07Z",
+        "updatedAt" : "2016-12-01T12:30:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a854e14f-d409-4925-adaf-48334819c003",
+        "parentId" : "d1c3bce2-3ff9-4ce0-aac6-e5b35c43fabb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "The fix has been merged, this change is not needed any longer.",
+        "createdAt" : "2016-12-01T13:35:51Z",
+        "updatedAt" : "2016-12-01T13:35:51Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fbbab6949946b1c51a2be92737adc6b0a62273f3",
+    "line" : 5,
+    "diffHunk" : "@@ -6,7 +6,7 @@ import scala.scalanative.runtime.Type\n final class _Class[A](val ty: Ptr[Type]) {\n   def getName(): String = (!ty).name\n \n-  override def hashCode: Int = ty.cast[Long].##\n+  override def hashCode: Int = getName().##"
+  },
+  {
+    "id" : "b0c5b8e8-df6e-4615-a7c3-93c475959c08",
+    "prId" : 420,
+    "comments" : [
+      {
+        "id" : "b2cde261-5502-48a6-9778-04eeae7b2c53",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is this an intended implementation approximation for now? It won't pass this test:\r\n```scala\r\nassert(classOf[Array[String]].getComponentType() == classOf[String])\r\n```",
+        "createdAt" : "2016-12-01T15:30:09Z",
+        "updatedAt" : "2016-12-01T15:30:09Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b78d4677-9564-4abd-9870-d5a0a814f05b",
+        "parentId" : "b2cde261-5502-48a6-9778-04eeae7b2c53",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It is indeed an approximation for the time being. The goal here was to unblock reverse. There is a separate ticket for precise semantics.",
+        "createdAt" : "2016-12-01T16:33:24Z",
+        "updatedAt" : "2016-12-01T16:33:24Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "40aed57a6dc6cbe76e73fb59deb7e699ca1105ff",
+    "line" : 23,
+    "diffHunk" : "@@ -15,10 +15,21 @@ final class _Class[A](val ty: Ptr[Type]) {\n       false\n   }\n \n+  def getComponentType(): _Class[_] = {\n+    if (ty == typeof[BooleanArray]) classOf[scala.Boolean]\n+    else if (ty == typeof[CharArray]) classOf[scala.Char]\n+    else if (ty == typeof[ByteArray]) classOf[scala.Byte]\n+    else if (ty == typeof[ShortArray]) classOf[scala.Short]\n+    else if (ty == typeof[IntArray]) classOf[scala.Int]\n+    else if (ty == typeof[LongArray]) classOf[scala.Long]\n+    else if (ty == typeof[FloatArray]) classOf[scala.Float]\n+    else if (ty == typeof[DoubleArray]) classOf[scala.Double]\n+    else classOf[java.lang.Object]"
+  },
+  {
+    "id" : "a9274847-2ee8-4562-9086-fb1b6a971108",
+    "prId" : 755,
+    "comments" : [
+      {
+        "id" : "0dd36f35-c73b-4068-bca9-6f41b08ae974",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why does this one return `null` and not `???` ? \r\n\r\nIt might give a false impression of an implemented API, but we don't support this at the moment. ",
+        "createdAt" : "2017-06-12T09:59:48Z",
+        "updatedAt" : "2017-06-14T17:22:17Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "ffdecf4671c09b57ee29f119079c7982ad51bb5e",
+    "line" : null,
+    "diffHunk" : "@@ -43,6 +45,9 @@ final class _Class[A](val ty: Ptr[Type]) {\n   def getSuperclass(): Class[_ >: A] =\n     ???\n \n+  def getField(name: String): Field =\n+    null"
+  }
+]

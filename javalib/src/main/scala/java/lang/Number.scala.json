@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "fab5f0c2-dcae-47d5-a1d4-56181a20fc77",
+    "prId" : 1805,
+    "comments" : [
+      {
+        "id" : "661d94ef-557c-40c9-8d2c-b5803e1aede0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I don't think this is the appropriate fix. The previous code *should* have been correct, if `java.lang.Object.__scala_==` had a reasonable implementation. The reasonable implementation should be:\r\n```scala\r\n  @inline def __scala_==(that: _Object): scala.Boolean =\r\n    this.equals(that)\r\n```\r\nInstead, it's\r\nhttps://github.com/scala-native/scala-native/blob/b49e74efe7079bdf415b5724da4acb87c5567210/nativelib/src/main/scala/java/lang/Object.scala#L39-L44\r\nas an optimization based on some vtable hackery.\r\n\r\nUnfortunately the vtable hackery doesn't patch up `super.__scala_==` calls. That means we can never do `super.__scala_==`, and instead we should inline the correct, reasonable implementation that is written nowhere.\r\n\r\nSo the correct implementation of `Number.__scala_==` should be:\r\n```scala\r\n  @inline override def __scala_==(other: _Object): scala.Boolean = {\r\n    if (other.isInstanceOf[ScalaNumber] && !this.isInstanceOf[ScalaNumber]) {\r\n      other.equals(this)\r\n    } else {\r\n      this.equals(other)\r\n    }\r\n  }\r\n```",
+        "createdAt" : "2020-05-19T13:52:50Z",
+        "updatedAt" : "2020-05-24T22:48:49Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "bd3f73ec-b039-49fe-b9a0-48cbd2d60a13",
+        "parentId" : "661d94ef-557c-40c9-8d2c-b5803e1aede0",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I committed with the recommended fix and Travis CI is all green.  Thank you for the\r\npatient explanation. ",
+        "createdAt" : "2020-05-24T23:56:38Z",
+        "updatedAt" : "2020-05-25T00:08:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d4e89d63-caa1-4d7d-ae9b-9b92bbbdc3cf",
+        "parentId" : "661d94ef-557c-40c9-8d2c-b5803e1aede0",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "After the successful commit, I sat down and drew out the truth tables, mentally thanking my Discrete Math professor.\r\n\r\nI believe the following code is equivalent and correct.  It passes the same tests as the\r\ncode in the current commit.   I find this code to be easier to read and understand.\r\nI think future developers may also find it easier.\r\n\r\nI can do another commit if my proposed code is acceptable.\r\n\r\n```\r\n  @inline override def __scala_==(other: _Object): scala.Boolean = {           \r\n    if ((this.isInstanceOf[ScalaNumber]) ||                                    \r\n        (!other.isInstanceOf[ScalaNumber])) {                                  \r\n      this.equals(other)                                                       \r\n    } else {                                                                   \r\n      other.equals(this)                                                       \r\n    }       \r\n```\r\nIt may also have performance benefits. I believe that the `this` left comparand will more\r\n likely be a ScalaNumber, by a large factor. The code above would do one test in that case,\r\nleading to a lower amortized cost for some/most workloads.\r\n\r\nSince the code is inlined, and the type of `this` is known at compile time, there is\r\na sporting chance that the inliner will reduce the call to `this.equals(other)` when\r\nthis is known to be a ScalaNumber.\r\n\r\nNormally, I would go with the commited code and be done with it. However, this is a \r\n`hot` path, where likely instruction path length matters, as long as correctness is maintained.\r\n\r\nInsert the classical refrain of \"Show me the data, across a series of workloads'.\r\n\r\nNote to future self:   \r\n\r\nThe test for `other` being a scala number is necessary to pass the 'j.l.Integer == BigInt` \r\ncase and similar in the test suite.  The code above can not be correctly reduced to `this.equals(other)`.\r\n ",
+        "createdAt" : "2020-05-25T00:11:25Z",
+        "updatedAt" : "2020-05-25T00:12:18Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5ec22dfa-8376-4655-b76d-ee105fc31e5d",
+        "parentId" : "661d94ef-557c-40c9-8d2c-b5803e1aede0",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "> I believe the following code is equivalent and correct. It passes the same tests as the\r\n> code in the current commit. I find this code to be easier to read and understand.\r\n> I think future developers may also find it easier.\r\n> \r\n> I can do another commit if my proposed code is acceptable.\r\n> \r\n> ```\r\n>   @inline override def __scala_==(other: _Object): scala.Boolean = {           \r\n>     if ((this.isInstanceOf[ScalaNumber]) ||                                    \r\n>         (!other.isInstanceOf[ScalaNumber])) {                                  \r\n>       this.equals(other)                                                       \r\n>     } else {                                                                   \r\n>       other.equals(this)                                                       \r\n>     }       \r\n> ```\r\n\r\nThis is indeed correct. I'm not sure about the performance impact.\r\n\r\n> It may also have performance benefits. I believe that the `this` left comparand will more\r\n> likely be a ScalaNumber, by a large factor. The code above would do one test in that case,\r\n> leading to a lower amortized cost for some/most workloads.\r\n\r\nThe cases where `this` is a `ScalaNumber` are basically *only* for `scala.math.BigInt` and `scala.math.BigDecimal`. For those, we know that equality is expensive (at least it's more than one or two tests) so their equality will dwarf whatever optimization we try to do for them in `__scala_==`. Therefore, this does not seem to be a scenario worth optimizing for.\r\n\r\n> Since the code is inlined, and the type of `this` is known at compile time, there is\r\n> a sporting chance that the inliner will reduce the call to `this.equals(other)` when\r\n> this is known to be a ScalaNumber.\r\n\r\nThat is true, but the same reasoning applies to the existing code as well. If `this` is known to be a `ScalaNumber` at compile time, then the condition\r\n```scala\r\nother.isInstanceOf[ScalaNumber] && !this.isInstanceOf[ScalaNumber]\r\n```\r\nreduces to\r\n```scala\r\nother.isInstanceOf[ScalaNumber] && false\r\n```\r\nwhich, because `isInstanceOf` is always pure, can also be optimized down to\r\n```scala\r\nfalse\r\n```\r\nallowing the whole method to reduce to `this.equals(that)`.",
+        "createdAt" : "2020-05-25T10:07:50Z",
+        "updatedAt" : "2020-05-25T10:07:50Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "2456c8333efb20366c5b22bb8022daf06e1b19a0",
+    "line" : null,
+    "diffHunk" : "@@ -11,7 +11,9 @@ abstract class Number extends java.lang._Object with java.io.Serializable {\n   def doubleValue(): scala.Double\n \n   @inline override def __scala_==(other: _Object): scala.Boolean = {\n-    if (other.isInstanceOf[ScalaNumber] && !this.isInstanceOf[ScalaNumber]) {\n+    if (this.isInstanceOf[ScalaNumber]) {\n+      this.equals(other)\n+    } else if (other.isInstanceOf[ScalaNumber]) {\n       other.equals(this)\n     } else {\n       super.__scala_==(other)"
+  }
+]

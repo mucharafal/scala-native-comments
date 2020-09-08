@@ -1,0 +1,438 @@
+[
+  {
+    "id" : "024febab-ec5d-473a-9e7e-68d5cf4a0cb5",
+    "prId" : 407,
+    "comments" : [
+      {
+        "id" : "66dc32ac-2857-4d9a-82e1-c0fe797fce60",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets keep the key definition `ScalaNativePluginInternal`, before we're sure that this API is fully stable.",
+        "createdAt" : "2016-11-29T16:34:45Z",
+        "updatedAt" : "2016-12-01T12:23:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6b5a3d22963329de4a0301f54c59b9ef79f96ba3",
+    "line" : null,
+    "diffHunk" : "@@ -20,6 +20,9 @@ object ScalaNativePlugin extends AutoPlugin {\n \n     val nativeClangPP = settingKey[File](\"Location of the clang++ compiler.\")\n \n+    val nativeExternalDependencies =\n+      taskKey[Seq[String]](\"Find all external dependencies\")\n+"
+  },
+  {
+    "id" : "276b55a2-e5c9-47bd-9879-3d8692a4e32b",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "ebcde621-be46-4dd0-a843-9fbe42658f1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Passing just a name as string here would make it less likely to break on binary level in the future. Otherwise any APIs on `gc.GarbageCollector` have to be carefully vetted for binary compatibility. \r\n2. Please add docs to the sbt page with explanation of this setting. ",
+        "createdAt" : "2017-03-16T12:44:27Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -36,6 +36,9 @@ object ScalaNativePlugin extends AutoPlugin {\n \n     val nativeMode =\n       settingKey[String](\"Compilation mode, either \\\"debug\\\" or \\\"release\\\".\")\n+\n+    val nativeGC =\n+      settingKey[gc.GarbageCollector](\"GC choice, either NoGC or BoehmGC.\")\n   }"
+  },
+  {
+    "id" : "31f08d5e-8814-4b0e-a4d7-881ceda71406",
+    "prId" : 539,
+    "comments" : [
+      {
+        "id" : "4f6d3f5a-f26e-4572-8a0c-e58ca1144b37",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`\"none\" or \"boehm\"` as above. ",
+        "createdAt" : "2017-03-20T10:21:32Z",
+        "updatedAt" : "2017-03-21T09:24:15Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "44708ba8929e15f0456f2c8ab558f008761c64c6",
+    "line" : null,
+    "diffHunk" : "@@ -36,6 +36,9 @@ object ScalaNativePlugin extends AutoPlugin {\n \n     val nativeMode =\n       settingKey[String](\"Compilation mode, either \\\"debug\\\" or \\\"release\\\".\")\n+\n+    val nativeGC =\n+      settingKey[String](\"GC choice, either \\\"nogc\\\" or \\\"boehmgc\\\".\")"
+  },
+  {
+    "id" : "f11c68bc-8274-421d-b122-5080cd2a7ed6",
+    "prId" : 568,
+    "comments" : [
+      {
+        "id" : "18d2a6e5-f0c6-4291-bb3e-3bba008413d7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not a public API, it should go to `ScalaNativePluginInternal`.",
+        "createdAt" : "2017-04-04T09:00:47Z",
+        "updatedAt" : "2017-04-04T09:03:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "45c2af5e28391d4906326ccd0631b17a3aabb005",
+    "line" : 21,
+    "diffHunk" : "@@ -12,13 +13,25 @@ object ScalaNativePlugin extends AutoPlugin {\n \n   object AutoImport extends NativeCross {\n \n+    def findClang(default: Option[File]): File =\n+      default.getOrElse(\n+        discover(\"clang\", clangVersions)\n+      )\n+\n+    def findClangPP(default: Option[File]): File =\n+      default.getOrElse(\n+        discover(\"clang++\", clangVersions)\n+      )\n+"
+  },
+  {
+    "id" : "aa4a877e-9912-445d-97be-dfe7a649dc4e",
+    "prId" : 568,
+    "comments" : [
+      {
+        "id" : "88cb0e04-7dbb-4aa7-bdb4-f0534231decc",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Both `nativeCompileOptions` and `nativeLinkingOptions` might do environment discovery. This is still not addressed in this PR. ",
+        "createdAt" : "2017-04-04T09:02:28Z",
+        "updatedAt" : "2017-04-04T09:03:03Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "45c2af5e28391d4906326ccd0631b17a3aabb005",
+    "line" : 37,
+    "diffHunk" : "@@ -38,11 +51,11 @@ object ScalaNativePlugin extends AutoPlugin {\n       settingKey[String](\"Compilation mode, either \\\"debug\\\" or \\\"release\\\".\")"
+  },
+  {
+    "id" : "d692b448-b563-403f-9f30-378f8c5df346",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "19e3c1a2-6c45-443e-8ec5-bc4036986fac",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those are literally duplicated with `nativeCompileOptions`, they should not be there.",
+        "createdAt" : "2017-04-05T14:01:56Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e2b51102-ad73-4b24-bde4-96330d1eca97",
+        "parentId" : "19e3c1a2-6c45-443e-8ec5-bc4036986fac",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "`nativeCompileOptions` is used in `nativeLink`.\r\n\r\nthis is used when compiling nativeLib when compiling resources like cre2.cpp. Do you prefer I hardcode this option (`-std=c++11`) ?",
+        "createdAt" : "2017-04-05T14:30:32Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : null,
+    "diffHunk" : "@@ -18,8 +18,14 @@ object ScalaNativePlugin extends AutoPlugin {\n \n     val nativeClang = settingKey[File](\"Location of the clang compiler.\")\n \n+    val nativeClangOptions = settingKey[Seq[String]](\n+      \"Additional options are passed to clang during compilation.\")\n+\n     val nativeClangPP = settingKey[File](\"Location of the clang++ compiler.\")\n \n+    val nativeClangPPOptions = settingKey[Seq[String]](\n+      \"Additional options are passed to clang++ during compilation.\")\n+"
+  },
+  {
+    "id" : "04205a11-2218-400b-8acb-7aa2fbb9e662",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "8511585b-dc2e-4630-81c8-f76d8daf4eaf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We use `native` prefix for all public SN settings/tasks in sbt. ",
+        "createdAt" : "2018-10-17T09:25:30Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -43,6 +46,9 @@ object ScalaNativePlugin extends AutoPlugin {\n     val nativeLTO =\n       taskKey[String](\n         \"LTO variant used for release mode (either \\\"none\\\", \\\"thin\\\" or \\\"full\\\").\")\n+\n+    val targetArchitecture ="
+  },
+  {
+    "id" : "86a2ea25-3fec-4dc3-972b-934e7f377c08",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "16f193ac-1018-4706-bd01-206508ff98a6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This blank line was useful, I think.",
+        "createdAt" : "2020-08-26T10:11:29Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -7,25 +7,27 @@ import sbt._\n \n object ScalaNativePlugin extends AutoPlugin {\n   override def requires: Plugins = plugins.JvmPlugin\n-"
+  },
+  {
+    "id" : "12376a1d-84b3-4418-8a46-e4bb1dc8ce08",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "fc788cc6-6d41-483f-a896-375faca5d91f",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Unfortunately, we cannot afford to turn those tasks into settings. If they are settings, they must be evaluated when the build is loaded, as opposed to when the task is used. This would kill the workflow of people who work with cross-built libraries but don't actually use Native. They rely on the CI to ensure that the Native build stays correct, and instead always develop the JVM side locally. That means that they don't even need to install Native tooling.\r\n\r\nIf we turn those settings into keys, people working with cross-built libraries will have to install the native tooling even though they don't use Scala Native locally. From experience with similar problems with Scala.js in the past, this will not go well.\r\n\r\nTherefore, since we must keep these as tasks, `nativeConfig` will also have to be a `taskKey`.",
+        "createdAt" : "2020-08-26T10:14:44Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -7,25 +7,27 @@ import sbt._\n \n object ScalaNativePlugin extends AutoPlugin {\n   override def requires: Plugins = plugins.JvmPlugin\n-\n   object autoImport {\n \n     val ScalaNativeCrossVersion = sbtplugin.ScalaNativeCrossVersion\n \n     val nativeVersion = nir.Versions.current\n \n+    val nativeConfig =\n+      settingKey[build.NativeConfig](\"Configuration of the Scala Native plugin\")\n+\n     val nativeClang =\n-      taskKey[File](\"Location of the clang compiler.\")\n+      settingKey[File](\"Location of the clang compiler.\")"
+  },
+  {
+    "id" : "879d500f-eb77-4aba-8b0d-c3f8646a6735",
+    "prId" : 1866,
+    "comments" : [
+      {
+        "id" : "62a6b997-ee09-4efa-9091-b97a84645240",
+        "parentId" : null,
+        "author" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "body" : "Have you considered the American spelling `optimize`?",
+        "createdAt" : "2020-07-29T15:55:23Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "lolgab",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/5793054?u=268213f545fcc0a08ced2cb6e4874b3befa28f52&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0070bc47-92ed-4a49-be28-c4c802b9eabb",
+        "parentId" : "62a6b997-ee09-4efa-9091-b97a84645240",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "I agree. Usually we use the American spelling of things in CS.",
+        "createdAt" : "2020-07-29T16:20:51Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2f92197e-c014-43b6-96c3-54d1f7121dfd",
+        "parentId" : "62a6b997-ee09-4efa-9091-b97a84645240",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Also, now is perhaps not a good time to add yet another settingKey, when we're in the process of merging them all in one `nativeConfig`.\r\n\r\nPerhaps for now we can just do the `System.getenv` directly when building the `build.Config`.",
+        "createdAt" : "2020-07-29T16:22:23Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7e33a356-bc62-4e33-86cc-ca08646d07d7",
+        "parentId" : "62a6b997-ee09-4efa-9091-b97a84645240",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Given the choice, I usually prefer the British spelling.\r\n\r\n(We also have other references to \"optimiser\" in the docs.)\r\n\r\ncc @sjrd ",
+        "createdAt" : "2020-07-29T16:26:40Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "99212701-f669-45b2-af68-9115b5df40c5",
+        "parentId" : "62a6b997-ee09-4efa-9091-b97a84645240",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Maybe `Discover.optimize()` to central these env vars to be used by other build tools as well. Hate for everyone to duplicate logic",
+        "createdAt" : "2020-07-29T16:37:01Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c49f8a62-db6f-4c34-a77b-1d5a7b2920bb",
+        "parentId" : "62a6b997-ee09-4efa-9091-b97a84645240",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "@ekrich I like that as a solution.",
+        "createdAt" : "2020-07-29T16:56:03Z",
+        "updatedAt" : "2020-07-29T22:36:40Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "7c1262208078829fb371c8c62305ad0cf4bbb6ec",
+    "line" : null,
+    "diffHunk" : "@@ -51,6 +51,9 @@ object ScalaNativePlugin extends AutoPlugin {\n     val nativeDump =\n       settingKey[Boolean](\n         \"Shall native toolchain dump intermediate NIR to disk during linking?\")\n+\n+    val optimise ="
+  }
+]

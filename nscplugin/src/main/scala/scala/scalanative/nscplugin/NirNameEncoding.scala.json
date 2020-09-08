@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "2a8701b2-22e9-4ec1-a1b2-c4e111c838a1",
+    "prId" : 129,
+    "comments" : [
+      {
+        "id" : "82d6f218-a0b9-41b5-9d52-e819167daa3a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is copy-pasted. You should factor it out in a `def nativeNameOf(sym)` or something like that. You might also want to have a look at the implementation of the corresponding feature in Scala.js at https://github.com/scala-js/scala-js/blob/608baf718e4366dfdcb0745f13facb2b438344f6/compiler/src/main/scala/org/scalajs/core/compiler/JSGlobalAddons.scala#L133-L139\nNote that it reuses more scalac things (like `getAnnotation` and `stringArg`), and also it properly deals with setters.\n",
+        "createdAt" : "2016-05-24T09:22:36Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a63c19b2-5d84-442b-aff0-ef7bf6cd386a",
+        "parentId" : "82d6f218-a0b9-41b5-9d52-e819167daa3a",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Good point. \n",
+        "createdAt" : "2016-05-24T09:25:30Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d91e32f0778c018d217fbfef1bc56209717d2ebc",
+    "line" : null,
+    "diffHunk" : "@@ -55,14 +64,19 @@ trait NirNameEncoding { self: NirCodeGen =>\n \n     if (sym == String_+) {\n       genMethodName(StringConcatMethod)\n-    } else if (isExternModule(owner)) {\n-      ownerId member id tag \"extern\"\n+    } else if (isExternModule(sym.owner)) {\n+      val name = sym.annotations.collectFirst {\n+        case ann if ann.symbol == NameClass =>\n+          val Apply(_, List(Literal(Constant(name: String)))) = ann.tree\n+          name\n+      }.getOrElse(id)"
+  },
+  {
+    "id" : "75af3666-14ae-44be-bd52-bb422faa0d3f",
+    "prId" : 751,
+    "comments" : [
+      {
+        "id" : "2abcc4d2-b564-498f-91fb-2f16b72996c6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd factor out id with two replace calls into a separate local val: `val mangedId = id.replace(...).replace(...)`",
+        "createdAt" : "2017-05-29T09:02:21Z",
+        "updatedAt" : "2017-06-05T19:52:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8956eebaa4068ddfa05fcee3eb45ce311dcffa92",
+    "line" : null,
+    "diffHunk" : "@@ -75,7 +75,9 @@ trait NirNameEncoding { self: NirCodeGen =>\n       owner member (\"init\" +: mangledParams).mkString(\"_\")\n     } else {\n       val mangledRetty = mangledType(tpe.resultType)\n-      owner member (id.replace(\"_\", \"$underscore$\") +: (mangledParams :+ mangledRetty))\n+      owner member (id\n+        .replace(\"_\", \"$underscore$\")\n+        .replace(\"\\\"\", \"$doublequote$\") +: (mangledParams :+ mangledRetty))"
+  }
+]

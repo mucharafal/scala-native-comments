@@ -1,0 +1,277 @@
+[
+  {
+    "id" : "898ee034-1c30-47a3-8822-5f2b63098485",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "4b3a3d99-68ac-42f5-b0f2-d9b8f81cf224",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Need to handle the case when loop throws an exception. \n",
+        "createdAt" : "2016-10-28T15:34:15Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2177c386-8c9b-47c2-8800-78f9604651e9",
+        "parentId" : "4b3a3d99-68ac-42f5-b0f2-d9b8f81cf224",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done\n",
+        "createdAt" : "2016-10-30T12:58:55Z",
+        "updatedAt" : "2016-11-12T08:53:13Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,32 @@\n+package benchmarks\n+\n+object Main {\n+\n+  val nsPerBenchmark = 1e9\n+\n+  def main(args: Array[String]): Unit = {\n+\n+    val benchmarks = Discover.discovered\n+\n+    benchmarks foreach { bench =>\n+      // Run once to estimate how long this benchmark takes\n+      val timeEstimate = {\n+        val start = System.nanoTime()\n+        bench.run()\n+        System.nanoTime() - start\n+      }\n+\n+      val iterations = (nsPerBenchmark / timeEstimate).toInt\n+\n+      val start     = System.nanoTime\n+      val success   = bench.loop(iterations)"
+  },
+  {
+    "id" : "ca23151a-b9e2-42b2-87d2-debbbb059e07",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "4fec1e87-2611-4335-8913-8a024eb20cbb",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "???\n",
+        "createdAt" : "2016-11-15T14:19:40Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ac0a88f0-f684-4002-85b2-77ae45b53677",
+        "parentId" : "4fec1e87-2611-4335-8913-8a024eb20cbb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I did notice that one before. ",
+        "createdAt" : "2016-12-02T13:35:29Z",
+        "updatedAt" : "2016-12-02T13:35:29Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "019ba2f8-58f8-4833-905c-66f13c051673",
+        "parentId" : "4fec1e87-2611-4335-8913-8a024eb20cbb",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "\\* did not",
+        "createdAt" : "2016-12-02T13:40:44Z",
+        "updatedAt" : "2016-12-02T13:40:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 23,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package benchmarks\n+\n+import java.lang.System.exit\n+\n+object Main {\n+\n+  val nsPerBenchmark = 3e9.toLong\n+\n+  def main(args: Array[String]): Unit = {\n+\n+    val benchmarks = Discover.discovered\n+\n+    val success =\n+      benchmarks forall { bench =>\n+        // Run once to estimate how long this benchmark takes\n+        val timeEstimate = bench.estimateTime()\n+        val iterations   = (nsPerBenchmark / timeEstimate).toInt\n+\n+        val result = bench.loop(iterations)\n+        println(result)\n+\n+        // Sleep between test to avoid error (???)\n+        Thread.sleep(50)"
+  },
+  {
+    "id" : "3d4e4576-0a33-499c-b1a4-773fd9248939",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "b4a83c74-d471-43c6-96be-b4d694ad57cb",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "timeEstimate can be negative here as you aren't using monotonic clock.\n",
+        "createdAt" : "2016-11-15T14:22:28Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 16,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package benchmarks\n+\n+import java.lang.System.exit\n+\n+object Main {\n+\n+  val nsPerBenchmark = 3e9.toLong\n+\n+  def main(args: Array[String]): Unit = {\n+\n+    val benchmarks = Discover.discovered\n+\n+    val success =\n+      benchmarks forall { bench =>\n+        // Run once to estimate how long this benchmark takes\n+        val timeEstimate = bench.estimateTime()"
+  },
+  {
+    "id" : "7609ce7c-b1a6-4a1c-bbdb-4872cb3417b1",
+    "prId" : 364,
+    "comments" : [
+      {
+        "id" : "b0db1d61-5050-487d-a552-e10719de98ab",
+        "parentId" : null,
+        "author" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "body" : "I'd propose to simply run this main class with `perf`.\nEg, like this `perf -r 1000 -d stat ./Main`.\n",
+        "createdAt" : "2016-11-15T14:24:07Z",
+        "updatedAt" : "2016-11-15T14:24:33Z",
+        "lastEditedBy" : {
+          "login" : "DarkDimius",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/1084930?u=4d7224bafc59d579b227c92ee0b965947186d9e2&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "44cc2473-8bf1-479f-918b-17bd29351ecd",
+        "parentId" : "b0db1d61-5050-487d-a552-e10719de98ab",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We really want it to work on Mac and eventually on Windows. Loss of precision compared to perf is unfortunate but we can't do anything about it. ",
+        "createdAt" : "2016-12-02T13:37:38Z",
+        "updatedAt" : "2016-12-02T13:37:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "78489fbac8f829c74faa3744c0e1240b75b36be0",
+    "line" : 9,
+    "diffHunk" : "@@ -0,0 +1,30 @@\n+package benchmarks\n+\n+import java.lang.System.exit\n+\n+object Main {\n+\n+  val nsPerBenchmark = 3e9.toLong\n+\n+  def main(args: Array[String]): Unit = {"
+  },
+  {
+    "id" : "6f2891bb-24b8-4ae6-8493-152f9e553f3d",
+    "prId" : 423,
+    "comments" : [
+      {
+        "id" : "494ef8c3-4a40-493d-b2df-9ea703ea693c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Turns out that this was not necessary after all.",
+        "createdAt" : "2016-12-02T16:53:19Z",
+        "updatedAt" : "2016-12-02T16:53:19Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7fc6c9fe4b409be8e3f8b7e1d5d736d1c7c935de",
+    "line" : 23,
+    "diffHunk" : "@@ -3,25 +3,13 @@ package benchmarks\n import java.lang.System.exit\n \n object Main {\n-\n-  val nsPerBenchmark = 3e9.toLong\n-\n   def main(args: Array[String]): Unit = {\n-\n     val benchmarks = Discover.discovered\n \n     val success =\n-      benchmarks forall { bench =>\n-        // Run once to estimate how long this benchmark takes\n-        val timeEstimate = bench.estimateTime()\n-        val iterations   = (nsPerBenchmark / timeEstimate).toInt\n-\n-        val result = bench.loop(iterations)\n+      benchmarks.forall { bench =>\n+        val result = bench.loop(bench.iterations)\n         println(result)\n-\n-        // Sleep between test to avoid error (???)\n-        Thread.sleep(50)"
+  },
+  {
+    "id" : "189fbb0e-5eed-408a-87f4-33598e1421c0",
+    "prId" : 425,
+    "comments" : [
+      {
+        "id" : "6682451d-d0b5-46ee-ba2a-bd95ff9a0682",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets put a bit more dots in there. Infix is fine for symbolic operators but for text ones it's a bit overkill. ",
+        "createdAt" : "2016-12-06T21:24:43Z",
+        "updatedAt" : "2016-12-07T10:40:30Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "36f70ba4-40ba-4ca6-b2a1-42c32dec0737",
+        "parentId" : "6682451d-d0b5-46ee-ba2a-bd95ff9a0682",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2016-12-07T10:40:33Z",
+        "updatedAt" : "2016-12-07T10:40:33Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "abb884890cc11f69e7fb66c25f7674695a8fa8e5",
+    "line" : null,
+    "diffHunk" : "@@ -6,10 +6,13 @@ object Main {\n   def main(args: Array[String]): Unit = {\n     val benchmarks = Discover.discovered\n \n+    val format = args lift (0) map (Format(_)) getOrElse TextFormat"
+  }
+]

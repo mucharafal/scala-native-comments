@@ -1,0 +1,49 @@
+[
+  {
+    "id" : "881bce26-15d8-4a0c-9751-bf5f8b435c14",
+    "prId" : 324,
+    "comments" : [
+      {
+        "id" : "0c19127d-9734-4195-9aeb-43dd9a412399",
+        "parentId" : null,
+        "author" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "body" : "This list concatention doesn't look very pretty..\nMaybe it'd better if this pass looked like this:\n`override def preInst = case a => handleNull(a).flatMap(eliminateIs)`?\n",
+        "createdAt" : "2016-10-19T22:54:10Z",
+        "updatedAt" : "2016-10-19T22:57:25Z",
+        "lastEditedBy" : {
+          "login" : "pbatko",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/1202093?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a5ab3639-fb88-459b-aa04-8e7c53bc30aa",
+        "parentId" : "0c19127d-9734-4195-9aeb-43dd9a412399",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I don't think that it will really change much. The current solution looks good to me.\n",
+        "createdAt" : "2016-10-20T09:04:48Z",
+        "updatedAt" : "2016-10-20T09:04:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e84419c6a80596fe63013ec84e115f0bbe2eb5d7",
+    "line" : 34,
+    "diffHunk" : "@@ -8,7 +8,44 @@ import nir._, Inst.Let\n \n /** Translates instance checks to range checks on type ids. */\n class IsLowering(implicit fresh: Fresh, top: Top) extends Pass {\n-  override def preInst = {\n+\n+  override def preInst = eliminateIs\n+\n+  private def eliminateIs: PartialFunction[Inst, Seq[Inst]] = {\n+    case Let(n, Op.Is(_, Val.Zero(_))) =>\n+      Seq(Let(n, Op.Copy(Val.False)))\n+\n+    case isInst @ Let(n, Op.Is(ty, obj)) =>\n+      val isNullV = Val.Local(fresh(), Type.Bool)\n+      val isIsV   = Val.Local(fresh(), Type.Bool)\n+\n+      val thenL = fresh()\n+      val elseL = fresh()\n+      val contL = fresh()\n+\n+      val thenResultV = Val.Local(fresh(), Type.Bool)\n+      val elseResultV = Val.Local(fresh(), Type.Bool)\n+\n+      Seq(\n+          // if\n+          Let(isNullV.name,\n+              Op.Comp(Comp.Ieq, Type.Ptr, obj, Val.Zero(Type.Ptr))),\n+          Inst.If(isNullV, Next(thenL), Next(elseL)),\n+          // then\n+          Inst.Label(thenL, Seq.empty),\n+          Let(thenResultV.name, Op.Copy(Val.False)),\n+          Inst.Jump(Next.Label(contL, Seq(thenResultV))),\n+          // else\n+          Inst.Label(elseL, Seq.empty)) ++\n+      doEliminateIs(Let(elseResultV.name, Op.Is(ty, obj))) ++"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "9b8f6608-4c56-4fc6-978e-5f50dae69b1b",
+    "prId" : 1366,
+    "comments" : [
+      {
+        "id" : "8c8158f7-8505-44e2-a4f9-b0ca330f8b19",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I have an impression this method is not used anywhere. If that's the case you should remove it altogether. ",
+        "createdAt" : "2018-10-17T09:45:00Z",
+        "updatedAt" : "2018-10-17T22:33:38Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d84044142b69a0d2d4a7eb9c58e8ba8e8da5dd28",
+    "line" : null,
+    "diffHunk" : "@@ -110,20 +114,16 @@ void Block_Recycle(Allocator *allocator, BlockHeader *blockHeader) {\n \n void Block_Print(BlockHeader *block) {"
+  }
+]

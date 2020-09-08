@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "d0dbda2d-525b-4bfc-8d74-cd4a5ea574f9",
+    "prId" : 788,
+    "comments" : [
+      {
+        "id" : "8cf08a20-a1c6-4a49-92c8-8baf0de7019f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Oooops! Nice catch, @jonas !",
+        "createdAt" : "2017-06-06T11:39:09Z",
+        "updatedAt" : "2017-06-06T11:39:09Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "85a45993efcf223bb5ee86b73265714d616fbe8f",
+    "line" : 6,
+    "diffHunk" : "@@ -18,6 +18,9 @@ final abstract class Ptr[T] {\n   /** Compute a derived pointer by subtracting given offset. */\n   def -(offset: Word)(implicit tag: Tag[T]): Ptr[T] = undefined\n \n+  /** Compute the offset between two pointers. */\n+  def -(ptr: Ptr[T])(implicit tag: Tag[T]): CPtrDiff = undefined\n+"
+  }
+]

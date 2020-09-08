@@ -1,0 +1,61 @@
+[
+  {
+    "id" : "ebb62676-c5bd-4027-8159-8476eb312da7",
+    "prId" : 972,
+    "comments" : [
+      {
+        "id" : "1f2e7c78-f6da-4725-8a45-aa2e8561e391",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a test for `@stub` classes and modules. ",
+        "createdAt" : "2017-09-04T09:10:22Z",
+        "updatedAt" : "2017-09-05T07:59:02Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b06e2695b93e8b0f8c9a35112e4b2dcbbd2de124",
+    "line" : 71,
+    "diffHunk" : "@@ -0,0 +1,31 @@\n+package scala.scalanative\n+package linker\n+\n+import nir.Global.Top\n+\n+class StubSpec extends LinkerSpec {\n+\n+  val entry  = \"Main$\"\n+  val source = \"\"\"object Main {\n+                 |  def main(args: Array[String]): Unit =\n+                 |    stubMethod\n+                 |  @scala.scalanative.native.stub\n+                 |  def stubMethod: Int = ???\n+                 |}\"\"\".stripMargin\n+\n+  \"Stubs\" should \"be ignored by the linker when `linkStubs = false`\" in {\n+    link(entry, source, linkStubs = false) { (cfg, result) =>\n+      assert(!cfg.linkStubs)\n+      assert(result.unresolved.length == 1)\n+      assert(result.unresolved.head == Top(\"Main$\").member(\"stubMethod_i32\"))\n+    }\n+  }\n+\n+  it should \"be included when `linkStubs = true`\" in {\n+    link(entry, source, linkStubs = true) { (cfg, result) =>\n+      assert(cfg.linkStubs)\n+      assert(result.unresolved.isEmpty)\n+    }\n+  }\n+\n+}"
+  },
+  {
+    "id" : "558e6d7f-93fb-4db6-838d-2f12f8bc57c9",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "d291de8c-344a-4962-9607-832b319413d4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This seems unused.",
+        "createdAt" : "2020-08-20T15:54:36Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -1,6 +1,7 @@\n package scala.scalanative\n package linker\n \n+import scala.scalanative.util.Platform.scalaVersion"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "id" : "8a0e7277-8a80-4135-83e0-f6aaea78784e",
+    "prId" : 447,
+    "comments" : [
+      {
+        "id" : "f4fa6bbf-3d67-4d0c-8160-dbd38b1cd1a5",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We should try to avoid unstable information like raw pointers in Load, Store, Call, As, Is, Unbox. Those are not stable from run to run and it's going to be quite hard to reason about them.\r\n",
+        "createdAt" : "2016-12-20T12:29:07Z",
+        "updatedAt" : "2016-12-20T12:34:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c00eb5ea38fff29cfb80cb703b62ff651752005b",
+    "line" : 8,
+    "diffHunk" : "@@ -0,0 +1,16 @@\n+package scala.scalanative\n+package profiling\n+\n+sealed trait Event\n+object Event {\n+  case class Call(ptr: Long, argc: Int)            extends Event\n+  case class Load(ptr: Long)                       extends Event\n+  case class Store(ptr: Long)                      extends Event"
+  },
+  {
+    "id" : "4589b4c6-fa2d-4a60-bf18-f5123e0bf2b8",
+    "prId" : 447,
+    "comments" : [
+      {
+        "id" : "e74e79d2-7a21-4f11-8d26-493ac1baa8c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It might be a better idea to inject those in the beginning of the first basic block, and persist method id instead of the pointer.",
+        "createdAt" : "2016-12-20T12:29:41Z",
+        "updatedAt" : "2016-12-20T12:34:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c00eb5ea38fff29cfb80cb703b62ff651752005b",
+    "line" : 6,
+    "diffHunk" : "@@ -0,0 +1,16 @@\n+package scala.scalanative\n+package profiling\n+\n+sealed trait Event\n+object Event {\n+  case class Call(ptr: Long, argc: Int)            extends Event"
+  },
+  {
+    "id" : "0f83aade-4dea-41d8-80fa-5ed20d52b328",
+    "prId" : 447,
+    "comments" : [
+      {
+        "id" : "14541221-5f4a-4c16-a974-08ce48991d6f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets not persist names, those are big and can be recovered from type/method ids. ",
+        "createdAt" : "2016-12-20T12:32:52Z",
+        "updatedAt" : "2016-12-20T16:25:35Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c00eb5ea38fff29cfb80cb703b62ff651752005b",
+    "line" : 10,
+    "diffHunk" : "@@ -0,0 +1,16 @@\n+package scala.scalanative\n+package profiling\n+\n+sealed trait Event\n+object Event {\n+  case class Call(ptr: Long, argc: Int)            extends Event\n+  case class Load(ptr: Long)                       extends Event\n+  case class Store(ptr: Long)                      extends Event\n+  case class Classalloc(typeid: Int, name: String) extends Event\n+  case class Method(actualTypeid: Int, scopeTypeid: Int, name: String)"
+  }
+]

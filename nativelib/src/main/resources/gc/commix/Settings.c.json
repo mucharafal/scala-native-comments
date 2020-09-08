@@ -1,0 +1,126 @@
+[
+  {
+    "id" : "42497edf-0665-499d-9f31-9b12392a73c8",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "88af700c-6ddd-4a50-b1b8-24c64e9bb506",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Number of cores - 2 seems off. We want 1 thread for the mutator, but the rest can be used by the GC. ",
+        "createdAt" : "2019-02-01T10:32:52Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,88 @@\n+#include \"Settings.h\"\n+#include \"Constants.h\"\n+#include \"metadata/BlockMeta.h\"\n+#include <stdlib.h>\n+#include <stdio.h>\n+#include <string.h>\n+#include <sys/sysinfo.h>\n+\n+/*\n+ Accepts number of bytes or number with a suffix letter for indicating the\n+ units. k or K for kilobytes(1024 bytes), m or M for megabytes and g or G for\n+ gigabytes.\n+*/\n+size_t Settings_parseSizeStr(const char *str) {\n+    int length = strlen(str);\n+    size_t size;\n+    sscanf(str, \"%zu\", &size);\n+    char possibleSuffix = str[length - 1];\n+    switch (possibleSuffix) {\n+    case 'k':\n+    case 'K':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 10))) {\n+            size <<= 10;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+        break;\n+    case 'm':\n+    case 'M':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 20))) {\n+            size <<= 20;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+        break;\n+    case 'g':\n+    case 'G':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 30))) {\n+            size <<= 30;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+    }\n+    return size;\n+}\n+\n+size_t Settings_MinHeapSize() {\n+    char *minHeapSizeStr = getenv(\"SCALANATIVE_MIN_HEAP_SIZE\");\n+    if (minHeapSizeStr != NULL) {\n+        return Settings_parseSizeStr(minHeapSizeStr);\n+    } else {\n+        return DEFAULT_MIN_HEAP_SIZE;\n+    }\n+}\n+\n+size_t Settings_MaxHeapSize() {\n+    char *maxHeapSizeStr = getenv(\"SCALANATIVE_MAX_HEAP_SIZE\");\n+    if (maxHeapSizeStr != NULL) {\n+        return Settings_parseSizeStr(maxHeapSizeStr);\n+    } else {\n+        return UNLIMITED_HEAP_SIZE;\n+    }\n+}\n+\n+#ifdef ENABLE_GC_STATS\n+char *Settings_StatsFileName() { return getenv(STATS_FILE_SETTING); }\n+#endif\n+\n+int Settings_GCThreadCount() {\n+    char *str = getenv(\"SCALANATIVE_GC_THREADS\");\n+    if (str == NULL) {\n+        // default is number of cores - 2, but no less than 1 and no more than 8"
+  },
+  {
+    "id" : "a37730d5-7d5b-498b-bf18-eb6740332f18",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "8ea457d6-926e-4e60-875e-ad9c3aac6522",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We can probably shorten this one to just `SCALANATIVE_MIN_SIZE`. It should be clear enough.",
+        "createdAt" : "2019-02-08T12:08:12Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,88 @@\n+#include \"Settings.h\"\n+#include \"Constants.h\"\n+#include \"metadata/BlockMeta.h\"\n+#include <stdlib.h>\n+#include <stdio.h>\n+#include <string.h>\n+#include <sys/sysinfo.h>\n+\n+/*\n+ Accepts number of bytes or number with a suffix letter for indicating the\n+ units. k or K for kilobytes(1024 bytes), m or M for megabytes and g or G for\n+ gigabytes.\n+*/\n+size_t Settings_parseSizeStr(const char *str) {\n+    int length = strlen(str);\n+    size_t size;\n+    sscanf(str, \"%zu\", &size);\n+    char possibleSuffix = str[length - 1];\n+    switch (possibleSuffix) {\n+    case 'k':\n+    case 'K':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 10))) {\n+            size <<= 10;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+        break;\n+    case 'm':\n+    case 'M':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 20))) {\n+            size <<= 20;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+        break;\n+    case 'g':\n+    case 'G':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 30))) {\n+            size <<= 30;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+    }\n+    return size;\n+}\n+\n+size_t Settings_MinHeapSize() {\n+    char *minHeapSizeStr = getenv(\"SCALANATIVE_MIN_HEAP_SIZE\");"
+  },
+  {
+    "id" : "c62d018f-df88-432d-b044-6ece756f5f54",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "5645f2bb-3002-4e92-ad57-5107215f9862",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We can probably shorten this one to just `SCALANATIVE_MAX_SIZE`. It should be clear enough.",
+        "createdAt" : "2019-02-08T12:08:25Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,88 @@\n+#include \"Settings.h\"\n+#include \"Constants.h\"\n+#include \"metadata/BlockMeta.h\"\n+#include <stdlib.h>\n+#include <stdio.h>\n+#include <string.h>\n+#include <sys/sysinfo.h>\n+\n+/*\n+ Accepts number of bytes or number with a suffix letter for indicating the\n+ units. k or K for kilobytes(1024 bytes), m or M for megabytes and g or G for\n+ gigabytes.\n+*/\n+size_t Settings_parseSizeStr(const char *str) {\n+    int length = strlen(str);\n+    size_t size;\n+    sscanf(str, \"%zu\", &size);\n+    char possibleSuffix = str[length - 1];\n+    switch (possibleSuffix) {\n+    case 'k':\n+    case 'K':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 10))) {\n+            size <<= 10;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+        break;\n+    case 'm':\n+    case 'M':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 20))) {\n+            size <<= 20;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+        break;\n+    case 'g':\n+    case 'G':\n+        if (size < (1ULL << (8 * sizeof(size_t) - 30))) {\n+            size <<= 30;\n+        } else {\n+            size = UNLIMITED_HEAP_SIZE;\n+        }\n+    }\n+    return size;\n+}\n+\n+size_t Settings_MinHeapSize() {\n+    char *minHeapSizeStr = getenv(\"SCALANATIVE_MIN_HEAP_SIZE\");\n+    if (minHeapSizeStr != NULL) {\n+        return Settings_parseSizeStr(minHeapSizeStr);\n+    } else {\n+        return DEFAULT_MIN_HEAP_SIZE;\n+    }\n+}\n+\n+size_t Settings_MaxHeapSize() {\n+    char *maxHeapSizeStr = getenv(\"SCALANATIVE_MAX_HEAP_SIZE\");"
+  },
+  {
+    "id" : "0b4b27cf-0ec6-4e09-ac2f-1426e33211f9",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "4b420710-b10d-4e77-b7ca-737c2f18505b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Just `SCALANATIVE_TIME_RATIO`.",
+        "createdAt" : "2019-02-27T15:05:16Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -62,6 +62,28 @@ size_t Settings_MaxHeapSize() {\n     }\n }\n \n+double Settings_MaxMarkTimeRatio() {\n+    char *str = getenv(\"SCALANATIVE_MARK_TIME_RATIO\");"
+  }
+]

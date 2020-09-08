@@ -1,0 +1,115 @@
+[
+  {
+    "id" : "43060aad-b3df-46c3-954b-d4a310df71a5",
+    "prId" : 941,
+    "comments" : [
+      {
+        "id" : "6b42a50c-f077-4ff1-a49a-b2d6c43b679d",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Just to be sure, the policy is that we don't really care about binary / source compatibility of the classes that we define? We just want to not break NIR files, right?",
+        "createdAt" : "2017-08-17T12:23:13Z",
+        "updatedAt" : "2017-08-17T14:04:46Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f6aed7fc-3710-44c1-8e2d-8f154a55a438",
+        "parentId" : "6b42a50c-f077-4ff1-a49a-b2d6c43b679d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "At the moment we don't guarantee binary compatibility of the tools, only of the libraries in NIR. ",
+        "createdAt" : "2017-08-17T13:12:12Z",
+        "updatedAt" : "2017-08-17T14:04:46Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a709724cf4de8b8970c8beed3039e4efe70c6929",
+    "line" : 13,
+    "diffHunk" : "@@ -3,13 +3,31 @@ package nir\n \n import java.util.concurrent.atomic.AtomicInteger\n \n-final class Fresh(scope: String) {\n-  private var i = new AtomicInteger(0)\n-  def apply() = {\n-    val value = i.getAndIncrement()\n-    Local(scope, value)\n+final class Fresh private (private var start: Int) {\n+  def apply(): Local = {\n+    start += 1\n+    val value = start\n+    Local(value)"
+  },
+  {
+    "id" : "d4fbefcf-ec02-424d-8010-fb0ae98a2f88",
+    "prId" : 941,
+    "comments" : [
+      {
+        "id" : "a9ace6fc-f37d-40aa-8b1d-0c34ddec14c1",
+        "parentId" : null,
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "My understanding is that:\r\n - We do this to be able to deterministically generate an instance of `Fresh` for a given  `Define`.\r\n - Because things are run in a non-deterministic order, we can't easily give a unique, deterministic number to each instance of `Fresh`.\r\n - This introduces a full pass over all the instructions of all `Define`s at the beginning of every pass.\r\n\r\nIf I've understood that correctly, couldn't we derive a unique, deterministic prefix from the `Define`? Or is the cost of this traversal negligible?",
+        "createdAt" : "2017-08-17T13:04:33Z",
+        "updatedAt" : "2017-08-17T14:04:46Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "69985506-450c-4bf3-b5ec-65bd34537f1d",
+        "parentId" : "a9ace6fc-f37d-40aa-8b1d-0c34ddec14c1",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It seems like performance overhead is negligible: \r\n\r\noptimizeNIR on unit-tests, 5 runs of the optimizer since jvm start, before:\r\n\r\n```\r\n\r\n[info] Optimizing (2814 ms)\r\n[info] Optimizing (2056 ms)\r\n[info] Optimizing (1648 ms)\r\n[info] Optimizing (1729 ms)\r\n[info] Optimizing (2055 ms)\r\n```\r\n\r\nafter:\r\n```\r\n[info] Optimizing (2801 ms)\r\n[info] Optimizing (2059 ms)\r\n[info] Optimizing (1763 ms)\r\n[info] Optimizing (1686 ms)\r\n[info] Optimizing (1682 ms)\r\n```",
+        "createdAt" : "2017-08-17T13:32:15Z",
+        "updatedAt" : "2017-08-17T14:04:46Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "4da1a5f3-71fe-48e6-ba1c-9b5bd4f65000",
+        "parentId" : "a9ace6fc-f37d-40aa-8b1d-0c34ddec14c1",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Prefixes seems to be an overdesign, we don't need more than an integer to identify a local within a method.",
+        "createdAt" : "2017-08-17T13:33:34Z",
+        "updatedAt" : "2017-08-17T14:04:46Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a709724cf4de8b8970c8beed3039e4efe70c6929",
+    "line" : 36,
+    "diffHunk" : "@@ -3,13 +3,31 @@ package nir\n \n import java.util.concurrent.atomic.AtomicInteger\n \n-final class Fresh(scope: String) {\n-  private var i = new AtomicInteger(0)\n-  def apply() = {\n-    val value = i.getAndIncrement()\n-    Local(scope, value)\n+final class Fresh private (private var start: Int) {\n+  def apply(): Local = {\n+    start += 1\n+    val value = start\n+    Local(value)\n   }\n }\n+\n object Fresh {\n-  def apply(scope: String) = new Fresh(scope)\n+  def apply(start: Int = 0): Fresh =\n+    new Fresh(start)\n+\n+  def apply(insts: Seq[Inst]): Fresh = {\n+    var max = -1\n+    insts.foreach {\n+      case Inst.Let(local, _) =>\n+        max = Math.max(max, local.id)\n+      case Inst.Label(local, params) =>\n+        max = Math.max(max, local.id)\n+        params.foreach { param =>\n+          max = Math.max(max, param.name.id)\n+        }\n+      case _ =>\n+        ()\n+    }\n+    new Fresh(max)\n+  }"
+  }
+]

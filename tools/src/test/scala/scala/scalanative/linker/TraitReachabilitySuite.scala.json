@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "4ea810fa-40a9-4a37-b393-0cba0db5205e",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "b39f1962-3a4b-4312-80a2-be36714e1f41",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The added `$` should not be there. See also my comment on using `isImplClass` above.",
+        "createdAt" : "2020-08-20T15:55:21Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -1,15 +1,25 @@\n package scala.scalanative.linker\n \n import org.scalatest._\n+import scalanative.util.Platform.scalaVersion\n import scalanative.nir.{Type, Sig, Global}\n \n class TraitReachabilitySuite extends ReachabilitySuite {\n-  val Parent      = g(\"Parent\")\n-  val ParentClass = g(\"Parent$class\")\n+  val Parent = g(\"Parent\")\n+\n+  // Scala 2.11.x\n+  val ParentClass = g(\"Parent$class$\")"
+  },
+  {
+    "id" : "f365d522-c497-4430-b142-e23a033164ca",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "080bc870-8575-4651-be1f-d4bde098fb98",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider giving that a semantic name in `Platform`, like `scalaUsesImplClasses: Boolean`.",
+        "createdAt" : "2020-08-20T15:56:19Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -165,18 +175,29 @@ class TraitReachabilitySuite extends ReachabilitySuite {\n       Child,\n       ChildInit,\n       ChildFoo,\n-      Parent,\n-      ParentClass,\n-      ParentClassInit,\n-      ParentClassFoo,\n       Object,\n       ObjectInit\n-    )\n+    ) ++ {\n+      if (scalaVersion.startsWith(\"2.11\")) {"
+  }
+]

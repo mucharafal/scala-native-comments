@@ -1,0 +1,314 @@
+[
+  {
+    "id" : "a8cccc81-681d-4dce-bd06-186d84821f83",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "f675d179-2c0c-45e5-9ab2-311677e2955d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This is not a real fix for the problem, but I'm going to have a look at the real solution for the problem after this PR.",
+        "createdAt" : "2017-04-10T12:49:57Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e0d39a44-b3db-44a2-a7aa-df17f4622384",
+        "parentId" : "f675d179-2c0c-45e5-9ab2-311677e2955d",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "Ok I leave this as is ?",
+        "createdAt" : "2017-04-10T15:00:33Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "de4f6aa9-1d11-4d16-ba2d-4138a4155eaf",
+        "parentId" : "f675d179-2c0c-45e5-9ab2-311677e2955d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Yep, lets have `64M`-sized buffers for now. ",
+        "createdAt" : "2017-04-10T16:52:11Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : 5,
+    "diffHunk" : "@@ -7,7 +7,7 @@ final class ByteBufferPool {\n   private var buffers: List[ByteBuffer] = Nil\n \n   private def alloc(): ByteBuffer = {\n-    ByteBuffer.allocateDirect(32 * 1024 * 1024)\n+    ByteBuffer.allocateDirect(64 * 1024 * 1024)"
+  },
+  {
+    "id" : "6aa4a8c8-b74a-4fbd-8a7f-6aad50a16411",
+    "prId" : 633,
+    "comments" : [
+      {
+        "id" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "parentId" : null,
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "test this with a large file",
+        "createdAt" : "2017-04-11T20:01:57Z",
+        "updatedAt" : "2017-04-21T14:08:59Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "8246eb9c-1931-4eeb-979c-fa4f2c75ebff",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I tested it with `;rebuild;tests/run`. The problem with large files is in `CodeGen` which I changed to not use `ByteBufferPool`",
+        "createdAt" : "2017-04-11T20:08:22Z",
+        "updatedAt" : "2017-04-21T14:08:59Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "31e481bb-ab86-4369-ac08-34accbd1dfd7",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "The largest `.nir` file I could find in the repo is 2M so yes this is somewhat of a stopgap measure, but fixing the NIR code generation is a much larger effort to refactor.\r\n\r\n```\r\n> find . -name \"*.nir\" | xargs stat -f \"%z %N\" | sort -n | tail -5\r\n    546211 ./scalalib/target/scala-2.11/classes/scala/collection/immutable/StreamViewLike$$anon$13.nir\r\n    580412 ./scalalib/target/scala-2.11/classes/scala/collection/mutable/IndexedSeqLike$$anon$1.nir\r\n    612962 ./javalib/target/scala-2.11/classes/java/math/BigDecimal.nir\r\n    699387 ./javalib/target/scala-2.11/classes/java/util/Arrays$.nir\r\n    2301253 ./javalib/target/scala-2.11/classes/java/lang/Character$.nir\r\n```",
+        "createdAt" : "2017-04-11T20:11:01Z",
+        "updatedAt" : "2017-04-21T14:08:59Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f59f1993-a13e-4de1-8b7d-5bf1bf3ab22a",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Solution proposed here is a bit of bandaid, we'll probably rework this more fundamentally later on. There is quite a bit of cruft that has been accumulated around here and quite a few things that can be improved, but that would require drastic changes which are out of scope for this pr. ",
+        "createdAt" : "2017-04-21T14:05:46Z",
+        "updatedAt" : "2017-04-21T14:08:59Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "de30e2ea-e42e-484f-908c-072cfaeea6e6",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "Yes, should we create a new more focused ticket to refactor buffering in NIR and code gen?",
+        "createdAt" : "2017-04-21T14:10:12Z",
+        "updatedAt" : "2017-04-21T14:10:12Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e7e8871d-a3b8-4372-8217-185832f9b2cb",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This should probably go in hand with binary format revamp I've planned for a while in #132. I've added buffer size concern to the list on that issue.",
+        "createdAt" : "2017-04-21T19:59:21Z",
+        "updatedAt" : "2017-04-21T19:59:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0a31fc81-43b8-46f9-bd02-5dae0f476fb7",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "There's also the codegen side, where we could investigate whether we can generate in one pass by reordering instructions to be aware of dependencies and whether we can render directly into a `CharBuffer` to not pay the `StringBuffer` => `byte[]` => `ByteBuffer` tax",
+        "createdAt" : "2017-04-21T20:14:20Z",
+        "updatedAt" : "2017-04-21T20:14:20Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "a9c549fe-2f58-4346-bfdf-f81fc221e32f",
+        "parentId" : "61d6c8c9-812c-4c3b-b238-36f870f0c6cf",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That one probably deserves its own ticket, feel free to file a new one with possible ideas for the solution. 👍 ",
+        "createdAt" : "2017-04-21T20:23:54Z",
+        "updatedAt" : "2017-04-21T20:23:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "25071d656114591f269b08f69cbd90ca27e426e6",
+    "line" : 5,
+    "diffHunk" : "@@ -7,7 +7,7 @@ final class ByteBufferPool {\n   private var buffers: List[ByteBuffer] = Nil\n \n   private def alloc(): ByteBuffer = {\n-    ByteBuffer.allocateDirect(64 * 1024 * 1024)\n+    ByteBuffer.allocateDirect(8 * 1024 * 1024)"
+  },
+  {
+    "id" : "39726470-2cfd-40f2-973c-bcff9e2552ad",
+    "prId" : 1641,
+    "comments" : [
+      {
+        "id" : "df677614-055a-4976-aa02-9f35c19ea78b",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@EmergentOrder   Thank you taking the time to create this PR.\r\nPlease take my comments as supportive.\r\n\r\nI think you have identified an area which needs a bit of re-design & re-work,\r\npossibly outside the scope of what you signed on to do.\r\n\r\nChanging from one fixed constant to another sets up the scenario for dueling\r\nconstants no matter what the constant.   \r\n\r\nI scratched around a bit and the Feb 18, 2017 commit #61ce63b57b65e8e99bd5e873030c3e911e988829\r\nspecifically decreases the fixed size from (128 * 1024 * 1024) and notes that change.  Now there \r\nmay be a sweet spot larger than the current 8 and less than 128, but probably not, \r\n\r\nAre you getting to ByteBufferPool by using the io package object method withScratchBuffer() or\r\nby creating a ByteBufferPool directly?\r\n\r\nIf the former, withScratchBuffer is used by NirGenFile.scala & CodeGen.scala.  This PR may also \r\naffect Nir & Code Generation.  @densh is the expert there.\r\n\r\nIf you are creating the ByteBufferPool yourself, i suggest that you consider a solution where the class has\r\na second constructor, with two arguments.  One would be the size of each fixed size buffer. The second\r\nwould be the number of fixed size buffers to retain on reclaim.  \r\n\r\nFrom my reading, these direct buffers are actually being allocated on the heap.  Discussions of more\r\nadventurous  solutions should probably be done by creating an Issue, rather than here is a PR.",
+        "createdAt" : "2019-07-13T10:58:29Z",
+        "updatedAt" : "2019-07-13T10:58:56Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "ba2013a5-3cd7-4cac-8532-571707b54332",
+        "parentId" : "df677614-055a-4976-aa02-9f35c19ea78b",
+        "author" : {
+          "login" : "EmergentOrder",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/415599?u=c5dc54ef22318627972d83b223ce4df4b6d20c08&v=4"
+        },
+        "body" : "@LeeTibbert Thanks for the feedback. I'm not dealing with the ByteBufferPool in either of the ways you mentioned. I'm just trying to build my project with Scala Native using sbt. I'm aware there are implications to this change, and the value of 32 here won't be optimal. But it does unblock my and others' usage of Scala Native while remaining within the bounds of the previous values and passing CI. ",
+        "createdAt" : "2019-07-13T16:17:54Z",
+        "updatedAt" : "2019-07-13T16:19:22Z",
+        "lastEditedBy" : {
+          "login" : "EmergentOrder",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/415599?u=c5dc54ef22318627972d83b223ce4df4b6d20c08&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f9d41abd-c52f-4476-ad6e-cdd0ded6a2ab",
+        "parentId" : "df677614-055a-4976-aa02-9f35c19ea78b",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "@EmergentOrder,\r\n\r\nThe information that you are not directly doing anything with ByteBufferPool is quite useful\r\nThank you for taking the time to make SN better for all.\r\n\r\nByteBufferPool is used by the SN backend, so you may have identified an issue \r\nwith the backend handling either large files or/and large projects. \r\n\r\nBTW, Whilst chasing this I took a look at your project and it looks _amazing_.  ",
+        "createdAt" : "2019-07-15T11:36:38Z",
+        "updatedAt" : "2019-07-15T11:36:39Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "b020a9c4-3fa5-4ef6-82b0-7ff22220a946",
+        "parentId" : "df677614-055a-4976-aa02-9f35c19ea78b",
+        "author" : {
+          "login" : "EmergentOrder",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/415599?u=c5dc54ef22318627972d83b223ce4df4b6d20c08&v=4"
+        },
+        "body" : "@LeeTibbert \r\nI was thinking the same thing. \r\nIn my case, compiling this large (~3k lines) file triggers the exception: [ONNX.scala](https://github.com/EmergentOrder/onnx-scala/blob/master/core/src/main/scala-2.11/ONNX.scala)\r\n\r\nThanks for the kind words re: my project, and also for all your work on SN.\r\n",
+        "createdAt" : "2019-07-15T15:23:37Z",
+        "updatedAt" : "2019-07-15T15:23:37Z",
+        "lastEditedBy" : {
+          "login" : "EmergentOrder",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/415599?u=c5dc54ef22318627972d83b223ce4df4b6d20c08&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "3ed6ca24d48091a46f4c47143f02fefbf1c5d282",
+    "line" : 5,
+    "diffHunk" : "@@ -7,7 +7,7 @@ final class ByteBufferPool {\n   private var buffers: List[ByteBuffer] = Nil\n \n   private def alloc(): ByteBuffer = {\n-    ByteBuffer.allocateDirect(8 * 1024 * 1024)\n+    ByteBuffer.allocateDirect(32 * 1024 * 1024)"
+  }
+]

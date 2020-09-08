@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "3c97cc3d-5f40-4206-b57d-267522802423",
+    "prId" : 1741,
+    "comments" : [
+      {
+        "id" : "48954e5b-ee58-413c-b32f-e15cb22b645a",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There are stray comments here, which should be removed I assume.",
+        "createdAt" : "2020-03-17T11:52:07Z",
+        "updatedAt" : "2020-03-17T15:33:06Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1f8ffc09-25f2-4256-9188-1b56a34b0053",
+        "parentId" : "48954e5b-ee58-413c-b32f-e15cb22b645a",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you.\r\n\r\nBecause I was not able, within available time & budge overrun, to create a test case for\r\nthat exception, I reverted to the previous git code.\r\n\r\nThere is a wide spread low lying issue in the scalanative/regex port with the reported\r\nerror positions being 0 instead of something approximately correct.  I have been fixing\r\nthem as I can provoke them in test cases.\r\n\r\n The original 0 positions were done in the port to get the whole of the matter working \r\nbut I knew at the time that I would be chasing them for the rest of my professional lifetime\r\n(and, most probably, into the beyond). ",
+        "createdAt" : "2020-03-17T15:38:34Z",
+        "updatedAt" : "2020-03-17T15:38:34Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "5713d52f7fede88afa7270387735392a08f110de",
+    "line" : null,
+    "diffHunk" : "@@ -1496,9 +1501,13 @@ object Parser {\n                 max == -2 || max > 1000 || max >= 0 && min > max) {\n               // Numbers were negative or too big,\n               // or max is present and min > max.\n-              throw new PatternSyntaxException(ERR_INVALID_REPEAT_SIZE,\n-                                               t.from(start),\n-                                               0)\n+              throw new PatternSyntaxException(\n+                ERR_INVALID_REPEAT_SIZE,\n+//                                               t.from(start),\n+//                                               0)"
+  }
+]

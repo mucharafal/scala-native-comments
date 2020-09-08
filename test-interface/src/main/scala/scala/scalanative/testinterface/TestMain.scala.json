@@ -1,0 +1,126 @@
+[
+  {
+    "id" : "583d0c4a-96a9-4de6-be37-1f1beb5d19b5",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "ed00f1df-9739-4785-b307-aeec6a38d3df",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Everything but the `main` method should be `private`.",
+        "createdAt" : "2020-05-19T11:54:46Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -9,25 +9,43 @@ import java.io.{\n }\n import java.net.Socket\n \n-import scala.scalanative.unsafe._\n-import scala.scalanative.runtime.ByteArray\n import sbt.testing.{Event => SbtEvent, _}\n \n-import scala.scalanative.testinterface.serialization._\n import scala.annotation.tailrec\n+import scala.scalanative.testinterface.serialization._\n \n-abstract class TestMainBase {\n-\n-  /** All the frameworks reported in `loadedTestFrameworks` in sbt. */\n-  def frameworks: Seq[Framework]\n-\n-  /** A mapping from class name to instantiated test object. */\n-  def tests: Map[String, AnyRef]\n+object TestMain {\n+\n+  /* The supported testing frameworks. */\n+  lazy val frameworks: Seq[Framework] = Seq("
+  },
+  {
+    "id" : "77c477aa-656e-45ca-99b5-f1ad64a2fe08",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "6cdfcede-69d3-4a97-8179-096311aeddfb",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Instead of `null`, which is not going to be very helpful for developers who mistakenly try to use the class loader, consider using a private `ScalaNativeClassLoader` that implements everything with an exception and a helpful error message. See for example https://github.com/scala-js/scala-js/blob/master/test-bridge/src/main/scala/org/scalajs/testing/bridge/ScalaJSClassLoader.scala in Scala.js.",
+        "createdAt" : "2020-05-19T11:58:07Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -44,9 +62,8 @@ abstract class TestMainBase {\n     val stream = new DataInputStream(clientSocket.getInputStream)\n     receive(stream) match {\n       case Command.NewRunner(id, args, remoteArgs) =>\n-        val runner = frameworks(id).runner(args.toArray,\n-                                           remoteArgs.toArray,\n-                                           new PreloadedClassLoader(tests))\n+        val runner =\n+          frameworks(id).runner(args.toArray, remoteArgs.toArray, null)"
+  },
+  {
+    "id" : "11dcd44e-f908-4ab9-b467-261b1766193d",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "e3267ee9-cfd3-46a7-8667-8b006e2d7c96",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I suggest ` if (args.length != 1)` and changing 2 lines below:\r\n`one argument expected`.  The usage(), with its more informative text\r\nwill have already been given, so I am not suggesting my usual:\r\n\"5 arguments found, 1 expected\" or \"Expected 1 argument, none found\".",
+        "createdAt" : "2020-08-06T23:01:21Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -38,136 +22,17 @@ object TestMain {\n \n   /** Main method of the test runner. */\n   def main(args: Array[String]): Unit = {\n-    if (args.length < 2) {\n+    if (args.length < 1) {"
+  },
+  {
+    "id" : "414456d3-4426-4f39-8970-308be33c5c6a",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "e6922d73-53b5-489d-950c-fcca4a8fb408",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This might be more standard to start `Usage: ...`",
+        "createdAt" : "2020-08-06T23:27:19Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,31 +1,15 @@\n package scala.scalanative\n package testinterface\n \n-import java.io.{\n-  ByteArrayInputStream,\n-  ByteArrayOutputStream,\n-  DataInputStream,\n-  DataOutputStream\n-}\n import java.net.Socket\n \n-import sbt.testing.{Event => SbtEvent, _}\n-\n-import scala.annotation.tailrec\n-import scala.scalanative.testinterface.serialization._\n-\n-object TestMain {\n-\n-  /* The supported testing framework for this TestMain instance. */\n-  private var framework: Framework = _\n+object TestMain extends {\n \n   private val usage: String = {\n-    \"\"\"usage: test-main <server_port> <testing_framework_name>\n+    \"\"\"usage: test-main <server_port>"
+  }
+]

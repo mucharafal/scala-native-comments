@@ -1,0 +1,96 @@
+[
+  {
+    "id" : "61acab19-e128-48a7-9cf0-68e45bbd7dbf",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "7c09e2e8-5389-4f15-bdba-0711f523f833",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Ouch. Scalafmt got a bit wild here. I guess it aligns due to `%` in sbt. ",
+        "createdAt" : "2018-10-17T09:17:51Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 93,
+    "diffHunk" : "@@ -32,52 +33,73 @@ object MemoryLayout {\n       extends PositionedType\n   final case class Padding(size: Long, offset: Long) extends PositionedType\n \n-  def sizeOf(ty: Type): Long = ty match {\n-    case primitive: Type.Primitive => math.max(primitive.width / WORD_SIZE, 1)\n-    case Type.ArrayValue(arrTy, n) => sizeOf(arrTy) * n\n-    case Type.StructValue(_, tys)  => MemoryLayout(tys).size\n-    case Type.Nothing | Type.Ptr | _: Type.RefKind =>\n-      8\n-    case _ => unsupported(s\"sizeOf $ty\")\n+  def sizeOf(ty: Type, targetArchitecture: TargetArchitecture): Long =\n+    ty match {\n+      case primitive: Type.Primitive => math.max(primitive.width / WORD_SIZE, 1)\n+      case Type.ArrayValue(arrTy, n) => sizeOf(arrTy, targetArchitecture) * n\n+      case Type.StructValue(_, tys) =>\n+        MemoryLayout(tys, targetArchitecture).size\n+      case Type.Nothing | Type.Ptr | _: Type.RefKind =>\n+        math.max((if (targetArchitecture.is32) 32 else 64) / WORD_SIZE, 1)\n+      case _ => unsupported(s\"sizeOf $ty\")\n+    }\n+\n+  def alignmentSize(ty: Type, targetArchitecture: TargetArchitecture) = {\n+    if (targetArchitecture.is32) {\n+      ty match {\n+        case Type.Double => 4L\n+        case Type.Long   => 4L\n+        case o           => sizeOf(o, targetArchitecture)\n+      }\n+    } else {\n+      sizeOf(ty, targetArchitecture)\n+    }\n   }\n \n-  def apply(tys: Seq[Type]): MemoryLayout = {\n-    val (size, potys) = impl(tys, 0)\n+  def apply(tys: Seq[Type],\n+            targetArchitecture: TargetArchitecture): MemoryLayout = {\n+    val (size, potys) = impl(tys, 0, targetArchitecture)\n \n     MemoryLayout(size, potys.reverse)\n   }\n-  private def impl(tys: Seq[Type],\n-                   offset: Long): (Long, List[PositionedType]) = {\n+  private def impl(\n+      tys: Seq[Type],\n+      offset: Long,\n+      targetArchitecture: TargetArchitecture): (Long, List[PositionedType]) = {\n     if (tys.isEmpty) {\n       return (0, List())\n     }\n \n-    val sizes = tys.map(sizeOf)\n+    val sizes = tys.map(o =>\n+      (sizeOf(o, targetArchitecture), alignmentSize(o, targetArchitecture)))\n \n     def findMax(tys: Seq[Type]): Long = tys.foldLeft(0L) {\n       case (acc, Type.StructValue(_, innerTy)) =>\n         math.max(acc, findMax(innerTy))\n-      case (acc, ty) => math.max(acc, sizeOf(ty))\n+      case (acc, ty) => math.max(acc, alignmentSize(ty, targetArchitecture))\n     }\n \n     val maxSize = findMax(tys)\n \n     val (size, positionedTypes) =\n       (tys zip sizes).foldLeft((offset, List[PositionedType]())) {\n-        case ((index, potys), (ty, size)) if size > 0 =>\n+        case ((index, potys), (ty, (size, alignmentSize))) if size > 0 =>\n           ty match {\n             case Type.StructValue(_, stys) =>\n               val innerAlignment = findMax(stys)\n               val pad =\n                 if (index                    % innerAlignment == 0) 0\n                 else innerAlignment - (index % innerAlignment)\n-              val (innerSize, innerTys) = impl(stys, index + pad)\n+              val (innerSize, innerTys) =\n+                impl(stys, index + pad, targetArchitecture)\n \n               (index + pad + innerSize,\n                innerTys ::: Padding(pad, index) :: potys)\n \n             case _ =>\n-              val pad = if (index % size == 0) 0 else size - (index % size)\n+              val pad =\n+                if (index                   % alignmentSize == 0) 0\n+                else alignmentSize - (index % alignmentSize)"
+  },
+  {
+    "id" : "3ff236fe-1e3f-4616-91d9-652bc64319a6",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "c3bed178-1bb5-4398-bd34-103e127d714e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It this correct, doubles and longs can just be 32-bit aligned on 32-bit platforms? ",
+        "createdAt" : "2018-10-17T09:19:16Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "540f37cf-b6bb-4303-ad3e-07b50ce98452",
+        "parentId" : "c3bed178-1bb5-4398-bd34-103e127d714e",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "Yup, https://en.wikipedia.org/wiki/Data_structure_alignment#Typical_alignment_of_C_structs_on_x86!",
+        "createdAt" : "2018-10-17T16:49:08Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "11a0940e-f25b-4284-bfc8-bbce5c5f0d33",
+        "parentId" : "c3bed178-1bb5-4398-bd34-103e127d714e",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2018-10-18T08:59:45Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : 33,
+    "diffHunk" : "@@ -32,52 +33,73 @@ object MemoryLayout {\n       extends PositionedType\n   final case class Padding(size: Long, offset: Long) extends PositionedType\n \n-  def sizeOf(ty: Type): Long = ty match {\n-    case primitive: Type.Primitive => math.max(primitive.width / WORD_SIZE, 1)\n-    case Type.ArrayValue(arrTy, n) => sizeOf(arrTy) * n\n-    case Type.StructValue(_, tys)  => MemoryLayout(tys).size\n-    case Type.Nothing | Type.Ptr | _: Type.RefKind =>\n-      8\n-    case _ => unsupported(s\"sizeOf $ty\")\n+  def sizeOf(ty: Type, targetArchitecture: TargetArchitecture): Long =\n+    ty match {\n+      case primitive: Type.Primitive => math.max(primitive.width / WORD_SIZE, 1)\n+      case Type.ArrayValue(arrTy, n) => sizeOf(arrTy, targetArchitecture) * n\n+      case Type.StructValue(_, tys) =>\n+        MemoryLayout(tys, targetArchitecture).size\n+      case Type.Nothing | Type.Ptr | _: Type.RefKind =>\n+        math.max((if (targetArchitecture.is32) 32 else 64) / WORD_SIZE, 1)\n+      case _ => unsupported(s\"sizeOf $ty\")\n+    }\n+\n+  def alignmentSize(ty: Type, targetArchitecture: TargetArchitecture) = {\n+    if (targetArchitecture.is32) {\n+      ty match {\n+        case Type.Double => 4L\n+        case Type.Long   => 4L"
+  }
+]

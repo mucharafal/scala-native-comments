@@ -1,0 +1,123 @@
+[
+  {
+    "id" : "e8c97730-1928-45c2-95b8-19fde8b898a0",
+    "prId" : 1022,
+    "comments" : [
+      {
+        "id" : "b7507062-e0e9-4e60-b0ec-3ca596da277e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`scala.uil.Try` might be an overkill here, normal `try catch` would do the job just as well. ",
+        "createdAt" : "2017-09-21T11:03:03Z",
+        "updatedAt" : "2017-09-21T13:16:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a72ac30ed5fdb1a942659aab642dc90a4b36bf33",
+    "line" : null,
+    "diffHunk" : "@@ -98,9 +99,18 @@ object VirtualDirectory {\n   private final class JarDirectory(path: Path)(implicit in: Scope)\n       extends NioDirectory {\n     private val fileSystem: FileSystem =\n-      acquire(\n-        FileSystems.newFileSystem(URI.create(s\"jar:${path.toUri}\"),\n-                                  Map(\"create\" -> \"false\").asJava))\n+      acquire {\n+        val uri = URI.create(s\"jar:file:${path}\")\n+        Try(FileSystems.newFileSystem(uri, Map(\"create\" -> \"false\").asJava)) match {\n+          case Success(s) => s\n+          case Failure(e) =>\n+            e match {\n+              case e: FileSystemAlreadyExistsException =>\n+                FileSystems.getFileSystem(uri)\n+              case _ => throw e\n+            }\n+        }\n+      }"
+  },
+  {
+    "id" : "91b1dc82-6dd7-4129-96c0-734f2042476c",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "4b8902ba-42ac-4b26-afb1-5bd2be0b14fd",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that VirtualDirectory appears in the `scalanative.build` it becomes part of its public API. Virtual I/O for Scala Native is actually not so virtual after all as LLVM tools we invoke require everything to be physically present on disc. We should consider dropping these abstractions altogether, they are not pulling their own weight. ",
+        "createdAt" : "2018-03-07T13:11:43Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : 9,
+    "diffHunk" : "@@ -29,28 +28,28 @@ sealed trait VirtualDirectory {\n object VirtualDirectory {"
+  },
+  {
+    "id" : "c40182a6-d323-43f9-90ef-9cc001c2561d",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "50618696-0637-425c-a29b-48ee3fa11b50",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This implementation will silently ignore cases where the file contains less than `len` bytes. The remaining of the array will contain zeros. You should probably cap the buffer's `limit()` to the number of bytes actually read from `stream` (returned by the call to `read()`).",
+        "createdAt" : "2020-02-20T13:46:10Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -74,6 +77,13 @@ object VirtualDirectory {\n       buffer\n     }\n \n+    override def read(path: Path, len: Int): ByteBuffer = {\n+      val stream = Files.newInputStream(resolve(path))\n+      val bytes  = new Array[Byte](len)\n+      stream.read(bytes)\n+      ByteBuffer.wrap(bytes)"
+  },
+  {
+    "id" : "ab12d240-7e85-4abb-a61b-54cb5e26dfac",
+    "prId" : 1728,
+    "comments" : [
+      {
+        "id" : "7efa1971-0f18-4550-b1bb-8af00bb23fa8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You could simply use\r\n```scala\r\nByteBuffer.wrap(bytes, 0, read)\r\n```",
+        "createdAt" : "2020-04-24T14:53:54Z",
+        "updatedAt" : "2020-04-25T07:45:59Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "cf340168e94cc4e2e720946e735664907e6bd955",
+    "line" : null,
+    "diffHunk" : "@@ -74,6 +77,15 @@ object VirtualDirectory {\n       buffer\n     }\n \n+    override def read(path: Path, len: Int): ByteBuffer = {\n+      val stream = Files.newInputStream(resolve(path))\n+      val bytes  = new Array[Byte](len)\n+      val read   = stream.read(bytes)\n+      val buffer = ByteBuffer.wrap(bytes).limit(read)"
+  }
+]

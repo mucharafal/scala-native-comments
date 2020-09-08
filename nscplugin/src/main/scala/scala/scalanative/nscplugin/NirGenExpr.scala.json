@@ -1,0 +1,762 @@
+[
+  {
+    "id" : "a3921f63-5252-4dcb-9120-14786e049845",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "7f7016c9-f57c-4658-82ec-c5bac370264b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those will never be reached here. You need to put it in `genRawCastOp` instead, also make sure to modify `isRawCastOp` and make sure `CAST_` primitives are in the group as the other cast intrinsics.",
+        "createdAt" : "2019-04-29T12:57:02Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "09f66b37-083c-4bc1-8976-fbfa8520436c",
+        "parentId" : "7f7016c9-f57c-4658-82ec-c5bac370264b",
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "I actually set up `genApplyPrimitive` to just use `genCoercion` for raw cast ops, so the selection of cast types ends up coming here (verified by removing the cases and seeing that there is a `MatchError`).",
+        "createdAt" : "2019-05-26T21:35:46Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e682ebcb-a219-4763-87a6-be542e7190e9",
+        "parentId" : "7f7016c9-f57c-4658-82ec-c5bac370264b",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Lets not do that. We try to separate Scalac primitives, from our own. This makes it easier to reason about. ",
+        "createdAt" : "2019-05-28T09:16:37Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -1549,15 +1471,20 @@ trait NirGenExpr { self: NirGenPhase =>\n         case D2L => (nir.Type.Double, nir.Type.Long)\n         case D2F => (nir.Type.Double, nir.Type.Float)\n         case D2D => (nir.Type.Double, nir.Type.Double)\n+\n+        case CAST_RAWWORD_TO_INT => (nir.Type.Word, nir.Type.Int)\n+        case CAST_RAWWORD_TO_LONG => (nir.Type.Word, nir.Type.Long)\n+        case CAST_INT_TO_RAWWORD => (nir.Type.Int, nir.Type.Word)\n+        case CAST_LONG_TO_RAWWORD => (nir.Type.Long, nir.Type.Word)"
+  },
+  {
+    "id" : "cd1083a8-070b-403f-ac69-8a20e68069ec",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "0e87178c-8321-4408-9224-ab84756560e9",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "There is lots of duplication in the code above. You can extract the arguments from app and then match on `code` only. i.e.:\r\n```\r\ndef genRawWordOp(app: Apply, code: Int): Val = {\r\n  val Apply(_, Seq(leftp, rightp)) = app\r\n  val bin = code match {\r\n     case ADD_RAW_WORDS => Bin.Iadd\r\n     ...\r\n     case _ => abort(\"...\")\r\n  }\r\n  buf.bin(bin, Type.Word, genExpr(leftp), genExpr(rightp), unwind)\r\n}\r\n```",
+        "createdAt" : "2019-04-29T13:05:51Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c5ab06dc-e17e-4edc-9ec3-ca4e51293cbb",
+        "parentId" : "0e87178c-8321-4408-9224-ab84756560e9",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This file is the only one that scalafmt gives up on, please vertically align cases by `=>`.",
+        "createdAt" : "2019-05-28T09:16:59Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : null,
+    "diffHunk" : "@@ -1304,11 +1225,28 @@ trait NirGenExpr { self: NirGenPhase =>\n       buf.elem(Type.Byte, ptr, Seq(offset), unwind)\n     }\n \n+    def genRawWordOp(app: Apply, code: Int): Val = (app, code) match {\n+      case (Apply(_, Seq(leftp, rightp)), ADD_RAW_WORDS) =>\n+        buf.bin(Bin.Iadd, Type.Word, genExpr(leftp), genExpr(rightp), unwind)\n+      case (Apply(_, Seq(leftp, rightp)), SUB_RAW_WORDS) =>\n+        buf.bin(Bin.Isub, Type.Word, genExpr(leftp), genExpr(rightp), unwind)\n+      case (Apply(_, Seq(leftp, rightp)), MULT_RAW_WORDS) =>\n+        buf.bin(Bin.Imul, Type.Word, genExpr(leftp), genExpr(rightp), unwind)\n+      case (Apply(_, Seq(leftp, rightp)), DIV_RAW_WORDS) =>\n+        buf.bin(Bin.Sdiv, Type.Word, genExpr(leftp), genExpr(rightp), unwind)\n+      case (Apply(_, Seq(leftp, rightp)), DIV_RAW_WORDS_UNSIGNED) =>\n+        buf.bin(Bin.Udiv, Type.Word, genExpr(leftp), genExpr(rightp), unwind)\n+      case _ =>\n+        abort(\n+          s\"Unknown word operation #$code : \" + app +\n+            \" at: \" + app.pos)\n+    }"
+  },
+  {
+    "id" : "3f535d0d-62fd-4c03-b84b-08ba17c47a9f",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "94da44bc-c6e5-44ef-af18-e9a49b909cd9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Is there any reason why you're not using the built-in `StringContext.treatEscapes(str)`?",
+        "createdAt" : "2020-07-16T08:43:54Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7acf4409-2f3d-4385-8e4f-f1be5a413588",
+        "parentId" : "94da44bc-c6e5-44ef-af18-e9a49b909cd9",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "It would throw exceptions for unknown escapes from C, that's why it could not be used. ",
+        "createdAt" : "2020-07-16T09:49:23Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0f0610fb-9da2-482d-9cd7-e93b022b8311",
+        "parentId" : "94da44bc-c6e5-44ef-af18-e9a49b909cd9",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Why would we want to support escapes from C? This is a Scala string interpolation, it should respect Scala's string interpolation rules.",
+        "createdAt" : "2020-07-16T09:57:38Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a881d38b-97c3-479e-a608-12fb40a330f2",
+        "parentId" : "94da44bc-c6e5-44ef-af18-e9a49b909cd9",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "I've changed it to use `StringContext.processEscapes` as mentioned earlier ",
+        "createdAt" : "2020-07-17T09:40:47Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -1277,7 +1279,8 @@ trait NirGenExpr { self: NirGenPhase =>\n                               _))))))),\n             _),\n             _) =>\n-          val chars = Val.Chars(str.replace(\"\\\\n\", \"\\n\").replace(\"\\\\r\", \"\\r\"))\n+\n+          val chars = Val.Chars(treatEscapes(str))"
+  },
+  {
+    "id" : "50948a23-7b50-4544-94ff-8c83f01d303f",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "674f368f-0acb-4b9a-b127-d2ae17e058ce",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Doing one then the other will be problematic for strings like `c\"\\\\x65\"`, which should be processed as `\\x65`. But if you first call `processHexValues` you get `\\A` before `processEscapes` can realize that the `\\\\` was an escape for `\\` rather than a hex escape. Doing `processEscapes` first would cause similar issues.\r\n\r\nI'm afraid there is no other way than dealing with everything at once.",
+        "createdAt" : "2020-07-23T15:13:50Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -1277,7 +1279,9 @@ trait NirGenExpr { self: NirGenPhase =>\n                               _))))))),\n             _),\n             _) =>\n-          val chars = Val.Chars(str.replace(\"\\\\n\", \"\\n\").replace(\"\\\\r\", \"\\r\"))\n+\n+          val processedString = StringContext.processEscapes(processHexValues(str))"
+  },
+  {
+    "id" : "b2fef143-953e-4113-9b46-b63cff778dec",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "e62f5041-61b4-4a1a-82d3-9fa861b6fb23",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "It seems something wrong happened with the formatting of this file.",
+        "createdAt" : "2020-08-18T09:33:00Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -112,7 +115,7 @@ trait NirGenExpr { self: NirGenPhase =>\n \n       def translateMatch(last: LabelDef) = {\n         val (prologue, cases) = stats.span(s => !isCaseLabelDef(s))\n-        val labels            = cases.map { case label: LabelDef => label }\n+        val labels = cases.map { case label: LabelDef => label }"
+  },
+  {
+    "id" : "cab2ff0e-6a7f-45ba-881c-2e8307dd0037",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "77b4ff20-6570-43f1-94df-3d8a7c0e46ea",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The indentation is wrong here.\r\n\r\nIn general, there are zillions of formatting changes that are unrelated to this PR in this file. They could have come from a transient use of another version of scalafmt or some misconfiguration. Could you please revert all the changes in this file, then reintroduce this specific change (which is only 1 line)?",
+        "createdAt" : "2020-08-18T13:25:10Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e8bbb5fa-61d0-4daa-a88a-85f6d833fdd2",
+        "parentId" : "77b4ff20-6570-43f1-94df-3d8a7c0e46ea",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Sure, it should be fixed now",
+        "createdAt" : "2020-08-18T14:00:20Z",
+        "updatedAt" : "2020-08-18T14:00:21Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -1277,23 +1278,26 @@ trait NirGenExpr { self: NirGenPhase =>\n                               _))))))),\n             _),\n             _) =>\n-          val chars = Val.Chars(str.replace(\"\\\\n\", \"\\n\").replace(\"\\\\r\", \"\\r\"))\n-          val const = Val.Const(chars)\n-          buf.box(nir.Rt.BoxedPtr, const, unwind)\n+        // format: on\n+        val chars = Val.Chars(StringUtils.processEscapes(str))"
+  },
+  {
+    "id" : "786ef415-3549-4bf6-bfe2-ec8610008ade",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "f5b74bab-449c-4cde-a942-d6f1a4439093",
+        "parentId" : null,
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "`self.ty == nir.Type.Ptr` Should this have a name like `isPointer` or something?",
+        "createdAt" : "2020-08-17T22:12:54Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -1618,14 +1902,14 @@ trait NirGenExpr { self: NirGenPhase =>\n         }\n       val args = genMethodArgs(sym, argsp)\n       val method =\n-        if (isImplClass(owner) || statically || owner.isStruct || owner.isExternModule) {\n+        if (isImplClass(owner) || statically || owner.isStruct || owner.isExternModule || self.ty == nir.Type.Ptr) {"
+  },
+  {
+    "id" : "61ad272e-e38c-494a-ad4d-dca306c6eb79",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "92cb1f35-599f-4b34-8b84-261a6b84f2c8",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "You can make them `sealed` instead.",
+        "createdAt" : "2020-08-20T14:38:07Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -15,8 +16,10 @@ trait NirGenExpr { self: NirGenPhase =>\n   import nirDefinitions._\n   import SimpleType.{fromType, fromSymbol}\n \n-  final case class ValTree(value: nir.Val)    extends Tree\n-  final case class ContTree(f: () => nir.Val) extends Tree\n+  // TODO: These classes should be final - however, it results in the following error:\n+  // TODO: > The outer reference in this type test cannot be checked at run time."
+  },
+  {
+    "id" : "5f839547-34ba-48fe-8a69-17807eafd688",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "5ca72296-080d-4cb1-95ad-133049a84794",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Debug code.",
+        "createdAt" : "2020-08-20T14:38:16Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -545,18 +548,27 @@ trait NirGenExpr { self: NirGenPhase =>\n     }\n \n     def genAssign(tree: Assign): Val = {\n+      // println(\"genAssign: \")\n+      // println(\"- \" + showRaw(tree))\n+      // println(\"- \" + showCode(tree))"
+  },
+  {
+    "id" : "904b67f2-86a5-48e5-ba33-fd6ca2d92939",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "156156fd-d113-4d19-ab52-2ae71c06f738",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Debug code.",
+        "createdAt" : "2020-08-20T14:38:21Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -545,18 +548,27 @@ trait NirGenExpr { self: NirGenPhase =>\n     }\n \n     def genAssign(tree: Assign): Val = {\n+      // println(\"genAssign: \")\n+      // println(\"- \" + showRaw(tree))\n+      // println(\"- \" + showCode(tree))\n       val Assign(lhsp, rhsp) = tree\n \n       lhsp match {\n         case sel @ Select(qualp, _) =>\n-          val ty   = genType(sel.tpe)\n+          // println(\"@ sel.tpe \" + sel.tpe)\n+          // println(\"@ sel.sym \" + sel.symbol)\n+          // println(\"@ sel.sym.tpe \" + sel.symbol.tpe)\n+          // println(\"@ qualp.tpe \" + qualp.tpe)\n+          // println(\"@ qualp.sym \" + qualp.symbol)\n+          // println(\"@ rhs.tpe \" + rhsp.tpe)"
+  },
+  {
+    "id" : "82b6078d-763f-4dd1-9a47-5f7d13a01754",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "e5854c8d-46d3-4113-b115-1aecd51c90ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "What does trt stand for?",
+        "createdAt" : "2020-08-20T14:44:52Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "cc32c445-4952-44b7-821d-bb691e67a288",
+        "parentId" : "e5854c8d-46d3-4113-b115-1aecd51c90ff",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "I guess for `trait`, like in `scala.Function1`.",
+        "createdAt" : "2020-08-21T11:05:02Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d77c4afc-e166-4512-b53f-3a46312503d7",
+        "parentId" : "e5854c8d-46d3-4113-b115-1aecd51c90ff",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Perhaps use the full name `traitName`, then. That's only 2 more characters.",
+        "createdAt" : "2020-08-21T11:26:34Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -575,8 +587,230 @@ trait NirGenExpr { self: NirGenPhase =>\n         genExpr(expr)\n     }\n \n-    def genFunction(tree: Function): Val =\n-      unsupported(tree)\n+    // On Scala 2.12 (and on 2.11 with -Ydelambdafy:method), closures are preserved\n+    // until the backend to be compiled using LambdaMetaFactory.\n+    //\n+    // Scala Native does not have any special treatment for closures.\n+    // We reimplement the anonymous class generation which was originally used on\n+    // Scala 2.11 and earlier.\n+    //\n+    // Each anonymous function gets a generated class for it,\n+    // similarly to closure encoding on Scala 2.11 and earlier:\n+    //\n+    //   class AnonFunX extends java.lang.Object with FunctionalInterface {\n+    //     var capture1: T1\n+    //     ...\n+    //     var captureN: TN\n+    //     def <init>(this, v1: T1, ..., vN: TN): Unit = {\n+    //       java.lang.Object.<init>(this)\n+    //       this.capture1 = v1\n+    //       ...\n+    //       this.captureN = vN\n+    //     }\n+    //     def samMethod(param1: Tp1, ..., paramK: TpK): Tret = {\n+    //       EnclsoingClass.this.staticMethod(param1, ..., paramK, this.capture1, ..., this.captureN)\n+    //     }\n+    //   }\n+    //\n+    // Bridges might require multiple samMethod variants to be created.\n+    def genFunction(tree: Function): Val = {\n+      val Function(paramTrees,\n+                   callTree @ Apply(targetTree @ Select(_, _), functionArgs)) = tree\n+\n+      val funSym    = tree.tpe.typeSymbolDirect\n+      val paramSyms = paramTrees.map(_.symbol)\n+      val captureSyms =\n+        global.delambdafy.FreeVarTraverser.freeVarsOf(tree).toSeq\n+\n+      val statBuf = curStatBuffer.get\n+\n+      // Generate an anonymous class definition.\n+\n+      val suffix   = \"$$Lambda$\" + curClassFresh.get.apply().id\n+      val anonName = nir.Global.Top(genName(curClassSym).top.id + suffix)\n+      val trtName  = genName(funSym)"
+  },
+  {
+    "id" : "25cd672f-e633-4cd7-93dd-259601b68f94",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "8ebad603-0129-476d-a493-ad2007088e99",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider calling this `captureFormals`, to make it clear that these are the formal parameters of the constructor.",
+        "createdAt" : "2020-08-20T14:59:45Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : null,
+    "diffHunk" : "@@ -575,8 +587,230 @@ trait NirGenExpr { self: NirGenPhase =>\n         genExpr(expr)\n     }\n \n-    def genFunction(tree: Function): Val =\n-      unsupported(tree)\n+    // On Scala 2.12 (and on 2.11 with -Ydelambdafy:method), closures are preserved\n+    // until the backend to be compiled using LambdaMetaFactory.\n+    //\n+    // Scala Native does not have any special treatment for closures.\n+    // We reimplement the anonymous class generation which was originally used on\n+    // Scala 2.11 and earlier.\n+    //\n+    // Each anonymous function gets a generated class for it,\n+    // similarly to closure encoding on Scala 2.11 and earlier:\n+    //\n+    //   class AnonFunX extends java.lang.Object with FunctionalInterface {\n+    //     var capture1: T1\n+    //     ...\n+    //     var captureN: TN\n+    //     def <init>(this, v1: T1, ..., vN: TN): Unit = {\n+    //       java.lang.Object.<init>(this)\n+    //       this.capture1 = v1\n+    //       ...\n+    //       this.captureN = vN\n+    //     }\n+    //     def samMethod(param1: Tp1, ..., paramK: TpK): Tret = {\n+    //       EnclsoingClass.this.staticMethod(param1, ..., paramK, this.capture1, ..., this.captureN)\n+    //     }\n+    //   }\n+    //\n+    // Bridges might require multiple samMethod variants to be created.\n+    def genFunction(tree: Function): Val = {\n+      val Function(paramTrees,\n+                   callTree @ Apply(targetTree @ Select(_, _), functionArgs)) = tree\n+\n+      val funSym    = tree.tpe.typeSymbolDirect\n+      val paramSyms = paramTrees.map(_.symbol)\n+      val captureSyms =\n+        global.delambdafy.FreeVarTraverser.freeVarsOf(tree).toSeq\n+\n+      val statBuf = curStatBuffer.get\n+\n+      // Generate an anonymous class definition.\n+\n+      val suffix   = \"$$Lambda$\" + curClassFresh.get.apply().id\n+      val anonName = nir.Global.Top(genName(curClassSym).top.id + suffix)\n+      val trtName  = genName(funSym)\n+\n+      statBuf += nir.Defn.Class(Attrs.None, anonName, Some(nir.Rt.Object.name), Seq(trtName))\n+\n+      // Generate fields to store the captures.\n+\n+      // enclosing class `this` reference + capture symbols\n+      val captureSymsWithEnclThis = curClassSym.get +: captureSyms\n+\n+      val captureTypes = captureSymsWithEnclThis.map(sym => genType(sym.tpe))\n+      val captureNames =\n+        captureSymsWithEnclThis.zipWithIndex.map {\n+          case (sym, idx) =>\n+            val name = anonName.member(nir.Sig.Field(\"capture\" + idx))\n+            val ty   = genType(sym.tpe)\n+            statBuf += nir.Defn.Var(Attrs.None, name, ty, Val.Zero(ty))\n+            name\n+        }\n+\n+      // Generate an anonymous class constructor that initializes all the fields.\n+\n+      val ctorName = anonName.member(Sig.Ctor(captureTypes))\n+      val ctorTy   = nir.Type.Function(Type.Ref(anonName) +: captureTypes, Type.Unit)\n+      val ctorBody = {\n+        val fresh    = Fresh()\n+        val buf      = new nir.Buffer()(fresh)\n+        val self     = Val.Local(fresh(), Type.Ref(anonName))\n+        val captures = captureTypes.map { ty => Val.Local(fresh(), ty) }"
+  },
+  {
+    "id" : "0c35416b-58db-4ecb-862e-e7a27397533b",
+    "prId" : 1877,
+    "comments" : [
+      {
+        "id" : "cdeca379-fea3-4bea-b622-9f9df3a163de",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The new parameter is not used.",
+        "createdAt" : "2020-08-20T15:10:52Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "bc820cbe-ca9b-4a22-8e33-e6ca7928f465",
+        "parentId" : "cdeca379-fea3-4bea-b622-9f9df3a163de",
+        "author" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "body" : "Which parameter? I can see that the return value is not used in any callsite, but as far as I can tell, both parameters are used.",
+        "createdAt" : "2020-08-21T10:58:02Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "errikos",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/5298184?u=a278062899ced71d39cb7104cea53d10aa8d3b7b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "38f7920e-075c-4a05-8efd-04d8b80835f0",
+        "parentId" : "cdeca379-fea3-4bea-b622-9f9df3a163de",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Ah yes, I did not read that correctly.",
+        "createdAt" : "2020-08-21T11:05:31Z",
+        "updatedAt" : "2020-08-21T17:48:34Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b080d1ae228bf79269817d3f0c8263d6d3dec3a8",
+    "line" : 295,
+    "diffHunk" : "@@ -1310,9 +1545,7 @@ trait NirGenExpr { self: NirGenPhase =>\n         buf.bin(bin, ty, left, right, unwind)\n     }\n \n-    def genSynchronized(app: Apply): Val = {\n-      val Apply(Select(receiverp, _), List(argp)) = app\n-\n+    def genSynchronized(receiverp: Tree, argp: Tree): Val = {"
+  },
+  {
+    "id" : "7063d62f-d77d-48f2-8161-8cb2f17f798a",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "314916ce-ea78-45cd-a3f4-ecba57623525",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "IMO there should be virtually no reason to generate `NoPosition` from the compiler back-end, ever. Even for code that seems \"generated\", you should always take the position of the node that caused the generated instruction to appear. In this case for example, it should be the `pos` of the `If` node.",
+        "createdAt" : "2020-08-20T13:03:24Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -191,18 +192,18 @@ trait NirGenExpr { self: NirGenPhase =>\n       val mergev               = Val.Local(fresh(), retty)\n \n       val cond = genExpr(condp)\n-      buf.branch(cond, Next(thenn), Next(elsen))\n+      buf.branch(cond, Next(thenn), Next(elsen))(condp.pos)\n       locally {\n-        buf.label(thenn)\n+        buf.label(thenn)(thenp.pos)\n         val thenv = genExpr(thenp)\n-        buf.jump(mergen, Seq(thenv))\n+        buf.jump(mergen, Seq(thenv))(NoPosition)"
+  },
+  {
+    "id" : "52850e96-c7c5-4104-bebc-879941c147ea",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "a2fd1a84-0d4b-4df9-9ae1-3ae7a533cc71",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider `zip`ing over `argsp` in addition to the `zipWithIndex` so that you don't have to create this copy of `argsp`.",
+        "createdAt" : "2020-08-20T13:07:46Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -1504,10 +1520,11 @@ trait NirGenExpr { self: NirGenPhase =>\n       val ty       = genType(st)\n       val args     = genSimpleArgs(argsp)\n       var res: Val = Val.Zero(ty)\n+      val argspVec = argsp.toVector"
+  },
+  {
+    "id" : "5543e357-37ae-41e2-abb8-8dc1c8270abd",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "72ae443f-6a06-4f03-94e0-d56d396975a6",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "That would be the position of the declaration of the element type. Nothing to do with the position of the `new Array`. You need to use the `pos` of the `Tree` that caused the call to `genApplyNewArray`.\r\n\r\nIn general, you can never use the position of a `Symbol`. You must always use the position of a `Tree`.",
+        "createdAt" : "2020-08-20T13:12:28Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -1517,11 +1534,11 @@ trait NirGenExpr { self: NirGenPhase =>\n       val Seq(lengthp) = argsp\n       val length = genExpr(lengthp)\n \n-      buf.arrayalloc(genType(targ), length, unwind)\n+      buf.arrayalloc(genType(targ), length, unwind)(targ.sym.pos)"
+  },
+  {
+    "id" : "7d9e0624-2b61-463e-80a3-ca72afc705b0",
+    "prId" : 1878,
+    "comments" : [
+      {
+        "id" : "e9d9f343-2c0e-4e8f-94d0-2a5a88b17652",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is another instance of the above problem. I guess there are others scattered here and there.",
+        "createdAt" : "2020-08-20T13:12:55Z",
+        "updatedAt" : "2020-08-21T15:19:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "8170dfb43445d8949a3ec55aa7080d9df7608a29",
+    "line" : null,
+    "diffHunk" : "@@ -1517,11 +1534,11 @@ trait NirGenExpr { self: NirGenPhase =>\n       val Seq(lengthp) = argsp\n       val length = genExpr(lengthp)\n \n-      buf.arrayalloc(genType(targ), length, unwind)\n+      buf.arrayalloc(genType(targ), length, unwind)(targ.sym.pos)\n     }\n \n     def genApplyNew(clssym: Symbol, ctorsym: Symbol, args: List[Tree]): Val = {\n-      val alloc = buf.classalloc(genTypeName(clssym), unwind)\n+      val alloc = buf.classalloc(genTypeName(clssym), unwind)(clssym.pos)"
+  }
+]

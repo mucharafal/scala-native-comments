@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "a65e35a3-eb7b-48e4-9952-2255dbdb4539",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "bb43ae93-7ded-421d-aeee-7c63801dc707",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This workaround is not necessary any longer.",
+        "createdAt" : "2017-04-10T17:45:33Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "87a045ce-8e58-4bb6-8212-b40433b0e4f5",
+        "parentId" : "bb43ae93-7ded-421d-aeee-7c63801dc707",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T08:49:01Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -124,4 +126,12 @@ object Charset {\n \n     m\n   }\n+\n+  //quick workaround to compensate the unimplementation of String.toLowerCase\n+  //I only declare what I'm using on my machine.\n+  private def toLowerCaseCharset(charset: String): String = charset match {\n+    case \"UTF-8\" => \"utf-8\"\n+    case \"UTF8\"  => \"utf8\"\n+    case _       => charset\n+  }"
+  }
+]

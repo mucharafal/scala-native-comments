@@ -1,0 +1,583 @@
+[
+  {
+    "id" : "dde39ca1-71e3-4cdd-8739-34b307dfbdee",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "4266fc6e-7143-4da3-9559-f8924e990d87",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The changes in this file look like they could/should be in a different PR as well.",
+        "createdAt" : "2020-05-20T15:42:45Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -69,7 +68,7 @@ class ComRunner(bin: File,\n   def receive(timeout: Duration = Duration.Inf): Message =\n     synchronized {\n       in.mark(Int.MaxValue)\n-      val savedSoTimeout = socket.getSoTimeout()\n+      val savedSoTimeout = socket.getSoTimeout"
+  },
+  {
+    "id" : "406bb5a1-1d88-4f53-8f67-c4655c2f6405",
+    "prId" : 1808,
+    "comments" : [
+      {
+        "id" : "8f3ed036-3d8b-46c2-9aa9-2e579484e3b9",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider using comment-named params like this:\r\n```suggestion\r\n      serverSocket = new ServerSocket(/* port = */ 0, /* backlog = */ 1)\r\n```",
+        "createdAt" : "2020-05-21T10:14:20Z",
+        "updatedAt" : "2020-05-21T15:48:24Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "17a2cfe6-85a1-49f3-afc4-c965fb673af3",
+        "parentId" : "8f3ed036-3d8b-46c2-9aa9-2e579484e3b9",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done. Good approach! Thank you.  I will have to add that idiom to my tool bag.\r\nScalafmt instisted on a space after the open-paren.",
+        "createdAt" : "2020-05-21T15:50:25Z",
+        "updatedAt" : "2020-05-21T15:50:25Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "fda8697404791310ba61c065ebd70a496190bc5b",
+    "line" : null,
+    "diffHunk" : "@@ -35,7 +35,7 @@ class ComRunner(bin: File,\n   private[this] var serverSocket: ServerSocket = _\n   private[this] val socket =\n     try {\n-      serverSocket = new ServerSocket(0)\n+      serverSocket = new ServerSocket(0, 1)"
+  },
+  {
+    "id" : "df29c8cb-75f0-439d-9096-cb187ef22956",
+    "prId" : 1813,
+    "comments" : [
+      {
+        "id" : "5022bde2-ca91-402d-b7f9-e8952f4da369",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The only caller of `receive()` is at\r\nhttps://github.com/scala-native/scala-native/blob/b805570124364b58a61d2d43b8e31ed7df639025/test-runner/src/main/scala/scala/scalanative/testinterface/ScalaNativeRunner.scala#L35-L36\r\nwhich doesn't give a timeout. So instead of improving how the timeout is set, you can just get rid of the `timeout` parameter and all the handling with the timeouts.",
+        "createdAt" : "2020-06-02T10:10:50Z",
+        "updatedAt" : "2020-06-03T21:44:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "42881ae93ad03d20ef92ec53d0615f9d2c4f0a79",
+    "line" : null,
+    "diffHunk" : "@@ -68,24 +70,32 @@ class ComRunner(bin: File,\n   /** Wait for a message to arrive from the distant program. */\n   def receive(timeout: Duration = Duration.Inf): Message =\n     synchronized {\n-      in.mark(Int.MaxValue)\n       val savedSoTimeout = socket.getSoTimeout()\n+\n       try {\n-        val deadLineMs = if (timeout.isFinite()) timeout.toMillis else 0L\n-        socket.setSoTimeout((deadLineMs min Int.MaxValue).toInt)\n+        // Java sockets only handle non-negative Int timeouts.\n+        // Silently truncate timouts greater than Int.MaxValue.\n+        val deadLineMs = if (!timeout.isFinite()) {"
+  },
+  {
+    "id" : "efb9aa9c-dacb-4f79-934b-60974ea8d53d",
+    "prId" : 1813,
+    "comments" : [
+      {
+        "id" : "43993ae1-17a8-42a3-a841-5f54cc2db8d2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If you want to use a loop, just use a `while (true)` and do a `return other` here. Looping while the result is a `Log` is really weird, and doesn't help readability IMO. The problem with the `while (true)` is that you'll need a `throw new AssertionError(\"unreachable\")` after the while loop to convince scalac that you don't need a `Message` after the loop, so that's not great either.\r\n\r\nIMO the most readable version would a tail-recursive local `loop()` function in this case. Something like:\r\n```scala\r\n@tailrec\r\ndef loop(): Message = {\r\n  SerializedInputStream.next(in)(_.readMessage()) match {\r\n    case logMsg: Log =>\r\n      log(logMsg)\r\n      loop()\r\n    case other =>\r\n      other\r\n  }\r\n}\r\n\r\nloop()\r\n```\r\nI agree that recursively calling `receive()` itself was not great, because of the actual recursion, which was even within the try/catch, leading to really weird traces. A local tail-rec def won't have those issues.",
+        "createdAt" : "2020-06-02T10:17:39Z",
+        "updatedAt" : "2020-06-03T21:44:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "42881ae93ad03d20ef92ec53d0615f9d2c4f0a79",
+    "line" : null,
+    "diffHunk" : "@@ -68,24 +70,32 @@ class ComRunner(bin: File,\n   /** Wait for a message to arrive from the distant program. */\n   def receive(timeout: Duration = Duration.Inf): Message =\n     synchronized {\n-      in.mark(Int.MaxValue)\n       val savedSoTimeout = socket.getSoTimeout()\n+\n       try {\n-        val deadLineMs = if (timeout.isFinite()) timeout.toMillis else 0L\n-        socket.setSoTimeout((deadLineMs min Int.MaxValue).toInt)\n+        // Java sockets only handle non-negative Int timeouts.\n+        // Silently truncate timouts greater than Int.MaxValue.\n+        val deadLineMs = if (!timeout.isFinite()) {\n+          0\n+        } else {\n+          timeout.toMillis.toInt\n+        }\n+\n+        if (socketCurrentSoTimeout != deadLineMs) {\n+          socket.setSoTimeout(deadLineMs)\n+          socketCurrentSoTimeout = deadLineMs\n+        }\n \n-        val result =\n+        var result: Message = new Log(0, \"Dummy\", None, Level.Info)\n+\n+        while (result.isInstanceOf[Log]) {\n           SerializedInputStream.next(in)(_.readMessage()) match {\n-            case logMsg: Log =>\n-              log(logMsg)\n-              receive(timeout)\n-            case other =>\n-              other\n+            case logMsg: Log => log(logMsg)\n+            case other       => result = other"
+  },
+  {
+    "id" : "ede66c19-3115-46dc-ae8b-ab2cedef87e8",
+    "prId" : 1813,
+    "comments" : [
+      {
+        "id" : "dae0993b-0139-4dcf-939f-fea9db16cc57",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This code runs on the JVM, compiled by Scala/JVM. There's no need to work around a Native codegen issue.",
+        "createdAt" : "2020-06-03T21:04:32Z",
+        "updatedAt" : "2020-06-03T21:44:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c4570cba-dccc-404d-8446-1f3061828212",
+        "parentId" : "dae0993b-0139-4dcf-939f-fea9db16cc57",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Thank you for timely and detailed review, here and throughout this PR.  \r\nI appreciate the nits now being gone!  The quality has certainly improved\r\nthrough the PR process.",
+        "createdAt" : "2020-06-03T22:31:26Z",
+        "updatedAt" : "2020-06-03T22:31:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "42881ae93ad03d20ef92ec53d0615f9d2c4f0a79",
+    "line" : null,
+    "diffHunk" : "@@ -56,51 +55,44 @@ class ComRunner(bin: File,\n     new BufferedOutputStream(socket.getOutputStream))\n \n   /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def send(msg: Message): Unit = {\n+    synchronized { // Here, not at def, to workaround SN Issue #1091."
+  },
+  {
+    "id" : "e08ef9be-1985-46f1-9397-f9e982cadf7a",
+    "prId" : 1813,
+    "comments" : [
+      {
+        "id" : "1c487543-2f58-40e9-9aad-48a9376e2177",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Same as above.",
+        "createdAt" : "2020-06-03T21:04:46Z",
+        "updatedAt" : "2020-06-03T21:44:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "42881ae93ad03d20ef92ec53d0615f9d2c4f0a79",
+    "line" : null,
+    "diffHunk" : "@@ -56,51 +55,44 @@ class ComRunner(bin: File,\n     new BufferedOutputStream(socket.getOutputStream))\n \n   /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def send(msg: Message): Unit = {\n+    synchronized { // Here, not at def, to workaround SN Issue #1091.\n+      try SerializedOutputStream(out)(_.writeMessage(msg))\n+      catch {\n+        case ex: Throwable =>\n+          close()\n+          throw ex\n+      }\n     }\n   }\n \n   /** Wait for a message to arrive from the distant program. */\n-  def receive(timeout: Duration = Duration.Inf): Message =\n-    synchronized {\n-      in.mark(Int.MaxValue)\n-      val savedSoTimeout = socket.getSoTimeout()\n-      try {\n-        val deadLineMs = if (timeout.isFinite()) timeout.toMillis else 0L\n-        socket.setSoTimeout((deadLineMs min Int.MaxValue).toInt)\n-\n-        val result =\n-          SerializedInputStream.next(in)(_.readMessage()) match {\n-            case logMsg: Log =>\n-              log(logMsg)\n-              receive(timeout)\n-            case other =>\n-              other\n-          }\n-\n-        in.mark(0)\n-        result\n+  def receive(): Message = {\n+    @tailrec\n+    def loop(): Message = {\n+      SerializedInputStream.next(in)(_.readMessage()) match {\n+        case logMsg: Log =>\n+          log(logMsg)\n+          loop()\n+        case other =>\n+          other\n+      }\n+    }\n \n+    synchronized { // Here, not at def, to workaround SN Issue #1091."
+  },
+  {
+    "id" : "555e9a7b-25ee-4df7-a10f-a65194e15145",
+    "prId" : 1813,
+    "comments" : [
+      {
+        "id" : "3a59311f-9ccf-4a9e-b169-e21c7ba81b33",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Please define this in the narrowest possible scope, i.e., within the `try { ... }` block. That way it's crystal clear that the code of `loop()` is always protected by the `try`.",
+        "createdAt" : "2020-06-03T21:06:30Z",
+        "updatedAt" : "2020-06-03T21:44:08Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fe7a2e3c-fca2-4a0c-90ac-13d48e7a2fcb",
+        "parentId" : "3a59311f-9ccf-4a9e-b169-e21c7ba81b33",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood & done. Good idea, thank you.",
+        "createdAt" : "2020-06-03T22:31:54Z",
+        "updatedAt" : "2020-06-03T22:31:55Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "42881ae93ad03d20ef92ec53d0615f9d2c4f0a79",
+    "line" : null,
+    "diffHunk" : "@@ -56,51 +55,44 @@ class ComRunner(bin: File,\n     new BufferedOutputStream(socket.getOutputStream))\n \n   /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def send(msg: Message): Unit = {\n+    synchronized { // Here, not at def, to workaround SN Issue #1091.\n+      try SerializedOutputStream(out)(_.writeMessage(msg))\n+      catch {\n+        case ex: Throwable =>\n+          close()\n+          throw ex\n+      }\n     }\n   }\n \n   /** Wait for a message to arrive from the distant program. */\n-  def receive(timeout: Duration = Duration.Inf): Message =\n-    synchronized {\n-      in.mark(Int.MaxValue)\n-      val savedSoTimeout = socket.getSoTimeout()\n-      try {\n-        val deadLineMs = if (timeout.isFinite()) timeout.toMillis else 0L\n-        socket.setSoTimeout((deadLineMs min Int.MaxValue).toInt)\n-\n-        val result =\n-          SerializedInputStream.next(in)(_.readMessage()) match {\n-            case logMsg: Log =>\n-              log(logMsg)\n-              receive(timeout)\n-            case other =>\n-              other\n-          }\n-\n-        in.mark(0)\n-        result\n+  def receive(): Message = {\n+    @tailrec\n+    def loop(): Message = {"
+  },
+  {
+    "id" : "f8618c4f-3756-4c1c-bdf4-1c572cf559cf",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "d6493183-37ee-4873-9623-4a372baffc2c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n          /** We need to await the connection unconditionally. Otherwise the Native end\r\n```",
+        "createdAt" : "2020-08-06T17:54:57Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,203 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.JS\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+class ComRunner(processRunner: ProcessRunner,\n+                serverSocket: ServerSocket,\n+                logger: Logger,\n+                handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the JS end"
+  },
+  {
+    "id" : "8f6dd7fb-94db-41d8-84eb-73cd022b7b37",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "38863e26-a6e2-47c7-b274-3f78e557f1f0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Please add an explicit `()` after this comment to work around scalafmt's bad formatting here.",
+        "createdAt" : "2020-08-06T17:55:36Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,203 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.JS\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+class ComRunner(processRunner: ProcessRunner,\n+                serverSocket: ServerSocket,\n+                logger: Logger,\n+                handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the JS end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+              /** We can end up here if there is a race between the two read to\n+               * state. Do nothing, loop will terminate.\n+               */"
+  },
+  {
+    "id" : "617368ee-a1a9-409e-ba20-0f4a4c6a7d9c",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "96649d60-291c-4fc2-9640-b3917d4971ba",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Excellent name changes jvm2native & native2jvm.  Thank you.",
+        "createdAt" : "2020-08-06T19:26:31Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : 195,
+    "diffHunk" : "@@ -1,112 +1,203 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.JS\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+class ComRunner(processRunner: ProcessRunner,\n+                serverSocket: ServerSocket,\n+                logger: Logger,\n+                handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the JS end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+              /** We can end up here if there is a race between the two read to\n+               * state. Do nothing, loop will terminate.\n+               */\n+              case Connected(_, _, native2jvm) =>\n+                try {\n+                  val len  = native2jvm.readInt()\n+                  val carr = Array.fill(len)(native2jvm.readChar())\n+                  handleMessage(String.valueOf(carr))\n+                } catch {\n+                  // Native end terminated gracefully. Close.\n+                  case _: EOFException => close()\n+                }\n+            }\n+          }\n+        } catch {\n+          // We got interrupted by a graceful close. This is OK.\n+          case _: IOException if state == Closing => ()\n+        }\n+\n+        /**\n+         * Everything got closed. We wait for the run to terminate.\n+         * We need to wait in order to make sure that closing the\n+         * underlying run does not fail it. */\n+        processRunner.future.foreach { _ =>\n+          processRunner.close()\n+          promise.trySuccess(())\n+        }\n+      } catch {\n+        case t: Throwable => handleThrowable(t)\n+      }\n     }\n-  }\n+  }.start()\n \n-  private[this] var serverSocket: ServerSocket = _\n-  private[this] val socket =\n-    try {\n-      serverSocket = new ServerSocket( /* port = */ 0, /* backlog = */ 1)\n+  val future: Future[Unit] = promise.future\n \n-      runner.start()\n+  def send(msg: String): Unit = synchronized {\n+    state match {\n+      case AwaitingConnection(msgs) =>\n+        state = AwaitingConnection(msg :: msgs)\n \n-      serverSocket.setSoTimeout(40 * 1000)\n-      serverSocket.accept()\n-    } catch {\n-      case _: SocketTimeoutException =>\n-        throw new BuildException(\n-          \"The test program never connected to the test runner.\")\n-    } finally {\n-      // We can close it immediately, since we won't receive another connection.\n-      serverSocket.close()\n+      case Connected(_, jvm2native, _) =>\n+        try {\n+          writeMsg(jvm2native, msg)\n+          jvm2native.flush()\n+        } catch {\n+          case t: Throwable => handleThrowable(t)\n+        }\n+\n+      case Closing => () // ignore msg.\n     }\n+  }\n \n-  private[this] val in = new DataInputStream(\n-    new BufferedInputStream(socket.getInputStream))\n-  private[this] val out = new DataOutputStream(\n-    new BufferedOutputStream(socket.getOutputStream))\n-\n-  /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def close(): Unit = synchronized {\n+    val oldState = state\n+    state = Closing // Signal receiver thread that it is OK if socket read fails.\n+    oldState match {\n+      case c: Connected =>\n+        closeAll(\n+          c\n+        ) // Interrupts the receiver thread and signals the VM to terminate.\n+      case Closing | _: AwaitingConnection => ()\n     }\n   }\n \n-  /** Wait for a message to arrive from the distant program. */\n-  def receive(): Message = synchronized {\n+  private def onNativeTerminated(): Unit = {\n+    close()\n+\n+    /**\n+     * Interrupt receiver if we are still waiting for connection.\n+     * Should only be relevant if we are still awaiting the connection.\n+     * Note: We cannot do this in close(), otherwise if the JVM side closes\n+     * before the JS side connected, the JS VM will fail instead of terminate\n+     * normally.\n+     */\n+    serverSocket.close()\n+  }\n+\n+  private def forceClose(cause: Throwable): Unit = {\n+    logger.warn(s\"Force close $cause\")\n+    promise.tryFailure(cause)\n+    close()\n+    processRunner.close()\n+    serverSocket.close()\n+  }\n+\n+  private def handleThrowable(cause: Throwable): Unit = {\n+    forceClose(cause)\n+    if (!NonFatal(cause))\n+      throw cause\n+  }\n+\n+  private def awaitConnection(): Unit = {\n+    var comSocket: Socket            = null\n+    var jvm2native: DataOutputStream = null\n+    var native2jvm: DataInputStream  = null\n+"
+  },
+  {
+    "id" : "8bb8c305-415a-49d2-93e5-421ac864520a",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "d9a5c0b8-467b-4a18-b697-7fc2b17dcfaa",
+        "parentId" : null,
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "`JS side`  holdover from port?   I am still studying the larger communications context.",
+        "createdAt" : "2020-08-06T19:29:25Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "483661da-6168-455b-9e55-59b0e1991dec",
+        "parentId" : "d9a5c0b8-467b-4a18-b697-7fc2b17dcfaa",
+        "author" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "body" : "Yes, I've missed to fix this (and few others). It's fixed now",
+        "createdAt" : "2020-08-07T12:34:30Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "WojciechMazur",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/19353690?u=e111c05890b2da4ddec196684a8059d0b99261af&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,203 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.JS\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+class ComRunner(processRunner: ProcessRunner,\n+                serverSocket: ServerSocket,\n+                logger: Logger,\n+                handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the JS end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+              /** We can end up here if there is a race between the two read to\n+               * state. Do nothing, loop will terminate.\n+               */\n+              case Connected(_, _, native2jvm) =>\n+                try {\n+                  val len  = native2jvm.readInt()\n+                  val carr = Array.fill(len)(native2jvm.readChar())\n+                  handleMessage(String.valueOf(carr))\n+                } catch {\n+                  // Native end terminated gracefully. Close.\n+                  case _: EOFException => close()\n+                }\n+            }\n+          }\n+        } catch {\n+          // We got interrupted by a graceful close. This is OK.\n+          case _: IOException if state == Closing => ()\n+        }\n+\n+        /**\n+         * Everything got closed. We wait for the run to terminate.\n+         * We need to wait in order to make sure that closing the\n+         * underlying run does not fail it. */\n+        processRunner.future.foreach { _ =>\n+          processRunner.close()\n+          promise.trySuccess(())\n+        }\n+      } catch {\n+        case t: Throwable => handleThrowable(t)\n+      }\n     }\n-  }\n+  }.start()\n \n-  private[this] var serverSocket: ServerSocket = _\n-  private[this] val socket =\n-    try {\n-      serverSocket = new ServerSocket( /* port = */ 0, /* backlog = */ 1)\n+  val future: Future[Unit] = promise.future\n \n-      runner.start()\n+  def send(msg: String): Unit = synchronized {\n+    state match {\n+      case AwaitingConnection(msgs) =>\n+        state = AwaitingConnection(msg :: msgs)\n \n-      serverSocket.setSoTimeout(40 * 1000)\n-      serverSocket.accept()\n-    } catch {\n-      case _: SocketTimeoutException =>\n-        throw new BuildException(\n-          \"The test program never connected to the test runner.\")\n-    } finally {\n-      // We can close it immediately, since we won't receive another connection.\n-      serverSocket.close()\n+      case Connected(_, jvm2native, _) =>\n+        try {\n+          writeMsg(jvm2native, msg)\n+          jvm2native.flush()\n+        } catch {\n+          case t: Throwable => handleThrowable(t)\n+        }\n+\n+      case Closing => () // ignore msg.\n     }\n+  }\n \n-  private[this] val in = new DataInputStream(\n-    new BufferedInputStream(socket.getInputStream))\n-  private[this] val out = new DataOutputStream(\n-    new BufferedOutputStream(socket.getOutputStream))\n-\n-  /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def close(): Unit = synchronized {\n+    val oldState = state\n+    state = Closing // Signal receiver thread that it is OK if socket read fails.\n+    oldState match {\n+      case c: Connected =>\n+        closeAll(\n+          c\n+        ) // Interrupts the receiver thread and signals the VM to terminate.\n+      case Closing | _: AwaitingConnection => ()\n     }\n   }\n \n-  /** Wait for a message to arrive from the distant program. */\n-  def receive(): Message = synchronized {\n+  private def onNativeTerminated(): Unit = {\n+    close()\n+\n+    /**\n+     * Interrupt receiver if we are still waiting for connection.\n+     * Should only be relevant if we are still awaiting the connection.\n+     * Note: We cannot do this in close(), otherwise if the JVM side closes\n+     * before the JS side connected, the JS VM will fail instead of terminate"
+  },
+  {
+    "id" : "1a8f35d2-fa46-430e-a9fc-7745a8dce726",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "8f2ba9d1-f5c8-4fe0-ae42-29a90d62c943",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n          /* We need to await the connection unconditionally. Otherwise the Native end\r\n```",
+        "createdAt" : "2020-08-07T18:36:06Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,204 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.js\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+private[testinterface] class ComRunner(processRunner: ProcessRunner,\n+                                       serverSocket: ServerSocket,\n+                                       logger: Logger,\n+                                       handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the Native end"
+  },
+  {
+    "id" : "15def29a-25aa-4088-9ad2-b607eb80d2b4",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "0570f09c-f42c-44a0-9223-e9282e49c7c4",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n                /* We can end up here if there is a race between the two read to\r\n```",
+        "createdAt" : "2020-08-07T18:36:19Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,204 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.js\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+private[testinterface] class ComRunner(processRunner: ProcessRunner,\n+                                       serverSocket: ServerSocket,\n+                                       logger: Logger,\n+                                       handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the Native end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+                /** We can end up here if there is a race between the two read to"
+  },
+  {
+    "id" : "98e0e5c6-b7e0-4e5c-b1ce-986da5250d35",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "7bee9b64-3c91-479b-ba96-861d0eb178a3",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n        /*\r\n```",
+        "createdAt" : "2020-08-07T18:36:35Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,204 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.js\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+private[testinterface] class ComRunner(processRunner: ProcessRunner,\n+                                       serverSocket: ServerSocket,\n+                                       logger: Logger,\n+                                       handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the Native end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+                /** We can end up here if there is a race between the two read to\n+                 * state. Do nothing, loop will terminate.\n+                 */\n+                ()\n+              case Connected(_, _, native2jvm) =>\n+                try {\n+                  val len  = native2jvm.readInt()\n+                  val carr = Array.fill(len)(native2jvm.readChar())\n+                  handleMessage(String.valueOf(carr))\n+                } catch {\n+                  // Native end terminated gracefully. Close.\n+                  case _: EOFException => close()\n+                }\n+            }\n+          }\n+        } catch {\n+          // We got interrupted by a graceful close. This is OK.\n+          case _: IOException if state == Closing => ()\n+        }\n+\n+        /**"
+  },
+  {
+    "id" : "bd6b5adf-2b24-4f98-a955-7ced234fe3d4",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "e6b0d0bb-52a9-410a-b350-30ff25033c00",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Consider the following alternative formatting:\r\n```suggestion\r\n        // Interrupt the receiver thread and signals the VM to terminate.\r\n        closeAll(c)\r\n```",
+        "createdAt" : "2020-08-07T18:38:07Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,204 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.js\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+private[testinterface] class ComRunner(processRunner: ProcessRunner,\n+                                       serverSocket: ServerSocket,\n+                                       logger: Logger,\n+                                       handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the Native end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+                /** We can end up here if there is a race between the two read to\n+                 * state. Do nothing, loop will terminate.\n+                 */\n+                ()\n+              case Connected(_, _, native2jvm) =>\n+                try {\n+                  val len  = native2jvm.readInt()\n+                  val carr = Array.fill(len)(native2jvm.readChar())\n+                  handleMessage(String.valueOf(carr))\n+                } catch {\n+                  // Native end terminated gracefully. Close.\n+                  case _: EOFException => close()\n+                }\n+            }\n+          }\n+        } catch {\n+          // We got interrupted by a graceful close. This is OK.\n+          case _: IOException if state == Closing => ()\n+        }\n+\n+        /**\n+         * Everything got closed. We wait for the run to terminate.\n+         * We need to wait in order to make sure that closing the\n+         * underlying run does not fail it. */\n+        processRunner.future.foreach { _ =>\n+          processRunner.close()\n+          promise.trySuccess(())\n+        }\n+      } catch {\n+        case t: Throwable => handleThrowable(t)\n+      }\n     }\n-  }\n+  }.start()\n \n-  private[this] var serverSocket: ServerSocket = _\n-  private[this] val socket =\n-    try {\n-      serverSocket = new ServerSocket( /* port = */ 0, /* backlog = */ 1)\n+  val future: Future[Unit] = promise.future\n \n-      runner.start()\n+  def send(msg: String): Unit = synchronized {\n+    state match {\n+      case AwaitingConnection(msgs) =>\n+        state = AwaitingConnection(msg :: msgs)\n \n-      serverSocket.setSoTimeout(40 * 1000)\n-      serverSocket.accept()\n-    } catch {\n-      case _: SocketTimeoutException =>\n-        throw new BuildException(\n-          \"The test program never connected to the test runner.\")\n-    } finally {\n-      // We can close it immediately, since we won't receive another connection.\n-      serverSocket.close()\n+      case Connected(_, jvm2native, _) =>\n+        try {\n+          writeMsg(jvm2native, msg)\n+          jvm2native.flush()\n+        } catch {\n+          case t: Throwable => handleThrowable(t)\n+        }\n+\n+      case Closing => () // ignore msg.\n     }\n+  }\n \n-  private[this] val in = new DataInputStream(\n-    new BufferedInputStream(socket.getInputStream))\n-  private[this] val out = new DataOutputStream(\n-    new BufferedOutputStream(socket.getOutputStream))\n-\n-  /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def close(): Unit = synchronized {\n+    val oldState = state\n+    state = Closing // Signal receiver thread that it is OK if socket read fails.\n+    oldState match {\n+      case c: Connected =>\n+        closeAll(\n+          c\n+        ) // Interrupts the receiver thread and signals the VM to terminate."
+  },
+  {
+    "id" : "1ab132f9-4f1a-4427-918c-ef843571f948",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "d5866c1c-7b5c-41fd-89f3-77be68aaa40e",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n    /*\r\n```",
+        "createdAt" : "2020-08-07T18:38:20Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -1,112 +1,204 @@\n package scala.scalanative\n package testinterface\n \n-import java.io._\n-import java.net.{ServerSocket, SocketTimeoutException}\n-\n-import scala.annotation.tailrec\n-import scala.sys.process._\n+// Ported from Scala.js\n \n-import scalanative.build.{BuildException, Logger}\n-import scalanative.testinterface.serialization.Log.Level\n-import scalanative.testinterface.serialization._\n+import java.io._\n+import java.net.{ServerSocket, Socket}\n+import scala.concurrent.{ExecutionContext, Future, Promise}\n+import scala.scalanative.build.Logger\n+import scala.util.control.NonFatal\n+import scala.util.{Failure, Success}\n \n /**\n  * Represents a distant program with whom we communicate over the network.\n- * @param bin    The program to run\n- * @param args   Arguments to pass to the program\n  * @param logger Logger to log to.\n  */\n-class ComRunner(bin: File,\n-                envVars: Map[String, String],\n-                args: Seq[String],\n-                logger: Logger) {\n+private[testinterface] class ComRunner(processRunner: ProcessRunner,\n+                                       serverSocket: ServerSocket,\n+                                       logger: Logger,\n+                                       handleMessage: String => Unit)\n+    extends AutoCloseable {\n+  import ComRunner._\n+  implicit val executionContext: ExecutionContext = ExecutionContext.global\n+\n+  processRunner.future.onComplete {\n+    case Failure(exception) => forceClose(exception)\n+    case Success(_)         => onNativeTerminated()\n+  }\n+\n+  @volatile\n+  private[this] var state: State = AwaitingConnection(Nil)\n \n-  private[this] val runner = new Thread {\n+  private[this] val promise: Promise[Unit] = Promise[Unit]()\n+\n+  // TODO replace this with scheduled tasks on the execution context.\n+  new Thread {\n+    setName(\"ComRunner receiver\")\n     override def run(): Unit = {\n-      val port = serverSocket.getLocalPort\n-      logger.info(s\"Starting process '$bin' on port '$port'.\")\n-      Process(bin.toString +: port.toString +: args, None, envVars.toSeq: _*) ! Logger\n-        .toProcessLogger(logger)\n+      try {\n+        try {\n+\n+          /** We need to await the connection unconditionally. Otherwise the Native end\n+           * might try to connect indefinitely. */\n+          awaitConnection()\n+\n+          while (state != Closing) {\n+            state match {\n+              case s: AwaitingConnection =>\n+                throw new IllegalStateException(s\"Unexpected state: $s\")\n+\n+              case Closing =>\n+                /** We can end up here if there is a race between the two read to\n+                 * state. Do nothing, loop will terminate.\n+                 */\n+                ()\n+              case Connected(_, _, native2jvm) =>\n+                try {\n+                  val len  = native2jvm.readInt()\n+                  val carr = Array.fill(len)(native2jvm.readChar())\n+                  handleMessage(String.valueOf(carr))\n+                } catch {\n+                  // Native end terminated gracefully. Close.\n+                  case _: EOFException => close()\n+                }\n+            }\n+          }\n+        } catch {\n+          // We got interrupted by a graceful close. This is OK.\n+          case _: IOException if state == Closing => ()\n+        }\n+\n+        /**\n+         * Everything got closed. We wait for the run to terminate.\n+         * We need to wait in order to make sure that closing the\n+         * underlying run does not fail it. */\n+        processRunner.future.foreach { _ =>\n+          processRunner.close()\n+          promise.trySuccess(())\n+        }\n+      } catch {\n+        case t: Throwable => handleThrowable(t)\n+      }\n     }\n-  }\n+  }.start()\n \n-  private[this] var serverSocket: ServerSocket = _\n-  private[this] val socket =\n-    try {\n-      serverSocket = new ServerSocket( /* port = */ 0, /* backlog = */ 1)\n+  val future: Future[Unit] = promise.future\n \n-      runner.start()\n+  def send(msg: String): Unit = synchronized {\n+    state match {\n+      case AwaitingConnection(msgs) =>\n+        state = AwaitingConnection(msg :: msgs)\n \n-      serverSocket.setSoTimeout(40 * 1000)\n-      serverSocket.accept()\n-    } catch {\n-      case _: SocketTimeoutException =>\n-        throw new BuildException(\n-          \"The test program never connected to the test runner.\")\n-    } finally {\n-      // We can close it immediately, since we won't receive another connection.\n-      serverSocket.close()\n+      case Connected(_, jvm2native, _) =>\n+        try {\n+          writeMsg(jvm2native, msg)\n+          jvm2native.flush()\n+        } catch {\n+          case t: Throwable => handleThrowable(t)\n+        }\n+\n+      case Closing => () // ignore msg.\n     }\n+  }\n \n-  private[this] val in = new DataInputStream(\n-    new BufferedInputStream(socket.getInputStream))\n-  private[this] val out = new DataOutputStream(\n-    new BufferedOutputStream(socket.getOutputStream))\n-\n-  /** Send message `msg` to the distant program. */\n-  def send(msg: Message): Unit = synchronized {\n-    try SerializedOutputStream(out)(_.writeMessage(msg))\n-    catch {\n-      case ex: Throwable =>\n-        close()\n-        throw ex\n+  def close(): Unit = synchronized {\n+    val oldState = state\n+    state = Closing // Signal receiver thread that it is OK if socket read fails.\n+    oldState match {\n+      case c: Connected =>\n+        closeAll(\n+          c\n+        ) // Interrupts the receiver thread and signals the VM to terminate.\n+      case Closing | _: AwaitingConnection => ()\n     }\n   }\n \n-  /** Wait for a message to arrive from the distant program. */\n-  def receive(): Message = synchronized {\n+  private def onNativeTerminated(): Unit = {\n+    close()\n+\n+    /**"
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "9bd1c7eb-48bb-4ffc-b9e6-92655e2c5b42",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "d17032d3-063f-4089-a72a-8e58ef499a1e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`sbt rebuild test-all`",
+        "createdAt" : "2018-03-07T13:08:15Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -1,6 +1,9 @@\n #!/bin/bash\n \n+set -ex\n+\n sbt rebuild"
+  }
+]

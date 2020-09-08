@@ -1,0 +1,245 @@
+[
+  {
+    "id" : "ff4235dc-f35c-47b5-bcc5-70f6381a5f98",
+    "prId" : 356,
+    "comments" : [
+      {
+        "id" : "950d5724-fcd8-4787-97d4-46f224739250",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Those two equals implementations above would probably look better if you pattern match on `that`. \n",
+        "createdAt" : "2016-10-26T14:42:32Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "75227b72-268c-498b-bf6a-e2f744500640",
+        "parentId" : "950d5724-fcd8-4787-97d4-46f224739250",
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "I tried avoiding pattern matching, because this method is likely to be hot, and I wanted to make sure we don't worsen performance by some pattern matching artifacts.\n\nShall I change it?\n",
+        "createdAt" : "2016-10-26T14:54:09Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0d623431-076d-42b2-9ecc-725e22889007",
+        "parentId" : "950d5724-fcd8-4787-97d4-46f224739250",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "It should not make much difference. Lets change it. \n",
+        "createdAt" : "2016-10-26T14:58:42Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "757a9dce-bd23-486d-9036-389f44283511",
+        "parentId" : "950d5724-fcd8-4787-97d4-46f224739250",
+        "author" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "body" : "Alright, will do!\n",
+        "createdAt" : "2016-10-27T00:14:54Z",
+        "updatedAt" : "2016-10-27T01:37:56Z",
+        "lastEditedBy" : {
+          "login" : "soc",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/42493?u=c4463ecfb7f1a8c9518bf68f3fcd2735d0702603&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "6733f6903e51ab1fb2584fa85f1548ffb20f0d2a",
+    "line" : null,
+    "diffHunk" : "@@ -26,17 +29,33 @@ sealed abstract class Val {\n }\n object Val {\n   // low-level\n-  final case object None                                      extends Val\n-  final case object True                                      extends Val\n-  final case object False                                     extends Val\n-  final case class Zero(of: nir.Type)                         extends Val\n-  final case class Undef(of: nir.Type)                        extends Val\n-  final case class I8(value: Byte)                            extends Val\n-  final case class I16(value: Short)                          extends Val\n-  final case class I32(value: Int)                            extends Val\n-  final case class I64(value: Long)                           extends Val\n-  final case class F32(value: Float)                          extends Val\n-  final case class F64(value: Double)                         extends Val\n+  final case object None               extends Val\n+  final case object True               extends Val\n+  final case object False              extends Val\n+  final case class Zero(of: nir.Type)  extends Val\n+  final case class Undef(of: nir.Type) extends Val\n+  final case class I8(value: Byte)     extends Val\n+  final case class I16(value: Short)   extends Val\n+  final case class I32(value: Int)     extends Val\n+  final case class I64(value: Long)    extends Val\n+  final case class F32(value: Float) extends Val {\n+    override def equals(that: Any): Boolean =\n+      if (that.isInstanceOf[F32]) {\n+        val theseBits = floatToRawIntBits(value)\n+        val thoseBits = floatToRawIntBits(that.asInstanceOf[F32].value)\n+        theseBits == thoseBits\n+      } else\n+        false\n+  }\n+  final case class F64(value: Double) extends Val {\n+    override def equals(that: Any): Boolean =\n+      if (that.isInstanceOf[F64]) {\n+        val theseBits = doubleToRawLongBits(value)\n+        val thoseBits = doubleToRawLongBits(that.asInstanceOf[F64].value)\n+        theseBits == thoseBits\n+      } else\n+        false\n+  }"
+  },
+  {
+    "id" : "a478b6a2-94bc-4984-91f1-68a19965b959",
+    "prId" : 889,
+    "comments" : [
+      {
+        "id" : "5e8b6a24-d73d-45bd-bfee-e00abcf55723",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`throw new IllegalArgumentException(\"malforrmed C string: \" + string)` is the way to crash here.",
+        "createdAt" : "2017-08-07T11:17:24Z",
+        "updatedAt" : "2017-08-07T15:01:01Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc73665e7aa3cabdc6919f0c58d1d64119bf42eb",
+    "line" : null,
+    "diffHunk" : "@@ -28,6 +28,47 @@ sealed abstract class Val {\n     case Val.String(_) => Rt.String\n   }\n \n+  private def countBytes(s: String): Int = {\n+    import Character.isDigit\n+\n+    // TODO: should be a compilation error, how to report?\n+    def malformed() = ???"
+  },
+  {
+    "id" : "c204fde6-7df7-44aa-99b8-0eb7fcf4b99a",
+    "prId" : 889,
+    "comments" : [
+      {
+        "id" : "11ce4d4c-b5f9-4246-9c4a-fb0edaaa1cf2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs `@tailrec` annotation.",
+        "createdAt" : "2017-08-07T11:18:35Z",
+        "updatedAt" : "2017-08-07T15:01:01Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc73665e7aa3cabdc6919f0c58d1d64119bf42eb",
+    "line" : null,
+    "diffHunk" : "@@ -28,6 +28,47 @@ sealed abstract class Val {\n     case Val.String(_) => Rt.String\n   }\n \n+  private def countBytes(s: String): Int = {\n+    import Character.isDigit\n+\n+    // TODO: should be a compilation error, how to report?\n+    def malformed() = ???\n+\n+    // Subtracts from the length of the bytes for each escape sequence\n+    // uses String, not Seq[Byte], but should be okay since we handle ASCII only\n+    def uncountEscapes(from: Int, accum: Int): Int ="
+  },
+  {
+    "id" : "ad69a6f9-7444-4cf1-8166-9be6cd7efa6e",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "2273da6f-5cf8-4ce8-a471-62cebdd2b565",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Since `c\"\"` strings are `CString`s, which are `Ptr[CChar] = Ptr[Byte]`, we should directly store `value` as a `Seq[Byte]` at this point. The compiler plugin will then have to encode a `String` as a sequence of `Byte`s using UTF-8.",
+        "createdAt" : "2020-07-16T10:26:30Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -175,59 +175,7 @@ object Val {\n   final case class StructValue(values: Seq[Val])                  extends Val\n   final case class ArrayValue(elemty: nir.Type, values: Seq[Val]) extends Val\n   final case class Chars(value: java.lang.String) extends Val {"
+  },
+  {
+    "id" : "ebab7e50-e9ea-46d4-a51f-06421f584ed8",
+    "prId" : 1855,
+    "comments" : [
+      {
+        "id" : "e8c6a4ea-71f9-43ff-8321-1e6b9a5afe65",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Since we identified that this is more a byte string than a character string, using UTF-8 could blow up or give unusable results if the byte string contains sequences of bytes that are not valid UTF-8. I believe that `stringValue` should use an encoding that can represent, somehow, any byte string. A typical choice for that is latin1, aka `StandardCharsets.ISO_8859_1`. That will of course display \"garbage\" for multi-byte characters encoded in UTF-8 by the compiler, but that's OK because this is basically a debug string.",
+        "createdAt" : "2020-08-18T09:27:32Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5801fc4c-0511-4c2d-958c-f1d1d2dcf291",
+        "parentId" : "e8c6a4ea-71f9-43ff-8321-1e6b9a5afe65",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "To make it even clearer that it is a debug string that is only used by `Show`, it would be even better to simply move this to `Show`, actually. That way we're sure that we're not going to use this method in a \"meaningful\" way.",
+        "createdAt" : "2020-08-18T09:31:31Z",
+        "updatedAt" : "2020-08-18T14:00:13Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e45b3fc51712c139de63bd281eeaba4398b1ce15",
+    "line" : null,
+    "diffHunk" : "@@ -174,60 +173,10 @@ object Val {\n   }\n   final case class StructValue(values: Seq[Val])                  extends Val\n   final case class ArrayValue(elemty: nir.Type, values: Seq[Val]) extends Val\n-  final case class Chars(value: java.lang.String) extends Val {\n-    lazy val byteCount: scala.Int = {\n-      import Character.isDigit\n-\n-      def isOct(c: scala.Char): Boolean =\n-        isDigit(c) && c != '8' && c != '9'\n-      def isHex(c: scala.Char): Boolean =\n-        isDigit(c) ||\n-          c == 'a' || c == 'b' || c == 'c' || c == 'd' || c == 'e' || c == 'f' ||\n-          c == 'A' || c == 'B' || c == 'C' || c == 'D' || c == 'E' || c == 'F'\n-      def malformed() =\n-        throw new IllegalArgumentException(\"malformed C string: \" + value)\n-\n-      // Subtracts from the length of the bytes for each escape sequence\n-      // uses String, not Seq[Byte], but should be okay since we handle ASCII only\n-      val chars = value.toArray\n-      var accum = chars.length + 1\n-      var idx   = 0\n-\n-      while (idx < chars.length) {\n-        if (chars(idx) == '\\\\') {\n-          if (idx == chars.length - 1) {\n-            malformed()\n-          } else {\n-            chars(idx + 1) match {\n-              case d if isOct(d) =>\n-                // octal (\"\\O\", \"\\OO\", \"\\OOO\")\n-                val digitNum =\n-                  chars.drop(idx + 1).take(3).takeWhile(isOct).length\n-                idx += digitNum\n-                accum -= digitNum\n-              case 'x' =>\n-                // hexademical (\"\\xH\", \"\\xHH\")\n-                val digitNum = chars.drop(idx + 2).takeWhile(isHex).length\n-                // mimic clang, which reports compilation error against too many hex digits\n-                if (digitNum >= 3) {\n-                  malformed()\n-                }\n-                idx += digitNum + 1\n-                accum -= digitNum + 1\n-              // TODO: support unicode?\n-              // case 'u' =>\n-              // case 'U' =>\n-              case _ =>\n-                idx += 1\n-                accum -= 1\n-            }\n-          }\n-        }\n-        idx += 1\n-      }\n-\n-      accum\n-    }\n+  final case class Chars(value: Seq[scala.Byte]) extends Val {\n+    lazy val byteCount: scala.Int     = value.length + 1\n+    lazy val bytes: Array[scala.Byte] = value.toArray\n+    lazy val stringValue              = new java.lang.String(bytes, \"UTF-8\")"
+  }
+]

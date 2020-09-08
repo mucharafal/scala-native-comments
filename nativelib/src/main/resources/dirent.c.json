@@ -1,0 +1,252 @@
+[
+  {
+    "id" : "b4117c84-c854-4677-ba54-569b67a98c42",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "a7da0e13-878e-4111-a5a5-8f96d4d368c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Same comment as for `scalanative_stat_copy` applies here. Need to take an extra argument, instead of GC allocating the result. ",
+        "createdAt" : "2017-04-12T11:10:05Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4cf201a0-56bd-444d-846f-8fdb072b09bc",
+        "parentId" : "a7da0e13-878e-4111-a5a5-8f96d4d368c7",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-13T07:37:48Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,39 @@\n+#include <dirent.h>\n+#include <string.h>\n+#include <gc.h>\n+\n+#define NAME_MAX 255\n+\n+struct scalanative_dirent {\n+    unsigned long long d_ino;  /** file serial number */\n+    char d_name[NAME_MAX + 1]; /** name of entry */\n+};\n+\n+DIR *scalanative_opendir(const char *name) {\n+\n+    return opendir(name);\n+}\n+\n+void scalanative_dirent_init(struct dirent *dirent, struct scalanative_dirent *my_dirent) {\n+    my_dirent->d_ino  = dirent->d_ino;\n+    strncpy(my_dirent->d_name, dirent->d_name, NAME_MAX);\n+    my_dirent->d_name[NAME_MAX] = '\\0';\n+}\n+\n+struct scalanative_dirent *scalanative_readdir(DIR *dirp) {\n+    struct dirent *buf = readdir(dirp);\n+    if (buf != NULL) {\n+        struct scalanative_dirent *my_dirent =\n+            (struct scalanative_dirent *) GC_malloc(sizeof(struct scalanative_dirent));"
+  },
+  {
+    "id" : "2fb48cc0-ab77-4f7b-a783-a96aa7bc5fae",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "cbd831c9-8a20-407c-a3a8-8e0cddf1b735",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Why does it need to be converted here?",
+        "createdAt" : "2017-05-07T17:30:39Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "b82b57c9-0630-4343-8d28-1442626b8124",
+        "parentId" : "cbd831c9-8a20-407c-a3a8-8e0cddf1b735",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "removed",
+        "createdAt" : "2017-05-08T18:51:04Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -13,7 +17,19 @@ DIR *scalanative_opendir(const char *name) { return opendir(name); }\n void scalanative_dirent_init(struct dirent *dirent,\n                              struct scalanative_dirent *my_dirent) {\n   my_dirent->d_ino = dirent->d_ino;\n+#ifndef _WIN32\n   strncpy(my_dirent->d_name, dirent->d_name, NAME_MAX);\n+#else\n+  int nameLength = strlen(dirent->d_name);\n+  strncpy_s(my_dirent->d_name, nameLength, dirent->d_name, nameLength);\n+  for (int i = 0; i < nameLength; ++i)\n+  {\n+    if (dirent->d_name[i]=='\\\\')\n+    {\n+      dirent->d_name[i]='/';"
+  },
+  {
+    "id" : "1ed5629c-0388-44b0-8668-007e32748c1a",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "968a3ae4-8ae2-4523-bbb9-159323f50357",
+        "parentId" : null,
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "How about we use the `java.io.tmpdir` system property and make this code part of the platform specific stuff that it already does?\r\n\r\nFrom https://docs.oracle.com/javase/7/docs/api/java/io/File.html#createTempFile(java.lang.String,%20java.lang.String,%20java.io.File)\r\n\r\n> If the directory argument is null then the system-dependent default temporary-file directory will be used. The default temporary-file directory is specified by the system property java.io.tmpdir. On UNIX systems the default value of this property is typically \"/tmp\" or \"/var/tmp\"; on Microsoft Windows systems it is typically \"C:\\\\WINNT\\\\TEMP\". A different value may be given to this system property when the Java virtual machine is invoked, but programmatic changes to this property are not guaranteed to have any effect upon the temporary directory used by this method.\r\n\r\nI can make a separate PR if you like",
+        "createdAt" : "2017-05-12T09:25:28Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5f0f9875-fb51-459a-bad0-fb9d0c3ba134",
+        "parentId" : "968a3ae4-8ae2-4523-bbb9-159323f50357",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I don't mind to use it, where this system property was initialized btw? I can't find the place in code.\r\nbtw, on win10 temp folder inside windows folder is restricted, so it should point somewhere to \"C:\\Users\\muxanick\\AppData\\Local\\Temp\\\".",
+        "createdAt" : "2017-05-12T10:58:32Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "90dd97a4-3937-46d0-b522-ccd403b7b0e8",
+        "parentId" : "968a3ae4-8ae2-4523-bbb9-159323f50357",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "And if you check File.scala this code called only if we don't have env variable",
+        "createdAt" : "2017-05-12T10:59:27Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "18f239b1-fc1f-4241-8a0f-3805772ac471",
+        "parentId" : "968a3ae4-8ae2-4523-bbb9-159323f50357",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "You can query on JVM. It should be setup in `java.lang.System` but it hasn't been implemented in native yet.\r\n```\r\nval props = System.getProperties\r\nprops.list(System.out)\r\n```\r\nNote that on macOS I get the following so I'm not sure how this is determined:\r\n`java.io.tmpdir=/var/folders/p3/jyf7rkws0899cy450njtg...`\r\n\r\nThis issue was opened but is now closed but is related. https://github.com/scala-native/scala-native/issues/577",
+        "createdAt" : "2017-05-12T15:37:15Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -37,3 +37,14 @@ int scalanative_readdir(DIR *dirp, struct scalanative_dirent *buf) {\n }\n \n int scalanative_closedir(DIR *dirp) { return closedir(dirp); }\n+\n+int scalanative_gettempdir(char *buffer, size_t length)\n+{\n+#ifndef _WIN32\n+  const char* tmpdir = \"/tmp\";\n+  strncpy(buffer, tmpdir, length);\n+  return 0;\n+#else\n+  return getWinTempDir(buffer, length);"
+  },
+  {
+    "id" : "9fb28879-964e-4655-acb8-1721daea45ef",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "2711a142-9f9c-4d4f-8939-d46314ee90bf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "While mimicking POSIX seems to still work for the small scale of the API we're using now I'm really not sure if it's going to scale longer term once threads, sockets etc are added to the mix. We're not going to reimplement all of the POSIX, this is just too much work. \r\n\r\nA much more reasonable option would be to expose Windows-specific APIs on Windows and use those to implement corresponding parts of the java library. ",
+        "createdAt" : "2017-08-07T11:48:28Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "10a5c780-811a-4a0d-9ec3-2c3c842e591d",
+        "parentId" : "2711a142-9f9c-4d4f-8939-d46314ee90bf",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Btw, Sockets are supported in this PR.\r\nAlso, Microsoft introduced Universal CRT SDK, which is partly used here as well, which mimics POSIX syntax. It was developed to support unix on windows. It's not going to support all features of course (it will not support pthreads for instance).\r\n\r\nBut longer I look into this port, I become more agree with you on rewriting javalib.\r\nI started this work already as part of my third-party library for scala-native , but it will take a few months for me until I have first results.",
+        "createdAt" : "2017-08-08T11:18:28Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : 4,
+    "diffHunk" : "@@ -1,19 +1,29 @@\n+#ifndef _WIN32\n #include <dirent.h>\n+#else\n+#include \"os_win_dirent.h\""
+  }
+]

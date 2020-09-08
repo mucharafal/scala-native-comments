@@ -1,0 +1,77 @@
+[
+  {
+    "id" : "c94c3786-3ffc-4c36-92a3-f8de2a7e0050",
+    "prId" : 1467,
+    "comments" : [
+      {
+        "id" : "46ad6177-8053-40b9-a0c5-814e377bf4c3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "👍",
+        "createdAt" : "2019-03-20T09:49:08Z",
+        "updatedAt" : "2019-03-20T09:49:08Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "2f27997106d404bd96b11a659ac61f18a2bce420",
+    "line" : 51,
+    "diffHunk" : "@@ -1566,3 +1566,51 @@ See the License for the specific language governing permissions and\n limitations under the License.\n \n ```\n+\n+# License notice for java.time API\n+\n+The origin of `java.time` is [JSR-310](https://jcp.org/en/jsr/detail?id=310)\n+and was assigned a BSD license as described in strike-through text on the\n+JSR page. The API was inspired by earlier work by Stephen Colebourne and\n+others found at [Joda-Time](https://www.joda.org/joda-time/).\n+The original project was hosted by ThreeTen and an information page can\n+be found [here](https://www.threeten.org/) about the project.\n+\n+The code in Scala Native is based on derivative work at\n+[cquiroz/scala-java-time](https://github.com/cquiroz/scala-java-time) and\n+[scala-js/scala-js-java-time](https://github.com/scala-js/scala-js-java-time).\n+The original license notice is included below:\n+\n+```\n+/*\n+ * Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos\n+ *\n+ * All rights reserved.\n+ *\n+ * Redistribution and use in source and binary forms, with or without\n+ * modification, are permitted provided that the following conditions are met:\n+ *\n+ *  * Redistributions of source code must retain the above copyright notice,\n+ *    this list of conditions and the following disclaimer.\n+ *\n+ *  * Redistributions in binary form must reproduce the above copyright notice,\n+ *    this list of conditions and the following disclaimer in the documentation\n+ *    and/or other materials provided with the distribution.\n+ *\n+ *  * Neither the name of JSR-310 nor the names of its contributors\n+ *    may be used to endorse or promote products derived from this software\n+ *    without specific prior written permission.\n+ *\n+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS\n+ * \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT\n+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR\n+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR\n+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,\n+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,\n+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR\n+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF\n+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING\n+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS\n+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n+ */\n+```"
+  },
+  {
+    "id" : "2064cb65-40fd-455a-be31-07dc98c20de0",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "261115ff-9145-4a6f-b0f6-39797c5c3c7d",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please delete a section called `License notice for marcomaggi/cre2` above. After this PR, we won't use cre2 so it's not needed any longer.",
+        "createdAt" : "2019-04-15T12:24:28Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5ccdcbdb-9021-4edd-9bfa-5558e2392005",
+        "parentId" : "261115ff-9145-4a6f-b0f6-39797c5c3c7d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Done.\r\n\r\n I was not sure if it needed to be retained because both the original SN devo\r\nand I looked at and benefited from that code. In my prior practice, that would\r\nhave 'tainted' us.  Thank you for the umpires call, which, as always, if final.",
+        "createdAt" : "2019-04-16T23:42:19Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : 48,
+    "diffHunk" : "@@ -1789,3 +1789,49 @@ The original license notice is included below:\n  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.\n  */\n ```\n+\n+# License notice for  re2s regular expression code"
+  }
+]

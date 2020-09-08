@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "b0192848-b1bf-4d30-a088-395e666a581c",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "d12869c5-611f-43f0-8ac6-31c0d910db64",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We put type aliases in the object that corresponds to header where they are originally defined in C.",
+        "createdAt" : "2017-04-12T11:13:48Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9e20d564-52cd-494c-b4e1-3adafec8852b",
+        "parentId" : "d12869c5-611f-43f0-8ac6-31c0d910db64",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-13T07:37:53Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,15 @@\n+package scala.scalanative\n+package posix\n+\n+import scala.scalanative.native._\n+\n+@extern\n+object utime {\n+  // TODO: Where should we put those recurrent types?"
+  }
+]

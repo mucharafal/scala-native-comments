@@ -1,0 +1,373 @@
+[
+  {
+    "id" : "b5a0d13f-5e93-4ba4-945b-45c556159991",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "3c4f71ef-f61c-45ef-88c9-2e0bb0bb48db",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n      def exceptionMsg = s\"For input string \\\"$s\\\"\"\r\n```",
+        "createdAt" : "2020-06-02T13:00:28Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "a308cbe0-a75a-46a3-a166-a5bedcbffb3b",
+        "parentId" : "3c4f71ef-f61c-45ef-88c9-2e0bb0bb48db",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "\\\" not working in interpolated strings is a problem still a problem in many scala versions. It is a problem\r\nin the Scala 2.11 currently used by SN and in the pending Scala 2.12.  I believe that it is unfixed in \r\nScala 2.13.2. It may get fixed in 2.13.3 (or .n).\r\n\r\nTo reduce the donkeying around, I re-wrote the line to achieve the same intent but not rely upon\r\nstring interpolation.   I also added an informative section documenting the bug I was working around.\r\n\r\nI wanted to steer far clear of octal constants (\\042), which work, and Unicode constants (\\u0022), which\r\nfail because they are translated too early. ",
+        "createdAt" : "2020-06-13T20:27:00Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode....\n+  //\n+  // The Java trim method is used to ensure that Java rules are followed.\n+  // It might not be the most memory & runtime efficient, but if execution\n+  // is in this routine, it is already on a slow path.\n+\n+  @tailrec\n+  def vetIEEE754Tail(tail: String): Boolean = {\n+\n+    if (tail.length <= 0) {\n+      true\n+    } else {\n+      val rest = tail.tail.trim\n+      (tail(0): @scala.annotation.switch) match {\n+        case 'D' | 'd' => vetIEEE754Tail(rest)\n+        case 'F' | 'f' => vetIEEE754Tail(rest)\n+        case _         => (tail.trim.length == 0)\n+      }\n+    }\n+  }\n+\n+  def parseIEEE754[T](s: String, f: (CString, Ptr[CString]) => T): T = {\n+    Zone { implicit z =>\n+      val cstr = toCString(s)\n+      val end  = stackalloc[CString]\n+\n+      errno.errno = 0\n+      var res = f(cstr, end)\n+\n+      def exceptionMsg = s\"For input string \\042${s}\\042\""
+  },
+  {
+    "id" : "2edca8dc-1f91-4ea8-858c-9a740d24c3f6",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "d9a89273-3909-43f8-b69e-3db28bdfa1f5",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This comment here does not make sense. Should it apply to `def exceptionMsg` instead? If yes, is it still relevant?",
+        "createdAt" : "2020-06-02T13:05:19Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "96cc8fad-5d04-4d71-8725-2b3d8d91b8fc",
+        "parentId" : "d9a89273-3909-43f8-b69e-3db28bdfa1f5",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Yes, it is still relevant but looks like it is in the wrong/a_confusing place after exceptionMsg got factored out.\r\nI moved the comment to just before exceptionMsg and documented the bug & need for workaround.",
+        "createdAt" : "2020-06-13T20:29:30Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode....\n+  //\n+  // The Java trim method is used to ensure that Java rules are followed.\n+  // It might not be the most memory & runtime efficient, but if execution\n+  // is in this routine, it is already on a slow path.\n+\n+  @tailrec\n+  def vetIEEE754Tail(tail: String): Boolean = {\n+\n+    if (tail.length <= 0) {\n+      true\n+    } else {\n+      val rest = tail.tail.trim\n+      (tail(0): @scala.annotation.switch) match {\n+        case 'D' | 'd' => vetIEEE754Tail(rest)\n+        case 'F' | 'f' => vetIEEE754Tail(rest)\n+        case _         => (tail.trim.length == 0)\n+      }\n+    }\n+  }\n+\n+  def parseIEEE754[T](s: String, f: (CString, Ptr[CString]) => T): T = {\n+    Zone { implicit z =>\n+      val cstr = toCString(s)\n+      val end  = stackalloc[CString]\n+\n+      errno.errno = 0\n+      var res = f(cstr, end)\n+\n+      def exceptionMsg = s\"For input string \\042${s}\\042\"\n+\n+      if (errno.errno != 0) {\n+        if (errno.errno != ERANGE) {\n+          // The need to use \\042 for double quote seems to be a Scala 2.11 bug.\n+          // Uglier workarounds exist."
+  },
+  {
+    "id" : "ce395ef7-4c90-4d64-850c-6d3fb022be0b",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "25cf00ac-f404-4d62-8f09-02d47c459196",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "\"returned the proper type\"? I don't understand.",
+        "createdAt" : "2020-06-02T13:05:52Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8f5862d7-fba4-4f26-8ade-caa3b359f305",
+        "parentId" : "25cf00ac-f404-4d62-8f09-02d47c459196",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I reworded it.  key change is s/type/value/.   Also tried to remove some mystification  about the return type out of\r\nthat if branch.  After a year, I could not follow it, so I figured others might have problems also.\r\n",
+        "createdAt" : "2020-06-13T20:31:49Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode....\n+  //\n+  // The Java trim method is used to ensure that Java rules are followed.\n+  // It might not be the most memory & runtime efficient, but if execution\n+  // is in this routine, it is already on a slow path.\n+\n+  @tailrec\n+  def vetIEEE754Tail(tail: String): Boolean = {\n+\n+    if (tail.length <= 0) {\n+      true\n+    } else {\n+      val rest = tail.tail.trim\n+      (tail(0): @scala.annotation.switch) match {\n+        case 'D' | 'd' => vetIEEE754Tail(rest)\n+        case 'F' | 'f' => vetIEEE754Tail(rest)\n+        case _         => (tail.trim.length == 0)\n+      }\n+    }\n+  }\n+\n+  def parseIEEE754[T](s: String, f: (CString, Ptr[CString]) => T): T = {\n+    Zone { implicit z =>\n+      val cstr = toCString(s)\n+      val end  = stackalloc[CString]\n+\n+      errno.errno = 0\n+      var res = f(cstr, end)\n+\n+      def exceptionMsg = s\"For input string \\042${s}\\042\"\n+\n+      if (errno.errno != 0) {\n+        if (errno.errno != ERANGE) {\n+          // The need to use \\042 for double quote seems to be a Scala 2.11 bug.\n+          // Uglier workarounds exist.\n+          throw new NumberFormatException(exceptionMsg)\n+        }\n+        // Else strtod() or strtof() will have returned the proper type for"
+  },
+  {
+    "id" : "d3cc3ab6-2fe9-404f-9163-2affff721abf",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "25f8f4df-3f6c-4b9c-ad5a-8959317d834d",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "\"Perhaps\" is not very precise.\r\n\r\nThe JavaDoc has a very clear definition of what's allowed at https://docs.oracle.com/javase/8/docs/api/java/lang/Double.html#valueOf-java.lang.String-\r\nThere is even a regex for valid inputs, which we also use in Scala.js:\r\nhttps://github.com/scala-js/scala-js/blob/0e8fe18808a10887db073cf33c6211721a064e5b/javalanglib/src/main/scala/java/lang/Double.scala#L75-L85\r\nso whitespace chars are the ones in the range `\\u0000` to `\\u0020` included, and only those.",
+        "createdAt" : "2020-06-02T13:09:10Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5f2754be-3ab1-46f9-94fc-bd024f89edf1",
+        "parentId" : "25f8f4df-3f6c-4b9c-ad5a-8959317d834d",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I removed the \"Perhaps\" line.  I have learned more about Unicode and how Java & Scala define & parse whitespace over the year since this PR was created.   \r\n\r\nI followed the valueOf URL you kindly provided and added a reference to \r\njavase/8/docs/api/java/lang/String.html#trim-- to the comment.\r\n\r\nThe PR is was explicitly crafted to use the Java String.trim method to ensure consistency. \r\n\r\nThank you for picking up on the less than stellar comment.  Someone may have to follow this code someday.\r\n",
+        "createdAt" : "2020-06-13T20:47:08Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode...."
+  },
+  {
+    "id" : "b3a7cde2-8ed9-420b-94d3-4552850f6296",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "00ed1266-2e57-4924-b02a-555a890ba7ee",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Since we know that chars in the range [0-32] are admissible, we can easily write this without `trim`, not causing any more allocation than necessary:\r\n```scala\r\nprivate def vetIEEE754Tail(tail: String): Boolean = {\r\n  val len = tail.length\r\n  if (len == 0) true\r\n  else {\r\n    var i = 0\r\n    if ((tail.charAt(0) & 0xdd) == 0x44) // magic: is first char one of D d F f\r\n      i = 1\r\n    while (i != len) {\r\n      if ((tail.charAt(i) & 0xff) > ' ')\r\n        return false\r\n      i += 1\r\n    }\r\n    true\r\n  }\r\n}\r\n```\r\nAnd to avoid even allocating the substring at call site, we can take the start index instead of assuming that we have to start at 0:\r\n```scala\r\nprivate def vetIEEE754Tail(tail: String, start: Int): Boolean = {\r\n  val len = tail.length\r\n  if (len == start) true\r\n  else {\r\n    var i = start\r\n    if ((tail.charAt(i) & 0xdd) == 0x44) // magic: is first char one of D d F f\r\n      i += 1\r\n    while (i != len) {\r\n      if ((tail.charAt(i) & 0xff) > ' ')\r\n        return false\r\n      i += 1\r\n    }\r\n    true\r\n  }\r\n}\r\n```\r\n",
+        "createdAt" : "2020-06-02T13:36:16Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0b1fea35-d8ce-4c40-9d92-a1bd41a20a64",
+        "parentId" : "00ed1266-2e57-4924-b02a-555a890ba7ee",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "I extensively re-worked the implementation based on review comments, sample code, the review \r\nconcern with minimizing allocations and a years worth of experience & understanding.\r\n\r\nThe idea was to do the math in the C and C byte realm rather than improperly conflating Scala/Java Strings.\r\nI also added a few unit-test tests for corner cases which I found tricky or hard to remember.",
+        "createdAt" : "2020-06-14T22:00:26Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode....\n+  //\n+  // The Java trim method is used to ensure that Java rules are followed.\n+  // It might not be the most memory & runtime efficient, but if execution\n+  // is in this routine, it is already on a slow path.\n+\n+  @tailrec\n+  def vetIEEE754Tail(tail: String): Boolean = {\n+\n+    if (tail.length <= 0) {\n+      true\n+    } else {\n+      val rest = tail.tail.trim\n+      (tail(0): @scala.annotation.switch) match {\n+        case 'D' | 'd' => vetIEEE754Tail(rest)\n+        case 'F' | 'f' => vetIEEE754Tail(rest)\n+        case _         => (tail.trim.length == 0)\n+      }\n+    }\n+  }"
+  },
+  {
+    "id" : "c58289b4-97c1-4770-bd0c-53bebc1906c8",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "d6090dde-406f-4990-91b0-203b13109bc2",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Testing that `!end(0) == 0` is not correct, because there might be a `\\u0000` followed by non-whitespace characters in the original string. With the suggested definition of `vetIEEE754Tail`, we can simply do:\r\n```suggestion\r\n      } else if (vetIEEE754Tail(s, (!end - cstr).toInt)) {\r\n```",
+        "createdAt" : "2020-06-02T13:45:15Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "c9482881-0845-4c74-9269-22e79305d27b",
+        "parentId" : "d6090dde-406f-4990-91b0-203b13109bc2",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood. My mind was in the C world and I did not consider perverse Java string.\r\n Gone in current iteration.  Thank you for the catch.",
+        "createdAt" : "2020-06-14T22:01:44Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode....\n+  //\n+  // The Java trim method is used to ensure that Java rules are followed.\n+  // It might not be the most memory & runtime efficient, but if execution\n+  // is in this routine, it is already on a slow path.\n+\n+  @tailrec\n+  def vetIEEE754Tail(tail: String): Boolean = {\n+\n+    if (tail.length <= 0) {\n+      true\n+    } else {\n+      val rest = tail.tail.trim\n+      (tail(0): @scala.annotation.switch) match {\n+        case 'D' | 'd' => vetIEEE754Tail(rest)\n+        case 'F' | 'f' => vetIEEE754Tail(rest)\n+        case _         => (tail.trim.length == 0)\n+      }\n+    }\n+  }\n+\n+  def parseIEEE754[T](s: String, f: (CString, Ptr[CString]) => T): T = {\n+    Zone { implicit z =>\n+      val cstr = toCString(s)\n+      val end  = stackalloc[CString]\n+\n+      errno.errno = 0\n+      var res = f(cstr, end)\n+\n+      def exceptionMsg = s\"For input string \\042${s}\\042\"\n+\n+      if (errno.errno != 0) {\n+        if (errno.errno != ERANGE) {\n+          // The need to use \\042 for double quote seems to be a Scala 2.11 bug.\n+          // Uglier workarounds exist.\n+          throw new NumberFormatException(exceptionMsg)\n+        }\n+        // Else strtod() or strtof() will have returned the proper type for\n+        // 0.0 (too close to zero) or +/- infinity. Slick C lib design!\n+      } else if (!end == cstr) {\n+        throw new NumberFormatException(exceptionMsg)\n+      } else if ((!end(0) == 0) ||\n+                 vetIEEE754Tail(s.slice((!end - cstr).toInt, s.length))) {"
+  },
+  {
+    "id" : "4b80c517-de62-442a-8a9d-a1afb3219117",
+    "prId" : 1703,
+    "comments" : [
+      {
+        "id" : "0dcb3b85-c04d-4aa7-a527-2cb151c2d305",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "This is dead code. We return `res` below. You can leave an empty block, or, better, invert the condition of the `else if` just above.",
+        "createdAt" : "2020-06-02T13:45:53Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5fa81bf2-1505-4796-9a2a-8699b155b552",
+        "parentId" : "0dcb3b85-c04d-4aa7-a527-2cb151c2d305",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Gone in current iteration.",
+        "createdAt" : "2020-06-14T22:01:59Z",
+        "updatedAt" : "2020-07-06T17:11:51Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c8e88b73aba965a93fa434daa7be7a5ef505399b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,68 @@\n+package java.lang\n+\n+import scalanative.unsafe._\n+import scalanative.libc.errno\n+\n+import scala.annotation.{switch, tailrec}\n+import scalanative.posix.errno.ERANGE\n+\n+private[java] object IEEE754Helpers {\n+\n+  // Java parseDouble() and parseFloat() allow characters at & after\n+  // after where C strtod() or strtof() stops. Continuous trailing whitespace\n+  // with or without an initial 'D', 'd', 'F', 'f' size indicator\n+  // is allowed.\n+  // The whitespace can include tabs ('\\t') and even newlines! ('\\n').\n+  // Perhaps even Unicode....\n+  //\n+  // The Java trim method is used to ensure that Java rules are followed.\n+  // It might not be the most memory & runtime efficient, but if execution\n+  // is in this routine, it is already on a slow path.\n+\n+  @tailrec\n+  def vetIEEE754Tail(tail: String): Boolean = {\n+\n+    if (tail.length <= 0) {\n+      true\n+    } else {\n+      val rest = tail.tail.trim\n+      (tail(0): @scala.annotation.switch) match {\n+        case 'D' | 'd' => vetIEEE754Tail(rest)\n+        case 'F' | 'f' => vetIEEE754Tail(rest)\n+        case _         => (tail.trim.length == 0)\n+      }\n+    }\n+  }\n+\n+  def parseIEEE754[T](s: String, f: (CString, Ptr[CString]) => T): T = {\n+    Zone { implicit z =>\n+      val cstr = toCString(s)\n+      val end  = stackalloc[CString]\n+\n+      errno.errno = 0\n+      var res = f(cstr, end)\n+\n+      def exceptionMsg = s\"For input string \\042${s}\\042\"\n+\n+      if (errno.errno != 0) {\n+        if (errno.errno != ERANGE) {\n+          // The need to use \\042 for double quote seems to be a Scala 2.11 bug.\n+          // Uglier workarounds exist.\n+          throw new NumberFormatException(exceptionMsg)\n+        }\n+        // Else strtod() or strtof() will have returned the proper type for\n+        // 0.0 (too close to zero) or +/- infinity. Slick C lib design!\n+      } else if (!end == cstr) {\n+        throw new NumberFormatException(exceptionMsg)\n+      } else if ((!end(0) == 0) ||\n+                 vetIEEE754Tail(s.slice((!end - cstr).toInt, s.length))) {\n+        res"
+  }
+]

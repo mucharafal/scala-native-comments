@@ -1,0 +1,205 @@
+[
+  {
+    "id" : "7d960077-52d1-4198-9fd0-a5d610b058b8",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "ee12376a-80d5-4951-ab49-85ebc72fe5fa",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "1. Why do we have sweeping logic in allocator?\r\n2. Is this function used?",
+        "createdAt" : "2019-02-12T13:47:36Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "5754dfdc-04d3-4ce3-8f51-8854bb4fcbd6",
+        "parentId" : "ee12376a-80d5-4951-ab49-85ebc72fe5fa",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "Both `Allocator_Sweep` and `LargeAllocator_Sweep` are called from `Sweeper_Sweep`.\r\n1. They take their corresponding allocator as the first argument.\r\n2. All the logic that can change the state of small object specific metadata is in `Allocator` and for large objects it is `LargeAllocator`. It is convenient and I see no benefit of  splitting it.\r\n3. This saves LargeAllocator from exposing the chunk and its freelist manipulation logic which is part of its implementation.\r\n4. The obvious alternative is to put them both in `Sweeper` and call them something like `Sweeper_SweepSmall` and `Sweeper_SweepLarge` which I do not like. For the same reason I moved `Allocator_lazySweep` and `LargeAllocator_lazySweep` to these modules.",
+        "createdAt" : "2019-02-27T15:05:54Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "4505a31f-b1c7-4dc9-bd10-3a44a6af8b8c",
+        "parentId" : "ee12376a-80d5-4951-ab49-85ebc72fe5fa",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Having sweeping logic spread over multiple modules makes it harder to see the whole picture. This needs to be refactored better for clarity.",
+        "createdAt" : "2019-02-27T15:14:44Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "53113feb-70a8-4dbe-a308-d444fc0e7af9",
+        "parentId" : "ee12376a-80d5-4951-ab49-85ebc72fe5fa",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "You are right. After all we do not split the conservative marking logic in `Marker` either. I moved both functions to `Sweeper`. And they are private - not exposed in the `*.h` file.",
+        "createdAt" : "2019-02-28T10:28:11Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,427 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"State.h\"\n+#include \"Sweeper.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+bool Allocator_getNextLine(Allocator *allocator);\n+bool Allocator_newBlock(Allocator *allocator);\n+bool Allocator_newOverflowBlock(Allocator *allocator);\n+\n+void Allocator_Init(Allocator *allocator, BlockAllocator *blockAllocator,\n+                    Bytemap *bytemap, word_t *blockMetaStart,\n+                    word_t *heapStart) {\n+    allocator->blockMetaStart = blockMetaStart;\n+    allocator->blockAllocator = blockAllocator;\n+    allocator->bytemap = bytemap;\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_Init(&allocator->recycledBlocks);\n+\n+    allocator->recycledBlockCount = 0;\n+\n+    // Init cursor\n+    bool didInit = Allocator_newBlock(allocator);\n+    assert(didInit);\n+\n+    // Init large cursor\n+    bool didLargeInit = Allocator_newOverflowBlock(allocator);\n+    assert(didLargeInit);\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_CanInitCursors(Allocator *allocator) {\n+    uint32_t freeBlockCount =\n+        (uint32_t)allocator->blockAllocator->freeBlockCount;\n+    return freeBlockCount >= 2 ||\n+           (freeBlockCount == 1 && allocator->recycledBlockCount > 0);\n+}\n+\n+void Allocator_Clear(Allocator *allocator) {\n+    BlockList_Clear(&allocator->recycledBlocks);\n+    allocator->recycledBlockCount = 0;\n+    allocator->limit = NULL;\n+    allocator->block = NULL;\n+    allocator->largeLimit = NULL;\n+    allocator->largeBlock = NULL;\n+}\n+\n+bool Allocator_newOverflowBlock(Allocator *allocator) {\n+    BlockMeta *largeBlock =\n+        BlockAllocator_GetFreeBlock(allocator->blockAllocator);\n+    if (largeBlock == NULL) {\n+        return false;\n+    }\n+    allocator->largeBlock = largeBlock;\n+    word_t *largeBlockStart = BlockMeta_GetBlockStart(\n+        allocator->blockMetaStart, allocator->heapStart, largeBlock);\n+    allocator->largeBlockStart = largeBlockStart;\n+    allocator->largeCursor = largeBlockStart;\n+    allocator->largeLimit = Block_GetBlockEnd(largeBlockStart);\n+    return true;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *Allocator_overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // allocator->largeLimit == NULL implies end > allocator->largeLimit\n+    assert(allocator->largeLimit != NULL || end > allocator->largeLimit);\n+    if (end > allocator->largeLimit) {\n+        if (!Allocator_newOverflowBlock(allocator)) {\n+            return NULL;\n+        }\n+        return Allocator_overflowAllocation(allocator, size);\n+    }\n+\n+    memset(start, 0, size);\n+\n+    allocator->largeCursor = end;\n+\n+    return start;\n+}\n+\n+/**\n+ * Allocation fast path, uses the cursor and limit.\n+ */\n+INLINE word_t *Allocator_tryAlloc(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // allocator->limit == NULL implies end > allocator->limit\n+    assert(allocator->limit != NULL || end > allocator->limit);\n+    if (end > allocator->limit) {\n+        // If it overlaps but the block to allocate is a `medium` sized block,\n+        // use overflow allocation\n+        if (size > LINE_SIZE) {\n+            return Allocator_overflowAllocation(allocator, size);\n+        } else {\n+            // Otherwise try to get a new line.\n+            if (Allocator_getNextLine(allocator)) {\n+                return Allocator_tryAlloc(allocator, size);\n+            }\n+\n+            return NULL;\n+        }\n+    }\n+\n+    memset(start, 0, size);\n+\n+    allocator->cursor = end;\n+\n+    return start;\n+}\n+\n+/**\n+ * Updates the cursor and the limit of the Allocator to point the next line.\n+ */\n+bool Allocator_getNextLine(Allocator *allocator) {\n+    BlockMeta *block = allocator->block;\n+    if (block == NULL) {\n+        return Allocator_newBlock(allocator);\n+    }\n+    word_t *blockStart = allocator->blockStart;\n+\n+    int lineIndex = BlockMeta_FirstFreeLine(block);\n+    if (lineIndex == LAST_HOLE) {\n+        return Allocator_newBlock(allocator);\n+    }\n+\n+    word_t *line = Block_GetLineAddress(blockStart, lineIndex);\n+\n+    allocator->cursor = line;\n+    FreeLineMeta *lineMeta = (FreeLineMeta *)line;\n+    BlockMeta_SetFirstFreeLine(block, lineMeta->next);\n+    uint16_t size = lineMeta->size;\n+    allocator->limit = line + (size * WORDS_IN_LINE);\n+    assert(allocator->limit <= Block_GetBlockEnd(blockStart));\n+\n+    return true;\n+}\n+\n+/**\n+ * Updates the the cursor and the limit of the Allocator to point to the first\n+ * free line of the new block.\n+ */\n+bool Allocator_newBlock(Allocator *allocator) {\n+    bool concurrent = allocator->blockAllocator->concurrent;\n+    word_t *blockMetaStart = allocator->blockMetaStart;\n+    BlockMeta *block;\n+    if (concurrent) {\n+        block = BlockList_Pop(&allocator->recycledBlocks, blockMetaStart);\n+    } else {\n+        block = BlockList_Pop_OnlyThread(&allocator->recycledBlocks,\n+                                         blockMetaStart);\n+    }\n+    word_t *blockStart;\n+\n+    if (block != NULL) {\n+        // get all the changes done by sweeping\n+        atomic_thread_fence(memory_order_acquire);\n+#ifdef DEBUG_PRINT\n+        printf(\"Allocator_newBlock RECYCLED %p %\" PRIu32 \"\\n\", block,\n+               BlockMeta_GetBlockIndex(blockMetaStart, block));\n+        fflush(stdout);\n+#endif\n+        assert(block->debugFlag == dbg_partial_free);\n+#ifdef DEBUG_ASSERT\n+        block->debugFlag = dbg_in_use;\n+#endif\n+        blockStart = BlockMeta_GetBlockStart(blockMetaStart,\n+                                             allocator->heapStart, block);\n+\n+        int lineIndex = BlockMeta_FirstFreeLine(block);\n+        assert(lineIndex < LINE_COUNT);\n+        word_t *line = Block_GetLineAddress(blockStart, lineIndex);\n+\n+        allocator->cursor = line;\n+        FreeLineMeta *lineMeta = (FreeLineMeta *)line;\n+        BlockMeta_SetFirstFreeLine(block, lineMeta->next);\n+        uint16_t size = lineMeta->size;\n+        assert(size > 0);\n+        allocator->limit = line + (size * WORDS_IN_LINE);\n+        assert(allocator->limit <= Block_GetBlockEnd(blockStart));\n+    } else {\n+        block = BlockAllocator_GetFreeBlock(allocator->blockAllocator);\n+#ifdef DEBUG_PRINT\n+        printf(\"Allocator_newBlock %p %\" PRIu32 \"\\n\", block,\n+               BlockMeta_GetBlockIndex(blockMetaStart, block));\n+        fflush(stdout);\n+#endif\n+        if (block == NULL) {\n+            return false;\n+        }\n+        blockStart = BlockMeta_GetBlockStart(blockMetaStart,\n+                                             allocator->heapStart, block);\n+\n+        allocator->cursor = blockStart;\n+        allocator->limit = Block_GetBlockEnd(blockStart);\n+        BlockMeta_SetFirstFreeLine(block, LAST_HOLE);\n+    }\n+\n+    allocator->block = block;\n+    allocator->blockStart = blockStart;\n+\n+    return true;\n+}\n+\n+INLINE\n+word_t *Allocator_lazySweep(Heap *heap, uint32_t size) {\n+    word_t *object = NULL;\n+    Stats_DefineOrNothing(stats, heap->stats);\n+    Stats_RecordTime(stats, start_ns);\n+    // mark as active\n+    heap->lazySweep.lastActivity = BlockRange_Pack(1, heap->sweep.cursor);\n+    while (object == NULL && heap->sweep.cursor < heap->sweep.limit) {\n+        Sweeper_Sweep(heap, heap->stats, &heap->lazySweep.cursorDone,\n+                      LAZY_SWEEP_MIN_BATCH);\n+        object = Allocator_tryAlloc(&allocator, size);\n+    }\n+    // mark as inactive\n+    heap->lazySweep.lastActivity = BlockRange_Pack(0, heap->sweep.cursor);\n+    while (object == NULL && !Sweeper_IsSweepDone(heap)) {\n+        object = Allocator_tryAlloc(&allocator, size);\n+        if (object == NULL) {\n+            sched_yield();\n+        }\n+    }\n+    Stats_RecordTime(stats, end_ns);\n+    Stats_RecordEvent(stats, event_sweep, start_ns, end_ns);\n+    return object;\n+}\n+\n+NOINLINE word_t *Allocator_allocSlow(Heap *heap, uint32_t size) {\n+    word_t *object = Allocator_tryAlloc(&allocator, size);\n+\n+    if (object != NULL) {\n+    done:\n+        assert(Heap_IsWordInHeap(heap, object));\n+        assert(object != NULL);\n+        ObjectMeta *objectMeta = Bytemap_Get(allocator.bytemap, object);\n+#ifdef DEBUG_ASSERT\n+        ObjectMeta_AssertIsValidAllocation(objectMeta, size);\n+#endif\n+        ObjectMeta_SetAllocated(objectMeta);\n+        return object;\n+    }\n+\n+    if (!Sweeper_IsSweepDone(heap)) {\n+        object = Allocator_lazySweep(heap, size);\n+\n+        if (object != NULL)\n+            goto done;\n+    }\n+\n+    Heap_Collect(heap);\n+    object = Allocator_tryAlloc(&allocator, size);\n+\n+    if (object != NULL)\n+        goto done;\n+\n+    if (!Sweeper_IsSweepDone(heap)) {\n+        object = Allocator_lazySweep(heap, size);\n+\n+        if (object != NULL)\n+            goto done;\n+    }\n+\n+    // A small object can always fit in a single free block\n+    // because it is no larger than 8K while the block is 32K.\n+    Heap_Grow(heap, 1);\n+    object = Allocator_tryAlloc(&allocator, size);\n+\n+    goto done;\n+}\n+\n+INLINE word_t *Allocator_Alloc(Heap *heap, uint32_t size) {\n+    assert(size % ALLOCATION_ALIGNMENT == 0);\n+    assert(size < MIN_BLOCK_SIZE);\n+\n+    word_t *start = allocator.cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // Checks if the end of the block overlaps with the limit\n+    if (end >= allocator.limit) {\n+        return Allocator_allocSlow(heap, size);\n+    }\n+\n+    allocator.cursor = end;\n+\n+    memset(start, 0, size);\n+\n+    word_t *object = start;\n+    ObjectMeta *objectMeta = Bytemap_Get(allocator.bytemap, object);\n+#ifdef DEBUG_ASSERT\n+    ObjectMeta_AssertIsValidAllocation(objectMeta, size);\n+#endif\n+    ObjectMeta_SetAllocated(objectMeta);\n+\n+    __builtin_prefetch(object + 36, 0, 3);\n+\n+    assert(Heap_IsWordInHeap(heap, object));\n+    return object;\n+}\n+\n+uint32_t Allocator_Sweep(Allocator *allocator, BlockMeta *blockMeta,"
+  },
+  {
+    "id" : "75bdf165-dffe-4eba-8b6e-9a59ab429f04",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "b1429c77-d153-458d-9890-9225a5c3cd28",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why is it `>=` here and not `>` ? ",
+        "createdAt" : "2019-02-12T13:48:35Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e5006b21-00c5-4e69-98af-c0c9e6a79e00",
+        "parentId" : "b1429c77-d153-458d-9890-9225a5c3cd28",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "You are right, nice catch! I updated that.",
+        "createdAt" : "2019-02-27T10:48:35Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,427 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"State.h\"\n+#include \"Sweeper.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+bool Allocator_getNextLine(Allocator *allocator);\n+bool Allocator_newBlock(Allocator *allocator);\n+bool Allocator_newOverflowBlock(Allocator *allocator);\n+\n+void Allocator_Init(Allocator *allocator, BlockAllocator *blockAllocator,\n+                    Bytemap *bytemap, word_t *blockMetaStart,\n+                    word_t *heapStart) {\n+    allocator->blockMetaStart = blockMetaStart;\n+    allocator->blockAllocator = blockAllocator;\n+    allocator->bytemap = bytemap;\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_Init(&allocator->recycledBlocks);\n+\n+    allocator->recycledBlockCount = 0;\n+\n+    // Init cursor\n+    bool didInit = Allocator_newBlock(allocator);\n+    assert(didInit);\n+\n+    // Init large cursor\n+    bool didLargeInit = Allocator_newOverflowBlock(allocator);\n+    assert(didLargeInit);\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_CanInitCursors(Allocator *allocator) {\n+    uint32_t freeBlockCount =\n+        (uint32_t)allocator->blockAllocator->freeBlockCount;\n+    return freeBlockCount >= 2 ||\n+           (freeBlockCount == 1 && allocator->recycledBlockCount > 0);\n+}\n+\n+void Allocator_Clear(Allocator *allocator) {\n+    BlockList_Clear(&allocator->recycledBlocks);\n+    allocator->recycledBlockCount = 0;\n+    allocator->limit = NULL;\n+    allocator->block = NULL;\n+    allocator->largeLimit = NULL;\n+    allocator->largeBlock = NULL;\n+}\n+\n+bool Allocator_newOverflowBlock(Allocator *allocator) {\n+    BlockMeta *largeBlock =\n+        BlockAllocator_GetFreeBlock(allocator->blockAllocator);\n+    if (largeBlock == NULL) {\n+        return false;\n+    }\n+    allocator->largeBlock = largeBlock;\n+    word_t *largeBlockStart = BlockMeta_GetBlockStart(\n+        allocator->blockMetaStart, allocator->heapStart, largeBlock);\n+    allocator->largeBlockStart = largeBlockStart;\n+    allocator->largeCursor = largeBlockStart;\n+    allocator->largeLimit = Block_GetBlockEnd(largeBlockStart);\n+    return true;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *Allocator_overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // allocator->largeLimit == NULL implies end > allocator->largeLimit\n+    assert(allocator->largeLimit != NULL || end > allocator->largeLimit);\n+    if (end > allocator->largeLimit) {\n+        if (!Allocator_newOverflowBlock(allocator)) {\n+            return NULL;\n+        }\n+        return Allocator_overflowAllocation(allocator, size);\n+    }\n+\n+    memset(start, 0, size);\n+\n+    allocator->largeCursor = end;\n+\n+    return start;\n+}\n+\n+/**\n+ * Allocation fast path, uses the cursor and limit.\n+ */\n+INLINE word_t *Allocator_tryAlloc(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // allocator->limit == NULL implies end > allocator->limit\n+    assert(allocator->limit != NULL || end > allocator->limit);\n+    if (end > allocator->limit) {\n+        // If it overlaps but the block to allocate is a `medium` sized block,\n+        // use overflow allocation\n+        if (size > LINE_SIZE) {\n+            return Allocator_overflowAllocation(allocator, size);\n+        } else {\n+            // Otherwise try to get a new line.\n+            if (Allocator_getNextLine(allocator)) {\n+                return Allocator_tryAlloc(allocator, size);\n+            }\n+\n+            return NULL;\n+        }\n+    }\n+\n+    memset(start, 0, size);\n+\n+    allocator->cursor = end;\n+\n+    return start;\n+}\n+\n+/**\n+ * Updates the cursor and the limit of the Allocator to point the next line.\n+ */\n+bool Allocator_getNextLine(Allocator *allocator) {\n+    BlockMeta *block = allocator->block;\n+    if (block == NULL) {\n+        return Allocator_newBlock(allocator);\n+    }\n+    word_t *blockStart = allocator->blockStart;\n+\n+    int lineIndex = BlockMeta_FirstFreeLine(block);\n+    if (lineIndex == LAST_HOLE) {\n+        return Allocator_newBlock(allocator);\n+    }\n+\n+    word_t *line = Block_GetLineAddress(blockStart, lineIndex);\n+\n+    allocator->cursor = line;\n+    FreeLineMeta *lineMeta = (FreeLineMeta *)line;\n+    BlockMeta_SetFirstFreeLine(block, lineMeta->next);\n+    uint16_t size = lineMeta->size;\n+    allocator->limit = line + (size * WORDS_IN_LINE);\n+    assert(allocator->limit <= Block_GetBlockEnd(blockStart));\n+\n+    return true;\n+}\n+\n+/**\n+ * Updates the the cursor and the limit of the Allocator to point to the first\n+ * free line of the new block.\n+ */\n+bool Allocator_newBlock(Allocator *allocator) {\n+    bool concurrent = allocator->blockAllocator->concurrent;\n+    word_t *blockMetaStart = allocator->blockMetaStart;\n+    BlockMeta *block;\n+    if (concurrent) {\n+        block = BlockList_Pop(&allocator->recycledBlocks, blockMetaStart);\n+    } else {\n+        block = BlockList_Pop_OnlyThread(&allocator->recycledBlocks,\n+                                         blockMetaStart);\n+    }\n+    word_t *blockStart;\n+\n+    if (block != NULL) {\n+        // get all the changes done by sweeping\n+        atomic_thread_fence(memory_order_acquire);\n+#ifdef DEBUG_PRINT\n+        printf(\"Allocator_newBlock RECYCLED %p %\" PRIu32 \"\\n\", block,\n+               BlockMeta_GetBlockIndex(blockMetaStart, block));\n+        fflush(stdout);\n+#endif\n+        assert(block->debugFlag == dbg_partial_free);\n+#ifdef DEBUG_ASSERT\n+        block->debugFlag = dbg_in_use;\n+#endif\n+        blockStart = BlockMeta_GetBlockStart(blockMetaStart,\n+                                             allocator->heapStart, block);\n+\n+        int lineIndex = BlockMeta_FirstFreeLine(block);\n+        assert(lineIndex < LINE_COUNT);\n+        word_t *line = Block_GetLineAddress(blockStart, lineIndex);\n+\n+        allocator->cursor = line;\n+        FreeLineMeta *lineMeta = (FreeLineMeta *)line;\n+        BlockMeta_SetFirstFreeLine(block, lineMeta->next);\n+        uint16_t size = lineMeta->size;\n+        assert(size > 0);\n+        allocator->limit = line + (size * WORDS_IN_LINE);\n+        assert(allocator->limit <= Block_GetBlockEnd(blockStart));\n+    } else {\n+        block = BlockAllocator_GetFreeBlock(allocator->blockAllocator);\n+#ifdef DEBUG_PRINT\n+        printf(\"Allocator_newBlock %p %\" PRIu32 \"\\n\", block,\n+               BlockMeta_GetBlockIndex(blockMetaStart, block));\n+        fflush(stdout);\n+#endif\n+        if (block == NULL) {\n+            return false;\n+        }\n+        blockStart = BlockMeta_GetBlockStart(blockMetaStart,\n+                                             allocator->heapStart, block);\n+\n+        allocator->cursor = blockStart;\n+        allocator->limit = Block_GetBlockEnd(blockStart);\n+        BlockMeta_SetFirstFreeLine(block, LAST_HOLE);\n+    }\n+\n+    allocator->block = block;\n+    allocator->blockStart = blockStart;\n+\n+    return true;\n+}\n+\n+INLINE\n+word_t *Allocator_lazySweep(Heap *heap, uint32_t size) {\n+    word_t *object = NULL;\n+    Stats_DefineOrNothing(stats, heap->stats);\n+    Stats_RecordTime(stats, start_ns);\n+    // mark as active\n+    heap->lazySweep.lastActivity = BlockRange_Pack(1, heap->sweep.cursor);\n+    while (object == NULL && heap->sweep.cursor < heap->sweep.limit) {\n+        Sweeper_Sweep(heap, heap->stats, &heap->lazySweep.cursorDone,\n+                      LAZY_SWEEP_MIN_BATCH);\n+        object = Allocator_tryAlloc(&allocator, size);\n+    }\n+    // mark as inactive\n+    heap->lazySweep.lastActivity = BlockRange_Pack(0, heap->sweep.cursor);\n+    while (object == NULL && !Sweeper_IsSweepDone(heap)) {\n+        object = Allocator_tryAlloc(&allocator, size);\n+        if (object == NULL) {\n+            sched_yield();\n+        }\n+    }\n+    Stats_RecordTime(stats, end_ns);\n+    Stats_RecordEvent(stats, event_sweep, start_ns, end_ns);\n+    return object;\n+}\n+\n+NOINLINE word_t *Allocator_allocSlow(Heap *heap, uint32_t size) {\n+    word_t *object = Allocator_tryAlloc(&allocator, size);\n+\n+    if (object != NULL) {\n+    done:\n+        assert(Heap_IsWordInHeap(heap, object));\n+        assert(object != NULL);\n+        ObjectMeta *objectMeta = Bytemap_Get(allocator.bytemap, object);\n+#ifdef DEBUG_ASSERT\n+        ObjectMeta_AssertIsValidAllocation(objectMeta, size);\n+#endif\n+        ObjectMeta_SetAllocated(objectMeta);\n+        return object;\n+    }\n+\n+    if (!Sweeper_IsSweepDone(heap)) {\n+        object = Allocator_lazySweep(heap, size);\n+\n+        if (object != NULL)\n+            goto done;\n+    }\n+\n+    Heap_Collect(heap);\n+    object = Allocator_tryAlloc(&allocator, size);\n+\n+    if (object != NULL)\n+        goto done;\n+\n+    if (!Sweeper_IsSweepDone(heap)) {\n+        object = Allocator_lazySweep(heap, size);\n+\n+        if (object != NULL)\n+            goto done;\n+    }\n+\n+    // A small object can always fit in a single free block\n+    // because it is no larger than 8K while the block is 32K.\n+    Heap_Grow(heap, 1);\n+    object = Allocator_tryAlloc(&allocator, size);\n+\n+    goto done;\n+}\n+\n+INLINE word_t *Allocator_Alloc(Heap *heap, uint32_t size) {\n+    assert(size % ALLOCATION_ALIGNMENT == 0);\n+    assert(size < MIN_BLOCK_SIZE);\n+\n+    word_t *start = allocator.cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // Checks if the end of the block overlaps with the limit\n+    if (end >= allocator.limit) {"
+  },
+  {
+    "id" : "b91f3563-e780-42a9-b1e8-ff1c7a90a4d0",
+    "prId" : 1423,
+    "comments" : [
+      {
+        "id" : "9e5183dc-9263-4381-8995-81453a39de92",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Why do we need memset here? `tryAlloc` is only called on allocation slow path that returns back to fast path before memory is zeroed. ",
+        "createdAt" : "2019-02-12T13:51:02Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7393fd9e-debd-4346-9310-6a8dce238723",
+        "parentId" : "9e5183dc-9263-4381-8995-81453a39de92",
+        "author" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "body" : "When the slow path is called the object is returned immediately and the memset in fast path is not called. However I did manage to reduce the call instructions to memset by moving them from `tryAlloc` and `Allocator_overflowAllocation` to `Allocator_allocSlow`.  `tryAlloc` gets inlined in multiple places, so this should reduce the code size somewhat.",
+        "createdAt" : "2019-02-27T11:27:23Z",
+        "updatedAt" : "2019-07-17T09:53:34Z",
+        "lastEditedBy" : {
+          "login" : "valdisxp1",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/2277076?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "9349177c2456e08c91598c5a158c63a30876a4e0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,427 @@\n+#include <stdlib.h>\n+#include \"Allocator.h\"\n+#include \"State.h\"\n+#include \"Sweeper.h\"\n+#include <stdio.h>\n+#include <memory.h>\n+\n+bool Allocator_getNextLine(Allocator *allocator);\n+bool Allocator_newBlock(Allocator *allocator);\n+bool Allocator_newOverflowBlock(Allocator *allocator);\n+\n+void Allocator_Init(Allocator *allocator, BlockAllocator *blockAllocator,\n+                    Bytemap *bytemap, word_t *blockMetaStart,\n+                    word_t *heapStart) {\n+    allocator->blockMetaStart = blockMetaStart;\n+    allocator->blockAllocator = blockAllocator;\n+    allocator->bytemap = bytemap;\n+    allocator->heapStart = heapStart;\n+\n+    BlockList_Init(&allocator->recycledBlocks);\n+\n+    allocator->recycledBlockCount = 0;\n+\n+    // Init cursor\n+    bool didInit = Allocator_newBlock(allocator);\n+    assert(didInit);\n+\n+    // Init large cursor\n+    bool didLargeInit = Allocator_newOverflowBlock(allocator);\n+    assert(didLargeInit);\n+}\n+\n+/**\n+ * The Allocator needs one free block for overflow allocation and a free or\n+ * recyclable block for normal allocation.\n+ *\n+ * @param allocator\n+ * @return `true` if there are enough block to initialise the cursors, `false`\n+ * otherwise.\n+ */\n+bool Allocator_CanInitCursors(Allocator *allocator) {\n+    uint32_t freeBlockCount =\n+        (uint32_t)allocator->blockAllocator->freeBlockCount;\n+    return freeBlockCount >= 2 ||\n+           (freeBlockCount == 1 && allocator->recycledBlockCount > 0);\n+}\n+\n+void Allocator_Clear(Allocator *allocator) {\n+    BlockList_Clear(&allocator->recycledBlocks);\n+    allocator->recycledBlockCount = 0;\n+    allocator->limit = NULL;\n+    allocator->block = NULL;\n+    allocator->largeLimit = NULL;\n+    allocator->largeBlock = NULL;\n+}\n+\n+bool Allocator_newOverflowBlock(Allocator *allocator) {\n+    BlockMeta *largeBlock =\n+        BlockAllocator_GetFreeBlock(allocator->blockAllocator);\n+    if (largeBlock == NULL) {\n+        return false;\n+    }\n+    allocator->largeBlock = largeBlock;\n+    word_t *largeBlockStart = BlockMeta_GetBlockStart(\n+        allocator->blockMetaStart, allocator->heapStart, largeBlock);\n+    allocator->largeBlockStart = largeBlockStart;\n+    allocator->largeCursor = largeBlockStart;\n+    allocator->largeLimit = Block_GetBlockEnd(largeBlockStart);\n+    return true;\n+}\n+\n+/**\n+ * Overflow allocation uses only free blocks, it is used when the bump limit of\n+ * the fast allocator is too small to fit\n+ * the block to alloc.\n+ */\n+word_t *Allocator_overflowAllocation(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->largeCursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // allocator->largeLimit == NULL implies end > allocator->largeLimit\n+    assert(allocator->largeLimit != NULL || end > allocator->largeLimit);\n+    if (end > allocator->largeLimit) {\n+        if (!Allocator_newOverflowBlock(allocator)) {\n+            return NULL;\n+        }\n+        return Allocator_overflowAllocation(allocator, size);\n+    }\n+\n+    memset(start, 0, size);\n+\n+    allocator->largeCursor = end;\n+\n+    return start;\n+}\n+\n+/**\n+ * Allocation fast path, uses the cursor and limit.\n+ */\n+INLINE word_t *Allocator_tryAlloc(Allocator *allocator, size_t size) {\n+    word_t *start = allocator->cursor;\n+    word_t *end = (word_t *)((uint8_t *)start + size);\n+\n+    // allocator->limit == NULL implies end > allocator->limit\n+    assert(allocator->limit != NULL || end > allocator->limit);\n+    if (end > allocator->limit) {\n+        // If it overlaps but the block to allocate is a `medium` sized block,\n+        // use overflow allocation\n+        if (size > LINE_SIZE) {\n+            return Allocator_overflowAllocation(allocator, size);\n+        } else {\n+            // Otherwise try to get a new line.\n+            if (Allocator_getNextLine(allocator)) {\n+                return Allocator_tryAlloc(allocator, size);\n+            }\n+\n+            return NULL;\n+        }\n+    }\n+\n+    memset(start, 0, size);"
+  }
+]

@@ -1,0 +1,64 @@
+[
+  {
+    "id" : "f1fbd8a9-ce14-40b4-afa5-6fd2c59927c9",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "bc17bb8d-d64a-4ca0-b2b4-7c326740d97c",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Prefer lowercase acronyms when they are at the beginning of a `camelCase` identifier.\r\n```suggestion\r\n  def lto: LTO\r\n```\r\nThis is similar to `def gc: GC` for example.",
+        "createdAt" : "2020-08-26T13:07:17Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,156 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Path, Paths}\n+\n+/** An object describing how to configure the Scala Native toolchain. */\n+sealed trait NativeConfig {\n+\n+  /** The garbage collector to use. */\n+  def gc: GC\n+\n+  /** Compilation mode. */\n+  def mode: Mode\n+\n+  /** The path to the `clang` executable. */\n+  def clang: Path\n+\n+  /** The path to the `clang++` executable. */\n+  def clangPP: Path\n+\n+  /** The options passed to LLVM's linker. */\n+  def linkingOptions: Seq[String]\n+\n+  /** The compilation options passed to LLVM. */\n+  def compileOptions: Seq[String]\n+\n+  /** Should stubs be linked? */\n+  def linkStubs: Boolean\n+\n+  /** The LTO mode to use used during a release build. */\n+  def LTO: LTO"
+  },
+  {
+    "id" : "17af81e8-1d95-4c4f-bbf3-4664f32ce747",
+    "prId" : 1864,
+    "comments" : [
+      {
+        "id" : "1509e377-b8cb-48e2-b050-18fa8aff11b0",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "There are tabs here.",
+        "createdAt" : "2020-08-26T13:11:45Z",
+        "updatedAt" : "2020-08-26T13:56:23Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bc775f7a83bca6e7df8f6b31c1eb3c6bc0098845",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,156 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Path, Paths}\n+\n+/** An object describing how to configure the Scala Native toolchain. */\n+sealed trait NativeConfig {\n+\n+  /** The garbage collector to use. */\n+  def gc: GC\n+\n+  /** Compilation mode. */\n+  def mode: Mode\n+\n+  /** The path to the `clang` executable. */\n+  def clang: Path\n+\n+  /** The path to the `clang++` executable. */\n+  def clangPP: Path\n+\n+  /** The options passed to LLVM's linker. */\n+  def linkingOptions: Seq[String]\n+\n+  /** The compilation options passed to LLVM. */\n+  def compileOptions: Seq[String]\n+\n+  /** Should stubs be linked? */\n+  def linkStubs: Boolean\n+\n+  /** The LTO mode to use used during a release build. */\n+  def LTO: LTO\n+\n+  /** Shall linker check that NIR is well-formed after every phase? */\n+  def check: Boolean\n+\n+  /** Shall linker dump intermediate NIR after every phase? */\n+  def dump: Boolean\n+\n+  /** Shall we optimize the resulting NIR code? */\n+  def optimize: Boolean\n+\n+  /** Create a new config with given garbage collector. */\n+  def withGC(value: GC): NativeConfig\n+\n+  /** Create a new config with given compilation mode. */\n+  def withMode(value: Mode): NativeConfig\n+\n+  /** Create a new config with given path to clang. */\n+  def withClang(value: Path): NativeConfig\n+\n+  /** Create a new config with given path to clang++. */\n+  def withClangPP(value: Path): NativeConfig\n+\n+  /** Create a new config with given linking options. */\n+  def withLinkingOptions(value: Seq[String]): NativeConfig\n+\n+  /** Create a new config with given compilation options. */\n+  def withCompileOptions(value: Seq[String]): NativeConfig\n+\n+  /** Create a new config with given behavior for stubs. */\n+  def withLinkStubs(value: Boolean): NativeConfig\n+\n+  /** Create a new config with the given lto mode. */\n+  def withLTO(value: LTO): NativeConfig\n+\n+  /** Create a new config with given check value. */\n+  def withCheck(value: Boolean): NativeConfig\n+\n+  /** Create a new config with given dump value. */\n+  def withDump(value: Boolean): NativeConfig\n+\n+  /** Create a new config with given optimize value */\n+  def withOptimize(value: Boolean): NativeConfig\n+}\n+\n+object NativeConfig {\n+\n+  /** Default empty config object where all of the fields are left blank. */\n+  def empty: NativeConfig =\n+    Impl(\n+      clang = Paths.get(\"\"),\n+      clangPP = Paths.get(\"\"),\n+      linkingOptions = Seq.empty,\n+      compileOptions = Seq.empty,\n+      gc = GC.default,\n+      LTO = LTO.default,\n+      mode = Mode.default,\n+      check = false,\n+      dump = false,\n+      linkStubs = false,\n+      optimize = false\n+    )\n+\n+  private final case class Impl(clang: Path,\n+                                clangPP: Path,\n+                                linkingOptions: Seq[String],\n+                                compileOptions: Seq[String],\n+                                gc: GC,\n+                                mode: Mode,\n+                                LTO: LTO,\n+                                linkStubs: Boolean,\n+                                check: Boolean,\n+                                dump: Boolean,\n+                                optimize: Boolean)\n+      extends NativeConfig {\n+\n+    def withClang(value: Path): NativeConfig =\n+      copy(clang = value)\n+\n+    def withClangPP(value: Path): NativeConfig =\n+      copy(clangPP = value)\n+\n+    def withLinkingOptions(value: Seq[String]): NativeConfig =\n+      copy(linkingOptions = value)\n+\n+    def withCompileOptions(value: Seq[String]): NativeConfig =\n+      copy(compileOptions = value)\n+\n+    def withGC(value: GC): NativeConfig =\n+      copy(gc = value)\n+\n+    def withMode(value: Mode): NativeConfig =\n+      copy(mode = value)\n+\n+    def withLinkStubs(value: Boolean): NativeConfig =\n+      copy(linkStubs = value)\n+\n+    def withLTO(value: LTO): NativeConfig =\n+      copy(LTO = value)\n+\n+    def withCheck(value: Boolean): NativeConfig =\n+      copy(check = value)\n+\n+    def withDump(value: Boolean): NativeConfig =\n+      copy(dump = value)\n+\n+    override def withOptimize(value: Boolean): NativeConfig =\n+      copy(optimize = value)\n+\n+    override def toString: String =\n+      s\"\"\"NativeConfig(\n+         | - clang:           $clang\n+         | - clangPP:         $clangPP\n+         | - linkingOptions:  $linkingOptions\n+         | - compileOptions:  $compileOptions\n+         | - GC:              $gc\n+         | - mode:            $mode\n+         | - LTO:             $LTO\n+         | - linkStubs:       $linkStubs\n+         | - check:           $check\n+         | - dump:            $dump\n+\t\t | - optimize         $optimize"
+  }
+]

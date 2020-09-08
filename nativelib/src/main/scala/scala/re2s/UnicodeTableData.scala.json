@@ -1,0 +1,328 @@
+[
+  {
+    "id" : "a4f2cc1f-fef4-427d-b7c1-bd2c3207499e",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "7d2a6ebf-4ff0-4ed9-819f-fd6efbd67424",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is there any way we can unify those with table data in `java.lang.Character`? They have some impact on binary size so it would be good not to duplicate the information as much as possible.",
+        "createdAt" : "2019-04-02T09:56:46Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1408cc09-6427-49a0-b401-194ac162f059",
+        "parentId" : "7d2a6ebf-4ff0-4ed9-819f-fd6efbd67424",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "\r\nI understand & agree.  I think you have read and support my concerns with \"Single Points of\r\nTruth\"\r\n\r\nI will check.  I did a first pass and nothing obvious fell out.\r\n\r\nAfter I get `breakable` resolved and the unit-tests working in Travis CI \r\n(they work on my machine) I'll try to find my stash of clever and take a more extended \r\nlook.\r\n\r\nIf something is possible, I will probably write some code to make sure that the\r\ncommon code matches what is currently in Character.scala and re2s.",
+        "createdAt" : "2019-04-03T23:13:13Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fb07f1e3-1051-4815-8d97-5042cc7b82dd",
+        "parentId" : "7d2a6ebf-4ff0-4ed9-819f-fd6efbd67424",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Given the topic here about reducing binary code size, can I ask an implementation\r\nquestion.\r\n\r\nNormally I would consider scalanative.re2s and its unicode data to be more\r\nprimitive that java.lang.Character.scala, so I would have the latter call into the former.\r\n\r\nI am guessing that Character.scala gets brought into even the simplest HelloWorld \r\nprogram.  I am also guessing that re2s will be brought in relatively infrequently.\r\nDo I need to put the Unicode data in a separate `object` in re2s so that only it\r\nis brought in by Character.scala, not all  or too much of re2s?  \r\n\r\nSince correctness & time-available are competing, If Character is always being\r\nbrought in, I could reverse things and have re2s, if linked, call into Character. \r\nA bit weird, but i could comment it.",
+        "createdAt" : "2019-04-03T23:19:29Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "532b6647-4fa9-4527-b12a-bff31df2502a",
+        "parentId" : "7d2a6ebf-4ff0-4ed9-819f-fd6efbd67424",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We can make a unicode module somewhere in runtime. Put all of the unicode data there. And then both Character and re2s can both call to it.",
+        "createdAt" : "2019-04-07T11:02:42Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0a3f304c-54ee-449d-98a6-454b808359ff",
+        "parentId" : "7d2a6ebf-4ff0-4ed9-819f-fd6efbd67424",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood & agreed. Thank you for the `runtime` placement suggestion.\r\n\r\n",
+        "createdAt" : "2019-04-07T19:46:02Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "59037593-3d2b-4bb1-ad52-1d54f05140f5",
+        "parentId" : "7d2a6ebf-4ff0-4ed9-819f-fd6efbd67424",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Created Issue #1542 as a result of discussions.",
+        "createdAt" : "2019-04-17T17:54:42Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,2572 @@\n+package scala.re2s\n+\n+trait UnicodeTableData {"
+  },
+  {
+    "id" : "829c65ca-6a79-4870-8156-bea0068cc113",
+    "prId" : 1498,
+    "comments" : [
+      {
+        "id" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Similarly to the comment in #1436: for binary size, it's better to use one-dimensional arrays for constant data like this. ",
+        "createdAt" : "2019-04-02T09:58:10Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8c73a333-5aaa-4b5b-9308-66c728bd8095",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood, time to open the black box and apply what you have taught me (my words, not yours).  This is pending depending upon what I can figure out about common data with\r\nCharacter.scala.",
+        "createdAt" : "2019-04-03T23:09:03Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9bfb85dd-f750-41e7-9ce0-14580eab1581",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Another option here is to store in \"column major format\" if it makes the code any simpler/easier to read than computing indexes into a giant single dimensional array that contains all the data. For example, instead of:\r\n```\r\nval myarr = Array(\r\n  Array(a1, b1, c1),\r\n  Array(a2, b2, c2),\r\n  ...\r\n)\r\n```\r\nWe can do:\r\n```\r\nval myarrA = Array(\r\n  a1,\r\n  a2,\r\n  ...\r\n)\r\nval myarrB = Array(\r\n  b1,\r\n  b2\r\n  ...\r\n)\r\nval myarrC = Array(\r\n  c1,\r\n  c2\r\n  ...\r\n)\r\n```\r\n",
+        "createdAt" : "2019-04-08T09:36:06Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e7794585-4374-422e-9d6a-c793dfaae6ee",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Good suggestion. Parallel arrays make the code easier to both to write and get correct\r\nand to read later on.\r\n\r\nI am currently working on ripping re2c out.  With your agreement, I'll work on this\r\nafter rec2 has seen the door.  ",
+        "createdAt" : "2019-04-08T14:46:27Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "643fb584-f35c-4b33-8e1f-234d6de0b46d",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "This is the approach I took based on @sjrd 's help for upper and lower case. The range is searched via [binary search here](https://github.com/scala-native/scala-native/blob/master/javalib/src/main/scala/java/lang/Character.scala#L1455) and then the other arrays are to calculate offsets etc. as explained starting [here.](https://github.com/scala-native/scala-native/blob/master/javalib/src/main/scala/java/lang/Character.scala#L1215)\r\n\r\nI reviewed `re2s` a bit and see they are doing something similar although I would need to study harder to really understand exactly what they are doing. The nested arrays are an interesting approach but I'm not sure why that approach was taken. It would be great to unify the usage of unicode as then we code generate new arrays based on a new unicode version. Sharing the data in runtime is a really good idea as well.",
+        "createdAt" : "2019-04-08T15:57:04Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "2c873124-fa78-499c-abc7-94f9ad98aafa",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@ekrich It really seems like unicode unification should be a stand-alone PR. It doesn't seem to be trivial and it distracts from the main goal of the current PR: getting rid of the old regex implementation.",
+        "createdAt" : "2019-04-08T17:44:53Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "aab5157d-0f2d-4acb-bcd9-5fe0616b1af6",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "@LeeTibbert Yes, lets focus on getting rid off c-based re2 in this PR.",
+        "createdAt" : "2019-04-08T17:46:19Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "7bed9ba1-9e39-4273-80fa-bf85571a8e70",
+        "parentId" : "6ffc3db8-1e9e-4107-b9fd-ae1f7baf1fd7",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "@densh and @LeeTibbert I totally agree, just wanted to affirm my support for your ideas.",
+        "createdAt" : "2019-04-08T18:28:03Z",
+        "updatedAt" : "2019-04-17T18:33:26Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "4ead30407bb9578ddae21c3430a4de128dd64df6",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,2572 @@\n+package scala.re2s\n+\n+trait UnicodeTableData {\n+  private val _Lm: Array[Array[Int]] =\n+    Array(\n+      Array(0x02b0, 0x02c1, 1),"
+  }
+]

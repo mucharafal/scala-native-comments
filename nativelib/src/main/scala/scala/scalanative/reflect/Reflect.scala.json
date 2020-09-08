@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "a5a532e5-f416-4a61-862e-61e1ccff4495",
+    "prId" : 1802,
+    "comments" : [
+      {
+        "id" : "a6cfd5d7-94a5-4dd4-b215-2c07ee377b90",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "The changes in this file should be in a separate PR. They are internal refactorings of `Reflect`, which have nothing to do with the rest of the PR.",
+        "createdAt" : "2020-05-19T09:17:53Z",
+        "updatedAt" : "2020-05-20T21:08:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "b4428e532ec6ff74915bd1ecb79f335dd537fbfa",
+    "line" : null,
+    "diffHunk" : "@@ -4,7 +4,7 @@ import scala.collection.mutable\n \n final class LoadableModuleClass private[reflect] (\n     val runtimeClass: Class[_],\n-    loadModuleFun: Function0[Any]\n+    loadModuleFun: () => Any"
+  }
+]

@@ -1,0 +1,95 @@
+[
+  {
+    "id" : "f7148fb2-4276-4941-bb2a-96bdf053fd01",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "65070e6d-3f3c-4449-9bb7-7eaf27550bfe",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring. ",
+        "createdAt" : "2018-03-12T10:20:34Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,211 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Path, Paths}\n+\n+import nir.Global\n+\n+sealed trait Config {"
+  },
+  {
+    "id" : "bd11a8ab-db12-487e-ba25-f6d7136b4333",
+    "prId" : 1143,
+    "comments" : [
+      {
+        "id" : "dfca1b25-58f1-472c-87b3-e5a009d19a17",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs a docstring. Additionally, it's not very clear when one should use `empty` and when `default`.",
+        "createdAt" : "2018-03-12T10:21:09Z",
+        "updatedAt" : "2018-03-19T10:55:34Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "59effef73f20af24e18aff5e47d77473b6b6b626",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,211 @@\n+package scala.scalanative\n+package build\n+\n+import java.nio.file.{Path, Paths}\n+\n+import nir.Global\n+\n+sealed trait Config {\n+\n+  /** Path to the nativelib jar. */\n+  def nativeLib: Path\n+\n+  /** The driver to use for the optimizer. */\n+  def driver: OptimizerDriver\n+\n+  /** The reporter that receives messages from the linker. */\n+  def linkerReporter: LinkerReporter\n+\n+  /** The reporter that receives messages from the optimizer. */\n+  def optimizerReporter: OptimizerReporter\n+\n+  /** Entry point for linking. */\n+  def entry: String\n+\n+  /** Sequence of all NIR locations. */\n+  def paths: Seq[Path]\n+\n+  /** Directory to emit intermediate compilation results. */\n+  def workdir: Path\n+\n+  /** The path to the `clang` executable. */\n+  def clang: Path\n+\n+  /** The path to the `clang++` executable. */\n+  def clangpp: Path\n+\n+  /** Target triple. */\n+  def target: String\n+\n+  /** The options passed to LLVM's linker. */\n+  def linkingOptions: Seq[String]\n+\n+  /** The compilation options passed to LLVM. */\n+  def compileOptions: Seq[String]\n+\n+  /** The garbage collector to use. */\n+  def gc: GarbageCollector\n+\n+  /** Should stubs be linked? */\n+  def linkStubs: Boolean\n+\n+  /** The logger used by the toolchain. */\n+  def logger: Logger\n+\n+  /** Create a new config with given path to nativelib. */\n+  def withNativeLib(value: Path): Config\n+\n+  /** Create a new config with given driver. */\n+  def withDriver(value: OptimizerDriver): Config\n+\n+  /** Create a new config with given linker reporter. */\n+  def withLinkerReporter(value: LinkerReporter): Config\n+\n+  /** Create a new config with given optimizer reporter. */\n+  def withOptimizerReporter(value: OptimizerReporter): Config\n+\n+  /** Create new config with given entry point. */\n+  def withEntry(value: String): Config\n+\n+  /** Create a new config with given nir paths. */\n+  def withPaths(value: Seq[Path]): Config\n+\n+  /** Create a new config with given directory. */\n+  def withWorkdir(value: Path): Config\n+\n+  /** Create a new config with given path to clang. */\n+  def withClang(value: Path): Config\n+\n+  /** Create a new config with given path to clang++. */\n+  def withClangPP(value: Path): Config\n+\n+  /** Create a new config with given target triple. */\n+  def withTarget(value: String): Config\n+\n+  /** Create a new config with given linking options. */\n+  def withLinkingOptions(value: Seq[String]): Config\n+\n+  /** Create a new config with given compilation options. */\n+  def withCompileOptions(value: Seq[String]): Config\n+\n+  /** Create a new config with given garbage collector. */\n+  def withGC(value: GarbageCollector): Config\n+\n+  /** Create a new config with given behavior for stubs. */\n+  def withLinkStubs(value: Boolean): Config\n+\n+  /** Create a new config with the given logger. */\n+  def withLogger(value: Logger): Config\n+}\n+\n+object Config {\n+\n+  def default(nativeLib: Path,"
+  },
+  {
+    "id" : "dd02ed8b-fed5-4c4b-937a-82b39662bcc6",
+    "prId" : 1363,
+    "comments" : [
+      {
+        "id" : "cc9a00e9-2b67-463d-ae77-66ad09525650",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Do we really need to have both `target triple` and `target architecture` as two separate concepts in the public API? It seems like `TargetArchitecture` is derivative from the triple and we can only have triple without changing the build API. ",
+        "createdAt" : "2018-10-29T09:39:06Z",
+        "updatedAt" : "2018-11-07T00:08:31Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "e76e2892454bf803dc9910d9590f59cbb5802f1f",
+    "line" : null,
+    "diffHunk" : "@@ -68,6 +71,9 @@ sealed trait Config {\n   /** Create a new config with given compilation options. */\n   def withCompileOptions(value: Seq[String]): Config\n \n+  /** Create a new config with given target architecture. */\n+  def withTargetArchitecture(value: TargetArchitecture): Config\n+"
+  }
+]

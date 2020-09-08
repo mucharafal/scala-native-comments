@@ -1,0 +1,114 @@
+[
+  {
+    "id" : "9094f01e-3827-4f4a-8e96-242c71a97783",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "4066200f-724d-4f26-b23c-5e8df4ed6233",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "People often use `x32` and `x64` to distinguish two types of architectures. It's more concise and just as clear.",
+        "createdAt" : "2018-07-19T09:12:12Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 12,
+    "diffHunk" : "@@ -0,0 +1,69 @@\n+import sbt._\n+import Keys.{name, unmanagedResourceDirectories, baseDirectory}\n+import sbtcrossproject._\n+import scala.scalanative.build\n+import build.{Bits, ThirtyTwo, SixtyFour, TargetArchitecture}\n+import scala.scalanative.sbtplugin.ScalaNativeCrossVersion\n+import scala.scalanative.sbtplugin.ScalaNativePlugin\n+import scala.scalanative.sbtplugin.ScalaNativePlugin.autoImport._\n+\n+case class CrossBitsPlatform(bits: Bits, lib: Boolean = false)\n+    extends Platform {\n+  def identifier: String = \"_bits-\" + bits.toString"
+  },
+  {
+    "id" : "a970d078-abf0-47d6-816c-99798320f189",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "0781f377-fbc2-419d-805b-016bc54e8d10",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Given that we can only ever have two instances, lets make this sealed with two objects inheriting from it. ",
+        "createdAt" : "2018-07-19T09:14:37Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 10,
+    "diffHunk" : "@@ -0,0 +1,69 @@\n+import sbt._\n+import Keys.{name, unmanagedResourceDirectories, baseDirectory}\n+import sbtcrossproject._\n+import scala.scalanative.build\n+import build.{Bits, ThirtyTwo, SixtyFour, TargetArchitecture}\n+import scala.scalanative.sbtplugin.ScalaNativeCrossVersion\n+import scala.scalanative.sbtplugin.ScalaNativePlugin\n+import scala.scalanative.sbtplugin.ScalaNativePlugin.autoImport._\n+\n+case class CrossBitsPlatform(bits: Bits, lib: Boolean = false)"
+  },
+  {
+    "id" : "1421e23e-b4e7-4c9f-815b-c7cd792030df",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "60450e31-ecd7-4a2a-91c4-60042522289c",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "These two deprecated members are gone in cross project `0.5.0`.",
+        "createdAt" : "2018-07-19T09:15:16Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 40,
+    "diffHunk" : "@@ -0,0 +1,69 @@\n+import sbt._\n+import Keys.{name, unmanagedResourceDirectories, baseDirectory}\n+import sbtcrossproject._\n+import scala.scalanative.build\n+import build.{Bits, ThirtyTwo, SixtyFour, TargetArchitecture}\n+import scala.scalanative.sbtplugin.ScalaNativeCrossVersion\n+import scala.scalanative.sbtplugin.ScalaNativePlugin\n+import scala.scalanative.sbtplugin.ScalaNativePlugin.autoImport._\n+\n+case class CrossBitsPlatform(bits: Bits, lib: Boolean = false)\n+    extends Platform {\n+  def identifier: String = \"_bits-\" + bits.toString\n+  def sbtSuffix: String  = \"_bits-\" + bits.toString\n+  def enable(project: Project): Project = {\n+    (if (lib) {\n+       project.settings(\n+         ScalaNativePlugin.projectSettings.tail\n+       )\n+     } else {\n+       project\n+         .enablePlugins(ScalaNativePlugin)\n+     })\n+      .settings(\n+        unmanagedResourceDirectories in Compile += {\n+          baseDirectory.value / \"..\" / \"shared\" / \"src/main/resources\"\n+        }\n+      )\n+      .settings(\n+        targetArchitecture := (bits match {\n+          case ThirtyTwo => TargetArchitecture.i386\n+          case SixtyFour => TargetArchitecture.x86_64\n+        })\n+      )\n+  }\n+\n+  @deprecated(\"Will be removed\", \"0.3.0\")\n+  val crossBinary: CrossVersion = ScalaNativeCrossVersion.binary(bits)\n+\n+  @deprecated(\"Will be removed\", \"0.3.0\")\n+  val crossFull: CrossVersion = ScalaNativeCrossVersion.full(bits)"
+  },
+  {
+    "id" : "c14f1e63-5995-4c0d-87cf-793b8fe57528",
+    "prId" : 1225,
+    "comments" : [
+      {
+        "id" : "c791e73b-f962-4439-b322-ae0cbb8e2e42",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This method would be unnecessary with two canonical instances. ",
+        "createdAt" : "2018-07-19T09:15:35Z",
+        "updatedAt" : "2018-07-19T09:20:21Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "7abf7dc92dafc7e1c24f9027a7ac5ffa33e0cdd4",
+    "line" : 45,
+    "diffHunk" : "@@ -0,0 +1,69 @@\n+import sbt._\n+import Keys.{name, unmanagedResourceDirectories, baseDirectory}\n+import sbtcrossproject._\n+import scala.scalanative.build\n+import build.{Bits, ThirtyTwo, SixtyFour, TargetArchitecture}\n+import scala.scalanative.sbtplugin.ScalaNativeCrossVersion\n+import scala.scalanative.sbtplugin.ScalaNativePlugin\n+import scala.scalanative.sbtplugin.ScalaNativePlugin.autoImport._\n+\n+case class CrossBitsPlatform(bits: Bits, lib: Boolean = false)\n+    extends Platform {\n+  def identifier: String = \"_bits-\" + bits.toString\n+  def sbtSuffix: String  = \"_bits-\" + bits.toString\n+  def enable(project: Project): Project = {\n+    (if (lib) {\n+       project.settings(\n+         ScalaNativePlugin.projectSettings.tail\n+       )\n+     } else {\n+       project\n+         .enablePlugins(ScalaNativePlugin)\n+     })\n+      .settings(\n+        unmanagedResourceDirectories in Compile += {\n+          baseDirectory.value / \"..\" / \"shared\" / \"src/main/resources\"\n+        }\n+      )\n+      .settings(\n+        targetArchitecture := (bits match {\n+          case ThirtyTwo => TargetArchitecture.i386\n+          case SixtyFour => TargetArchitecture.x86_64\n+        })\n+      )\n+  }\n+\n+  @deprecated(\"Will be removed\", \"0.3.0\")\n+  val crossBinary: CrossVersion = ScalaNativeCrossVersion.binary(bits)\n+\n+  @deprecated(\"Will be removed\", \"0.3.0\")\n+  val crossFull: CrossVersion = ScalaNativeCrossVersion.full(bits)\n+\n+  override def equals(other: Any) = other match {\n+    case CrossBitsPlatform(arch, _) => bits == arch\n+    case _                          => false\n+  }"
+  }
+]

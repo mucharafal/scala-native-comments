@@ -1,0 +1,568 @@
+[
+  {
+    "id" : "afb2a5b7-6bc3-434a-912a-e66568922a34",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "ce89c87d-bf4e-42f2-bf1b-778c6c574b39",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`toLowerCase` is fixed now, the workaround is not necessary any longer.",
+        "createdAt" : "2017-04-10T17:38:57Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "01faf1da-9202-4a84-8401-5a1c3bfdf75f",
+        "parentId" : "ce89c87d-bf4e-42f2-bf1b-778c6c574b39",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T08:48:46Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -1,9 +1,603 @@\n package java.io\n \n-class File private () extends Serializable with Comparable[File] {\n-  def this(path: String) = this()\n-  def this(parent: String, child: String) = this()\n-  def this(parent: File, child: String) = this()\n+import scala.collection.mutable.UnrolledBuffer\n+\n+import scala.annotation.tailrec\n+import scalanative.runtime.GC\n+import scalanative.native._, stdlib._, stdio._, string._, Nat._, dirent._\n+import scalanative.posix.unistd._\n+\n+class File(_path: String) extends Serializable with Comparable[File] {\n+  import File._\n+\n+  if (_path == null) throw new NullPointerException()\n+  private val path: String           = fixSlashes(_path)\n+  private[io] val properPath: String = File.properPath(path)\n+  private[io] val properPathBytes: Array[Byte] =\n+    File.properPath(path).getBytes(\"UTF-8\")\n+\n+  def this(parent: String, child: String) =\n+    this(\n+      Option(parent).map(p => p + File.separatorChar + child).getOrElse(child))\n+\n+  def this(parent: File, child: String) =\n+    this(Option(parent).map(_.path).getOrElse(null), child)\n+\n+  def compareTo(file: File): Int = {\n+    if (caseSensitive) getPath().compareTo(file.getPath())\n+    else getPath().compareToIgnoreCase(file.getPath())\n+  }\n+\n+  def canExecute(): Boolean =\n+    access(toCString(path), fcntl.X_OK) == 0\n+\n+  def canRead(): Boolean =\n+    access(toCString(path), fcntl.R_OK) == 0\n+\n+  def canWrite(): Boolean =\n+    access(toCString(path), fcntl.W_OK) == 0\n+\n+  def setExecutable(executable: Boolean): Boolean =\n+    setExecutable(executable, ownerOnly = true)\n+\n+  def setExecutable(executable: Boolean, ownerOnly: Boolean): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IXUSR | S_IXGRP | S_IXOTH else S_IXUSR\n+    updatePermissions(mask, executable)\n+  }\n+\n+  def setReadable(readable: Boolean): Boolean =\n+    setReadable(readable, ownerOnly = true)\n+\n+  def setReadable(readable: Boolean, ownerOnly: Boolean): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IRUSR | S_IRGRP | S_IROTH else S_IRUSR\n+    updatePermissions(mask, readable)\n+  }\n+\n+  def setWritable(writable: Boolean): Boolean =\n+    setWritable(writable, ownerOnly = true)\n+\n+  def setWritable(writable: Boolean, ownerOnly: Boolean = true): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IWUSR | S_IWGRP | S_IWOTH else S_IWUSR\n+    updatePermissions(mask, writable)\n+  }\n+\n+  private def updatePermissions(mask: stat.mode_t, grant: Boolean): Boolean =\n+    if (grant) stat.chmod(toCString(path), accessMode() | mask) == 0\n+    else stat.chmod(toCString(path), accessMode() & (~mask)) == 0\n+\n+  def exists(): Boolean =\n+    access(toCString(path), fcntl.F_OK) == 0\n+\n+  def getPath(): String = path\n+\n+  def delete(): Boolean =\n+    if (path.nonEmpty && isDirectory()) deleteDirImpl()\n+    else deleteFileImpl()\n+\n+  private def deleteDirImpl(): Boolean =\n+    remove(toCString(path)) == 0\n+\n+  private def deleteFileImpl(): Boolean =\n+    unlink(toCString(path)) == 0\n+\n+  override def equals(that: Any): Boolean =\n+    that match {\n+      case that: File if caseSensitive => this.path == that.path\n+      case that: File =>\n+        toLowerCaseNaive(this.path) == toLowerCaseNaive(that.path)\n+      case _ => false\n+    }\n+\n+  def getAbsolutePath(): String = properPath\n+\n+  def getAbsoluteFile(): File = new File(this.getAbsolutePath())\n+\n+  def getCanonicalPath(): String = {\n+    if (exists) fromCString(simplifyExistingPath(toCString(properPath)))\n+    else simplifyNonExistingPath(fromCString(resolve(toCString(properPath))))\n+  }\n+\n+  /**\n+   * Finds the canonical path for `path`, using `realpath`.\n+   * The file must exist, because the result of `realpath` doesn't\n+   * match that of Java on non-existing file.\n+   */\n+  private def simplifyExistingPath(path: CString): CString = {\n+    val resolvedName = GC.malloc(limits.PATH_MAX).cast[CString]\n+    realpath(path, resolvedName)\n+    resolvedName\n+  }\n+\n+  /**\n+   * Finds the canonical path for `path`.\n+   */\n+  private def simplifyNonExistingPath(path: String): String =\n+    split(path, separatorChar)\n+      .foldLeft(List.empty[String]) {\n+        case (acc, \"..\") => if (acc.isEmpty) List(\"..\") else acc.tail\n+        case (acc, \".\")  => acc\n+        case (acc, \"\")   => acc\n+        case (acc, seg)  => seg :: acc\n+      }\n+      .reverse\n+      .filterNot(_.isEmpty)\n+      .mkString(separator, separator, \"\")\n+\n+  @throws(classOf[IOException])\n+  def getCanonicalFile(): File = new File(getCanonicalPath())\n+\n+  def getName(): String = {\n+    val separatorIndex: Int = path.lastIndexOf(separatorChar)\n+    if (separatorIndex < 0) path\n+    else path.substring(separatorIndex + 1, path.length())\n+  }\n+\n+  def getParent(): String =\n+    split(path, separatorChar).filterNot(_.isEmpty) match {\n+      case Seq() if !isAbsolute  => null\n+      case Seq(_) if !isAbsolute => null\n+      case parts if !isAbsolute  => parts.init.mkString(separator)\n+      case parts if isAbsolute   => parts.init.mkString(separator, separator, \"\")\n+    }\n+\n+  def getParentFile(): File = {\n+    val parent = getParent()\n+    if (parent == null) null\n+    else new File(parent)\n+  }\n+\n+  override def hashCode(): Int =\n+    if (caseSensitive) path.hashCode ^ 1234321\n+    else toLowerCaseNaive(path).hashCode ^ 1234321\n+\n+  def isAbsolute(): Boolean =\n+    File.isAbsolute(path)\n+\n+  def isDirectory(): Boolean =\n+    stat.S_ISDIR(accessMode()) != 0\n+\n+  def isFile(): Boolean =\n+    stat.S_ISREG(accessMode()) != 0\n+\n+  def isHidden(): Boolean =\n+    getName().startsWith(\".\")\n+\n+  def lastModified(): Long =\n+    stat.stat(toCString(path)) match {\n+      case null => 0L\n+      case stat => !(stat._8) * 1000L\n+    }\n+\n+  private def accessMode(): stat.mode_t = {\n+    stat.stat(toCString(path)) match {\n+      case null => 0.toUInt\n+      case stat => !(stat._13)\n+    }\n+  }\n+\n+  def setLastModified(time: Long): Boolean =\n+    if (time < 0) throw new IllegalArgumentException(\"Negative time\")\n+    else {\n+      stat.stat(toCString(path)) match {\n+        case null =>\n+          false\n+        case stat =>\n+          val buf = GC.malloc(sizeof[utime.utimbuf]).cast[Ptr[utime.utimbuf]]\n+          !(buf._1) = !(stat._8)\n+          !(buf._2) = time / 1000L\n+          utime.utime(toCString(path), buf) == 0\n+      }\n+    }\n+\n+  def setReadOnly(): Boolean = {\n+    import stat._\n+    val mask    = S_ISUID | S_ISGID | S_ISVTX | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH\n+    val newMode = accessMode() & mask\n+    chmod(toCString(path), newMode) == 0\n+  }\n+\n+  def length(): Long =\n+    stat.stat(toCString(path)) match {\n+      case null => 0L\n+      case stat => !(stat._6)\n+    }\n+\n+  def list(): Array[String] =\n+    list(FilenameFilter.allPassFilter)\n+\n+  def list(filter: FilenameFilter): Array[String] =\n+    if (!isDirectory() || !canRead())\n+      null\n+    else {\n+      val elements = listImpl(toCString(properPath))\n+      if (elements == null)\n+        Array.empty[String]\n+      else\n+        elements.filter(filter.accept(this, _))\n+    }\n+\n+  def listFiles(): Array[File] =\n+    listFiles(FilenameFilter.allPassFilter)\n+\n+  def listFiles(filter: FilenameFilter): Array[File] =\n+    list(filter).map(new File(this, _))\n+\n+  def listFiles(filter: FileFilter): Array[File] = {\n+    val filenameFilter =\n+      new FilenameFilter {\n+        override def accept(dir: File, name: String): Boolean =\n+          filter.accept(new File(dir, name))\n+      }\n+    listFiles(filenameFilter)\n+  }\n+\n+  private def listImpl(path: CString): Array[String] = {\n+    val dir = opendir(path)\n+\n+    if (dir == null) {\n+      null\n+    } else {\n+      val buffer            = UnrolledBuffer.empty[String]\n+      var elem: Ptr[dirent] = readdir(dir)\n+      var i                 = 0\n+      while (elem != null) {\n+        val name = fromCString(elem._2.asInstanceOf[CString])\n+\n+        // java doesn't list '.' and '..', we filter them out.\n+        if (name != \".\" && name != \"..\") {\n+          buffer += name\n+        }\n+\n+        elem = readdir(dir)\n+      }\n+      closedir(dir)\n+      buffer.toArray\n+    }\n+  }\n+\n+  def mkdir(): Boolean = {\n+    val mode = octal(\"0777\")\n+    stat.mkdir(toCString(path), mode) == 0\n+  }\n+\n+  def mkdirs(): Boolean =\n+    if (exists()) false\n+    else if (mkdir()) true\n+    else {\n+      val parent = getParentFile()\n+      if (parent == null) false\n+      else parent.mkdirs() && mkdir()\n+    }\n+\n+  def createNewFile(): Boolean =\n+    if (path.isEmpty) throw new IOException(\"No such file or directory\")\n+    else if (!Option(getParentFile).forall(_.exists))\n+      throw new IOException(\"No such file or directory\")\n+    else if (exists) false\n+    else {\n+      fopen(toCString(path), c\"w\") match {\n+        case null => false\n+        case fd   => fclose(fd); exists()\n+      }\n+    }\n+\n+  def renameTo(dest: File): Boolean =\n+    rename(toCString(properPath), toCString(dest.properPath)) == 0\n+\n+  override def toString(): String = path\n+\n+}\n+\n+object File {\n+\n+  private val random = new java.util.Random()\n+\n+  private def octal(v: String): UInt =\n+    Integer.parseInt(v, 8).toUInt\n+\n+  private def getUserDir(): String = {\n+    var buff: CString = stackalloc[CChar](4096)\n+    var res: CString  = getcwd(buff, 4095)\n+    fromCString(res)\n+  }\n+\n+  /** The purpose of this method is to take a path and fix the slashes up. This\n+   *  includes changing them all to the current platforms fileSeparator and\n+   *  removing duplicates.\n+   *  (Adapted from Apache Harmony)\n+   */\n+  private def fixSlashes(path: String): String = {\n+    val length    = path.length\n+    var newLength = 0\n+\n+    var uncIndex =\n+      if (separatorChar == '/') 0 // UNIX world\n+      else if (length > 2 && path.charAt(1) == ':')\n+        2 // Windows, but starts with C:...\n+      else 1 // Possible UNC path name\n+\n+    var foundSlash = false\n+    val newPath    = path.toCharArray();\n+    var i          = 0\n+    while (i < length) {\n+      val currentChar = newPath(i)\n+\n+      if ((separatorChar == '\\\\' && currentChar == '\\\\') || currentChar == '/') {\n+        // UNC Name requires 2 leading slashes\n+        if ((foundSlash && i == uncIndex) || !foundSlash) {\n+          newPath(newLength) = separatorChar\n+          newLength += 1\n+          foundSlash = true\n+        }\n+      } else {\n+        // check for leading slashes before a drive\n+        if (currentChar == ':'\n+            && uncIndex > 0\n+            && (newLength == 2 || (newLength == 3 && newPath(1) == separatorChar))\n+            && newPath(0) == separatorChar) {\n+          newPath(0) = newPath(newLength - 1)\n+          newLength = 1\n+          // allow trailing slash after drive letter\n+          uncIndex = 2\n+        }\n+        newPath(newLength) = currentChar\n+        newLength += 1\n+        foundSlash = false\n+      }\n+\n+      i += 1\n+    }\n+\n+    if (foundSlash && (newLength > (uncIndex + 1) || (newLength == 2 && newPath(\n+          0) != separatorChar))) {\n+      newLength -= 1\n+    }\n+\n+    new String(newPath, 0, newLength)\n+  }\n+\n+  /**\n+   * Returns a string representing the proper path of this file. If this file\n+   * path is absolute, the user.dir property is not prepended, otherwise it\n+   * is.\n+   * (Adapted from Apache Harmony)\n+   */\n+  private def properPath(path: String): String = {\n+    if (isAbsolute(path)) path\n+    else {\n+      val userdir =\n+        Option(getUserDir())\n+          .getOrElse(\n+            throw new IOException(\n+              \"getcwd() error in trying to get user directory.\"))\n+\n+      if (path.isEmpty) userdir\n+      else if (userdir.endsWith(separator)) userdir + path\n+      else userdir + separator + path\n+    }\n+  }\n+\n+  def isAbsolute(path: String): Boolean =\n+    if (separatorChar == '\\\\') { // Windows. Must start with `\\\\` or `X:(\\|/)`\n+      (path.length > 1 && path.startsWith(separator + separator)) ||\n+      (path.length > 2 && path(0).isLetter && path(1) == ':' && (path(2) == '/' || path(\n+        2) == '\\\\'))\n+    } else {\n+      path.length > 0 && path.startsWith(separator)\n+    }\n+\n+  /**\n+   * Resolve a symbolic link. While the path resolves to an existing path,\n+   * keep resolving. If an absolute link is found, resolve the parent\n+   * directories if resolveAbsolute is true.\n+   * (Adapted from Apache Harmony)\n+   */\n+  private def resolveLink(path: CString,\n+                          resolveAbsolute: Boolean,\n+                          restart: Boolean = false): CString = {\n+    val resolved =\n+      readLink(path) match {\n+        // path is not a symlink\n+        case null =>\n+          path\n+\n+        // found an absolute path. continue from there.\n+        case link if link(0) == separatorChar =>\n+          resolveLink(link, resolveAbsolute, restart = resolveAbsolute)\n+\n+        // found a relative path. append to the current path, and continue.\n+        case link =>\n+          val linkLength = strlen(link)\n+          val pathLength = strlen(path)\n+          var last       = pathLength - 1\n+          while (path(last) != separatorChar) last -= 1\n+          last += 1\n+\n+          // previous path up to last /, plus result of resolving the link.\n+          val newPathLength = last + linkLength + 1\n+          val newPath       = GC.malloc(newPathLength).cast[CString]\n+          strncpy(newPath, path, last)\n+          strncat(newPath, link, linkLength)\n+\n+          resolveLink(newPath, resolveAbsolute, restart)\n+      }\n+\n+    if (restart) resolve(resolved, start = 0)\n+    else resolved\n+  }\n+\n+  @tailrec private def resolve(path: CString, start: Int = 0): CString = {\n+    val part: CString = GC.malloc(limits.PATH_MAX).cast[CString]\n+\n+    // Find the next separator\n+    var i = start\n+    while (i < strlen(path) && path(i) != separatorChar) i += 1\n+\n+    if (i == strlen(path)) resolveLink(path, resolveAbsolute = true)\n+    else {\n+      // copy path from start to next separator.\n+      // and resolve that subpart.\n+      strncpy(part, path, i + 1)\n+\n+      val resolved = resolveLink(part, resolveAbsolute = true)\n+\n+      strcpy(part, resolved)\n+      strcat(part, path + i + 1)\n+\n+      if (strncmp(resolved, path, i + 1) == 0) {\n+        // Nothing changed. Continue from the next segment.\n+        resolve(part, i + 1)\n+      } else {\n+        // The path has changed. Start over.\n+        resolve(part, 0)\n+      }\n+    }\n+\n+  }\n+\n+  /**\n+   * If `link` is a symlink, follows it and returns the path pointed to.\n+   * Otherwise, returns `None`.\n+   */\n+  private def readLink(link: CString): CString = {\n+    val buffer: CString = GC.malloc(limits.PATH_MAX).cast[CString]\n+    readlink(link, buffer, limits.PATH_MAX - 1) match {\n+      case -1 =>\n+        null\n+      case read =>\n+        // readlink doesn't null-terminate the result.\n+        buffer(read) = 0\n+        buffer\n+    }\n+  }\n+\n+  private def split(str: String, atChar: Char): Seq[String] = {\n+    val buffer = UnrolledBuffer.empty[String]\n+    var i      = 0\n+    while (i < str.length) {\n+      val part = str.drop(i).takeWhile(_ != atChar)\n+      buffer += part\n+      i += part.length + 1\n+    }\n+    buffer\n+  }\n+\n+  val pathSeparatorChar: Char        = if (Platform.isWindows) ';' else ':'\n+  val pathSeparator: String          = pathSeparatorChar.toString\n+  val separatorChar: Char            = if (Platform.isWindows) '\\\\' else '/'\n+  val separator: String              = separatorChar.toString\n+  private var counter: Int           = 0;\n+  private var counterBase: Int       = 0;\n+  private val caseSensitive: Boolean = !Platform.isWindows\n+\n+  //temporary workaround, while waiting on a working implementation of toLowerCase"
+  },
+  {
+    "id" : "8a14662e-1a43-4164-b780-b1a49295b0c7",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "134ce7bc-62ed-4e14-ac91-30001b9d2572",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one was ported from Harmony too. Please make sure all harmony-based code has the `// Ported from Apache Harmony` comment. ",
+        "createdAt" : "2017-04-10T18:35:03Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "257d09ef-6bd8-41e3-a301-67b85fde93fb",
+        "parentId" : "134ce7bc-62ed-4e14-ac91-30001b9d2572",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Only 3 methods are adapted from Apache Harmony, and they have a comment saying so. Should I still add that at the beginning of the file?",
+        "createdAt" : "2017-04-11T07:43:26Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "79a23a5a-d86e-436b-93f2-6cd8dd486831",
+        "parentId" : "134ce7bc-62ed-4e14-ac91-30001b9d2572",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I'd keep the comment verbatim `// Ported from Apache Harmony`, just next to these 3 methods to make it more grep-able.",
+        "createdAt" : "2017-04-11T09:04:17Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1eee3d76-89f8-4128-a803-87c2f41afbf2",
+        "parentId" : "134ce7bc-62ed-4e14-ac91-30001b9d2572",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:43:14Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -1,9 +1,603 @@\n package java.io\n \n-class File private () extends Serializable with Comparable[File] {\n-  def this(path: String) = this()\n-  def this(parent: String, child: String) = this()\n-  def this(parent: File, child: String) = this()\n+import scala.collection.mutable.UnrolledBuffer\n+\n+import scala.annotation.tailrec\n+import scalanative.runtime.GC\n+import scalanative.native._, stdlib._, stdio._, string._, Nat._, dirent._\n+import scalanative.posix.unistd._\n+\n+class File(_path: String) extends Serializable with Comparable[File] {"
+  },
+  {
+    "id" : "fadba9af-162e-492c-91f5-61f8a63369ce",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "7a9b0e73-ee2f-4aa7-9ab9-f9ec808318cf",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please remove all trailing commented-out code apart from the signatures of methods that are not implemented yet. Generally it's also preferable to comment-out methods with `???` on the right hand side like `getChannel`.",
+        "createdAt" : "2017-04-10T18:36:48Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "57c481fb-5748-46e4-815a-ccdd49ef8140",
+        "parentId" : "7a9b0e73-ee2f-4aa7-9ab9-f9ec808318cf",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done",
+        "createdAt" : "2017-04-11T09:06:39Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -1,9 +1,603 @@\n package java.io\n \n-class File private () extends Serializable with Comparable[File] {\n-  def this(path: String) = this()\n-  def this(parent: String, child: String) = this()\n-  def this(parent: File, child: String) = this()\n+import scala.collection.mutable.UnrolledBuffer\n+\n+import scala.annotation.tailrec\n+import scalanative.runtime.GC\n+import scalanative.native._, stdlib._, stdio._, string._, Nat._, dirent._\n+import scalanative.posix.unistd._\n+\n+class File(_path: String) extends Serializable with Comparable[File] {\n+  import File._\n+\n+  if (_path == null) throw new NullPointerException()\n+  private val path: String           = fixSlashes(_path)\n+  private[io] val properPath: String = File.properPath(path)\n+  private[io] val properPathBytes: Array[Byte] =\n+    File.properPath(path).getBytes(\"UTF-8\")\n+\n+  def this(parent: String, child: String) =\n+    this(\n+      Option(parent).map(p => p + File.separatorChar + child).getOrElse(child))\n+\n+  def this(parent: File, child: String) =\n+    this(Option(parent).map(_.path).getOrElse(null), child)\n+\n+  def compareTo(file: File): Int = {\n+    if (caseSensitive) getPath().compareTo(file.getPath())\n+    else getPath().compareToIgnoreCase(file.getPath())\n+  }\n+\n+  def canExecute(): Boolean =\n+    access(toCString(path), fcntl.X_OK) == 0\n+\n+  def canRead(): Boolean =\n+    access(toCString(path), fcntl.R_OK) == 0\n+\n+  def canWrite(): Boolean =\n+    access(toCString(path), fcntl.W_OK) == 0\n+\n+  def setExecutable(executable: Boolean): Boolean =\n+    setExecutable(executable, ownerOnly = true)\n+\n+  def setExecutable(executable: Boolean, ownerOnly: Boolean): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IXUSR | S_IXGRP | S_IXOTH else S_IXUSR\n+    updatePermissions(mask, executable)\n+  }\n+\n+  def setReadable(readable: Boolean): Boolean =\n+    setReadable(readable, ownerOnly = true)\n+\n+  def setReadable(readable: Boolean, ownerOnly: Boolean): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IRUSR | S_IRGRP | S_IROTH else S_IRUSR\n+    updatePermissions(mask, readable)\n+  }\n+\n+  def setWritable(writable: Boolean): Boolean =\n+    setWritable(writable, ownerOnly = true)\n+\n+  def setWritable(writable: Boolean, ownerOnly: Boolean = true): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IWUSR | S_IWGRP | S_IWOTH else S_IWUSR\n+    updatePermissions(mask, writable)\n+  }\n+\n+  private def updatePermissions(mask: stat.mode_t, grant: Boolean): Boolean =\n+    if (grant) stat.chmod(toCString(path), accessMode() | mask) == 0\n+    else stat.chmod(toCString(path), accessMode() & (~mask)) == 0\n+\n+  def exists(): Boolean =\n+    access(toCString(path), fcntl.F_OK) == 0\n+\n+  def getPath(): String = path\n+\n+  def delete(): Boolean =\n+    if (path.nonEmpty && isDirectory()) deleteDirImpl()\n+    else deleteFileImpl()\n+\n+  private def deleteDirImpl(): Boolean =\n+    remove(toCString(path)) == 0\n+\n+  private def deleteFileImpl(): Boolean =\n+    unlink(toCString(path)) == 0\n+\n+  override def equals(that: Any): Boolean =\n+    that match {\n+      case that: File if caseSensitive => this.path == that.path\n+      case that: File =>\n+        toLowerCaseNaive(this.path) == toLowerCaseNaive(that.path)\n+      case _ => false\n+    }\n+\n+  def getAbsolutePath(): String = properPath\n+\n+  def getAbsoluteFile(): File = new File(this.getAbsolutePath())\n+\n+  def getCanonicalPath(): String = {\n+    if (exists) fromCString(simplifyExistingPath(toCString(properPath)))\n+    else simplifyNonExistingPath(fromCString(resolve(toCString(properPath))))\n+  }\n+\n+  /**\n+   * Finds the canonical path for `path`, using `realpath`.\n+   * The file must exist, because the result of `realpath` doesn't\n+   * match that of Java on non-existing file.\n+   */\n+  private def simplifyExistingPath(path: CString): CString = {\n+    val resolvedName = GC.malloc(limits.PATH_MAX).cast[CString]\n+    realpath(path, resolvedName)\n+    resolvedName\n+  }\n+\n+  /**\n+   * Finds the canonical path for `path`.\n+   */\n+  private def simplifyNonExistingPath(path: String): String =\n+    split(path, separatorChar)\n+      .foldLeft(List.empty[String]) {\n+        case (acc, \"..\") => if (acc.isEmpty) List(\"..\") else acc.tail\n+        case (acc, \".\")  => acc\n+        case (acc, \"\")   => acc\n+        case (acc, seg)  => seg :: acc\n+      }\n+      .reverse\n+      .filterNot(_.isEmpty)\n+      .mkString(separator, separator, \"\")\n+\n+  @throws(classOf[IOException])\n+  def getCanonicalFile(): File = new File(getCanonicalPath())\n+\n+  def getName(): String = {\n+    val separatorIndex: Int = path.lastIndexOf(separatorChar)\n+    if (separatorIndex < 0) path\n+    else path.substring(separatorIndex + 1, path.length())\n+  }\n+\n+  def getParent(): String =\n+    split(path, separatorChar).filterNot(_.isEmpty) match {\n+      case Seq() if !isAbsolute  => null\n+      case Seq(_) if !isAbsolute => null\n+      case parts if !isAbsolute  => parts.init.mkString(separator)\n+      case parts if isAbsolute   => parts.init.mkString(separator, separator, \"\")\n+    }\n+\n+  def getParentFile(): File = {\n+    val parent = getParent()\n+    if (parent == null) null\n+    else new File(parent)\n+  }\n+\n+  override def hashCode(): Int =\n+    if (caseSensitive) path.hashCode ^ 1234321\n+    else toLowerCaseNaive(path).hashCode ^ 1234321\n+\n+  def isAbsolute(): Boolean =\n+    File.isAbsolute(path)\n+\n+  def isDirectory(): Boolean =\n+    stat.S_ISDIR(accessMode()) != 0\n+\n+  def isFile(): Boolean =\n+    stat.S_ISREG(accessMode()) != 0\n+\n+  def isHidden(): Boolean =\n+    getName().startsWith(\".\")\n+\n+  def lastModified(): Long =\n+    stat.stat(toCString(path)) match {\n+      case null => 0L\n+      case stat => !(stat._8) * 1000L\n+    }\n+\n+  private def accessMode(): stat.mode_t = {\n+    stat.stat(toCString(path)) match {\n+      case null => 0.toUInt\n+      case stat => !(stat._13)\n+    }\n+  }\n+\n+  def setLastModified(time: Long): Boolean =\n+    if (time < 0) throw new IllegalArgumentException(\"Negative time\")\n+    else {\n+      stat.stat(toCString(path)) match {\n+        case null =>\n+          false\n+        case stat =>\n+          val buf = GC.malloc(sizeof[utime.utimbuf]).cast[Ptr[utime.utimbuf]]\n+          !(buf._1) = !(stat._8)\n+          !(buf._2) = time / 1000L\n+          utime.utime(toCString(path), buf) == 0\n+      }\n+    }\n+\n+  def setReadOnly(): Boolean = {\n+    import stat._\n+    val mask    = S_ISUID | S_ISGID | S_ISVTX | S_IRUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH\n+    val newMode = accessMode() & mask\n+    chmod(toCString(path), newMode) == 0\n+  }\n+\n+  def length(): Long =\n+    stat.stat(toCString(path)) match {\n+      case null => 0L\n+      case stat => !(stat._6)\n+    }\n+\n+  def list(): Array[String] =\n+    list(FilenameFilter.allPassFilter)\n+\n+  def list(filter: FilenameFilter): Array[String] =\n+    if (!isDirectory() || !canRead())\n+      null\n+    else {\n+      val elements = listImpl(toCString(properPath))\n+      if (elements == null)\n+        Array.empty[String]\n+      else\n+        elements.filter(filter.accept(this, _))\n+    }\n+\n+  def listFiles(): Array[File] =\n+    listFiles(FilenameFilter.allPassFilter)\n+\n+  def listFiles(filter: FilenameFilter): Array[File] =\n+    list(filter).map(new File(this, _))\n+\n+  def listFiles(filter: FileFilter): Array[File] = {\n+    val filenameFilter =\n+      new FilenameFilter {\n+        override def accept(dir: File, name: String): Boolean =\n+          filter.accept(new File(dir, name))\n+      }\n+    listFiles(filenameFilter)\n+  }\n+\n+  private def listImpl(path: CString): Array[String] = {\n+    val dir = opendir(path)\n+\n+    if (dir == null) {\n+      null\n+    } else {\n+      val buffer            = UnrolledBuffer.empty[String]\n+      var elem: Ptr[dirent] = readdir(dir)\n+      var i                 = 0\n+      while (elem != null) {\n+        val name = fromCString(elem._2.asInstanceOf[CString])\n+\n+        // java doesn't list '.' and '..', we filter them out.\n+        if (name != \".\" && name != \"..\") {\n+          buffer += name\n+        }\n+\n+        elem = readdir(dir)\n+      }\n+      closedir(dir)\n+      buffer.toArray\n+    }\n+  }\n+\n+  def mkdir(): Boolean = {\n+    val mode = octal(\"0777\")\n+    stat.mkdir(toCString(path), mode) == 0\n+  }\n+\n+  def mkdirs(): Boolean =\n+    if (exists()) false\n+    else if (mkdir()) true\n+    else {\n+      val parent = getParentFile()\n+      if (parent == null) false\n+      else parent.mkdirs() && mkdir()\n+    }\n+\n+  def createNewFile(): Boolean =\n+    if (path.isEmpty) throw new IOException(\"No such file or directory\")\n+    else if (!Option(getParentFile).forall(_.exists))\n+      throw new IOException(\"No such file or directory\")\n+    else if (exists) false\n+    else {\n+      fopen(toCString(path), c\"w\") match {\n+        case null => false\n+        case fd   => fclose(fd); exists()\n+      }\n+    }\n+\n+  def renameTo(dest: File): Boolean =\n+    rename(toCString(properPath), toCString(dest.properPath)) == 0\n+\n+  override def toString(): String = path\n+\n+}\n+\n+object File {\n+\n+  private val random = new java.util.Random()\n+\n+  private def octal(v: String): UInt =\n+    Integer.parseInt(v, 8).toUInt\n+\n+  private def getUserDir(): String = {\n+    var buff: CString = stackalloc[CChar](4096)\n+    var res: CString  = getcwd(buff, 4095)\n+    fromCString(res)\n+  }\n+\n+  /** The purpose of this method is to take a path and fix the slashes up. This\n+   *  includes changing them all to the current platforms fileSeparator and\n+   *  removing duplicates.\n+   *  (Adapted from Apache Harmony)\n+   */\n+  private def fixSlashes(path: String): String = {\n+    val length    = path.length\n+    var newLength = 0\n+\n+    var uncIndex =\n+      if (separatorChar == '/') 0 // UNIX world\n+      else if (length > 2 && path.charAt(1) == ':')\n+        2 // Windows, but starts with C:...\n+      else 1 // Possible UNC path name\n+\n+    var foundSlash = false\n+    val newPath    = path.toCharArray();\n+    var i          = 0\n+    while (i < length) {\n+      val currentChar = newPath(i)\n+\n+      if ((separatorChar == '\\\\' && currentChar == '\\\\') || currentChar == '/') {\n+        // UNC Name requires 2 leading slashes\n+        if ((foundSlash && i == uncIndex) || !foundSlash) {\n+          newPath(newLength) = separatorChar\n+          newLength += 1\n+          foundSlash = true\n+        }\n+      } else {\n+        // check for leading slashes before a drive\n+        if (currentChar == ':'\n+            && uncIndex > 0\n+            && (newLength == 2 || (newLength == 3 && newPath(1) == separatorChar))\n+            && newPath(0) == separatorChar) {\n+          newPath(0) = newPath(newLength - 1)\n+          newLength = 1\n+          // allow trailing slash after drive letter\n+          uncIndex = 2\n+        }\n+        newPath(newLength) = currentChar\n+        newLength += 1\n+        foundSlash = false\n+      }\n+\n+      i += 1\n+    }\n+\n+    if (foundSlash && (newLength > (uncIndex + 1) || (newLength == 2 && newPath(\n+          0) != separatorChar))) {\n+      newLength -= 1\n+    }\n+\n+    new String(newPath, 0, newLength)\n+  }\n+\n+  /**\n+   * Returns a string representing the proper path of this file. If this file\n+   * path is absolute, the user.dir property is not prepended, otherwise it\n+   * is.\n+   * (Adapted from Apache Harmony)\n+   */\n+  private def properPath(path: String): String = {\n+    if (isAbsolute(path)) path\n+    else {\n+      val userdir =\n+        Option(getUserDir())\n+          .getOrElse(\n+            throw new IOException(\n+              \"getcwd() error in trying to get user directory.\"))\n+\n+      if (path.isEmpty) userdir\n+      else if (userdir.endsWith(separator)) userdir + path\n+      else userdir + separator + path\n+    }\n+  }\n+\n+  def isAbsolute(path: String): Boolean =\n+    if (separatorChar == '\\\\') { // Windows. Must start with `\\\\` or `X:(\\|/)`\n+      (path.length > 1 && path.startsWith(separator + separator)) ||\n+      (path.length > 2 && path(0).isLetter && path(1) == ':' && (path(2) == '/' || path(\n+        2) == '\\\\'))\n+    } else {\n+      path.length > 0 && path.startsWith(separator)\n+    }\n+\n+  /**\n+   * Resolve a symbolic link. While the path resolves to an existing path,\n+   * keep resolving. If an absolute link is found, resolve the parent\n+   * directories if resolveAbsolute is true.\n+   * (Adapted from Apache Harmony)\n+   */\n+  private def resolveLink(path: CString,\n+                          resolveAbsolute: Boolean,\n+                          restart: Boolean = false): CString = {\n+    val resolved =\n+      readLink(path) match {\n+        // path is not a symlink\n+        case null =>\n+          path\n+\n+        // found an absolute path. continue from there.\n+        case link if link(0) == separatorChar =>\n+          resolveLink(link, resolveAbsolute, restart = resolveAbsolute)\n+\n+        // found a relative path. append to the current path, and continue.\n+        case link =>\n+          val linkLength = strlen(link)\n+          val pathLength = strlen(path)\n+          var last       = pathLength - 1\n+          while (path(last) != separatorChar) last -= 1\n+          last += 1\n+\n+          // previous path up to last /, plus result of resolving the link.\n+          val newPathLength = last + linkLength + 1\n+          val newPath       = GC.malloc(newPathLength).cast[CString]\n+          strncpy(newPath, path, last)\n+          strncat(newPath, link, linkLength)\n+\n+          resolveLink(newPath, resolveAbsolute, restart)\n+      }\n+\n+    if (restart) resolve(resolved, start = 0)\n+    else resolved\n+  }\n+\n+  @tailrec private def resolve(path: CString, start: Int = 0): CString = {\n+    val part: CString = GC.malloc(limits.PATH_MAX).cast[CString]\n+\n+    // Find the next separator\n+    var i = start\n+    while (i < strlen(path) && path(i) != separatorChar) i += 1\n+\n+    if (i == strlen(path)) resolveLink(path, resolveAbsolute = true)\n+    else {\n+      // copy path from start to next separator.\n+      // and resolve that subpart.\n+      strncpy(part, path, i + 1)\n+\n+      val resolved = resolveLink(part, resolveAbsolute = true)\n+\n+      strcpy(part, resolved)\n+      strcat(part, path + i + 1)\n+\n+      if (strncmp(resolved, path, i + 1) == 0) {\n+        // Nothing changed. Continue from the next segment.\n+        resolve(part, i + 1)\n+      } else {\n+        // The path has changed. Start over.\n+        resolve(part, 0)\n+      }\n+    }\n+\n+  }\n+\n+  /**\n+   * If `link` is a symlink, follows it and returns the path pointed to.\n+   * Otherwise, returns `None`.\n+   */\n+  private def readLink(link: CString): CString = {\n+    val buffer: CString = GC.malloc(limits.PATH_MAX).cast[CString]\n+    readlink(link, buffer, limits.PATH_MAX - 1) match {\n+      case -1 =>\n+        null\n+      case read =>\n+        // readlink doesn't null-terminate the result.\n+        buffer(read) = 0\n+        buffer\n+    }\n+  }\n+\n+  private def split(str: String, atChar: Char): Seq[String] = {\n+    val buffer = UnrolledBuffer.empty[String]\n+    var i      = 0\n+    while (i < str.length) {\n+      val part = str.drop(i).takeWhile(_ != atChar)\n+      buffer += part\n+      i += part.length + 1\n+    }\n+    buffer\n+  }\n+\n+  val pathSeparatorChar: Char        = if (Platform.isWindows) ';' else ':'\n+  val pathSeparator: String          = pathSeparatorChar.toString\n+  val separatorChar: Char            = if (Platform.isWindows) '\\\\' else '/'\n+  val separator: String              = separatorChar.toString\n+  private var counter: Int           = 0;\n+  private var counterBase: Int       = 0;\n+  private val caseSensitive: Boolean = !Platform.isWindows\n+\n+  //temporary workaround, while waiting on a working implementation of toLowerCase\n+  private def toLowerCaseNaive(str: String): String = {\n+    def toLowerChar(c: Char): Char = c match {\n+      case 'A' => 'a'\n+      case 'B' => 'b'\n+      case 'C' => 'c'\n+      case 'D' => 'd'\n+      case 'E' => 'e'\n+      case 'F' => 'f'\n+      case 'G' => 'g'\n+      case 'H' => 'h'\n+      case 'I' => 'i'\n+      case 'J' => 'j'\n+      case 'K' => 'k'\n+      case 'L' => 'l'\n+      case 'M' => 'm'\n+      case 'N' => 'n'\n+      case 'O' => 'o'\n+      case 'P' => 'p'\n+      case 'Q' => 'q'\n+      case 'R' => 'r'\n+      case 'S' => 's'\n+      case 'T' => 't'\n+      case 'U' => 'u'\n+      case 'V' => 'v'\n+      case 'W' => 'w'\n+      case 'X' => 'x'\n+      case 'Y' => 'y'\n+      case 'Z' => 'z'\n+      case x   => x\n+    }\n+    var chars = str.toCharArray\n+    var i     = 0\n+    while (i < chars.length) {\n+      val lC = toLowerChar(chars(i))\n+      chars(i) = lC\n+      i += 1\n+    }\n+    return new String(chars)\n+  }\n+\n+  def listRoots(): Array[File] =\n+    if (Platform.isWindows) ???\n+    else {\n+      var array = new Array[File](1)\n+      array(0) = new File(\"/\")\n+      return array\n+    }\n+\n+  @throws(classOf[IOException])\n+  def createTempFile(prefix: String, suffix: String): File =\n+    createTempFile(prefix, suffix, null)\n+\n+  @throws(classOf[IOException])\n+  def createTempFile(prefix: String, suffix: String, directory: File): File =\n+    if (prefix == null) throw new NullPointerException\n+    else if (prefix.length < 3)\n+      throw new IllegalArgumentException(\"Prefix string too short\")\n+    else {\n+      val tmpDir       = Option(directory).getOrElse(tempDir())\n+      val newSuffix    = Option(suffix).getOrElse(\".tmp\")\n+      var result: File = null\n+      do {\n+        result = genTempFile(prefix, newSuffix, tmpDir)\n+      } while (!result.createNewFile())\n+      result\n+    }\n+\n+  private def tempDir(): File = {\n+    val dir = getenv(c\"TMPDIR\")\n+    if (dir == null) new File(\"/tmp\")\n+    else new File(fromCString(dir))\n+  }\n+\n+  private def genTempFile(prefix: String,\n+                          suffix: String,\n+                          directory: File): File = {\n+    val id       = random.nextInt()\n+    val fileName = prefix + id + suffix\n+    new File(directory, fileName)\n+  }\n \n-  def compareTo(file: File): scala.Int = ???\n }\n+\n+// TODO: Extract\n+\n+//TODO:\n+//private def checkURI(uri : URI): Unit\n+\n+//def deleteOnExit(): Unit = ??? /*atexit{ () => delete() }*/\n+\n+/*@throws(classOf[IOException])\n+private def writeObject(stream: ObjectOutputStream): Unit */\n+\n+/*@throws(classOf[IOException])\n+@throws(classOf[ClassNotFoundException])\n+private def readObject(stream: ObjectInputStream): Unit */\n+\n+//def toURI(): URI\n+\n+/*@throws(classOf[java.net.MalformedURLException])\n+def toURL(): URL*/\n+\n+/*def File(uri: URI): File = {\n+    this()\n+    checkURI(uri)\n+    path = fixSlashes(uri.getPath())\n+}*/"
+  },
+  {
+    "id" : "c47b8357-23f8-453d-934c-931fcba6d005",
+    "prId" : 574,
+    "comments" : [
+      {
+        "id" : "04bda2dc-32c6-4d82-82c4-f946f9ffb06e",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Use `GC.malloc_atomic` instead.",
+        "createdAt" : "2017-04-12T11:11:12Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "01d6827b-1925-4f43-a8bd-de1c017de1e2",
+        "parentId" : "04bda2dc-32c6-4d82-82c4-f946f9ffb06e",
+        "author" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "body" : "Done!",
+        "createdAt" : "2017-04-13T07:41:31Z",
+        "updatedAt" : "2017-04-19T06:52:52Z",
+        "lastEditedBy" : {
+          "login" : "Duhemm",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/1765926?u=025ccd7d65512bc68d5a0b24bb857dabd6dd381d&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "a5ee6f5fb9a0a06f66d4a35c49ed9188905ca3e9",
+    "line" : null,
+    "diffHunk" : "@@ -1,9 +1,545 @@\n package java.io\n \n-class File private () extends Serializable with Comparable[File] {\n-  def this(path: String) = this()\n-  def this(parent: String, child: String) = this()\n-  def this(parent: File, child: String) = this()\n+import scala.collection.mutable.UnrolledBuffer\n+\n+import scala.annotation.tailrec\n+import scalanative.runtime.{GC, Platform}\n+import scala.scalanative.posix.{dirent, fcntl, limits, stat, unistd, utime}\n+import scala.scalanative.native._, stdlib._, stdio._, string._\n+import dirent._\n+import unistd._\n+\n+class File(_path: String) extends Serializable with Comparable[File] {\n+  import File._\n+\n+  if (_path == null) throw new NullPointerException()\n+  private val path: String           = fixSlashes(_path)\n+  private[io] val properPath: String = File.properPath(path)\n+  private[io] val properPathBytes: Array[Byte] =\n+    File.properPath(path).getBytes(\"UTF-8\")\n+\n+  def this(parent: String, child: String) =\n+    this(\n+      Option(parent).map(p => p + File.separatorChar + child).getOrElse(child))\n+\n+  def this(parent: File, child: String) =\n+    this(Option(parent).map(_.path).getOrElse(null), child)\n+\n+  // def this(uri: URI)\n+\n+  def compareTo(file: File): Int = {\n+    if (caseSensitive) getPath().compareTo(file.getPath())\n+    else getPath().compareToIgnoreCase(file.getPath())\n+  }\n+\n+  def canExecute(): Boolean =\n+    access(toCString(path), fcntl.X_OK) == 0\n+\n+  def canRead(): Boolean =\n+    access(toCString(path), fcntl.R_OK) == 0\n+\n+  def canWrite(): Boolean =\n+    access(toCString(path), fcntl.W_OK) == 0\n+\n+  def setExecutable(executable: Boolean): Boolean =\n+    setExecutable(executable, ownerOnly = true)\n+\n+  def setExecutable(executable: Boolean, ownerOnly: Boolean): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IXUSR | S_IXGRP | S_IXOTH else S_IXUSR\n+    updatePermissions(mask, executable)\n+  }\n+\n+  def setReadable(readable: Boolean): Boolean =\n+    setReadable(readable, ownerOnly = true)\n+\n+  def setReadable(readable: Boolean, ownerOnly: Boolean): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IRUSR | S_IRGRP | S_IROTH else S_IRUSR\n+    updatePermissions(mask, readable)\n+  }\n+\n+  def setWritable(writable: Boolean): Boolean =\n+    setWritable(writable, ownerOnly = true)\n+\n+  def setWritable(writable: Boolean, ownerOnly: Boolean = true): Boolean = {\n+    import stat._\n+    val mask = if (ownerOnly) S_IWUSR | S_IWGRP | S_IWOTH else S_IWUSR\n+    updatePermissions(mask, writable)\n+  }\n+\n+  private def updatePermissions(mask: stat.mode_t, grant: Boolean): Boolean =\n+    if (grant) stat.chmod(toCString(path), accessMode() | mask) == 0\n+    else stat.chmod(toCString(path), accessMode() & (~mask)) == 0\n+\n+  def exists(): Boolean =\n+    access(toCString(path), fcntl.F_OK) == 0\n+\n+  def getPath(): String = path\n+\n+  def delete(): Boolean =\n+    if (path.nonEmpty && isDirectory()) deleteDirImpl()\n+    else deleteFileImpl()\n+\n+  private def deleteDirImpl(): Boolean =\n+    remove(toCString(path)) == 0\n+\n+  private def deleteFileImpl(): Boolean =\n+    unlink(toCString(path)) == 0\n+\n+  override def equals(that: Any): Boolean =\n+    that match {\n+      case that: File if caseSensitive => this.path == that.path\n+      case that: File =>\n+        this.path.toLowerCase == that.path.toLowerCase\n+      case _ => false\n+    }\n+\n+  def getAbsolutePath(): String = properPath\n+\n+  def getAbsoluteFile(): File = new File(this.getAbsolutePath())\n+\n+  def getCanonicalPath(): String = {\n+    if (exists) fromCString(simplifyExistingPath(toCString(properPath)))\n+    else simplifyNonExistingPath(fromCString(resolve(toCString(properPath))))\n+  }\n+\n+  /**\n+   * Finds the canonical path for `path`, using `realpath`.\n+   * The file must exist, because the result of `realpath` doesn't\n+   * match that of Java on non-existing file.\n+   */\n+  private def simplifyExistingPath(path: CString): CString = {\n+    val resolvedName = GC.malloc(limits.PATH_MAX).cast[CString]"
+  },
+  {
+    "id" : "e15f47c9-cce7-4ac1-aa92-71ea79ac6296",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "a8d421d7-519b-4c76-b5d6-ce024f5d5917",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Is this consistent wrt JVM semantics? ",
+        "createdAt" : "2017-08-07T11:30:06Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "fcb84c3e-1ee1-4f17-9d27-5a0b07e59e08",
+        "parentId" : "a8d421d7-519b-4c76-b5d6-ce024f5d5917",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "It was a crash with access to null pointer, there is no check for null later in the code",
+        "createdAt" : "2017-08-08T10:30:06Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "d25484af-a0bd-4e1e-8291-8923fdfd19ec",
+        "parentId" : "a8d421d7-519b-4c76-b5d6-ce024f5d5917",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If JVM returns null in this case we should return null too, we can not change the semantics.",
+        "createdAt" : "2017-08-08T11:58:23Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "649ff819-8f46-48cb-ada4-c3d527b38130",
+        "parentId" : "a8d421d7-519b-4c76-b5d6-ce024f5d5917",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "I agree, I will change code which calls this list and doesn't check for null (some internal implementation)",
+        "createdAt" : "2017-08-08T12:07:30Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -264,7 +264,7 @@ class File(_path: String) extends Serializable with Comparable[File] {\n \n   def list(filter: FilenameFilter): Array[String] =\n     if (!isDirectory() || !canRead()) {\n-      null\n+      Array.empty[String]"
+  },
+  {
+    "id" : "10f8ffc9-3d83-4e5f-8e77-eed1693977d9",
+    "prId" : 1466,
+    "comments" : [
+      {
+        "id" : "fc7e402d-1269-4597-ac92-9ed2a1f5ad55",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please put a newline after the `=` here. ",
+        "createdAt" : "2019-03-19T11:03:45Z",
+        "updatedAt" : "2019-03-19T16:18:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0ff692e4-29b6-4d3e-ae8b-4a6a2f33a9a2",
+        "parentId" : "fc7e402d-1269-4597-ac92-9ed2a1f5ad55",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I also added a blank line before the body of the method.",
+        "createdAt" : "2019-03-19T16:17:39Z",
+        "updatedAt" : "2019-03-19T16:18:39Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1292b95e2ba3f1c7aebfc32f0e4f88135498d6a1",
+    "line" : null,
+    "diffHunk" : "@@ -541,4 +571,22 @@ object File {\n                                minLength = true,\n                                throwOnError = true)\n \n+  // Ported from Apache Harmony\n+  private def checkURI(uri: URI): Unit = {\n+    def throwExc(msg: String): Unit =\n+      throw new IllegalArgumentException(s\"$msg: $uri\")\n+    def compMsg(comp: String): String = s\"Found $comp component in URI\""
+  },
+  {
+    "id" : "ddf8ae86-e41f-4a53-b06c-4aa093976edf",
+    "prId" : 1466,
+    "comments" : [
+      {
+        "id" : "c4932d9c-f1f7-4d58-a852-dccc3a0d99c7",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please wrap if/then branch bodies into `{ }` to improve readability. ",
+        "createdAt" : "2019-03-19T11:04:01Z",
+        "updatedAt" : "2019-03-19T16:18:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "cce0f5e4-ba49-481a-975b-ed5270312f08",
+        "parentId" : "c4932d9c-f1f7-4d58-a852-dccc3a0d99c7",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Yes, and done.",
+        "createdAt" : "2019-03-19T16:17:44Z",
+        "updatedAt" : "2019-03-19T16:18:39Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1292b95e2ba3f1c7aebfc32f0e4f88135498d6a1",
+    "line" : 74,
+    "diffHunk" : "@@ -541,4 +571,22 @@ object File {\n                                minLength = true,\n                                throwOnError = true)\n \n+  // Ported from Apache Harmony\n+  private def checkURI(uri: URI): Unit = {\n+    def throwExc(msg: String): Unit =\n+      throw new IllegalArgumentException(s\"$msg: $uri\")\n+    def compMsg(comp: String): String = s\"Found $comp component in URI\"\n+\n+    if (!uri.isAbsolute) throwExc(\"URI is not absolute\")\n+    else if (!uri.getRawSchemeSpecificPart.startsWith(\"/\"))\n+      throwExc(\"URI is not hierarchical\")\n+    else if (uri.getScheme == null || !(uri.getScheme == \"file\"))\n+      throwExc(\"Expected file scheme in URI\")\n+    else if (uri.getRawPath == null || uri.getRawPath.length == 0)\n+      throwExc(\"Expected non-empty path in URI\")\n+    else if (uri.getRawAuthority != null) throwExc(compMsg(\"authority\"))\n+    else if (uri.getRawQuery != null) throwExc(compMsg(\"query\"))\n+    else if (uri.getRawFragment != null) throwExc(compMsg(\"fragment\"))\n+    // else URI is ok"
+  },
+  {
+    "id" : "b937abc7-41e2-4aeb-b8f6-a0743ac54784",
+    "prId" : 1466,
+    "comments" : [
+      {
+        "id" : "4eddb652-1ac2-4743-9705-aebc93c43766",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "If this should never happen why is it in the code? ",
+        "createdAt" : "2019-03-19T11:04:47Z",
+        "updatedAt" : "2019-03-19T16:18:39Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "582e7354-e89e-405e-8862-d0fe84cba2c3",
+        "parentId" : "4eddb652-1ac2-4743-9705-aebc93c43766",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Blind porting from Harmony - removed.",
+        "createdAt" : "2019-03-19T16:17:49Z",
+        "updatedAt" : "2019-03-19T16:18:39Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "1292b95e2ba3f1c7aebfc32f0e4f88135498d6a1",
+    "line" : 43,
+    "diffHunk" : "@@ -323,8 +327,34 @@ class File(_path: String) extends Serializable with Comparable[File] {\n \n   @stub\n   def toURL(): java.net.URL = ???\n-  @stub\n-  def toURI(): java.net.URI = ???\n+\n+  // Ported from Apache Harmony\n+  def toURI(): URI = {\n+    import java.net.URISyntaxException\n+    val path = getAbsolutePath()\n+    try {\n+      if (!path.startsWith(\"/\")) {\n+        // start with sep.\n+        new URI(\n+          \"file\",\n+          null,\n+          new StringBuilder(path.length + 1).append('/').append(path).toString,\n+          null,\n+          null)\n+      } else if (path.startsWith(\"//\")) {\n+        // UNC path\n+        new URI(\"file\", \"\", path, null)\n+      } else {\n+        new URI(\"file\", null, path, null, null)\n+      }\n+\n+    } catch {\n+      case e: URISyntaxException =>\n+        // this should never happen\n+        return null\n+    }"
+  },
+  {
+    "id" : "456ea11d-84da-43fa-b355-0f232acf1482",
+    "prId" : 1571,
+    "comments" : [
+      {
+        "id" : "0812fdf4-a3ee-426b-8e24-233cd92b631d",
+        "parentId" : null,
+        "author" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "body" : "This is scaring me a bit, there can be some pretty wrong behavior if users forget to convert a `Word` to an `Int` before doing comparisons. Is there some way that we could make equality work here (and stop scalac from complaining that the comparison won't work)?",
+        "createdAt" : "2019-04-27T01:00:13Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "shadaj",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/543055?u=161e6cc6f1aa3d70a15d254c873cf054b1ac5b6f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "390a17f3-390a-45c6-947f-e5575a7c92b0",
+        "parentId" : "0812fdf4-a3ee-426b-8e24-233cd92b631d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Scala has \"cooperative\" equality where types which store the same numeric value will compare equals (i.e., `1.toByte == 1.toLong`). We implement it using special `scala_==` methods. For example here is implementation for [`java.lang.Integer`](https://github.com/scala-native/scala-native/blob/master/javalib/src/main/scala/java/lang/Integer.scala#L47).\r\n\r\nThe question still stands if we should extend it to unsigned and/or word types.",
+        "createdAt" : "2019-04-29T13:02:36Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "f6c36026-eb29-4faf-add8-876b173cfc09",
+        "parentId" : "0812fdf4-a3ee-426b-8e24-233cd92b631d",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I think it's best to move this to dedicated issue and leave this PR as-is without cooperative equality between words and normal numbers.",
+        "createdAt" : "2019-05-28T09:12:17Z",
+        "updatedAt" : "2019-07-10T01:12:04Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "b93fe8c0ba93c2c90ed65ad7e765ba53a5a1854c",
+    "line" : 13,
+    "diffHunk" : "@@ -494,9 +494,9 @@ object File {\n \n     // Find the next separator\n     var i = start\n-    while (i < strlen(path) && path(i) != separatorChar) i += 1"
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "id" : "1730878d-2555-4a76-891a-ba1e9412c8bf",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "f97c8b2f-8b5b-4d4f-be6b-48a0df125373",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is not listed in POSIX docs.",
+        "createdAt" : "2017-05-03T09:48:45Z",
+        "updatedAt" : "2017-05-03T10:02:47Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,26 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.{CInt, extern, name}\n+\n+@extern\n+object ipc {\n+\n+  // Macros\n+  @name(\"scalanative_ipc_stat\")\n+  def IPC_STAT: CInt = extern\n+  @name(\"scalanative_ipc_set\")\n+  def IPC_SET: CInt = extern\n+  @name(\"scalanative_ipc_rmid\")\n+  def IPC_RMID: CInt = extern\n+  @name(\"scalanative_ipc_info\")\n+  def IPC_INFO: CInt = extern"
+  },
+  {
+    "id" : "a02864ed-d93c-48a1-a12e-575b4a2aed48",
+    "prId" : 530,
+    "comments" : [
+      {
+        "id" : "3b146f21-446a-4a7b-9d95-dd8f5b664d26",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "This one is not listed in posix docs, did you mean IPC_EXCL?",
+        "createdAt" : "2017-05-03T09:49:23Z",
+        "updatedAt" : "2017-05-03T10:02:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "86c7900ac926736b4d299770b06a3388c682a0ca",
+    "line" : 23,
+    "diffHunk" : "@@ -0,0 +1,26 @@\n+package scala.scalanative\n+package posix.sys\n+\n+import native.{CInt, extern, name}\n+\n+@extern\n+object ipc {\n+\n+  // Macros\n+  @name(\"scalanative_ipc_stat\")\n+  def IPC_STAT: CInt = extern\n+  @name(\"scalanative_ipc_set\")\n+  def IPC_SET: CInt = extern\n+  @name(\"scalanative_ipc_rmid\")\n+  def IPC_RMID: CInt = extern\n+  @name(\"scalanative_ipc_info\")\n+  def IPC_INFO: CInt = extern\n+  @name(\"scalanative_ipc_private\")\n+  def IPC_PRIVATE: CInt = extern\n+  @name(\"scalanative_ipc_creat\")\n+  def IPC_CREATE: CInt = extern\n+  @name(\"scalanative_ipc_execl\")\n+  def IPC_EXECL: CInt = extern"
+  }
+]

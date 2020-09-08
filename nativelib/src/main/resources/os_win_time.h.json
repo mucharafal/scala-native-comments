@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "b6f71ae6-0084-432c-80f9-281565aab453",
+    "prId" : 691,
+    "comments" : [
+      {
+        "id" : "1617e3a5-b46a-4dcd-934c-e4db5ce91ce6",
+        "parentId" : null,
+        "author" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "body" : "Again, please attribute the original author. From my research this originates from http://stackoverflow.com/a/5404467.",
+        "createdAt" : "2017-05-09T17:25:07Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "tindzk",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/196819?u=bbf37bf8e50f569d606968228f3b7721c7c52ccb&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1bb72208-8609-4a31-b38e-24e02a4a58b8",
+        "parentId" : "1617e3a5-b46a-4dcd-934c-e4db5ce91ce6",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "fixed",
+        "createdAt" : "2017-05-09T19:55:54Z",
+        "updatedAt" : "2017-10-05T01:04:12Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "35981bb8b1d145f41879fb26289650176031893b",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,119 @@\n+#ifndef\t_TIME_H_\n+#define\t_TIME_H_\n+\n+#ifndef WIN32_LEAN_AND_MEAN\n+#   define WIN32_LEAN_AND_MEAN\n+#endif\n+#include <windows.h>\n+#include <time.h>\n+#include <winsock2.h>\n+\n+#if defined(_MSC_VER) || defined(_MSC_EXTENSIONS)\n+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000Ui64\n+#else\n+  #define DELTA_EPOCH_IN_MICROSECS  11644473600000000ULL\n+#endif\n+\n+struct timezone \n+{\n+  int  tz_minuteswest; /* minutes W of Greenwich */\n+  int  tz_dsttime;     /* type of dst correction */\n+};\n+\n+const int CLOCK_MONOTONIC = 0;\n+\n+LARGE_INTEGER getFILETIMEoffset()\n+{\n+    SYSTEMTIME s;\n+    FILETIME f;\n+    LARGE_INTEGER t;\n+\n+    s.wYear = 1970;\n+    s.wMonth = 1;\n+    s.wDay = 1;\n+    s.wHour = 0;\n+    s.wMinute = 0;\n+    s.wSecond = 0;\n+    s.wMilliseconds = 0;\n+    SystemTimeToFileTime(&s, &f);\n+    t.QuadPart = f.dwHighDateTime;\n+    t.QuadPart <<= 32;\n+    t.QuadPart |= f.dwLowDateTime;\n+    return (t);\n+}\n+\n+int clock_gettime(int X, struct timespec *tv)"
+  }
+]

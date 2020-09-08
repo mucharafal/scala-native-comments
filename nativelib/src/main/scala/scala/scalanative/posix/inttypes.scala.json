@@ -1,0 +1,157 @@
+[
+  {
+    "id" : "47ae3b6b-b82e-46da-a4fa-76bbda11afef",
+    "prId" : 758,
+    "comments" : [
+      {
+        "id" : "3d867abf-d1c7-4636-95b4-c41fe1546181",
+        "parentId" : null,
+        "author" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "body" : "Is that true for a 64-bit processor?",
+        "createdAt" : "2017-06-01T11:26:23Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "asoltysik",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/17353292?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "273e67793ebd06d914f9fdd08ba19578a0c59979",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative\n+package posix\n+\n+import native.{CUnsignedChar, CUnsignedInt, CUnsignedShort}\n+\n+object inttypes {\n+\n+  type uint8_t  = CUnsignedChar\n+  type uint16_t = CUnsignedShort\n+  type uint32_t = CUnsignedInt"
+  },
+  {
+    "id" : "938dea44-31be-4ea7-b7d8-814e11640467",
+    "prId" : 758,
+    "comments" : [
+      {
+        "id" : "7fb90c95-9887-4d96-8ed8-96c4190dc1d1",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "type uint8_t = UByte",
+        "createdAt" : "2017-06-06T11:21:24Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "273e67793ebd06d914f9fdd08ba19578a0c59979",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative\n+package posix\n+\n+import native.{CUnsignedChar, CUnsignedInt, CUnsignedShort}\n+\n+object inttypes {\n+\n+  type uint8_t  = CUnsignedChar"
+  },
+  {
+    "id" : "4e14d96e-a8b5-4d9b-9ac2-898eebedc215",
+    "prId" : 758,
+    "comments" : [
+      {
+        "id" : "36a00ac7-9547-4663-969b-7cfee0689d2b",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "type uint16_t = UShort",
+        "createdAt" : "2017-06-06T11:21:29Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "273e67793ebd06d914f9fdd08ba19578a0c59979",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative\n+package posix\n+\n+import native.{CUnsignedChar, CUnsignedInt, CUnsignedShort}\n+\n+object inttypes {\n+\n+  type uint8_t  = CUnsignedChar\n+  type uint16_t = CUnsignedShort"
+  },
+  {
+    "id" : "48d2de6c-983f-4763-89ed-e767ffa24874",
+    "prId" : 758,
+    "comments" : [
+      {
+        "id" : "e0adf2ec-a025-48e4-8c3b-7bf91e1017b3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "type uint32_t = UInt",
+        "createdAt" : "2017-06-06T11:21:38Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "273e67793ebd06d914f9fdd08ba19578a0c59979",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative\n+package posix\n+\n+import native.{CUnsignedChar, CUnsignedInt, CUnsignedShort}\n+\n+object inttypes {\n+\n+  type uint8_t  = CUnsignedChar\n+  type uint16_t = CUnsignedShort\n+  type uint32_t = CUnsignedInt"
+  },
+  {
+    "id" : "ae947e1a-deb6-477b-aa6a-201d2848cc82",
+    "prId" : 758,
+    "comments" : [
+      {
+        "id" : "928c61ce-df7f-45f5-abbd-e9ae6bbb378f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`type uint64_t = ULong`",
+        "createdAt" : "2017-06-06T11:21:56Z",
+        "updatedAt" : "2017-06-12T08:57:00Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "273e67793ebd06d914f9fdd08ba19578a0c59979",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,12 @@\n+package scala.scalanative\n+package posix\n+\n+import native.{CUnsignedChar, CUnsignedInt, CUnsignedShort}\n+\n+object inttypes {\n+\n+  type uint8_t  = CUnsignedChar\n+  type uint16_t = CUnsignedShort\n+  type uint32_t = CUnsignedInt\n+"
+  }
+]

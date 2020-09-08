@@ -1,0 +1,33 @@
+[
+  {
+    "id" : "972cd4b5-a315-4f63-8768-5a28514051a6",
+    "prId" : 1841,
+    "comments" : [
+      {
+        "id" : "ac01ba2d-9076-4c60-9626-b7b10a56a1ff",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "We can escape the unsupported `Future`s here with:\r\n```suggestion\r\n          case Success(f) => f.value.get.flatten\r\n```\r\nso that the rest of `JUnitTask` can stay synchronous.\r\n\r\nSince the JUnit plugin will only create `Future.successful` for now, we know that `.value` will always return a non-empty value.",
+        "createdAt" : "2020-07-09T12:13:50Z",
+        "updatedAt" : "2020-07-09T14:39:31Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "0117b1948662731e1e52ca4f94767109b4054a8c",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,199 @@\n+package scala.scalanative\n+package junit\n+\n+import sbt.testing._\n+\n+import scala.annotation.tailrec\n+import scala.scalanative.reflect.Reflect\n+import scala.util.{Failure, Success, Try}\n+\n+private[junit] final class JUnitTask(val taskDef: TaskDef,\n+                                     runSettings: RunSettings)\n+    extends Task {\n+\n+  def tags(): Array[String] = Array.empty\n+\n+  override def execute(eventHandler: EventHandler,\n+                       loggers: Array[Logger]): Array[Task] = {\n+    val reporter = new Reporter(eventHandler, loggers, runSettings, taskDef)\n+\n+    loadBootstrapper(reporter).foreach { bootstrapper =>\n+      executeTests(bootstrapper, reporter)\n+    }\n+\n+    Array.empty\n+  }\n+\n+  private def executeTests(bootstrapper: Bootstrapper,\n+                           reporter: Reporter): Unit = {\n+    reporter.reportRunStarted()\n+\n+    var failed  = 0\n+    var ignored = 0\n+    var total   = 0\n+\n+    @tailrec\n+    def runTests(tests: List[TestMetadata]): Try[Unit] = {\n+      val (nextIgnored, other) = tests.span(_.ignored)\n+\n+      nextIgnored.foreach(t => reporter.reportIgnored(Some(t.name)))\n+      ignored += nextIgnored.size\n+\n+      other match {\n+        case t :: ts =>\n+          total += 1\n+\n+          val fc = executeTestMethod(bootstrapper, t, reporter)\n+          failed += fc\n+          runTests(ts)\n+\n+        case Nil =>\n+          Success(())\n+      }\n+    }\n+\n+    val result = runTestLifecycle {\n+      Success(())\n+    } { _ => catchAll(bootstrapper.beforeClass()) } { _ =>\n+      runTests(bootstrapper.tests().toList)\n+    } { _ => catchAll(bootstrapper.afterClass()) }\n+\n+    val (errors, timeInSeconds) = result\n+\n+    errors match {\n+      case e :: Nil if isAssumptionViolation(e) =>\n+        reporter.reportIgnored(None)\n+        ignored += 1\n+\n+      case es =>\n+        failed += es.size\n+        reporter.reportErrors(\"Test \", None, timeInSeconds, es)\n+    }\n+\n+    reporter.reportRunFinished(failed, ignored, total, timeInSeconds)\n+  }\n+\n+  private[this] def executeTestMethod(bootstrapper: Bootstrapper,\n+                                      test: TestMetadata,\n+                                      reporter: Reporter): Int = {\n+    reporter.reportTestStarted(test.name)\n+\n+    val result = runTestLifecycle {\n+      catchAll(bootstrapper.newInstance())\n+    } { instance => catchAll(bootstrapper.before(instance)) } { instance =>\n+      handleExpected(test.annotation.expected) {\n+        catchAll(bootstrapper.invokeTest(instance, test.name)) match {\n+          case Success(f) => f.recover { case t => Failure(t) }"
+  }
+]

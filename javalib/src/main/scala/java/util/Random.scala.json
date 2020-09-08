@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "9d8dc68e-1d96-4aaa-941f-975c57401a42",
+    "prId" : 868,
+    "comments" : [
+      {
+        "id" : "4d2bd9ee-0f14-4b52-8668-e910e1683082",
+        "parentId" : null,
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "Why not just this? it will prevent double initialization\r\n```\r\nthis(System.currentTimeMillis() + hashCode)\r\n```",
+        "createdAt" : "2017-06-24T10:50:39Z",
+        "updatedAt" : "2017-06-27T12:28:21Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "9686d4d9-2e95-4767-a559-0fe10d2f8a0a",
+        "parentId" : "4d2bd9ee-0f14-4b52-8668-e910e1683082",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "Apparently the `hashCode` is not set until after the main constructor completes so the test case I added will not pass. The `hashCode` guarantees the seed is different even if `Random`s get created in the same millisecond.",
+        "createdAt" : "2017-06-24T16:13:42Z",
+        "updatedAt" : "2017-06-27T12:28:21Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0ced0121-7d77-413a-b8f0-35cbcd2093b7",
+        "parentId" : "4d2bd9ee-0f14-4b52-8668-e910e1683082",
+        "author" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "body" : "that makes sense, thanks",
+        "createdAt" : "2017-06-24T16:24:30Z",
+        "updatedAt" : "2017-06-27T12:28:21Z",
+        "lastEditedBy" : {
+          "login" : "muxanick",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/1174482?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e8b62fb7-73a8-4586-a7e6-dd3be489ca48",
+        "parentId" : "4d2bd9ee-0f14-4b52-8668-e910e1683082",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I updated the code to make things more clear.",
+        "createdAt" : "2017-06-24T16:36:25Z",
+        "updatedAt" : "2017-06-27T12:28:21Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "1ecf5346389f42e789cfeb08e63765c552b191d4",
+    "line" : null,
+    "diffHunk" : "@@ -16,7 +17,11 @@ class Random(seed_in: Long) extends AnyRef with java.io.Serializable {\n \n   setSeed(seed_in)\n \n-  def this() = this(Random.randomSeed())\n+  def this() = {\n+    this(0) // required but don't use"
+  }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "id" : "95dcc919-7c51-4969-9b05-60ed427e93ab",
+    "prId" : 1436,
+    "comments" : [
+      {
+        "id" : "8dfe6258-39f1-4efb-9370-dc4eab4cc1e6",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Please provide a small self-contained program that prints the output of the POW_* constants here. Otherwise it's going to be hard to reproduce the code-generated parts based on textual description. ",
+        "createdAt" : "2019-03-05T12:31:04Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "57162518-34ab-4bd6-bb3d-79f888ddc6b9",
+        "parentId" : "8dfe6258-39f1-4efb-9370-dc4eab4cc1e6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Both RyuFloat and RyuDouble files need their own copy that prints corresponding arrays.",
+        "createdAt" : "2019-03-05T12:31:44Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "377369f7-eaa6-4853-8cc3-d8f0cffdf9a1",
+        "parentId" : "8dfe6258-39f1-4efb-9370-dc4eab4cc1e6",
+        "author" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "body" : "Understood & agreed.  I will keep it as small as possible. To allow people reading the\r\nfile to get to the good stuff as soon as possible, I probably put a one line reference \r\nat the array declaration sites to the commented out program at the bottom of\r\neach file.  I am less concerned with generator program file size if it at the\r\nbottom of the file.   Acceptable?\r\n\r\nFor such a large comment, do you want // on every line or /* */ with * on each intervening line?\r\n\r\nDoes the `final` on the array of constants declarations add any value or just\r\nreveal my lack of scala understanding.  I  think I had convinced myself that\r\nthe latter was true. The array is mutable with or without and I am not sure\r\nwhy anybody would want to override in a sub-class.\r\n",
+        "createdAt" : "2019-03-05T13:00:52Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "LeeTibbert",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/12221035?v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "648e1802-fee7-448e-9bbf-9593349e1772",
+        "parentId" : "8dfe6258-39f1-4efb-9370-dc4eab4cc1e6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "We generally use `/* */` for doc comments and `//` for everything else.",
+        "createdAt" : "2019-03-05T13:21:11Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "703f6030-7cce-43f7-9629-76687667452f",
+        "parentId" : "8dfe6258-39f1-4efb-9370-dc4eab4cc1e6",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "`final` on array constants doesn't really do anything to best of my knowledge. ",
+        "createdAt" : "2019-03-05T13:22:23Z",
+        "updatedAt" : "2019-03-07T19:49:06Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "149ec291f30454d06055780e1360eb8719992497",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,1108 @@\n+// Copyright 2018 Ulf Adams\n+//\n+// Licensed under the Apache License, Version 2.0 (the \"License\");\n+// you may not use this file except in compliance with the License.\n+// You may obtain a copy of the License at\n+//\n+//     http://www.apache.org/licenses/LICENSE-2.0\n+//\n+// Unless required by applicable law or agreed to in writing, software\n+// distributed under the License is distributed on an \"AS IS\" BASIS,\n+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n+// See the License for the specific language governing permissions and\n+// limitations under the License.\n+\n+// Credits:\n+//\n+//    1) This work is a heavily modified derivation of the original work by\n+//       Ulf Adams at URL: https://github.com/ulfjack/ryu.\n+//       As such, it inherits the Apache license of the original work.\n+//       Thank you Ulf Adams.\n+//\n+//    2) The original java sources were converted to a rough draft of\n+//       scala code using the service at URL: javatoscala.com.\n+//\n+//       The raw conversion did not compile and contained bugs due\n+//       to the handling of break and return statements, but it saved\n+//       days, if not weeks, of effort.\n+//\n+//       Thank you javatoscala.com.\n+//\n+//    3) All additional work, including introduced bugs,  is an original\n+//       contribution to Scala Native development.\n+\n+// Porting Note for POW5_SPLIT & POW5_INV_SPIT arrays.\n+//\n+// Enquiring minds want to know, rightly, how the values in these\n+// two arrays were derived.  The process was largely manual and not easy.\n+// The length of this note should be the first clue.\n+//\n+// The algorithm for the values comes from the Ryu GitHub RyuDouble.java\n+// original. That file generates the values at each and every object\n+// creation time. This code is performance sensitive.  Arrays of known\n+// constants avoid that initialization cost.\n+//\n+// The .java code used two dimensional arrays. @densh recommended using one\n+// dimensional arrays because 1D 'arrays of constant values are relatively.\n+// compact (4 bytes per element)'.\n+//\n+// The values were generated by inserting printf() statements into\n+// a private development copy of an early iteration of RyuDouble.scala\n+// which initialized the arrays at object creation time.  The output\n+// was captured into a file. Properly chosen printfs yielded the basic\n+// comma separated 4 column format."
+  }
+]

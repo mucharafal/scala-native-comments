@@ -1,0 +1,87 @@
+[
+  {
+    "id" : "d2f5f06d-8da4-4cbf-b6c5-5751a73b15f3",
+    "prId" : 588,
+    "comments" : [
+      {
+        "id" : "cdf55958-96af-4379-9a39-e7b8474c8d7f",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "I assume this is not used, but is kept purely to improve our posix bindings? ",
+        "createdAt" : "2017-04-10T12:59:34Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "e36df4b8-1aa0-4a97-9349-f4513fd239df",
+        "parentId" : "cdf55958-96af-4379-9a39-e7b8474c8d7f",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "yep.",
+        "createdAt" : "2017-04-10T13:09:12Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "826c64ce-61cb-4c1e-8a90-5894d40c2825",
+        "parentId" : "cdf55958-96af-4379-9a39-e7b8474c8d7f",
+        "author" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "body" : "I want to keep the original work from https://github.com/scala-native/scala-native/pull/588/commits/ed537c1fb8fa4b363d5a14ea5241a7ca80a9d3c1",
+        "createdAt" : "2017-04-10T15:15:30Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "MasseGuillaume",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/921490?u=1ea96b0787a224aed96b7091c354e76d0f55960c&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "740cf6c5-94cc-40ed-9b70-6a021dde28e9",
+        "parentId" : "cdf55958-96af-4379-9a39-e7b8474c8d7f",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds good to me. ",
+        "createdAt" : "2017-04-10T16:44:38Z",
+        "updatedAt" : "2017-04-10T19:25:45Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "9caf539c0c1bdd8069a9390cdef87fdd4a4a17b8",
+    "line" : 18,
+    "diffHunk" : "@@ -0,0 +1,18 @@\n+package scala.scalanative\n+package posix\n+\n+import native._\n+\n+@extern\n+object regex {\n+\n+  @name(\"regcomp\")\n+  def compile(regex: Ptr[CInt], str: CString, num: CInt): CInt = extern\n+\n+  @name(\"regexec\")\n+  def execute(regex: Ptr[CInt],\n+              str: CString,\n+              num: CInt,\n+              ptr: Ptr[CInt],\n+              num2: CInt): CInt = extern\n+}"
+  }
+]

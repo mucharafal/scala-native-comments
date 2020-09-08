@@ -1,0 +1,87 @@
+[
+  {
+    "id" : "5ff4f18a-2300-45ee-9a99-7c0c247232fd",
+    "prId" : 1660,
+    "comments" : [
+      {
+        "id" : "617fbee6-7ee1-4bd8-a012-65611c8008b2",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Shouldn't this one return `Ptr[T]` rather than `Ptr[Byte]` ?",
+        "createdAt" : "2019-07-25T11:39:16Z",
+        "updatedAt" : "2019-08-10T01:32:32Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "33685257-7882-4619-a46d-29a8765c14f4",
+        "parentId" : "617fbee6-7ee1-4bd8-a012-65611c8008b2",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "good catch!",
+        "createdAt" : "2019-08-10T01:33:43Z",
+        "updatedAt" : "2019-08-10T01:33:43Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "5d007b66-ef53-464a-b484-1abef0c775c7",
+        "parentId" : "617fbee6-7ee1-4bd8-a012-65611c8008b2",
+        "author" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "body" : "@densh - does this look good to you now?",
+        "createdAt" : "2019-08-18T15:15:58Z",
+        "updatedAt" : "2019-08-18T15:15:58Z",
+        "lastEditedBy" : {
+          "login" : "rwhaling",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/253435?u=98726ded0a7997e5e64c21765cfbdd20641f3e1f&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "0a14f7a2-0618-44c2-8bf8-f93ad188a39a",
+        "parentId" : "617fbee6-7ee1-4bd8-a012-65611c8008b2",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Would be good to explicitly declare the return type as well.",
+        "createdAt" : "2019-08-18T20:12:01Z",
+        "updatedAt" : "2019-08-18T20:12:01Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "a06866ddcc8f9ed064bd252a984fd44966768e9d",
+    "line" : 23,
+    "diffHunk" : "@@ -61,4 +65,7 @@ object Ptr {\n \n   @alwaysinline implicit def ptrToCStruct[T <: CStruct](ptr: Ptr[T])(\n       implicit tag: Tag[T]): T = !ptr\n+\n+  @alwaysinline def fromCFuncPtr[T](f: CFuncPtr) ="
+  }
+]

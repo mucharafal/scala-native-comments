@@ -1,0 +1,111 @@
+[
+  {
+    "id" : "45704312-917d-47f0-983f-c9a322149416",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "78124749-c2a8-4c45-9316-d5735ab228dd",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "Important: this method name cannot be changed. It must keep the name `slaveRunner` for compatibility with Scala.js. This is a public to-be-overridden API that testing frameworks must implement. Currently testing frameworks can have a unique implementation of `Framework` for JVM, JS and Native. If we change that method name, they will need a separate source file for Native.\r\n\r\nSimilarly, Scala.js *cannot* change the name of that method in its API either, since that would be a binary breaking that would break all published testing frameworks, which is not acceptable.\r\n\r\n(And no, introducing another method and deprecating this one as a forwarder is not an option, because testing frameworks must *implement* that method, not call it.)",
+        "createdAt" : "2020-08-06T16:57:15Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+        ]
+      },
+      {
+        "id" : "47068074-f541-453a-baaf-4ad0bc2ab6eb",
+        "parentId" : "78124749-c2a8-4c45-9316-d5735ab228dd",
+        "author" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "body" : "I think a comment to that effect is good so any reader can see that our hands are tied and we can't rename it.",
+        "createdAt" : "2020-08-06T17:01:57Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "ekrich",
+          "name" : null,
+          "avatarUrl" : "https://avatars3.githubusercontent.com/u/933058?u=072fbca7645ffc9b0d6981f51b91eeeafb93c4cc&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : 21,
+    "diffHunk" : "@@ -34,4 +34,13 @@ trait Framework {\n   def runner(args: Array[String],\n              remoteArgs: Array[String],\n              testClassLoader: ClassLoader): Runner\n+\n+  /** Scala Native specific: Creates a slave runner for a given run.\n+   *  Ported from Scala.JS\n+   *  The slave may send a message to the master runner by calling `send`.\n+   */\n+  def slaveRunner(args: Array[String],"
+  },
+  {
+    "id" : "fad92bdf-8532-413d-8a6a-7d3fabe7aa66",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "72a96c09-79cf-4162-9d0d-bf616af73b51",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n   *  since that would be a binary breaking change that would break all published testing frameworks, which is not acceptable.\r\n```",
+        "createdAt" : "2020-08-07T18:29:28Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -34,4 +34,25 @@ trait Framework {\n   def runner(args: Array[String],\n              remoteArgs: Array[String],\n              testClassLoader: ClassLoader): Runner\n+\n+  /** Scala Native specific: Creates a worker for a given run.\n+   *  Ported from Scala.js\n+   *  The worker may send a message to the controller runner by calling `send`.\n+   *\n+   *  Important: this method name cannot be changed.\n+   *  It must keep the name `slaveRunner` for compatibility with Scala.js.\n+   *  This is a public to-be-overridden API that testing frameworks must implement.\n+   *  Currently testing frameworks can have a unique implementation of Framework for JVM, JS and Native.\n+   *  If we change that method name, they will need a separate source file for Native.\n+   *\n+   *  Similarly, Scala.js cannot change the name of that method in its API either,\n+   *  since that would be a binary breaking that would break all published testing frameworks, which is not acceptable."
+  },
+  {
+    "id" : "04515d76-db52-4809-a770-73da0c351b49",
+    "prId" : 1869,
+    "comments" : [
+      {
+        "id" : "d8624dc7-eb3e-4040-8291-b32fa050bf25",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "```suggestion\r\n   *  because testing frameworks must implement that method, not call it.\r\n```",
+        "createdAt" : "2020-08-07T18:29:36Z",
+        "updatedAt" : "2020-08-10T07:32:58Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "c359f5ae580a0ed766a89c15e7445f3553975f00",
+    "line" : null,
+    "diffHunk" : "@@ -34,4 +34,25 @@ trait Framework {\n   def runner(args: Array[String],\n              remoteArgs: Array[String],\n              testClassLoader: ClassLoader): Runner\n+\n+  /** Scala Native specific: Creates a worker for a given run.\n+   *  Ported from Scala.js\n+   *  The worker may send a message to the controller runner by calling `send`.\n+   *\n+   *  Important: this method name cannot be changed.\n+   *  It must keep the name `slaveRunner` for compatibility with Scala.js.\n+   *  This is a public to-be-overridden API that testing frameworks must implement.\n+   *  Currently testing frameworks can have a unique implementation of Framework for JVM, JS and Native.\n+   *  If we change that method name, they will need a separate source file for Native.\n+   *\n+   *  Similarly, Scala.js cannot change the name of that method in its API either,\n+   *  since that would be a binary breaking that would break all published testing frameworks, which is not acceptable.\n+   *\n+   *  Introducing another method and deprecating this one as a forwarder is not an option,\n+   *  because testing frameworks must implement that method, not call it.)"
+  }
+]

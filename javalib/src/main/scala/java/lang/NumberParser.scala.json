@@ -1,0 +1,89 @@
+[
+  {
+    "id" : "c36cf8eb-fd36-4f35-abeb-69a7c3dab8a6",
+    "prId" : 173,
+    "comments" : [
+      {
+        "id" : "6949aa8b-bdd9-460d-adc8-c2b4d14c20ac",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "These need to be reimplemented in Scala. Native methods are implemented in `C/C++` parts of Apache Harmony.\n",
+        "createdAt" : "2016-06-21T11:28:12Z",
+        "updatedAt" : "2016-06-24T06:14:48Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "89f23c892632c30d769c688317dfdcda0654b1a0",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,246 @@\n+package java.lang\n+\n+private[lang] object NumberParser {\n+  private val FLOAT_MIN_EXP  = -46\n+  private val FLOAT_MAX_EXP  = 38\n+  private val DOUBLE_MIN_EXP = -324\n+  private val DOUBLE_MAX_EXP = 308\n+\n+  private case class StringExponentPair(s: _String,\n+                                        e: scala.Int,\n+                                        negative: scala.Boolean)\n+\n+  @native def parseDblImpl(s: _String, e: scala.Int): scala.Double\n+  @native def parseFltImpl(s: _String, e: scala.Int): scala.Float"
+  },
+  {
+    "id" : "5a33b2b7-f96d-4091-84b0-92d87fb06988",
+    "prId" : 212,
+    "comments" : [
+      {
+        "id" : "8750d9bd-2419-4707-aa6d-3ff467a9d979",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs implementation.\n",
+        "createdAt" : "2016-07-13T13:41:50Z",
+        "updatedAt" : "2016-07-13T13:41:50Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fde256b043f37f07d62ae5867c2845a877d78287",
+    "line" : 17,
+    "diffHunk" : "@@ -0,0 +1,249 @@\n+package java.lang\n+\n+private[lang] object NumberParser {\n+  private val FLOAT_MIN_EXP  = -46\n+  private val FLOAT_MAX_EXP  = 38\n+  private val DOUBLE_MIN_EXP = -324\n+  private val DOUBLE_MAX_EXP = 308\n+\n+  private case class StringExponentPair(s: String,\n+                                        e: scala.Int,\n+                                        negative: scala.Boolean)\n+\n+  // ToDo reimplement from c to scala\n+  @inline private def parseDblImpl(s: String, e: scala.Int): scala.Double =\n+    ???\n+  @inline private def parseFltImpl(s: String, e: scala.Int): scala.Float =\n+    ???"
+  },
+  {
+    "id" : "962c1d17-acdb-4938-8204-d40622f0cd3f",
+    "prId" : 212,
+    "comments" : [
+      {
+        "id" : "5828e1b8-3fc2-4781-b1ed-a9b8648772a3",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Needs implementation.\n",
+        "createdAt" : "2016-07-13T13:41:53Z",
+        "updatedAt" : "2016-07-13T13:41:53Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+        ]
+      }
+    ],
+    "commit" : "fde256b043f37f07d62ae5867c2845a877d78287",
+    "line" : 15,
+    "diffHunk" : "@@ -0,0 +1,249 @@\n+package java.lang\n+\n+private[lang] object NumberParser {\n+  private val FLOAT_MIN_EXP  = -46\n+  private val FLOAT_MAX_EXP  = 38\n+  private val DOUBLE_MIN_EXP = -324\n+  private val DOUBLE_MAX_EXP = 308\n+\n+  private case class StringExponentPair(s: String,\n+                                        e: scala.Int,\n+                                        negative: scala.Boolean)\n+\n+  // ToDo reimplement from c to scala\n+  @inline private def parseDblImpl(s: String, e: scala.Int): scala.Double =\n+    ???"
+  }
+]

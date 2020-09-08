@@ -1,0 +1,99 @@
+[
+  {
+    "id" : "a0671108-6edd-4f67-8c67-cf6547133fb3",
+    "prId" : 129,
+    "comments" : [
+      {
+        "id" : "032d481d-22ac-4846-920f-3539dd8498f1",
+        "parentId" : null,
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "How is that different from the standard `@inline`? In Scala.js and in the 2.12 JVM optimizer, `@inline` basically means \"always inline\" (if at all possible, obviously; for example if the call is polymorphic there's no way to do it).\n",
+        "createdAt" : "2016-05-24T09:02:17Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "0c320b87-dd44-4066-b4d2-e52eb100e557",
+        "parentId" : "032d481d-22ac-4846-920f-3539dd8498f1",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "That's interesting. We treat `@inline` as optional hint (`inlinehint` in terms of LLVM), similarly to how clang compile `inline` in C++. Do you think that we should do the same semantics of `@inline` as SJS here instead? \n",
+        "createdAt" : "2016-05-24T09:08:25Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "8a9dde25-65c0-4853-8659-99166a2193fe",
+        "parentId" : "032d481d-22ac-4846-920f-3539dd8498f1",
+        "author" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "body" : "If it was only SJS, I wouldn't necessarily recommend it. But since the JVM also treats it like that, it has sort of acquired a portable meaning already. It would be good to preserve that portability across SN as well.\n\nYou could add `@inlinehint` to mean the LLVM `inlinehint`.\n",
+        "createdAt" : "2016-05-24T09:17:15Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "sjrd",
+          "name" : null,
+          "avatarUrl" : "https://avatars0.githubusercontent.com/u/535934?u=837d8ccc05f624946f9fbec6a81ecb1eb519031b&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "e4143c8c-f43b-49e2-9b48-5d944bf96898",
+        "parentId" : "032d481d-22ac-4846-920f-3539dd8498f1",
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Sounds good to me. 👍 \n",
+        "createdAt" : "2016-05-24T09:22:25Z",
+        "updatedAt" : "2016-05-24T12:31:54Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "d91e32f0778c018d217fbfef1bc56209717d2ebc",
+    "line" : null,
+    "diffHunk" : "@@ -0,0 +1,5 @@\n+package scala.scalanative\n+package native\n+\n+/** Unconditionally inline annotated method. */\n+final class alwaysinline extends scala.annotation.StaticAnnotation"
+  }
+]

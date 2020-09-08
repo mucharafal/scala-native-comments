@@ -1,0 +1,55 @@
+[
+  {
+    "id" : "be644a38-188c-4c92-b6d8-00f31ca20a50",
+    "prId" : 616,
+    "comments" : [
+      {
+        "id" : "769d5303-85b9-43a8-9d7f-61eb55d92716",
+        "parentId" : null,
+        "author" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "body" : "Would be nice to test multi-character replacements here too.",
+        "createdAt" : "2017-04-05T09:57:05Z",
+        "updatedAt" : "2017-04-06T02:56:07Z",
+        "lastEditedBy" : {
+          "login" : "densh",
+          "name" : null,
+          "avatarUrl" : "https://avatars1.githubusercontent.com/u/320966?u=784f6f761f35b8b7f3f787172b468334d6524524&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      },
+      {
+        "id" : "1c7bc28e-d198-44e1-acc3-929079d7fffe",
+        "parentId" : "769d5303-85b9-43a8-9d7f-61eb55d92716",
+        "author" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "body" : "I've added additional tests covering multi-char and strings with offset.",
+        "createdAt" : "2017-04-06T02:59:45Z",
+        "updatedAt" : "2017-04-06T02:59:45Z",
+        "lastEditedBy" : {
+          "login" : "jonas",
+          "name" : null,
+          "avatarUrl" : "https://avatars2.githubusercontent.com/u/8417?u=fd2f29f433df62751b5690a1bddee04bb4627d21&v=4"
+        },
+        "tags" : [
+          {
+            "value" : "outdated"
+          }
+        ]
+      }
+    ],
+    "commit" : "bdf0cccb109bd42dbba08eabae8e0c2d6b341291",
+    "line" : null,
+    "diffHunk" : "@@ -42,10 +42,22 @@ object StringSuite extends tests.Suite {\n     assert(\"This is a test\".regionMatches(0, \"This\", 0, 4))\n   }\n \n-  test(\"replace\") {\n+  test(\"replace Char\") {\n     assert(\"test\".replace('t', 'p') equals \"pesp\")\n     assert(\"Test\".replace('t', 'p') equals \"Tesp\")\n     assert(\"Test\".replace('T', 'p') equals \"pest\")\n+    assert(\"Test\".replace('0', '1') equals \"Test\")\n+  }\n+\n+  test(\"replace CharSequence\") {\n+    assert(\"test\".replace(\"t\", \"p\") equals \"pesp\")\n+    assert(\"Test\".replace(\"t\", \"p\") equals \"Tesp\")\n+    assert(\"test\".replace(\"e\", \"oa\") equals \"toast\")\n+    assert(\"Test\".replace(\"T\", \"p\") equals \"pest\")\n+    assert(\"Test\".replace(\"0\", \"1\") equals \"Test\")\n+    assert(\"Test\".replace(\"e\", \"\") equals \"Tst\")\n+    assert(\"Test\".replace(\"t\", \"\") equals \"Tes\")\n+    assert(\"Test\".replace(\"\", \"12\") equals \"Test\")\n   }"
+  }
+]
